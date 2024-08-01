@@ -16,18 +16,15 @@
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
-    "@linaria/babel-preset": "^5.0.4",
-    "@linaria/webpack-loader": "^5.0.4",
-    "@wyw-in-js/babel-preset": "^0.5.4",
+    "@vanilla-extract/css": "^1.15.3",
+    "@vanilla-extract/webpack-plugin": "^2.3.11",
     "babel-preset-gatsby": "^3.13.2",
     "gatsby": "^4.20.0",
-    "gatsby-plugin-typescript": "^5.13.1",
-    "gatsby-transformer-typescript-css-modules": "^1.0.14",
+    "gatsby-plugin-vanilla-extract": "^4.0.2",
     "react": "^18.2.0",
     "react-dom": "^18.2.0"
   },
   "devDependencies": {
-    "@babel/preset-react": "^7.24.7",
     "@types/node": "^20.11.19",
     "@types/react": "^18.2.55",
     "@types/react-dom": "^18.2.19",

@@ -1,5 +1,5 @@
 import * as React from "react"
-import * as containerStyles from "./container.module.css"
+import { ContainerStyle } from "./style.css";
 
 type Props = {
   children: JSX.Element | JSX.Element[];
@@ -7,7 +7,7 @@ type Props = {
 
 
 const Container: React.FC<Props> = ({ children }) => (
-    <div className={containerStyles.container}>{children}</div>
+    <div className={ContainerStyle}>{children}</div>
 );
 
 export default Container;
