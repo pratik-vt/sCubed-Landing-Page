@@ -11,6 +11,12 @@ sonar:
 
 deploy_web:
   stage: deploy
+  environment:
+    name: dev
+  before_script:
+    - echo $siteURL=$siteURL > .env
+    - echo $hostname=$hostname > .env
+    - echo $bucketName=$bucketName > .env
   script:
     - nvm use v18
     - npm install
