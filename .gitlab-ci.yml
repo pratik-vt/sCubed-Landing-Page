@@ -13,7 +13,7 @@ deploy_web:
   stage: deploy
   script:
     - npm install
-    - npm install gatsby
+    - npm install gatsby --global
     - gatsby build
     - aws s3 cp public s3://landing-dev.scubed.io/ --recursive --profile scubed_dev
     - aws cloudfront create-invalidation --distribution-id 	E1HTKB3P8A1UDU --paths "/*" --profile scubed_dev
