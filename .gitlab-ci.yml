@@ -1,0 +1,26 @@
+stages:
+  - sonar
+  - deploy
+sonar:
+  stage: sonar
+  script:
+    - source /etc/environment
+    - sonar-scanner -Dsonar.projectKey=scubed-landing-page -Dsonar.sources=. -Dsonar.host.url=$sonar_host -Dsonar.login=$sonar_login
+  only:
+    - develop
+
+deploy_web:
+  stage: deploy
+  script:
+    - npm install
+    - npm install gatsby
+    - gatsby build
+    - aws s3 cp public s3://landing-dev.scubed.io/ --recursive --profile scubed_dev
+    - aws cloudfront create-invalidation --distribution-id 	E1HTKB3P8A1UDU --paths "/*" --profile scubed_dev
+    - >
+      curl -X POST -H "Content-Type: application/json" 
+      -d "{\"text\": \"${MESSAGE_DEV}\"}" 
+      "${GCHAT_WEBHOOK_URL}"
+  when: manual
+  only:
+    - develop
