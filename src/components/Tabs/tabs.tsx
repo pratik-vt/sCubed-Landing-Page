@@ -8,14 +8,18 @@ import {
   tabPanel,
   panelContent,
   panelHeading,
-  sectiondesnew
+  sectiondesnew,
+  tabPanelImage
 } from "../Container/style.css";
 import appointment from "../../images/Efficient Appointment Scheduling.png";
 import treatment from "../../images/Customized Treatment Plans.png";
 import collection from "../../images/Data Collection & Reporting.png";
 import guardian from "../../images/Easy-to-use Guardian Portal.png";
-import tabimg from "../../images/Laptop.png";
 import Button from "../Button/button";
+import appointmentImg from "../../images/Appointment.png";
+import clinical from "../../images/treatment.png";
+import portal from "../../images/dashboard.png";
+import dataCollection from "../../images/data-collection.png"
 
 const buttonStyle: React.CSSProperties = {
   fontSize: "18px",
@@ -34,33 +38,38 @@ const tabContents = [
     description:
       "Optimize your appointment scheduling process with our effective calendar system. Streamline the clinic schedules by automated reminders, reducing no-shows and keeping everything on track.",
     image: appointment,
-    alt: "appointment"
+    alt: "appointment",
+    panelImage: appointmentImg
   },
   {
     heading: "Customized Treatment Plans",
     description:
       "Create personalized treatment plans for each patient with our versatile tools. Tailor therapies and monitor progress efficiently.",
     image: treatment,
-    alt: "treatment"
+    alt: "treatment",
+    panelImage: clinical
   },
   {
     heading: "Data Collection & Reporting",
     description:
       "Gather, analyze, and report critical data easily. Make informed decisions with comprehensive data insights.",
     image: collection,
-    alt: "collection"
+    alt: "collection",
+    panelImage: dataCollection
   },
   {
     heading: "Easy-to-use Guardian Portal",
     description:
       "Provide guardians with an intuitive portal to access information, updates, and communicate with the clinic effortlessly.",
     image: guardian,
-    alt: "guardian"
+    alt: "guardian",
+    panelImage: portal
   }
 ];
 
 const Tabs: React.FC = () => {
   const [activeTab, setActiveTab] = useState(0);
+  const screenWidth = typeof window !== 'undefined' && window.innerWidth;
 
   return (
     <div className={InnerContainerStyle}>
@@ -81,27 +90,51 @@ const Tabs: React.FC = () => {
               <div className={tabData}>
                 <p>{content.heading}</p>
               </div>
+              {screenWidth <= 768 && activeTab === index && (
+                <div className={tabPanel}>
+                  <img className={tabPanelImage} src={content.panelImage} alt={content.alt} />
+                  <div className={panelContent}>
+                    <div className={panelHeading}>{content.heading}</div>
+                    <div className={sectiondesnew}>
+                      {content.description}
+                    </div>
+                    <Button
+                      style={buttonStyle}
+                      color="#333"
+                      backgroundColor="#66e3ed"
+                      width="170px"
+                      onClick={() => alert("Button clicked!")}
+                    >
+                      BOOK A DEMO
+                    </Button>
+                  </div>
+                </div>
+              )}
             </div>
           ))}
         </div>
-        <div className={tabPanel}>
-          <img src={tabimg} alt="Laptop" />
-          <div className={panelContent}>
-            <div className={panelHeading}>{tabContents[activeTab].heading}</div>
-            <div className={sectiondesnew}>
-              {tabContents[activeTab].description}
+
+        {/* Render tab panel outside of the tab list in web view */}
+        {screenWidth > 768 && (
+          <div className={tabPanel}>
+            <img className={tabPanelImage} src={tabContents[activeTab].panelImage} alt={tabContents[activeTab].alt} />
+            <div className={panelContent}>
+              <div className={panelHeading}>{tabContents[activeTab].heading}</div>
+              <div className={sectiondesnew}>
+                {tabContents[activeTab].description}
+              </div>
+              <Button
+                style={buttonStyle}
+                color="#333"
+                backgroundColor="#66e3ed"
+                width="170px"
+                onClick={() => alert("Button clicked!")}
+              >
+                BOOK A DEMO
+              </Button>
             </div>
-            <Button
-              style={buttonStyle}
-              color="#333"
-              backgroundColor="#66e3ed"
-              width="170px"
-              onClick={() => alert("Button clicked!")}
-            >
-              BOOK A DEMO
-            </Button>
           </div>
-        </div>
+        )}
       </div>
     </div>
   );

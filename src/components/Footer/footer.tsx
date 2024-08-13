@@ -10,7 +10,8 @@ import {
    rights,
    inputField,
    Submitbtn,
-   footerDesc
+   footerDesc,
+   form
   }from "../Container/style.css";
   import logoWhite from "../../images/scubed logo white.png";
 
@@ -28,7 +29,10 @@ function Footer() {
     <div className={footer}>
      <div className={InnerContainerStyle}>
      <div className={footerLogo}>
-        <img src={logoWhite} alt="S Cubed Logo" />
+      <div>
+      <img src={logoWhite} alt="S Cubed Logo" />
+      </div>
+        
         <span style={demoInfo}>Book A Demo</span>
       </div>
       <div className={footerContent}>
@@ -39,7 +43,7 @@ function Footer() {
           Spectrum Solutions Software, aims to revolutionize the effectiveness
           of therapy practices and improve client care.
         </p>
-        <div className="form">
+        <div className={form}>
           <input className={inputField} type="text" placeholder="Email" />
           <button className={Submitbtn}>SUBMIT</button>
         </div>

@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from "react";
 import banner from "../../../images/Banner.jpg";
-import logo from "../../../images/Header Logo.png";
+import logo from "../../../images/HeaderLogo.png";
 import Button from "../../Button/button";
+import { StaticImage } from 'gatsby-plugin-image';
 import {
   textBlockStyle,
   bannerImg,
@@ -13,7 +14,8 @@ import {
   activeLinkStyle,
   headerContentStyles,
   logoOuter,
-  buttonStyle
+  buttonStyle,
+  descStyle
 } from "../../Container/style.css";
 
 type Props = {
@@ -44,20 +46,12 @@ const activeNavStyle: React.CSSProperties = {
   color: "#000",
 };
 
-const descStyle: React.CSSProperties = {
-  fontSize: "20px",
-  lineHeight: "32px",
-  color: "#6e6e6e",
-  fontWeight: "400",
-  maxWidth: "735px",
-  width: "100%",
-  margin: "0 auto 50px auto",
-};
 
 const demoStyle: React.CSSProperties = {
   fontSize: "18px",
   color: "#333",
   fontWeight: "700",
+  background:"#a0f5d1"
 };
 
 const headerWrapperStyles: React.CSSProperties = {
@@ -76,7 +70,7 @@ const Header: React.FC<Props> = ({ children }) => {
 
   useEffect(() => {
     const handleScroll = () => {
-      setHeaderBackground(window.scrollY > 135);
+      setHeaderBackground(window.scrollY > 50);
     };
 
     window.addEventListener("scroll", handleScroll);
@@ -96,6 +90,10 @@ const Header: React.FC<Props> = ({ children }) => {
         <div className={headerContentStyles}>
           <div className={logoOuter}>
             <img src={logo} alt="Logo" />
+            {/* <StaticImage 
+             alt="Description of the image"
+            src="../../../images/HeaderLogo.png" />
+       */}
           </div>
           <nav className={`${navmenu} ${menuOpen ? navMenuOpen : ''}`}>
             {["Home", "Features", "Pricing", "Get Started"].map((text, index) => {
@@ -115,7 +113,7 @@ const Header: React.FC<Props> = ({ children }) => {
             <Button
               className={buttonStyle}
               color="#333"
-              backgroundColor="#a0f5d1"
+              backgroundColor="#7a7eed"
               width="170px"
               onClick={() => alert("Button clicked!")}
             >
@@ -129,12 +127,20 @@ const Header: React.FC<Props> = ({ children }) => {
           </div>
         </div>
       </div>
+      {/* <StaticImage 
+        height={1060}
+             alt="Description of the image"
+            src="../../../images/Banner.jpg"
+       
+            
+            className={bannerImg}
+             /> */}
       <img className={bannerImg} src={banner} alt="Banner" />
       <div className={textBlockStyle}>
         <p className={headingStyle}>
           Empowering Your Practice, Enhancing Every Life You Touch
         </p>
-        <p style={descStyle}>
+        <p className={descStyle}>
           S Cubed is an all-in-one platform packed with powerful Clinical &
           Practice Management functionalities allowing you to focus on
           delivering exceptional care with less hassle and enhanced results.
@@ -142,7 +148,7 @@ const Header: React.FC<Props> = ({ children }) => {
         <Button
           style={demoStyle}
           color="#fff"
-          backgroundColor="#7a7eed"
+          backgroundColor="#a0f5d1"
           width="180px"
           onClick={() => alert("Button clicked!")}
         >

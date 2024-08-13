@@ -2,7 +2,11 @@
 import React from "react";
 import { sectionHeading,sectiondesc,InnerContainerStyle,disciplineWrapper } from "../Container/style.css";
 import discipline from "../../images/Disciplines.png"
-
+import {
+    
+    disciplineImg
+  } from "../../components/Container/style.css";
+  
 
 const Disciplines: React.FC = () => (
     <div className={InnerContainerStyle }>
@@ -13,7 +17,7 @@ const Disciplines: React.FC = () => (
     <div className={sectiondesc}>
     S Cubed Platform simplifies the way you manage your practice and clinical process. It is designed to integrate with various disciplines allowing you to focus on your little clients’ well-being.
     </div>
-    <img style={{maxWidth:"100%"}} src={discipline} alt="" />
+    <img className={disciplineImg} style={{maxWidth:"100%"}} src={discipline} alt="" />
     </div>
     </div>
 )
