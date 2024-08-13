@@ -21,6 +21,7 @@ deploy_web:
     - nvm use v18
     - npm install
     - npm install gatsby --global
+    - npm install gatsby-plugin-s3
     - gatsby build
     - aws s3 cp public s3://landing-dev.scubed.io/ --recursive --profile scubed_dev
     - aws cloudfront create-invalidation --distribution-id 	E1HTKB3P8A1UDU --paths "/*" --profile scubed_dev
