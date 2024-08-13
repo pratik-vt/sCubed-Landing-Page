@@ -12,6 +12,7 @@ sonar:
 deploy_web:
   stage: deploy
   script:
+    - nvm use v18
     - npm install
     - npm install gatsby --global
     - gatsby build
