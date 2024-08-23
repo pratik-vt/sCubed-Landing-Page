@@ -112,7 +112,7 @@ const Header: React.FC<Props> = ({ children }) => {
             })}
             <Button
               className={buttonStyle}
-              color="#333"
+              color="#fff"
               backgroundColor="#7a7eed"
               width="170px"
               onClick={() => alert("Button clicked!")}

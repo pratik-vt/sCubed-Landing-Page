@@ -33,7 +33,7 @@ export const featureContainer = style({
   alignItems: "center",
   justifyContent: "space-between",
   "@media": {
-    "screen and (max-width: 768px)": {
+    "screen and (max-width: 1200px)": {
       flexWrap: `wrap`,
       alignItems: "center",
       gap: "30px",
@@ -171,6 +171,9 @@ export const panelHeading = style({
       fontSize: `24px`,
       marginBottom: `15px`,
     },
+    "screen and (min-width: 768px) and (max-width: 1200px)": {
+     maxWidth:`100%`,
+    },
   },
 });
 export const panelContent = style({
@@ -182,6 +185,9 @@ export const panelContent = style({
       alignItems: `center`,
       padding: `10px 0`,
     },
+    "screen and (min-width: 768px) and (max-width: 1200px)": {
+     alignItems:`center`,
+   },
   },
 });
 export const tabPanel = style({
@@ -195,7 +201,11 @@ export const tabPanel = style({
      
       
      
-    },
+    } ,
+    "screen and (min-width: 768px) and (max-width: 1200px)": {
+      flexDirection: `column`,
+      alignItems:`center`
+   },
   },
 });
 export const mobileTabPanel  = style({
@@ -227,15 +237,18 @@ export const featureItems = style({
   justifyContent: `space-between`,
   width: `100%`,
   "@media": {
-    "screen and (max-width: 768px)": {
+    "screen and (max-width: 1100px)": {
       alignItems: "center",
       gap: "20px",
       justifyContent: "center",
       padding: `0 25px`,
+      flexDirection:`column`,
+     
     },
     "screen and (max-width: 600px)": {
       flexWrap: "wrap",
     },
+    
   },
 });
 
@@ -272,6 +285,7 @@ export const textBlockStyles = style({
   maxWidth: "1400px",
   width: "100%",
   marginBottom: "100px",
+  paddingBottom:`20px`,
   "@media": {
     "screen and (max-width: 768px)": {
       textAlign: "center",
@@ -279,6 +293,9 @@ export const textBlockStyles = style({
     "screen and (min-width: 768px) and (max-width: 1480px)": {
       maxWidth: "1000px",
     },
+    "screen and (min-width: 768px) and (max-width: 1200px)": {
+      textAlign:`center`,
+      },
   },
 });
 export const heroStyles = style({
@@ -290,10 +307,15 @@ export const heroHeading = style({
   fontWeight: `700`,
   textAlign: `left`,
   maxWidth: `1200px`,
+  marginTop:`0`,
   "@media": {
     "screen and (max-width: 768px)": {
       fontSize: `24px`,
       textAlign: `center`,
+    },
+    "screen and (min-width: 768px) and (max-width: 1200px)": {
+       fontSize: `20px`,
+       textAlign:`center`,
     },
   },
 });
@@ -319,6 +341,9 @@ export const bannerImg = style({
     "screen and (max-width: 375px)": {
       height: `90vh`,
     },
+    "screen and (min-width: 768px) and (max-width: 1200px)": {
+    minHeight:`800px`
+   },
   },
 });
 
@@ -380,7 +405,7 @@ export const footerLogo = style({
   alignItems: `center`,
   justifyContent: `space-between`,
   "@media": {
-    "screen and (max-width: 768px)": {
+    "screen and (max-width: 1200px)": {
       flexDirection:`column`,
       justifyContent:`center`,
       gap:`20px`,
@@ -395,7 +420,7 @@ export const footerContent = style({
   borderBottom: `1px solid #fff`,
   padding: `10px 0 25px 0`,
   "@media": {
-    "screen and (max-width: 768px)": {
+    "screen and (max-width: 1200px)": {
       flexDirection: `column`,
       paddingTop:`20px`
     },
@@ -408,7 +433,7 @@ export const bottomFooter = style({
   justifyContent: `space-between`,
   paddingTop: `30px`,
   "@media": {
-    "screen and (max-width: 768px)": {
+    "screen and (max-width: 1200px)": {
       padding:`20px 0 0px 0`,
       flexDirection:`column`
     },
@@ -454,7 +479,7 @@ export const Submitbtn = style({
   backgroundColor: `#7a7eed`,
   color: `#fff`,
   cursor: `pointer`,
-  fontSize:`18px`,
+  fontSize:`16px`,
   fontWeight:`700`,
   borderRadius: `5px`,
 
@@ -474,7 +499,8 @@ export const textBlockStyle = style({
      maxWidth:`unset`,
      width:`100%`
     },
-  },
+   
+ },
 });
 
 
@@ -628,7 +654,7 @@ export const buttonStyle = style({
 
 export const form = style({
   "@media": {
-    "screen and (max-width: 768px)": {
+    "screen and (max-width: 1200px)": {
      display:`flex`,
      justifyContent:`center`,
      width:`100%`,
@@ -641,7 +667,7 @@ export const form = style({
 export const tabPanelImage = style({
   maxWidth: "820px",
   width: "100%",
-  padding:`0 20px`
+  padding:`0 20px`,
 
 })
 
@@ -677,5 +703,19 @@ export const disciplineImg = style({
     'screen and (max-width: 768px)': {
    padding:`0 30px`
     },
+    "screen and (min-width: 768px) and (max-width: 1200px)": {
+     padding:`0 30px`
+    },
   },
 });
+
+export const demoSection = style ({
+  '@media': {
+    'screen and (min-width: 968px)': {
+ marginRight:`165px`
+    },
+    "screen and (min-width: 768px) and (max-width: 1200px)": {
+      alignItems:`center`,
+    },
+  },
+})

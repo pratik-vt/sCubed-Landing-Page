@@ -11,7 +11,8 @@ import {
    inputField,
    Submitbtn,
    footerDesc,
-   form
+   form,
+   demoSection
   }from "../Container/style.css";
   import logoWhite from "../../images/scubed logo white.png";
 
@@ -32,8 +33,10 @@ function Footer() {
       <div>
       <img src={logoWhite} alt="S Cubed Logo" />
       </div>
-        
+        <div className={demoSection}>
         <span style={demoInfo}>Book A Demo</span>
+        </div>
+      
       </div>
       <div className={footerContent}>
         <p className={footerDesc}>
@@ -49,7 +52,7 @@ function Footer() {
         </div>
       </div>
       <div className={bottomFooter}>
-        <span className={rights}>©2024. S cubed. All rights are Reserved.</span>
+        <span className={rights}>© 2024 S Cubed. All rights reserved.</span>
         <div className={footerLinks}>
         <a className={links} href="#">Terms & Conditions</a>
         <a className={links} href="#">Privacy Policy</a>

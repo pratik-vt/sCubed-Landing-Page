@@ -83,7 +83,7 @@ const Tabs: React.FC = () => {
               onClick={() => setActiveTab(index)}
               style={{
                 cursor: "pointer",
-                borderBottom: activeTab === index ? "2px solid #7a7eed" : "none"
+                borderBottom: activeTab === index ? "4px solid #7a7eed" : "none"
               }}
             >
               <img src={content.image} alt={content.alt} />
