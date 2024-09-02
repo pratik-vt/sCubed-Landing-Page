@@ -21,6 +21,7 @@ import clinical from "../../images/treatment.png";
 import portal from "../../images/dashboard.png";
 import dataCollection from "../../images/data-collection.png"
 import ModalForm from "../ModalForm";
+import useWindowDimensions from "../../hooks/useWindowDimensions";
 
 const buttonStyle: React.CSSProperties = {
   fontSize: "18px",
@@ -70,7 +71,7 @@ const tabContents = [
 
 const Tabs: React.FC = () => {
   const [activeTab, setActiveTab] = useState(0);
-  const screenWidth = typeof window !== 'undefined' && window.innerWidth;
+  const {width: screenWidth} = useWindowDimensions()
 
   return (
     <div className={InnerContainerStyle}>
