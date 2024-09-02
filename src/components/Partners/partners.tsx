@@ -12,6 +12,7 @@ import {
 } from "../Container/style.css";
 import partner from "../../images/Image-1.jpg";
 import tick from "../../images/tick.png";
+import { StaticImage } from "gatsby-plugin-image";
 
 const buttonStyle: React.CSSProperties = {
   fontSize: "18px",
@@ -38,7 +39,8 @@ const Partners: React.FC = () => {
           effectiveness.
         </div>
         <div className={tabPanel}>
-          <img style={partnerimg} src={partner} alt="S Cubed Platform" />
+          {/* <img style={partnerimg} src={partner} alt="S Cubed Platform" /> */}
+          <StaticImage style={partnerimg} placeholder="blurred" width={567} src="../../images/Image-1.jpg" alt="S Cubed Platform" quality={100} />
           <div className={panelContent}>
             <div className={partnerdescright}>
               S Cubed is an ideal choice to upgrade your clinical and practice

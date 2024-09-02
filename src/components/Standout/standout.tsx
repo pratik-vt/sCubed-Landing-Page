@@ -19,7 +19,7 @@ const standHead: React.CSSProperties = {
   const standDesc: React.CSSProperties = {
     fontSize:`18px`,
     fontWeight:`400`,
-    color:`#6e6e6e;`,
+    color:`#6e6e6e`,
     maxWidth:`456px`,
     width:`100%`
    };

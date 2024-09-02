@@ -26,6 +26,9 @@ import {
   };
 
 function Footer() {
+  const mailTo = () => {
+    window.location.href = "mailto:mail@example.org"
+  }
   return (
     <div className={footer}>
      <div className={InnerContainerStyle}>
@@ -48,7 +51,7 @@ function Footer() {
         </p>
         <div className={form}>
           <input className={inputField} type="text" placeholder="Email" />
-          <button className={Submitbtn}>SUBMIT</button>
+          <button onClick={mailTo} className={Submitbtn}>SUBMIT</button>
         </div>
       </div>
       <div className={bottomFooter}>

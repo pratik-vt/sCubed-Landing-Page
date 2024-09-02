@@ -1,9 +1,10 @@
 import React from "react";
-import {InnerContainerStyle, featureContainer, featureItem, featureText } from "../Container/style.css";
+import {InnerContainerStyle, featureItem, featureText } from "../Container/style.css";
 import hippa from "../../images/HIPAA Compliant.png";
 import cloud from "../../images/Cloud Based Access.png";
 import secure from "../../images/Secure Platform.png";
 import user from "../../images/User-Friendly Interface.png";
+import { featureContainer } from "./styles.css";
 
 const Features: React.FC = () => (
   <div style={{background:"#f9f9f9"}}>

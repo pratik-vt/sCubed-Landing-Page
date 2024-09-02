@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from "react";
+import { Link } from "gatsby";
 import banner from "../../../images/Banner.jpg";
 import logo from "../../../images/HeaderLogo.png";
 import Button from "../../Button/button";
-import { StaticImage } from 'gatsby-plugin-image';
+import { StaticImage } from "gatsby-plugin-image";
 import {
   textBlockStyle,
   bannerImg,
@@ -15,8 +16,11 @@ import {
   headerContentStyles,
   logoOuter,
   buttonStyle,
-  descStyle
+  descStyle,
 } from "../../Container/style.css";
+
+import BookDemoForm from "../../ModalForm";
+import { activeNavStyle, navStyle } from "./styles.css";
 
 type Props = {
   children?: JSX.Element | JSX.Element[];
@@ -32,26 +36,25 @@ const imgStyles: React.CSSProperties = {
   height: "auto",
 };
 
-const navStyle: React.CSSProperties = {
-  fontSize: "18px",
-  color: "#474747",
-  fontWeight: "400",
-  textDecoration: "none",
-  marginRight: "50px",
-  position: "relative",
-};
+// const navStyle: React.CSSProperties = {
+//   fontSize: "18px",
+//   color: "#474747",
+//   fontWeight: "400",
+//   textDecoration: "none",
+//   marginRight: "50px",
+//   position: "relative",
+// };
 
-const activeNavStyle: React.CSSProperties = {
-  ...navStyle,
-  color: "#000",
-};
-
+// const activeNavStyle: React.CSSProperties = {
+//   ...navStyle,
+//   color: "#000",
+// };
 
 const demoStyle: React.CSSProperties = {
   fontSize: "18px",
   color: "#333",
   fontWeight: "700",
-  background:"#a0f5d1"
+  background: "#a0f5d1",
 };
 
 const headerWrapperStyles: React.CSSProperties = {
@@ -64,7 +67,6 @@ const headerWrapperStyles: React.CSSProperties = {
 };
 
 const Header: React.FC<Props> = ({ children }) => {
-  const [activeLink, setActiveLink] = useState<string>("#link1");
   const [headerBackground, setHeaderBackground] = useState<boolean>(false);
   const [menuOpen, setMenuOpen] = useState<boolean>(false);
 
@@ -89,33 +91,29 @@ const Header: React.FC<Props> = ({ children }) => {
       >
         <div className={headerContentStyles}>
           <div className={logoOuter}>
-            <img src={logo} alt="Logo" />
-            {/* <StaticImage 
-             alt="Description of the image"
-            src="../../../images/HeaderLogo.png" />
-       */}
+            {/* <img src={logo} alt="Logo" /> */}
+            <StaticImage
+              alt="Description of the image"
+              src="../../../images/HeaderLogo.png"
+              quality={100}
+              placeholder="blurred"
+            />
           </div>
-          <nav className={`${navmenu} ${menuOpen ? navMenuOpen : ''}`}>
-            {["Home", "Features", "Pricing", "Get Started"].map((text, index) => {
-              const linkId = `#link${index + 1}`;
-              return (
-                <a
-                  key={linkId}
-                  href={linkId}
-                  style={activeLink === linkId ? activeNavStyle : navStyle}
-                  onClick={() => setActiveLink(linkId)}
-                >
-                  {text}
-                  {activeLink === linkId && <span className={activeLinkStyle} />}
-                </a>
-              );
-            })}
+          <nav className={`${navmenu} ${menuOpen ? navMenuOpen : ""}`}>
+            <Link to="/" className={navStyle} activeClassName={activeNavStyle}>
+              Home <span className={activeLinkStyle} />
+            </Link>
+            <a href={process.env.GATSBY_GET_STARTED_LINK} className={navStyle}>
+              Get Started
+            </a>
             <Button
               className={buttonStyle}
               color="#fff"
               backgroundColor="#7a7eed"
               width="170px"
-              onClick={() => alert("Button clicked!")}
+              onClick={() =>
+                window.location.replace(process.env.GATSBY_LOGIN_LINK as string)
+              }
             >
               Login
             </Button>
@@ -127,15 +125,16 @@ const Header: React.FC<Props> = ({ children }) => {
           </div>
         </div>
       </div>
-      {/* <StaticImage 
-        height={1060}
+      <StaticImage 
+        // height={1060}
              alt="Description of the image"
             src="../../../images/Banner.jpg"
-       
-            
+            layout="fullWidth"
+            quality={100}
+            placeholder="blurred"
             className={bannerImg}
-             /> */}
-      <img className={bannerImg} src={banner} alt="Banner" />
+             />
+      {/* <img className={bannerImg} src={banner} alt="Banner" /> */}
       <div className={textBlockStyle}>
         <p className={headingStyle}>
           Empowering Your Practice, Enhancing Every Life You Touch
@@ -145,7 +144,11 @@ const Header: React.FC<Props> = ({ children }) => {
           Practice Management functionalities allowing you to focus on
           delivering exceptional care with less hassle and enhanced results.
         </p>
-        <Button
+        <BookDemoForm
+          buttonColor="rgb(51, 51, 51)"
+          buttonBackground="#a0f5d1"
+        />
+        {/* <Button
           style={demoStyle}
           color="#fff"
           backgroundColor="#a0f5d1"
@@ -153,7 +156,7 @@ const Header: React.FC<Props> = ({ children }) => {
           onClick={() => alert("Button clicked!")}
         >
           BOOK A DEMO
-        </Button>
+        </Button> */}
       </div>
     </main>
   );

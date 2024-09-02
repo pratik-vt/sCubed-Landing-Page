@@ -17,6 +17,8 @@ deploy_web:
     - echo $siteURL=$siteURL > .env
     - echo $hostname=$hostname > .env
     - echo $bucketName=$bucketName > .env
+    - echo GATSBY_LOGIN_LINK=$GATSBY_LOGIN_LINK >> .env
+    - echo GATSBY_GET_STARTED_LINK=$GATSBY_GET_STARTED_LINK >> .env
   script:
     - nvm use v18
     - npm install

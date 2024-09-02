@@ -20,6 +20,7 @@ import appointmentImg from "../../images/Appointment.png";
 import clinical from "../../images/treatment.png";
 import portal from "../../images/dashboard.png";
 import dataCollection from "../../images/data-collection.png"
+import ModalForm from "../ModalForm";
 
 const buttonStyle: React.CSSProperties = {
   fontSize: "18px",
@@ -98,7 +99,7 @@ const Tabs: React.FC = () => {
                     <div className={sectiondesnew}>
                       {content.description}
                     </div>
-                    <Button
+                    {/* <Button
                       style={buttonStyle}
                       color="#333"
                       backgroundColor="#66e3ed"
@@ -106,7 +107,8 @@ const Tabs: React.FC = () => {
                       onClick={() => alert("Button clicked!")}
                     >
                       BOOK A DEMO
-                    </Button>
+                    </Button> */}
+                    <ModalForm buttonColor="#333" buttonBackground="#66e3ed" buttonWidth="170px" />
                   </div>
                 </div>
               )}
@@ -123,7 +125,7 @@ const Tabs: React.FC = () => {
               <div className={sectiondesnew}>
                 {tabContents[activeTab].description}
               </div>
-              <Button
+              {/* <Button
                 style={buttonStyle}
                 color="#333"
                 backgroundColor="#66e3ed"
@@ -131,7 +133,8 @@ const Tabs: React.FC = () => {
                 onClick={() => alert("Button clicked!")}
               >
                 BOOK A DEMO
-              </Button>
+              </Button> */}
+              <ModalForm buttonColor="#333" buttonBackground="#66e3ed" buttonWidth="170px" />
             </div>
           </div>
         )}
