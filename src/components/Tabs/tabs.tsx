@@ -38,7 +38,7 @@ const query = graphql`
             gatsbyImageData(
               layout: CONSTRAINED
               backgroundColor: "white"
-              placeholder: NONE
+              placeholder: BLURRED
               width: 820
               quality: 100
             )
@@ -113,7 +113,6 @@ const Tabs: React.FC = () => {
   const { allFile } = useStaticQuery<ImageQuery>(query);
   const [activeTab, setActiveTab] = useState(0);
   const { width: screenWidth } = useWindowDimensions();
-  console.log(allFile);
 
   return (
     <div className={InnerContainerStyle}>
