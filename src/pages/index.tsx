@@ -1,5 +1,6 @@
 import * as React from 'react';
 import type { HeadFC, PageProps } from 'gatsby';
+
 import Container from '../components/Container';
 import Header from '../components/Container/Header/header';
 import Features from '../components/Features/features';

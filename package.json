@@ -14,7 +14,7 @@
     "serve": "gatsby serve",
     "clean": "gatsby clean",
     "typecheck": "tsc --noEmit",
-    "lint": "eslint  \"src/**/*.tsx\"",
+    "lint": "eslint  \"src/**/*{.tsx,.ts}\"",
     "lint:fix": "yarn lint --fix"
   },
   "dependencies": {
@@ -23,10 +23,12 @@
     "babel-preset-gatsby": "^3.13.2",
     "gatsby": "^5.13.0",
     "gatsby-plugin-image": "^3.13.1",
+    "gatsby-plugin-manifest": "^5.13.1",
     "gatsby-plugin-s3": "^0.4.1",
     "gatsby-plugin-sharp": "^5.13.1",
     "gatsby-plugin-vanilla-extract": "^4.0.2",
     "gatsby-source-filesystem": "^5.13.1",
+    "gatsby-transformer-sharp": "^5.13.1",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
     "react-hook-form": "^7.53.0",

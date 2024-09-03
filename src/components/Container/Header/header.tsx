@@ -1,9 +1,8 @@
-import React, { useState, useEffect } from "react";
-import { Link } from "gatsby";
-import banner from "../../../images/Banner.jpg";
-import logo from "../../../images/HeaderLogo.png";
-import Button from "../../Button/button";
-import { StaticImage } from "gatsby-plugin-image";
+import React, { useState, useEffect } from 'react';
+import { Link } from 'gatsby';
+import { StaticImage } from 'gatsby-plugin-image';
+
+import Button from '../../Button/button';
 import {
   textBlockStyle,
   bannerImg,
@@ -17,56 +16,17 @@ import {
   logoOuter,
   buttonStyle,
   descStyle,
-} from "../../Container/style.css";
+} from '../../Container/style.css';
+import BookDemoForm from '../../ModalForm';
 
-import BookDemoForm from "../../ModalForm";
-import { activeNavStyle, navStyle } from "./styles.css";
+import {
+  activeNavStyle,
+  headerWrapperStyles,
+  navStyle,
+  pageStyles,
+} from './styles.css';
 
-type Props = {
-  children?: JSX.Element | JSX.Element[];
-};
-
-const pageStyles: React.CSSProperties = {
-  position: "relative",
-  width: "100%",
-};
-
-const imgStyles: React.CSSProperties = {
-  width: "100%",
-  height: "auto",
-};
-
-// const navStyle: React.CSSProperties = {
-//   fontSize: "18px",
-//   color: "#474747",
-//   fontWeight: "400",
-//   textDecoration: "none",
-//   marginRight: "50px",
-//   position: "relative",
-// };
-
-// const activeNavStyle: React.CSSProperties = {
-//   ...navStyle,
-//   color: "#000",
-// };
-
-const demoStyle: React.CSSProperties = {
-  fontSize: "18px",
-  color: "#333",
-  fontWeight: "700",
-  background: "#a0f5d1",
-};
-
-const headerWrapperStyles: React.CSSProperties = {
-  width: "100%",
-  position: "fixed",
-  top: 0,
-  zIndex: 1,
-  borderBottom: "1px solid #ededef",
-  transition: "background-color 0.3s ease",
-};
-
-const Header: React.FC<Props> = ({ children }) => {
+const Header: React.FC = () => {
   const [headerBackground, setHeaderBackground] = useState<boolean>(false);
   const [menuOpen, setMenuOpen] = useState<boolean>(false);
 
@@ -75,23 +35,22 @@ const Header: React.FC<Props> = ({ children }) => {
       setHeaderBackground(window.scrollY > 50);
     };
 
-    window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
   const toggleMenu = () => setMenuOpen(!menuOpen);
 
   return (
-    <main style={pageStyles}>
+    <main className={pageStyles}>
       <div
+        className={headerWrapperStyles}
         style={{
-          ...headerWrapperStyles,
-          backgroundColor: headerBackground ? "#fff" : "transparent",
+          backgroundColor: headerBackground ? '#fff' : 'transparent',
         }}
       >
         <div className={headerContentStyles}>
           <div className={logoOuter}>
-            {/* <img src={logo} alt="Logo" /> */}
             <StaticImage
               alt="Description of the image"
               src="../../../images/HeaderLogo.png"
@@ -99,11 +58,11 @@ const Header: React.FC<Props> = ({ children }) => {
               placeholder="blurred"
             />
           </div>
-          <nav className={`${navmenu} ${menuOpen ? navMenuOpen : ""}`}>
+          <nav className={`${navmenu} ${menuOpen ? navMenuOpen : ''}`}>
             <Link to="/" className={navStyle} activeClassName={activeNavStyle}>
               Home <span className={activeLinkStyle} />
             </Link>
-            <a href={process.env.GATSBY_GET_STARTED_LINK} className={navStyle}>
+            <a href={process.env.GATSBY_ADMIN_APP_URL + `info/get_started`} className={navStyle}>
               Get Started
             </a>
             <Button
@@ -112,7 +71,7 @@ const Header: React.FC<Props> = ({ children }) => {
               backgroundColor="#7a7eed"
               width="170px"
               onClick={() =>
-                window.location.replace(process.env.GATSBY_LOGIN_LINK as string)
+                window.location.replace(process.env.GATSBY_ADMIN_APP_URL + `auth/login` as string)
               }
             >
               Login
@@ -125,16 +84,15 @@ const Header: React.FC<Props> = ({ children }) => {
           </div>
         </div>
       </div>
-      <StaticImage 
+      <StaticImage
         // height={1060}
-             alt="Description of the image"
-            src="../../../images/Banner.jpg"
-            layout="fullWidth"
-            quality={100}
-            placeholder="blurred"
-            className={bannerImg}
-             />
-      {/* <img className={bannerImg} src={banner} alt="Banner" /> */}
+        alt="Description of the image"
+        src="../../../images/Banner.jpg"
+        layout="fullWidth"
+        quality={100}
+        placeholder="blurred"
+        className={bannerImg}
+      />
       <div className={textBlockStyle}>
         <p className={headingStyle}>
           Empowering Your Practice, Enhancing Every Life You Touch
@@ -148,15 +106,6 @@ const Header: React.FC<Props> = ({ children }) => {
           buttonColor="rgb(51, 51, 51)"
           buttonBackground="#a0f5d1"
         />
-        {/* <Button
-          style={demoStyle}
-          color="#fff"
-          backgroundColor="#a0f5d1"
-          width="180px"
-          onClick={() => alert("Button clicked!")}
-        >
-          BOOK A DEMO
-        </Button> */}
       </div>
     </main>
   );

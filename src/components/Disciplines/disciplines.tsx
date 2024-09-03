@@ -1,13 +1,14 @@
-import React from "react";
+import React from 'react';
+import { StaticImage } from 'gatsby-plugin-image';
+
 import {
   sectionHeading,
   sectiondesc,
   InnerContainerStyle,
   disciplineWrapper,
-} from "../Container/style.css";
-import discipline from "../../images/Disciplines.png";
-import { disciplineImg } from "../../components/Container/style.css";
-import { StaticImage } from "gatsby-plugin-image";
+} from '../Container/style.css';
+import discipline from '../../images/Disciplines.png';
+import { disciplineImg } from '../../components/Container/style.css';
 
 const Disciplines: React.FC = () => (
   <div className={InnerContainerStyle}>
@@ -31,7 +32,7 @@ const Disciplines: React.FC = () => (
         alt=""
         quality={100}
         width={1400}
-        imgStyle={{ objectFit: "contain" }}
+        imgStyle={{ objectFit: 'contain' }}
         placeholder="blurred"
       />
     </div>

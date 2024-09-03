@@ -1,19 +1,23 @@
-import React, { useState, FC } from "react";
-import "react-responsive-modal/styles.css";
-import { Modal } from "react-responsive-modal";
-import Button from "../Button/button";
+import React, { useState, FC } from 'react';
+import 'react-responsive-modal/styles.css';
+import { Modal } from 'react-responsive-modal';
+import { useForm, SubmitHandler } from 'react-hook-form';
+
+import Button from '../Button/button';
+
 import {
   buttonStyle,
+  content,
   errorMessageStyle,
   formGroupStyle,
   formWrapper,
+  heading,
   inputControlStyle,
   labelStyle,
   requiredIndicatorStyle,
   submitButtonStyle,
   textAreaControlStyle,
-} from "./styles.css";
-import { useForm, SubmitHandler } from "react-hook-form";
+} from './styles.css';
 
 type Props = {
   buttonColor: string;
@@ -24,9 +28,9 @@ type Props = {
 type Inputs = {
   name: string;
   email: string;
-  phoneNumber: string;
+  phone: string;
   company: string;
-  comments: string;
+  message: string;
 };
 
 const ModalForm: FC<Props> = ({
@@ -43,14 +47,11 @@ const ModalForm: FC<Props> = ({
     reset,
   } = useForm<Inputs>({ mode: 'onBlur', reValidateMode: 'onChange' });
 
-
   const onOpenModal = () => setOpen(true);
   const onCloseModal = () => {
     setOpen(false);
-    reset()
-  }
-
- 
+    reset();
+  };
 
   const onSubmit: SubmitHandler<Inputs> = (data) => console.log(data);
 
@@ -60,13 +61,19 @@ const ModalForm: FC<Props> = ({
         className={buttonStyle}
         color={buttonColor}
         backgroundColor={buttonBackground}
-        width={buttonWidth ?? "180px"}
+        width={buttonWidth ?? '180px'}
         onClick={onOpenModal}
       >
         BOOK A DEMO
       </Button>
       <Modal open={open} onClose={onCloseModal} center>
         <form className={formWrapper} onSubmit={handleSubmit(onSubmit)}>
+          <h3 className={heading}>Request a Demo</h3>
+          <p className={content}>
+            Please provide a few details about yourself, and our friendly team
+            of experts will reach out to offer support and arrange a demo at
+            your convenience.
+          </p>
           <div className={formGroupStyle}>
             <label className={labelStyle}>
               Name<span className={requiredIndicatorStyle}>*</span>
@@ -74,7 +81,7 @@ const ModalForm: FC<Props> = ({
             <input
               type="text"
               className={inputControlStyle}
-              {...register("name", { required: "Name is required" })}
+              {...register('name', { required: 'Name is required' })}
             />
             {touchedFields.name && (
               <div className={errorMessageStyle}>{errors?.name?.message}</div>
@@ -87,11 +94,11 @@ const ModalForm: FC<Props> = ({
             <input
               type="text"
               className={inputControlStyle}
-              {...register("email", {
-                required: "Email is required",
+              {...register('email', {
+                required: 'Email is required',
                 pattern: {
                   value: /^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$/,
-                  message: "Email is not valid",
+                  message: 'Email is not valid',
                 },
               })}
             />
@@ -104,36 +111,35 @@ const ModalForm: FC<Props> = ({
             <input
               type="text"
               className={inputControlStyle}
-              {...register("phoneNumber", {
-                required: "Phone number is required",
+              {...register('phone', {
+                required: 'Phone number is required',
                 pattern: {
-                  value: /^(\([0-9]{3}\)|[0-9]{3}-)[0-9]{3}-[0-9]{4}$/,
-                  message: "Phone number is not valid",
+                  value:
+                  /^[\+]?[\d]{0,3}[-.\s]?[(]?\d{3}[)]?[-.\s]?\d{3}[-.\s]?\d{4,6}$/im,
+                  message: 'Phone number is not valid',
                 },
               })}
             />
-             <div className={errorMessageStyle}>{errors?.phoneNumber?.message}</div>
+            <div className={errorMessageStyle}>
+              {errors?.phone?.message}
+            </div>
           </div>
           <div className={formGroupStyle}>
-            <label className={labelStyle}>
-              Company
-            </label>
+            <label className={labelStyle}>Company</label>
             <input
               type="text"
               className={inputControlStyle}
-              {...register("company")}
+              {...register('company')}
             />
           </div>
           <div className={formGroupStyle}>
-            <label className={labelStyle}>Comments</label>
+            <label className={labelStyle}>Message</label>
             <textarea
               className={textAreaControlStyle}
-              {...register("comments")}
+              {...register('message')}
             ></textarea>
           </div>
-          <div className={formGroupStyle}>
-            <input className={submitButtonStyle} type="submit" />
-          </div>
+          <input className={submitButtonStyle} type="submit" />
         </form>
       </Modal>
     </div>

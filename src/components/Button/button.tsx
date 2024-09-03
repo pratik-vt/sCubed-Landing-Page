@@ -2,22 +2,22 @@
 import React from 'react';
 
 interface ButtonProps {
-  color?: string;       
+  color?: string;
   backgroundColor?: string;
   height?: string;
   width?: string;
   border?: string;
   borderRadius?: string;
   cursor?: string;
-  onClick?: () => void;  
-  children: React.ReactNode; 
-  className?: string; 
-  style?: React.CSSProperties; 
+  onClick?: () => void;
+  children: React.ReactNode;
+  className?: string;
+  style?: React.CSSProperties;
 }
 
 const Button: React.FC<ButtonProps> = ({
-  color = '#fff',       
-  backgroundColor = '#007bff', 
+  color = '#fff',
+  backgroundColor = '#007bff',
   height = '50px',
   width = '180px',
   border = 'none',
@@ -26,9 +26,8 @@ const Button: React.FC<ButtonProps> = ({
   onClick,
   children,
   className = '',
-  style = {}  
+  style = {},
 }) => {
- 
   const combinedStyles: React.CSSProperties = {
     color,
     backgroundColor,
@@ -37,7 +36,7 @@ const Button: React.FC<ButtonProps> = ({
     border,
     borderRadius,
     cursor,
-    ...style 
+    ...style,
   };
 
   return (

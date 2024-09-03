@@ -16,6 +16,28 @@ const config: GatsbyConfig = {
     "gatsby-plugin-vanilla-extract",
     `gatsby-plugin-image`,
     `gatsby-plugin-sharp`,
+    `gatsby-transformer-sharp`,
+    {
+      resolve: `gatsby-source-filesystem`,
+      options: {
+        // The unique name for each instance
+        name: `capability-images`,
+        // Path to the directory
+        path: `${__dirname}/src/images/tabs/`,
+      },
+    },
+    {
+      resolve: `gatsby-plugin-manifest`,
+      options: {
+        name: `S Cubed`,
+        short_name: `S Cubed`,
+        start_url: `/`,
+        background_color: `#f9f9f9`,
+        theme_color: `#7a7eed`,
+        display: `standalone`,
+        icon: `src/images/icon.png`
+      },
+    },
     {
       resolve: `gatsby-plugin-s3`,
       options: {

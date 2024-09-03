@@ -11,12 +11,14 @@ module.exports = {
     'plugin:prettier/recommended',
     'plugin:import/recommended',
     'plugin:import/typescript',
-    'plugin:react/recommended'
+    'eslint:recommended',
+    'plugin:react/recommended',
   ],
   root: true,
   env: {
     node: true,
     jest: true,
+    browser: true,
   },
   ignorePatterns: ['.eslintrc.js'],
   rules: {
@@ -35,7 +37,12 @@ module.exports = {
   settings: {
     'import/resolver': {
       typescript: true,
-      node: true,
+      node: {
+        extensions: ['.js', '.jsx', '.ts', '.tsx'],
+      },
+    },
+    react: {
+      version: 'detect',
     },
   },
 };
