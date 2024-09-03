@@ -11,7 +11,7 @@ export const content = style({
   color: '#6e6e6e',
   fontWeight: '400',
   textAlign: 'center',
-  width: '100%'
+  width: '100%',
 });
 
 export const buttonStyle = style({
@@ -31,7 +31,7 @@ export const formWrapper = style({
     'screen and (max-width: 600px)': {
       width: '350px',
     },
-    'screen and (max-width: 400px)': {
+    'screen and (max-width: 430px)': {
       width: '250px',
     },
   },

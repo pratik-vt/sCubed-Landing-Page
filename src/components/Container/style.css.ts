@@ -96,55 +96,7 @@ export const disciplineWrapper = style({
     },
   },
 });
-export const tab = style({
-  display: `flex`,
-  flexDirection: `column`,
-  alignItems: `center`,
-  fontSize: `24px`,
-  color: `#333`,
-  fontWeight: `500`,
-  '@media': {
-    'screen and (max-width: 768px)': {
-      position: `relative`,
-      marginBottom: `10px`,
-    },
-  },
-});
-export const tabsList = style({
-  display: `flex`,
-  alignItems: `center`,
-  justifyContent: `space-between`,
-  borderBottom: `1px solid #ededef`,
-  marginBottom: `35px`,
-  '@media': {
-    'screen and (max-width: 768px)': {
-      flexDirection: `column`,
-    },
-  },
-});
-export const tabData = style({
-  maxWidth: `240px`,
-  width: `100%`,
-  textAlign: `center`,
-});
 
-export const panelHeading = style({
-  fontSize: `36px`,
-  fontWeight: `700`,
-  color: `#333`,
-  maxWidth: `464px`,
-  marginBottom: `34px`,
-  '@media': {
-    'screen and (max-width: 768px)': {
-      textAlign: `center`,
-      fontSize: `24px`,
-      marginBottom: `15px`,
-    },
-    'screen and (min-width: 768px) and (max-width: 1200px)': {
-      maxWidth: `100%`,
-    },
-  },
-});
 export const panelContent = style({
   display: `flex`,
   flexDirection: `column`,
@@ -167,6 +119,7 @@ export const tabPanel = style({
     'screen and (max-width: 768px)': {
       flexDirection: `column`,
       gap: `20px`,
+      margin: `0 15px`,
     },
     'screen and (min-width: 768px) and (max-width: 1200px)': {
       flexDirection: `column`,
@@ -176,22 +129,6 @@ export const tabPanel = style({
 });
 export const mobileTabPanel = style({
   // display: `block`,
-});
-export const sectiondesnew = style({
-  fontSize: '20px',
-  color: `#6e6e6e`,
-  fontWeight: `400`,
-  maxWidth: `464px`,
-  marginBottom: `40px`,
-  width: `100%`,
-  '@media': {
-    'screen and (max-width: 768px)': {
-      textAlign: `center`,
-    },
-    'screen and (max-width: 600px)': {
-      maxWidth: `350px`,
-    },
-  },
 });
 
 export const featureItems = style({
@@ -234,23 +171,6 @@ export const featureContainers = style({
       alignItems: 'center',
       gap: '20px',
       justifyContent: `center`,
-    },
-  },
-});
-
-export const bannerImg = style({
-  width: `100%`,
-  maxHeight: `800px`,
-
-  '@media': {
-    'screen and (max-width: 768px)': {
-      height: `65vh`,
-    },
-    'screen and (max-width: 375px)': {
-      height: `90vh`,
-    },
-    'screen and (min-width: 768px) and (max-width: 1200px)': {
-      minHeight: `800px`,
     },
   },
 });
@@ -348,23 +268,6 @@ export const Submitbtn = style({
   fontWeight: `700`,
   borderRadius: `5px`,
 });
-export const textBlockStyle = style({
-  position: 'absolute',
-  top: '50%',
-  left: '50%',
-  transform: 'translate(-50%, -50%)',
-  color: '#fff',
-  // padding: "20px",
-  borderRadius: '5px',
-  maxWidth: '80%',
-  textAlign: 'center',
-  '@media': {
-    'screen and (max-width: 768px)': {
-      maxWidth: `unset`,
-      width: `100%`,
-    },
-  },
-});
 
 export const headingStyle = style({
   fontSize: `48px`,
@@ -381,67 +284,6 @@ export const headingStyle = style({
   },
 });
 
-export const hamburger = style({
-  display: 'none',
-  flexDirection: 'column',
-  cursor: 'pointer',
-  zIndex: 2,
-  '@media': {
-    'screen and (max-width: 768px)': {
-      display: 'flex',
-      marginRight: `15px`,
-    },
-  },
-});
-
-export const bar = style({
-  width: '25px',
-  height: '3px',
-  backgroundColor: '#333',
-  margin: '4px 0',
-  transition: '0.3s',
-});
-
-export const navmenu = style({
-  display: 'flex',
-  alignItems: 'center',
-  '@media': {
-    'screen and (max-width: 768px)': {
-      display: 'none',
-      flexDirection: 'column',
-      alignItems: 'center',
-      position: 'absolute',
-      top: '112px',
-      width: '100%',
-      backgroundColor: '#fff',
-      borderTop: '1px solid #ededef',
-      minHeight: '90vh',
-      gap: '30px',
-      padding: `30px 0`,
-    },
-  },
-});
-
-export const navMenuOpen = style({
-  display: 'flex !important',
-});
-
-export const activeLinkStyle = style({
-  content: '""',
-  display: 'block',
-  width: '52px',
-  height: '5px',
-  backgroundColor: '#7a7eed',
-  position: 'absolute',
-  bottom: '-47px',
-  left: '50%',
-  transform: 'translateX(-50%)',
-  '@media': {
-    'screen and (max-width: 768px)': {
-      bottom: '-8px',
-    },
-  },
-});
 export const footerDesc = style({
   fontSize: `18px`,
   color: `#ffffff`,
@@ -517,12 +359,6 @@ export const form = style({
       alignItems: `center`,
     },
   },
-});
-
-export const tabPanelImage = style({
-  maxWidth: '820px',
-  width: '100%',
-  padding: `0 20px`,
 });
 
 export const tabsContainer = style({

@@ -3,7 +3,6 @@ import React from 'react';
 import {
   InnerContainerStyle,
   featureContainers,
-  featureItem,
   featureText,
   featureItems,
   standWrapper,
@@ -11,7 +10,6 @@ import {
   disciplineWrapper,
 } from '../Container/style.css';
 import smart from '../../images/Smart Billing Management.png';
-import hippa from '../../images/HIPAA Compliant.png';
 import quick from '../../images/Quick Communication.png';
 import behavoir from '../../images/Behavior Tracking.png';
 import multi from '../../images/Multi-Location Clinic Management.png';
@@ -23,7 +21,7 @@ const standHead: React.CSSProperties = {
   fontSize: `24px`,
   fontWeight: `500`,
   color: `#333`,
-  marginBottom: `25px`,
+  marginBottom: `15px`,
 };
 const standDesc: React.CSSProperties = {
   fontSize: `18px`,

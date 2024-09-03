@@ -4,14 +4,7 @@ import { StaticImage } from 'gatsby-plugin-image';
 
 import Button from '../../Button/button';
 import {
-  textBlockStyle,
-  bannerImg,
   headingStyle,
-  hamburger,
-  bar,
-  navmenu,
-  navMenuOpen,
-  activeLinkStyle,
   headerContentStyles,
   logoOuter,
   buttonStyle,
@@ -22,8 +15,18 @@ import BookDemoForm from '../../ModalForm';
 import {
   activeNavStyle,
   headerWrapperStyles,
+  bannerImg,
   navStyle,
   pageStyles,
+  hamburger,
+  bar,
+  navMenu,
+  navMenuOpen,
+  activeLinkStyle,
+  closeButtonWrapper,
+  crossLine1,
+  crossLine2,
+  textBlockStyle,
 } from './styles.css';
 
 const Header: React.FC = () => {
@@ -39,6 +42,18 @@ const Header: React.FC = () => {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
+  useEffect(() => {
+    if (menuOpen) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = 'scroll';
+    }
+
+    return () => {
+      document.body.style.overflow = 'scroll';
+    };
+  }, [menuOpen]);
+
   const toggleMenu = () => setMenuOpen(!menuOpen);
 
   return (
@@ -52,17 +67,20 @@ const Header: React.FC = () => {
         <div className={headerContentStyles}>
           <div className={logoOuter}>
             <StaticImage
-              alt="Description of the image"
+              alt="S Cubed"
               src="../../../images/HeaderLogo.png"
               quality={100}
               placeholder="blurred"
             />
           </div>
-          <nav className={`${navmenu} ${menuOpen ? navMenuOpen : ''}`}>
+          <nav className={`${navMenu} ${menuOpen ? navMenuOpen : ''}`}>
             <Link to="/" className={navStyle} activeClassName={activeNavStyle}>
               Home <span className={activeLinkStyle} />
             </Link>
-            <a href={process.env.GATSBY_ADMIN_APP_URL + `info/get_started`} className={navStyle}>
+            <a
+              href={process.env.GATSBY_ADMIN_APP_URL + `info/get_started`}
+              className={navStyle}
+            >
               Get Started
             </a>
             <Button
@@ -71,21 +89,30 @@ const Header: React.FC = () => {
               backgroundColor="#7a7eed"
               width="170px"
               onClick={() =>
-                window.location.replace(process.env.GATSBY_ADMIN_APP_URL + `auth/login` as string)
+                window.location.replace(
+                  (process.env.GATSBY_ADMIN_APP_URL + `auth/login`) as string,
+                )
               }
             >
               Login
             </Button>
           </nav>
-          <div className={hamburger} onClick={toggleMenu}>
-            {[...Array(3)].map((_, index) => (
-              <div key={index} className={bar}></div>
-            ))}
-          </div>
+          {!menuOpen ? (
+            <div className={hamburger} onClick={toggleMenu}>
+              {[...Array(3)].map((_, index) => (
+                <div key={index} className={bar}></div>
+              ))}
+            </div>
+          ) : (
+            <div className={closeButtonWrapper} onClick={toggleMenu}>
+              <div className={crossLine1}>
+                <div className={crossLine2}></div>
+              </div>
+            </div>
+          )}
         </div>
       </div>
       <StaticImage
-        // height={1060}
         alt="Description of the image"
         src="../../../images/Banner.jpg"
         layout="fullWidth"

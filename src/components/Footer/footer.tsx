@@ -1,4 +1,5 @@
 import React from 'react';
+import { StaticImage } from 'gatsby-plugin-image';
 
 import {
   footer,
@@ -15,8 +16,6 @@ import {
   form,
   demoSection,
 } from '../Container/style.css';
-import logoWhite from '../../images/scubed logo white.png';
-import { StaticImage } from 'gatsby-plugin-image';
 
 const demoInfo: React.CSSProperties = {
   fontSize: `24px`,
@@ -26,20 +25,20 @@ const demoInfo: React.CSSProperties = {
 };
 
 interface FormElements extends HTMLFormControlsCollection {
-  email: HTMLInputElement
+  email: HTMLInputElement;
 }
 
 interface UsernameFormElement extends HTMLFormElement {
   // now we can override the elements type to be an HTMLFormControlsCollection
   // of our own design...
-  readonly elements: FormElements
+  readonly elements: FormElements;
 }
 
 function Footer() {
   const handleSubmit = (event: React.FormEvent<UsernameFormElement>) => {
-    event.preventDefault()
-    if (event.currentTarget instanceof Element){
-      const email = event.currentTarget?.elements.email
+    event.preventDefault();
+    if (event.currentTarget instanceof Element) {
+      const email = event.currentTarget?.elements.email;
       email.value = '';
     }
   };
@@ -48,7 +47,11 @@ function Footer() {
       <div className={InnerContainerStyle}>
         <div className={footerLogo}>
           <div>
-            <StaticImage src="../../images/scubed logo white.png" alt='S Cubed' placeholder="blurred" />
+            <StaticImage
+              src="../../images/scubed logo white.png"
+              alt="S Cubed"
+              placeholder="blurred"
+            />
           </div>
           <div className={demoSection}>
             <span style={demoInfo}>Book A Demo</span>
@@ -63,7 +66,13 @@ function Footer() {
             effectiveness of therapy practices and improve client care.
           </p>
           <form className={form} onSubmit={handleSubmit}>
-            <input className={inputField} type="email" placeholder="Email" id="email" required />
+            <input
+              className={inputField}
+              type="email"
+              placeholder="Email"
+              id="email"
+              required
+            />
             <button type="submit" className={Submitbtn}>
               SUBMIT
             </button>
@@ -72,10 +81,16 @@ function Footer() {
         <div className={bottomFooter}>
           <span className={rights}>© 2024 S Cubed. All rights reserved.</span>
           <div className={footerLinks}>
-            <a className={links} href={process.env.GATSBY_ADMIN_APP_URL + `info/terms_conditions`}>
+            <a
+              className={links}
+              href={process.env.GATSBY_ADMIN_APP_URL + `info/terms_conditions`}
+            >
               Terms & Conditions
             </a>
-            <a className={links} href={process.env.GATSBY_ADMIN_APP_URL + `info/privacy`}>
+            <a
+              className={links}
+              href={process.env.GATSBY_ADMIN_APP_URL + `info/privacy`}
+            >
               Privacy Policy
             </a>
           </div>

@@ -6,9 +6,10 @@ import {
   sectiondesc,
   InnerContainerStyle,
   disciplineWrapper,
+  disciplineImg,
 } from '../Container/style.css';
-import discipline from '../../images/Disciplines.png';
-import { disciplineImg } from '../../components/Container/style.css';
+// import discipline from '../../images/Disciplines.png';
+// import { disciplineImg } from '../../components/Container/style.css';
 
 const Disciplines: React.FC = () => (
   <div className={InnerContainerStyle}>
@@ -19,14 +20,7 @@ const Disciplines: React.FC = () => (
         clinical process. It is designed to integrate with various disciplines
         allowing you to focus on your little clients’ well-being.
       </div>
-      {/* <img
-        className={disciplineImg}
-        style={{ maxWidth: "100%", width: "100%" }}
-        src={discipline}
-        alt=""
-      /> */}
       <StaticImage
-        // style={{ maxWidth: "100%", width: "100%" }}
         className={disciplineImg}
         src="../../images/Disciplines.png"
         alt=""

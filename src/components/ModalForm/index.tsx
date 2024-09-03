@@ -115,14 +115,12 @@ const ModalForm: FC<Props> = ({
                 required: 'Phone number is required',
                 pattern: {
                   value:
-                  /^[\+]?[\d]{0,3}[-.\s]?[(]?\d{3}[)]?[-.\s]?\d{3}[-.\s]?\d{4,6}$/im,
+                    /^[+]?[\d]{0,3}[-.\s]?[(]?\d{3}[)]?[-.\s]?\d{3}[-.\s]?\d{4,6}$/im,
                   message: 'Phone number is not valid',
                 },
               })}
             />
-            <div className={errorMessageStyle}>
-              {errors?.phone?.message}
-            </div>
+            <div className={errorMessageStyle}>{errors?.phone?.message}</div>
           </div>
           <div className={formGroupStyle}>
             <label className={labelStyle}>Company</label>
