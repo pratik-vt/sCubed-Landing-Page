@@ -81,7 +81,7 @@ const tabContents = [
       'Provide guardians with an intuitive portal to access information, updates, and communicate with the clinic effortlessly.',
     image: guardian,
     alt: 'guardian',
-    panelImage: 'dashboard.png',
+    panelImage: 'dashboard.jpg',
   },
 ];
 
