@@ -2,6 +2,8 @@ import React, { useState, FC } from 'react';
 import 'react-responsive-modal/styles.css';
 import { Modal } from 'react-responsive-modal';
 import { useForm, SubmitHandler } from 'react-hook-form';
+import isMobilePhone from 'validator/lib/isMobilePhone';
+import isEmail from 'validator/lib/isEmail';
 
 import Button from '../Button/button';
 
@@ -16,6 +18,7 @@ import {
   labelStyle,
   requiredIndicatorStyle,
   submitButtonStyle,
+  successMessageStyle,
   textAreaControlStyle,
 } from './styles.css';
 
@@ -27,11 +30,14 @@ type Props = {
 
 type Inputs = {
   name: string;
-  email: string;
-  phone: string;
-  company: string;
+  email_address: string;
+  phone_number: string;
+  company_name: string;
   message: string;
 };
+
+const defaultErrorMessage =
+  'An unexpected error has occurred. Please try again later.';
 
 const ModalForm: FC<Props> = ({
   buttonColor,
@@ -39,6 +45,10 @@ const ModalForm: FC<Props> = ({
   buttonWidth,
 }) => {
   const [open, setOpen] = useState(false);
+  const [response, setResponse] = useState<{
+    class?: string;
+    message?: string;
+  }>();
 
   const {
     register,
@@ -51,9 +61,50 @@ const ModalForm: FC<Props> = ({
   const onCloseModal = () => {
     setOpen(false);
     reset();
+    setResponse({});
   };
 
-  const onSubmit: SubmitHandler<Inputs> = (data) => console.log(data);
+  const onSubmit: SubmitHandler<Inputs> = (data) => {
+    setResponse({});
+    fetch(`${process.env.GATSBY_ADMIN_APP_API_URL}pages/demo-request`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(data),
+    })
+      .then(async (res) => {
+        if (res.ok) {
+          setResponse({
+            class: successMessageStyle,
+            message:
+              ' Thank you for your interest in our services! Our team will be in touch shortly.',
+          });
+        } else {
+          if (res.status === 422) {
+            const json = await res.json();
+            const message = json?.errors
+              ?.map((err: any) => err?.message)
+              .join('\n');
+            setResponse({
+              class: errorMessageStyle,
+              message,
+            });
+          } else {
+            setResponse({
+              class: errorMessageStyle,
+              message: defaultErrorMessage,
+            });
+          }
+        }
+      })
+      .catch(() => {
+        setResponse({
+          class: errorMessageStyle,
+          message: defaultErrorMessage,
+        });
+      });
+  };
 
   return (
     <div>
@@ -81,7 +132,15 @@ const ModalForm: FC<Props> = ({
             <input
               type="text"
               className={inputControlStyle}
-              {...register('name', { required: 'Name is required' })}
+              {...register('name', {
+                required: 'Name is required',
+                setValueAs: (value: string) => value.trim(),
+                maxLength: {
+                  value: 100,
+                  message:
+                    'The length of name must be 100 characters or fewer.',
+                },
+              })}
             />
             {touchedFields.name && (
               <div className={errorMessageStyle}>{errors?.name?.message}</div>
@@ -94,15 +153,21 @@ const ModalForm: FC<Props> = ({
             <input
               type="text"
               className={inputControlStyle}
-              {...register('email', {
+              {...register('email_address', {
                 required: 'Email is required',
-                pattern: {
-                  value: /^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$/,
-                  message: 'Email is not valid',
+                validate: (email) => {
+                  return isEmail(email) ? true : 'Email is not valid';
+                },
+                maxLength: {
+                  value: 100,
+                  message:
+                    'The length of email must be 100 characters or fewer.',
                 },
               })}
             />
-            <div className={errorMessageStyle}>{errors?.email?.message}</div>
+            <div className={errorMessageStyle}>
+              {errors?.email_address?.message}
+            </div>
           </div>
           <div className={formGroupStyle}>
             <label className={labelStyle}>
@@ -111,31 +176,54 @@ const ModalForm: FC<Props> = ({
             <input
               type="text"
               className={inputControlStyle}
-              {...register('phone', {
+              {...register('phone_number', {
                 required: 'Phone number is required',
-                pattern: {
-                  value:
-                    /^[+]?[\d]{0,3}[-.\s]?[(]?\d{3}[)]?[-.\s]?\d{3}[-.\s]?\d{4,6}$/im,
-                  message: 'Phone number is not valid',
+                validate: (phone) => {
+                  return isMobilePhone(phone, 'en-US', { strictMode: false })
+                    ? true
+                    : 'Phone number is not valid';
                 },
               })}
             />
-            <div className={errorMessageStyle}>{errors?.phone?.message}</div>
+            <div className={errorMessageStyle}>
+              {errors?.phone_number?.message}
+            </div>
           </div>
           <div className={formGroupStyle}>
             <label className={labelStyle}>Company</label>
             <input
               type="text"
               className={inputControlStyle}
-              {...register('company')}
+              {...register('company_name', {
+                maxLength: {
+                  value: 100,
+                  message:
+                    'The length of company name must be 200 characters or fewer.',
+                },
+                setValueAs: (value: string) => value?.trim(),
+              })}
             />
+            <div className={errorMessageStyle}>
+              {errors?.company_name?.message}
+            </div>
           </div>
           <div className={formGroupStyle}>
             <label className={labelStyle}>Message</label>
             <textarea
               className={textAreaControlStyle}
-              {...register('message')}
+              {...register('message', {
+                maxLength: {
+                  value: 100,
+                  message:
+                    'The length of message must be 800 characters or fewer.',
+                },
+                setValueAs: (value: string) => value?.trim(),
+              })}
             ></textarea>
+            <div className={errorMessageStyle}>{errors?.message?.message}</div>
+          </div>
+          <div className={response?.class} style={{ whiteSpace: 'pre-line' }}>
+            {response?.message}
           </div>
           <input className={submitButtonStyle} type="submit" />
         </form>

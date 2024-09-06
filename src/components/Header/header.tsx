@@ -2,15 +2,15 @@ import React, { useState, useEffect } from 'react';
 import { Link } from 'gatsby';
 import { StaticImage } from 'gatsby-plugin-image';
 
-import Button from '../../Button/button';
+import Button from '../Button/button';
 import {
   headingStyle,
   headerContentStyles,
   logoOuter,
   buttonStyle,
   descStyle,
-} from '../../Container/style.css';
-import BookDemoForm from '../../ModalForm';
+} from '../Container/style.css';
+import BookDemoForm from '../ModalForm';
 
 import {
   activeNavStyle,
@@ -68,7 +68,7 @@ const Header: React.FC = () => {
           <div className={logoOuter}>
             <StaticImage
               alt="S Cubed"
-              src="../../../images/HeaderLogo.png"
+              src="../../images/HeaderLogo.png"
               quality={100}
               placeholder="blurred"
             />
@@ -114,7 +114,7 @@ const Header: React.FC = () => {
       </div>
       <StaticImage
         alt="Description of the image"
-        src="../../../images/Banner.jpg"
+        src="../../images/Banner.jpg"
         layout="fullWidth"
         quality={100}
         placeholder="blurred"

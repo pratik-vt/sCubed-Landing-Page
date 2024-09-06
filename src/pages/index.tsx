@@ -2,7 +2,7 @@ import * as React from 'react';
 import type { HeadFC, PageProps } from 'gatsby';
 
 import Container from '../components/Container';
-import Header from '../components/Container/Header/header';
+import Header from '../components/Header/header';
 import Features from '../components/Features/features';
 import Disciplines from '../components/Disciplines/disciplines';
 import Tabs from '../components/Tabs/tabs';
@@ -33,6 +33,7 @@ export default IndexPage;
 export const Head: HeadFC = () => (
   <>
     <html lang="en" />
+    {/* <meta name="viewport" content="width=device-width, initial-scale=1.0" /> */}
     <title>Home Page</title>
   </>
 );

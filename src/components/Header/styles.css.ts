@@ -151,13 +151,25 @@ export const bannerImg = style({
     'screen and (max-width: 768px)': {
       height: `65vh`,
     },
+    'screen and (max-width: 430px)': {
+      height: `95vh`,
+    },
     'screen and (max-width: 414px)': {
-      height: `70vh`,
+      height: `100vh`,
     },
     'screen and (max-width: 375px)': {
-      height: `90vh`,
+      height: `105vh`,
     },
-    'screen and (min-width: 768px) and (max-width: 1370px)': {
+    'screen and (max-width: 360px)': {
+      height: `110vh`,
+    },
+    'screen and (max-width: 320px)': {
+      height: `160vh`,
+    },
+    'screen and (min-width: 768px) and (max-width: 1023px)': {
+      minHeight: `950px`,
+    },
+    'screen and (min-width: 1024px) and (max-width: 1370px)': {
       minHeight: `800px`,
     },
   },

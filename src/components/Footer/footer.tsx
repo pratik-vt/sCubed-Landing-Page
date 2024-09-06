@@ -4,48 +4,48 @@ import { StaticImage } from 'gatsby-plugin-image';
 import {
   footer,
   InnerContainerStyle,
-  footerLogo,
+  // footerLogo,
   footerContent,
   bottomFooter,
   footerLinks,
   links,
   rights,
-  inputField,
-  Submitbtn,
+  // inputField,
+  // Submitbtn,
   footerDesc,
-  form,
-  demoSection,
+  // form,
+  // demoSection,
 } from '../Container/style.css';
 
-const demoInfo: React.CSSProperties = {
-  fontSize: `24px`,
-  color: `#ffffff`,
-  fontWeight: `500`,
-  borderBottom: `2px solid #fff`,
-};
+// const demoInfo: React.CSSProperties = {
+//   fontSize: `24px`,
+//   color: `#ffffff`,
+//   fontWeight: `500`,
+//   borderBottom: `2px solid #fff`,
+// };
 
-interface FormElements extends HTMLFormControlsCollection {
-  email: HTMLInputElement;
-}
+// interface FormElements extends HTMLFormControlsCollection {
+//   email: HTMLInputElement;
+// }
 
-interface UsernameFormElement extends HTMLFormElement {
-  // now we can override the elements type to be an HTMLFormControlsCollection
-  // of our own design...
-  readonly elements: FormElements;
-}
+// interface UsernameFormElement extends HTMLFormElement {
+//   // now we can override the elements type to be an HTMLFormControlsCollection
+//   // of our own design...
+//   readonly elements: FormElements;
+// }
 
 function Footer() {
-  const handleSubmit = (event: React.FormEvent<UsernameFormElement>) => {
-    event.preventDefault();
-    if (event.currentTarget instanceof Element) {
-      const email = event.currentTarget?.elements.email;
-      email.value = '';
-    }
-  };
+  // const handleSubmit = (event: React.FormEvent<UsernameFormElement>) => {
+  //   event.preventDefault();
+  //   if (event.currentTarget instanceof Element) {
+  //     const email = event.currentTarget?.elements.email;
+  //     email.value = '';
+  //   }
+  // };
   return (
     <div className={footer}>
       <div className={InnerContainerStyle}>
-        <div className={footerLogo}>
+        {/* <div className={footerLogo}>
           <div>
             <StaticImage
               src="../../images/scubed logo white.png"
@@ -56,8 +56,15 @@ function Footer() {
           <div className={demoSection}>
             <span style={demoInfo}>Book A Demo</span>
           </div>
-        </div>
+        </div> */}
         <div className={footerContent}>
+          <div>
+            <StaticImage
+              src="../../images/scubed logo white.png"
+              alt="S Cubed"
+              placeholder="blurred"
+            />
+          </div>
           <p className={footerDesc}>
             S Cubed strives to leave a positive impact on every child who needs
             help by ensuring our advanced clinical and practice management
@@ -65,7 +72,7 @@ function Footer() {
             Cubed, or Spectrum Solutions Software, aims to revolutionize the
             effectiveness of therapy practices and improve client care.
           </p>
-          <form className={form} onSubmit={handleSubmit}>
+          {/* <form className={form} onSubmit={handleSubmit}>
             <input
               className={inputField}
               type="email"
@@ -76,7 +83,7 @@ function Footer() {
             <button type="submit" className={Submitbtn}>
               SUBMIT
             </button>
-          </form>
+          </form> */}
         </div>
         <div className={bottomFooter}>
           <span className={rights}>© 2024 S Cubed. All rights reserved.</span>

@@ -81,7 +81,16 @@ export const errorMessageStyle = style({
   color: 'red',
   textAlign: 'left',
   marginTop: '2px',
+  width: '100%',
 });
+
+export const successMessageStyle = style([
+  errorMessageStyle,
+  {
+    color: '#2e9f15',
+    fontSize: '16px',
+  },
+]);
 
 export const textAreaControlStyle = style({
   width: '-webkit-fill-available',

@@ -204,10 +204,12 @@ export const footerContent = style({
   justifyContent: `space-between`,
   borderBottom: `1px solid #fff`,
   padding: `10px 0 25px 0`,
+  gap: '40px',
   '@media': {
     'screen and (max-width: 1200px)': {
       flexDirection: `column`,
       paddingTop: `20px`,
+      alignItems: `center`,
     },
   },
 });
@@ -288,7 +290,7 @@ export const footerDesc = style({
   fontSize: `18px`,
   color: `#ffffff`,
   fontWeight: `400`,
-  maxWidth: `802px`,
+  // maxWidth: `802px`,
   width: `100%`,
   '@media': {
     'screen and (max-width: 768px)': {
