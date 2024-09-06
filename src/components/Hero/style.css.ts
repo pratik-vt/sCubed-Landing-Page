@@ -49,9 +49,11 @@ export const heroHeading = style({
     'screen and (max-width: 768px)': {
       fontSize: `24px`,
       textAlign: `center`,
+      paddingLeft: `10px`,
+      paddingRight: `10px`,
     },
-    'screen and (min-width: 768px) and (max-width: 1200px)': {
-      fontSize: `20px`,
+    'screen and (min-width: 768px) and (max-width: 1280px)': {
+      fontSize: `30px`,
       textAlign: `center`,
     },
   },

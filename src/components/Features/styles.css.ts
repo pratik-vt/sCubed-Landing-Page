@@ -6,7 +6,7 @@ export const featureContainer = style({
   alignItems: 'center',
   justifyContent: 'space-between',
   '@media': {
-    'screen and (max-width: 1200px)': {
+    'screen and (max-width: 1192px)': {
       flexWrap: `wrap`,
       alignItems: 'center',
       gap: '30px',

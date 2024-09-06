@@ -9,6 +9,7 @@ import Button from '../Button/button';
 
 import {
   buttonStyle,
+  container,
   content,
   errorMessageStyle,
   formGroupStyle,
@@ -45,6 +46,7 @@ const ModalForm: FC<Props> = ({
   buttonWidth,
 }) => {
   const [open, setOpen] = useState(false);
+  const [isSubmitting, setSubmitting] = useState(false);
   const [response, setResponse] = useState<{
     class?: string;
     message?: string;
@@ -66,6 +68,7 @@ const ModalForm: FC<Props> = ({
 
   const onSubmit: SubmitHandler<Inputs> = (data) => {
     setResponse({});
+    setSubmitting(true);
     fetch(`${process.env.GATSBY_ADMIN_APP_API_URL}pages/demo-request`, {
       method: 'POST',
       headers: {
@@ -74,11 +77,13 @@ const ModalForm: FC<Props> = ({
       body: JSON.stringify(data),
     })
       .then(async (res) => {
+        setSubmitting(false);
         if (res.ok) {
+          reset();
           setResponse({
             class: successMessageStyle,
             message:
-              ' Thank you for your interest in our services! Our team will be in touch shortly.',
+              'Thank you for your interest in our services! Our team will be in touch shortly.',
           });
         } else {
           if (res.status === 422) {
@@ -107,7 +112,7 @@ const ModalForm: FC<Props> = ({
   };
 
   return (
-    <div>
+    <div className={container}>
       <Button
         className={buttonStyle}
         color={buttonColor}
@@ -125,107 +130,130 @@ const ModalForm: FC<Props> = ({
             of experts will reach out to offer support and arrange a demo at
             your convenience.
           </p>
-          <div className={formGroupStyle}>
-            <label className={labelStyle}>
-              Name<span className={requiredIndicatorStyle}>*</span>
-            </label>
-            <input
-              type="text"
-              className={inputControlStyle}
-              {...register('name', {
-                required: 'Name is required',
-                setValueAs: (value: string) => value.trim(),
-                maxLength: {
-                  value: 100,
-                  message:
-                    'The length of name must be 100 characters or fewer.',
-                },
-              })}
-            />
-            {touchedFields.name && (
-              <div className={errorMessageStyle}>{errors?.name?.message}</div>
-            )}
-          </div>
-          <div className={formGroupStyle}>
-            <label className={labelStyle}>
-              Email<span className={requiredIndicatorStyle}>*</span>
-            </label>
-            <input
-              type="text"
-              className={inputControlStyle}
-              {...register('email_address', {
-                required: 'Email is required',
-                validate: (email) => {
-                  return isEmail(email) ? true : 'Email is not valid';
-                },
-                maxLength: {
-                  value: 100,
-                  message:
-                    'The length of email must be 100 characters or fewer.',
-                },
-              })}
-            />
-            <div className={errorMessageStyle}>
-              {errors?.email_address?.message}
+          {response?.class == successMessageStyle ? (
+            <div className={response?.class} style={{ whiteSpace: 'pre-line' }}>
+              {response?.message}
             </div>
-          </div>
-          <div className={formGroupStyle}>
-            <label className={labelStyle}>
-              Phone Number<span className={requiredIndicatorStyle}>*</span>
-            </label>
-            <input
-              type="text"
-              className={inputControlStyle}
-              {...register('phone_number', {
-                required: 'Phone number is required',
-                validate: (phone) => {
-                  return isMobilePhone(phone, 'en-US', { strictMode: false })
-                    ? true
-                    : 'Phone number is not valid';
-                },
-              })}
-            />
-            <div className={errorMessageStyle}>
-              {errors?.phone_number?.message}
-            </div>
-          </div>
-          <div className={formGroupStyle}>
-            <label className={labelStyle}>Company</label>
-            <input
-              type="text"
-              className={inputControlStyle}
-              {...register('company_name', {
-                maxLength: {
-                  value: 100,
-                  message:
-                    'The length of company name must be 200 characters or fewer.',
-                },
-                setValueAs: (value: string) => value?.trim(),
-              })}
-            />
-            <div className={errorMessageStyle}>
-              {errors?.company_name?.message}
-            </div>
-          </div>
-          <div className={formGroupStyle}>
-            <label className={labelStyle}>Message</label>
-            <textarea
-              className={textAreaControlStyle}
-              {...register('message', {
-                maxLength: {
-                  value: 100,
-                  message:
-                    'The length of message must be 800 characters or fewer.',
-                },
-                setValueAs: (value: string) => value?.trim(),
-              })}
-            ></textarea>
-            <div className={errorMessageStyle}>{errors?.message?.message}</div>
-          </div>
-          <div className={response?.class} style={{ whiteSpace: 'pre-line' }}>
-            {response?.message}
-          </div>
-          <input className={submitButtonStyle} type="submit" />
+          ) : (
+            <>
+              <div className={formGroupStyle}>
+                <label className={labelStyle}>
+                  Name<span className={requiredIndicatorStyle}>*</span>
+                </label>
+                <input
+                  type="text"
+                  className={inputControlStyle}
+                  {...register('name', {
+                    required: 'Name is required',
+                    setValueAs: (value: string) => value.trim(),
+                    maxLength: {
+                      value: 100,
+                      message:
+                        'The length of name must be 100 characters or fewer.',
+                    },
+                  })}
+                />
+                {touchedFields.name && (
+                  <div className={errorMessageStyle}>
+                    {errors?.name?.message}
+                  </div>
+                )}
+              </div>
+              <div className={formGroupStyle}>
+                <label className={labelStyle}>
+                  Email<span className={requiredIndicatorStyle}>*</span>
+                </label>
+                <input
+                  type="text"
+                  className={inputControlStyle}
+                  {...register('email_address', {
+                    required: 'Email is required',
+                    validate: (email) => {
+                      return isEmail(email) ? true : 'Email is not valid';
+                    },
+                    maxLength: {
+                      value: 100,
+                      message:
+                        'The length of email must be 100 characters or fewer.',
+                    },
+                  })}
+                />
+                <div className={errorMessageStyle}>
+                  {errors?.email_address?.message}
+                </div>
+              </div>
+              <div className={formGroupStyle}>
+                <label className={labelStyle}>
+                  Phone Number<span className={requiredIndicatorStyle}>*</span>
+                </label>
+                <input
+                  type="text"
+                  className={inputControlStyle}
+                  {...register('phone_number', {
+                    required: 'Phone number is required',
+                    validate: (phone) => {
+                      return isMobilePhone(phone, 'en-US', {
+                        strictMode: false,
+                      })
+                        ? true
+                        : 'Phone number is not valid';
+                    },
+                  })}
+                />
+                <div className={errorMessageStyle}>
+                  {errors?.phone_number?.message}
+                </div>
+              </div>
+              <div className={formGroupStyle}>
+                <label className={labelStyle}>Company</label>
+                <input
+                  type="text"
+                  className={inputControlStyle}
+                  {...register('company_name', {
+                    maxLength: {
+                      value: 200,
+                      message:
+                        'The length of company name must be 200 characters or fewer.',
+                    },
+                    setValueAs: (value: string) => value?.trim(),
+                  })}
+                />
+                <div className={errorMessageStyle}>
+                  {errors?.company_name?.message}
+                </div>
+              </div>
+              <div className={formGroupStyle}>
+                <label className={labelStyle}>Message</label>
+                <textarea
+                  className={textAreaControlStyle}
+                  {...register('message', {
+                    maxLength: {
+                      value: 800,
+                      message:
+                        'The length of message must be 800 characters or fewer.',
+                    },
+                    setValueAs: (value: string) => value?.trim(),
+                  })}
+                ></textarea>
+                <div className={errorMessageStyle}>
+                  {errors?.message?.message}
+                </div>
+              </div>
+              <div
+                className={response?.class}
+                style={{ whiteSpace: 'pre-line' }}
+              >
+                {response?.message}
+              </div>
+              <button
+                className={submitButtonStyle}
+                type="submit"
+                disabled={isSubmitting}
+              >
+                {isSubmitting ? 'Submitting...' : 'Submit'}
+              </button>
+            </>
+          )}
         </form>
       </Modal>
     </div>

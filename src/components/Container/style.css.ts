@@ -31,7 +31,13 @@ export const featureItem = style({
   borderRight: `1px solid #e2e2e2`,
   paddingRight: `80px`,
   '@media': {
-    'screen and (max-width: 768px)': {
+    'screen and (max-width: 834px)': {
+      gap: '20px',
+      borderRight: `unset`,
+      paddingRight: `0px`,
+      width: '40%',
+    },
+    'screen and (max-width: 1180px)': {
       gap: '20px',
       borderRight: `unset`,
       paddingRight: `0px`,

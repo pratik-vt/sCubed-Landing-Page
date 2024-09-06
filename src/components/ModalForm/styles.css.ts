@@ -1,5 +1,10 @@
 import { style } from '@vanilla-extract/css';
 
+export const container = style({
+  width: '100%',
+  textAlign: 'center',
+});
+
 export const heading = style({
   margin: 0,
   fontSize: '22px',

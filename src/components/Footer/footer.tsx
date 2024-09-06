@@ -63,6 +63,7 @@ function Footer() {
               src="../../images/scubed logo white.png"
               alt="S Cubed"
               placeholder="blurred"
+              quality={100}
             />
           </div>
           <p className={footerDesc}>
