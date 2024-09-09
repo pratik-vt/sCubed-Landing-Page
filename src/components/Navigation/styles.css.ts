@@ -17,6 +17,7 @@ export const headerContentStyles = style({
 });
 
 export const logoOuter = style({
+  cursor: 'pointer',
   '@media': {
     'screen and (max-width: 768px)': {
       margin: `10px 15px`,

@@ -2,12 +2,13 @@ import * as React from 'react';
 import type { HeadFC, PageProps } from 'gatsby';
 
 import Layout from '../components/Layout';
+import { Section, Heading } from '../components/Pages';
 
 const PrivacyPage: React.FC<PageProps> = () => {
   return (
     <Layout>
-      <h1 style={{ textAlign: 'center' }}>Privacy Policy</h1>
-      <p>
+      <Heading>Privacy Policy</Heading>
+      <Section>
         <h3>Privacy Notice</h3> SCubed including (without limitation) our
         website and other interactive properties through which the services are
         delivered (collectively, the “Service”) are owned, operated and
@@ -16,8 +17,8 @@ const PrivacyPage: React.FC<PageProps> = () => {
         “us,” “our,” etc.). This Privacy Notice outlines the personal
         information that SCubed may collect, how SCubed uses and safeguards that
         information, and with whom we may share it.{' '}
-      </p>
-      <p>
+      </Section>
+      <Section>
         {' '}
         <h3>
           SERVICE IS OFFERED FROM THE UNITED STATES (“US”), IN PARTICULAR, IT IS
@@ -27,8 +28,8 @@ const PrivacyPage: React.FC<PageProps> = () => {
         US based company. If you use the Service, all information, including
         personal information, will be transferred to SCubed in the US and used
         as described in this Notice.{' '}
-      </p>
-      <p>
+      </Section>
+      <Section>
         {' '}
         SCubed encourages our customers, visitors, business associates, and
         other interested parties to read this Privacy Notice, which applies to
@@ -39,9 +40,9 @@ const PrivacyPage: React.FC<PageProps> = () => {
         described in this Notice. Further, by accessing any part of the Service,
         you are agreeing to THE TERMS AND CONDITIONS (the “Terms and
         Conditions”). IF YOU DO NOT AGREE WITH ANY PART OF THIS PRIVACY NOTICE{' '}
-      </p>
+      </Section>
       <h3>Note on HIPAA</h3>
-      <p>
+      <Section>
         {' '}
         As a part the Service, you may be offered an opportunity to use the
         Service for storage of data regulated by the Health Insurance
@@ -57,9 +58,9 @@ const PrivacyPage: React.FC<PageProps> = () => {
         state laws. If you are a patient viewing this Privacy Notice, please
         contact your provider for information regarding your medical records
         and/or HIPAA privacy disclosures.{' '}
-      </p>
+      </Section>
       <h3>What personal information do we collect about you?</h3>
-      <p>
+      <Section>
         {' '}
         Personal information (also commonly known as personally identifiable
         information (PII) or personal data) is information that can be used to
@@ -95,9 +96,9 @@ const PrivacyPage: React.FC<PageProps> = () => {
         When providing personal information to SCubed as described in this
         Notice, that personal information is collected directly from you, and
         you will know the precise personal information being collected by us.{' '}
-      </p>
+      </Section>
       <h3>Collection of User Generated Content</h3>
-      <p>
+      <Section>
         {' '}
         We may invite you to post content on the Service, including your
         comments and any other information that you would like to be available
@@ -113,9 +114,9 @@ const PrivacyPage: React.FC<PageProps> = () => {
         we may share that review, recommendation, endorsement or content
         publicly on the Service. User Generated Content does not include any
         patient data and/or data regulated by HIPAA.{' '}
-      </p>
+      </Section>
       <h3>How does SCubed use personal information?</h3>
-      <p>
+      <Section>
         {' '}
         Subject to the terms of this Privacy Notice, SCubed uses the
         above-described categories of personal information in several ways.
@@ -147,25 +148,25 @@ const PrivacyPage: React.FC<PageProps> = () => {
         information. Aggregated information may be used internally and by
         third-party service providers in order to improve the Service as
         described below.{' '}
-      </p>
+      </Section>
       <h3> How do we share your personal information with third parties? </h3>
-      <p>
+      <Section>
         We may provide any of the described categories of personal information
         to SCubed employees, consultants, affiliates or other businesses or
         persons for the purpose of processing such information on our behalf in
         order to provide the Service to you. In such circumstances, we require
         that these parties agree to protect the confidentiality of such
         information consistent with the terms of this Privacy Notice.
-      </p>
-      <p>
+      </Section>
+      <Section>
         We will not share your personal information with other, third-party
         companies for their commercial or marketing use without your consent or
         except as part of a specific program or feature for which you have the
         ability to opt-in or opt-out. We may share aggregated data with
         third-party service providers in order to improve the Service as
         described below.
-      </p>
-      <p>
+      </Section>
+      <Section>
         In addition, we may release personal information: (i) to the extent we
         have a good-faith belief that such action is necessary to comply with
         any applicable law; (ii) where our records in indicate fraudulent
@@ -181,25 +182,25 @@ const PrivacyPage: React.FC<PageProps> = () => {
         restricted by law; or (vi) in the event that we go through a business
         transition, such as a merger, divestiture, acquisition, liquidation or
         sale of all or a portion of our assets.
-      </p>
+      </Section>
       <h3>Retention of Data</h3>
-      <p>
+      <Section>
         SCubed will retain your personal information only for as long as is
         necessary for the purposes set out in this Notice. We will retain and
         use personal information to the extent necessary to comply with our
         legal obligations (for example, if we are required to retain your data
         to comply with applicable laws), resolve disputes, and enforce our legal
         agreements and policies.
-      </p>
-      <p>
+      </Section>
+      <Section>
         SCubed will also retain usage data for internal analysis purposes as
         described in the next section. Usage data is generally retained for a
         shorter period of time, except when this data is used to strengthen the
         security or to improve the functionality of the Service, or we are
         legally obligated to retain this data for longer periods.
-      </p>
+      </Section>
       <h3> Cookies, Device Data, and How it is Used </h3>
-      <p>
+      <Section>
         When you use our Service, we may record unique identifiers associated
         with your device (such as the device ID and IP address), your activity
         within the Service, and your network location. SCubed uses aggregated
@@ -225,8 +226,8 @@ const PrivacyPage: React.FC<PageProps> = () => {
         customer service. In some circumstances, we may combine this information
         with personal information collected from you (and third-party service
         providers may do so on behalf of us).{' '}
-      </p>
-      <p>
+      </Section>
+      <Section>
         {' '}
         In addition, we may use “cookies,” clear gifs, and log file information
         that help us determine the type of content and pages to which you link,
@@ -243,8 +244,8 @@ const PrivacyPage: React.FC<PageProps> = () => {
         limitation) to save your password so you don’t have to re-enter it each
         time you visit the Service, and to deliver content (which may include
         third party advertisements) specific to your interests.{' '}
-      </p>
-      <p>
+      </Section>
+      <Section>
         We may use third party service providers to help us analyze certain
         online activities and/or to analyze aggregated data provided by
         customers. For example, these service providers may help us measure the
@@ -255,9 +256,9 @@ const PrivacyPage: React.FC<PageProps> = () => {
         providers, and these service providers do not collect such information
         on our behalf. Our third-party service providers are required to comply
         fully with this Privacy Notice
-      </p>
+      </Section>
       <h3> Information Security and User Responsibility </h3>
-      <p>
+      <Section>
         {' '}
         SCubed employs industry-standard security measures designed to protect
         the security of all information submitted through the Service. However,
@@ -265,8 +266,8 @@ const PrivacyPage: React.FC<PageProps> = () => {
         mobile device can never be guaranteed. We are not responsible for any
         interception or interruption of any communications through the internet
         or for changes to or losses of data.{' '}
-      </p>
-      <p>
+      </Section>
+      <Section>
         {' '}
         Users of the Service are responsible for maintaining the security of any
         password, user ID or other form of authentication involved in obtaining
@@ -274,9 +275,9 @@ const PrivacyPage: React.FC<PageProps> = () => {
         protect you and your information, we may suspend your use of any of the
         Service, without notice, pending an investigation, if any breach of
         security is suspected.{' '}
-      </p>
+      </Section>
       <h3>External Links</h3>
-      <p>
+      <Section>
         The Service may contain links to other websites maintained by third
         parties. Please be aware that we exercise no control over linked sites
         and SCubed is not responsible for the privacy practices or the content
@@ -284,32 +285,32 @@ const PrivacyPage: React.FC<PageProps> = () => {
         and data collection policies and procedures, and you are encouraged to
         view the privacy policies of these other sites before providing any
         personal information.
-      </p>
-      <p>
+      </Section>
+      <Section>
         You hereby acknowledge and agree that SCubed is not responsible for the
         privacy practices, data collection policies and procedures, or the
         content of such third-party sites, and you hereby release SCubed from
         any and all claims arising out of or related to the privacy practices,
         data collection policies and procedures, and/or the content of such
         third-party sites.
-      </p>
+      </Section>
       <h3>Changes to this Privacy Notice</h3>
-      <p>
+      <Section>
         SCubed reserves the right to modify this Privacy Notice from time to
         time in order that it accurately reflects the regulatory environment and
         our data collection principles. When material changes are made to this
         Privacy Notice, SCubed will post the revised Notice on our website. This
         Privacy Notice was last modified as of...
-      </p>
+      </Section>
       <h3>Contact Us</h3>
-      <p>
+      <Section>
         If you have any questions or comments about this Privacy Notice or the
         Service provided by SCubed, please contact us at:{' '}
         <a style={{ color: '#7a7eed' }} href="mailto:info@scubed.io">
           info@scubed.io
         </a>
         .
-      </p>
+      </Section>
     </Layout>
   );
 };

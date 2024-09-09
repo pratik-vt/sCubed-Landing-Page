@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Link } from 'gatsby';
+import { Link, navigate } from 'gatsby';
 import { StaticImage } from 'gatsby-plugin-image';
 import { useLocation } from '@reach/router';
 
@@ -41,7 +41,7 @@ const Navigation: React.FC = () => {
 
   return (
     <div className={headerContentStyles}>
-      <div className={logoOuter}>
+      <div className={logoOuter} onClick={() => navigate('/')}>
         <StaticImage
           alt="S Cubed"
           src="../../images/HeaderLogo.png"
