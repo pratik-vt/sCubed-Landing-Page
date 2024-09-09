@@ -4,6 +4,7 @@ import { Modal } from 'react-responsive-modal';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import isMobilePhone from 'validator/lib/isMobilePhone';
 import isEmail from 'validator/lib/isEmail';
+import { InputMask, Track, unformat } from '@react-input/mask';
 
 import Button from '../Button/button';
 
@@ -57,7 +58,7 @@ const ModalForm: FC<Props> = ({
     handleSubmit,
     formState: { errors, touchedFields },
     reset,
-  } = useForm<Inputs>({ mode: 'onBlur', reValidateMode: 'onChange' });
+  } = useForm<Inputs>();
 
   const onOpenModal = () => setOpen(true);
   const onCloseModal = () => {
@@ -111,6 +112,33 @@ const ModalForm: FC<Props> = ({
       });
   };
 
+  const track: Track = ({
+    inputType,
+    value,
+    data,
+    selectionStart,
+    selectionEnd,
+  }) => {
+    if (inputType === 'insert' && !/^\D*1/.test(data) && selectionStart <= 1) {
+      return `1${data}`;
+    }
+
+    if (
+      inputType !== 'insert' &&
+      selectionStart <= 1 &&
+      selectionEnd < value.length
+    ) {
+      if (selectionEnd > 2) {
+        return '1';
+      }
+      if (selectionEnd === 2) {
+        return false;
+      }
+    }
+
+    return data;
+  };
+
   return (
     <div className={container}>
       <Button
@@ -123,7 +151,11 @@ const ModalForm: FC<Props> = ({
         BOOK A DEMO
       </Button>
       <Modal open={open} onClose={onCloseModal} center>
-        <form className={formWrapper} onSubmit={handleSubmit(onSubmit)}>
+        <form
+          className={formWrapper}
+          onSubmit={handleSubmit(onSubmit)}
+          autoComplete="off"
+        >
           <h3 className={heading}>Request a Demo</h3>
           <p className={content}>
             Please provide a few details about yourself, and our friendly team
@@ -186,8 +218,11 @@ const ModalForm: FC<Props> = ({
                 <label className={labelStyle}>
                   Phone Number<span className={requiredIndicatorStyle}>*</span>
                 </label>
-                <input
+                <InputMask
                   type="text"
+                  track={track}
+                  mask="+_ (___) ____-___"
+                  replacement={{ _: /\d/ }}
                   className={inputControlStyle}
                   {...register('phone_number', {
                     required: 'Phone number is required',
@@ -198,6 +233,11 @@ const ModalForm: FC<Props> = ({
                         ? true
                         : 'Phone number is not valid';
                     },
+                    setValueAs: (value: string) =>
+                      unformat(value, {
+                        mask: '+1 (___) ____-___',
+                        replacement: { _: /\d/ },
+                      }),
                   })}
                 />
                 <div className={errorMessageStyle}>

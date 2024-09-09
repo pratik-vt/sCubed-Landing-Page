@@ -1,5 +1,6 @@
 import React from 'react';
 import { StaticImage } from 'gatsby-plugin-image';
+import { Link } from 'gatsby';
 
 import {
   footer,
@@ -89,18 +90,12 @@ function Footer() {
         <div className={bottomFooter}>
           <span className={rights}>© 2024 S Cubed. All rights reserved.</span>
           <div className={footerLinks}>
-            <a
-              className={links}
-              href={process.env.GATSBY_ADMIN_APP_URL + `info/terms_conditions`}
-            >
+            <Link className={links} to={`/terms-conditions`}>
               Terms & Conditions
-            </a>
-            <a
-              className={links}
-              href={process.env.GATSBY_ADMIN_APP_URL + `info/privacy`}
-            >
+            </Link>
+            <Link className={links} to={`/privacy-policy`}>
               Privacy Policy
-            </a>
+            </Link>
           </div>
         </div>
       </div>

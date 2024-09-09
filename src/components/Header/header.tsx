@@ -1,37 +1,20 @@
 import React, { useState, useEffect } from 'react';
-import { Link } from 'gatsby';
 import { StaticImage } from 'gatsby-plugin-image';
 
-import Button from '../Button/button';
-import {
-  headingStyle,
-  headerContentStyles,
-  logoOuter,
-  buttonStyle,
-  descStyle,
-} from '../Container/style.css';
+// import Button from '../Button/button';
+import { headingStyle, descStyle } from '../Container/style.css';
 import BookDemoForm from '../ModalForm';
+import Navigation from '../Navigation';
 
 import {
-  activeNavStyle,
   headerWrapperStyles,
   bannerImg,
-  navStyle,
   pageStyles,
-  hamburger,
-  bar,
-  navMenu,
-  navMenuOpen,
-  activeLinkStyle,
-  closeButtonWrapper,
-  crossLine1,
-  crossLine2,
   textBlockStyle,
 } from './styles.css';
 
 const Header: React.FC = () => {
   const [headerBackground, setHeaderBackground] = useState<boolean>(false);
-  const [menuOpen, setMenuOpen] = useState<boolean>(false);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -42,20 +25,6 @@ const Header: React.FC = () => {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  useEffect(() => {
-    if (menuOpen) {
-      document.body.style.overflow = 'hidden';
-    } else {
-      document.body.style.overflow = 'scroll';
-    }
-
-    return () => {
-      document.body.style.overflow = 'scroll';
-    };
-  }, [menuOpen]);
-
-  const toggleMenu = () => setMenuOpen(!menuOpen);
-
   return (
     <main className={pageStyles}>
       <div
@@ -64,7 +33,8 @@ const Header: React.FC = () => {
           backgroundColor: headerBackground ? '#fff' : 'transparent',
         }}
       >
-        <div className={headerContentStyles}>
+        <Navigation />
+        {/* <div className={headerContentStyles}>
           <div className={logoOuter}>
             <StaticImage
               alt="S Cubed"
@@ -110,7 +80,7 @@ const Header: React.FC = () => {
               </div>
             </div>
           )}
-        </div>
+        </div> */}
       </div>
       <StaticImage
         alt="Description of the image"
