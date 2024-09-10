@@ -39,6 +39,9 @@ export const formWrapper = style({
     'screen and (max-width: 430px)': {
       width: '250px',
     },
+    'screen and (max-width: 360px)': {
+      width: '220px',
+    },
   },
 });
 
@@ -70,6 +73,7 @@ export const inputControlStyle = style({
   letterSpacing: '0.5px',
   color: '#000000',
   opacity: '0.8',
+  fontFamily: 'Poppins, sans-serif',
   // ':focus': {
   //   outline:'none'
   // },
@@ -90,17 +94,18 @@ export const errorMessageStyle = style({
 });
 
 export const successMessageStyle = style([
-  errorMessageStyle,
   {
-    color: '#2e9f15',
-    fontSize: '16px',
+    color: '#333',
+    fontSize: '18px',
+    fontWeight: '600',
+    textAlign: 'center',
+    width: '100%',
   },
 ]);
 
 export const textAreaControlStyle = style({
   width: '-webkit-fill-available',
   borderRadius: '5px',
-  //padding: '20px',
   maxHeight: 'inherit',
   textAlign: 'left',
   fontSize: '14px',
@@ -111,6 +116,7 @@ export const textAreaControlStyle = style({
   border: '1px solid #ccc',
   display: 'inline-block',
   padding: '12px',
+  fontFamily: 'Poppins, sans-serif',
 });
 
 export const submitButtonStyle = style({

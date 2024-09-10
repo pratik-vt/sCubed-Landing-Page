@@ -3,7 +3,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import GoTop from '../ScrollUp';
 
 import { ContainerStyle } from './style.css';
-import './fonts.css'
+import './fonts.css';
 
 type Props = {
   children: JSX.Element | JSX.Element[];

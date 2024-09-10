@@ -49,7 +49,7 @@ const ModalForm: FC<Props> = ({
   const [open, setOpen] = useState(false);
   const [isSubmitting, setSubmitting] = useState(false);
   const [response, setResponse] = useState<{
-    class?: string;
+    success?: boolean;
     message?: string;
   }>();
 
@@ -65,6 +65,7 @@ const ModalForm: FC<Props> = ({
     setOpen(false);
     reset();
     setResponse({});
+    setSubmitting(false);
   };
 
   const onSubmit: SubmitHandler<Inputs> = (data) => {
@@ -82,7 +83,7 @@ const ModalForm: FC<Props> = ({
         if (res.ok) {
           reset();
           setResponse({
-            class: successMessageStyle,
+            success: true,
             message:
               'Thank you for your interest in our services! Our team will be in touch shortly.',
           });
@@ -93,12 +94,12 @@ const ModalForm: FC<Props> = ({
               ?.map((err: any) => err?.message)
               .join('\n');
             setResponse({
-              class: errorMessageStyle,
+              success: false,
               message,
             });
           } else {
             setResponse({
-              class: errorMessageStyle,
+              success: false,
               message: defaultErrorMessage,
             });
           }
@@ -106,7 +107,7 @@ const ModalForm: FC<Props> = ({
       })
       .catch(() => {
         setResponse({
-          class: errorMessageStyle,
+          success: false,
           message: defaultErrorMessage,
         });
       });
@@ -156,18 +157,17 @@ const ModalForm: FC<Props> = ({
           onSubmit={handleSubmit(onSubmit)}
           autoComplete="off"
         >
-          <h3 className={heading}>Request a Demo</h3>
-          <p className={content}>
-            Please provide a few details about yourself, and our friendly team
-            of experts will reach out to offer support and arrange a demo at
-            your convenience.
-          </p>
-          {response?.class == successMessageStyle ? (
-            <div className={response?.class} style={{ whiteSpace: 'pre-line' }}>
-              {response?.message}
-            </div>
+          {response?.success ? (
+            <div className={successMessageStyle}>{response?.message}</div>
           ) : (
             <>
+              <h3 className={heading}>Request a Demo</h3>
+              <p className={content}>
+                Please provide a few details about yourself, and our friendly
+                team of experts will reach out to offer support and arrange a
+                demo at your convenience.
+              </p>
+
               <div className={formGroupStyle}>
                 <label className={labelStyle}>
                   Name<span className={requiredIndicatorStyle}>*</span>
@@ -280,7 +280,7 @@ const ModalForm: FC<Props> = ({
                 </div>
               </div>
               <div
-                className={response?.class}
+                className={errorMessageStyle}
                 style={{ whiteSpace: 'pre-line' }}
               >
                 {response?.message}

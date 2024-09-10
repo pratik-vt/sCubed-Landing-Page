@@ -117,7 +117,7 @@ const Tabs: React.FC = () => {
         <div className={tabsList}>
           {tabContents.map((content, index) => (
             <div
-              key={index}
+              key={content.panelImage}
               className={tab}
               onClick={() => setActiveTab(index)}
               style={{
@@ -157,28 +157,27 @@ const Tabs: React.FC = () => {
         </div>
         {screenWidth > 768 &&
           tabContents.map((content, index) => (
-            <>
-              <div className={activeTab === index ? tabPanel : hidePanel}>
-                <GatsbyImage
-                  className={tabPanelImage}
-                  image={getImage(content.panelImage, allFile.edges)}
-                  alt={content.alt}
-                  imgStyle={{ objectFit: 'contain' }}
-                  loading="eager"
+            <div
+              key={content.panelImage}
+              className={activeTab === index ? tabPanel : hidePanel}
+            >
+              <GatsbyImage
+                className={tabPanelImage}
+                image={getImage(content.panelImage, allFile.edges)}
+                alt={content.alt}
+                imgStyle={{ objectFit: 'contain' }}
+                loading="eager"
+              />
+              <div className={panelContent}>
+                <div className={panelHeading}>{content.heading}</div>
+                <div className={sectionDescription}>{content.description}</div>
+                <ModalForm
+                  buttonColor="#333"
+                  buttonBackground="#66e3ed"
+                  buttonWidth="170px"
                 />
-                <div className={panelContent}>
-                  <div className={panelHeading}>{content.heading}</div>
-                  <div className={sectionDescription}>
-                    {content.description}
-                  </div>
-                  <ModalForm
-                    buttonColor="#333"
-                    buttonBackground="#66e3ed"
-                    buttonWidth="170px"
-                  />
-                </div>
               </div>
-            </>
+            </div>
           ))}
       </div>
     </div>
