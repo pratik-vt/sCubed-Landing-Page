@@ -3,6 +3,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import GoTop from '../ScrollUp';
 
 import { ContainerStyle } from './style.css';
+import './fonts.css'
 
 type Props = {
   children: JSX.Element | JSX.Element[];
@@ -17,7 +18,6 @@ const Container: React.FC<Props> = ({ children }) => {
       window.innerHeight + window.scrollY >= document.body.scrollHeight &&
       screen?.width < 768;
     setShowGoTop(window.scrollY > 400 && !isBottom);
-    console.log(screen.width, 'window.screenY');
   };
 
   const handleVisibleButton = () => {

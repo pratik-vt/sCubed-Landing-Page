@@ -12,7 +12,7 @@ import { Section, Heading } from '../components/Pages';
 const TermsPage: React.FC<PageProps> = () => {
   return (
     <Layout>
-      <Heading>SCubed – Terms of Use</Heading>
+      <Heading>Terms & Conditions</Heading>
       <h3>Spectrum Solutions Software</h3>
       <Section>
         The following Terms of Use (“TOU”) form an agreement by and between us,

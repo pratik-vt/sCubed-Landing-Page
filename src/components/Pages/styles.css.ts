@@ -37,4 +37,5 @@ export const sectionStyle = style({
   marginBlockEnd: '1em',
   marginInlineStart: '0px',
   marginInlineEnd: '0px',
+  fontSize: '1em',
 });

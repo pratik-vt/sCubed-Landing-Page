@@ -34,53 +34,6 @@ const Header: React.FC = () => {
         }}
       >
         <Navigation />
-        {/* <div className={headerContentStyles}>
-          <div className={logoOuter}>
-            <StaticImage
-              alt="S Cubed"
-              src="../../images/HeaderLogo.png"
-              quality={100}
-              placeholder="blurred"
-            />
-          </div>
-          <nav className={`${navMenu} ${menuOpen ? navMenuOpen : ''}`}>
-            <Link to="/" className={navStyle} activeClassName={activeNavStyle}>
-              Home <span className={activeLinkStyle} />
-            </Link>
-            <a
-              href={process.env.GATSBY_ADMIN_APP_URL + `info/get_started`}
-              className={navStyle}
-            >
-              Get Started
-            </a>
-            <Button
-              className={buttonStyle}
-              color="#fff"
-              backgroundColor="#7a7eed"
-              width="170px"
-              onClick={() =>
-                window.location.replace(
-                  (process.env.GATSBY_ADMIN_APP_URL + `auth/login`) as string,
-                )
-              }
-            >
-              Login
-            </Button>
-          </nav>
-          {!menuOpen ? (
-            <div className={hamburger} onClick={toggleMenu}>
-              {[...Array(3)].map((_, index) => (
-                <div key={index} className={bar}></div>
-              ))}
-            </div>
-          ) : (
-            <div className={closeButtonWrapper} onClick={toggleMenu}>
-              <div className={crossLine1}>
-                <div className={crossLine2}></div>
-              </div>
-            </div>
-          )}
-        </div> */}
       </div>
       <StaticImage
         alt="Description of the image"
