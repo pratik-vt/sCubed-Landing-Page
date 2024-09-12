@@ -14,9 +14,9 @@ deploy_web:
   environment:
     name: dev
   before_script:
-    - echo $siteURL=$siteURL > .env
-    - echo $hostname=$hostname > .env
-    - echo $bucketName=$bucketName > .env
+    - echo siteURL=$siteURL > .env
+    - echo hostname=$hostname > .env
+    - echo bucketName=$bucketName > .env
     - echo GATSBY_ADMIN_APP_URL=$GATSBY_ADMIN_APP_URL >> .env
     - echo GATSBY_ADMIN_APP_API_URL=$GATSBY_ADMIN_APP_API_URL >> .env
   script:
@@ -35,3 +35,30 @@ deploy_web:
   when: manual
   only:
     - develop
+
+deploy_web_staging:
+  stage: deploy
+  environment:
+    name: stage
+  before_script:
+    - echo siteURL=$siteURL > .env
+    - echo hostname=$hostname > .env
+    - echo bucketName=$bucketName > .env
+    - echo GATSBY_ADMIN_APP_URL=$GATSBY_ADMIN_APP_URL >> .env
+    - echo GATSBY_ADMIN_APP_API_URL=$GATSBY_ADMIN_APP_API_URL >> .env
+  script:
+    - nvm use v18
+    - npm install
+    - npm install gatsby --global
+    - npm install gatsby-plugin-s3
+    - npm install deepmerge --save
+    - gatsby build
+    - aws s3 cp public s3://stage.scubed.io/ --recursive --profile scubed_dev
+    - aws cloudfront create-invalidation --distribution-id 	EJ5YSB37WYNFV --paths "/*" --profile scubed_dev
+    - >
+      curl -X POST -H "Content-Type: application/json" 
+      -d "{\"text\": \"${MESSAGE_STAGE}\"}" 
+      "${GCHAT_WEBHOOK_URL}"
+  when: manual
+  only:
+    - staging
