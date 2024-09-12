@@ -62,3 +62,69 @@ deploy_web_staging:
   when: manual
   only:
     - staging
+
+stages:
+  - sonar
+  - deploy
+sonar:
+  stage: sonar
+  script:
+    - source /etc/environment
+    - sonar-scanner -Dsonar.projectKey=scubed-landing-page -Dsonar.sources=. -Dsonar.host.url=$sonar_host -Dsonar.login=$sonar_login
+  only:
+    - develop
+
+deploy_web:
+  stage: deploy
+  environment:
+    name: dev
+  before_script:
+    - echo siteURL=$siteURL > .env
+    - echo hostname=$hostname > .env
+    - echo bucketName=$bucketName > .env
+    - echo GATSBY_ADMIN_APP_URL=$GATSBY_ADMIN_APP_URL >> .env
+    - echo GATSBY_ADMIN_APP_API_URL=$GATSBY_ADMIN_APP_API_URL >> .env
+  script:
+    - nvm use v18
+    - npm install
+    - npm install gatsby --global
+    - npm install gatsby-plugin-s3
+    - npm install deepmerge --save
+    - gatsby build
+    - aws s3 cp public s3://landing-dev.scubed.io/ --recursive --profile scubed_dev
+    - aws cloudfront create-invalidation --distribution-id 	E1HTKB3P8A1UDU --paths "/*" --profile scubed_dev
+    - >
+      curl -X POST -H "Content-Type: application/json" 
+      -d "{\"text\": \"${MESSAGE_DEV}\"}" 
+      "${GCHAT_WEBHOOK_URL}"
+  when: manual
+  only:
+    - develop
+
+deploy_web_prod:
+  stage: deploy
+  environment:
+    name: prod
+  before_script:
+    - echo siteURL=$siteURL > .env
+    - echo hostname=$hostname > .env
+    - echo bucketName=$bucketName > .env
+    - echo GATSBY_ADMIN_APP_URL=$GATSBY_ADMIN_APP_URL >> .env
+    - echo GATSBY_ADMIN_APP_API_URL=$GATSBY_ADMIN_APP_API_URL >> .env
+  script:
+    - nvm use v18
+    - npm install
+    - npm install gatsby --global
+    - npm install gatsby-plugin-s3
+    - npm install deepmerge --save
+    - gatsby build
+    - aws s3 cp public s3://landing-prod.scubed.io/ --recursive --profile scubed_prod
+    - aws cloudfront create-invalidation --distribution-id 	E1WK5QKLVXWW2Y --paths "/*" --profile scubed_prod
+    - >
+      curl -X POST -H "Content-Type: application/json" 
+      -d "{\"text\": \"${MESSAGE_PROD}\"}" 
+      "${GCHAT_WEBHOOK_URL}"
+  when: manual
+  only:
+    - master
+
