@@ -53,8 +53,8 @@ deploy_web_staging:
     - npm install gatsby-plugin-s3
     - npm install deepmerge --save
     - gatsby build
-    - aws s3 cp public s3://stage.scubed.io/ --recursive --profile scubed_dev
-    - aws cloudfront create-invalidation --distribution-id 	EJ5YSB37WYNFV --paths "/*" --profile scubed_dev
+    - aws s3 cp public s3://stage.scubed.io/ --recursive --profile scubed_stage
+    - aws cloudfront create-invalidation --distribution-id 	EJ5YSB37WYNFV --paths "/*" --profile scubed_stage
     - >
       curl -X POST -H "Content-Type: application/json" 
       -d "{\"text\": \"${MESSAGE_STAGE}\"}" 
