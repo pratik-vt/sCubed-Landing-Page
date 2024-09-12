@@ -56,5 +56,9 @@ export const heroHeading = style({
       fontSize: `30px`,
       textAlign: `center`,
     },
+    'screen and (min-width: 1280px) and (max-width: 1480px)': {
+      fontSize: `45px`,
+      textAlign: `center`,
+    },
   },
 });
