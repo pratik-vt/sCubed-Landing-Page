@@ -39,6 +39,25 @@ const config: GatsbyConfig = {
       },
     },
     {
+      resolve: 'gatsby-plugin-robots-txt',
+      options: {
+        sitemap: null,
+        host: null,
+        resolveEnv: () => process.env.GATSBY_APP_ENV,
+        env: {
+          dev: {
+            policy: [{userAgent: '*', disallow: ['/']}]
+          },
+          stage: {
+            policy: [{userAgent: '*', disallow: ['/']}]
+          },
+          prod: {
+            policy: [{userAgent: '*', allow: '/'}]
+          }
+        }
+      }
+    },
+    {
       resolve: `gatsby-plugin-s3`,
       options: {
         bucketName: process.env.bucketName || "default-bucket-name",
