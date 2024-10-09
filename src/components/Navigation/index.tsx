@@ -29,11 +29,11 @@ const Navigation: React.FC = () => {
     if (menuOpen) {
       document.body.style.overflow = 'hidden';
     } else {
-      document.body.style.overflow = 'scroll';
+      document.body.style.removeProperty('overflow')
     }
 
     return () => {
-      document.body.style.overflow = 'scroll';
+      document.body.style.removeProperty('overflow')
     };
   }, [menuOpen]);
 
