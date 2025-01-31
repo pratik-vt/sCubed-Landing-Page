@@ -10,6 +10,7 @@ import Stand from '../components/Standout/standout';
 import Hero from '../components/Hero/hero-section';
 import Partners from '../components/Partners/partners';
 import Footer from '../components/Footer/footer';
+import SEO from '../components/Seo';
 
 const IndexPage: React.FC<PageProps> = () => {
   return (
@@ -30,9 +31,4 @@ const IndexPage: React.FC<PageProps> = () => {
 
 export default IndexPage;
 
-export const Head: HeadFC = () => (
-  <>
-    <html lang="en" />
-    <title>S Cubed</title>
-  </>
-);
+export const Head: HeadFC = () => <SEO />;
