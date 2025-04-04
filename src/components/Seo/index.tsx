@@ -13,6 +13,7 @@ const SEO: React.FC<Props> = ({ title, description, children }) => {
     title: defaultTitle,
     description: defaultDescription,
     keywords,
+    googleSiteVerification,
   } = useSiteMetadata();
 
   const seo = {
@@ -26,6 +27,12 @@ const SEO: React.FC<Props> = ({ title, description, children }) => {
       <title>{seo.title}</title>
       <meta name="description" content={seo.description} />
       <meta name="keywords" content={keywords} />
+      {googleSiteVerification && (
+        <meta
+          name="google-site-verification"
+          content={googleSiteVerification}
+        />
+      )}
       {children}
     </>
   );

@@ -9,6 +9,7 @@ export const useSiteMetadata = () => {
           description
           keywords
           siteUrl
+          googleSiteVerification
         }
       }
     }

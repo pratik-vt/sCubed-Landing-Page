@@ -23,6 +23,7 @@
     "@vanilla-extract/webpack-plugin": "^2.3.13",
     "babel-preset-gatsby": "^3.13.2",
     "gatsby": "^5.13.0",
+    "gatsby-plugin-google-tagmanager": "^5.14.0",
     "gatsby-plugin-image": "^3.13.1",
     "gatsby-plugin-manifest": "^5.13.1",
     "gatsby-plugin-robots-txt": "^1.8.0",

@@ -1,7 +1,21 @@
 import type { GatsbyConfig } from 'gatsby';
+import dotenv from 'dotenv';
 
 // Load environment variables
-require('dotenv').config();
+dotenv.config();
+
+const dynamicPlugins = [];
+if (process.env.GATSBY_APP_ENV === 'dev') {
+  dynamicPlugins.push({
+    resolve: 'gatsby-plugin-google-tagmanager',
+    options: {
+      id: process.env.GATSBY_GTM_ID,
+      includeInDevelopment: false,
+      //defaultDataLayer: { platform: 'gatsby' },
+      // enableWebVitalsTracking: true,
+    },
+  });
+}
 
 const config: GatsbyConfig = {
   siteMetadata: {
@@ -10,7 +24,8 @@ const config: GatsbyConfig = {
       'An easy-to-use, flexible practice management software designed for Speech, Occupational, Physical, and Applied Behavioral Analysis (ABA) therapy. Streamline data collection, billing, scheduling, document management, reporting, and more with automated alerts and a secure guardian portal.',
     keywords:
       'Data Collection, Billing, Calendar, Appointment, Automatic Alerts, Guardian Portal, Reporting, Document Management, Speech Therapy, Occupational Therapy, Physical Therapy, ABA Therapy, Counselling',
-    siteUrl: process.env.siteURL || 'https://scubed.io',
+    siteUrl: process.env.GATSBY_SITE_URL,
+    googleSiteVerification: process.env.GATSBY_GOOGLE_SITE_VERIFICATION,
   },
   // More easily incorporate content into your pages through automatic TypeScript type generation and better GraphQL IntelliSense.
   // If you use VSCode you can also use the GraphQL plugin
@@ -69,6 +84,7 @@ const config: GatsbyConfig = {
         hostname: process.env.hostname || 'default-hostname.com',
       },
     },
+    ...dynamicPlugins,
   ],
 };
 
