@@ -5,7 +5,7 @@ import dotenv from 'dotenv';
 dotenv.config();
 
 const dynamicPlugins = [];
-if (process.env.GATSBY_APP_ENV === 'dev') {
+if (process.env.GATSBY_APP_ENV === 'prod') {
   dynamicPlugins.push({
     resolve: 'gatsby-plugin-google-tagmanager',
     options: {
