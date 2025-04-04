@@ -19,6 +19,16 @@ deploy_web:
     - echo bucketName=$bucketName > .env
     - echo GATSBY_ADMIN_APP_URL=$GATSBY_ADMIN_APP_URL >> .env
     - echo GATSBY_ADMIN_APP_API_URL=$GATSBY_ADMIN_APP_API_URL >> .env
+    - echo GATSBY_SITE_URL=$GATSBY_SITE_URL >> .env
+    - echo GATSBY_FACEBOOK_URL=$GATSBY_FACEBOOK_URL >> .env
+    - echo GATSBY_INSTAGRAM_URL=$GATSBY_INSTAGRAM_URL >> .env
+    - echo GATSBY_YOUTUBE_URL=$GATSBY_YOUTUBE_URL >> .env
+    - echo GATSBY_PHONE_NUMBER=$GATSBY_PHONE_NUMBER >> .env
+    - echo GATSBY_PHONE_LINK=$GATSBY_PHONE_LINK >> .env
+    - echo GATSBY_EMAIL=$GATSBY_EMAIL >> .env
+    - echo GATSBY_ADDRESS=$GATSBY_ADDRESS >> .env
+    - echo GATSBY_GOOGLE_SITE_VERIFICATION=$GATSBY_GOOGLE_SITE_VERIFICATION >> .env
+    - echo GATSBY_GTM_ID=$GATSBY_GTM_ID >> .env
   script:
     - nvm use v18
     - npm install
@@ -46,6 +56,16 @@ deploy_web_staging:
     - echo bucketName=$bucketName > .env
     - echo GATSBY_ADMIN_APP_URL=$GATSBY_ADMIN_APP_URL >> .env
     - echo GATSBY_ADMIN_APP_API_URL=$GATSBY_ADMIN_APP_API_URL >> .env
+    - echo GATSBY_SITE_URL=$GATSBY_SITE_URL >> .env
+    - echo GATSBY_FACEBOOK_URL=$GATSBY_FACEBOOK_URL >> .env
+    - echo GATSBY_INSTAGRAM_URL=$GATSBY_INSTAGRAM_URL >> .env
+    - echo GATSBY_YOUTUBE_URL=$GATSBY_YOUTUBE_URL >> .env
+    - echo GATSBY_PHONE_NUMBER=$GATSBY_PHONE_NUMBER >> .env
+    - echo GATSBY_PHONE_LINK=$GATSBY_PHONE_LINK >> .env
+    - echo GATSBY_EMAIL=$GATSBY_EMAIL >> .env
+    - echo GATSBY_ADDRESS=$GATSBY_ADDRESS >> .env
+    - echo GATSBY_GOOGLE_SITE_VERIFICATION=$GATSBY_GOOGLE_SITE_VERIFICATION >> .env
+    - echo GATSBY_GTM_ID=$GATSBY_GTM_ID >> .env
   script:
     - nvm use v18
     - npm install
@@ -84,6 +104,16 @@ deploy_web:
     - echo bucketName=$bucketName > .env
     - echo GATSBY_ADMIN_APP_URL=$GATSBY_ADMIN_APP_URL >> .env
     - echo GATSBY_ADMIN_APP_API_URL=$GATSBY_ADMIN_APP_API_URL >> .env
+    - echo GATSBY_SITE_URL=$GATSBY_SITE_URL >> .env
+    - echo GATSBY_FACEBOOK_URL=$GATSBY_FACEBOOK_URL >> .env
+    - echo GATSBY_INSTAGRAM_URL=$GATSBY_INSTAGRAM_URL >> .env
+    - echo GATSBY_YOUTUBE_URL=$GATSBY_YOUTUBE_URL >> .env
+    - echo GATSBY_PHONE_NUMBER=$GATSBY_PHONE_NUMBER >> .env
+    - echo GATSBY_PHONE_LINK=$GATSBY_PHONE_LINK >> .env
+    - echo GATSBY_EMAIL=$GATSBY_EMAIL >> .env
+    - echo GATSBY_ADDRESS=$GATSBY_ADDRESS >> .env
+    - echo GATSBY_GOOGLE_SITE_VERIFICATION=$GATSBY_GOOGLE_SITE_VERIFICATION >> .env
+    - echo GATSBY_GTM_ID=$GATSBY_GTM_ID >> .env
   script:
     - nvm use v18
     - npm install
@@ -111,6 +141,16 @@ deploy_web_prod:
     - echo bucketName=$bucketName > .env
     - echo GATSBY_ADMIN_APP_URL=$GATSBY_ADMIN_APP_URL >> .env
     - echo GATSBY_ADMIN_APP_API_URL=$GATSBY_ADMIN_APP_API_URL >> .env
+    - echo GATSBY_SITE_URL=$GATSBY_SITE_URL >> .env
+    - echo GATSBY_FACEBOOK_URL=$GATSBY_FACEBOOK_URL >> .env
+    - echo GATSBY_INSTAGRAM_URL=$GATSBY_INSTAGRAM_URL >> .env
+    - echo GATSBY_YOUTUBE_URL=$GATSBY_YOUTUBE_URL >> .env
+    - echo GATSBY_PHONE_NUMBER=$GATSBY_PHONE_NUMBER >> .env
+    - echo GATSBY_PHONE_LINK=$GATSBY_PHONE_LINK >> .env
+    - echo GATSBY_EMAIL=$GATSBY_EMAIL >> .env
+    - echo GATSBY_ADDRESS=$GATSBY_ADDRESS >> .env
+    - echo GATSBY_GOOGLE_SITE_VERIFICATION=$GATSBY_GOOGLE_SITE_VERIFICATION >> .env
+    - echo GATSBY_GTM_ID=$GATSBY_GTM_ID >> .env
   script:
     - nvm use v18
     - npm install
