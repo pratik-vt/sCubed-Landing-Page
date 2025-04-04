@@ -249,6 +249,16 @@ export const rights = style({
   fontSize: `18px`,
   fontWeight: `400`,
 });
+export const socialIcons = style({
+  display: 'flex',
+  alignItems: 'center',
+  gap: '15px',
+  '@media': {
+    'screen and (max-width: 1200px)': {
+      marginTop: '20px',
+    },
+  },
+});
 export const inputField = style({
   maxWidth: `200px`,
   padding: `10px`,

@@ -13,5 +13,11 @@ export const headerWrapperStyles = style({
 export const contentStyle = style({
   position: 'relative',
   width: '80%',
-  margin: '50px auto',
+  margin: '0 auto',
+  marginTop: '110px',
+  '@media': {
+    'screen and (max-width: 768px)': {
+      marginTop: '140px',
+    },
+  },
 });

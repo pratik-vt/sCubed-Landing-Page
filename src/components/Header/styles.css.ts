@@ -13,6 +13,12 @@ export const headerWrapperStyles = style({
 export const pageStyles = style({
   position: 'relative',
   width: '100%',
+  marginTop: '45px',
+  '@media': {
+    'screen and (max-width: 768px)': {
+      marginTop: '75px',
+    },
+  },
 });
 
 export const textBlockStyle = style({

@@ -16,11 +16,61 @@ export const headerContentStyles = style({
   },
 });
 
+export const contactInfoContainer = style({
+  width: '100%',
+  backgroundColor: '#7a7eed',
+  color: '#fff',
+  padding: '8px 0',
+});
+
+export const contactInfoWrapper = style({
+  maxWidth: '1400px',
+  margin: '0 auto',
+  display: 'flex',
+  justifyContent: 'space-between',
+  alignItems: 'center',
+  padding: '0 10px',
+  '@media': {
+    'screen and (max-width: 768px)': {
+      flexDirection: 'column',
+      alignItems: 'flex-start',
+      gap: '5px',
+      padding: '5px 15px',
+    },
+  },
+});
+
+export const contactInfoItem = style({
+  display: 'flex',
+  alignItems: 'center',
+  fontSize: '14px',
+  gap: '5px',
+});
+
+export const contactInfoLink = style({
+  color: '#fff',
+  textDecoration: 'none',
+  ':hover': {
+    textDecoration: 'underline',
+  },
+});
+
 export const logoOuter = style({
   cursor: 'pointer',
   '@media': {
     'screen and (max-width: 768px)': {
       margin: `10px 15px`,
+      maxWidth: '120px',
+    },
+  },
+});
+
+export const logoImage = style({
+  width: '100%',
+  height: 'auto',
+  '@media': {
+    'screen and (max-width: 768px)': {
+      maxWidth: '140px',
     },
   },
 });
