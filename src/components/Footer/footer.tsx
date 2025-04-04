@@ -76,7 +76,7 @@ function Footer() {
           </div>
         </div>
         <div className={bottomFooter}>
-          <span className={rights}>© 2024 S Cubed. All rights reserved.</span>
+          <span className={rights}>© 2025 S Cubed. All rights reserved.</span>
           <div className={footerLinks}>
             <Link className={links} to={`/terms-conditions`}>
               Terms & Conditions
