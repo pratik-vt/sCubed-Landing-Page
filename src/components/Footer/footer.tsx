@@ -14,6 +14,8 @@ import {
 } from '../Container/style.css';
 
 function Footer() {
+  const currentYear = new Date().getFullYear();
+
   return (
     <div className={footer}>
       <div className={InnerContainerStyle}>
@@ -35,7 +37,9 @@ function Footer() {
           </p>
         </div>
         <div className={bottomFooter}>
-          <span className={rights}>© 2025 S Cubed. All rights reserved.</span>
+          <span className={rights}>
+            © {currentYear} S Cubed. All rights reserved.
+          </span>
           <div className={footerLinks}>
             <Link className={links} to={`/terms-conditions`}>
               Terms & Conditions
