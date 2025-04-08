@@ -28,6 +28,7 @@ deploy_web:
     - echo GATSBY_ADDRESS=$GATSBY_ADDRESS >> .env
     - echo GATSBY_GOOGLE_SITE_VERIFICATION=$GATSBY_GOOGLE_SITE_VERIFICATION >> .env
     - echo GATSBY_GTM_ID=$GATSBY_GTM_ID >> .env
+    - echo GATSBY_CAL_URL=$GATSBY_CAL_URL >> .env
   script:
     - nvm use v18
     - npm install
@@ -64,6 +65,7 @@ deploy_web_staging:
     - echo GATSBY_ADDRESS=$GATSBY_ADDRESS >> .env
     - echo GATSBY_GOOGLE_SITE_VERIFICATION=$GATSBY_GOOGLE_SITE_VERIFICATION >> .env
     - echo GATSBY_GTM_ID=$GATSBY_GTM_ID >> .env
+    - echo GATSBY_CAL_URL=$GATSBY_CAL_URL >> .env
   script:
     - nvm use v18
     - npm install
@@ -111,6 +113,7 @@ deploy_web:
     - echo GATSBY_ADDRESS=$GATSBY_ADDRESS >> .env
     - echo GATSBY_GOOGLE_SITE_VERIFICATION=$GATSBY_GOOGLE_SITE_VERIFICATION >> .env
     - echo GATSBY_GTM_ID=$GATSBY_GTM_ID >> .env
+    - echo GATSBY_CAL_URL=$GATSBY_CAL_URL >> .env
   script:
     - nvm use v18
     - npm install
@@ -147,6 +150,7 @@ deploy_web_prod:
     - echo GATSBY_ADDRESS=$GATSBY_ADDRESS >> .env
     - echo GATSBY_GOOGLE_SITE_VERIFICATION=$GATSBY_GOOGLE_SITE_VERIFICATION >> .env
     - echo GATSBY_GTM_ID=$GATSBY_GTM_ID >> .env
+    - echo GATSBY_CAL_URL=$GATSBY_CAL_URL >> .env
   script:
     - nvm use v18
     - npm install

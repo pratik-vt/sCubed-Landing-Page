@@ -3,7 +3,7 @@ import { StaticImage } from 'gatsby-plugin-image';
 
 // import Button from '../Button/button';
 import { headingStyle, descStyle } from '../Container/style.css';
-import BookDemoForm from '../ModalForm';
+import CalendlyWidget from '../CalendlyWidget';
 import Navigation from '../Navigation';
 
 import {
@@ -52,7 +52,7 @@ const Header: React.FC = () => {
           Practice Management functionalities allowing you to focus on
           delivering exceptional care with less hassle and enhanced results.
         </p>
-        <BookDemoForm
+        <CalendlyWidget
           buttonColor="rgb(51, 51, 51)"
           buttonBackground="#a0f5d1"
         />

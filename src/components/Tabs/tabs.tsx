@@ -12,8 +12,8 @@ import appointment from '../../images/Efficient Appointment Scheduling.png';
 import treatment from '../../images/Customized Treatment Plans.png';
 import collection from '../../images/Data Collection & Reporting.png';
 import guardian from '../../images/Easy-to-use Guardian Portal.png';
-import ModalForm from '../ModalForm';
 import useWindowDimensions from '../../hooks/useWindowDimensions';
+import CalendlyWidget from '../CalendlyWidget';
 
 import {
   hidePanel,
@@ -24,7 +24,6 @@ import {
   sectionDescription,
   tabPanelImage,
 } from './styles.css';
-
 const tabBox: React.CSSProperties = {
   marginTop: '80px',
 };
@@ -144,7 +143,7 @@ const Tabs: React.FC = () => {
                     <div className={sectionDescription}>
                       {content.description}
                     </div>
-                    <ModalForm
+                    <CalendlyWidget
                       buttonColor="#333"
                       buttonBackground="#66e3ed"
                       buttonWidth="170px"
@@ -171,7 +170,7 @@ const Tabs: React.FC = () => {
               <div className={panelContent}>
                 <div className={panelHeading}>{content.heading}</div>
                 <div className={sectionDescription}>{content.description}</div>
-                <ModalForm
+                <CalendlyWidget
                   buttonColor="#333"
                   buttonBackground="#66e3ed"
                   buttonWidth="170px"

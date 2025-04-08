@@ -2,7 +2,7 @@ import React from 'react';
 import { StaticImage } from 'gatsby-plugin-image';
 
 import { InnerContainerStyle } from '../Container/style.css';
-import ModalForm from '../ModalForm';
+import CalendlyWidget from '../CalendlyWidget';
 
 import {
   heroStyles,
@@ -10,7 +10,6 @@ import {
   textBlockStyles,
   heroHeading,
 } from './style.css';
-
 const Hero: React.FC = () => {
   return (
     <main className={heroStyles}>
@@ -27,7 +26,7 @@ const Hero: React.FC = () => {
             Ready to scale your business with our easy-to-use clinical and
             practice management platform?
           </p>
-          <ModalForm buttonColor="#000" buttonBackground="#fff" />
+          <CalendlyWidget buttonColor="#000" buttonBackground="#fff" />
         </div>
       </div>
     </main>
