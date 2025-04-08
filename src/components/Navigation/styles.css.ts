@@ -20,7 +20,12 @@ export const contactInfoContainer = style({
   width: '100%',
   backgroundColor: '#7a7eed',
   color: '#fff',
-  padding: '8px 0',
+  padding: '6px 0',
+  '@media': {
+    'screen and (max-width: 768px)': {
+      padding: '8px 0',
+    },
+  },
 });
 
 export const contactInfoWrapper = style({
@@ -33,9 +38,23 @@ export const contactInfoWrapper = style({
   '@media': {
     'screen and (max-width: 768px)': {
       flexDirection: 'column',
-      alignItems: 'flex-start',
-      gap: '5px',
+      alignItems: 'center',
+      gap: '15px',
       padding: '5px 15px',
+    },
+  },
+});
+
+export const contactInfoGroup = style({
+  display: 'flex',
+  gap: '20px',
+  '@media': {
+    'screen and (max-width: 768px)': {
+      flexDirection: 'column',
+      alignItems: 'center',
+      gap: '10px',
+      width: '100%',
+      textAlign: 'center',
     },
   },
 });
@@ -43,8 +62,14 @@ export const contactInfoWrapper = style({
 export const contactInfoItem = style({
   display: 'flex',
   alignItems: 'center',
+  justifyContent: 'center',
   fontSize: '14px',
   gap: '5px',
+  '@media': {
+    'screen and (max-width: 768px)': {
+      justifyContent: 'center',
+    },
+  },
 });
 
 export const contactInfoLink = style({
@@ -56,7 +81,6 @@ export const contactInfoLink = style({
 });
 
 export const logoOuter = style({
-  cursor: 'pointer',
   '@media': {
     'screen and (max-width: 768px)': {
       margin: `10px 15px`,
@@ -185,4 +209,22 @@ export const crossLine2 = style({
   backgroundColor: 'black',
   transform: 'rotate(90deg)',
   zIndex: 2,
+});
+
+export const socialIconWrapper = style({
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'center',
+  width: '24px',
+  height: '24px',
+});
+
+export const socialIconsContainer = style({
+  display: 'flex',
+  gap: '15px',
+  '@media': {
+    'screen and (max-width: 768px)': {
+      marginTop: '5px',
+    },
+  },
 });
