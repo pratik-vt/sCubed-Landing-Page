@@ -4,18 +4,19 @@ import dotenv from 'dotenv';
 // Load environment variables
 dotenv.config();
 
-const dynamicPlugins = [];
-if (process.env.GATSBY_APP_ENV === 'prod') {
-  dynamicPlugins.push({
-    resolve: 'gatsby-plugin-google-tagmanager',
-    options: {
-      id: process.env.GATSBY_GTM_ID,
-      includeInDevelopment: false,
-      //defaultDataLayer: { platform: 'gatsby' },
-      // enableWebVitalsTracking: true,
-    },
-  });
-}
+// const dynamicPlugins = [];
+// Google Tag Manager plugin removed as per request
+// if (process.env.GATSBY_APP_ENV === 'prod') {
+//   dynamicPlugins.push({
+//     resolve: 'gatsby-plugin-google-tagmanager',
+//     options: {
+//       id: process.env.GATSBY_GTM_ID,
+//       includeInDevelopment: false,
+//       //defaultDataLayer: { platform: 'gatsby' },
+//       // enableWebVitalsTracking: true,
+//     },
+//   });
+// }
 
 const config: GatsbyConfig = {
   siteMetadata: {
@@ -84,7 +85,7 @@ const config: GatsbyConfig = {
         hostname: process.env.hostname || 'default-hostname.com',
       },
     },
-    ...dynamicPlugins,
+    // ...dynamicPlugins,
   ],
 };
 
