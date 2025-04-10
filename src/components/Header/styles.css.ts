@@ -15,8 +15,15 @@ export const pageStyles = style({
   width: '100%',
   marginTop: '45px',
   '@media': {
-    'screen and (max-width: 768px)': {
-      marginTop: '75px',
+    'screen and (max-width: 820px)': {
+      marginTop: '70px',
+    },
+    'screen and (max-width: 800px)': {
+      marginTop: '100px',
+    },
+    'screen and (max-width: 767px)': {
+      marginTop: '220px',
+      paddingTop: '40px',
     },
   },
 });

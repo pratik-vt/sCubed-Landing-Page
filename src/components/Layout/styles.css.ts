@@ -14,10 +14,10 @@ export const contentStyle = style({
   position: 'relative',
   width: '80%',
   margin: '0 auto',
-  marginTop: '110px',
+  marginTop: '80px',
   '@media': {
     'screen and (max-width: 768px)': {
-      marginTop: '140px',
+      marginTop: '60px',
     },
   },
 });
