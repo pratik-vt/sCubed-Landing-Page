@@ -48,9 +48,12 @@ const Header: React.FC = () => {
           Empowering Your Practice, Enhancing Every Life You Touch
         </p>
         <p className={descStyle}>
-          S Cubed is an all-in-one platform packed with powerful Clinical &
-          Practice Management functionalities allowing you to focus on
-          delivering exceptional care with less hassle and enhanced results.
+          S cubed is an all-in-one platform packed with powerful Clinical and
+          Practice Management functionalities, designed to streamline operations
+          and enhance outcomes. Whether you&apos;re running a healthcare clinic
+          or managing services in educational or school-based settings, S cubed
+          empowers you to focus on delivering exceptional care with less hassle
+          and greater efficiency.
         </p>
         <CalendlyWidget
           buttonColor="rgb(51, 51, 51)"

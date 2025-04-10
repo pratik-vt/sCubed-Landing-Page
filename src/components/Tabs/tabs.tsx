@@ -53,7 +53,7 @@ const tabContents = [
   {
     heading: 'Efficient Appointment Scheduling',
     description:
-      'Optimize your appointment scheduling process with our effective calendar system. Streamline the clinic schedules by automated reminders, reducing no-shows and keeping everything on track.',
+      'Optimize your appointment scheduling with our powerful calendar system. Streamline operations across clinics and educational/school settings with automated reminders that reduce no-shows and keep schedules running smoothly.',
     image: appointment,
     alt: 'appointment',
     panelImage: 'appointment.png',
