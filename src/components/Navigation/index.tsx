@@ -35,7 +35,7 @@ const Navigation: React.FC = () => {
 
   // Get environment variables for contact information
   const phoneNumber = format(process.env.GATSBY_PHONE_NUMBER!, {
-    mask: '(___) ____-___',
+    mask: '(___) ___-____',
     replacement: { _: /\d/ },
   });
   const phoneLink = process.env.GATSBY_PHONE_NUMBER;
