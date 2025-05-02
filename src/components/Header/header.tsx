@@ -20,7 +20,7 @@ const Header: React.FC = () => {
     const handleScroll = () => {
       setHeaderBackground(window.scrollY > 50);
     };
-
+    handleScroll();
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
