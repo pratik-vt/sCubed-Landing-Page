@@ -77,5 +77,8 @@ export const bannerImg = style({
     'screen and (min-width: 1024px) and (max-width: 1370px)': {
       minHeight: `800px`,
     },
+    'screen and (min-width: 1024px) and (max-width: 1600px)': {
+      minHeight: `900px`,
+    },
   },
 });
