@@ -35,7 +35,7 @@ const HeroFeatures: React.FC = () => {
       {/* Background Image */}
       <div className={backgroundImage}>
         <img
-          src="/images/7cd08642-a491-49e0-bf96-9641956f8da8.png"
+          src="/images/transform-clinic.png"
           alt="Healthcare professional with child patient"
           style={{
             width: '100%',
