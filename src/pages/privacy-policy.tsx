@@ -39,7 +39,8 @@ const PrivacyPage: React.FC<PageProps> = () => {
         process, transfer, use, and disclose your personal information as
         described in this Notice. Further, by accessing any part of the Service,
         you are agreeing to THE TERMS AND CONDITIONS (the “Terms and
-        Conditions”). IF YOU DO NOT AGREE WITH ANY PART OF THIS PRIVACY NOTICE{' '}
+        Conditions”). IF YOU DO NOT AGREE WITH ANY PART OF THIS PRIVACY
+        NOTICE{' '}
       </Section>
       <h3>Note on HIPAA</h3>
       <Section>
@@ -95,7 +96,8 @@ const PrivacyPage: React.FC<PageProps> = () => {
         </ul>{' '}
         When providing personal information to SCubed as described in this
         Notice, that personal information is collected directly from you, and
-        you will know the precise personal information being collected by us.{' '}
+        you will know the precise personal information being collected by
+        us.{' '}
       </Section>
       <h3>Collection of User Generated Content</h3>
       <Section>
@@ -219,7 +221,9 @@ const PrivacyPage: React.FC<PageProps> = () => {
           <li>
             the length of time you visit the Sites, Portals, and/or Services;
           </li>{' '}
-          <li>the referring URL or the webpage that led you to the Sites.</li>{' '}
+          <li>
+            the referring URL or the webpage that led you to the Sites.
+          </li>{' '}
         </ul>{' '}
         We may also collect information regarding application-level events, such
         as crashes, and associate that temporarily with your account to provide

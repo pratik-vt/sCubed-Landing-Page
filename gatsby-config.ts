@@ -1,5 +1,5 @@
-import type { GatsbyConfig } from 'gatsby';
 import dotenv from 'dotenv';
+import type { GatsbyConfig } from 'gatsby';
 
 // Load environment variables
 dotenv.config();
@@ -65,15 +65,9 @@ const config: GatsbyConfig = {
         host: null,
         resolveEnv: () => process.env.GATSBY_APP_ENV,
         env: {
-          dev: {
-            policy: [{ userAgent: '*', disallow: ['/'] }],
-          },
-          stage: {
-            policy: [{ userAgent: '*', disallow: ['/'] }],
-          },
-          prod: {
-            policy: [{ userAgent: '*', allow: '/' }],
-          },
+          dev: { policy: [{ userAgent: '*', disallow: ['/'] }] },
+          stage: { policy: [{ userAgent: '*', disallow: ['/'] }] },
+          prod: { policy: [{ userAgent: '*', allow: '/' }] },
         },
       },
     },
