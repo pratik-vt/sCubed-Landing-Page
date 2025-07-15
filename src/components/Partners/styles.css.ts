@@ -23,7 +23,7 @@ export const content = style({
 export const panelContent = style({
   display: `flex`,
   flexDirection: `column`,
-  padding: `0 30px 0 0`,
+  padding: `0 0 30px 0`,
   '@media': {
     'screen and (max-width: 768px)': {
       alignItems: `center`,
