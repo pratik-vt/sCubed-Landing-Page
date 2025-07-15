@@ -44,9 +44,9 @@ const Header: React.FC = () => {
         className={bannerImg}
       />
       <div className={textBlockStyle}>
-        <p className={headingStyle}>
+        <h1 className={headingStyle}>
           Empowering Your Practice, Enhancing Every Life You Touch
-        </p>
+        </h1>
         <p className={descStyle}>
           S Cubed is an all-in-one platform packed with powerful Clinical and
           Practice Management functionalities, designed to streamline operations

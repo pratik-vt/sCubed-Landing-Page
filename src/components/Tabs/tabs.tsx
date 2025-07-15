@@ -23,6 +23,7 @@ import {
   panelHeading,
   sectionDescription,
   tabPanelImage,
+  tabDataHeading,
 } from './styles.css';
 const tabBox: React.CSSProperties = {
   marginTop: '80px',
@@ -112,7 +113,7 @@ const Tabs: React.FC = () => {
   return (
     <div className={InnerContainerStyle}>
       <div style={tabBox}>
-        <div className={sectionHeading}>Our Core Capabilities</div>
+        <h2 className={sectionHeading}>Our Core Capabilities</h2>
         <div className={tabsList}>
           {tabContents.map((content, index) => (
             <div
@@ -127,7 +128,7 @@ const Tabs: React.FC = () => {
             >
               <img src={content.image} alt={content.alt} />
               <div className={tabData}>
-                <p>{content.heading}</p>
+                <h3 className={tabDataHeading}>{content.heading}</h3>
               </div>
               {screenWidth <= 768 && activeTab === index && (
                 <div className={tabPanel}>

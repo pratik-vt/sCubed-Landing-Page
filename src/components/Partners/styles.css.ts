@@ -20,6 +20,21 @@ export const content = style({
   },
 });
 
+export const panelContent = style({
+  display: `flex`,
+  flexDirection: `column`,
+  padding: `0 30px 0 0`,
+  '@media': {
+    'screen and (max-width: 768px)': {
+      alignItems: `center`,
+      padding: `10px 0`,
+    },
+    'screen and (min-width: 768px) and (max-width: 1200px)': {
+      alignItems: `center`,
+    },
+  },
+});
+
 export const listItem = style({
   display: `flex`,
   alignItems: `baseline`,
@@ -35,7 +50,7 @@ export const listItemContent = style({
   fontSize: '18px',
   color: `#6e6e6e`,
   fontWeight: `400`,
-  maxWidth: `550px`,
+  maxWidth: `600px`,
   marginBottom: `40px`,
   width: `100%`,
   '@media': {

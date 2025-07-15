@@ -5,20 +5,25 @@ import {
   InnerContainerStyle,
   sectionHeading,
   tabPanel,
-  panelContent,
   tabBox,
 } from '../Container/style.css';
 import tick from '../../images/tick.png';
 
-import { image, listItemContent, content, listItem } from './styles.css';
+import {
+  image,
+  listItemContent,
+  content,
+  listItem,
+  panelContent,
+} from './styles.css';
 
 const Partners: React.FC = () => {
   return (
     <div className={InnerContainerStyle}>
       <div className={tabBox}>
-        <div className={sectionHeading}>
+        <h2 className={sectionHeading}>
           Why choose S Cubed as your clinical and practice management partner?
-        </div>
+        </h2>
         <div className={content}>
           Experience the difference with S Cubed - your all-in-one clinical and
           practice management platform designed to empower your therapy

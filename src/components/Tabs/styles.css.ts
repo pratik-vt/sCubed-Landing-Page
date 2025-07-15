@@ -30,6 +30,13 @@ export const tabsList = style({
     },
   },
 });
+
+export const tabDataHeading = style({
+  fontSize: `24px`,
+  fontWeight: `500`,
+  color: `#333`,
+});
+
 export const tabData = style({
   maxWidth: `240px`,
   width: `100%`,

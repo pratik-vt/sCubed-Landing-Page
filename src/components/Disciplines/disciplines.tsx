@@ -14,7 +14,7 @@ import {
 const Disciplines: React.FC = () => (
   <div className={InnerContainerStyle}>
     <div className={disciplineWrapper}>
-      <div className={sectionHeading}>Disciplines</div>
+      <h2 className={sectionHeading}>Disciplines</h2>
       <div className={sectiondesc}>
         S Cubed Platform simplifies the way you manage your practice and
         clinical process. It is designed to integrate with various disciplines
