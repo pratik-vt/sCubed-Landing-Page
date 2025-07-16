@@ -6,7 +6,7 @@ export const headerContentStyles = style({
   display: 'flex',
   justifyContent: 'space-between',
   alignItems: 'center',
-  padding: '10px',
+  padding: '0px 10px 10px 10px',
   color: '#000',
   '@media': {
     'screen and (max-width: 768px)': { padding: '0', background: `#fff` },
@@ -193,10 +193,7 @@ export const iconWrapper = style({
   color: '#ffffff',
   transition: 'all 0.2s ease',
   cursor: 'pointer',
-  ':hover': {
-    transform: 'scale(1.1)',
-    opacity: 0.9,
-  },
+  ':hover': { transform: 'scale(1.1)', opacity: 0.9 },
 });
 
 export const loginButton = style({
@@ -217,9 +214,7 @@ export const loginButton = style({
     boxShadow: '0 6px 20px rgba(122, 126, 237, 0.4)',
     background: 'linear-gradient(135deg, #6c6ee5 0%, #9171e8 100%)',
   },
-  ':active': {
-    transform: 'scale(1.02)',
-  },
+  ':active': { transform: 'scale(1.02)' },
   ':before': {
     content: '""',
     position: 'absolute',
@@ -232,16 +227,8 @@ export const loginButton = style({
     transform: 'translate(-50%, -50%)',
     transition: 'width 0.6s, height 0.6s',
   },
-  selectors: {
-    '&:hover:before': {
-      width: '300px',
-      height: '300px',
-    },
-  },
+  selectors: { '&:hover:before': { width: '300px', height: '300px' } },
   '@media': {
-    'screen and (max-width: 768px)': {
-      padding: '10px 24px',
-      fontSize: '14px',
-    },
+    'screen and (max-width: 768px)': { padding: '10px 24px', fontSize: '14px' },
   },
 });

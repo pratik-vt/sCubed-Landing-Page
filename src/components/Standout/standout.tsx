@@ -22,6 +22,7 @@ const standHead: React.CSSProperties = {
   fontWeight: `500`,
   color: `#333`,
   marginBottom: `15px`,
+  marginTop: 0,
 };
 const standDesc: React.CSSProperties = {
   fontSize: `18px`,
