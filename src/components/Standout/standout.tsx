@@ -1,22 +1,22 @@
 import React from 'react';
 
+import behavoir from '../../images/Behavior Tracking.png';
+import document from '../../images/Document Management.png';
+import Esign from '../../images/E-sign Documents.png';
+import flexible from '../../images/Flexible Permission Management.png';
+import graphic from '../../images/Graphing & Reporting.png';
+import multi from '../../images/Multi-Location Clinic Management.png';
+import quick from '../../images/Quick Communication.png';
+import smart from '../../images/Smart Billing Management.png';
 import {
   InnerContainerStyle,
-  featureContainers,
-  featureText,
-  featureItems,
-  standWrapper,
-  sectionHeading,
   disciplineWrapper,
+  featureContainers,
+  featureItems,
+  featureText,
+  sectionHeading,
+  standWrapper,
 } from '../Container/style.css';
-import smart from '../../images/Smart Billing Management.png';
-import quick from '../../images/Quick Communication.png';
-import behavoir from '../../images/Behavior Tracking.png';
-import multi from '../../images/Multi-Location Clinic Management.png';
-import graphic from '../../images/Graphing & Reporting.png';
-import flexible from '../../images/Flexible Permission Management.png';
-import Esign from '../../images/E-sign Documents.png';
-import document from '../../images/Document Management.png';
 const standHead: React.CSSProperties = {
   fontSize: `24px`,
   fontWeight: `500`,

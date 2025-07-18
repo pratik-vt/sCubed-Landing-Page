@@ -2,11 +2,11 @@ import type { HeadFC, PageProps } from 'gatsby';
 import * as React from 'react';
 
 import Container from '../components/Container';
-import CTAFeatures from '../components/CTAFeatures';
-import FeaturesComprehensive from '../components/FeaturesComprehensive';
+import CTAFeatures from '../components/features/CTAFeatures';
+import FeaturesComprehensive from '../components/features/FeaturesComprehensive';
 import Footer from '../components/Footer/footer';
-import HeaderSimple from '../components/HeaderSimple';
-import HeroFeatures from '../components/HeroFeatures';
+import HeaderSimple from '../components/features/HeaderSimple';
+import HeroFeatures from '../components/features/HeroFeatures';
 import Seo from '../components/Seo';
 
 const FeaturesPage: React.FC<PageProps> = () => {

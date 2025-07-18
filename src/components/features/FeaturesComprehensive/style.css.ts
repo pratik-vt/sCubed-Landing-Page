@@ -1,4 +1,4 @@
-import { style, globalStyle } from '@vanilla-extract/css';
+import { style } from '@vanilla-extract/css';
 
 // Main section styles
 export const featuresSection = style({
@@ -16,7 +16,7 @@ export const sectionBackground = style({
   right: 0,
   bottom: 0,
   backgroundImage: `
-    radial-gradient(circle at 20% 50%, rgba(139, 92, 246, 0.03) 0%, transparent 50%),
+    radial-gradient(circle at 20% 50%, rgba(122, 126, 237, 0.03) 0%, transparent 50%),
     radial-gradient(circle at 80% 80%, rgba(59, 130, 246, 0.03) 0%, transparent 50%),
     radial-gradient(circle at 40% 20%, rgba(16, 185, 129, 0.03) 0%, transparent 50%)
   `,
@@ -45,12 +45,13 @@ export const sectionTitle = style({
   color: '#111827',
   marginBottom: '16px',
   lineHeight: 1.2,
-  fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif',
-  '@media': { 
-    'screen and (min-width: 768px)': { 
+  fontFamily:
+    '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif',
+  '@media': {
+    'screen and (min-width: 768px)': {
       fontSize: '48px',
-      whiteSpace: 'nowrap' 
-    } 
+      whiteSpace: 'nowrap',
+    },
   },
 });
 
@@ -58,7 +59,8 @@ export const sectionDescription = style({
   fontSize: '20px',
   color: '#6b7280',
   lineHeight: 1.6,
-  fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif',
+  fontFamily:
+    '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif',
 });
 
 // Core Features Grid
@@ -90,26 +92,26 @@ export const coreFeatureCard = style({
   animation: 'fadeInUp 0.6s ease-out both',
   background: 'linear-gradient(135deg, #ffffff 0%, #fafbfc 100%)',
   ':hover': {
-    boxShadow: '0 12px 40px rgba(139, 92, 246, 0.12)',
+    boxShadow: '0 12px 40px rgba(122, 126, 237, 0.12)',
     transform: 'translateY(-6px)',
-    borderColor: 'rgba(139, 92, 246, 0.2)',
+    borderColor: 'rgba(122, 126, 237, 0.2)',
   },
 });
 
 export const coreFeatureIcon = style({
   width: '56px',
   height: '56px',
-  backgroundColor: 'rgba(139, 92, 246, 0.1)',
+  backgroundColor: 'rgba(122, 126, 237, 0.1)',
   borderRadius: '16px',
   display: 'flex',
   alignItems: 'center',
   justifyContent: 'center',
   marginBottom: '20px',
   transition: 'all 0.3s ease',
-  color: '#8b5cf6',
+  color: '#7a7eed',
   selectors: {
     [`${coreFeatureCard}:hover &`]: {
-      backgroundColor: 'rgba(139, 92, 246, 0.15)',
+      backgroundColor: 'rgba(122, 126, 237, 0.15)',
       transform: 'scale(1.1) rotate(5deg)',
     },
   },
@@ -121,14 +123,16 @@ export const coreFeatureTitle = style({
   color: '#111827',
   marginBottom: '12px',
   lineHeight: 1.3,
-  fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif',
+  fontFamily:
+    '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif',
 });
 
 export const coreFeatureDescription = style({
   fontSize: '15px',
   color: '#6b7280',
   lineHeight: 1.6,
-  fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif',
+  fontFamily:
+    '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif',
 });
 
 // Additional Features Section
@@ -139,7 +143,8 @@ export const moreFeaturesTitle = style({
   textAlign: 'center',
   marginBottom: '16px',
   lineHeight: 1.2,
-  fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif',
+  fontFamily:
+    '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif',
   '@media': { 'screen and (min-width: 768px)': { fontSize: '48px' } },
 });
 
@@ -150,7 +155,8 @@ export const moreFeaturesSubtitle = style({
   marginBottom: '60px',
   maxWidth: '600px',
   margin: '0 auto 60px',
-  fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif',
+  fontFamily:
+    '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif',
 });
 
 export const additionalFeaturesList = style({
@@ -183,7 +189,7 @@ export const additionalFeatureCard = style({
   ':hover': {
     boxShadow: '0 16px 48px rgba(0, 0, 0, 0.08)',
     transform: 'translateY(-4px) scale(1.02)',
-    borderColor: 'rgba(139, 92, 246, 0.15)',
+    borderColor: 'rgba(122, 126, 237, 0.15)',
   },
   ':before': {
     content: '""',
@@ -192,7 +198,7 @@ export const additionalFeatureCard = style({
     left: 0,
     right: 0,
     height: '3px',
-    background: 'linear-gradient(90deg, #3b82f6 0%, #8b5cf6 50%, #10b981 100%)',
+    background: 'linear-gradient(90deg, #3b82f6 0%, #7a7eed 50%, #10b981 100%)',
     opacity: 0,
     transition: 'opacity 0.3s ease',
   },
@@ -209,7 +215,8 @@ export const additionalFeatureCategory = style({
   display: 'flex',
   alignItems: 'center',
   gap: '16px',
-  fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif',
+  fontFamily:
+    '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif',
 });
 
 export const additionalFeatureIcon = style({
@@ -236,13 +243,14 @@ export const additionalFeatureItem = style({
   fontSize: '16px',
   lineHeight: 1.6,
   marginBottom: '16px',
-  fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif',
+  fontFamily:
+    '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif',
   transition: 'all 0.2s ease',
   padding: '8px 0',
   borderRadius: '8px',
   ':hover': {
     paddingLeft: '8px',
-    backgroundColor: 'rgba(139, 92, 246, 0.04)',
+    backgroundColor: 'rgba(122, 126, 237, 0.04)',
   },
   ':last-child': { marginBottom: 0 },
 });
@@ -254,13 +262,13 @@ export const featureIcon = style({
   alignItems: 'center',
   justifyContent: 'center',
   borderRadius: '8px',
-  backgroundColor: 'rgba(139, 92, 246, 0.08)',
+  backgroundColor: 'rgba(122, 126, 237, 0.08)',
   flexShrink: 0,
   transition: 'all 0.2s ease',
   selectors: {
     [`${additionalFeatureItem}:hover &`]: {
       transform: 'scale(1.15)',
-      backgroundColor: 'rgba(139, 92, 246, 0.12)',
+      backgroundColor: 'rgba(122, 126, 237, 0.12)',
     },
   },
 });
@@ -274,7 +282,8 @@ export const expandButton = style({
   cursor: 'pointer',
   fontSize: '15px',
   fontWeight: '600',
-  fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif',
+  fontFamily:
+    '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif',
   display: 'flex',
   alignItems: 'center',
   gap: '8px',
@@ -282,7 +291,7 @@ export const expandButton = style({
   width: '100%',
   justifyContent: 'center',
   ':hover': {
-    backgroundColor: 'rgba(139, 92, 246, 0.08)',
+    backgroundColor: 'rgba(122, 126, 237, 0.08)',
     transform: 'translateY(-2px)',
   },
   ':active': {
@@ -307,18 +316,19 @@ export const ctaButton = style({
   fontSize: '18px',
   fontWeight: '700',
   color: '#ffffff',
-  background: 'linear-gradient(135deg, #8b5cf6 0%, #7c3aed 100%)',
+  background: 'linear-gradient(135deg, #7a7eed 0%, #6c6ee5 100%)',
   border: 'none',
   borderRadius: '14px',
   cursor: 'pointer',
   transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
-  boxShadow: '0 6px 24px rgba(139, 92, 246, 0.35)',
-  fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif',
+  boxShadow: '0 6px 24px rgba(122, 126, 237, 0.35)',
+  fontFamily:
+    '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif',
   letterSpacing: '0.02em',
   ':hover': {
     transform: 'translateY(-3px) scale(1.02)',
-    boxShadow: '0 12px 32px rgba(139, 92, 246, 0.45)',
-    background: 'linear-gradient(135deg, #7c3aed 0%, #6d28d9 100%)',
+    boxShadow: '0 12px 32px rgba(122, 126, 237, 0.45)',
+    background: 'linear-gradient(135deg, #6c6ee5 0%, #5a5cc9 100%)',
   },
   ':active': {
     transform: 'translateY(-1px)',
@@ -332,13 +342,13 @@ export const ctaButton = style({
 });
 
 // Animations
-globalStyle('@keyframes fadeInUp', {
-  from: {
-    opacity: 0,
-    transform: 'translateY(30px)',
-  },
-  to: {
-    opacity: 1,
-    transform: 'translateY(0)',
-  },
-});
+// const fadeInUp = keyframes({
+//   from: {
+//     opacity: 0,
+//     transform: 'translateY(30px)',
+//   },
+//   to: {
+//     opacity: 1,
+//     transform: 'translateY(0)',
+//   },
+// });

@@ -1,4 +1,4 @@
-import { style, globalStyle } from '@vanilla-extract/css';
+import { globalStyle, style } from '@vanilla-extract/css';
 
 globalStyle('html, body ,img', {
   margin: 0,
@@ -8,10 +8,7 @@ globalStyle('html, body ,img', {
   maxWidth: '100%',
 });
 
-export const ContainerStyle = style({
-  outline: `none`,
-  borderWidth: `1px`,
-});
+export const ContainerStyle = style({ outline: `none`, borderWidth: `1px` });
 export const InnerContainerStyle = style({
   maxWidth: `1400px`,
   width: `100%`,
@@ -59,11 +56,7 @@ export const featureTexts = style({
   fontSize: '18px',
   color: '#333',
   fontWeight: '400',
-  '@media': {
-    'screen and (max-width: 600px)': {
-      flexDirection: `row`,
-    },
-  },
+  '@media': { 'screen and (max-width: 600px)': { flexDirection: `row` } },
 });
 
 export const sectionHeading = style({
@@ -73,10 +66,7 @@ export const sectionHeading = style({
   textAlign: `center`,
   marginBottom: `30px`,
   '@media': {
-    'screen and (max-width: 768px)': {
-      fontSize: `28px`,
-      marginTop: `30px`,
-    },
+    'screen and (max-width: 768px)': { fontSize: `28px`, marginTop: `30px` },
   },
 });
 export const sectiondesc = style({
@@ -89,18 +79,12 @@ export const sectiondesc = style({
   margin: `0 auto 40px auto`,
   '@media': {
     'screen and (max-width: 768px)': {},
-    'screen and (max-width: 600px)': {
-      maxWidth: `350px`,
-    },
+    'screen and (max-width: 600px)': { maxWidth: `350px` },
   },
 });
 export const disciplineWrapper = style({
   marginTop: `80px`,
-  '@media': {
-    'screen and (max-width: 768px)': {
-      marginTop: `5px`,
-    },
-  },
+  '@media': { 'screen and (max-width: 768px)': { marginTop: `5px` } },
 });
 
 export const panelContent = style({
@@ -151,9 +135,7 @@ export const featureItems = style({
       padding: `0 25px`,
       flexDirection: `column`,
     },
-    'screen and (max-width: 600px)': {
-      flexWrap: 'wrap',
-    },
+    'screen and (max-width: 600px)': { flexWrap: 'wrap' },
   },
 });
 
@@ -185,11 +167,7 @@ export const footer = style({
   width: `100%`,
   background: `#000`,
   padding: `70px 0 34px 0`,
-  '@media': {
-    'screen and (max-width: 768px)': {
-      padding: `0px 0 34px 0`,
-    },
-  },
+  '@media': { 'screen and (max-width: 768px)': { padding: `0px 0 34px 0` } },
 });
 export const footerLogo = style({
   display: `flex`,
@@ -253,11 +231,7 @@ export const socialIcons = style({
   display: 'flex',
   alignItems: 'center',
   gap: '15px',
-  '@media': {
-    'screen and (max-width: 1200px)': {
-      marginTop: '20px',
-    },
-  },
+  '@media': { 'screen and (max-width: 1200px)': { marginTop: '20px' } },
 });
 export const inputField = style({
   maxWidth: `200px`,
@@ -269,12 +243,7 @@ export const inputField = style({
   backgroundColor: `#fff`,
   color: `#222`,
 
-  selectors: {
-    '&:focus': {
-      outline: 'none',
-      boxShadow: 'none',
-    },
-  },
+  selectors: { '&:focus': { outline: 'none', boxShadow: 'none' } },
 });
 export const Submitbtn = style({
   padding: `8px 20px`,
@@ -309,9 +278,7 @@ export const footerDesc = style({
   // maxWidth: `802px`,
   width: `100%`,
   '@media': {
-    'screen and (max-width: 768px)': {
-      textAlign: `center`,
-    },
+    'screen and (max-width: 768px)': { textAlign: `center` },
     'screen and (max-width: 600px)': {
       maxWidth: `350px`,
       margin: `0px auto 20px auto`,
@@ -326,11 +293,7 @@ export const footerDesc = style({
 });
 export const tabBox = style({
   marginTop: `80px`,
-  '@media': {
-    'screen and (max-width: 768px)': {
-      marginTop: `50px`,
-    },
-  },
+  '@media': { 'screen and (max-width: 768px)': { marginTop: `50px` } },
 });
 export const headerContentStyles = style({
   maxWidth: '1400px',
@@ -341,19 +304,12 @@ export const headerContentStyles = style({
   padding: '10px',
   color: '#000',
   '@media': {
-    'screen and (max-width: 768px)': {
-      padding: '0',
-      background: `#fff`,
-    },
+    'screen and (max-width: 768px)': { padding: '0', background: `#fff` },
   },
 });
 
 export const logoOuter = style({
-  '@media': {
-    'screen and (max-width: 768px)': {
-      margin: `10px 15px`,
-    },
-  },
+  '@media': { 'screen and (max-width: 768px)': { margin: `10px 15px` } },
 });
 export const buttonStyle = style({
   fontSize: '18px',
@@ -361,11 +317,7 @@ export const buttonStyle = style({
   color: '#ffffff',
   fontWeight: '700',
   background: '#7a7eed',
-  '@media': {
-    'screen and (max-width: 768px)': {
-      width: `90% !important`,
-    },
-  },
+  '@media': { 'screen and (max-width: 768px)': { width: `90% !important` } },
 });
 
 export const form = style({
@@ -397,17 +349,11 @@ export const descStyle = style({
   maxWidth: '735px',
   width: '100%',
   margin: '0 auto 50px auto',
-  '@media': {
-    'screen and (max-width: 768px)': {
-      color: `#000`,
-    },
-  },
+  '@media': { 'screen and (max-width: 768px)': { color: `#000` } },
 });
 export const disciplineImg = style({
   '@media': {
-    'screen and (max-width: 768px)': {
-      padding: `0 30px`,
-    },
+    'screen and (max-width: 768px)': { padding: `0 30px` },
     'screen and (min-width: 768px) and (max-width: 1200px)': {
       padding: `0 30px`,
     },
@@ -416,9 +362,7 @@ export const disciplineImg = style({
 
 export const demoSection = style({
   '@media': {
-    'screen and (min-width: 968px)': {
-      marginRight: `165px`,
-    },
+    'screen and (min-width: 968px)': { marginRight: `165px` },
     'screen and (min-width: 768px) and (max-width: 1200px)': {
       alignItems: `center`,
     },

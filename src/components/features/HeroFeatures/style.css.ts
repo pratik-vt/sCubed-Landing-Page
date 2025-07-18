@@ -2,9 +2,28 @@ import { style } from '@vanilla-extract/css';
 
 export const heroSection = style({
   padding: '40px 0 60px 0',
+  marginTop: '-92px', // -45px header - 47px underline position
+  paddingTop: '132px', // 40px original + 92px for header and underline
   position: 'relative',
   overflow: 'hidden',
-  '@media': { 'screen and (min-width: 768px)': { padding: '50px 0 80px 0' } },
+  '@media': {
+    'screen and (min-width: 768px)': {
+      padding: '50px 0 80px 0',
+      paddingTop: '142px', // 50px original + 92px for header and underline
+    },
+    'screen and (max-width: 820px)': {
+      marginTop: '-117px', // -70px header - 47px underline
+      paddingTop: '157px', // 40px original + 117px for header and underline
+    },
+    'screen and (max-width: 800px)': {
+      marginTop: '-147px', // -100px header - 47px underline
+      paddingTop: '187px', // 40px original + 147px for header and underline
+    },
+    'screen and (max-width: 767px)': {
+      marginTop: '-228px', // -220px header - 8px underline (mobile)
+      paddingTop: '268px', // 40px original + 228px for header and underline
+    },
+  },
 });
 
 export const heroContainer = style({
@@ -18,25 +37,42 @@ export const heroContainer = style({
 export const heroContent = style({
   textAlign: 'center',
   marginBottom: '80px',
-  '@media': { 'screen and (min-width: 768px)': { marginBottom: '100px' } },
+  position: 'relative',
+  zIndex: 15,
+  paddingTop: '60px',
+  '@media': {
+    'screen and (min-width: 768px)': {
+      marginBottom: '100px',
+      paddingTop: '80px',
+    },
+  },
 });
 
 export const heroBadge = style({
   display: 'inline-flex',
   alignItems: 'center',
-  padding: '10px 24px',
-  backgroundColor: 'rgba(139, 92, 246, 0.1)',
-  color: '#8b5cf6',
+  padding: '12px 28px',
+  backgroundColor: 'rgba(122, 126, 237, 0.15)',
+  color: '#7a7eed',
   borderRadius: '9999px',
   fontSize: '1.1rem',
   fontWeight: '600',
   marginBottom: '32px',
-  border: '1px solid rgba(139, 92, 246, 0.2)',
+  border: '2px solid rgba(122, 126, 237, 0.3)',
+  position: 'relative',
+  zIndex: 20,
+  boxShadow:
+    '0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06)',
+  backdropFilter: 'blur(8px)',
+  transition: 'all 0.3s ease',
+  ':hover': {
+    backgroundColor: 'rgba(122, 126, 237, 0.2)',
+    transform: 'translateY(-2px)',
+    boxShadow: '0 8px 15px -3px rgba(122, 126, 237, 0.2)',
+  },
 });
 
-export const heroBadgeDot = style({
-  display: 'none',
-});
+export const heroBadgeDot = style({ display: 'none' });
 
 export const heroTitle = style({
   fontSize: '48px',
@@ -73,7 +109,7 @@ export const buttonContainer = style({
 
 export const primaryButton = style({
   padding: '16px 32px',
-  backgroundColor: '#8b5cf6',
+  backgroundColor: '#7a7eed',
   color: '#ffffff',
   border: 'none',
   borderRadius: '12px',
@@ -81,11 +117,11 @@ export const primaryButton = style({
   fontWeight: '600',
   cursor: 'pointer',
   transition: 'all 0.3s ease',
-  boxShadow: '0 4px 6px -1px rgba(139, 92, 246, 0.4)',
+  boxShadow: '0 4px 6px -1px rgba(122, 126, 237, 0.4)',
   ':hover': {
-    backgroundColor: '#7c3aed',
+    backgroundColor: '#6c6ee5',
     transform: 'translateY(-2px)',
-    boxShadow: '0 8px 15px -3px rgba(139, 92, 246, 0.4)',
+    boxShadow: '0 8px 15px -3px rgba(122, 126, 237, 0.4)',
   },
 });
 
@@ -104,8 +140,8 @@ export const secondaryButton = style({
   gap: '8px',
   ':hover': {
     backgroundColor: '#f9fafb',
-    borderColor: '#8b5cf6',
-    color: '#8b5cf6',
+    borderColor: '#7a7eed',
+    color: '#7a7eed',
   },
 });
 
@@ -199,13 +235,19 @@ export const heroDescription = style({
 
 export const backgroundImage = style({
   position: 'absolute',
-  inset: 0,
+  top: 0,
+  left: 0,
+  right: 0,
+  bottom: 0,
   zIndex: 0,
+  width: '100%',
+  height: '100%',
 });
 
 export const backgroundOverlay = style({
   position: 'absolute',
   inset: 0,
+  zIndex: 1,
   backgroundImage:
     'linear-gradient(to bottom right, rgba(250, 250, 250, 0.9), rgba(255, 255, 255, 0.9))',
 });
@@ -221,7 +263,7 @@ export const floatingElement1 = style({
   right: '-24px',
   width: '80px',
   height: '80px',
-  backgroundColor: '#8b5cf6',
+  backgroundColor: '#7a7eed',
   borderRadius: '16px',
   opacity: 0.2,
   transform: 'rotate(12deg)',
@@ -233,7 +275,7 @@ export const floatingElement2 = style({
   left: '-8px',
   width: '64px',
   height: '64px',
-  backgroundColor: '#a78bfa',
+  backgroundColor: '#9f7aea',
   borderRadius: '12px',
   opacity: 0.3,
   transform: 'rotate(-12deg)',

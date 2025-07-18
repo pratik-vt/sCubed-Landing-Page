@@ -1,14 +1,14 @@
 import React from 'react';
 
+import cloud from '../../images/Cloud Based Access.png';
+import hippa from '../../images/HIPAA Compliant.png';
+import secure from '../../images/Secure Platform.png';
+import user from '../../images/User-Friendly Interface.png';
 import {
   InnerContainerStyle,
   featureItem,
   featureText,
 } from '../Container/style.css';
-import hippa from '../../images/HIPAA Compliant.png';
-import cloud from '../../images/Cloud Based Access.png';
-import secure from '../../images/Secure Platform.png';
-import user from '../../images/User-Friendly Interface.png';
 
 import { featureContainer } from './styles.css';
 

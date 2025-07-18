@@ -88,9 +88,9 @@ const FeaturesComprehensive: React.FC = () => {
     },
     {
       icon: <CreditCard />,
-      title: 'Automated Billing & Claims',
+      title: 'Modern Assessment, Backed by VB-MAPP',
       description:
-        'Reduce administrative burden with automated invoicing and smart claims management - minimizing errors and accelerating reimbursements.',
+        'Seamlessly manage scoring, data, and reporting through our S Cubed platform with built-in VB-MAPP - empowering you to make informed decisions and drive meaningful progress.',
     },
     {
       icon: <BarChart3 />,
@@ -247,7 +247,8 @@ const FeaturesComprehensive: React.FC = () => {
       <div className={featuresContainer}>
         <div className={sectionHeader}>
           <h2 className={sectionTitle}>
-            Powerful Features That <span style={{ color: '#8b5cf6' }}>Work for You</span>
+            Powerful Features That{' '}
+            <span style={{ color: '#7a7eed' }}>Work for You</span>
           </h2>
           <p className={sectionDescription}>
             No more switching between apps or struggling with outdated systems.
@@ -278,7 +279,8 @@ const FeaturesComprehensive: React.FC = () => {
         {/* Additional Features by Category */}
         <div>
           <h3 className={moreFeaturesTitle}>
-            Discover Features That <span style={{ color: '#8b5cf6' }}>Empower</span> You
+            Discover Features That{' '}
+            <span style={{ color: '#7a7eed' }}>Empower</span> You
           </h3>
           <p className={moreFeaturesSubtitle}>
             Explore our comprehensive suite of tools designed to transform your

@@ -17,7 +17,7 @@ export const ctaContent = style({
   padding: '40px 40px', // Further reduced from 60px to 40px
   background: 'linear-gradient(135deg, #f8f9ff 0%, #e8e6ff 100%)',
   borderRadius: '32px',
-  boxShadow: '0 20px 40px rgba(139, 92, 246, 0.08)',
+  boxShadow: '0 20px 40px rgba(122, 126, 237, 0.08)',
   position: 'relative',
   overflow: 'hidden',
   ':before': {
@@ -28,7 +28,7 @@ export const ctaContent = style({
     width: '600px',
     height: '600px',
     background:
-      'radial-gradient(circle, rgba(139, 92, 246, 0.05) 0%, transparent 70%)',
+      'radial-gradient(circle, rgba(122, 126, 237, 0.05) 0%, transparent 70%)',
     borderRadius: '50%',
   },
   '@media': {

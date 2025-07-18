@@ -1,6 +1,6 @@
 import React from 'react';
 
-import CalendlyWidget from '../CalendlyWidget';
+import CalendlyWidget from '../../CalendlyWidget';
 
 import {
   ctaActions,

@@ -1,33 +1,31 @@
-import React, { useState } from 'react';
-import { useStaticQuery, graphql } from 'gatsby';
+import { graphql, useStaticQuery } from 'gatsby';
 import { GatsbyImage, IGatsbyImageData } from 'gatsby-plugin-image';
+import React, { useState } from 'react';
 
-import {
-  InnerContainerStyle,
-  sectionHeading,
-  tabPanel,
-  panelContent,
-} from '../Container/style.css';
-import appointment from '../../images/Efficient Appointment Scheduling.png';
+import useWindowDimensions from '../../hooks/useWindowDimensions';
 import treatment from '../../images/Customized Treatment Plans.png';
 import collection from '../../images/Data Collection & Reporting.png';
 import guardian from '../../images/Easy-to-use Guardian Portal.png';
-import useWindowDimensions from '../../hooks/useWindowDimensions';
+import appointment from '../../images/Efficient Appointment Scheduling.png';
 import CalendlyWidget from '../CalendlyWidget';
+import {
+  InnerContainerStyle,
+  panelContent,
+  sectionHeading,
+  tabPanel,
+} from '../Container/style.css';
 
 import {
   hidePanel,
-  tab,
-  tabsList,
-  tabData,
   panelHeading,
   sectionDescription,
-  tabPanelImage,
+  tab,
+  tabData,
   tabDataHeading,
+  tabPanelImage,
+  tabsList,
 } from './styles.css';
-const tabBox: React.CSSProperties = {
-  marginTop: '80px',
-};
+const tabBox: React.CSSProperties = { marginTop: '80px' };
 
 const query = graphql`
   query MyQuery {
@@ -94,11 +92,7 @@ type Edges = ReadonlyArray<{
   };
 }>;
 
-type ImageQuery = {
-  readonly allFile: {
-    readonly edges: Edges;
-  };
-};
+type ImageQuery = { readonly allFile: { readonly edges: Edges } };
 
 const getImage = (image: string, edges: Edges) => {
   const imageObj = edges.find((edge) => edge.node.base === image);
