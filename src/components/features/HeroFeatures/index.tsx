@@ -1,7 +1,8 @@
 import { StaticImage } from 'gatsby-plugin-image';
-import { Award, Play, Settings, Shield } from 'lucide-react';
+import { Award, Play, Shield } from 'lucide-react';
 import React, { useState } from 'react';
 
+import starIcon from '../../../images/star.png';
 import CalendlyButton from '../CalendlyButton';
 import VideoModal from '../VideoModal';
 
@@ -111,7 +112,12 @@ const HeroFeatures: React.FC = () => {
                 rel="noopener noreferrer"
                 className={trustBadgeLink}
               >
-                <Settings className={trustIcon} size={16} />
+                <img
+                  src={starIcon}
+                  alt="Star"
+                  className={trustIcon}
+                  style={{ width: '16px', height: '16px' }}
+                />
                 <span className={trustText}>Capterra</span>
               </a>
             </div>
