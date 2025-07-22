@@ -278,10 +278,10 @@ const FeaturesComprehensive: React.FC = () => {
 
         {/* Additional Features by Category */}
         <div>
-          <h3 className={moreFeaturesTitle}>
+          <h2 className={moreFeaturesTitle}>
             Discover Features That{' '}
             <span style={{ color: '#7a7eed' }}>Empower</span> You
-          </h3>
+          </h2>
           <p className={moreFeaturesSubtitle}>
             Explore our comprehensive suite of tools designed to transform your
             practice
@@ -290,7 +290,7 @@ const FeaturesComprehensive: React.FC = () => {
           <div className={additionalFeaturesList}>
             {additionalFeatures.map((category, index) => (
               <div key={category.category} className={additionalFeatureCard}>
-                <h4 className={additionalFeatureCategory}>
+                <h3 className={additionalFeatureCategory}>
                   <span
                     className={additionalFeatureIcon}
                     style={{
@@ -303,7 +303,7 @@ const FeaturesComprehensive: React.FC = () => {
                     })}
                   </span>
                   {category.category}
-                </h4>
+                </h3>
 
                 <ul>
                   {category.items

@@ -28,6 +28,7 @@ import {
   primaryButton,
   secondaryButton,
   trustBadge,
+  trustBadgeLink,
   trustBadges,
   trustIcon,
   trustText,
@@ -70,11 +71,11 @@ const HeroFeatures: React.FC = () => {
             </div>
 
             <h1 className={heroTitle}>
-              Transform Your{' '}
+              Powerful & Fully Integrated{' '}
               <span style={{ color: '#7a7eed' }}>
-                Clinic or School-Based Practice
+                Practice Management Platform
               </span>{' '}
-              with <span style={{ whiteSpace: 'nowrap' }}>S Cubed</span>
+              To Streamline Your Practice
             </h1>
 
             <p className={heroSubtitle}>
@@ -85,7 +86,7 @@ const HeroFeatures: React.FC = () => {
             </p>
 
             <div className={buttonContainer}>
-              <CalendlyButton 
+              <CalendlyButton
                 className={primaryButton}
                 buttonText="Schedule Free Demo →"
               />
@@ -104,10 +105,15 @@ const HeroFeatures: React.FC = () => {
                 <Award className={trustIcon} size={16} />
                 <span className={trustText}>Built by BCBAs</span>
               </div>
-              <div className={trustBadge}>
+              <a
+                href="https://www.capterra.com/p/10030734/S-Cubed/"
+                target="_blank"
+                rel="noopener noreferrer"
+                className={trustBadgeLink}
+              >
                 <Settings className={trustIcon} size={16} />
-                <span className={trustText}>Multi-Setting Support</span>
-              </div>
+                <span className={trustText}>Capterra</span>
+              </a>
             </div>
           </div>
 

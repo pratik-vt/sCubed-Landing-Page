@@ -46,21 +46,21 @@ const Partners: React.FC = () => {
               practice with advanced functionalities.
             </div>
             <div className={listItem}>
-              <StaticImage src={tick} alt="tick" />
+              <img src={tick} alt="tick" />
               <div className={listItemContent}>
                 We employ robust security measures to maintain integrity and
                 confidentiality.
               </div>
             </div>
             <div className={listItem}>
-              <StaticImage src={tick} alt="tick" />
+              <img src={tick} alt="tick" />
               <div className={listItemContent}>
                 We have a dedicated support team assisting you with all of your
                 requirements.
               </div>
             </div>
             <div className={listItem}>
-              <StaticImage src={tick} alt="tick" />
+              <img src={tick} alt="tick" />
               <div className={listItemContent}>
                 S Cubed is a very user-friendly platform, allowing easy
                 navigation for both guardians and therapists.

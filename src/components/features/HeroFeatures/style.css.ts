@@ -165,6 +165,31 @@ export const trustBadge = style({
   borderRadius: '8px',
   boxShadow: '0 1px 3px 0 rgba(0, 0, 0, 0.1)',
   border: '1px solid #e5e7eb',
+  cursor: 'pointer',
+  transition: 'all 0.3s ease',
+  ':hover': {
+    boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.15)',
+    transform: 'translateY(-1px)',
+  },
+});
+
+export const trustBadgeLink = style({
+  display: 'flex',
+  alignItems: 'center',
+  gap: '8px',
+  padding: '8px 16px',
+  backgroundColor: '#ffffff',
+  borderRadius: '8px',
+  boxShadow: '0 1px 3px 0 rgba(0, 0, 0, 0.1)',
+  border: '1px solid #e5e7eb',
+  cursor: 'pointer',
+  transition: 'all 0.3s ease',
+  textDecoration: 'none',
+  ':hover': {
+    boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.15)',
+    transform: 'translateY(-1px)',
+    borderColor: '#7a7eed',
+  },
 });
 
 export const trustIcon = style({ color: '#10b981' });
