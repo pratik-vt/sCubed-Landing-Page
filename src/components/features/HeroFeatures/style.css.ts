@@ -80,7 +80,6 @@ export const heroTitle = style({
   color: '#111827',
   marginBottom: '32px',
   lineHeight: 1.1,
-  maxWidth: '1000px',
   margin: '0 auto 32px',
   '@media': { 'screen and (min-width: 768px)': { fontSize: '64px' } },
 });

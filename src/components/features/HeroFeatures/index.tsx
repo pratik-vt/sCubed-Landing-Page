@@ -72,10 +72,12 @@ const HeroFeatures: React.FC = () => {
             </div>
 
             <h1 className={heroTitle}>
-              Powerful & Fully Integrated{' '}
+              Powerful & Fully Integrated
+              <br />
               <span style={{ color: '#7a7eed' }}>
                 Practice Management Platform
-              </span>{' '}
+              </span>
+              <br />
               To Streamline Your Practice
             </h1>
 
