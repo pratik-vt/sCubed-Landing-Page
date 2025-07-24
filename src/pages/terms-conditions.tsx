@@ -8,6 +8,7 @@ import {
   olRomanStyle,
 } from '../components/Pages/styles.css';
 import { Section, Heading } from '../components/Pages';
+import SEO from '../components/Seo';
 
 const TermsPage: React.FC<PageProps> = () => {
   return (
@@ -909,8 +910,5 @@ const TermsPage: React.FC<PageProps> = () => {
 export default TermsPage;
 
 export const Head: HeadFC = () => (
-  <>
-    <html lang="en" />
-    <title>Terms & Conditions | S Cubed</title>
-  </>
+  <SEO title="Terms & Conditions | S Cubed" pathname="/terms-conditions/" />
 );

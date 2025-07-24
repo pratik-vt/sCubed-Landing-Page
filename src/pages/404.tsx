@@ -1,6 +1,8 @@
 import * as React from 'react';
 import { Link, HeadFC, PageProps } from 'gatsby';
 
+import SEO from '../components/Seo';
+
 const pageStyles = {
   color: '#232129',
   padding: '96px',
@@ -46,4 +48,6 @@ const NotFoundPage: React.FC<PageProps> = () => {
 
 export default NotFoundPage;
 
-export const Head: HeadFC = () => <title>Not found</title>;
+export const Head: HeadFC = () => (
+  <SEO title="Page Not Found | S Cubed" pathname="/404/" />
+);

@@ -3,6 +3,7 @@ import type { HeadFC, PageProps } from 'gatsby';
 
 import Layout from '../components/Layout';
 import { Section, Heading } from '../components/Pages';
+import SEO from '../components/Seo';
 
 const PrivacyPage: React.FC<PageProps> = () => {
   return (
@@ -322,8 +323,5 @@ const PrivacyPage: React.FC<PageProps> = () => {
 export default PrivacyPage;
 
 export const Head: HeadFC = () => (
-  <>
-    <html lang="en" />
-    <title>Privacy Policy | S Cubed</title>
-  </>
+  <SEO title="Privacy Policy | S Cubed" pathname="/privacy-policy/" />
 );

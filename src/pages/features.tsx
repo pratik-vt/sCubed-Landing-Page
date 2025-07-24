@@ -24,5 +24,8 @@ const FeaturesPage: React.FC<PageProps> = () => {
 export default FeaturesPage;
 
 export const Head: HeadFC = () => (
-  <Seo title="Features - S Cubed Practice Management Software" />
+  <Seo
+    title="Features - S Cubed Practice Management Software"
+    pathname="/features/"
+  />
 );
