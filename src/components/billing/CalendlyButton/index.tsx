@@ -1,21 +1,14 @@
 import React, { FC, useState, useEffect } from 'react';
 import { PopupModal } from 'react-calendly';
 
-import Button from '../Button/button';
-import { container, buttonStyle } from '../ModalForm/styles.css';
-
 type Props = {
-  buttonColor: string;
-  buttonBackground: string;
-  buttonWidth?: string;
   buttonText?: string;
+  className?: string;
 };
 
-const CalendlyWidget: FC<Props> = ({
-  buttonColor,
-  buttonBackground,
-  buttonWidth,
-  buttonText,
+const CalendlyButton: FC<Props> = ({
+  buttonText = 'BOOK A DEMO',
+  className,
 }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isClient, setIsClient] = useState(false);
@@ -49,16 +42,10 @@ const CalendlyWidget: FC<Props> = ({
   };
 
   return (
-    <div className={container}>
-      <Button
-        className={buttonStyle}
-        color={buttonColor}
-        backgroundColor={buttonBackground}
-        width={buttonWidth ?? '180px'}
-        onClick={handleOpenModal}
-      >
-        {buttonText || 'BOOK A DEMO'}
-      </Button>
+    <>
+      <button className={className} onClick={handleOpenModal}>
+        {buttonText}
+      </button>
 
       {/* Only render the PopupModal if we're on the client and the button has been clicked */}
       {isClient && calendlyLoaded && (
@@ -70,8 +57,8 @@ const CalendlyWidget: FC<Props> = ({
           prefill={{}}
         />
       )}
-    </div>
+    </>
   );
 };
 
-export default CalendlyWidget;
+export default CalendlyButton;

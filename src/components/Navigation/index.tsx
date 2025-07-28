@@ -186,6 +186,16 @@ const Navigation: React.FC = () => {
               <span className={activeLinkStyle} />
             )}
           </Link>
+          <Link
+            to="/billing"
+            className={navStyle}
+            activeClassName={activeNavStyle}
+          >
+            Billing{' '}
+            {(pathname === '/billing' || pathname === '/billing/') && (
+              <span className={activeLinkStyle} />
+            )}
+          </Link>
           <button
             className={loginButton}
             onClick={() =>

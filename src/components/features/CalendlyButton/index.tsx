@@ -6,9 +6,9 @@ type Props = {
   className?: string;
 };
 
-const CalendlyButton: FC<Props> = ({ 
+const CalendlyButton: FC<Props> = ({
   buttonText = 'Schedule Free Demo →',
-  className 
+  className,
 }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isClient, setIsClient] = useState(false);
@@ -43,10 +43,7 @@ const CalendlyButton: FC<Props> = ({
 
   return (
     <>
-      <button 
-        className={className}
-        onClick={handleOpenModal}
-      >
+      <button className={className} onClick={handleOpenModal}>
         {buttonText}
       </button>
 

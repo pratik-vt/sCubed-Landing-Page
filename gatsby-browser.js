@@ -49,3 +49,12 @@ export const onRouteUpdate = ({ location }) => {
     });
   }
 };
+
+// Add scroll restoration to fix navigation scroll issues
+export const shouldUpdateScroll = ({ prevRouterProps, routerProps }) => {
+  // Scroll to top on route changes, except when using browser back/forward buttons
+  if (prevRouterProps?.location?.pathname !== routerProps.location.pathname) {
+    window.scrollTo(0, 0);
+  }
+  return false;
+};

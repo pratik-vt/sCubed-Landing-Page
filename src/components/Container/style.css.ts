@@ -4,7 +4,8 @@ globalStyle('html, body ,img', {
   margin: 0,
   padding: 0,
   boxSizing: 'border-box',
-  fontFamily: 'Poppins, sans-serif',
+  fontFamily:
+    '"Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif',
   maxWidth: '100%',
 });
 
