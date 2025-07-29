@@ -1,20 +1,20 @@
 import { globalStyle, style } from '@vanilla-extract/css';
 
 import {
-  colors,
-  radius,
-  spacing,
-  typography,
+    colors,
+    radius,
+    spacing,
+    typography,
 } from '../../../styles/tokens.css';
 
 export const workflowSection = style({
-  padding: `${spacing['3xl']} 0 ${spacing.xl} 0`, // Reduced bottom padding from 3xl to xl
+  padding: `${spacing.md} 0 ${spacing.xl} 0`, // Original padding restored
   backgroundColor: colors.neutral[50],
   position: 'relative',
-  overflow: 'hidden',
+  overflow: 'hidden', // Restored to hidden for proper containment
   '@media': {
     'screen and (max-width: 768px)': {
-      padding: `${spacing['2xl']} 0 ${spacing.lg} 0`, // Reduced mobile bottom padding
+      padding: `${spacing.sm} 0 ${spacing.lg} 0`,
     },
   },
 });
@@ -23,9 +23,23 @@ export const workflowContainer = style({
   maxWidth: '1400px',
   margin: '0 auto',
   padding: `0 ${spacing.md}`,
+  boxSizing: 'border-box', // Ensure padding is included in width calculations
+  width: '100%',
   '@media': {
     'screen and (max-width: 1279px)': {
       maxWidth: '1200px',
+    },
+    'screen and (max-width: 768px)': {
+      padding: `0 ${spacing.sm}`,
+      boxSizing: 'border-box',
+    },
+    'screen and (max-width: 480px)': {
+      padding: `0 ${spacing.xs}`,
+      boxSizing: 'border-box',
+    },
+    'screen and (max-width: 360px)': {
+      padding: '0 8px', // Very minimal padding for extra small screens
+      boxSizing: 'border-box',
     },
   },
 });
@@ -58,11 +72,11 @@ export const sectionSubtitle = style({
   },
 });
 
-// Desktop carousel styles
+// Desktop carousel styles - only show on large desktop screens
 export const desktopOnly = style({
   display: 'none',
   '@media': {
-    'screen and (min-width: 1280px)': {
+    'screen and (min-width: 769px)': {
       display: 'block',
     },
   },
@@ -106,13 +120,32 @@ export const workflowCard = style({
   position: 'relative',
   transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
   cursor: 'pointer',
+  boxSizing: 'border-box', // Include padding and border in width calculations
   ':hover': {
     borderColor: colors.primary[600],
     boxShadow: `0 8px 24px rgba(122, 126, 237, 0.15)`,
   },
   '@media': {
     'screen and (max-width: 1279px)': {
-      width: '280px',
+      width: '100%',
+      maxWidth: '300px', // Further reduced from 350px to 300px
+      margin: '0 auto',
+      boxSizing: 'border-box',
+    },
+    'screen and (max-width: 768px)': {
+      width: '100%',
+      maxWidth: '100%', // Full width on mobile
+      padding: spacing.lg,
+      margin: '0',
+      boxSizing: 'border-box',
+    },
+    'screen and (max-width: 480px)': {
+      padding: spacing.md,
+      boxSizing: 'border-box',
+    },
+    'screen and (max-width: 360px)': {
+      padding: spacing.sm, // Minimal padding for very small screens
+      boxSizing: 'border-box',
     },
   },
 });
@@ -201,11 +234,11 @@ export const progressIndicator = style({
   boxShadow: `0 0 8px rgba(122, 126, 237, 0.4)`,
 });
 
-// Mobile styles
+// Mobile styles - show on all screens except large desktop
 export const mobileOnly = style({
   display: 'block',
   '@media': {
-    'screen and (min-width: 1280px)': {
+    'screen and (min-width: 769px)': {
       display: 'none',
     },
   },
@@ -213,12 +246,30 @@ export const mobileOnly = style({
 
 export const mobileGrid = style({
   display: 'grid',
-  gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))',
+  gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', // Further reduced from 250px to 200px
   gap: spacing.lg,
+  padding: `0 ${spacing.md}`,
+  boxSizing: 'border-box', // Ensure padding is included in width calculations
+  width: '100%',
   '@media': {
-    'screen and (max-width: 768px)': {
-      gridTemplateColumns: '1fr',
+    'screen and (max-width: 992px)': {
+      gridTemplateColumns: 'repeat(auto-fit, minmax(180px, 1fr))', // Reduced from 220px to 180px
       gap: spacing.md,
+    },
+    'screen and (max-width: 768px)': {
+      gridTemplateColumns: '1fr', // Single column
+      gap: spacing.md,
+      padding: `0 ${spacing.sm}`,
+    },
+    'screen and (max-width: 480px)': {
+      gridTemplateColumns: '1fr',
+      gap: spacing.sm,
+      padding: `0 ${spacing.xs}`, // Minimal padding for very small screens
+    },
+    'screen and (max-width: 360px)': {
+      gridTemplateColumns: '1fr',
+      gap: spacing.xs,
+      padding: `0 8px`, // Very minimal padding for extra small screens
     },
   },
 });

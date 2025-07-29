@@ -38,6 +38,37 @@ export const contactInfoWrapper = style({
   },
 });
 
+export const centerText = style({
+  flex: '2', // Keep increased flex value for more space
+  textAlign: 'center',
+  fontSize: '14px', // Back to 14px to match email font size
+  fontWeight: '700', // Keep it bold
+  color: '#fff',
+  lineHeight: '1.4',
+  whiteSpace: 'nowrap', // Keep it on single line
+  maxWidth: '800px', // Increased max width to accommodate full text
+  margin: '0 auto', // Center the text within its container
+  padding: '0 20px', // Add padding for breathing room
+  '@media': {
+    'screen and (max-width: 1400px)': {
+      maxWidth: '700px',
+      padding: '0 15px',
+    },
+    'screen and (max-width: 1200px)': {
+      fontSize: '13px', // Slightly smaller only on smaller screens
+      maxWidth: '600px',
+      padding: '0 10px',
+    },
+    'screen and (max-width: 768px)': {
+      fontSize: '14px', // Keep same as email on mobile
+      maxWidth: '100%',
+      order: 2, // Show after contact info on mobile
+      whiteSpace: 'normal', // Allow wrapping on mobile for readability
+      padding: '0',
+    },
+  },
+});
+
 export const contactInfoGroup = style({
   display: 'flex',
   gap: '20px',

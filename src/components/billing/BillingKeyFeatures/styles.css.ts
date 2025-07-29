@@ -1,14 +1,14 @@
 import { style } from '@vanilla-extract/css';
 
 import {
-  colors,
-  radius,
-  spacing,
-  typography,
+    colors,
+    radius,
+    spacing,
+    typography,
 } from '../../../styles/tokens.css';
 
 export const keyFeaturesSection = style({
-  padding: `${spacing.xl} 0 ${spacing.xl} 0`,
+  padding: `4px 0 ${spacing.xl} 0`, // Drastically reduced top padding from sm (16px) to 4px
   background: `linear-gradient(135deg, ${colors.white} 0%, ${colors.neutral[50]} 50%, ${colors.white} 100%)`,
   position: 'relative',
   overflow: 'hidden',
@@ -27,8 +27,14 @@ export const keyFeaturesSection = style({
     pointerEvents: 'none',
   },
   '@media': {
+    'screen and (max-width: 1024px)': {
+      padding: `2px 0 ${spacing.lg} 0`, // Minimal top padding for tablets
+    },
     'screen and (max-width: 768px)': {
-      padding: `${spacing.lg} 0 ${spacing.lg} 0`,
+      padding: `0px 0 ${spacing.lg} 0`, // No top padding on mobile for tightest spacing
+    },
+    'screen and (max-width: 480px)': {
+      padding: `0px 0 ${spacing.md} 0`, // Minimal spacing on very small screens
     },
   },
 });

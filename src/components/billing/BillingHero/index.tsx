@@ -1,6 +1,7 @@
+import { motion, useInView, Variants } from 'framer-motion';
 import { StaticImage } from 'gatsby-plugin-image';
 import { CheckCircle } from 'lucide-react';
-import React from 'react';
+import React, { useRef } from 'react';
 
 import CalendlyButton from '../CalendlyButton';
 import { primaryButton } from '../CalendlyButton/styles.css';
@@ -26,6 +27,12 @@ import {
 } from './styles.css';
 
 const BillingHero: React.FC = () => {
+  const bulletSectionRef = useRef<HTMLDivElement>(null);
+  const isBulletSectionInView = useInView(bulletSectionRef, {
+    once: true,
+    margin: '-100px',
+  });
+
   const bulletPoints = [
     {
       text: 'Time-sensitive authorizations',
@@ -40,6 +47,46 @@ const BillingHero: React.FC = () => {
       color: '#34d399', // Green
     },
   ];
+
+  // Animation variants for the bullet items
+  const containerVariants: Variants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.2,
+        delayChildren: 0.3,
+      },
+    },
+  };
+
+  const itemVariants: Variants = {
+    hidden: {
+      opacity: 0,
+      y: 30,
+      scale: 0.9,
+    },
+    visible: {
+      opacity: 1,
+      y: 0,
+      scale: 1,
+      transition: {
+        duration: 0.6,
+        ease: 'easeOut',
+      },
+    },
+  };
+
+  const cardHoverVariants: Variants = {
+    hover: {
+      scale: 1.05,
+      y: -8,
+      transition: {
+        duration: 0.3,
+        ease: 'easeOut',
+      },
+    },
+  };
 
   return (
     <>
@@ -86,6 +133,7 @@ const BillingHero: React.FC = () => {
                 />
               </div>
             </div>
+
             <div className={heroImageContent}>
               <StaticImage
                 alt="Professional billing and financial management for healthcare practices"
@@ -101,35 +149,62 @@ const BillingHero: React.FC = () => {
         </div>
       </section>
 
-      <section className={bulletSection}>
+      <section className={bulletSection} ref={bulletSectionRef}>
         <div className={heroContainer}>
-          <div className={bulletCard}>
-            <h3>
+          <motion.div
+            className={bulletCard}
+            initial={{ opacity: 0, y: 50 }}
+            animate={isBulletSectionInView ? { opacity: 1, y: 0 } : {}}
+            transition={{ duration: 0.8, ease: 'easeOut' }}
+          >
+            <motion.h3
+              initial={{ opacity: 0, y: 20 }}
+              animate={isBulletSectionInView ? { opacity: 1, y: 0 } : {}}
+              transition={{ duration: 0.6, delay: 0.2 }}
+            >
               Our experienced billing team understands the unique challenges of
               allied health and behavioral therapy services, including:
-            </h3>
-            <div className={bulletGrid}>
+            </motion.h3>
+
+            <motion.div
+              className={bulletGrid}
+              variants={containerVariants}
+              initial="hidden"
+              animate={isBulletSectionInView ? 'visible' : 'hidden'}
+            >
               {bulletPoints.map((item, index) => (
-                <div key={index} className={bulletItem}>
-                  <div
+                <motion.div
+                  key={index}
+                  className={bulletItem}
+                  variants={itemVariants}
+                  whileHover="hover"
+                  custom={index}
+                >
+                  <motion.div
                     className={bulletIcon}
                     style={{
                       background: `linear-gradient(135deg, ${item.color}33 0%, ${item.color}66 100%)`,
                       color: item.color,
                       borderColor: `${item.color}4D`,
                     }}
+                    variants={cardHoverVariants}
                   >
                     <CheckCircle size={24} />
-                  </div>
+                  </motion.div>
                   <span className={bulletText}>{item.text}</span>
-                </div>
+                </motion.div>
               ))}
-            </div>
-            <p>
+            </motion.div>
+
+            <motion.p
+              initial={{ opacity: 0, y: 20 }}
+              animate={isBulletSectionInView ? { opacity: 1, y: 0 } : {}}
+              transition={{ duration: 0.6, delay: 0.8 }}
+            >
               From patient intake to payment posting, S Cubed ensures accuracy,
               compliance, and faster reimbursements.
-            </p>
-          </div>
+            </motion.p>
+          </motion.div>
         </div>
       </section>
     </>

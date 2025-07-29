@@ -1,10 +1,15 @@
 import { style } from '@vanilla-extract/css';
 
-import { typography } from '../../../styles/tokens.css';
+import { colors, spacing, typography } from '../../../styles/tokens.css';
 
 export const ctaSection = style({
-  padding: '48px 0 80px 0', // Reduced top padding from 80px to 48px, kept bottom padding for footer spacing
-  backgroundColor: '#ffffff',
+  padding: `${spacing.lg} 0 ${spacing['3xl']} 0`, // Consistent top spacing, larger bottom for footer breathing room
+  backgroundColor: colors.white,
+  '@media': {
+    'screen and (max-width: 768px)': {
+      padding: `${spacing.md} 0 ${spacing['2xl']} 0`, // Responsive mobile spacing
+    },
+  },
 });
 
 export const ctaContainer = style({

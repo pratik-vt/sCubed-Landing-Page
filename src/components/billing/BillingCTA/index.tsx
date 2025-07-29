@@ -4,12 +4,12 @@ import CalendlyButton from '../CalendlyButton';
 import { primaryButton } from '../CalendlyButton/styles.css';
 
 import {
-  ctaSection,
+  ctaButtonWrapper,
   ctaContainer,
   ctaContent,
-  ctaTitle,
   ctaDescription,
-  ctaButtonWrapper,
+  ctaSection,
+  ctaTitle,
 } from './styles.css';
 
 const BillingCTA: React.FC = () => {
@@ -17,7 +17,7 @@ const BillingCTA: React.FC = () => {
     <section className={ctaSection}>
       <div className={ctaContainer}>
         <div className={ctaContent}>
-          <h2 className={ctaTitle}>See S Cubed in Action</h2>
+          <h2 className={ctaTitle}>S Cubed in Action</h2>
           <p className={ctaDescription}>
             Let us show you how we can help your team spend less time on
             billing—and more time on care.

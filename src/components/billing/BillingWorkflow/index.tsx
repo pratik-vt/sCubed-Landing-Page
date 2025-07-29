@@ -39,8 +39,9 @@ import {
 
 const BillingWorkflow: React.FC = () => {
   const scrollRef = useRef<HTMLDivElement>(null);
+  const sectionRef = useRef<HTMLDivElement>(null);
   const [scrollProgress, setScrollProgress] = useState(0);
-  const isInView = useInView(scrollRef, { once: false, margin: '-100px' });
+  const isInView = useInView(sectionRef, { once: true, margin: '0px' });
 
   const workflowSteps = [
     {
@@ -108,9 +109,9 @@ const BillingWorkflow: React.FC = () => {
 
   const cardVariants: Variants = {
     hidden: {
-      opacity: 0,
-      y: 50,
-      scale: 0.9,
+      opacity: 1, // Changed from 0 to ensure visibility
+      y: 0, // Changed from 50 to prevent off-screen positioning
+      scale: 1, // Changed from 0.9 to full scale
     },
     visible: {
       opacity: 1,
@@ -131,7 +132,7 @@ const BillingWorkflow: React.FC = () => {
   };
 
   return (
-    <section className={workflowSection}>
+    <section className={workflowSection} ref={sectionRef}>
       <div className={workflowContainer}>
         <motion.h2
           className={sectionTitle}

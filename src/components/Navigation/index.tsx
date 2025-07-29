@@ -1,32 +1,33 @@
-import React, { useState, useEffect } from 'react';
-import { Link, navigate } from 'gatsby';
-import { StaticImage } from 'gatsby-plugin-image';
 import { useLocation } from '@reach/router';
 import { format } from '@react-input/mask';
-import { Phone, Mail, MapPin } from 'lucide-react';
+import { Link, navigate } from 'gatsby';
+import { StaticImage } from 'gatsby-plugin-image';
+import { Mail, Phone } from 'lucide-react';
+import React, { useEffect, useState } from 'react';
 
 import {
-  activeNavStyle,
-  navStyle,
-  hamburger,
-  bar,
-  navMenu,
-  navMenuOpen,
   activeLinkStyle,
+  activeNavStyle,
+  bar,
+  centerText,
   closeButtonWrapper,
-  crossLine1,
-  crossLine2,
-  headerContentStyles,
-  logoOuter,
   contactInfoContainer,
-  contactInfoWrapper,
   contactInfoGroup,
   contactInfoItem,
   contactInfoLink,
+  contactInfoWrapper,
+  crossLine1,
+  crossLine2,
+  hamburger,
+  headerContentStyles,
+  iconWrapper,
+  loginButton,
+  logoOuter,
+  navMenu,
+  navMenuOpen,
+  navStyle,
   socialIconWrapper,
   socialIconsContainer,
-  loginButton,
-  iconWrapper,
 } from './styles.css';
 
 const Navigation: React.FC = () => {
@@ -40,7 +41,6 @@ const Navigation: React.FC = () => {
   });
   const phoneLink = process.env.GATSBY_PHONE_NUMBER;
   const email = process.env.GATSBY_EMAIL;
-  const address = process.env.GATSBY_ADDRESS;
   // Get environment variables for social media links
   const fbUrl = process.env.GATSBY_FACEBOOK_URL;
   const instaUrl = process.env.GATSBY_INSTAGRAM_URL;
@@ -82,12 +82,10 @@ const Navigation: React.FC = () => {
                 {email}
               </a>
             </div>
-            <div className={contactInfoItem}>
-              <div className={iconWrapper} title="Visit us">
-                <MapPin size={16} />
-              </div>
-              <span>{address}</span>
-            </div>
+          </div>
+          <div className={centerText}>
+            Crafted by a team of expert BCBAs, in collaboration with ST, OT, PT,
+            and Billing professionals
           </div>
           <div className={socialIconsContainer}>
             <a
