@@ -31,4 +31,10 @@ const IndexPage: React.FC<PageProps> = () => {
 
 export default IndexPage;
 
-export const Head: HeadFC = () => <SEO pathname="" />;
+export const Head: HeadFC = () => (
+  <SEO
+    title="ABA Therapy Software for Providers | Simplify Scheduling & Billing"
+    description="S Cubed empowers providers to manage ABA, OT, PT, speech, and counseling with ease - streamlining scheduling, billing, documentation, and compliance in one platform."
+    pathname=""
+  />
+);

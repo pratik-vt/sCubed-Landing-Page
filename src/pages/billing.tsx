@@ -29,7 +29,8 @@ export default BillingPage;
 
 export const Head: HeadFC = () => (
   <Seo
-    title="Billing - S Cubed Practice Management Software"
+    title="ABA Therapy Billing & RCM Services | Software for Claims & Insurance"
+    description="Optimize ABA therapy billing with expert RCM services and software. Manage claims, authorizations, and payments efficiently - all from one secure platform."
     pathname="/billing/"
   />
 );

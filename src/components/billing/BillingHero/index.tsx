@@ -7,23 +7,23 @@ import CalendlyButton from '../CalendlyButton';
 import { primaryButton } from '../CalendlyButton/styles.css';
 
 import {
-  backgroundImage,
-  backgroundOverlay,
-  bulletCard,
-  bulletGrid,
-  bulletIcon,
-  bulletItem,
-  bulletSection,
-  bulletText,
-  ctaSection,
-  heroContainer,
-  heroContent,
-  heroDescription,
-  heroImageContent,
-  heroSection,
-  heroTextContent,
-  heroTitle,
-  heroTitleHighlight,
+    backgroundImage,
+    backgroundOverlay,
+    bulletCard,
+    bulletGrid,
+    bulletIcon,
+    bulletItem,
+    bulletSection,
+    bulletText,
+    ctaSection,
+    heroContainer,
+    heroContent,
+    heroDescription,
+    heroImageContent,
+    heroSection,
+    heroTextContent,
+    heroTitle,
+    heroTitleHighlight,
 } from './styles.css';
 
 const BillingHero: React.FC = () => {
@@ -112,10 +112,10 @@ const BillingHero: React.FC = () => {
           <div className={heroContent}>
             <div className={heroTextContent}>
               <h1 className={heroTitle}>
-                Smarter Billing for{' '}
-                <span className={heroTitleHighlight}>Therapy Clinics</span> &{' '}
+                Smarter Billing Services for{' '}
+                <span className={heroTitleHighlight}>ABA, OT, Speech</span>, and{' '}
                 <span className={heroTitleHighlight}>
-                  School-Based Services
+                  School-Based Therapy Providers
                 </span>
               </h1>
               <p className={heroDescription}>
@@ -123,7 +123,7 @@ const BillingHero: React.FC = () => {
                 for ABA, Occupational Therapy, Speech Therapy, Physical Therapy,
                 and Counseling clinics. Whether you&apos;re a solo provider,
                 school-based service, or a multi-location practice, our
-                solutions simplify the entire billing lifecycle—so you can focus
+                solutions simplify the entire billing lifecycle, so you can focus
                 on care, not claims.
               </p>
               <div className={ctaSection}>

@@ -169,12 +169,12 @@ const Navigation: React.FC = () => {
             Home {pathname === '/' && <span className={activeLinkStyle} />}
           </Link>
           <Link
-            to="/get-started"
+            to="/billing"
             className={navStyle}
             activeClassName={activeNavStyle}
           >
-            Get Started{' '}
-            {(pathname === '/get-started' || pathname === '/get-started/') && (
+            Billing{' '}
+            {(pathname === '/billing' || pathname === '/billing/') && (
               <span className={activeLinkStyle} />
             )}
           </Link>
@@ -189,12 +189,12 @@ const Navigation: React.FC = () => {
             )}
           </Link>
           <Link
-            to="/billing"
+            to="/get-started"
             className={navStyle}
             activeClassName={activeNavStyle}
           >
-            Billing{' '}
-            {(pathname === '/billing' || pathname === '/billing/') && (
+            Get Started{' '}
+            {(pathname === '/get-started' || pathname === '/get-started/') && (
               <span className={activeLinkStyle} />
             )}
           </Link>

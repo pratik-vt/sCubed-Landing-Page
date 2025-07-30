@@ -1,10 +1,10 @@
 import { globalStyle, style } from '@vanilla-extract/css';
 
 import {
-  colors,
-  radius,
-  spacing,
-  typography,
+    colors,
+    radius,
+    spacing,
+    typography,
 } from '../../../styles/tokens.css';
 
 export const workflowSection = style({
@@ -86,6 +86,54 @@ export const carouselWrapper = style({
   position: 'relative',
   marginBottom: spacing['2xl'],
 });
+
+export const navigationButton = style({
+  position: 'absolute',
+  top: '50%',
+  transform: 'translateY(-50%)',
+  width: '48px',
+  height: '48px',
+  borderRadius: radius.full,
+  backgroundColor: colors.white,
+  border: `2px solid ${colors.neutral[200]}`,
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'center',
+  cursor: 'pointer',
+  zIndex: 20,
+  color: colors.neutral[600],
+  boxShadow: '0 4px 12px rgba(0, 0, 0, 0.1)',
+  transition: 'all 0.3s ease',
+  opacity: 1,
+  visibility: 'visible',
+  ':hover': {
+    backgroundColor: colors.primary[50],
+    borderColor: colors.primary[300],
+    color: colors.primary[600],
+    transform: 'translateY(-50%) scale(1.05)',
+    boxShadow: '0 6px 16px rgba(122, 126, 237, 0.2)',
+  },
+});
+
+export const navigationButtonHidden = style({
+  opacity: 0,
+  visibility: 'hidden',
+  pointerEvents: 'none',
+});
+
+export const leftArrow = style([
+  navigationButton,
+  {
+    left: '0px',
+  },
+]);
+
+export const rightArrow = style([
+  navigationButton,
+  {
+    right: '0px',
+  },
+]);
 
 export const carouselContainer = style({
   overflowX: 'auto',

@@ -2,14 +2,14 @@ import { BarChart3, Shield, TrendingUp, Users } from 'lucide-react';
 import React from 'react';
 
 import {
-  featureCard,
-  featureDescription,
-  featureIconWrapper,
-  featuresContainer,
-  featuresGrid,
-  featuresSection,
-  featureTitle,
-  sectionTitle,
+    featureCard,
+    featureDescription,
+    featureIconWrapper,
+    featuresContainer,
+    featuresGrid,
+    featuresSection,
+    featureTitle,
+    sectionTitle,
 } from './styles.css';
 
 const BillingFeatures: React.FC = () => {
@@ -48,7 +48,9 @@ const BillingFeatures: React.FC = () => {
   return (
     <section className={featuresSection}>
       <div className={featuresContainer}>
-        <h2 className={sectionTitle}>Why Choose S Cubed?</h2>
+        <h2 className={sectionTitle}>
+          Why Choose S Cubed as Your Billing Software?
+        </h2>
         <div className={featuresGrid}>
           {features.map((feature, index) => (
             <div

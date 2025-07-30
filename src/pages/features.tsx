@@ -25,7 +25,8 @@ export default FeaturesPage;
 
 export const Head: HeadFC = () => (
   <Seo
-    title="Features - S Cubed Practice Management Software"
+    title="All-in-One Therapy & Clinic Management Software | S Cubed"
+    description="Streamline your clinic or school-based practice with S Cubed - an all-in-one software built by BCBAs for ABA, Speech, OT/PT, and counseling. Smart scheduling, billing, progress tracking, secure communication, and more in one powerful platform."
     pathname="/features/"
   />
 );

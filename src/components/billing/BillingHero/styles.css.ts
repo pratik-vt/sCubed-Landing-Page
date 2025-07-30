@@ -1,10 +1,10 @@
 import { globalStyle, style } from '@vanilla-extract/css';
 
 import {
-  colors,
-  radius,
-  spacing,
-  typography,
+    colors,
+    radius,
+    spacing,
+    typography,
 } from '../../../styles/tokens.css';
 
 export const heroSection = style({
@@ -116,10 +116,7 @@ export const heroTitle = style({
 });
 
 export const heroTitleHighlight = style({
-  background: `linear-gradient(135deg, ${colors.primary[600]} 0%, ${colors.primary[700]} 100%)`,
-  WebkitBackgroundClip: 'text',
-  WebkitTextFillColor: 'transparent',
-  backgroundClip: 'text',
+  color: colors.primary[600],
 });
 
 export const heroDescription = style({

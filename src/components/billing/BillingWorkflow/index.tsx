@@ -1,46 +1,53 @@
 'use client';
 
-import React, { useRef, useState, useEffect } from 'react';
+import { motion, useInView, Variants } from 'framer-motion';
 import {
-  FileCheck,
-  Zap,
   CheckCircle,
+  ChevronLeft,
+  ChevronRight,
+  FileCheck,
+  Filter,
   Layers,
   Send,
   Settings,
-  Filter,
+  Zap,
 } from 'lucide-react';
-import { motion, useInView, Variants } from 'framer-motion';
+import React, { useEffect, useRef, useState } from 'react';
 
 import CalendlyButton from '../CalendlyButton';
 import { primaryButton } from '../CalendlyButton/styles.css';
 
 import {
-  workflowSection,
-  workflowContainer,
-  sectionTitle,
-  sectionSubtitle,
-  carouselWrapper,
   carouselContainer,
   carouselTrack,
+  carouselWrapper,
+  desktopOnly,
+  leftArrow,
+  mobileGrid,
+  mobileOnly,
+  navigationButtonHidden,
+  progressBar,
+  progressBarContainer,
+  progressIndicator,
+  rightArrow,
+  sectionSubtitle,
+  sectionTitle,
   workflowCard,
+  workflowContainer,
+  workflowCTA,
+  workflowDescription,
   workflowIconWrapper,
   workflowNumber,
+  workflowSection,
   workflowTitle,
-  workflowDescription,
-  workflowCTA,
-  progressBarContainer,
-  progressBar,
-  progressIndicator,
-  mobileGrid,
-  desktopOnly,
-  mobileOnly,
 } from './styles.css';
 
 const BillingWorkflow: React.FC = () => {
   const scrollRef = useRef<HTMLDivElement>(null);
   const sectionRef = useRef<HTMLDivElement>(null);
   const [scrollProgress, setScrollProgress] = useState(0);
+  const [canScrollLeft, setCanScrollLeft] = useState(false);
+  const [canScrollRight, setCanScrollRight] = useState(true);
   const isInView = useInView(sectionRef, { once: true, margin: '0px' });
 
   const workflowSteps = [
@@ -69,7 +76,7 @@ const BillingWorkflow: React.FC = () => {
     {
       icon: <Send size={24} />,
       title: 'Claim Submission',
-      description: 'Submit single or batch claims instantly—with full review.',
+      description: 'Submit single or batch claims instantly, with full review.',
     },
     {
       icon: <Settings size={24} />,
@@ -84,13 +91,36 @@ const BillingWorkflow: React.FC = () => {
     },
   ];
 
+  const scrollLeft = () => {
+    if (scrollRef.current) {
+      const scrollAmount = 340; // Card width + gap
+      scrollRef.current.scrollBy({
+        left: -scrollAmount,
+        behavior: 'smooth',
+      });
+    }
+  };
+
+  const scrollRight = () => {
+    if (scrollRef.current) {
+      const scrollAmount = 340; // Card width + gap
+      scrollRef.current.scrollBy({
+        left: scrollAmount,
+        behavior: 'smooth',
+      });
+    }
+  };
+
   useEffect(() => {
     const handleScroll = () => {
       if (scrollRef.current) {
         const { scrollLeft, scrollWidth, clientWidth } = scrollRef.current;
         const maxScroll = scrollWidth - clientWidth;
         const progress = maxScroll > 0 ? (scrollLeft / maxScroll) * 100 : 0;
+
         setScrollProgress(progress);
+        setCanScrollLeft(scrollLeft > 0);
+        setCanScrollRight(scrollLeft < maxScroll - 1); // -1 for small rounding errors
       }
     };
 
@@ -98,6 +128,11 @@ const BillingWorkflow: React.FC = () => {
     if (scrollElement) {
       scrollElement.addEventListener('scroll', handleScroll);
       handleScroll(); // Initial calculation
+
+      // Check initial scroll state after a brief delay to ensure content is loaded
+      setTimeout(() => {
+        handleScroll();
+      }, 100);
     }
 
     return () => {
@@ -154,6 +189,22 @@ const BillingWorkflow: React.FC = () => {
         {/* Desktop Carousel */}
         <div className={desktopOnly}>
           <div className={carouselWrapper}>
+            {/* Navigation Arrows */}
+            <button
+              className={`${leftArrow} ${!canScrollLeft ? navigationButtonHidden : ''}`}
+              onClick={scrollLeft}
+              aria-label="Scroll left"
+            >
+              <ChevronLeft size={24} />
+            </button>
+            <button
+              className={`${rightArrow} ${!canScrollRight ? navigationButtonHidden : ''}`}
+              onClick={scrollRight}
+              aria-label="Scroll right"
+            >
+              <ChevronRight size={24} />
+            </button>
+
             <div className={carouselContainer} ref={scrollRef}>
               <div className={carouselTrack}>
                 {workflowSteps.map((step, index) => (
