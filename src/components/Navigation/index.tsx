@@ -168,12 +168,16 @@ const Navigation: React.FC = () => {
           <Link to="/" className={navStyle} activeClassName={activeNavStyle}>
             Home {pathname === '/' && <span className={activeLinkStyle} />}
           </Link>
-          <a
-            href={process.env.GATSBY_ADMIN_APP_URL + `info/get_started`}
+          <Link
+            to="/get-started"
             className={navStyle}
+            activeClassName={activeNavStyle}
           >
-            Get Started
-          </a>
+            Get Started{' '}
+            {(pathname === '/get-started' || pathname === '/get-started/') && (
+              <span className={activeLinkStyle} />
+            )}
+          </Link>
           <Link
             to="/features"
             className={navStyle}

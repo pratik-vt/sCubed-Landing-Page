@@ -131,3 +131,17 @@ export const submitButtonStyle = style({
   cursor: 'pointer',
   fontWeight: 400,
 });
+
+export const checkboxControlStyle = style({
+  marginRight: '8px',
+  cursor: 'pointer',
+});
+
+export const checkboxLabelStyle = style({
+  display: 'flex',
+  alignItems: 'center',
+  fontSize: '14px',
+  color: '#000000',
+  opacity: '0.8',
+  cursor: 'pointer',
+});

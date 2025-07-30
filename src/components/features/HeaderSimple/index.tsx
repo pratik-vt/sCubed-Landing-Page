@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 
 import Navigation from '../../Navigation';
 
@@ -21,7 +21,7 @@ const HeaderSimple: React.FC = () => {
       <div
         className={headerWrapperStyles}
         style={{
-          backgroundColor: headerBackground ? '#fff' : 'transparent',
+          backgroundColor: '#fff',
           borderBottom: headerBackground
             ? '1px solid #ededef'
             : '1px solid transparent',

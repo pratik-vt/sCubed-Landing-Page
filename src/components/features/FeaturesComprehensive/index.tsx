@@ -37,7 +37,7 @@ import {
   Workflow,
   Zap,
 } from 'lucide-react';
-import React, { useState } from 'react';
+import React, { cloneElement, useState } from 'react';
 
 import {
   additionalFeatureCard,
@@ -266,7 +266,7 @@ const FeaturesComprehensive: React.FC = () => {
               style={{ animationDelay: `${index * 0.1}s` }}
             >
               <div className={coreFeatureIcon}>
-                {React.cloneElement(feature.icon as React.ReactElement, {
+                {cloneElement(feature.icon as React.ReactElement, {
                   size: 24,
                 })}
               </div>
@@ -298,7 +298,7 @@ const FeaturesComprehensive: React.FC = () => {
                       color: category.color,
                     }}
                   >
-                    {React.cloneElement(category.icon as React.ReactElement, {
+                    {cloneElement(category.icon as React.ReactElement, {
                       size: 24,
                     })}
                   </span>
