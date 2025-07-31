@@ -559,7 +559,7 @@ const GetStartedForm: React.FC = () => {
                     </div>
                   </a>
                   <a
-                    href="https://www.linkedin.com/company/scubed"
+                    href="https://www.linkedin.com/company/spectrum-solutions-software/"
                     target="_blank"
                     rel="noopener noreferrer"
                     className={contactItem}
