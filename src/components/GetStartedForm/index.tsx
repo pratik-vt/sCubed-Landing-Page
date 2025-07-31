@@ -553,6 +553,7 @@ const GetStartedForm: React.FC = () => {
                           color: '#1f2937',
                           fontSize: '1rem',
                         }}
+                        title="www.scubed.io"
                       >
                         www.scubed.io
                       </span>
@@ -606,9 +607,14 @@ const GetStartedForm: React.FC = () => {
                           fontWeight: '500',
                           color: '#1f2937',
                           fontSize: '1rem',
+                          overflow: 'hidden',
+                          whiteSpace: 'nowrap',
+                          textOverflow: 'ellipsis',
+                          maxWidth: '100%',
                         }}
+                        title="www.linkedin.com/company/spectrum-solutions-software"
                       >
-                        linkedin.com/scubed
+                        www.linkedin.com/company/spectrum-solutions-software
                       </span>
                     </div>
                   </a>
@@ -872,10 +878,12 @@ const GetStartedForm: React.FC = () => {
                       </div>
                     </div>
 
-                    {/* Billing Experience and Comments */}
+                    {/* Software Experience and Comments */}
                     <div className={twoColumnGrid}>
                       <div className={formGroup}>
-                        <label className={labelStyle}>Billing Experience</label>
+                        <label className={labelStyle}>
+                          Software Experience
+                        </label>
                         <div
                           style={{
                             display: 'flex',
@@ -896,7 +904,8 @@ const GetStartedForm: React.FC = () => {
                                 htmlFor="hasExperience"
                                 className={checkboxLabel}
                               >
-                                I have experience with other billing software
+                                I have experience with other practice management
+                                software
                               </label>
                             </div>
                             <p
@@ -917,7 +926,7 @@ const GetStartedForm: React.FC = () => {
                             >
                               <div className={formGroup}>
                                 <label className={labelStyle}>
-                                  Which billing software?
+                                  Which practice management software?
                                 </label>
                                 <input
                                   type="text"
@@ -925,7 +934,7 @@ const GetStartedForm: React.FC = () => {
                                   placeholder="e.g., Therabill, WebPT"
                                   {...register('previousSoftware', {
                                     required: hasExperience
-                                      ? 'Software name is required when you have billing experience'
+                                      ? 'Software name is required when you have software experience'
                                       : false,
                                     maxLength: {
                                       value: MAX_LENGTHS.softwareName,
