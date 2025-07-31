@@ -1,4 +1,4 @@
-import { keyframes, style } from '@vanilla-extract/css';
+import { globalStyle, keyframes, style } from '@vanilla-extract/css';
 
 import { colors } from '../../styles/tokens.css';
 
@@ -30,7 +30,6 @@ const scaleIn = keyframes({
 
 // Main layout styles
 export const pageWrapper = style({
-  minHeight: '100vh',
   marginTop: '-45px',
   paddingTop: '125px',
   fontFamily:
@@ -55,6 +54,7 @@ export const pageWrapper = style({
 export const backgroundContainer = style({
   position: 'relative',
   minHeight: '100vh',
+  paddingBottom: '2rem',
   background: `linear-gradient(135deg, ${colors.primary[50]} 0%, ${colors.white} 25%, ${colors.primary[100]} 50%, ${colors.white} 75%, ${colors.primary[50]} 100%)`,
   overflow: 'hidden',
 });
@@ -93,11 +93,11 @@ export const mainContainer = style({
   position: 'relative',
   maxWidth: '1600px',
   margin: '0 auto',
-  padding: '2rem 1.5rem',
+  padding: '2rem 1.5rem 1rem 1.5rem', // Reduced bottom padding from 2rem to 1rem
   zIndex: 1,
   '@media': {
     '(max-width: 768px)': {
-      padding: '1.5rem 1rem',
+      padding: '1.5rem 1rem 0.5rem 1rem', // Reduced bottom padding on mobile too
     },
   },
 });
@@ -197,31 +197,31 @@ export const contactCard = style({
 });
 
 export const contactCardHeader = style({
-  padding: '1.5rem 1.5rem 0.75rem 1.5rem',
+  padding: '1rem 1rem 0.5rem 1rem',
   display: 'flex',
   alignItems: 'center',
   justifyContent: 'center',
   color: colors.primary[700],
-  fontSize: '1.125rem',
+  fontSize: '1.125rem', // Increased from 1rem
   fontWeight: '700',
   letterSpacing: '-0.01em',
   textAlign: 'center',
   '@media': {
     '(max-width: 768px)': {
-      padding: '1.25rem 1.25rem 0.5rem 1.25rem',
-      fontSize: '1rem',
+      padding: '0.875rem 0.875rem 0.375rem 0.875rem',
+      fontSize: '1rem', // Increased from 0.9rem
     },
   },
 });
 
 export const contactCardContent = style({
-  padding: '0 1.5rem 1.5rem 1.5rem',
+  padding: '0 1rem 1rem 1rem',
   display: 'flex',
   flexDirection: 'column',
   gap: '0.75rem',
   '@media': {
     '(max-width: 768px)': {
-      padding: '0 1.25rem 1.25rem 1.25rem',
+      padding: '0 0.875rem 0.875rem 0.875rem',
       gap: '0.625rem',
     },
   },
@@ -230,9 +230,9 @@ export const contactCardContent = style({
 export const contactItem = style({
   display: 'flex',
   alignItems: 'center',
-  gap: '1rem',
-  padding: '1rem 0.875rem',
-  borderRadius: '0.875rem',
+  gap: '0.5rem',
+  padding: '0.625rem 0.625rem',
+  borderRadius: '0.75rem',
   transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
   cursor: 'pointer',
   position: 'relative',
@@ -244,28 +244,32 @@ export const contactItem = style({
     borderColor: colors.primary[200],
     boxShadow: `0 4px 12px -2px ${colors.primary[600]}20, inset 0 1px 0 rgba(255, 255, 255, 0.6)`,
   },
-  ':hover div:first-child': {
-    background: `linear-gradient(135deg, ${colors.primary[500]} 0%, ${colors.primary[600]} 100%)`,
-    transform: 'scale(1.1)',
-    boxShadow: `0 4px 8px -2px ${colors.primary[600]}40`,
-  },
-  ':hover div:first-child svg': {
-    color: colors.white,
-    transform: 'scale(1.1)',
-  },
-  ':hover span:last-child': {
-    color: colors.primary[700],
-    textDecoration: 'underline',
-    textUnderlineOffset: '3px',
-    textDecorationColor: colors.primary[300],
-    textDecorationThickness: '2px',
-  },
   '@media': {
     '(max-width: 768px)': {
       padding: '0.875rem 0.75rem',
       gap: '0.75rem',
     },
   },
+});
+
+// Global styles for contactItem hover effects
+globalStyle(`${contactItem}:hover div:first-child`, {
+  background: `linear-gradient(135deg, ${colors.primary[500]} 0%, ${colors.primary[600]} 100%)`,
+  transform: 'scale(1.1)',
+  boxShadow: `0 4px 8px -2px ${colors.primary[600]}40`,
+});
+
+globalStyle(`${contactItem}:hover div:first-child svg`, {
+  color: colors.white,
+  transform: 'scale(1.1)',
+});
+
+globalStyle(`${contactItem}:hover span:last-child`, {
+  color: colors.primary[700],
+  textDecoration: 'underline',
+  textUnderlineOffset: '3px',
+  textDecorationColor: colors.primary[300],
+  textDecorationThickness: '2px',
 });
 
 export const specialistButton = style({
@@ -307,14 +311,16 @@ export const specialistButton = style({
       'linear-gradient(90deg, transparent 0%, rgba(255, 255, 255, 0.2) 50%, transparent 100%)',
     transition: 'left 0.6s ease',
   },
-  ':hover::before': {
-    left: '100%',
-  },
   '@media': {
     '(max-width: 1024px)': {
       display: 'none',
     },
   },
+});
+
+// Global style for specialistButton hover effect on ::before
+globalStyle(`${specialistButton}:hover::before`, {
+  left: '100%',
 });
 
 // Right panel styles with enhanced design
@@ -328,6 +334,7 @@ export const cardContainer = style({
   background: `rgba(255, 255, 255, 0.98)`,
   backdropFilter: 'blur(20px)',
   borderRadius: '2rem',
+  marginTop: '2.5rem',
   boxShadow: `0 32px 64px -12px rgba(0, 0, 0, 0.12), 0 16px 32px -8px rgba(0, 0, 0, 0.08)`,
   border: `1px solid ${colors.neutral[200]}50`,
   overflow: 'hidden',
@@ -335,6 +342,7 @@ export const cardContainer = style({
   '@media': {
     '(max-width: 768px)': {
       borderRadius: '1.5rem',
+      marginTop: '1rem',
     },
   },
 });
@@ -444,6 +452,7 @@ export const twoColumnGrid = style({
   display: 'grid',
   gridTemplateColumns: '1fr',
   gap: '1rem',
+  alignItems: 'start',
   '@media': {
     '(min-width: 768px)': {
       gridTemplateColumns: 'repeat(2, 1fr)',
@@ -464,10 +473,11 @@ export const threeColumnGrid = style({
 
 export const labelStyle = style({
   fontSize: '0.8125rem',
-  fontWeight: '600',
-  color: colors.neutral[700],
+  fontWeight: '700', // Bolden for better readability
+  color: '#1f2937', // Direct dark color to override any conflicts
   letterSpacing: '0.01em',
   transition: 'color 0.3s ease',
+  display: 'block', // Ensure proper display
 });
 
 export const requiredMark = style({
@@ -481,7 +491,7 @@ const baseInputStyle = {
   border: `1.5px solid ${colors.neutral[200]}`,
   borderRadius: '0.5rem',
   fontSize: '0.875rem',
-  fontWeight: '500',
+  fontWeight: '400', // Changed from '500' to normal weight
   transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
   backgroundColor: colors.white,
   boxShadow: `0 1px 2px 0 ${colors.neutral[200]}10`,
@@ -494,12 +504,18 @@ const baseInputStyle = {
     borderColor: colors.primary[400],
   },
   '::placeholder': {
-    color: colors.neutral[400],
+    color: '#52525b', // Direct dark color for better contrast
     fontWeight: '400',
   },
 };
 
-export const inputStyle = style(baseInputStyle);
+export const inputStyle = style({
+  ...baseInputStyle,
+  '::placeholder': {
+    color: '#52525b', // Direct dark color for better contrast
+    fontWeight: '400',
+  },
+});
 
 export const selectStyle = style({
   ...baseInputStyle,
@@ -515,7 +531,7 @@ export const selectStyle = style({
   color: colors.neutral[700],
   selectors: {
     '&:has(option[value=""]:checked)': {
-      color: colors.neutral[400],
+      color: '#52525b', // Darker placeholder color for better contrast
     },
   },
 });
@@ -527,7 +543,7 @@ export const textareaStyle = style({
   borderRadius: '0.5rem',
   fontSize: '0.875rem',
   fontFamily: 'inherit',
-  fontWeight: '500',
+  fontWeight: '400', // Changed from '500' to normal weight
   resize: 'vertical',
   transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
   backgroundColor: colors.white,
@@ -541,19 +557,34 @@ export const textareaStyle = style({
     borderColor: colors.primary[400],
   },
   '::placeholder': {
-    color: colors.neutral[400],
+    color: '#52525b', // Direct dark color for better contrast
     fontWeight: '400',
   },
 });
 
+// Simplified checkbox section without input-like styling
+export const checkboxSection = style({
+  display: 'flex',
+  flexDirection: 'column',
+  gap: '0.5rem',
+  padding: '0.5rem 0', // Minimal padding, no background
+});
+
+export const checkboxRow = style({
+  display: 'flex',
+  alignItems: 'flex-start',
+  gap: '0.75rem',
+});
+
 export const checkboxInput = style({
-  width: '1rem',
-  height: '1rem',
+  width: '1.125rem', // Slightly larger for better accessibility
+  height: '1.125rem',
   accentColor: colors.primary[600],
   transition: 'all 0.3s ease',
   cursor: 'pointer',
+  flexShrink: 0,
   ':hover': {
-    transform: 'scale(1.1)',
+    transform: 'scale(1.05)',
   },
 });
 
@@ -628,19 +659,18 @@ export const errorMessage = style({
 export const successMessage = style({
   position: 'relative',
   maxWidth: '600px',
-  margin: '0 auto',
+  margin: '2rem auto',
   padding: '4rem',
   background: colors.white,
   borderRadius: '2rem',
   boxShadow: `0 32px 64px -12px rgba(0, 0, 0, 0.15), 0 16px 32px -8px rgba(0, 0, 0, 0.08)`,
   textAlign: 'center',
   zIndex: 10,
-  top: '10vh',
   animation: `${scaleIn} 0.6s ease-out`,
   '@media': {
     '(max-width: 768px)': {
       padding: '3rem 2rem',
-      margin: '0 1rem',
+      margin: '1rem',
     },
   },
 });
@@ -705,16 +735,24 @@ export const sectionNumberText = style({
 
 export const checkboxHelperText = style({
   fontSize: '0.75rem',
-  color: colors.neutral[500],
-  lineHeight: '1.75',
+  color: colors.neutral[600], // Darker for better readability
+  lineHeight: '1.5',
+  marginLeft: '0', // Remove left margin to align with checkbox row
+  marginTop: '0.25rem',
+  paddingLeft: '1.875rem', // Use padding instead of margin for better alignment
 });
 
 export const bottomHelperText = style({
   textAlign: 'center',
   fontSize: '0.875rem',
-  color: colors.neutral[500],
+  color: colors.neutral[600], // Darker for better readability
   marginTop: '1rem',
   lineHeight: '1.75',
+  padding: '1rem',
+  background: 'rgba(249, 250, 251, 0.8)',
+  borderRadius: '0.75rem',
+  border: `1px solid ${colors.neutral[200]}`,
+  backdropFilter: 'blur(4px)',
 });
 
 // Progress indicator

@@ -183,7 +183,7 @@ const BillingWorkflow: React.FC = () => {
           animate={isInView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.6, delay: 0.1 }}
         >
-          From session notes to payment—automated and error-free
+          From session notes to payment, automated and error-free
         </motion.p>
 
         {/* Desktop Carousel */}

@@ -20,8 +20,5 @@ const GetStartedPage: React.FC<PageProps> = () => {
 export default GetStartedPage;
 
 export const Head: HeadFC = () => (
-  <Seo
-    title="Get Started - S Cubed Practice Management Software"
-    pathname="/get-started/"
-  />
+  <Seo title="Get Started with S Cubed" pathname="/get-started/" />
 );
