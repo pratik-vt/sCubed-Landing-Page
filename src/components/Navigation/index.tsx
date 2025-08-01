@@ -12,6 +12,7 @@ import {
   centerText,
   closeButtonWrapper,
   contactInfoContainer,
+  contactInfoDivider,
   contactInfoGroup,
   contactInfoItem,
   contactInfoLink,
@@ -76,6 +77,7 @@ const Navigation: React.FC = () => {
                 {phoneNumber}
               </a>
             </div>
+            <div className={contactInfoDivider}></div>
             <div className={contactInfoItem}>
               <div className={iconWrapper} title="Email us">
                 <Mail size={16} />

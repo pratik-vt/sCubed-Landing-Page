@@ -9,10 +9,10 @@ export const headerContentStyles = style({
   padding: '0px 10px 10px 10px',
   color: '#000',
   '@media': {
-    'screen and (max-width: 768px)': { 
-      padding: '0 15px', 
+    'screen and (max-width: 768px)': {
+      padding: '0 15px',
       background: `#fff`,
-      height: '60px'
+      height: '60px',
     },
   },
 });
@@ -78,11 +78,12 @@ export const contactInfoGroup = style({
   gap: '20px',
   '@media': {
     'screen and (max-width: 768px)': {
-      flexDirection: 'column',
+      flexDirection: 'row',
       alignItems: 'center',
       gap: '10px',
       width: '100%',
       textAlign: 'center',
+      justifyContent: 'center',
     },
   },
 });
@@ -105,12 +106,12 @@ export const contactInfoLink = style({
 export const logoOuter = style({
   cursor: 'pointer',
   '@media': {
-    'screen and (max-width: 768px)': { 
+    'screen and (max-width: 768px)': {
       display: 'flex',
       alignItems: 'center',
       height: '100%',
       margin: '0',
-      maxWidth: '120px'
+      maxWidth: '120px',
     },
   },
 });
@@ -159,8 +160,9 @@ export const navMenu = style({
       display: 'none',
       flexDirection: 'column',
       alignItems: 'center',
-      position: 'absolute',
-      top: '60px',
+      position: 'fixed',
+      top: '96px',
+      left: '0',
       width: '100%',
       backgroundColor: '#fff',
       borderTop: '1px solid #ededef',
@@ -225,10 +227,10 @@ export const socialIconWrapper = style({
 export const socialIconsContainer = style({
   display: 'flex',
   gap: '15px',
-  '@media': { 
-    'screen and (max-width: 1024px)': { 
-      display: 'none' 
-    } 
+  '@media': {
+    'screen and (max-width: 1024px)': {
+      display: 'none',
+    },
   },
 });
 
@@ -240,6 +242,19 @@ export const iconWrapper = style({
   transition: 'all 0.2s ease',
   cursor: 'pointer',
   ':hover': { transform: 'scale(1.1)', opacity: 0.9 },
+});
+
+export const contactInfoDivider = style({
+  display: 'none',
+  '@media': {
+    'screen and (max-width: 768px)': {
+      display: 'block',
+      width: '1px',
+      height: '20px',
+      backgroundColor: '#ffffff',
+      opacity: 0.5,
+    },
+  },
 });
 
 export const loginButton = style({
@@ -289,10 +304,10 @@ export const desktopLogo = style({
 export const mobileLogo = style({
   display: 'none',
   '@media': {
-    'screen and (max-width: 768px)': { 
+    'screen and (max-width: 768px)': {
       display: 'flex',
       alignItems: 'center',
-      height: '40px'
+      height: '40px',
     },
   },
 });
