@@ -5,6 +5,7 @@ import {
   closeButton,
   modalContent,
   modalOverlay,
+  modalWrapper,
   videoContainer,
   videoFrame,
 } from './style.css';
@@ -38,7 +39,7 @@ const VideoModal: React.FC<VideoModalProps> = ({
 
   return (
     <div className={modalOverlay} onClick={handleOverlayClick}>
-      <div className={modalContent}>
+      <div className={modalWrapper}>
         <button
           className={closeButton}
           onClick={onClose}
@@ -46,14 +47,16 @@ const VideoModal: React.FC<VideoModalProps> = ({
         >
           <X size={24} />
         </button>
-        <div className={videoContainer}>
-          <iframe
-            className={videoFrame}
-            src={getYouTubeEmbedUrl(videoUrl)}
-            title="S Cubed Demo Video"
-            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-            allowFullScreen
-          />
+        <div className={modalContent}>
+          <div className={videoContainer}>
+            <iframe
+              className={videoFrame}
+              src={getYouTubeEmbedUrl(videoUrl)}
+              title="S Cubed Demo Video"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+              allowFullScreen
+            />
+          </div>
         </div>
       </div>
     </div>

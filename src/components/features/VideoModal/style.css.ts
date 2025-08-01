@@ -31,30 +31,36 @@ export const modalOverlay = style({
   alignItems: 'center',
   justifyContent: 'center',
   zIndex: 9999,
-  padding: '20px',
+  padding: '80px 20px 20px',
   animation: `${fadeIn} 0.3s ease-out`,
+});
+
+export const modalWrapper = style({
+  position: 'relative',
+  width: '100%',
+  maxWidth: '1200px',
+  animation: `${slideUp} 0.3s ease-out`,
 });
 
 export const modalContent = style({
   position: 'relative',
   width: '100%',
-  maxWidth: '1200px',
   maxHeight: '90vh',
   backgroundColor: '#000',
   borderRadius: '16px',
   overflow: 'hidden',
   boxShadow: '0 25px 50px -12px rgba(0, 0, 0, 0.5)',
-  animation: `${slideUp} 0.3s ease-out`,
+  isolation: 'isolate',
 });
 
 export const closeButton = style({
   position: 'absolute',
-  top: '20px',
-  right: '20px',
+  top: '-60px',
+  right: '0',
   width: '48px',
   height: '48px',
   backgroundColor: 'rgba(255, 255, 255, 0.1)',
-  border: 'none',
+  border: '1px solid rgba(255, 255, 255, 0.2)',
   borderRadius: '50%',
   color: '#ffffff',
   cursor: 'pointer',
@@ -75,8 +81,8 @@ export const closeButton = style({
     'screen and (max-width: 768px)': {
       width: '40px',
       height: '40px',
-      top: '10px',
-      right: '10px',
+      top: '-50px',
+      right: '0',
     },
   },
 });

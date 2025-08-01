@@ -167,11 +167,11 @@ export const navMenuOpen = style({ display: 'flex !important' });
 export const activeLinkStyle = style({
   content: '""',
   display: 'block',
-  width: '52px',
+  width: '100%',
   height: '5px',
   backgroundColor: '#7a7eed',
   position: 'absolute',
-  bottom: '-47px',
+  bottom: '-20px',
   left: '50%',
   transform: 'translateX(-50%)',
   '@media': { 'screen and (max-width: 768px)': { bottom: '-8px' } },
