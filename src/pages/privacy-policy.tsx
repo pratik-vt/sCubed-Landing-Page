@@ -1,8 +1,8 @@
-import * as React from 'react';
 import type { HeadFC, PageProps } from 'gatsby';
+import * as React from 'react';
 
 import Layout from '../components/Layout';
-import { Section, Heading } from '../components/Pages';
+import { Heading, Section } from '../components/Pages';
 import SEO from '../components/Seo';
 
 const PrivacyPage: React.FC<PageProps> = () => {
@@ -305,7 +305,7 @@ const PrivacyPage: React.FC<PageProps> = () => {
         time in order that it accurately reflects the regulatory environment and
         our data collection principles. When material changes are made to this
         Privacy Notice, SCubed will post the revised Notice on our website. This
-        Privacy Notice was last modified as of...
+        Privacy Notice was last modified on January 31, 2024.
       </Section>
       <h3>Contact Us</h3>
       <Section>
