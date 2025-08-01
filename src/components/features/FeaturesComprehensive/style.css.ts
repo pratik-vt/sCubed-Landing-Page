@@ -48,7 +48,10 @@ export const sectionTitle = style({
   fontFamily:
     '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif',
   '@media': {
-    'screen and (min-width: 768px)': {
+    'screen and (min-width: 768px) and (max-width: 1024px)': {
+      fontSize: '40px',
+    },
+    'screen and (min-width: 1025px)': {
       fontSize: '48px',
       whiteSpace: 'nowrap',
     },

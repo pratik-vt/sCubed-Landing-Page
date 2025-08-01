@@ -9,7 +9,11 @@ export const headerContentStyles = style({
   padding: '0px 10px 10px 10px',
   color: '#000',
   '@media': {
-    'screen and (max-width: 768px)': { padding: '0', background: `#fff` },
+    'screen and (max-width: 768px)': { 
+      padding: '0 15px', 
+      background: `#fff`,
+      height: '60px'
+    },
   },
 });
 
@@ -101,7 +105,13 @@ export const contactInfoLink = style({
 export const logoOuter = style({
   cursor: 'pointer',
   '@media': {
-    'screen and (max-width: 768px)': { margin: `10px 15px`, maxWidth: '120px' },
+    'screen and (max-width: 768px)': { 
+      display: 'flex',
+      alignItems: 'center',
+      height: '100%',
+      margin: '0',
+      maxWidth: '120px'
+    },
   },
 });
 
@@ -150,7 +160,7 @@ export const navMenu = style({
       flexDirection: 'column',
       alignItems: 'center',
       position: 'absolute',
-      top: '112px',
+      top: '60px',
       width: '100%',
       backgroundColor: '#fff',
       borderTop: '1px solid #ededef',
@@ -215,7 +225,11 @@ export const socialIconWrapper = style({
 export const socialIconsContainer = style({
   display: 'flex',
   gap: '15px',
-  '@media': { 'screen and (max-width: 768px)': { marginTop: '5px' } },
+  '@media': { 
+    'screen and (max-width: 1024px)': { 
+      display: 'none' 
+    } 
+  },
 });
 
 export const iconWrapper = style({
@@ -262,5 +276,23 @@ export const loginButton = style({
   selectors: { '&:hover:before': { width: '300px', height: '300px' } },
   '@media': {
     'screen and (max-width: 768px)': { padding: '10px 24px', fontSize: '14px' },
+  },
+});
+
+export const desktopLogo = style({
+  display: 'block',
+  '@media': {
+    'screen and (max-width: 768px)': { display: 'none' },
+  },
+});
+
+export const mobileLogo = style({
+  display: 'none',
+  '@media': {
+    'screen and (max-width: 768px)': { 
+      display: 'flex',
+      alignItems: 'center',
+      height: '40px'
+    },
   },
 });

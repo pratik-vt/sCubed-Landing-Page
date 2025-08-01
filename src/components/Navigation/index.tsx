@@ -18,11 +18,13 @@ import {
   contactInfoWrapper,
   crossLine1,
   crossLine2,
+  desktopLogo,
   hamburger,
   headerContentStyles,
   iconWrapper,
   loginButton,
   logoOuter,
+  mobileLogo,
   navMenu,
   navMenuOpen,
   navStyle,
@@ -157,12 +159,24 @@ const Navigation: React.FC = () => {
       </div>
       <div className={headerContentStyles}>
         <div className={logoOuter} onClick={() => navigate('/')}>
-          <StaticImage
-            alt="S Cubed"
-            src="../../images/HeaderLogo.png"
-            quality={100}
-            placeholder="blurred"
-          />
+          <div className={desktopLogo}>
+            <StaticImage
+              alt="S Cubed"
+              src="../../images/HeaderLogo.png"
+              quality={100}
+              placeholder="blurred"
+            />
+          </div>
+          <div className={mobileLogo}>
+            <StaticImage
+              alt="S Cubed"
+              src="../../images/scubed-logo-small.png"
+              quality={100}
+              placeholder="blurred"
+              style={{ height: '100%', width: 'auto' }}
+              imgStyle={{ objectFit: 'contain' }}
+            />
+          </div>
         </div>
         <nav className={`${navMenu} ${menuOpen ? navMenuOpen : ''}`}>
           <Link to="/" className={navStyle} activeClassName={activeNavStyle}>
