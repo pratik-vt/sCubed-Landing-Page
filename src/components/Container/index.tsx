@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 import GoTop from '../ScrollUp';
 
@@ -10,7 +10,6 @@ type Props = {
 };
 
 const Container: React.FC<Props> = ({ children }) => {
-  const refScrollUp = useRef<HTMLInputElement>(null);
   const [showGoTop, setShowGoTop] = useState(false);
 
   const handleScrollUp = () => {
@@ -21,7 +20,7 @@ const Container: React.FC<Props> = ({ children }) => {
   };
 
   const handleVisibleButton = () => {
-    refScrollUp?.current?.scrollIntoView({ behavior: 'smooth' });
+    window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
   useEffect(() => {
@@ -31,9 +30,7 @@ const Container: React.FC<Props> = ({ children }) => {
   }, []);
   return (
     <>
-      <div className={ContainerStyle} ref={refScrollUp}>
-        {children}
-      </div>
+      <div className={ContainerStyle}>{children}</div>
       <GoTop showGoTop={showGoTop} scrollUp={handleVisibleButton} />
     </>
   );
