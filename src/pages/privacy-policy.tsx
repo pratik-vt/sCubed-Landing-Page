@@ -323,5 +323,9 @@ const PrivacyPage: React.FC<PageProps> = () => {
 export default PrivacyPage;
 
 export const Head: HeadFC = () => (
-  <SEO title="Privacy Policy | S Cubed" pathname="/privacy-policy/" />
+  <SEO
+    title="Privacy & Policy - S Cubed"
+    description="Learn how S Cubed collects, uses, and protects your data. Review our privacy practices, data sharing, and user responsibilities."
+    pathname="/privacy-policy/"
+  />
 );

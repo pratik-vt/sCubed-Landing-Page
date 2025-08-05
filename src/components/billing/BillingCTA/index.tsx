@@ -4,12 +4,12 @@ import CalendlyButton from '../CalendlyButton';
 import { primaryButton } from '../CalendlyButton/styles.css';
 
 import {
-    ctaButtonWrapper,
-    ctaContainer,
-    ctaContent,
-    ctaDescription,
-    ctaSection,
-    ctaTitle,
+  ctaButtonWrapper,
+  ctaContainer,
+  ctaContent,
+  ctaDescription,
+  ctaSection,
+  ctaTitle,
 } from './styles.css';
 
 const BillingCTA: React.FC = () => {

@@ -124,13 +124,13 @@ const ModalForm: FC<Props> = ({
                 }
               });
               setApiErrors(fieldErrors);
-              
+
               // Also set a general message if there are errors
-              const generalErrors = json.errors.filter(err => !err.field);
+              const generalErrors = json.errors.filter((err) => !err.field);
               if (generalErrors.length > 0) {
                 setResponse({
                   success: false,
-                  message: generalErrors.map(err => err.message).join('\n'),
+                  message: generalErrors.map((err) => err.message).join('\n'),
                 });
               }
             } else {
@@ -406,7 +406,8 @@ const ModalForm: FC<Props> = ({
                     className={checkboxControlStyle}
                     {...register('other_software_experience')}
                   />
-                  Do you have experience with other therapy practice management software?
+                  Do you have experience with other therapy practice management
+                  software?
                 </label>
                 {apiErrors.other_software_experience && (
                   <div className={errorMessageStyle}>
@@ -417,7 +418,8 @@ const ModalForm: FC<Props> = ({
               {watchOtherSoftwareExperience && (
                 <div className={formGroupStyle}>
                   <label className={labelStyle}>
-                    Software Name<span className={requiredIndicatorStyle}>*</span>
+                    Software Name
+                    <span className={requiredIndicatorStyle}>*</span>
                   </label>
                   <input
                     type="text"
@@ -436,7 +438,8 @@ const ModalForm: FC<Props> = ({
                   />
                   {(errors?.software_name || apiErrors.software_name) && (
                     <div className={errorMessageStyle}>
-                      {errors?.software_name?.message || apiErrors.software_name}
+                      {errors?.software_name?.message ||
+                        apiErrors.software_name}
                     </div>
                   )}
                 </div>
@@ -450,9 +453,7 @@ const ModalForm: FC<Props> = ({
                   })}
                 ></textarea>
                 {apiErrors.comments && (
-                  <div className={errorMessageStyle}>
-                    {apiErrors.comments}
-                  </div>
+                  <div className={errorMessageStyle}>{apiErrors.comments}</div>
                 )}
               </div>
               <div

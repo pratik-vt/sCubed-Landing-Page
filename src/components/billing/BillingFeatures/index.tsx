@@ -2,14 +2,14 @@ import { BarChart3, Shield, TrendingUp, Users } from 'lucide-react';
 import React from 'react';
 
 import {
-    featureCard,
-    featureDescription,
-    featureIconWrapper,
-    featuresContainer,
-    featuresGrid,
-    featuresSection,
-    featureTitle,
-    sectionTitle,
+  featureCard,
+  featureDescription,
+  featureIconWrapper,
+  featuresContainer,
+  featuresGrid,
+  featuresSection,
+  featureTitle,
+  sectionTitle,
 } from './styles.css';
 
 const BillingFeatures: React.FC = () => {

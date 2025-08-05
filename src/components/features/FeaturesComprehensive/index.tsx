@@ -120,7 +120,7 @@ const FeaturesComprehensive: React.FC = () => {
       icon: <Settings />,
       title: 'Flexible for Any Setting',
       description:
-        'Whether you\'re in private practice, a school-based clinic, or a multidisciplinary environment, S Cubed adapts to your workflow - supporting your goals with unmatched flexibility.',
+        "Whether you're in private practice, a school-based clinic, or a multidisciplinary environment, S Cubed adapts to your workflow - supporting your goals with unmatched flexibility.",
     },
   ];
 

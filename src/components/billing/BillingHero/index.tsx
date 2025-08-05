@@ -7,23 +7,23 @@ import CalendlyButton from '../CalendlyButton';
 import { primaryButton } from '../CalendlyButton/styles.css';
 
 import {
-    backgroundImage,
-    backgroundOverlay,
-    bulletCard,
-    bulletGrid,
-    bulletIcon,
-    bulletItem,
-    bulletSection,
-    bulletText,
-    ctaSection,
-    heroContainer,
-    heroContent,
-    heroDescription,
-    heroImageContent,
-    heroSection,
-    heroTextContent,
-    heroTitle,
-    heroTitleHighlight,
+  backgroundImage,
+  backgroundOverlay,
+  bulletCard,
+  bulletGrid,
+  bulletIcon,
+  bulletItem,
+  bulletSection,
+  bulletText,
+  ctaSection,
+  heroContainer,
+  heroContent,
+  heroDescription,
+  heroImageContent,
+  heroSection,
+  heroTextContent,
+  heroTitle,
+  heroTitleHighlight,
 } from './styles.css';
 
 const BillingHero: React.FC = () => {
@@ -123,8 +123,8 @@ const BillingHero: React.FC = () => {
                 for ABA, Occupational Therapy, Speech Therapy, Physical Therapy,
                 and Counseling clinics. Whether you&apos;re a solo provider,
                 school-based service, or a multi-location practice, our
-                solutions simplify the entire billing lifecycle, so you can focus
-                on care, not claims.
+                solutions simplify the entire billing lifecycle, so you can
+                focus on care, not claims.
               </p>
               <div className={ctaSection}>
                 <CalendlyButton

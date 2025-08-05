@@ -1,10 +1,10 @@
 import { globalStyle, style } from '@vanilla-extract/css';
 
 import {
-    colors,
-    radius,
-    spacing,
-    typography,
+  colors,
+  radius,
+  spacing,
+  typography,
 } from '../../../styles/tokens.css';
 
 export const heroSection = style({

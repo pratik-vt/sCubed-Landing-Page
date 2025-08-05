@@ -1,13 +1,13 @@
-import * as React from 'react';
 import type { HeadFC, PageProps } from 'gatsby';
+import * as React from 'react';
 
 import Layout from '../components/Layout';
+import { Heading, Section } from '../components/Pages';
 import {
   olItemStyle,
   olLatinStyle,
   olRomanStyle,
 } from '../components/Pages/styles.css';
-import { Section, Heading } from '../components/Pages';
 import SEO from '../components/Seo';
 
 const TermsPage: React.FC<PageProps> = () => {
@@ -910,5 +910,9 @@ const TermsPage: React.FC<PageProps> = () => {
 export default TermsPage;
 
 export const Head: HeadFC = () => (
-  <SEO title="Terms & Conditions | S Cubed" pathname="/terms-conditions/" />
+  <SEO
+    title="Terms & Conditions - S Cubed"
+    description="Read S Cubed's Terms and Conditions outlining software use, payment terms, data rights, legal responsibilities, and compliance requirements."
+    pathname="/terms-conditions/"
+  />
 );
