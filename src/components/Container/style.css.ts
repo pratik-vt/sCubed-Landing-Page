@@ -209,12 +209,24 @@ export const bottomFooter = style({
       padding: `20px 0 0px 0`,
       flexDirection: `column`,
     },
+    'screen and (max-width: 768px)': {
+      padding: `20px 15px 0px 15px`,
+      flexDirection: `column`,
+      gap: `10px`,
+    },
   },
 });
 export const footerLinks = style({
   display: `flex`,
   alignItems: `center`,
   gap: `20px`,
+  '@media': {
+    'screen and (max-width: 768px)': {
+      flexDirection: `column`,
+      gap: `15px`,
+      marginTop: `15px`,
+    },
+  },
 });
 export const links = style({
   color: `#fff`,

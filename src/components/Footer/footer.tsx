@@ -1,16 +1,16 @@
-import React from 'react';
-import { StaticImage } from 'gatsby-plugin-image';
 import { Link, navigate } from 'gatsby';
+import { StaticImage } from 'gatsby-plugin-image';
+import React from 'react';
 
 import {
-  footer,
-  InnerContainerStyle,
-  footerContent,
   bottomFooter,
+  footer,
+  footerContent,
+  footerDesc,
   footerLinks,
+  InnerContainerStyle,
   links,
   rights,
-  footerDesc,
 } from '../Container/style.css';
 
 function Footer() {
@@ -41,6 +41,14 @@ function Footer() {
             © {currentYear} S Cubed. All rights reserved.
           </span>
           <div className={footerLinks}>
+            <a
+              className={links}
+              href={process.env.GATSBY_GUARDIAN_APP_URL || ''}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              Guardian Portal
+            </a>
             <Link className={links} to={`/terms-conditions`}>
               Terms & Conditions
             </Link>
