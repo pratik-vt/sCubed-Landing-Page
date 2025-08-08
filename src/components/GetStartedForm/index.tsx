@@ -1,3 +1,5 @@
+'use client';
+
 import { InputMask } from '@react-input/mask';
 import {
   AlertCircle,
@@ -153,7 +155,7 @@ const GetStartedForm: React.FC = () => {
         setStatesError(null);
 
         const response = await fetch(
-          `${process.env.GATSBY_ADMIN_APP_API_URL}states`,
+          `${process.env.NEXT_PUBLIC_ADMIN_APP_API_URL}states`,
           {
             method: 'GET',
             headers: {
@@ -228,7 +230,7 @@ const GetStartedForm: React.FC = () => {
 
     try {
       const response = await fetch(
-        `${process.env.GATSBY_ADMIN_APP_API_URL}pages/contact-us`,
+        `${process.env.NEXT_PUBLIC_ADMIN_APP_API_URL}pages/contact-us`,
         {
           method: 'POST',
           headers: {

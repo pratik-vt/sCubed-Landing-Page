@@ -1,12 +1,17 @@
-import { graphql, useStaticQuery } from 'gatsby';
-import { GatsbyImage, IGatsbyImageData } from 'gatsby-plugin-image';
+'use client';
+
 import React, { useState } from 'react';
+import Image from 'next/image';
 
 import useWindowDimensions from '../../hooks/useWindowDimensions';
 import treatment from '../../images/Customized Treatment Plans.png';
 import collection from '../../images/Data Collection & Reporting.png';
 import guardian from '../../images/Easy-to-use Guardian Portal.png';
 import appointment from '../../images/Efficient Appointment Scheduling.png';
+import appointmentPanel from '../../images/tabs/appointment.png';
+import treatmentPanel from '../../images/tabs/treatment-plan.png';
+import collectionPanel from '../../images/tabs/data-collection.png';
+import dashboardPanel from '../../images/tabs/dashboard.jpg';
 import CalendlyWidget from '../CalendlyWidget';
 import {
   InnerContainerStyle,
@@ -27,27 +32,6 @@ import {
 } from './styles.css';
 const tabBox: React.CSSProperties = { marginTop: '80px' };
 
-const query = graphql`
-  query MyQuery {
-    allFile(filter: { sourceInstanceName: { eq: "capability-images" } }) {
-      edges {
-        node {
-          childImageSharp {
-            gatsbyImageData(
-              layout: CONSTRAINED
-              backgroundColor: "white"
-              placeholder: BLURRED
-              width: 820
-              quality: 100
-            )
-          }
-          base
-        }
-      }
-    }
-  }
-`;
-
 const tabContents = [
   {
     heading: 'Efficient Appointment Scheduling',
@@ -55,7 +39,7 @@ const tabContents = [
       'Optimize your appointment scheduling with our powerful calendar system. Streamline operations across clinics and educational/school settings with automated reminders that reduce no-shows and keep schedules running smoothly.',
     image: appointment,
     alt: 'appointment',
-    panelImage: 'appointment.png',
+    panel: appointmentPanel,
   },
   {
     heading: 'Customized Treatment Plans',
@@ -63,7 +47,7 @@ const tabContents = [
       'Create personalized treatment plans for each patient with our versatile tools. Tailor therapies and monitor progress efficiently.',
     image: treatment,
     alt: 'treatment',
-    panelImage: 'treatment-plan.png',
+    panel: treatmentPanel,
   },
   {
     heading: 'Data Collection & Reporting',
@@ -71,7 +55,7 @@ const tabContents = [
       'Gather, analyze, and report critical data easily. Make informed decisions with comprehensive data insights.',
     image: collection,
     alt: 'collection',
-    panelImage: 'data-collection.png',
+    panel: collectionPanel,
   },
   {
     heading: 'Easy-to-use Guardian Portal',
@@ -79,28 +63,11 @@ const tabContents = [
       'Provide guardians with an intuitive portal to access information, updates, and communicate with the clinic effortlessly.',
     image: guardian,
     alt: 'guardian',
-    panelImage: 'dashboard.jpg',
+    panel: dashboardPanel,
   },
 ];
 
-type Edges = ReadonlyArray<{
-  readonly node: {
-    readonly base: string;
-    readonly childImageSharp: {
-      readonly gatsbyImageData: IGatsbyImageData;
-    } | null;
-  };
-}>;
-
-type ImageQuery = { readonly allFile: { readonly edges: Edges } };
-
-const getImage = (image: string, edges: Edges) => {
-  const imageObj = edges.find((edge) => edge.node.base === image);
-  return imageObj?.node.childImageSharp?.gatsbyImageData as IGatsbyImageData;
-};
-
 const Tabs: React.FC = () => {
-  const { allFile } = useStaticQuery<ImageQuery>(query);
   const [activeTab, setActiveTab] = useState(0);
   const { width: screenWidth } = useWindowDimensions();
 
@@ -111,7 +78,7 @@ const Tabs: React.FC = () => {
         <div className={tabsList}>
           {tabContents.map((content, index) => (
             <div
-              key={content.panelImage}
+              key={content.heading}
               className={tab}
               onClick={() => setActiveTab(index)}
               style={{
@@ -120,18 +87,28 @@ const Tabs: React.FC = () => {
                   activeTab === index ? '4px solid #7a7eed' : 'none',
               }}
             >
-              <img src={content.image} alt={content.alt} />
+              <Image
+                src={content.image}
+                alt={content.alt}
+                sizes="(min-width: 1200px) 240px, 33vw"
+              />
               <div className={tabData}>
                 <h3 className={tabDataHeading}>{content.heading}</h3>
               </div>
               {screenWidth <= 768 && activeTab === index && (
                 <div className={tabPanel}>
-                  <GatsbyImage
-                    className={tabPanel}
-                    image={getImage(content.panelImage, allFile.edges)}
+                  <Image
+                    className={tabPanelImage}
+                    src={content.panel}
                     alt={content.alt}
-                    imgStyle={{ objectFit: 'contain' }}
-                    loading="eager"
+                    sizes="(min-width: 1200px) 820px, 100vw"
+                    style={{
+                      objectFit: 'contain',
+                      width: '100%',
+                      height: 'auto',
+                    }}
+                    placeholder="blur"
+                    priority
                   />
                   <div className={panelContent}>
                     <div className={panelHeading}>{content.heading}</div>
@@ -152,15 +129,17 @@ const Tabs: React.FC = () => {
         {screenWidth > 768 &&
           tabContents.map((content, index) => (
             <div
-              key={content.panelImage}
+              key={content.heading}
               className={activeTab === index ? tabPanel : hidePanel}
             >
-              <GatsbyImage
+              <Image
                 className={tabPanelImage}
-                image={getImage(content.panelImage, allFile.edges)}
+                src={content.panel}
                 alt={content.alt}
-                imgStyle={{ objectFit: 'contain' }}
-                loading="eager"
+                sizes="(min-width: 1400px) 820px, (min-width: 768px) 60vw, 100vw"
+                style={{ objectFit: 'contain', width: '100%', height: 'auto' }}
+                placeholder="blur"
+                priority
               />
               <div className={panelContent}>
                 <div className={panelHeading}>{content.heading}</div>

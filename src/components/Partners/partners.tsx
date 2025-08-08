@@ -1,4 +1,4 @@
-import { StaticImage } from 'gatsby-plugin-image';
+import Image from 'next/image';
 import React from 'react';
 
 import tick from '../../images/tick.png';
@@ -8,6 +8,7 @@ import {
   tabBox,
   tabPanel,
 } from '../Container/style.css';
+import partnerImg from '../../images/Image-1.jpg';
 
 import {
   content,
@@ -30,11 +31,11 @@ const Partners: React.FC = () => {
           effectiveness.
         </div>
         <div className={tabPanel}>
-          <StaticImage
+          <Image
             className={image}
-            placeholder="blurred"
+            placeholder="blur"
             width={567}
-            src="../../images/Image-1.jpg"
+            src={partnerImg}
             alt="S Cubed Platform"
             quality={100}
           />
@@ -46,21 +47,21 @@ const Partners: React.FC = () => {
               practice with advanced functionalities.
             </div>
             <div className={listItem}>
-              <img src={tick} alt="tick" />
+              <Image src={tick} alt="tick" />
               <div className={listItemContent}>
                 We employ robust security measures to maintain integrity and
                 confidentiality.
               </div>
             </div>
             <div className={listItem}>
-              <img src={tick} alt="tick" />
+              <Image src={tick} alt="tick" />
               <div className={listItemContent}>
                 We have a dedicated support team assisting you with all of your
                 requirements.
               </div>
             </div>
             <div className={listItem}>
-              <img src={tick} alt="tick" />
+              <Image src={tick} alt="tick" />
               <div className={listItemContent}>
                 S Cubed is a very user-friendly platform, allowing easy
                 navigation for both guardians and therapists.

@@ -1,8 +1,9 @@
 import React from 'react';
-import { StaticImage } from 'gatsby-plugin-image';
+import Image from 'next/image';
 
 import { InnerContainerStyle } from '../Container/style.css';
 import CalendlyWidget from '../CalendlyWidget';
+import heroImg from '../../images/Image.jpg';
 
 import {
   heroStyles,
@@ -10,14 +11,17 @@ import {
   textBlockStyles,
   heroHeading,
 } from './style.css';
+
+
 const Hero: React.FC = () => {
   return (
     <main className={heroStyles}>
-      <StaticImage
+      <Image
         className={heroImage}
-        src="../../images/Image.jpg"
+        src={heroImg}
         alt="banner"
-        placeholder="blurred"
+        placeholder="blur"
+        priority
         quality={100}
       />
       <div className={InnerContainerStyle}>

@@ -95,7 +95,7 @@ const ModalForm: FC<Props> = ({
     setResponse({});
     setApiErrors({});
     setSubmitting(true);
-    fetch(`${process.env.GATSBY_ADMIN_APP_API_URL}pages/contact-us`, {
+    fetch(`${process.env.NEXT_PUBLIC_ADMIN_APP_API_URL}pages/contact-us`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',

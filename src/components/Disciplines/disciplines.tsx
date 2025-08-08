@@ -1,5 +1,5 @@
 import React from 'react';
-import { StaticImage } from 'gatsby-plugin-image';
+import Image from 'next/image';
 
 import {
   sectionHeading,
@@ -8,26 +8,25 @@ import {
   disciplineWrapper,
   disciplineImg,
 } from '../Container/style.css';
-// import discipline from '../../images/Disciplines.png';
-// import { disciplineImg } from '../../components/Container/style.css';
+import discipline from '../../images/Disciplines.png';
 
 const Disciplines: React.FC = () => (
   <div className={InnerContainerStyle}>
     <div className={disciplineWrapper}>
       <h2 className={sectionHeading}>Disciplines</h2>
       <div className={sectiondesc}>
-        S Cubed Platform simplifies the way you manage your practice and
-        clinical process. It is designed to integrate with various disciplines
-        allowing you to focus on your little clients’ well-being.
+        S Cubed Platform simplifies the way you manage your practice and clinical
+        process. It is designed to integrate with various disciplines allowing
+        you to focus on your little clients’ well-being.
       </div>
-      <StaticImage
+      <Image
         className={disciplineImg}
-        src="../../images/Disciplines.png"
-        alt=""
+        src={discipline}
+        alt="Disciplines"
         quality={100}
-        width={1400}
-        imgStyle={{ objectFit: 'contain' }}
-        placeholder="blurred"
+        placeholder="blur"
+        sizes="(max-width: 1400px) 100vw, 1400px"
+        style={{ objectFit: 'contain' }}
       />
     </div>
   </div>

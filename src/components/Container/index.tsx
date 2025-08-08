@@ -1,3 +1,5 @@
+'use client';
+
 import React, { useEffect, useState } from 'react';
 
 import GoTop from '../ScrollUp';
@@ -6,7 +8,7 @@ import { ContainerStyle } from './style.css';
 import './fonts.css';
 
 type Props = {
-  children: JSX.Element | JSX.Element[];
+  children: React.ReactNode;
 };
 
 const Container: React.FC<Props> = ({ children }) => {

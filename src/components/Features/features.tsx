@@ -1,4 +1,5 @@
 import React from 'react';
+import Image from 'next/image';
 
 import cloud from '../../images/Cloud Based Access.png';
 import hippa from '../../images/HIPAA Compliant.png';
@@ -17,28 +18,28 @@ const Features: React.FC = () => (
     <div className={InnerContainerStyle}>
       <div className={featureContainer}>
         <div className={featureItem}>
-          <img src={hippa} alt="HIPAA Compliant" />
+          <Image src={hippa} alt="HIPAA Compliant" />
           <div className={featureText}>
             <span>HIPAA</span>
             <span>Compliant</span>
           </div>
         </div>
         <div className={featureItem}>
-          <img src={cloud} alt="Cloud Based Access" />
+          <Image src={cloud} alt="Cloud Based Access" />
           <div className={featureText}>
             <span>Cloud Based</span>
             <span>Access</span>
           </div>
         </div>
         <div className={featureItem}>
-          <img src={secure} alt="Secure Platform" />
+          <Image src={secure} alt="Secure Platform" />
           <div className={featureText}>
             <span>Secure</span>
             <span>Platform</span>
           </div>
         </div>
         <div className={featureItem}>
-          <img src={user} alt="User-Friendly Interface" />
+          <Image src={user} alt="User-Friendly Interface" />
           <div className={featureText}>
             <span>User-friendly</span>
             <span>Interface</span>

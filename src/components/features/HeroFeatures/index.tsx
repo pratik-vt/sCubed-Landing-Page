@@ -1,10 +1,13 @@
-import { StaticImage } from 'gatsby-plugin-image';
+'use client';
+
+import Image from 'next/image';
 import { Award, Play, Shield } from 'lucide-react';
 import React, { useState } from 'react';
 
 import starIcon from '../../../images/star.png';
 import CalendlyButton from '../CalendlyButton';
 import VideoModal from '../VideoModal';
+import bgImage from '../../../images/transform-clinic.png';
 
 import {
   backgroundImage,
@@ -49,8 +52,8 @@ const HeroFeatures: React.FC = () => {
       <section className={heroSection}>
         {/* Background Image */}
         <div className={backgroundImage}>
-          <StaticImage
-            src="../../../images/transform-clinic.png"
+          <Image
+            src={bgImage}
             alt="Healthcare professional with child patient"
             style={{
               width: '100%',
@@ -58,8 +61,8 @@ const HeroFeatures: React.FC = () => {
               objectFit: 'cover',
               opacity: 0.6,
             }}
-            layout="fullWidth"
-            placeholder="blurred"
+            placeholder="blur"
+            priority
           />
           <div className={backgroundOverlay} />
         </div>
@@ -114,7 +117,7 @@ const HeroFeatures: React.FC = () => {
                 rel="noopener noreferrer"
                 className={trustBadgeLink}
               >
-                <img
+                <Image
                   src={starIcon}
                   alt="Star"
                   className={trustIcon}

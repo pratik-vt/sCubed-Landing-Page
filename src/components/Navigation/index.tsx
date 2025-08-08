@@ -1,9 +1,14 @@
-import { useLocation } from '@reach/router';
+'use client';
+
 import { format } from '@react-input/mask';
-import { Link, navigate } from 'gatsby';
-import { StaticImage } from 'gatsby-plugin-image';
+import Link from 'next/link';
+import Image from 'next/image';
 import { Mail, Phone } from 'lucide-react';
 import React, { useEffect, useState } from 'react';
+import { usePathname, useRouter } from 'next/navigation';
+
+import desktopLogoImg from '../../images/HeaderLogo.png';
+import mobileLogoImg from '../../images/scubed-logo-small.png';
 
 import {
   activeLinkStyle,
@@ -35,20 +40,21 @@ import {
 
 const Navigation: React.FC = () => {
   const [menuOpen, setMenuOpen] = useState<boolean>(false);
-  const { pathname } = useLocation();
+  const pathname = usePathname();
+  const router = useRouter();
 
   // Get environment variables for contact information
-  const phoneNumber = format(process.env.GATSBY_PHONE_NUMBER!, {
-    mask: '(___) ___-____',
-    replacement: { _: /\d/ },
-  });
-  const phoneLink = process.env.GATSBY_PHONE_NUMBER;
-  const email = process.env.GATSBY_EMAIL;
+  const rawPhone = process.env.NEXT_PUBLIC_PHONE_NUMBER;
+  const phoneNumber = rawPhone
+    ? format(rawPhone, { mask: '(___) ___-____', replacement: { _: /\d/ } })
+    : '';
+  const phoneLink = rawPhone || '';
+  const email = process.env.NEXT_PUBLIC_EMAIL || '';
   // Get environment variables for social media links
-  const fbUrl = process.env.GATSBY_FACEBOOK_URL;
-  const instaUrl = process.env.GATSBY_INSTAGRAM_URL;
-  const youtubeUrl = process.env.GATSBY_YOUTUBE_URL;
-  const linkedinUrl = process.env.GATSBY_LINKEDIN_URL;
+  const fbUrl = process.env.NEXT_PUBLIC_FACEBOOK_URL || '';
+  const instaUrl = process.env.NEXT_PUBLIC_INSTAGRAM_URL || '';
+  const youtubeUrl = process.env.NEXT_PUBLIC_YOUTUBE_URL || '';
+  const linkedinUrl = process.env.NEXT_PUBLIC_LINKEDIN_URL || '';
 
   useEffect(() => {
     if (menuOpen) {
@@ -68,8 +74,10 @@ const Navigation: React.FC = () => {
     <>
       <div className={contactInfoContainer}>
         <div className={contactInfoWrapper}>
+          {/* Left: Phone and Email */}
           <div className={contactInfoGroup}>
-            <div className={contactInfoItem}>
+            {phoneLink && (
+              <div className={contactInfoItem}>
               <div className={iconWrapper} title="Call us">
                 <Phone size={16} />
               </div>
@@ -77,20 +85,28 @@ const Navigation: React.FC = () => {
                 {phoneNumber}
               </a>
             </div>
-            <div className={contactInfoDivider}></div>
-            <div className={contactInfoItem}>
-              <div className={iconWrapper} title="Email us">
-                <Mail size={16} />
+            )}
+            {email && (
+              <>  
+              <div className={contactInfoDivider}></div>
+              <div className={contactInfoItem}>
+                <div className={iconWrapper} title="Email us">
+                  <Mail size={16} />
+                </div>
+                <a href={`mailto:${email}`} className={contactInfoLink}>
+                  {email}
+                </a>
               </div>
-              <a href={`mailto:${email}`} className={contactInfoLink}>
-                {email}
-              </a>
-            </div>
+              </>
+            )}
           </div>
+
+          {/* Center: Tagline */}
           <div className={centerText}>
-            Crafted by a team of expert BCBAs, in collaboration with ST, OT, PT,
-            and Billing professionals
+            Crafted by a team of expert BCBAs, in collaboration with ST, OT, PT, and Billing professionals
           </div>
+
+          {/* Right: Social Icons */}
           <div className={socialIconsContainer}>
             <a
               href={fbUrl}
@@ -157,59 +173,40 @@ const Navigation: React.FC = () => {
               </svg>
             </a>
           </div>
+
         </div>
       </div>
       <div className={headerContentStyles}>
-        <div className={logoOuter} onClick={() => navigate('/')}>
+        <div className={logoOuter} onClick={() => router.push('/')}>
           <div className={desktopLogo}>
-            <StaticImage
-              alt="S Cubed"
-              src="../../images/HeaderLogo.png"
-              quality={100}
-              placeholder="blurred"
-            />
+            <Image alt="S Cubed" src={desktopLogoImg} quality={100} placeholder="blur" />
           </div>
           <div className={mobileLogo}>
-            <StaticImage
+            <Image
               alt="S Cubed"
-              src="../../images/scubed-logo-small.png"
+              src={mobileLogoImg}
               quality={100}
-              placeholder="blurred"
-              style={{ height: '100%', width: 'auto' }}
-              imgStyle={{ objectFit: 'contain' }}
+              placeholder="blur"
+              style={{ height: '100%', width: 'auto', objectFit: 'contain' }}
             />
           </div>
         </div>
         <nav className={`${navMenu} ${menuOpen ? navMenuOpen : ''}`}>
-          <Link to="/" className={navStyle} activeClassName={activeNavStyle}>
+          <Link href="/" className={navStyle}>
             Home {pathname === '/' && <span className={activeLinkStyle} />}
           </Link>
-          <Link
-            to="/billing"
-            className={navStyle}
-            activeClassName={activeNavStyle}
-          >
-            Billing{' '}
-            {(pathname === '/billing' || pathname === '/billing/') && (
+          <Link href="/billing" className={navStyle}>
+            Billing {(pathname === '/billing' || pathname === '/billing/') && (
               <span className={activeLinkStyle} />
             )}
           </Link>
-          <Link
-            to="/features"
-            className={navStyle}
-            activeClassName={activeNavStyle}
-          >
-            Features{' '}
-            {(pathname === '/features' || pathname === '/features/') && (
+          <Link href="/features" className={navStyle}>
+            Features {(pathname === '/features' || pathname === '/features/') && (
               <span className={activeLinkStyle} />
             )}
           </Link>
-          <Link
-            to="/get-started"
-            className={navStyle}
-            activeClassName={activeNavStyle}
-          >
-            Get Started{' '}
+          <Link href="/get-started" className={navStyle}>
+            Get Started
             {(pathname === '/get-started' || pathname === '/get-started/') && (
               <span className={activeLinkStyle} />
             )}
@@ -218,7 +215,7 @@ const Navigation: React.FC = () => {
             className={loginButton}
             onClick={() =>
               window.location.assign(
-                (process.env.GATSBY_ADMIN_APP_URL + `auth/login`) as string,
+                (process.env.NEXT_PUBLIC_ADMIN_APP_URL + `auth/login`),
               )
             }
           >

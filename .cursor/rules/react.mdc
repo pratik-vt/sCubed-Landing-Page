@@ -1,0 +1,66 @@
+---
+description: 
+globs: **/*.tsx, **/*.jsx,
+alwaysApply: true
+---
+
+# React Best Practices for Next.js
+
+## Component Structure
+- Use functional components over class components
+- Keep components small and focused (single responsibility)
+- Extract reusable logic into custom hooks
+- Use composition over inheritance
+- Implement proper prop types with TypeScript interfaces
+- Split large components into smaller, focused ones
+- Follow the existing component structure in `src/components/`
+
+## Next.js Specific React Patterns
+- Default to Server Components unless interactivity is needed
+- Use `"use client"` directive only when necessary
+- Keep client components minimal and focused on interactivity
+- Avoid using React imports (Next.js handles this automatically)
+- Use `Readonly<>` wrapper for component props
+
+## Hooks
+- Follow the Rules of Hooks
+- Use custom hooks for reusable logic (see `src/hooks/`)
+- Keep hooks focused and simple
+- Use appropriate dependency arrays in useEffect
+- Implement cleanup in useEffect when needed
+- Avoid nested hooks
+- Use hooks only in client components
+
+## State Management
+- Use React's built-in state for component-level state
+- Consider context for shared state across multiple components
+- Minimize state - derive values when possible
+- Use useReducer for complex state logic
+- Keep state as close to where it's used as possible
+
+## Performance
+- Use React.memo() for expensive components that re-render often
+- Implement useCallback and useMemo for expensive computations
+- Avoid inline functions in JSX when possible
+- Use dynamic imports for code splitting
+- Optimize re-renders by structuring state properly
+
+## Error Handling
+- Implement error boundaries for component trees
+- Use try-catch in async operations
+- Provide fallback UI for error states
+- Handle loading states gracefully
+- Use proper TypeScript error types
+
+## Accessibility
+- Use semantic HTML elements
+- Implement proper ARIA attributes
+- Ensure keyboard navigation works
+- Provide alt text for images
+- Use proper heading hierarchy
+- Test with screen readers
+- Use custom hooks for reusable logic
+- Keep hooks focused and simple
+- Use appropriate dependency arrays in useEffect
+- Implement cleanup in useEffect when needed
+- Avoid nested hooks

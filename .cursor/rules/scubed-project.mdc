@@ -1,0 +1,82 @@
+# S Cubed Landing Page Project Standards
+
+## Project Architecture
+- Follow the established component structure: `/src/components/[ComponentName]/`
+- Each component should have an `index.tsx` and optional `styles.css.ts`
+- Place page-specific components in feature directories (e.g., `billing/`, `features/`)
+- Use the Container component for consistent layout and responsive design
+- Maintain the existing design system with Vanilla Extract tokens
+
+## Component Naming Conventions
+- Use PascalCase for component directories and files
+- Component files should be named `index.tsx` within their directory
+- Style files should be named `styles.css.ts` or `style.css.ts`
+- Export components as default exports from index files
+- Use descriptive names that reflect the component's purpose
+
+## Styling Standards
+- Use Vanilla Extract for all styling (`.css.ts` files)
+- Import design tokens from `src/styles/tokens.css.ts`
+- Follow the existing responsive breakpoint patterns
+- Use CSS Grid and Flexbox for layouts
+- Maintain consistent spacing using token values
+- Keep styles co-located with components
+
+## Image and Asset Management
+- Store images in `public/images/` directory
+- Use descriptive filenames for images
+- Optimize images for web (use WebP/AVIF when possible)
+- Implement proper alt text for accessibility
+- Use Next.js Image component for optimization (with unoptimized: true for static export)
+
+## Form and Interaction Patterns
+- Use the existing ModalForm pattern for popups
+- Implement Calendly integration using CalendlyWidget component
+- Follow the established button component patterns
+- Use proper TypeScript interfaces for form data
+- Implement client-side validation where appropriate
+
+## Navigation and Routing
+- Use Next.js App Router for all navigation
+- Implement proper metadata for SEO
+- Use descriptive page titles and descriptions
+- Follow the existing header/navigation structure
+- Ensure mobile-responsive navigation patterns
+
+## Content Management
+- Keep content organized and maintainable
+- Use proper TypeScript interfaces for content structures
+- Implement consistent text hierarchy
+- Follow the established CTA (Call-to-Action) patterns
+- Maintain brand consistency across all content
+
+## Performance Considerations
+- Lazy load non-critical components
+- Optimize images and assets
+- Minimize bundle size
+- Use React.memo() for components that re-render frequently
+- Implement proper loading states for async operations
+
+## Third-Party Integrations
+- Calendly: Use the established CalendlyWidget and CalendlyButton components
+- Follow the existing integration patterns
+- Handle integration errors gracefully
+- Implement proper loading states for external services
+
+## Development Workflow
+- Test builds regularly with `npm run build`
+- Use TypeScript strict mode
+- Follow ESLint configuration
+- Maintain code quality with consistent formatting
+- Document complex logic and integration points
+
+## AWS Amplify Deployment
+- Ensure static export compatibility
+- Test with `npm run build` before deployment
+- Use appropriate environment variables with NEXT_PUBLIC_ prefix
+- Maintain build optimization for static hosting
+- Follow the established CI/CD pipeline patterns
+description:
+globs:
+alwaysApply: false
+---

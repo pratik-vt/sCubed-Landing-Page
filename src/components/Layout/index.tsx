@@ -6,7 +6,7 @@ import Container from '../Container';
 
 import { contentStyle, headerWrapperStyles } from './styles.css';
 
-const Layout: FC<{ children: JSX.Element | JSX.Element[] }> = ({
+const Layout: FC<{ children: React.ReactNode }> = ({
   children,
 }) => {
   return (

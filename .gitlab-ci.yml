@@ -1,6 +1,10 @@
+# Next.js GitLab CI Configuration
+
 stages:
   - sonar
   - deploy
+
+# Sonar stage (original configuration restored)
 sonar:
   stage: sonar
   script:
@@ -9,37 +13,33 @@ sonar:
   only:
     - develop
 
+# Deploy to development on AWS Amplify
 deploy_web:
   stage: deploy
+  image: node:18-alpine
   environment:
     name: dev
   before_script:
-    - echo siteURL=$siteURL > .env
-    - echo hostname=$hostname > .env
-    - echo bucketName=$bucketName > .env
-    - echo GATSBY_ADMIN_APP_URL=$GATSBY_ADMIN_APP_URL >> .env
-    - echo GATSBY_GUARDIAN_APP_URL=$GATSBY_GUARDIAN_APP_URL >> .env
-    - echo GATSBY_ADMIN_APP_API_URL=$GATSBY_ADMIN_APP_API_URL >> .env
-    - echo GATSBY_SITE_URL=$GATSBY_SITE_URL >> .env
-    - echo GATSBY_FACEBOOK_URL=$GATSBY_FACEBOOK_URL >> .env
-    - echo GATSBY_INSTAGRAM_URL=$GATSBY_INSTAGRAM_URL >> .env
-    - echo GATSBY_YOUTUBE_URL=$GATSBY_YOUTUBE_URL >> .env
-    - echo GATSBY_PHONE_NUMBER=$GATSBY_PHONE_NUMBER >> .env
-    - echo GATSBY_EMAIL=$GATSBY_EMAIL >> .env
-    - echo GATSBY_ADDRESS=$GATSBY_ADDRESS >> .env
-    - echo GATSBY_GOOGLE_SITE_VERIFICATION=$GATSBY_GOOGLE_SITE_VERIFICATION >> .env
-    - echo GATSBY_GTM_ID=$GATSBY_GTM_ID >> .env
-    - echo GATSBY_CAL_URL=$GATSBY_CAL_URL >> .env
-    - echo GATSBY_LINKEDIN_URL=$GATSBY_LINKEDIN_URL >> .env
+    - apk add --no-cache aws-cli curl
+    - echo NEXT_PUBLIC_ADMIN_APP_URL=$NEXT_PUBLIC_ADMIN_APP_URL >> .env.local
+    - echo NEXT_PUBLIC_ADMIN_APP_API_URL=$NEXT_PUBLIC_ADMIN_APP_API_URL >> .env.local
+    - echo NEXT_PUBLIC_SITE_URL=$NEXT_PUBLIC_SITE_URL >> .env.local
+    - echo NEXT_PUBLIC_FACEBOOK_URL=$NEXT_PUBLIC_FACEBOOK_URL >> .env.local
+    - echo NEXT_PUBLIC_INSTAGRAM_URL=$NEXT_PUBLIC_INSTAGRAM_URL >> .env.local
+    - echo NEXT_PUBLIC_YOUTUBE_URL=$NEXT_PUBLIC_YOUTUBE_URL >> .env.local
+    - echo NEXT_PUBLIC_PHONE_NUMBER=$NEXT_PUBLIC_PHONE_NUMBER >> .env.local
+    - echo NEXT_PUBLIC_EMAIL=$NEXT_PUBLIC_EMAIL >> .env.local
+    - echo NEXT_PUBLIC_ADDRESS=$NEXT_PUBLIC_ADDRESS >> .env.local
+    - echo NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION=$NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION >> .env.local
+    - echo NEXT_PUBLIC_GTM_ID=$NEXT_PUBLIC_GTM_ID >> .env.local
+    - echo NEXT_PUBLIC_CALENDLY_URL=$NEXT_PUBLIC_CALENDLY_URL >> .env.local
+    - echo NEXT_PUBLIC_LINKEDIN_URL=$NEXT_PUBLIC_LINKEDIN_URL >> .env.local
   script:
-    - nvm use v18
-    - npm install
-    - npm install gatsby --global
-    - npm install gatsby-plugin-s3
-    - npm install deepmerge --save
-    - gatsby build
-    - aws s3 cp public s3://landing-dev.scubed.io/ --recursive --profile scubed_dev
-    - aws cloudfront create-invalidation --distribution-id 	E1HTKB3P8A1UDU --paths "/*" --profile scubed_dev
+    - npm ci
+    - npm run build
+    # Trigger Amplify deployment for development
+    - aws amplify start-job --app-id $AMPLIFY_APP_ID_DEV --branch-name develop --job-type RELEASE --region $AWS_REGION
+    - echo "Deployment triggered for Amplify App ID: $AMPLIFY_APP_ID_DEV"
     - >
       curl -X POST -H "Content-Type: application/json" 
       -d "{\"text\": \"${MESSAGE_DEV}\"}" 
@@ -48,37 +48,33 @@ deploy_web:
   only:
     - develop
 
+# Deploy to staging on AWS Amplify
 deploy_web_staging:
   stage: deploy
+  image: node:18-alpine
   environment:
     name: stage
   before_script:
-    - echo siteURL=$siteURL > .env
-    - echo hostname=$hostname > .env
-    - echo bucketName=$bucketName > .env
-    - echo GATSBY_ADMIN_APP_URL=$GATSBY_ADMIN_APP_URL >> .env
-    - echo GATSBY_GUARDIAN_APP_URL=$GATSBY_GUARDIAN_APP_URL >> .env
-    - echo GATSBY_ADMIN_APP_API_URL=$GATSBY_ADMIN_APP_API_URL >> .env
-    - echo GATSBY_SITE_URL=$GATSBY_SITE_URL >> .env
-    - echo GATSBY_FACEBOOK_URL=$GATSBY_FACEBOOK_URL >> .env
-    - echo GATSBY_INSTAGRAM_URL=$GATSBY_INSTAGRAM_URL >> .env
-    - echo GATSBY_YOUTUBE_URL=$GATSBY_YOUTUBE_URL >> .env
-    - echo GATSBY_PHONE_NUMBER=$GATSBY_PHONE_NUMBER >> .env
-    - echo GATSBY_EMAIL=$GATSBY_EMAIL >> .env
-    - echo GATSBY_ADDRESS=$GATSBY_ADDRESS >> .env
-    - echo GATSBY_GOOGLE_SITE_VERIFICATION=$GATSBY_GOOGLE_SITE_VERIFICATION >> .env
-    - echo GATSBY_GTM_ID=$GATSBY_GTM_ID >> .env
-    - echo GATSBY_CAL_URL=$GATSBY_CAL_URL >> .env
-    - echo GATSBY_LINKEDIN_URL=$GATSBY_LINKEDIN_URL >> .env
+    - apk add --no-cache aws-cli curl
+    - echo NEXT_PUBLIC_ADMIN_APP_URL=$NEXT_PUBLIC_ADMIN_APP_URL >> .env.local
+    - echo NEXT_PUBLIC_ADMIN_APP_API_URL=$NEXT_PUBLIC_ADMIN_APP_API_URL >> .env.local
+    - echo NEXT_PUBLIC_SITE_URL=$NEXT_PUBLIC_SITE_URL >> .env.local
+    - echo NEXT_PUBLIC_FACEBOOK_URL=$NEXT_PUBLIC_FACEBOOK_URL >> .env.local
+    - echo NEXT_PUBLIC_INSTAGRAM_URL=$NEXT_PUBLIC_INSTAGRAM_URL >> .env.local
+    - echo NEXT_PUBLIC_YOUTUBE_URL=$NEXT_PUBLIC_YOUTUBE_URL >> .env.local
+    - echo NEXT_PUBLIC_PHONE_NUMBER=$NEXT_PUBLIC_PHONE_NUMBER >> .env.local
+    - echo NEXT_PUBLIC_EMAIL=$NEXT_PUBLIC_EMAIL >> .env.local
+    - echo NEXT_PUBLIC_ADDRESS=$NEXT_PUBLIC_ADDRESS >> .env.local
+    - echo NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION=$NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION >> .env.local
+    - echo NEXT_PUBLIC_GTM_ID=$NEXT_PUBLIC_GTM_ID >> .env.local
+    - echo NEXT_PUBLIC_CALENDLY_URL=$NEXT_PUBLIC_CALENDLY_URL >> .env.local
+    - echo NEXT_PUBLIC_LINKEDIN_URL=$NEXT_PUBLIC_LINKEDIN_URL >> .env.local
   script:
-    - nvm use v18
-    - npm install
-    - npm install gatsby --global
-    - npm install gatsby-plugin-s3
-    - npm install deepmerge --save
-    - gatsby build
-    - aws s3 cp public s3://stage.scubed.io/ --recursive --profile scubed_stage
-    - aws cloudfront create-invalidation --distribution-id 	EJ5YSB37WYNFV --paths "/*" --profile scubed_stage
+    - npm ci
+    - npm run build
+    # Trigger Amplify deployment for staging
+    - aws amplify start-job --app-id $AMPLIFY_APP_ID_STAGING --branch-name staging --job-type RELEASE --region $AWS_REGION
+    - echo "Deployment triggered for Amplify App ID: $AMPLIFY_APP_ID_STAGING"
     - >
       curl -X POST -H "Content-Type: application/json" 
       -d "{\"text\": \"${MESSAGE_STAGE}\"}" 
@@ -87,87 +83,33 @@ deploy_web_staging:
   only:
     - staging
 
-stages:
-  - sonar
-  - deploy
-sonar:
-  stage: sonar
-  script:
-    - source /etc/environment
-    - sonar-scanner -Dsonar.projectKey=scubed-landing-page -Dsonar.sources=. -Dsonar.host.url=$sonar_host -Dsonar.login=$sonar_login
-  only:
-    - develop
-
-deploy_web:
-  stage: deploy
-  environment:
-    name: dev
-  before_script:
-    - echo siteURL=$siteURL > .env
-    - echo hostname=$hostname > .env
-    - echo bucketName=$bucketName > .env
-    - echo GATSBY_ADMIN_APP_URL=$GATSBY_ADMIN_APP_URL >> .env
-    - echo GATSBY_GUARDIAN_APP_URL=$GATSBY_GUARDIAN_APP_URL >> .env
-    - echo GATSBY_ADMIN_APP_API_URL=$GATSBY_ADMIN_APP_API_URL >> .env
-    - echo GATSBY_SITE_URL=$GATSBY_SITE_URL >> .env
-    - echo GATSBY_FACEBOOK_URL=$GATSBY_FACEBOOK_URL >> .env
-    - echo GATSBY_INSTAGRAM_URL=$GATSBY_INSTAGRAM_URL >> .env
-    - echo GATSBY_YOUTUBE_URL=$GATSBY_YOUTUBE_URL >> .env
-    - echo GATSBY_PHONE_NUMBER=$GATSBY_PHONE_NUMBER >> .env
-    - echo GATSBY_EMAIL=$GATSBY_EMAIL >> .env
-    - echo GATSBY_ADDRESS=$GATSBY_ADDRESS >> .env
-    - echo GATSBY_GOOGLE_SITE_VERIFICATION=$GATSBY_GOOGLE_SITE_VERIFICATION >> .env
-    - echo GATSBY_GTM_ID=$GATSBY_GTM_ID >> .env
-    - echo GATSBY_CAL_URL=$GATSBY_CAL_URL >> .env
-    - echo GATSBY_LINKEDIN_URL=$GATSBY_LINKEDIN_URL >> .env
-  script:
-    - nvm use v18
-    - npm install
-    - npm install gatsby --global
-    - npm install gatsby-plugin-s3
-    - npm install deepmerge --save
-    - gatsby build
-    - aws s3 cp public s3://landing-dev.scubed.io/ --recursive --profile scubed_dev
-    - aws cloudfront create-invalidation --distribution-id 	E1HTKB3P8A1UDU --paths "/*" --profile scubed_dev
-    - >
-      curl -X POST -H "Content-Type: application/json" 
-      -d "{\"text\": \"${MESSAGE_DEV}\"}" 
-      "${GCHAT_WEBHOOK_URL}"
-  when: manual
-  only:
-    - develop
-
+# Deploy to production on AWS Amplify
 deploy_web_prod:
   stage: deploy
+  image: node:18-alpine
   environment:
     name: prod
   before_script:
-    - echo siteURL=$siteURL > .env
-    - echo hostname=$hostname > .env
-    - echo bucketName=$bucketName > .env
-    - echo GATSBY_ADMIN_APP_URL=$GATSBY_ADMIN_APP_URL >> .env
-    - echo GATSBY_GUARDIAN_APP_URL=$GATSBY_GUARDIAN_APP_URL >> .env
-    - echo GATSBY_ADMIN_APP_API_URL=$GATSBY_ADMIN_APP_API_URL >> .env
-    - echo GATSBY_SITE_URL=$GATSBY_SITE_URL >> .env
-    - echo GATSBY_FACEBOOK_URL=$GATSBY_FACEBOOK_URL >> .env
-    - echo GATSBY_INSTAGRAM_URL=$GATSBY_INSTAGRAM_URL >> .env
-    - echo GATSBY_YOUTUBE_URL=$GATSBY_YOUTUBE_URL >> .env
-    - echo GATSBY_PHONE_NUMBER=$GATSBY_PHONE_NUMBER >> .env
-    - echo GATSBY_EMAIL=$GATSBY_EMAIL >> .env
-    - echo GATSBY_ADDRESS=$GATSBY_ADDRESS >> .env
-    - echo GATSBY_GOOGLE_SITE_VERIFICATION=$GATSBY_GOOGLE_SITE_VERIFICATION >> .env
-    - echo GATSBY_GTM_ID=$GATSBY_GTM_ID >> .env
-    - echo GATSBY_CAL_URL=$GATSBY_CAL_URL >> .env
-    - echo GATSBY_LINKEDIN_URL=$GATSBY_LINKEDIN_URL >> .env
+    - apk add --no-cache aws-cli curl
+    - echo NEXT_PUBLIC_ADMIN_APP_URL=$NEXT_PUBLIC_ADMIN_APP_URL >> .env.local
+    - echo NEXT_PUBLIC_ADMIN_APP_API_URL=$NEXT_PUBLIC_ADMIN_APP_API_URL >> .env.local
+    - echo NEXT_PUBLIC_SITE_URL=$NEXT_PUBLIC_SITE_URL >> .env.local
+    - echo NEXT_PUBLIC_FACEBOOK_URL=$NEXT_PUBLIC_FACEBOOK_URL >> .env.local
+    - echo NEXT_PUBLIC_INSTAGRAM_URL=$NEXT_PUBLIC_INSTAGRAM_URL >> .env.local
+    - echo NEXT_PUBLIC_YOUTUBE_URL=$NEXT_PUBLIC_YOUTUBE_URL >> .env.local
+    - echo NEXT_PUBLIC_PHONE_NUMBER=$NEXT_PUBLIC_PHONE_NUMBER >> .env.local
+    - echo NEXT_PUBLIC_EMAIL=$NEXT_PUBLIC_EMAIL >> .env.local
+    - echo NEXT_PUBLIC_ADDRESS=$NEXT_PUBLIC_ADDRESS >> .env.local
+    - echo NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION=$NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION >> .env.local
+    - echo NEXT_PUBLIC_GTM_ID=$NEXT_PUBLIC_GTM_ID >> .env.local
+    - echo NEXT_PUBLIC_CALENDLY_URL=$NEXT_PUBLIC_CALENDLY_URL >> .env.local
+    - echo NEXT_PUBLIC_LINKEDIN_URL=$NEXT_PUBLIC_LINKEDIN_URL >> .env.local
   script:
-    - nvm use v18
-    - npm install
-    - npm install gatsby --global
-    - npm install gatsby-plugin-s3
-    - npm install deepmerge --save
-    - gatsby build
-    - aws s3 cp public s3://landing-prod.scubed.io/ --recursive --profile scubed_prod
-    - aws cloudfront create-invalidation --distribution-id 	E1WK5QKLVXWW2Y --paths "/*" --profile scubed_prod
+    - npm ci
+    - npm run build
+    # Trigger Amplify deployment for production
+    - aws amplify start-job --app-id $AMPLIFY_APP_ID_PROD --branch-name main --job-type RELEASE --region $AWS_REGION
+    - echo "Deployment triggered for Amplify App ID: $AMPLIFY_APP_ID_PROD"
     - >
       curl -X POST -H "Content-Type: application/json" 
       -d "{\"text\": \"${MESSAGE_PROD}\"}" 
@@ -175,4 +117,5 @@ deploy_web_prod:
   when: manual
   only:
     - master
+    - main
 

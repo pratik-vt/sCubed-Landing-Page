@@ -1,3 +1,5 @@
+'use client';
+
 import {
   Archive,
   Award,
@@ -268,7 +270,7 @@ const FeaturesComprehensive: React.FC = () => {
               <div className={coreFeatureIcon}>
                 {cloneElement(feature.icon as React.ReactElement, {
                   size: 24,
-                })}
+                } as any)}
               </div>
               <h3 className={coreFeatureTitle}>{feature.title}</h3>
               <p className={coreFeatureDescription}>{feature.description}</p>
@@ -300,7 +302,7 @@ const FeaturesComprehensive: React.FC = () => {
                   >
                     {cloneElement(category.icon as React.ReactElement, {
                       size: 24,
-                    })}
+                    } as any)}
                   </span>
                   {category.category}
                 </h3>

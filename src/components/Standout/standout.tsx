@@ -1,4 +1,5 @@
 import React from 'react';
+import Image from 'next/image';
 
 import behavoir from '../../images/Behavior Tracking.png';
 import document from '../../images/Document Management.png';
@@ -42,7 +43,7 @@ const Stand: React.FC = () => (
         <div className={featureContainers}>
           <div className={featureItems}>
             <div className={standWrapper}>
-              <img src={smart} alt="HIPAA Compliant" />
+              <Image src={smart} alt="HIPAA Compliant" />
               <div className={featureText}>
                 <h3 style={standHead}>Smart Billing Management </h3>
                 <span style={standDesc}>
@@ -53,7 +54,7 @@ const Stand: React.FC = () => (
               </div>
             </div>
             <div className={standWrapper}>
-              <img src={quick} alt="HIPAA Compliant" />
+              <Image src={quick} alt="HIPAA Compliant" />
               <div className={featureText}>
                 <h3 style={standHead}>Quick Communication </h3>
                 <span style={standDesc}>
@@ -66,7 +67,7 @@ const Stand: React.FC = () => (
           </div>
           <div className={featureItems}>
             <div className={standWrapper}>
-              <img src={behavoir} alt="HIPAA Compliant" />
+              <Image src={behavoir} alt="HIPAA Compliant" />
               <div className={featureText}>
                 <h3 style={standHead}>Behavior Tracking </h3>
                 <span style={standDesc}>
@@ -77,7 +78,7 @@ const Stand: React.FC = () => (
               </div>
             </div>
             <div className={standWrapper}>
-              <img src={multi} alt="HIPAA Compliant" />
+              <Image src={multi} alt="HIPAA Compliant" />
               <div className={featureText}>
                 <h3 style={standHead}>Multi-Location Clinic Management</h3>
                 <span style={standDesc}>
@@ -90,7 +91,7 @@ const Stand: React.FC = () => (
           </div>
           <div className={featureItems}>
             <div className={standWrapper}>
-              <img src={graphic} alt="HIPAA Compliant" />
+              <Image src={graphic} alt="HIPAA Compliant" />
               <div className={featureText}>
                 <h3 style={standHead}>Graphing & Reporting </h3>
                 <span style={standDesc}>
@@ -100,7 +101,7 @@ const Stand: React.FC = () => (
               </div>
             </div>
             <div className={standWrapper}>
-              <img src={flexible} alt="HIPAA Compliant" />
+              <Image src={flexible} alt="HIPAA Compliant" />
               <div className={featureText}>
                 <h3 style={standHead}>Flexible Permission Management </h3>
                 <span style={standDesc}>
@@ -113,7 +114,7 @@ const Stand: React.FC = () => (
           </div>
           <div className={featureItems}>
             <div className={standWrapper}>
-              <img src={Esign} alt="HIPAA Compliant" />
+              <Image src={Esign} alt="HIPAA Compliant" />
               <div className={featureText}>
                 <h3 style={standHead}>E-sign Documents </h3>
                 <span style={standDesc}>
@@ -124,7 +125,7 @@ const Stand: React.FC = () => (
               </div>
             </div>
             <div className={standWrapper}>
-              <img src={document} alt="HIPAA Compliant" />
+              <Image src={document} alt="HIPAA Compliant" />
               <div className={featureText}>
                 <h3 style={standHead}>Document Management </h3>
                 <span style={standDesc}>

@@ -1,10 +1,13 @@
+'use client';
+
 import React, { useState, useEffect } from 'react';
-import { StaticImage } from 'gatsby-plugin-image';
+import Image from 'next/image';
 
 // import Button from '../Button/button';
 import { headingStyle, descStyle } from '../Container/style.css';
 import CalendlyWidget from '../CalendlyWidget';
 import Navigation from '../Navigation';
+import banner from '../../images/Banner.jpg';
 
 import {
   headerWrapperStyles,
@@ -12,6 +15,7 @@ import {
   pageStyles,
   textBlockStyle,
 } from './styles.css';
+
 
 const Header: React.FC = () => {
   const [headerBackground, setHeaderBackground] = useState<boolean>(false);
@@ -35,13 +39,13 @@ const Header: React.FC = () => {
       >
         <Navigation />
       </div>
-      <StaticImage
+      <Image
         alt="Description of the image"
-        src="../../images/Banner.jpg"
-        layout="fullWidth"
-        quality={100}
-        placeholder="blurred"
+        src={banner}
         className={bannerImg}
+        placeholder="blur"
+        priority
+        quality={100}
       />
       <div className={textBlockStyle}>
         <h1 className={headingStyle}>
@@ -50,8 +54,8 @@ const Header: React.FC = () => {
         <p className={descStyle}>
           S Cubed is an all-in-one platform packed with powerful Clinical and
           Practice Management functionalities, designed to streamline operations
-          and enhance outcomes. Whether you&apos;re running a healthcare clinic
-          or managing services in educational or school-based settings, S cubed
+          and enhance outcomes. Whether you&apos;re running a healthcare clinic or
+          managing services in educational or school-based settings, S cubed
           empowers you to focus on delivering exceptional care with less hassle
           and greater efficiency.
         </p>

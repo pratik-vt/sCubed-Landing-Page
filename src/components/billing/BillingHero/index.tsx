@@ -1,10 +1,13 @@
+'use client';
+
 import { motion, useInView, Variants } from 'framer-motion';
-import { StaticImage } from 'gatsby-plugin-image';
+import Image from 'next/image';
 import { CheckCircle } from 'lucide-react';
 import React, { useRef } from 'react';
 
 import CalendlyButton from '../CalendlyButton';
 import { primaryButton } from '../CalendlyButton/styles.css';
+import billingImg from '../../../images/Billing.jpg';
 
 import {
   backgroundImage,
@@ -93,8 +96,8 @@ const BillingHero: React.FC = () => {
       <section className={heroSection}>
         {/* Background Image */}
         <div className={backgroundImage}>
-          <StaticImage
-            src="../../../images/Billing.jpg"
+          <Image
+            src={billingImg}
             alt="Professional billing and financial management for healthcare practices"
             style={{
               width: '100%',
@@ -102,8 +105,8 @@ const BillingHero: React.FC = () => {
               objectFit: 'cover',
               opacity: 0.5,
             }}
-            layout="fullWidth"
-            placeholder="blurred"
+            placeholder="blur"
+            priority
           />
           <div className={backgroundOverlay} />
         </div>
@@ -135,12 +138,11 @@ const BillingHero: React.FC = () => {
             </div>
 
             <div className={heroImageContent}>
-              <StaticImage
+              <Image
                 alt="Professional billing and financial management for healthcare practices"
-                src="../../../images/Billing.jpg"
+                src={billingImg}
                 quality={100}
-                placeholder="blurred"
-                layout="constrained"
+                placeholder="blur"
                 width={600}
                 height={500}
               />

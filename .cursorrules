@@ -1,0 +1,51 @@
+# S Cubed Landing Page - Cursor Rules Configuration
+
+This project uses modular Cursor rules organized in the `.cursor/rules/` directory.
+
+## Active Rule Sets:
+
+### Project-Specific Rules
+- **scubed-project.mdc** - S Cubed Landing Page specific standards and conventions
+- **nextjs.mdc** - Next.js 15 best practices and patterns
+
+### Technology-Specific Rules  
+- **react.mdc** - React best practices for Next.js applications
+- **typescript.mdc** - TypeScript coding standards and conventions
+- **clean-code.mdc** - General clean code principles and guidelines
+
+## Project Context
+
+**Framework**: Next.js 15 with App Router
+**Styling**: Vanilla Extract CSS-in-JS
+**Language**: TypeScript with strict mode
+**Deployment**: AWS Amplify (static export)
+**Architecture**: Component-driven with design tokens
+
+## Key Conventions
+
+- Use Server Components by default, Client Components only when needed
+- Follow existing component structure in `src/components/`
+- Use Vanilla Extract for all styling with design tokens
+- Implement proper TypeScript interfaces for all props
+- No manual React imports (Next.js handles automatically)
+- Use `NEXT_PUBLIC_` prefix for client-side environment variables
+- Test builds regularly with static export configuration
+
+## Quick Reference
+
+```bash
+# Development
+npm run dev
+
+# Build & Test
+npm run build
+npm run typecheck
+npm run lint
+
+# Environment
+NEXT_PUBLIC_* variables for client-side access
+```
+
+---
+
+*Rules are automatically applied based on file patterns defined in each .mdc file* 

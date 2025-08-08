@@ -1,0 +1,80 @@
+# Next.js 15 Best Practices
+
+## App Router Structure
+- Use the App Router (`src/app/`) for all new routes
+- Place page components in `page.tsx` files within route directories
+- Use `layout.tsx` for shared layouts and templates
+- Implement `loading.tsx` for loading states
+- Create `error.tsx` for error boundaries
+- Use `not-found.tsx` for 404 pages
+
+## Server and Client Components
+- Default to Server Components for better performance
+- Only use `"use client"` directive when necessary (interactivity, browser APIs, state)
+- Keep client components small and focused
+- Move state and event handlers to client components
+- Use Server Components for data fetching and static content
+
+## Environment Variables
+- Prefix client-side variables with `NEXT_PUBLIC_`
+- Store sensitive keys in `.env.local` (never commit)
+- Use `.env.example` for documenting required variables
+- Access environment variables through `process.env`
+
+## Styling with Vanilla Extract
+- Use `.css.ts` files for component styles
+- Implement design tokens in `src/styles/tokens.css.ts`
+- Create responsive styles using breakpoint utilities
+- Use CSS variables for theme consistency
+- Follow the existing styling patterns in components
+
+## Image Optimization
+- Place images in `public/` directory
+- Use Next.js `Image` component for optimization
+- Specify width and height for better performance
+- Use appropriate image formats (WebP, AVIF)
+- For static export, set `unoptimized: true` in config
+
+## Performance Optimization
+- Use dynamic imports for code splitting
+- Implement lazy loading for non-critical components
+- Optimize fonts with `next/font`
+- Minimize client-side JavaScript
+- Use React.memo() for expensive components
+
+## Static Export Configuration
+- Configure `output: 'export'` for static hosting
+- Set `trailingSlash: true` for AWS Amplify
+- Use `unoptimized: true` for images in static export
+- Test builds with `npm run build` regularly
+
+## Component Architecture
+- Follow the existing component structure in `src/components/`
+- Create component-specific style files alongside TSX files
+- Use TypeScript interfaces for all props
+- Implement proper error boundaries
+- Keep components focused and reusable
+
+## Data Fetching
+- Use Server Components for initial data loading
+- Implement loading states for async operations
+- Handle errors gracefully with try-catch blocks
+- Use React Query/SWR for client-side data fetching if needed
+
+## SEO and Metadata
+- Use Next.js metadata API for SEO
+- Implement structured data where appropriate
+- Optimize page titles and descriptions
+- Use semantic HTML elements
+- Ensure proper heading hierarchy
+
+## Testing and Quality
+- Write unit tests for complex logic
+- Test components with React Testing Library
+- Use TypeScript strict mode
+- Follow ESLint rules (react/react-in-jsx-scope: off)
+- Implement proper error handling
+description:
+globs:
+alwaysApply: false
+---
