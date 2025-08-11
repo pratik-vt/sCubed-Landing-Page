@@ -172,6 +172,12 @@ logs
 # Turbopack
 .turbo
 
+# Strapi specific
+.strapi/
+.strapi-updater.json
+.tmp/
+exports/
+
 # Vercel
 .vercel
 

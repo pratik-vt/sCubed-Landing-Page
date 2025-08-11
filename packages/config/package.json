@@ -1,0 +1,16 @@
+{
+  "name": "@scubed/config",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Shared configuration for S Cubed monorepo",
+  "main": "index.js",
+  "types": "index.d.ts",
+  "files": [
+    "eslint",
+    "typescript",
+    "prettier"
+  ],
+  "scripts": {
+    "clean": "rm -rf node_modules"
+  }
+}

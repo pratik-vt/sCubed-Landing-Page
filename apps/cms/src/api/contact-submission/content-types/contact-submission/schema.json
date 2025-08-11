@@ -1,0 +1,73 @@
+{
+  "kind": "collectionType",
+  "collectionName": "contact_submissions",
+  "info": {
+    "singularName": "contact-submission",
+    "pluralName": "contact-submissions",
+    "displayName": "Contact Submission",
+    "description": "Stores contact form submissions from the website"
+  },
+  "options": {
+    "draftAndPublish": false
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "first_name": {
+      "type": "string",
+      "required": true,
+      "maxLength": 50
+    },
+    "last_name": {
+      "type": "string",
+      "required": true,
+      "maxLength": 50
+    },
+    "email_id": {
+      "type": "email",
+      "required": true,
+      "maxLength": 100
+    },
+    "phone_number": {
+      "type": "string",
+      "required": true
+    },
+    "company_name": {
+      "type": "string",
+      "maxLength": 200
+    },
+    "state": {
+      "type": "string",
+      "required": true,
+      "maxLength": 50
+    },
+    "specialities": {
+      "type": "string",
+      "required": true,
+      "maxLength": 100
+    },
+    "staff": {
+      "type": "integer",
+      "min": 1
+    },
+    "other_software_experience": {
+      "type": "boolean",
+      "default": false
+    },
+    "software_name": {
+      "type": "string",
+      "maxLength": 200
+    },
+    "comments": {
+      "type": "text"
+    },
+    "submission_date": {
+      "type": "datetime",
+      "default": "2025-08-11T00:00:00.000Z"
+    },
+    "status": {
+      "type": "enumeration",
+      "enum": ["new", "contacted", "converted", "closed"],
+      "default": "new"
+    }
+  }
+}

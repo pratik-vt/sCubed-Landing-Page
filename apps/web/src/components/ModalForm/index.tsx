@@ -95,12 +95,18 @@ const ModalForm: FC<Props> = ({
     setResponse({});
     setApiErrors({});
     setSubmitting(true);
-    fetch(`${process.env.NEXT_PUBLIC_ADMIN_APP_API_URL}pages/contact-us`, {
+    
+    // Use Strapi endpoint if available, fallback to legacy endpoint
+    const apiUrl = process.env.NEXT_PUBLIC_STRAPI_URL 
+      ? `${process.env.NEXT_PUBLIC_STRAPI_URL}/api/contact-submissions`
+      : `${process.env.NEXT_PUBLIC_ADMIN_APP_API_URL}pages/contact-us`;
+    
+    fetch(apiUrl, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify(data),
+      body: JSON.stringify(process.env.NEXT_PUBLIC_STRAPI_URL ? { data } : data),
     })
       .then(async (res) => {
         setSubmitting(false);

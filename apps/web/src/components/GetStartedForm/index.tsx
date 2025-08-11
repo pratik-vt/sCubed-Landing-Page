@@ -229,8 +229,13 @@ const GetStartedForm: React.FC = () => {
     };
 
     try {
+       // Use Strapi endpoint if available, fallback to legacy endpoint
+    const apiUrl = process.env.NEXT_PUBLIC_STRAPI_URL 
+      ? `${process.env.NEXT_PUBLIC_STRAPI_URL}/api/contact-submissions`
+      : `${process.env.NEXT_PUBLIC_ADMIN_APP_API_URL}pages/contact-us`;
+
       const response = await fetch(
-        `${process.env.NEXT_PUBLIC_ADMIN_APP_API_URL}pages/contact-us`,
+        apiUrl,
         {
           method: 'POST',
           headers: {

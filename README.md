@@ -1,53 +1,158 @@
-<h1 align="center">
- S Cubed Landing Page
-</h1>
+# S Cubed Monorepo
+
+This is a Turborepo monorepo containing the S Cubed landing page (Next.js) and CMS (Strapi).
+
+## 📁 Structure
+
+```
+scubed-monorepo/
+├── apps/
+│   ├── web/           # Next.js 15 landing page
+│   └── cms/           # Strapi v5 CMS
+├── packages/
+│   ├── config/        # Shared configurations
+│   └── types/         # Shared TypeScript types
+├── turbo.json         # Turborepo configuration
+├── package.json       # Root package.json
+└── .gitlab-ci.yml     # GitLab CI/CD pipeline
+```
 
 ## 🚀 Quick start
 
-1.  **Clone the repository.**
+### Prerequisites
 
-    ```shell
-    git clone <repository-url>
-    cd scubed-landing-page
-    ```
+- Node.js 18+
+- Yarn 1.22.22+
 
-2.  **Install dependencies.**
+### Installation
 
-    ```shell
-    npm install
-    # or
-    yarn install
-    ```
+```bash
+# Install dependencies
+yarn install
 
-3.  **Start developing.**
+# Run all apps in development
+yarn dev
 
-    Navigate into your site's directory and start the development server.
+# Run specific app
+yarn dev:web    # Next.js only
+yarn dev:cms    # Strapi only
+```
 
-    ```shell
-    npm run dev
-    # or
-    yarn dev
-    ```
+## 📦 Apps
 
-4.  **Open the code and start customizing!**
+### Web (Next.js)
 
-    Your site is now running at http://localhost:3000!
+The main landing page built with:
+- Next.js 15 with App Router
+- TypeScript
+- Vanilla Extract CSS
+- Static export for AWS Amplify
 
-    Edit `src/app/page.tsx` to see your site update in real-time!
+```bash
+cd apps/web
+yarn dev        # Start development server
+yarn build      # Build for production
+yarn start      # Start production server
+```
 
-## 📦 Build and Deploy
+### CMS (Strapi)
 
-```shell
-# Build for production
-npm run build
-# or
+Headless CMS for managing content:
+- Strapi v5
+- TypeScript
+- SQLite (development)
+- PostgreSQL (production)
+
+```bash
+cd apps/cms
+yarn dev        # Start development server
+yarn build      # Build admin panel
+yarn start      # Start production server
+```
+
+## 🏗️ Building
+
+```bash
+# Build all apps
 yarn build
 
-# Start production server
-npm run start
-# or
-yarn start
+# Build specific app
+yarn build:web
+yarn build:cms
+
+# Type checking
+yarn typecheck
+
+# Linting
+yarn lint
 ```
+
+## 🚢 Deployment
+
+### Next.js → AWS Amplify
+- Automatic static export
+- Deployed via GitLab CI
+- Environments: dev, staging, production
+
+### Strapi → AWS (Options)
+1. **ECS Fargate** (Recommended)
+   - Containerized deployment
+   - Auto-scaling
+   - RDS PostgreSQL
+
+2. **EC2 with PM2**
+   - Traditional deployment
+   - Manual scaling
+   - RDS PostgreSQL
+
+3. **AWS App Runner**
+   - Simplified deployment
+   - Automatic scaling
+   - RDS PostgreSQL
+
+## 🔧 Environment Variables
+
+### Next.js (`apps/web/.env.local`)
+```env
+NEXT_PUBLIC_STRAPI_URL=http://localhost:1337
+# ... other existing env vars
+```
+
+### Strapi (`apps/cms/.env`)
+```env
+DATABASE_URL=postgres://user:password@host:5432/database
+STRAPI_ADMIN_JWT_SECRET=your-secret
+# ... other Strapi env vars
+```
+
+## 📝 Scripts
+
+| Command | Description |
+|---------|-------------|
+| `yarn dev` | Start all apps in development |
+| `yarn build` | Build all apps |
+| `yarn lint` | Lint all apps |
+| `yarn clean` | Clean all build artifacts |
+| `yarn typecheck` | Run TypeScript checks |
+
+## 🔄 GitLab CI/CD
+
+The pipeline includes:
+- **Sonar** analysis
+- **Build** stage with Turborepo caching
+- **Deploy** stages for each app/environment
+- Selective deployment based on changed files
+
+## 🤝 Contributing
+
+1. Create a feature branch from `develop`
+2. Make your changes
+3. Run `yarn lint` and `yarn typecheck`
+4. Submit a merge request
+
+## 📄 License
+
+Private - All rights reserved
 
 ## Environment Variables
 
