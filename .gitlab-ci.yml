@@ -66,23 +66,23 @@ deploy_to_amplify:
   before_script:
     - export DEBIAN_FRONTEND=noninteractive
     - apt-get update && apt-get install -y awscli jq grep unzip
-    # Configure AWS CLI profile named 'scubed-dev' with existing env vars
-    - mkdir -p ~/.aws
-    - |
-      cat > ~/.aws/credentials <<EOF
-      [scubed-dev]
-      aws_access_key_id = $AWS_ACCESS_KEY_ID
-      aws_secret_access_key = $AWS_SECRET_ACCESS_KEY
-      EOF
-    - |
-      cat > ~/.aws/config <<EOF
-      [scubed-dev]
-      region = $AWS_scubed-dev_REGION
-      output = json
-      EOF
+#    # Configure AWS CLI profile named 'scubed-dev' with existing env vars
+#    - mkdir -p ~/.aws
+#    - |
+#      cat > ~/.aws/credentials <<EOF
+#      [scubed-dev]
+#      aws_access_key_id = $AWS_ACCESS_KEY_ID
+#      aws_secret_access_key = $AWS_SECRET_ACCESS_KEY
+#      EOF
+#    - |
+#      cat > ~/.aws/config <<EOF
+#      [scubed-dev]
+#      region = $AWS_scubed-dev_REGION
+#      output = json
+#      EOF
   script:
     - aws --version
-    - aws s3 ls --profile scubed-dev
+    - aws s3 ls #--profile scubed-dev
  #  - aws s3 cp nextjs-static.zip s3://$S3_BUCKET/nextjs-static.zip --acl public-read
  #  - aws amplify start-job \
  #      --app-id $AMPLIFY_APP_ID \
