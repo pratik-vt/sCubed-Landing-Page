@@ -26,9 +26,9 @@ deploy_to_ec2:
         echo 'DATABASE_SSL=$DATABASE_SSL' >> .env &&
         echo 'DATABASE_SCHEMA=$DATABASE_SCHEMA' >> .env &&
         echo 'APP_KEYS=$APP_KEYS' >> .env &&
-        echo 'API_TOKEN_SALT=API_TOKEN_SALT'  >> .env &&
-        echo 'ADMIN_JWT_SECRET=ADMIN_JWT_SECRET' >> .env &&
-        echo 'TRANSFER_TOKEN_SALT=TRANSFER_TOKEN_SALT' >> .env &&
+        echo 'API_TOKEN_SALT=$API_TOKEN_SALT'  >> .env &&
+        echo 'ADMIN_JWT_SECRET=$ADMIN_JWT_SECRET' >> .env &&
+        echo 'TRANSFER_TOKEN_SALT=$TRANSFER_TOKEN_SALT' >> .env &&
         npm install &&
         pm2 delete strapi-dev || true &&
         pm2 start npm --name strapi-dev -- run start
