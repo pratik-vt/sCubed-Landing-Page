@@ -30,8 +30,7 @@ deploy_to_ec2:
         echo 'ADMIN_JWT_SECRET=$ADMIN_JWT_SECRET' >> .env &&
         echo 'TRANSFER_TOKEN_SALT=$TRANSFER_TOKEN_SALT' >> .env &&
         npm install &&
-        pm2 delete strapi-dev || true &&
-        pm2 start npm --name strapi-dev -- run develop
+        pm2 restart strapi-dev || pm2 start npm --name strapi-dev -- run develop
       "
   only:
     - develop
