@@ -82,7 +82,8 @@ deploy_to_amplify:
 #      EOF
   script:
     - aws --version
-    - aws s3 ls #--profile scubed-dev
+    - aws s3 ls 
+    - sleep 600 #--profile scubed-dev
  #  - aws s3 cp nextjs-static.zip s3://$S3_BUCKET/nextjs-static.zip --acl public-read
  #  - aws amplify start-job \
  #      --app-id $AMPLIFY_APP_ID \
@@ -91,3 +92,4 @@ deploy_to_amplify:
  #      --job-configuration "{\"zipFileUrl\":\"https://$S3_BUCKET.s3.amazonaws.com/nextjs-static.zip\"}"
   only:
     - develop
+  allow_failure: false
