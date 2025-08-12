@@ -4,7 +4,7 @@ stages:
 deploy-to-ec2:
   stage: deploy
   tags:
-   - docker-ha
+   - docker-int-ha
   image: dockernetzwelt/gitlab-runner:base_common 
 
   script:
