@@ -11,7 +11,7 @@ deploy-to-ec2:
    - rsync -aurvz -e 'ssh -o StrictHostKeyChecking=no -p 22' --delete --stats --exclude-from=deployment-exclude-list.txt . $strapi_dev_user@$strapi_dev_host:$strapi_dev_path;
 
    - ssh -t -p 22 -o StrictHostKeyChecking=no $strapi_dev_user@$strapi_dev_host "
-        cd strapi_dev_path/apps/cms &&
+        cd $strapi_dev_path/apps/cms &&
 
         echo 'DATABASE_CLIENT=$DATABASE_CLIENT' > .env &&
         echo 'DATABASE_HOST=$DATABASE_HOST' >> .env &&
