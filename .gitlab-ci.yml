@@ -10,22 +10,22 @@ deploy-to-ec2:
   script:
    - rsync -aurvz -e 'ssh -o StrictHostKeyChecking=no -p 22' --delete --stats --exclude-from=deployment-exclude-list.txt . $strapi_dev_user@$strapi_dev_host:$strapi_dev_path;
 
- #  - ssh -t -p 22 -o StrictHostKeyChecking=no $strapi_dev_user@$strapi_dev_host "
- #       cd strapi_dev_path/apps/cms &&
-#
- #       echo 'DATABASE_CLIENT=$DATABASE_CLIENT' > .env &&
- #       echo 'DATABASE_HOST=$DATABASE_HOST' >> .env &&
- #       echo 'DATABASE_PORT=$DATABASE_PORT' >> .env &&
- #       echo 'DATABASE_NAME=$DATABASE_NAME' >> .env &&
- #       echo 'DATABASE_USERNAME=$DATABASE_USERNAME' >> .env &&
- #       echo 'DATABASE_PASSWORD=$DATABASE_PASSWORD' >> .env &&
- #       echo 'DATABASE_SSL=$DATABASE_SSL' >> .env &&
- #       echo 'DATABASE_SCHEMA=$DATABASE_SCHEMA' >> .env &&
-#
- #       npm install &&
- #       npm run develop &&
- #       pm2 delete strapi-dev || true &&
- #       pm2 start npm --name strapi-dev -- run start
- #     "
+   - ssh -t -p 22 -o StrictHostKeyChecking=no $strapi_dev_user@$strapi_dev_host "
+        cd strapi_dev_path/apps/cms &&
+
+        echo 'DATABASE_CLIENT=$DATABASE_CLIENT' > .env &&
+        echo 'DATABASE_HOST=$DATABASE_HOST' >> .env &&
+        echo 'DATABASE_PORT=$DATABASE_PORT' >> .env &&
+        echo 'DATABASE_NAME=$DATABASE_NAME' >> .env &&
+        echo 'DATABASE_USERNAME=$DATABASE_USERNAME' >> .env &&
+        echo 'DATABASE_PASSWORD=$DATABASE_PASSWORD' >> .env &&
+        echo 'DATABASE_SSL=$DATABASE_SSL' >> .env &&
+        echo 'DATABASE_SCHEMA=$DATABASE_SCHEMA' >> .env &&
+
+        npm install &&
+        npm run develop &&
+        pm2 delete strapi-dev || true &&
+        pm2 start npm --name strapi-dev -- run start
+      "
   only:
     - develop
