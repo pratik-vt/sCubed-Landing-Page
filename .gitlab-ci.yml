@@ -5,36 +5,36 @@ stages:
 # --------------------
 # DEPLOY TO EC2 (STRAPI)
 # --------------------
-deploy_to_ec2:
-  stage: deploy
-  tags:
-    - docker-int-ha
-  image: dockernetzwelt/gitlab-runner:base_common
-  script:
-    - rsync -aurvz -e 'ssh -o StrictHostKeyChecking=no -p 22' --delete --stats --exclude-from=deployment-exclude-list.txt . $strapi_dev_user@$strapi_dev_host:$strapi_dev_path
-
-    - ssh -p 22 -o StrictHostKeyChecking=no $strapi_dev_user@$strapi_dev_host "
-        export NVM_DIR=\$HOME/.nvm &&
-        source \$NVM_DIR/nvm.sh &&
-        cd $strapi_dev_path/apps/cms &&
-        echo 'DATABASE_CLIENT=$DATABASE_CLIENT' > .env &&
-        echo 'DATABASE_HOST=$DATABASE_HOST' >> .env &&
-        echo 'DATABASE_PORT=$DATABASE_PORT' >> .env &&
-        echo 'DATABASE_NAME=$DATABASE_NAME' >> .env &&
-        echo 'DATABASE_USERNAME=$DATABASE_USERNAME' >> .env &&
-        echo 'DATABASE_PASSWORD=$DATABASE_PASSWORD' >> .env &&
-        echo 'DATABASE_SSL=$DATABASE_SSL' >> .env &&
-        echo 'DATABASE_SCHEMA=$DATABASE_SCHEMA' >> .env &&
-        echo 'APP_KEYS=$APP_KEYS' >> .env &&
-        echo 'API_TOKEN_SALT=$API_TOKEN_SALT'  >> .env &&
-        echo 'ADMIN_JWT_SECRET=$ADMIN_JWT_SECRET' >> .env &&
-        echo 'TRANSFER_TOKEN_SALT=$TRANSFER_TOKEN_SALT' >> .env &&
-        npm install &&
-        pm2 restart strapi-dev || pm2 start npm --name strapi-dev -- run develop
-      "
-  only:
-    - develop
-
+#deploy_to_ec2:
+#  stage: deploy
+#  tags:
+#    - docker-int-ha
+#  image: dockernetzwelt/gitlab-runner:base_common
+#  script:
+#    - rsync -aurvz -e 'ssh -o StrictHostKeyChecking=no -p 22' --delete --stats --exclude-from=deployment-exclude-list.txt . $strapi_dev_user@$strapi_dev_host:$strapi_dev_path
+#
+#    - ssh -p 22 -o StrictHostKeyChecking=no $strapi_dev_user@$strapi_dev_host "
+#        export NVM_DIR=\$HOME/.nvm &&
+#        source \$NVM_DIR/nvm.sh &&
+#        cd $strapi_dev_path/apps/cms &&
+#        echo 'DATABASE_CLIENT=$DATABASE_CLIENT' > .env &&
+#        echo 'DATABASE_HOST=$DATABASE_HOST' >> .env &&
+#        echo 'DATABASE_PORT=$DATABASE_PORT' >> .env &&
+#        echo 'DATABASE_NAME=$DATABASE_NAME' >> .env &&
+#        echo 'DATABASE_USERNAME=$DATABASE_USERNAME' >> .env &&
+#        echo 'DATABASE_PASSWORD=$DATABASE_PASSWORD' >> .env &&
+#        echo 'DATABASE_SSL=$DATABASE_SSL' >> .env &&
+#        echo 'DATABASE_SCHEMA=$DATABASE_SCHEMA' >> .env &&
+#        echo 'APP_KEYS=$APP_KEYS' >> .env &&
+#        echo 'API_TOKEN_SALT=$API_TOKEN_SALT'  >> .env &&
+#        echo 'ADMIN_JWT_SECRET=$ADMIN_JWT_SECRET' >> .env &&
+#        echo 'TRANSFER_TOKEN_SALT=$TRANSFER_TOKEN_SALT' >> .env &&
+#        npm install &&
+#        pm2 restart strapi-dev || pm2 start npm --name strapi-dev -- run develop
+#      "
+#  only:
+#    - develop
+#
 # --------------------
 # BUILD STAGE
 # --------------------
@@ -50,28 +50,27 @@ deploy_to_ec2:
 #    - nvm use v22.18.0
 #    - npm install
 #    - npm run build
-#    - zip -r app.zip out/
+#    - zip -r nextjs-static.zip out/
 #  artifacts:
 #    paths:
-#      - app.zip
+#      - nextjs-static.zip
 #
-## --------------------
-## DEPLOY TO AMPLIFY
-## --------------------
-#deploy_to_amplify:
-#  stage: deploy
-#  tags:
-#    - docker-int-ha
-#  image: dockernetzwelt/gitlab-runner:base_common
-#  before_script:
-#    - apt-get update && apt-get install -y awscli jq grep
-#  script:
-#    - aws s3 cp app.zip s3://$S3_BUCKET/app.zip --acl public-read
-#    - aws amplify start-job \
-#        --app-id $AMPLIFY_APP_ID \
-#        --branch-name $AMPLIFY_BRANCH_NAME \
-#        --job-type RELEASE \
-#        --job-configuration "{\"zipFileUrl\":\"https://$S3_BUCKET.s3.amazonaws.com/app.zip\"}"
-#  only:
-#    - develop
-#
+# --------------------
+# DEPLOY TO AMPLIFY
+# --------------------
+deploy_to_amplify:
+  stage: deploy
+  tags:
+    - docker-int-ha
+  image: dockernetzwelt/gitlab-runner:base_common
+  before_script:
+    - apt-get update && apt-get install -y awscli jq grep
+  script:
+    - aws s3 cp nextjs-static.zip s3://$S3_BUCKET/nextjs-static.zip --acl public-read
+    - aws amplify start-job \
+        --app-id $AMPLIFY_APP_ID \
+        --branch-name $AMPLIFY_BRANCH_NAME \
+        --job-type RELEASE \
+        --job-configuration "{\"zipFileUrl\":\"https://$S3_BUCKET.s3.amazonaws.com/nextjs-static.zip\"}"
+  only:
+    - develop
