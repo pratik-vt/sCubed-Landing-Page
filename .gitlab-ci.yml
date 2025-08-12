@@ -31,13 +31,14 @@ deploy_to_amplify:
         --job-configuration "{\"zipFileUrl\":\"https://$S3_BUCKET.s3.amazonaws.com/app.zip\"}"
 
 
+
 #stages:
 #  - deploy
 #
 #deploy-to-ec2:
 #  stage: deploy
 #  tags:
-   - docker-int-ha
+#   - docker-int-ha
 #  image: dockernetzwelt/gitlab-runner:base_common 
 #
 #  script:
