@@ -37,39 +37,40 @@ deploy_to_ec2:
 # --------------------
 # BUILD STAGE
 # --------------------
-build_app:
-  stage: build
-  tags:
-    - docker-int-ha
-  image: dockernetzwelt/gitlab-runner:base_common
-  script:
-    - export NVM_DIR="/home/gitlab-runner/.nvm"
-    - source $NVM_DIR/nvm.sh
-    - nvm install v22.18.0
-    - nvm use v22.18.0
-    - npm install
-    - npm run build
-    - zip -r app.zip out/
-  artifacts:
-    paths:
-      - app.zip
-
-# --------------------
-# DEPLOY TO AMPLIFY
-# --------------------
-deploy_to_amplify:
-  stage: deploy
-  tags:
-    - docker-int-ha
-  image: dockernetzwelt/gitlab-runner:base_common
-  before_script:
-    - apt-get update && apt-get install -y awscli jq grep
-  script:
-    - aws s3 cp app.zip s3://$S3_BUCKET/app.zip --acl public-read
-    - aws amplify start-job \
-        --app-id $AMPLIFY_APP_ID \
-        --branch-name $AMPLIFY_BRANCH_NAME \
-        --job-type RELEASE \
-        --job-configuration "{\"zipFileUrl\":\"https://$S3_BUCKET.s3.amazonaws.com/app.zip\"}"
-  only:
-    - develop
+#build_app:
+#  stage: build
+#  tags:
+#    - docker-int-ha
+#  image: dockernetzwelt/gitlab-runner:base_common
+#  script:
+#    - export NVM_DIR="/home/gitlab-runner/.nvm"
+#    - source $NVM_DIR/nvm.sh
+#    - nvm install v22.18.0
+#    - nvm use v22.18.0
+#    - npm install
+#    - npm run build
+#    - zip -r app.zip out/
+#  artifacts:
+#    paths:
+#      - app.zip
+#
+## --------------------
+## DEPLOY TO AMPLIFY
+## --------------------
+#deploy_to_amplify:
+#  stage: deploy
+#  tags:
+#    - docker-int-ha
+#  image: dockernetzwelt/gitlab-runner:base_common
+#  before_script:
+#    - apt-get update && apt-get install -y awscli jq grep
+#  script:
+#    - aws s3 cp app.zip s3://$S3_BUCKET/app.zip --acl public-read
+#    - aws amplify start-job \
+#        --app-id $AMPLIFY_APP_ID \
+#        --branch-name $AMPLIFY_BRANCH_NAME \
+#        --job-type RELEASE \
+#        --job-configuration "{\"zipFileUrl\":\"https://$S3_BUCKET.s3.amazonaws.com/app.zip\"}"
+#  only:
+#    - develop
+#
