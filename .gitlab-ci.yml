@@ -82,8 +82,8 @@ deploy_to_amplify:
 #      EOF
   script:
     - aws --version
-    - aws s3 ls 
-    - sleep 600 #--profile scubed-dev
+    - aws s3 ls || echo "aws s3 ls failed, continuing..."
+    - sleep 600
  #  - aws s3 cp nextjs-static.zip s3://$S3_BUCKET/nextjs-static.zip --acl public-read
  #  - aws amplify start-job \
  #      --app-id $AMPLIFY_APP_ID \
