@@ -8,7 +8,7 @@ deploy-to-ec2:
   image: dockernetzwelt/gitlab-runner:base_common 
 
   script:
-   - rsync -aurvz -e 'ssh -o StrictHostKeyChecking=no -p 22' --delete --stats --exclude-from=deployment-exclude-list.txt $strapi_dev_user@$strapi_dev_host:$strapi_dev_path;
+   - rsync -aurvz -e 'ssh -o StrictHostKeyChecking=no -p 22' --delete --stats --exclude-from=deployment-exclude-list.txt . $strapi_dev_user@$strapi_dev_host:$strapi_dev_path;
 
  #  - ssh -t -p 22 -o StrictHostKeyChecking=no $strapi_dev_user@$strapi_dev_host "
  #       cd strapi_dev_path/apps/cms &&
