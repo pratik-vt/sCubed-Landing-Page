@@ -1,31 +1,65 @@
 stages:
+  - build
   - deploy
 
-deploy-to-ec2:
+build_app:
+  stage: build
+  tags:
+   - docker-int-ha
+  image: dockernetzwelt/gitlab-runner:base_common
+  script:
+    - npm install
+    - npm run build
+    - zip -r app.zip out/  
+  artifacts:
+    paths:
+      - app.zip
+
+deploy_to_amplify:
   stage: deploy
   tags:
    - docker-int-ha
-  image: dockernetzwelt/gitlab-runner:base_common 
-
+  image: dockernetzwelt/gitlab-runner:base_common
+  before_script: 
+    - apt-get update && apt-get install -y awscli jq grep
   script:
-   - rsync -aurvz -e 'ssh -o StrictHostKeyChecking=no -p 22' --delete --stats --exclude-from=deployment-exclude-list.txt . $strapi_dev_user@$strapi_dev_host:$strapi_dev_path;
+    - aws s3 cp app.zip s3://$S3_BUCKET/app.zip --acl public-read
+    - aws amplify start-job \
+        --app-id $AMPLIFY_APP_ID \
+        --branch-name $AMPLIFY_BRANCH_NAME \
+        --job-type RELEASE \
+        --job-configuration "{\"zipFileUrl\":\"https://$S3_BUCKET.s3.amazonaws.com/app.zip\"}"
 
-   - ssh -p 22 -o StrictHostKeyChecking=no $strapi_dev_user@$strapi_dev_host "
-        cd $strapi_dev_path/apps/cms &&
+#stages:
+#  - deploy
+#
+#deploy-to-ec2:
+#  stage: deploy
+#  tags:
+   - docker-int-ha
+#  image: dockernetzwelt/gitlab-runner:base_common 
+#
+#  script:
+#   - rsync -aurvz -e 'ssh -o StrictHostKeyChecking=no -p 22' --delete --stats --exclude-from=deployment-exclude-list.txt . $strapi_dev_user@$strapi_dev_host:$strapi_dev_path;
+#
+#   - ssh -p 22 -o StrictHostKeyChecking=no $strapi_dev_user@$strapi_dev_host "
+#        cd $strapi_dev_path/apps/cms &&
+#
+#        echo 'DATABASE_CLIENT=$DATABASE_CLIENT' > .env &&
+#        echo 'DATABASE_HOST=$DATABASE_HOST' >> .env &&
+#        echo 'DATABASE_PORT=$DATABASE_PORT' >> .env &&
+#        echo 'DATABASE_NAME=$DATABASE_NAME' >> .env &&
+#        echo 'DATABASE_USERNAME=$DATABASE_USERNAME' >> .env &&
+#        echo 'DATABASE_PASSWORD=$DATABASE_PASSWORD' >> .env &&
+#        echo 'DATABASE_SSL=$DATABASE_SSL' >> .env &&
+#        echo 'DATABASE_SCHEMA=$DATABASE_SCHEMA' >> .env &&
+#
+#        npm install &&
+#        npm run develop &&
+#        pm2 delete strapi-dev || true &&
+#        pm2 start npm --name strapi-dev -- run start
+#      "
+#  only:
+#    - develop
+#
 
-        echo 'DATABASE_CLIENT=$DATABASE_CLIENT' > .env &&
-        echo 'DATABASE_HOST=$DATABASE_HOST' >> .env &&
-        echo 'DATABASE_PORT=$DATABASE_PORT' >> .env &&
-        echo 'DATABASE_NAME=$DATABASE_NAME' >> .env &&
-        echo 'DATABASE_USERNAME=$DATABASE_USERNAME' >> .env &&
-        echo 'DATABASE_PASSWORD=$DATABASE_PASSWORD' >> .env &&
-        echo 'DATABASE_SSL=$DATABASE_SSL' >> .env &&
-        echo 'DATABASE_SCHEMA=$DATABASE_SCHEMA' >> .env &&
-
-        npm install &&
-        npm run develop &&
-        pm2 delete strapi-dev || true &&
-        pm2 start npm --name strapi-dev -- run start
-      "
-  only:
-    - develop
