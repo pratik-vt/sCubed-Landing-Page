@@ -8,6 +8,10 @@ build_app:
     - docker-int-ha
   image: dockernetzwelt/gitlab-runner:base_common
   script:
+    - export NVM_DIR="/home/gitlab-runner/.nvm"
+    - source $NVM_DIR/nvm.sh
+    - nvm install v18.19.1
+    - nvm use v18.19.1
     - npm install
     - npm run build
     - zip -r app.zip out/
@@ -22,6 +26,7 @@ deploy_to_amplify:
   image: dockernetzwelt/gitlab-runner:base_common
   before_script:
     - apt-get update && apt-get install -y awscli jq grep
+
   script:
     - aws s3 cp app.zip s3://$S3_BUCKET/app.zip --acl public-read
     - aws amplify start-job \
