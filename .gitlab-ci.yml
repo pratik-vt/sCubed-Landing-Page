@@ -31,7 +31,7 @@ deploy_to_ec2:
         echo 'TRANSFER_TOKEN_SALT=$TRANSFER_TOKEN_SALT' >> .env &&
         npm install &&
         pm2 delete strapi-dev || true &&
-        pm2 start npm --name strapi-dev -- run start
+        pm2 start npm --name strapi-dev -- run develop
       "
   only:
     - develop
