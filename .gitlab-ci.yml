@@ -67,11 +67,12 @@ deploy_to_amplify:
    - export DEBIAN_FRONTEND=noninteractive
    - apt-get update && apt-get install -y awscli jq grep
   script:
-    - aws s3 cp nextjs-static.zip s3://$S3_BUCKET/nextjs-static.zip --acl public-read
-    - aws amplify start-job \
-        --app-id $AMPLIFY_APP_ID \
-        --branch-name $AMPLIFY_BRANCH_NAME \
-        --job-type RELEASE \
-        --job-configuration "{\"zipFileUrl\":\"https://$S3_BUCKET.s3.amazonaws.com/nextjs-static.zip\"}"
+    - aws s3 ls 
+ #  - aws s3 cp nextjs-static.zip s3://$S3_BUCKET/nextjs-static.zip --acl public-read
+ #  - aws amplify start-job \
+ #      --app-id $AMPLIFY_APP_ID \
+ #      --branch-name $AMPLIFY_BRANCH_NAME \
+ #      --job-type RELEASE \
+ #      --job-configuration "{\"zipFileUrl\":\"https://$S3_BUCKET.s3.amazonaws.com/nextjs-static.zip\"}"
   only:
     - develop
