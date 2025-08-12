@@ -64,7 +64,8 @@ deploy_to_amplify:
     - docker-int-ha
   image: dockernetzwelt/gitlab-runner:base_common
   before_script:
-    - apt-get update && apt-get install -y awscli jq grep
+   - export DEBIAN_FRONTEND=noninteractive
+   - apt-get update && apt-get install -y awscli jq grep
   script:
     - aws s3 cp nextjs-static.zip s3://$S3_BUCKET/nextjs-static.zip --acl public-read
     - aws amplify start-job \
