@@ -5,12 +5,12 @@ stages:
 build_app:
   stage: build
   tags:
-   - docker-int-ha
+    - docker-int-ha
   image: dockernetzwelt/gitlab-runner:base_common
   script:
     - npm install
     - npm run build
-    - zip -r app.zip out/  
+    - zip -r app.zip out/
   artifacts:
     paths:
       - app.zip
@@ -18,9 +18,9 @@ build_app:
 deploy_to_amplify:
   stage: deploy
   tags:
-   - docker-int-ha
+    - docker-int-ha
   image: dockernetzwelt/gitlab-runner:base_common
-  before_script: 
+  before_script:
     - apt-get update && apt-get install -y awscli jq grep
   script:
     - aws s3 cp app.zip s3://$S3_BUCKET/app.zip --acl public-read
@@ -29,6 +29,7 @@ deploy_to_amplify:
         --branch-name $AMPLIFY_BRANCH_NAME \
         --job-type RELEASE \
         --job-configuration "{\"zipFileUrl\":\"https://$S3_BUCKET.s3.amazonaws.com/app.zip\"}"
+
 
 #stages:
 #  - deploy
