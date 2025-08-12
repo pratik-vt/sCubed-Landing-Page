@@ -10,8 +10,8 @@ build_app:
   script:
     - export NVM_DIR="/home/gitlab-runner/.nvm"
     - source $NVM_DIR/nvm.sh
-    - nvm install v18.19.1
-    - nvm use v18.19.1
+    - nvm install v22.18.0
+    - nvm use v22.18.0
     - npm install
     - npm run build
     - zip -r app.zip out/
@@ -34,8 +34,6 @@ deploy_to_amplify:
         --branch-name $AMPLIFY_BRANCH_NAME \
         --job-type RELEASE \
         --job-configuration "{\"zipFileUrl\":\"https://$S3_BUCKET.s3.amazonaws.com/app.zip\"}"
-
-
 
 #stages:
 #  - deploy
@@ -60,6 +58,7 @@ deploy_to_amplify:
 #        echo 'DATABASE_PASSWORD=$DATABASE_PASSWORD' >> .env &&
 #        echo 'DATABASE_SSL=$DATABASE_SSL' >> .env &&
 #        echo 'DATABASE_SCHEMA=$DATABASE_SCHEMA' >> .env &&
+#        echo 'APP_KEYS=$APP_KEYS' >> .env &&
 #
 #        npm install &&
 #        npm run develop &&
