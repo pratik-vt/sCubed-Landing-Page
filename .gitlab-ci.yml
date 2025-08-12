@@ -1,262 +1,31 @@
-# S Cubed Monorepo GitLab CI Configuration
-# Deployment: AWS Amplify for Next.js, AWS ECS for Strapi CMS
-
 stages:
-  - sonar
-  - build
   - deploy
 
-# Cache configuration for monorepo
-.cache_template: &cache_template
-  cache:
-    key: "$CI_COMMIT_REF_SLUG"
-    paths:
-      - node_modules/
-      - apps/*/node_modules/
-      - packages/*/node_modules/
-
-# Sonar analysis (unchanged)
-sonar:
-  stage: sonar
-  script:
-    - source /etc/environment
-    - sonar-scanner -Dsonar.projectKey=scubed-landing-page -Dsonar.sources=. -Dsonar.host.url=$sonar_host -Dsonar.login=$sonar_login
-  only:
-    - develop
-
-# Build all apps
-build_all:
-  stage: build
-  image: node:18-alpine
-  <<: *cache_template
-  before_script:
-    - apk add --no-cache git
-    - yarn install --frozen-lockfile
-  script:
-    - yarn build
-  artifacts:
-    paths:
-      - apps/web/out/
-      - apps/web/.next/
-      - apps/cms/build/
-      - apps/cms/.cache/
-    expire_in: 1 day
-  only:
-    - develop
-    - staging
-    - master
-    - main
-
-# Deploy Next.js to AWS Amplify (Development)
-deploy_web_dev:
+deploy-to-ec2:
   stage: deploy
-  image: node:18-alpine
-  environment:
-    name: dev
-  dependencies:
-    - build_all
-  before_script:
-    - apk add --no-cache aws-cli curl
-    - cd apps/web
-    - echo NEXT_PUBLIC_ADMIN_APP_URL=$NEXT_PUBLIC_ADMIN_APP_URL >> .env.local
-    - echo NEXT_PUBLIC_ADMIN_APP_API_URL=$NEXT_PUBLIC_ADMIN_APP_API_URL >> .env.local
-    - echo NEXT_PUBLIC_SITE_URL=$NEXT_PUBLIC_SITE_URL >> .env.local
-    - echo NEXT_PUBLIC_FACEBOOK_URL=$NEXT_PUBLIC_FACEBOOK_URL >> .env.local
-    - echo NEXT_PUBLIC_INSTAGRAM_URL=$NEXT_PUBLIC_INSTAGRAM_URL >> .env.local
-    - echo NEXT_PUBLIC_YOUTUBE_URL=$NEXT_PUBLIC_YOUTUBE_URL >> .env.local
-    - echo NEXT_PUBLIC_PHONE_NUMBER=$NEXT_PUBLIC_PHONE_NUMBER >> .env.local
-    - echo NEXT_PUBLIC_EMAIL=$NEXT_PUBLIC_EMAIL >> .env.local
-    - echo NEXT_PUBLIC_ADDRESS=$NEXT_PUBLIC_ADDRESS >> .env.local
-    - echo NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION=$NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION >> .env.local
-    - echo NEXT_PUBLIC_GTM_ID=$NEXT_PUBLIC_GTM_ID >> .env.local
-    - echo NEXT_PUBLIC_CALENDLY_URL=$NEXT_PUBLIC_CALENDLY_URL >> .env.local
-    - echo NEXT_PUBLIC_LINKEDIN_URL=$NEXT_PUBLIC_LINKEDIN_URL >> .env.local
-    - echo NEXT_PUBLIC_STRAPI_URL=$NEXT_PUBLIC_STRAPI_URL >> .env.local
-  script:
-    # Trigger Amplify deployment
-    - aws amplify start-job --app-id $AMPLIFY_APP_ID_DEV --branch-name develop --job-type RELEASE --region $AWS_REGION
-    - echo "Deployment triggered for Amplify App ID: $AMPLIFY_APP_ID_DEV"
-    - >
-      curl -X POST -H "Content-Type: application/json" 
-      -d "{\"text\": \"${MESSAGE_DEV}\"}" 
-      "${GCHAT_WEBHOOK_URL}"
-  when: manual
-  only:
-    - develop
-  rules:
-    - changes:
-      - apps/web/**/*
-      - packages/**/*
-      - turbo.json
-      - package.json
-      when: manual
-
-# Deploy Strapi CMS to AWS ECS (Development)
-deploy_strapi_dev:
-  stage: deploy
-  image: node:18-alpine
   tags:
-    - docker-ha
-  environment:
-    name: dev
-  before_script:
-    - apk add --no-cache aws-cli jq grep
+   - docker-ha
+  image: dockernetzwelt/gitlab-runner:base_common 
+
   script:
-    - aws configure set region $AWS_REGION --profile scubed_dev
-    - cd apps/cms
-    - docker build --build-arg app=admin --build-arg port=3000 --no-cache --network=host -t $DOCKER_REGISTRY_DEV:backend$CI_PIPELINE_IID .
-    - aws ecr get-login-password --region us-east-2 --profile scubed_dev | docker login --username AWS --password-stdin $DOCKER_REGISTRY_DEV
-    - docker push $DOCKER_REGISTRY_DEV:backend$CI_PIPELINE_IID
-    - TASK_DEFINITION=$(aws ecs describe-task-definition --task-definition $TASK_DEF_DEV --region us-east-2 --profile scubed_dev)
-    - BACKEND=$(echo $TASK_DEFINITION | jq --arg IMAGE "$DOCKER_REGISTRY_DEV:backend$CI_PIPELINE_IID" '.taskDefinition.containerDefinitions[0].image = $IMAGE | .taskDefinition.containerDefinitions[0]')
-    - echo "Registering new container definition..."
-    - aws ecs register-task-definition --region us-east-2 --family "$TASK_DEF_DEV" --container-definitions "$BACKEND" --task-role-arn ECS-TaskRole_Dev --network-mode awsvpc --requires-compatibilities FARGATE --execution-role-arn ECS-TaskRole_Dev --cpu 0.5vCPU --memory 1.0GB --profile scubed_dev
-    - sleep 5
-    - TASK_REVISION=`aws ecs describe-task-definition --task-definition $TASK_DEF_DEV --region us-east-2 --profile scubed_dev | grep -E "revision" | tr "," " " | awk '{print $2}' | sed 's/"$//'`
-    - OLD_TASK_ID=`aws ecs list-tasks --cluster $CLUSTER_DEV --desired-status RUNNING --family $TASK_DEF_DEV  --region us-east-2 --profile scubed_dev | grep -E "task" | tr "/" " " | tr "[" " " |  awk '{print $2}' | sed 's/"$//'`
-    - aws ecs update-service --cluster $CLUSTER_DEV --service $service_name_dev --task-definition "$TASK_DEF_DEV":$TASK_REVISION --desired-count 1 --region us-east-2 --profile scubed_dev
-    - sleep 30
-    - docker rmi $DOCKER_REGISTRY_DEV:backend$CI_PIPELINE_IID
-    - docker system prune --force || true
-  needs: []
-  when: manual
+   - rsync -aurvz -e 'ssh -o StrictHostKeyChecking=no -p 22' --delete --stats --exclude-from=deployment-exclude-list.txt $strapi_dev_user@$strapi_dev_host:$strapi_dev_path;
+
+   - ssh -t -p 22 -o StrictHostKeyChecking=no $strapi_dev_user@$strapi_dev_host "
+        cd strapi_dev_path/apps/cms &&
+
+        echo 'DATABASE_CLIENT=$DATABASE_CLIENT' > .env &&
+        echo 'DATABASE_HOST=$DATABASE_HOST' >> .env &&
+        echo 'DATABASE_PORT=$DATABASE_PORT' >> .env &&
+        echo 'DATABASE_NAME=$DATABASE_NAME' >> .env &&
+        echo 'DATABASE_USERNAME=$DATABASE_USERNAME' >> .env &&
+        echo 'DATABASE_PASSWORD=$DATABASE_PASSWORD' >> .env &&
+        echo 'DATABASE_SSL=$DATABASE_SSL' >> .env &&
+        echo 'DATABASE_SCHEMA=$DATABASE_SCHEMA' >> .env &&
+
+        npm install &&
+        npm run develop &&
+        pm2 delete strapi-dev || true &&
+        pm2 start npm --name strapi-dev -- run start
+      "
   only:
     - develop
-
-# Deploy Next.js to AWS Amplify (Staging)
-deploy_web_staging:
-  stage: deploy
-  image: node:18-alpine
-  environment:
-    name: stage
-  dependencies:
-    - build_all
-  before_script:
-    - apk add --no-cache aws-cli curl
-    - cd apps/web
-    - echo NEXT_PUBLIC_ADMIN_APP_URL=$NEXT_PUBLIC_ADMIN_APP_URL >> .env.local
-    - echo NEXT_PUBLIC_ADMIN_APP_API_URL=$NEXT_PUBLIC_ADMIN_APP_API_URL >> .env.local
-    - echo NEXT_PUBLIC_SITE_URL=$NEXT_PUBLIC_SITE_URL >> .env.local
-    - echo NEXT_PUBLIC_FACEBOOK_URL=$NEXT_PUBLIC_FACEBOOK_URL >> .env.local
-    - echo NEXT_PUBLIC_INSTAGRAM_URL=$NEXT_PUBLIC_INSTAGRAM_URL >> .env.local
-    - echo NEXT_PUBLIC_YOUTUBE_URL=$NEXT_PUBLIC_YOUTUBE_URL >> .env.local
-    - echo NEXT_PUBLIC_PHONE_NUMBER=$NEXT_PUBLIC_PHONE_NUMBER >> .env.local
-    - echo NEXT_PUBLIC_EMAIL=$NEXT_PUBLIC_EMAIL >> .env.local
-    - echo NEXT_PUBLIC_ADDRESS=$NEXT_PUBLIC_ADDRESS >> .env.local
-    - echo NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION=$NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION >> .env.local
-    - echo NEXT_PUBLIC_GTM_ID=$NEXT_PUBLIC_GTM_ID >> .env.local
-    - echo NEXT_PUBLIC_CALENDLY_URL=$NEXT_PUBLIC_CALENDLY_URL >> .env.local
-    - echo NEXT_PUBLIC_LINKEDIN_URL=$NEXT_PUBLIC_LINKEDIN_URL >> .env.local
-    - echo NEXT_PUBLIC_STRAPI_URL=$NEXT_PUBLIC_STRAPI_URL >> .env.local
-  script:
-    - aws amplify start-job --app-id $AMPLIFY_APP_ID_STAGING --branch-name staging --job-type RELEASE --region $AWS_REGION
-    - echo "Deployment triggered for Amplify App ID: $AMPLIFY_APP_ID_STAGING"
-    - >
-      curl -X POST -H "Content-Type: application/json" 
-      -d "{\"text\": \"${MESSAGE_STAGE}\"}" 
-      "${GCHAT_WEBHOOK_URL}"
-  when: manual
-  only:
-    - staging
-
-# Deploy Strapi CMS to AWS ECS (Staging)
-deploy_strapi_staging:
-  stage: deploy
-  image: node:18-alpine
-  tags:
-    - docker-ha
-  environment:
-    name: stage
-  before_script:
-    - apk add --no-cache aws-cli jq grep
-  script:
-    - aws configure set region $AWS_REGION --profile scubed_staging
-    - cd apps/cms
-    - docker build --build-arg app=admin --build-arg port=3000 --no-cache --network=host -t $DOCKER_REGISTRY_STAGING:backend$CI_PIPELINE_IID .
-    - aws ecr get-login-password --region us-east-2 --profile scubed_staging | docker login --username AWS --password-stdin $DOCKER_REGISTRY_STAGING
-    - docker push $DOCKER_REGISTRY_STAGING:backend$CI_PIPELINE_IID
-    - TASK_DEFINITION=$(aws ecs describe-task-definition --task-definition $TASK_DEF_STAGING --region us-east-2 --profile scubed_staging)
-    - BACKEND=$(echo $TASK_DEFINITION | jq --arg IMAGE "$DOCKER_REGISTRY_STAGING:backend$CI_PIPELINE_IID" '.taskDefinition.containerDefinitions[0].image = $IMAGE | .taskDefinition.containerDefinitions[0]')
-    - echo "Registering new container definition..."
-    - aws ecs register-task-definition --region us-east-2 --family "$TASK_DEF_STAGING" --container-definitions "$BACKEND" --task-role-arn ECS-TaskRole_Staging --network-mode awsvpc --requires-compatibilities FARGATE --execution-role-arn ECS-TaskRole_Staging --cpu 0.5vCPU --memory 1.0GB --profile scubed_staging
-    - sleep 5
-    - TASK_REVISION=`aws ecs describe-task-definition --task-definition $TASK_DEF_STAGING --region us-east-2 --profile scubed_staging | grep -E "revision" | tr "," " " | awk '{print $2}' | sed 's/"$//'`
-    - OLD_TASK_ID=`aws ecs list-tasks --cluster $CLUSTER_STAGING --desired-status RUNNING --family $TASK_DEF_STAGING  --region us-east-2 --profile scubed_staging | grep -E "task" | tr "/" " " | tr "[" " " |  awk '{print $2}' | sed 's/"$//'`
-    - aws ecs update-service --cluster $CLUSTER_STAGING --service $service_name_staging --task-definition "$TASK_DEF_STAGING":$TASK_REVISION --desired-count 1 --region us-east-2 --profile scubed_staging
-    - sleep 30
-    - docker rmi $DOCKER_REGISTRY_STAGING:backend$CI_PIPELINE_IID
-    - docker system prune --force || true
-  needs: []
-  when: manual
-  only:
-    - staging
-
-# Deploy Next.js to AWS Amplify (Production)
-deploy_web_prod:
-  stage: deploy
-  image: node:18-alpine
-  environment:
-    name: prod
-  dependencies:
-    - build_all
-  before_script:
-    - apk add --no-cache aws-cli curl
-    - cd apps/web
-    - echo NEXT_PUBLIC_ADMIN_APP_URL=$NEXT_PUBLIC_ADMIN_APP_URL >> .env.local
-    - echo NEXT_PUBLIC_ADMIN_APP_API_URL=$NEXT_PUBLIC_ADMIN_APP_API_URL >> .env.local
-    - echo NEXT_PUBLIC_SITE_URL=$NEXT_PUBLIC_SITE_URL >> .env.local
-    - echo NEXT_PUBLIC_FACEBOOK_URL=$NEXT_PUBLIC_FACEBOOK_URL >> .env.local
-    - echo NEXT_PUBLIC_INSTAGRAM_URL=$NEXT_PUBLIC_INSTAGRAM_URL >> .env.local
-    - echo NEXT_PUBLIC_YOUTUBE_URL=$NEXT_PUBLIC_YOUTUBE_URL >> .env.local
-    - echo NEXT_PUBLIC_PHONE_NUMBER=$NEXT_PUBLIC_PHONE_NUMBER >> .env.local
-    - echo NEXT_PUBLIC_EMAIL=$NEXT_PUBLIC_EMAIL >> .env.local
-    - echo NEXT_PUBLIC_ADDRESS=$NEXT_PUBLIC_ADDRESS >> .env.local
-    - echo NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION=$NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION >> .env.local
-    - echo NEXT_PUBLIC_GTM_ID=$NEXT_PUBLIC_GTM_ID >> .env.local
-    - echo NEXT_PUBLIC_CALENDLY_URL=$NEXT_PUBLIC_CALENDLY_URL >> .env.local
-    - echo NEXT_PUBLIC_LINKEDIN_URL=$NEXT_PUBLIC_LINKEDIN_URL >> .env.local
-    - echo NEXT_PUBLIC_STRAPI_URL=$NEXT_PUBLIC_STRAPI_URL >> .env.local
-  script:
-    - aws amplify start-job --app-id $AMPLIFY_APP_ID_PROD --branch-name main --job-type RELEASE --region $AWS_REGION
-    - echo "Deployment triggered for Amplify App ID: $AMPLIFY_APP_ID_PROD"
-    - >
-      curl -X POST -H "Content-Type: application/json" 
-      -d "{\"text\": \"${MESSAGE_PROD}\"}" 
-      "${GCHAT_WEBHOOK_URL}"
-  when: manual
-  only:
-    - master
-    - main
-
-# Deploy Strapi CMS to AWS ECS (Production)
-deploy_strapi_prod:
-  stage: deploy
-  image: node:18-alpine
-  tags:
-    - docker-ha
-  environment:
-    name: prod
-  before_script:
-    - apk add --no-cache aws-cli jq grep
-  script:
-    - aws configure set region $AWS_REGION --profile scubed_prod
-    - cd apps/cms
-    - docker build --build-arg app=admin --build-arg port=3000 --no-cache --network=host -t $DOCKER_REGISTRY_PROD:backend$CI_PIPELINE_IID .
-    - aws ecr get-login-password --region us-east-2 --profile scubed_prod | docker login --username AWS --password-stdin $DOCKER_REGISTRY_PROD
-    - docker push $DOCKER_REGISTRY_PROD:backend$CI_PIPELINE_IID
-    - TASK_DEFINITION=$(aws ecs describe-task-definition --task-definition $TASK_DEF_PROD --region us-east-2 --profile scubed_prod)
-    - BACKEND=$(echo $TASK_DEFINITION | jq --arg IMAGE "$DOCKER_REGISTRY_PROD:backend$CI_PIPELINE_IID" '.taskDefinition.containerDefinitions[0].image = $IMAGE | .taskDefinition.containerDefinitions[0]')
-    - echo "Registering new container definition..."
-    - aws ecs register-task-definition --region us-east-2 --family "$TASK_DEF_PROD" --container-definitions "$BACKEND" --task-role-arn ECS-TaskRole_Prod --network-mode awsvpc --requires-compatibilities FARGATE --execution-role-arn ECS-TaskRole_Prod --cpu 0.5vCPU --memory 1.0GB --profile scubed_prod
-    - sleep 5
-    - TASK_REVISION=`aws ecs describe-task-definition --task-definition $TASK_DEF_PROD --region us-east-2 --profile scubed_prod | grep -E "revision" | tr "," " " | awk '{print $2}' | sed 's/"$//'`
-    - OLD_TASK_ID=`aws ecs list-tasks --cluster $CLUSTER_PROD --desired-status RUNNING --family $TASK_DEF_PROD  --region us-east-2 --profile scubed_prod | grep -E "task" | tr "/" " " | tr "[" " " |  awk '{print $2}' | sed 's/"$//'`
-    - aws ecs update-service --cluster $CLUSTER_PROD --service $service_name_prod --task-definition "$TASK_DEF_PROD":$TASK_REVISION --desired-count 1 --region us-east-2 --profile scubed_prod
-    - sleep 30
-    - docker rmi $DOCKER_REGISTRY_PROD:backend$CI_PIPELINE_IID
-    - docker system prune --force || true
-  needs: []
-  when: manual
-  only:
-    - master
-    - main
