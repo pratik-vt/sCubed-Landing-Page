@@ -1,0 +1,24 @@
+# Git & CI files
+.git/
+.gitlab-ci.yml
+deployment-exclude-list.txt
+
+# Node modules & caches
+node_modules/
+npm-debug.log
+yarn.lock
+package-lock.json
+
+# Environment & secrets
+.env
+.env.*  
+
+# Build artifacts (optional to skip if you build on server)
+build/
+dist/
+.cache/
+.tmp/
+
+# OS files
+.DS_Store
+Thumbs.db
