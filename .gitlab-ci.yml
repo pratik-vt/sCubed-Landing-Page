@@ -48,7 +48,6 @@ build_app:
     - source $NVM_DIR/nvm.sh
     - nvm install v22.18.0
     - nvm use v22.18.0
-    - npm install -g npm@latest turbo
     - npm install
     - npm run build
     # Create dynamic build name with pipeline ID
