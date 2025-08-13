@@ -38,23 +38,25 @@ stages:
 # --------------------
 # BUILD STAGE
 # --------------------
-#build_app:
-#  stage: build
-#  tags:
-#    - docker-int-ha
-#  image: dockernetzwelt/gitlab-runner:base_common
-#  script:
-#    - export NVM_DIR="/home/gitlab-runner/.nvm"
-#    - source $NVM_DIR/nvm.sh
-#    - nvm install v22.18.0
-#    - nvm use v22.18.0
-#    - npm install
-#    - npm run build
-#    - zip -r nextjs-static.zip out/
-#  artifacts:
-#    paths:
-#      - nextjs-static.zip
-#
+build_app:
+  stage: build
+  tags:
+    - docker-int-ha
+  image: dockernetzwelt/gitlab-runner:base_common
+  script:
+    - export NVM_DIR="/home/gitlab-runner/.nvm"
+    - source $NVM_DIR/nvm.sh
+    - nvm install v22.18.0
+    - nvm use v22.18.0
+    - npm install
+    - npm run build
+    # Create dynamic build name with pipeline ID
+    - export BUILD_NAME="nextjs-static-${CI_PIPELINE_ID}.zip"
+    - zip -r "$BUILD_NAME" out/
+  artifacts:
+    paths:
+      - nextjs-static-*.zip
+
 # --------------------
 # DEPLOY TO AMPLIFY
 # --------------------
@@ -65,29 +67,45 @@ deploy_to_amplify:
   image: dockernetzwelt/gitlab-runner:base_common
   before_script:
     - export DEBIAN_FRONTEND=noninteractive
-    - apt-get update && apt-get install -y awscli jq grep unzip
+    - apt-get update && apt-get install -y awscli curl jq unzip
     - mkdir -p ~/.aws
     - |
       cat > ~/.aws/credentials <<EOF
-      [scubed-dev]
+      [scubed-amplify]
       aws_access_key_id = $AWS_ACCESS_KEY_ID
       aws_secret_access_key = $AWS_SECRET_ACCESS_KEY
       EOF
     - |
       cat > ~/.aws/config <<EOF
-      [scubed-dev]
+      [scubed-amplify]
       region = $AWS_DEFAULT_REGION
       output = json
       EOF
+    - export BUILD_NAME="nextjs-static-${CI_PIPELINE_ID}.zip"
   script:
-    - aws --version
-    - aws s3 ls --profile scubed-dev
-    - aws s3 cp nextjs-static.zip s3://$S3_BUCKET/nextjs-static.zip --acl public-read --profile scubed-dev
-    - aws amplify start-job \
-        --app-id $AMPLIFY_APP_ID \
-        --branch-name $AMPLIFY_BRANCH_NAME \
-        --job-type RELEASE \
-        --job-configuration "{\"zipFileUrl\":\"https://$S3_BUCKET.s3.amazonaws.com/nextjs-static.zip\"}"
-        --profile scubed-dev
+    # 1. Create Amplify deployment slot
+    - DEPLOYMENT_INFO=$(aws amplify create-deployment \
+        --app-id "$AMPLIFY_APP_ID" \
+        --branch-name "$AMPLIFY_BRANCH_NAME" \
+        --profile scubed-amplify)
+
+    # 2. Extract jobId and zipUploadUrl
+    - JOB_ID=$(echo "$DEPLOYMENT_INFO" | jq -r '.jobId')
+    - UPLOAD_URL=$(echo "$DEPLOYMENT_INFO" | jq -r '.zipUploadUrl')
+
+    # 3. Upload build zip to Amplify's presigned S3 URL
+    - curl -T "$BUILD_NAME" "$UPLOAD_URL"
+
+    # 4. Start deployment
+    - aws amplify start-deployment \
+        --app-id "$AMPLIFY_APP_ID" \
+        --branch-name "$AMPLIFY_BRANCH_NAME" \
+        --job-id "$JOB_ID" \
+        --profile scubed-amplify
+  dependencies:
+    - build_app
   only:
     - develop
+
+
+
