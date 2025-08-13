@@ -48,11 +48,12 @@ build_app:
     - source $NVM_DIR/nvm.sh
     - nvm install v22.18.0
     - nvm use v22.18.0
+    - npm install -g npm@latest turbo
     - npm install
     - npm run build
     # Create dynamic build name with pipeline ID
     - export BUILD_NAME="nextjs-static-${CI_PIPELINE_ID}.zip"
-    - zip -r "$BUILD_NAME" out/
+    - zip -r "$BUILD_NAME" packages/web/out/
   artifacts:
     paths:
       - nextjs-static-*.zip
