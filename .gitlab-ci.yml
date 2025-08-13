@@ -54,7 +54,7 @@ build_app:
     - yarn build
     # Create dynamic build name with pipeline ID
     - export BUILD_NAME="nextjs-static-${CI_PIPELINE_ID}.zip"
-    - zip -r "$BUILD_NAME" packages/web/out/
+    - zip -r "$BUILD_NAME" out/
   artifacts:
     paths:
       - nextjs-static-*.zip
