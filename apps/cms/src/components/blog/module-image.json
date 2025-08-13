@@ -1,0 +1,47 @@
+{
+  "collectionName": "components_blog_module_images",
+  "info": {
+    "displayName": "ModuleImage",
+    "description": "Image content block with styling and link options"
+  },
+  "options": {},
+  "attributes": {
+    "image": {
+      "type": "media",
+      "multiple": false,
+      "required": true,
+      "allowedTypes": ["images"]
+    },
+    "caption": {
+      "type": "string",
+      "maxLength": 200
+    },
+    "alt_text": {
+      "type": "string",
+      "required": true,
+      "maxLength": 100
+    },
+    "image_size": {
+      "type": "enumeration",
+      "enum": ["thumbnail", "medium", "large", "full-width"],
+      "default": "large"
+    },
+    "image_alignment": {
+      "type": "enumeration",
+      "enum": ["left", "center", "right"],
+      "default": "center"
+    },
+    "border_style": {
+      "type": "enumeration",
+      "enum": ["none", "rounded", "circle", "shadow"],
+      "default": "rounded"
+    },
+    "clickable": {
+      "type": "boolean",
+      "default": false
+    },
+    "link_url": {
+      "type": "string"
+    }
+  }
+} 

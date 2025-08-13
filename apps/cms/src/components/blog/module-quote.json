@@ -1,0 +1,46 @@
+{
+  "collectionName": "components_blog_module_quotes",
+  "info": {
+    "displayName": "ModuleQuote",
+    "description": "Quote content block with author attribution"
+  },
+  "options": {},
+  "attributes": {
+    "quote_text": {
+      "type": "text",
+      "required": true
+    },
+    "author_name": {
+      "type": "string",
+      "maxLength": 100
+    },
+    "author_position": {
+      "type": "string",
+      "maxLength": 100
+    },
+    "author_company": {
+      "type": "string",
+      "maxLength": 100
+    },
+    "author_photo": {
+      "type": "media",
+      "multiple": false,
+      "required": false,
+      "allowedTypes": ["images"]
+    },
+    "quote_style": {
+      "type": "enumeration",
+      "enum": ["default", "highlighted", "callout", "testimonial"],
+      "default": "default"
+    },
+    "quote_size": {
+      "type": "enumeration",
+      "enum": ["normal", "large", "featured"],
+      "default": "normal"
+    },
+    "show_quote_marks": {
+      "type": "boolean",
+      "default": true
+    }
+  }
+} 

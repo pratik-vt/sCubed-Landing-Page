@@ -1,0 +1,34 @@
+{
+  "collectionName": "components_blog_text_modules",
+  "info": {
+    "displayName": "TextModule",
+    "description": "Rich text content block with styling options"
+  },
+  "options": {},
+  "attributes": {
+    "content": {
+      "type": "richtext",
+      "required": true
+    },
+    "text_alignment": {
+      "type": "enumeration",
+      "enum": ["left", "center", "right", "justify"],
+      "default": "left"
+    },
+    "text_size": {
+      "type": "enumeration",
+      "enum": ["small", "normal", "large"],
+      "default": "normal"
+    },
+    "background_style": {
+      "type": "enumeration",
+      "enum": ["none", "light", "primary", "accent"],
+      "default": "none"
+    },
+    "spacing": {
+      "type": "enumeration",
+      "enum": ["compact", "normal", "spacious"],
+      "default": "normal"
+    }
+  }
+} 

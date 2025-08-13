@@ -205,6 +205,11 @@ const Navigation: React.FC = () => {
               <span className={activeLinkStyle} />
             )}
           </Link>
+          <Link href="/blog" className={navStyle}>
+            Blog {(pathname === '/blog' || pathname === '/blog/') && (
+              <span className={activeLinkStyle} />
+            )}
+          </Link>
           <Link href="/get-started" className={navStyle}>
             Get Started
             {(pathname === '/get-started' || pathname === '/get-started/') && (

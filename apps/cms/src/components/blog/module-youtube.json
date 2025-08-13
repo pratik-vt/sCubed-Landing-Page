@@ -1,0 +1,54 @@
+{
+  "collectionName": "components_blog_module_youtubes",
+  "info": {
+    "displayName": "ModuleYoutube",
+    "description": "YouTube video embed with customization options"
+  },
+  "options": {},
+  "attributes": {
+    "video_id": {
+      "type": "string",
+      "required": true,
+      "maxLength": 20
+    },
+    "video_title": {
+      "type": "string",
+      "maxLength": 200
+    },
+    "video_description": {
+      "type": "text"
+    },
+    "custom_thumbnail": {
+      "type": "media",
+      "multiple": false,
+      "required": false,
+      "allowedTypes": ["images"]
+    },
+    "player_size": {
+      "type": "enumeration",
+      "enum": ["small", "medium", "large", "full-width"],
+      "default": "large"
+    },
+    "aspect_ratio": {
+      "type": "enumeration",
+      "enum": ["16:9", "4:3", "1:1"],
+      "default": "16:9"
+    },
+    "autoplay": {
+      "type": "boolean",
+      "default": false
+    },
+    "show_controls": {
+      "type": "boolean",
+      "default": true
+    },
+    "start_time": {
+      "type": "integer",
+      "min": 0
+    },
+    "privacy_mode": {
+      "type": "boolean",
+      "default": true
+    }
+  }
+} 

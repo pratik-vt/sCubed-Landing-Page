@@ -28,6 +28,7 @@
     "react-calendly": "^4.4.0",
     "react-dom": "^19.1.1",
     "react-hook-form": "^7.62.0",
+    "react-markdown": "^10.1.0",
     "react-responsive-modal": "^7.0.0",
     "validator": "^13.15.15"
   },

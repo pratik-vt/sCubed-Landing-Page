@@ -1,0 +1,58 @@
+{
+  "collectionName": "components_blog_module_audios",
+  "info": {
+    "displayName": "ModuleAudio",
+    "description": "Audio player with podcast-style metadata and transcript support"
+  },
+  "options": {},
+  "attributes": {
+    "audio_file": {
+      "type": "media",
+      "multiple": false,
+      "required": true,
+      "allowedTypes": ["audios"]
+    },
+    "audio_title": {
+      "type": "string",
+      "required": true,
+      "maxLength": 200
+    },
+    "audio_description": {
+      "type": "text"
+    },
+    "podcast_episode": {
+      "type": "string",
+      "maxLength": 50
+    },
+    "duration": {
+      "type": "string",
+      "maxLength": 10
+    },
+    "cover_artwork": {
+      "type": "media",
+      "multiple": false,
+      "required": false,
+      "allowedTypes": ["images"]
+    },
+    "transcript": {
+      "type": "richtext"
+    },
+    "player_style": {
+      "type": "enumeration",
+      "enum": ["minimal", "standard", "featured"],
+      "default": "standard"
+    },
+    "autoplay": {
+      "type": "boolean",
+      "default": false
+    },
+    "show_download": {
+      "type": "boolean",
+      "default": false
+    },
+    "loop": {
+      "type": "boolean",
+      "default": false
+    }
+  }
+} 

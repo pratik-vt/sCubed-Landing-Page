@@ -15,21 +15,31 @@ frontend:
         - node --version
         - echo "NPM version:"
         - npm --version
+        - echo "Setting up environment for SSR..."
     build:
       commands:
-        - echo "Building Next.js application..."
+        - echo "Building Next.js application with SSR support..."
         - npm run build
         - echo "Build completed successfully"
     postBuild:
       commands:
         - echo "Post-build phase completed"
+        - echo "SSR application ready for deployment"
   artifacts:
-    # Important: For Next.js SSG, we need to serve the 'out' directory
-    # If using SSR, use '.next' instead
-    baseDirectory: out
+    # For Next.js SSR, we serve the entire .next directory
+    # This includes server-side components and static assets
+    baseDirectory: .next
     files:
       - '**/*'
   cache:
     paths:
       - node_modules/**/*
-      - .next/cache/**/* 
+      - .next/cache/**/*
+# Environment variables for Strapi integration
+# Note: Set these in Amplify Console under App Settings > Environment Variables
+environment:
+  variables:
+    # These will be overridden by Amplify Console settings
+    STRAPI_URL: 'https://your-strapi-domain.com'
+    NEXT_PUBLIC_STRAPI_URL: 'https://your-strapi-domain.com'
+    # STRAPI_TOKEN: 'your-api-token' # Set this securely in Amplify Console 

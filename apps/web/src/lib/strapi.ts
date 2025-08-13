@@ -1,0 +1,276 @@
+const STRAPI_URL = process.env.STRAPI_URL || process.env.NEXT_PUBLIC_STRAPI_URL || 'http://localhost:1337';
+const STRAPI_TOKEN = process.env.STRAPI_TOKEN;
+
+// Base fetch function with error handling
+async function fetchAPI(endpoint: string, options: RequestInit = {}) {
+  const url = `${STRAPI_URL}/api${endpoint}`;
+  
+  const defaultOptions: RequestInit = {
+    headers: {
+      'Content-Type': 'application/json',
+      ...(STRAPI_TOKEN && { Authorization: `Bearer ${STRAPI_TOKEN}` }),
+    },
+  };
+
+  const mergedOptions = {
+    ...defaultOptions,
+    ...options,
+    headers: {
+      ...defaultOptions.headers,
+      ...options.headers,
+    },
+  };
+
+  try {
+    const response = await fetch(url, mergedOptions);
+    
+    if (!response.ok) {
+      throw new Error(`Strapi API error: ${response.status} ${response.statusText}`);
+    }
+    
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    console.error('Strapi API fetch error:', error);
+    throw error;
+  }
+}
+
+// Types for blog content
+export interface StrapiImage {
+  id: number;
+  documentId: string;
+  name: string;
+  alternativeText?: string;
+  caption?: string;
+  width: number;
+  height: number;
+  formats?: {
+    thumbnail?: ImageFormat;
+    small?: ImageFormat;
+    medium?: ImageFormat;
+    large?: ImageFormat;
+  };
+  hash: string;
+  ext: string;
+  mime: string;
+  size: number;
+  url: string;
+  previewUrl?: string;
+  provider: string;
+  provider_metadata?: any;
+  createdAt: string;
+  updatedAt: string;
+  publishedAt: string;
+}
+
+interface ImageFormat {
+  ext: string;
+  url: string;
+  hash: string;
+  mime: string;
+  name: string;
+  path?: string;
+  size: number;
+  width: number;
+  height: number;
+  sizeInBytes: number;
+}
+
+export interface Author {
+  id: number;
+  documentId: string;
+  name: string;
+  slug: string;
+  email?: string;
+  bio?: string;
+  avatar?: StrapiImage;
+  position?: string;
+  social_links?: any;
+}
+
+export interface Category {
+  id: number;
+  documentId: string;
+  name: string;
+  slug: string;
+  description?: string;
+  color?: string;
+}
+
+export interface Tag {
+  id: number;
+  documentId: string;
+  name: string;
+  slug: string;
+}
+
+export interface ContentBlock {
+  __component: string;
+  id: number;
+  [key: string]: any;
+}
+
+export interface BlogPost {
+  id: number;
+  documentId: string;
+  title: string;
+  slug: string;
+  excerpt: string;
+  content_blocks?: ContentBlock[];
+  featured_image?: StrapiImage;
+  hero_image?: StrapiImage;
+  status: 'draft' | 'review' | 'published' | 'archived';
+  featured: boolean;
+  estimated_read_time?: number;
+  meta_title?: string;
+  meta_description?: string;
+  publishedAt: string;
+  createdAt: string;
+  updatedAt: string;
+  author?: Author | null;
+  categories: Category[];
+  tags: Tag[];
+  table_of_contents: boolean;
+  enable_comments: boolean;
+  social_share: boolean;
+}
+
+export interface StrapiResponse<T> {
+  data: T;
+  meta: {
+    pagination?: {
+      page: number;
+      pageSize: number;
+      pageCount: number;
+      total: number;
+    };
+  };
+}
+
+// API functions
+export async function getBlogPosts(params: {
+  page?: number;
+  pageSize?: number;
+  featured?: boolean;
+  category?: string;
+  tag?: string;
+  search?: string;
+} = {}): Promise<StrapiResponse<BlogPost[]>> {
+  const { page = 1, pageSize = 10, featured, category, tag, search } = params;
+  
+  const filters: any = {
+    // Will add status filter later once basic functionality works
+  };
+  
+  if (featured !== undefined) {
+    filters.featured = featured;
+  }
+  
+  if (category) {
+    filters.categories = { slug: category };
+  }
+  
+  if (tag) {
+    filters.tags = { slug: tag };
+  }
+  
+  if (search) {
+    filters.$or = [
+      { title: { $containsi: search } },
+      { excerpt: { $containsi: search } }
+    ];
+  }
+
+  const queryParams = new URLSearchParams({
+    'pagination[page]': page.toString(),
+    'pagination[pageSize]': pageSize.toString(),
+    'populate[0]': 'author',
+    'populate[1]': 'categories', 
+    'populate[2]': 'tags',
+    'populate[3]': 'featured_image',
+    'populate[4]': 'hero_image',
+    'sort': 'publishedAt:desc'
+  });
+
+  // Only add filters if there are any
+  if (Object.keys(filters).length > 0) {
+    queryParams.set('filters', JSON.stringify(filters));
+  }
+
+  return fetchAPI(`/blog-posts?${queryParams}`);
+}
+
+export async function getBlogPost(slug: string): Promise<StrapiResponse<BlogPost[]>> {
+  const queryParams = new URLSearchParams({
+    'filters[slug][$eq]': slug,
+    'filters[status][$eq]': 'published',
+    'populate[0]': 'author',
+    'populate[1]': 'categories',
+    'populate[2]': 'tags',
+    'populate[3]': 'featured_image',
+    'populate[4]': 'hero_image',
+    'populate[5]': 'content_blocks'
+  });
+
+  return fetchAPI(`/blog-posts?${queryParams}`);
+}
+
+export async function getCategories(): Promise<StrapiResponse<Category[]>> {
+  const queryParams = new URLSearchParams({
+    'sort': 'name:asc'
+  });
+
+  return fetchAPI(`/categories?${queryParams}`);
+}
+
+export async function getTags(): Promise<StrapiResponse<Tag[]>> {
+  const queryParams = new URLSearchParams({
+    'sort': 'name:asc'
+  });
+
+  return fetchAPI(`/tags?${queryParams}`);
+}
+
+export async function getAuthors(): Promise<StrapiResponse<Author[]>> {
+  const queryParams = new URLSearchParams({
+    'populate': 'avatar',
+    'sort': 'name:asc'
+  });
+
+  return fetchAPI(`/authors?${queryParams}`);
+}
+
+// Helper function to get full image URL
+export function getStrapiImageUrl(image: StrapiImage | undefined | null): string {
+  if (!image?.url) return '';
+  
+  const url = image.url;
+  return url.startsWith('http') ? url : `${STRAPI_URL}${url}`;
+}
+
+// Helper function to format date
+export function formatDate(dateString: string): string {
+  const date = new Date(dateString);
+  return date.toLocaleDateString('en-US', {
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric'
+  });
+}
+
+// Helper function to calculate read time if not provided
+export function calculateReadTime(contentBlocks: ContentBlock[]): number {
+  let wordCount = 0;
+  
+  contentBlocks.forEach(block => {
+    if (block.__component === 'blog.text-module' && block.content) {
+      // Strip HTML and count words
+      const textContent = block.content.replace(/<[^>]*>/g, '');
+      wordCount += textContent.split(/\s+/).length;
+    }
+  });
+  
+  // Average reading speed is 200-250 words per minute
+  return Math.ceil(wordCount / 225);
+} 
