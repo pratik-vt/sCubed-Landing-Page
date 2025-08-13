@@ -46,9 +46,9 @@ build_app:
   before_script:
   - apt-get update && apt-get install -y zip
   - cd /builds/development/scubed-landing-page/apps/web/
-  - echo "NEXT_PUBLIC_SITE_URL=$NEXT_PUBLIC_SITE_URL" > .env
-  - echo "NEXT_PUBLIC_ADMIN_APP_URL=$NEXT_PUBLIC_ADMIN_APP_URL" >> .env
-  - echo "NEXT_PUBLIC_ADMIN_APP_API_URL=$NEXT_PUBLIC_ADMIN_APP_API_URL" >> .env
+  - echo "NEXT_PUBLIC_SITE_URL=$NEXT_PUBLIC_SITE_URL_1" > .env
+  - echo "NEXT_PUBLIC_ADMIN_APP_URL=$NEXT_PUBLIC_ADMIN_APP_URL_1" >> .env
+  - echo "NEXT_PUBLIC_ADMIN_APP_API_URL=$NEXT_PUBLIC_ADMIN_APP_API_URL_1" >> .env
   - echo "NEXT_PUBLIC_GTM_ID=$NEXT_PUBLIC_GTM_ID" >> .env
   - echo "NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION=$NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION" >> .env
   - echo "NEXT_PUBLIC_FACEBOOK_URL=$NEXT_PUBLIC_FACEBOOK_URL" >> .env
