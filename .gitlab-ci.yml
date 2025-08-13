@@ -65,12 +65,15 @@ build_app:
     - nvm install v22.18.0
     - nvm use v22.18.0
     - npm install -g yarn
+    - pwd
     - yarn install
     - yarn build
+    - ls -la
     # Create dynamic build name with pipeline ID
     - export BUILD_NAME="nextjs-static-${CI_PIPELINE_ID}.zip"
-    - cd apps/web
-    - zip -r "../../$BUILD_NAME" out/
+    - pwd
+    - sleep 300
+    - zip -r "$BUILD_NAME" out/
   artifacts:
     paths:
       - nextjs-static-*.zip
