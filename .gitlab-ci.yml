@@ -69,7 +69,7 @@ build_app:
     - yarn build
     # Create dynamic build name with pipeline ID
     - export BUILD_NAME="nextjs-static-${CI_PIPELINE_ID}.zip"
-    - zip -r "$BUILD_NAME" builds/development/scubed-landing-page/apps/web/out/
+    - zip -r "$BUILD_NAME" /builds/development/scubed-landing-page/apps/web/out/
   artifacts:
     paths:
       - nextjs-static-*.zip
