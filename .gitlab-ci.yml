@@ -84,26 +84,16 @@ deploy_to_amplify:
       output = json
       EOF
     - export BUILD_NAME="nextjs-static-${CI_PIPELINE_ID}.zip"
-  script:
-    # 1. Create Amplify deployment slot
-    - DEPLOYMENT_INFO=$(aws amplify create-deployment \
-        --app-id "$AMPLIFY_APP_ID" \
-        --branch-name "$AMPLIFY_BRANCH_NAME" \
-        --profile scubed-amplify)
 
-    # 2. Extract jobId and zipUploadUrl
+  script:
+    - DEPLOYMENT_INFO=$(aws amplify create-deployment --app-id "$AMPLIFY_APP_ID" --branch-name "$AMPLIFY_BRANCH_NAME" --profile scubed-amplify)
     - JOB_ID=$(echo "$DEPLOYMENT_INFO" | jq -r '.jobId')
     - UPLOAD_URL=$(echo "$DEPLOYMENT_INFO" | jq -r '.zipUploadUrl')
 
-    # 3. Upload build zip to Amplify's presigned S3 URL
     - curl -T "$BUILD_NAME" "$UPLOAD_URL"
 
-    # 4. Start deployment
-    - aws amplify start-deployment \
-        --app-id "$AMPLIFY_APP_ID" \
-        --branch-name "$AMPLIFY_BRANCH_NAME" \
-        --job-id "$JOB_ID" \
-        --profile scubed-amplify
+    - aws amplify start-deployment --app-id "$AMPLIFY_APP_ID" --branch-name "$AMPLIFY_BRANCH_NAME" --job-id "$JOB_ID" --profile scubed-amplify
+
   dependencies:
     - build_app
   only:
