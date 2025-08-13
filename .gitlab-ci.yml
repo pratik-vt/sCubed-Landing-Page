@@ -59,6 +59,7 @@ build_app:
   - echo "NEXT_PUBLIC_EMAIL=$NEXT_PUBLIC_EMAIL" >> .env
   - echo "NEXT_PUBLIC_ADDRESS=$NEXT_PUBLIC_ADDRESS" >> .env
   - echo "NEXT_PUBLIC_CALENDLY_URL=$NEXT_PUBLIC_CALENDLY_URL" >> .env
+  - cd /
   script:
     - export NVM_DIR="/home/gitlab-runner/.nvm"
     - source $NVM_DIR/nvm.sh
