@@ -50,8 +50,6 @@ export async function generateMetadata({ params }: BlogDetailPageProps): Promise
       authors: post.author ? [{ name: post.author.name }] : [{ name: 'S Cubed Team' }],
       category: categories,
       keywords: `${categories}${tags ? `, ${tags}` : ''}, therapy software, practice management, S Cubed`,
-      publishedTime: post.publishedAt,
-      modifiedTime: post.updatedAt,
       openGraph: {
         title,
         description,
