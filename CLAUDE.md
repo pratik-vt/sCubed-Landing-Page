@@ -4,111 +4,182 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project Overview
 
-S Cubed Landing Page - A Gatsby-based marketing site for practice management software serving therapy practices. Built with TypeScript, React, and Vanilla Extract CSS-in-JS.
+S Cubed Monorepo - A Turborepo-based monorepo containing a Next.js 15 landing page and Strapi v5 CMS for practice management software serving therapy practices.
 
 ## Essential Commands
 
+### Monorepo Commands
 ```bash
 # Development
-yarn develop     # Start dev server at http://localhost:8000
-yarn start       # Alias for develop
+yarn dev           # Start all apps (web + cms)
+yarn dev:web       # Start Next.js only
+yarn dev:cms       # Start Strapi only
 
 # Build & Deploy
-yarn build       # Production build
-yarn serve       # Serve production build locally
-yarn clean       # Clean cache and public directories
+yarn build         # Build all apps
+yarn build:web     # Build Next.js only
+yarn build:cms     # Build Strapi only
 
-# Code Quality
-yarn typecheck   # Run TypeScript type checking
-yarn lint        # Run ESLint
-yarn lint:fix    # Fix linting issues
+# Code Quality (runs across all apps)
+yarn typecheck     # TypeScript type checking
+yarn lint          # ESLint checks
+yarn clean         # Clean all build artifacts
+yarn format        # Format code with Prettier
+```
+
+### Web App Commands (apps/web)
+```bash
+cd apps/web
+yarn dev           # Dev server at http://localhost:3000
+yarn build         # Production build (SSR-ready)
+yarn start         # Start production server
+yarn lint:fix      # Fix linting issues
+```
+
+### CMS Commands (apps/cms)
+```bash
+cd apps/cms
+yarn dev           # Strapi dev at http://localhost:1337
+yarn build         # Build admin panel
+yarn start         # Production server
+yarn data:export   # Export content data
+yarn data:import   # Import content data
+yarn data:sample   # Create sample data
 ```
 
 ## Architecture Overview
 
+### Monorepo Structure
+```
+scubed-monorepo/
+├── apps/
+│   ├── web/       # Next.js 15 landing page
+│   └── cms/       # Strapi v5 CMS
+├── packages/      # Shared packages
+└── turbo.json     # Turborepo configuration
+```
+
 ### Technology Stack
-- **Framework**: Gatsby v5.13.0 with React 18.3.1
-- **Language**: TypeScript with strict mode
-- **Styling**: Vanilla Extract CSS-in-JS (type-safe styling)
-- **Forms**: React Hook Form with validator.js
-- **Key Integrations**: Calendly widget, Google Tag Manager
+- **Monorepo**: Turborepo with Yarn workspaces
+- **Web**: Next.js 15 (App Router), TypeScript, Vanilla Extract CSS
+- **CMS**: Strapi v5, TypeScript, SQLite/PostgreSQL
+- **Deployment**: AWS Amplify (SSR), GitLab CI/CD
 
-### Project Structure
-```
-src/
-├── components/     # Reusable UI components (all TypeScript)
-├── hooks/          # Custom React hooks
-├── images/         # Static assets
-└── pages/          # Gatsby pages (index, 404, privacy, terms)
-```
+### Next.js Architecture (apps/web)
+- App Router with Server Components by default
+- Vanilla Extract for type-safe CSS-in-JS
+- Component structure: `components/[ComponentName]/index.tsx` + `styles.css.ts`
+- TypeScript strict mode enabled
+- Path alias: `@/*` maps to `src/*`
 
-### Component Architecture
-- Each component has its own directory with `index.tsx` and `*.css.ts` files
-- Container component applies global styles and wraps all pages
-- Layout component handles page structure with Header/Footer
-- All components use TypeScript interfaces for props
-
-### Styling Approach
-- Vanilla Extract for CSS-in-JS with type safety
-- Responsive breakpoints: mobile (< 768px), tablet (768-1024px), desktop (> 1024px)
-- Media queries defined in individual component style files
-- Global styles applied through Container component
+### Strapi Configuration (apps/cms)
+- Content types: blog-post, author, category, tag, contact-submission
+- API endpoints under `/api/[content-type]`
+- PostgreSQL for production, SQLite for development
+- Custom data management scripts for export/import
 
 ## Environment Configuration
 
-Required `.env` variables:
+### Web App (.env.local)
+```bash
+NEXT_PUBLIC_STRAPI_URL=http://localhost:1337
+NEXT_PUBLIC_ADMIN_APP_URL=
+NEXT_PUBLIC_ADMIN_APP_API_URL=
+NEXT_PUBLIC_APP_ENV=dev              # dev/stage/prod
+NEXT_PUBLIC_GTM_ID=                  # Google Tag Manager
+NEXT_PUBLIC_CALENDLY_URL=             # Calendly scheduling
+NEXT_PUBLIC_SITE_URL=
+# Social & Contact
+NEXT_PUBLIC_FACEBOOK_URL=
+NEXT_PUBLIC_INSTAGRAM_URL=
+NEXT_PUBLIC_YOUTUBE_URL=
+NEXT_PUBLIC_PHONE_NUMBER=
+NEXT_PUBLIC_EMAIL=
+NEXT_PUBLIC_ADDRESS=
 ```
-GATSBY_ADMIN_APP_URL
-GATSBY_ADMIN_APP_API_URL
-GATSBY_APP_ENV              # dev/stage/prod
-GATSBY_GTM_ID               # Google Tag Manager ID
-GATSBY_GOOGLE_SITE_VERIFICATION
-GATSBY_CALENDLY_URL         # Calendly scheduling link
-GATSBY_FACEBOOK_URL
-GATSBY_INSTAGRAM_URL
-GATSBY_YOUTUBE_URL
-GATSBY_PHONE_NUMBER
-GATSBY_EMAIL
-GATSBY_ADDRESS
+
+### CMS (.env)
+```bash
+DATABASE_URL=                         # PostgreSQL connection
+STRAPI_ADMIN_JWT_SECRET=
+HOST=0.0.0.0
+PORT=1337
 ```
 
 ## Key Implementation Details
 
-### SEO & Analytics
-- SEO component in every page with meta tags
-- Robots meta tag: `noindex` for non-prod, `index` for prod
-- Google Tag Manager only loads in production (`GATSBY_APP_ENV === 'prod'`)
-- GTM hardcoded ID: GTM-WFFCJJSB in gatsby-ssr.js
+### Blog Integration
+- Dynamic blog pages at `/blog/[slug]`
+- Fetches content from Strapi CMS
+- Rich content modules: text, image, quote, audio, YouTube
+- Server-side rendering for SEO
 
-### Forms & Modals
-- ModalForm component handles contact form with validation
-- Phone number formatting with react-input-mask
-- Form submission posts to `GATSBY_ADMIN_APP_API_URL/api/website/contact-us`
+### Component Patterns
+- Server Components by default, Client Components with "use client"
+- Vanilla Extract styles in `.css.ts` files
+- TypeScript interfaces for all component props
+- Responsive breakpoints: mobile (<768px), tablet (768-1024px), desktop (>1024px)
 
-### Calendly Integration
-- CalendlyWidget component opens scheduling popup
-- Requires `GATSBY_CALENDLY_URL` environment variable
-- Used in Hero and Header components for demo booking
+### Forms & Integrations
+- ModalForm for contact forms with validation
+- Calendly integration via CalendlyWidget component
+- Form submissions to admin API endpoint
 
-### Deployment
-- S3 deployment configured via gatsby-plugin-s3
-- Build outputs to `public/` directory
-- Static site with client-side routing
+### Deployment Pipeline
+- AWS Amplify for Next.js (SSR enabled)
+- GitLab CI/CD with Turborepo caching
+- Selective deployment based on changed files
+- Environments: dev, staging, production
 
 ## Development Guidelines
 
 ### TypeScript
-- Strict mode enabled - all code must be properly typed
-- Avoid `any` types - use proper interfaces
-- Component props must have TypeScript interfaces
+- Strict mode enforced in both apps
+- No `any` types - use proper interfaces
+- Path imports using `@/` alias in web app
 
-### Code Style
-- ESLint with TypeScript and React rules
-- Prettier formatting (single quotes, trailing commas)
-- Import order enforced by ESLint
+### Styling (Web App)
+- All styles in Vanilla Extract `.css.ts` files
+- Use design tokens from `src/styles/tokens.css.ts`
+- Co-locate styles with components
+- Responsive design within component styles
 
-### Component Patterns
-- Functional components with hooks (no class components)
-- Props interfaces defined above components
-- Vanilla Extract styles in separate `.css.ts` files
-- Responsive design handled within component styles
+### Testing & Validation
+```bash
+# Before committing
+yarn typecheck     # Must pass with no errors
+yarn lint          # Must pass with no errors
+yarn build         # Must build successfully
+```
+
+### Git Workflow
+- Feature branches from `develop`
+- Main branch for production: `develop`
+- Run quality checks before committing
+- Follow conventional commit messages
+
+## Common Tasks
+
+### Adding a New Page (Web)
+1. Create page in `apps/web/src/app/[page-name]/page.tsx`
+2. Add metadata for SEO
+3. Use Layout component for consistent structure
+4. Test with `yarn build` for SSR compatibility
+
+### Adding Blog Content (CMS)
+1. Start CMS: `yarn dev:cms`
+2. Access admin at http://localhost:1337/admin
+3. Create content in Blog Posts section
+4. Content available via API at `/api/blog-posts`
+
+### Updating Environment Variables
+1. Update `.env.local` (web) or `.env` (cms)
+2. Prefix with `NEXT_PUBLIC_` for client-side access in Next.js
+3. Restart development servers
+4. Update Amplify Console for production
+
+### Troubleshooting Builds
+- Clear caches: `yarn clean`
+- Reinstall dependencies: `rm -rf node_modules && yarn install`
+- Check TypeScript: `yarn typecheck`
+- Verify environment variables are set correctly
