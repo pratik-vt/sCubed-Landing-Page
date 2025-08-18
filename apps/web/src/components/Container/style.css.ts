@@ -9,6 +9,10 @@ globalStyle('html, body ,img', {
   maxWidth: '100%',
 });
 
+globalStyle('html', {
+  scrollBehavior: 'smooth',
+});
+
 export const ContainerStyle = style({ outline: `none`, borderWidth: `1px` });
 export const InnerContainerStyle = style({
   maxWidth: `1400px`,

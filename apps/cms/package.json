@@ -15,7 +15,11 @@
     "upgrade:dry": "npx @strapi/upgrade latest --dry",
     "clean": "rm -rf .cache build",
     "typecheck": "tsc --noEmit",
-    "lint": "eslint . --ext .ts,.tsx"
+    "lint": "eslint . --ext .ts,.tsx",
+    "data:export": "node export-import-data.js export",
+    "data:import": "node export-import-data.js import",
+    "data:list": "node export-import-data.js list",
+    "data:sample": "node create-sample-data.js"
   },
   "dependencies": {
     "@strapi/plugin-cloud": "5.21.0",

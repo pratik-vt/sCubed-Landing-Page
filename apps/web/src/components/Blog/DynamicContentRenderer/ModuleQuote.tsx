@@ -36,94 +36,172 @@ const ModuleQuote: React.FC<ModuleQuoteProps> = ({ data }) => {
     return null;
   }
 
-  const getQuoteStyleClasses = () => {
-    const baseClasses = "quote-module my-8 p-6 rounded-xl";
+  const getQuoteStyles = () => {
+    const baseStyles = {
+      margin: '2rem 0',
+      padding: '2rem',
+      borderRadius: '16px',
+      position: 'relative' as const,
+      fontFamily: 'inherit'
+    };
     
     switch (quote_style) {
       case 'highlighted':
-        return `${baseClasses} bg-gradient-to-r from-primary-50 to-primary-100 border-l-4 border-primary-500`;
+        return {
+          ...baseStyles,
+          background: 'linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%)',
+          borderLeft: '4px solid #0ea5e9',
+          boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1)'
+        };
       case 'callout':
-        return `${baseClasses} bg-accent-50 border border-accent-300 shadow-sm`;
+        return {
+          ...baseStyles,
+          backgroundColor: '#fefce8',
+          border: '1px solid #facc15',
+          boxShadow: '0 1px 3px 0 rgba(0, 0, 0, 0.1)'
+        };
       case 'testimonial':
-        return `${baseClasses} bg-gradient-to-br from-purple-50 via-blue-50 to-indigo-50 border shadow-md`;
+        return {
+          ...baseStyles,
+          background: 'linear-gradient(135deg, #faf5ff 0%, #f3e8ff 50%, #ede9fe 100%)',
+          border: '1px solid #e5e7eb',
+          boxShadow: '0 10px 15px -3px rgba(0, 0, 0, 0.1)'
+        };
       default:
-        return `${baseClasses} bg-neutral-50 border-l-4 border-neutral-400`;
+        return {
+          ...baseStyles,
+          backgroundColor: '#f9fafb',
+          borderLeft: '4px solid #6b7280',
+          boxShadow: '0 1px 3px 0 rgba(0, 0, 0, 0.1)'
+        };
     }
   };
 
-  const getQuoteSizeClasses = () => {
+  const getQuoteSizeStyles = () => {
     switch (quote_size) {
       case 'large':
-        return "text-xl leading-relaxed";
+        return { fontSize: '1.25rem', lineHeight: '1.75', fontWeight: '400' };
       case 'featured':
-        return "text-2xl leading-relaxed font-medium";
+        return { fontSize: '1.5rem', lineHeight: '1.75', fontWeight: '500' };
       default:
-        return "text-lg leading-relaxed";
+        return { fontSize: '1.125rem', lineHeight: '1.75', fontWeight: '400' };
     }
   };
 
   const getQuoteMarkColor = () => {
     switch (quote_style) {
       case 'highlighted':
-        return 'text-primary-300';
+        return '#93c5fd';
       case 'callout':
-        return 'text-accent-300';
+        return '#fde047';
       case 'testimonial':
-        return 'text-purple-300';
+        return '#c4b5fd';
       default:
-        return 'text-neutral-300';
+        return '#d1d5db';
     }
   };
 
   return (
-    <blockquote className={getQuoteStyleClasses()}>
-      <div className="relative">
+    <blockquote style={getQuoteStyles()}>
+      <div style={{ position: 'relative' }}>
         {show_quote_marks && (
           <>
-            <span className={`text-6xl ${getQuoteMarkColor()} absolute -top-4 -left-2 font-serif select-none`}>
+            <span style={{
+              fontSize: '4rem',
+              color: getQuoteMarkColor(),
+              position: 'absolute',
+              top: '-1rem',
+              left: '-0.5rem',
+              fontFamily: 'Georgia, serif',
+              userSelect: 'none',
+              opacity: 0.6,
+              lineHeight: 1
+            }}>
               "
             </span>
-            <span className={`text-6xl ${getQuoteMarkColor()} absolute -bottom-8 -right-2 font-serif select-none transform rotate-180`}>
+            <span style={{
+              fontSize: '4rem',
+              color: getQuoteMarkColor(),
+              position: 'absolute',
+              bottom: '-2rem',
+              right: '-0.5rem',
+              fontFamily: 'Georgia, serif',
+              userSelect: 'none',
+              opacity: 0.6,
+              transform: 'rotate(180deg)',
+              lineHeight: 1
+            }}>
               "
             </span>
           </>
         )}
         
-        <div className="relative z-10 px-4">
-          <p className={`${getQuoteSizeClasses()} mb-6 text-gray-800`}>
+        <div style={{ 
+          position: 'relative', 
+          zIndex: 10, 
+          padding: '0 1rem'
+        }}>
+          <p style={{
+            ...getQuoteSizeStyles(),
+            marginBottom: '1.5rem',
+            color: '#1f2937',
+            fontStyle: 'italic'
+          }}>
             {quote_text}
           </p>
         </div>
       </div>
       
       {(author_name || author_position || author_company) && (
-        <footer className="flex items-center mt-6 pt-4 border-t border-gray-200">
+        <footer style={{
+          display: 'flex',
+          alignItems: 'center',
+          marginTop: '1.5rem',
+          paddingTop: '1rem',
+          borderTop: '1px solid #e5e7eb'
+        }}>
           {author_photo && (
-            <div className="mr-4 flex-shrink-0">
+            <div style={{ 
+              marginRight: '1rem', 
+              flexShrink: 0 
+            }}>
               <Image
                 src={getStrapiImageUrl(author_photo)}
                 alt={author_name || 'Author'}
                 width={56}
                 height={56}
-                className="rounded-full border-2 border-white shadow-sm"
+                style={{
+                  borderRadius: '50%',
+                  border: '2px solid white',
+                  boxShadow: '0 1px 3px 0 rgba(0, 0, 0, 0.1)'
+                }}
               />
             </div>
           )}
           
-          <div className="flex-grow">
+          <div style={{ flexGrow: 1 }}>
             {author_name && (
-              <cite className="font-semibold text-gray-900 not-italic block">
+              <cite style={{
+                fontWeight: '600',
+                color: '#111827',
+                fontStyle: 'normal',
+                display: 'block'
+              }}>
                 {author_name}
               </cite>
             )}
             
             {(author_position || author_company) && (
-              <div className="text-sm text-gray-600 mt-1">
+              <div style={{
+                fontSize: '0.875rem',
+                color: '#6b7280',
+                marginTop: '0.25rem'
+              }}>
                 {author_position && (
-                  <span className="font-medium">{author_position}</span>
+                  <span style={{ fontWeight: '500' }}>{author_position}</span>
                 )}
                 {author_position && author_company && (
-                  <span className="mx-1">•</span>
+                  <span style={{ margin: '0 0.25rem' }}>•</span>
                 )}
                 {author_company && (
                   <span>{author_company}</span>
@@ -134,12 +212,23 @@ const ModuleQuote: React.FC<ModuleQuoteProps> = ({ data }) => {
           
           {/* Decorative element for testimonial style */}
           {quote_style === 'testimonial' && (
-            <div className="flex-shrink-0 ml-4">
-              <div className="flex space-x-1">
+            <div style={{ 
+              flexShrink: 0, 
+              marginLeft: '1rem' 
+            }}>
+              <div style={{ 
+                display: 'flex', 
+                gap: '0.25rem' 
+              }}>
                 {[...Array(5)].map((_, i) => (
                   <svg
                     key={i}
-                    className="w-4 h-4 text-yellow-400 fill-current"
+                    style={{
+                      width: '1rem',
+                      height: '1rem',
+                      color: '#fbbf24',
+                      fill: 'currentColor'
+                    }}
                     viewBox="0 0 20 20"
                   >
                     <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />

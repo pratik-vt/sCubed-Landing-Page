@@ -202,18 +202,37 @@ export async function getBlogPosts(params: {
 }
 
 export async function getBlogPost(slug: string): Promise<StrapiResponse<BlogPost[]>> {
-  const queryParams = new URLSearchParams({
-    'filters[slug][$eq]': slug,
-    'filters[status][$eq]': 'published',
-    'populate[0]': 'author',
-    'populate[1]': 'categories',
-    'populate[2]': 'tags',
-    'populate[3]': 'featured_image',
-    'populate[4]': 'hero_image',
-    'populate[5]': 'content_blocks'
-  });
+  try {
+    // Use the structured approach from Strapi v5 docs for component population
+    const queryParams = new URLSearchParams();
+    
+    // Filters
+    queryParams.set('filters[slug][$eq]', slug);
+    queryParams.set('filters[status][$eq]', 'published');
+    
+    // Basic population
+    queryParams.set('populate[author]', 'true');
+    queryParams.set('populate[categories]', 'true');
+    queryParams.set('populate[tags]', 'true');
+    queryParams.set('populate[featured_image]', 'true');
+    queryParams.set('populate[hero_image]', 'true');
+    
+    // Populate content_blocks with all nested fields (required for polymorphic structures)
+    // The error message indicates we must use '*' for polymorphic structures
+    queryParams.set('populate[content_blocks][populate]', '*');
 
-  return fetchAPI(`/blog-posts?${queryParams}`);
+    return await fetchAPI(`/blog-posts?${queryParams}`);
+  } catch (error) {
+    console.warn('Advanced population failed, falling back to basic population:', error);
+    
+    // Fallback to basic population if the advanced syntax fails
+    const fallbackParams = new URLSearchParams();
+    fallbackParams.set('filters[slug][$eq]', slug);
+    fallbackParams.set('filters[status][$eq]', 'published');
+    fallbackParams.set('populate', '*');
+    
+    return await fetchAPI(`/blog-posts?${fallbackParams}`);
+  }
 }
 
 export async function getCategories(): Promise<StrapiResponse<Category[]>> {

@@ -133,4 +133,15 @@ globalStyle(`${authorDetails} p`, {
 
 globalStyle(`${authorDetails} p:last-child`, {
   marginBottom: 0,
+});
+
+// Global scroll target styles for smooth scrolling
+globalStyle('[id]', {
+  scrollMarginTop: '100px',
+  
+  '@media': {
+    '(max-width: 768px)': {
+      scrollMarginTop: '80px',
+    },
+  },
 }); 

@@ -35,24 +35,67 @@ const ModuleYoutube: React.FC<ModuleYoutubeProps> = ({ data }) => {
     privacy_mode = true
   } = data;
 
-  // If no video ID, don't render anything
-  if (!video_id) {
-    return null;
-  }
-
-  // Size classes for the container
-  const sizeClasses = {
-    small: 'max-w-md mx-auto',
-    medium: 'max-w-2xl mx-auto',
-    large: 'max-w-4xl mx-auto',
-    'full-width': 'w-full'
+  // Size styles for the container - using CSS instead of Tailwind
+  const getSizeStyles = (size: string) => {
+    const sizeMap = {
+      small: { maxWidth: '384px', margin: '0 auto' },     
+      medium: { maxWidth: '576px', margin: '0 auto' },    
+      large: { maxWidth: '768px', margin: '0 auto' },     
+      'full-width': { maxWidth: '896px', margin: '0 auto', width: '100%' }
+    };
+    return sizeMap[size as keyof typeof sizeMap] || sizeMap.large;
   };
 
-  // Aspect ratio classes
-  const aspectRatioClasses = {
-    '16:9': 'aspect-video',
-    '4:3': 'aspect-[4/3]',
-    '1:1': 'aspect-square'
+  // Container styles without Tailwind
+  const containerStyles = {
+    marginTop: '2rem',
+    marginBottom: '2rem',
+    ...getSizeStyles(player_size)
+  };
+
+  // If no video ID, show an error state instead of rendering nothing
+  if (!video_id) {
+    return (
+      <div style={containerStyles}>
+        <div style={{
+          position: 'relative',
+          width: '100%',
+          height: 0,
+          paddingBottom: '56.25%',
+          borderRadius: '8px',
+          overflow: 'hidden',
+          boxShadow: '0 10px 15px -3px rgba(0, 0, 0, 0.1)',
+          backgroundColor: '#fef2f2',
+          border: '2px solid #fecaca',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center'
+        }}>
+          <div style={{ textAlign: 'center', padding: '2rem', position: 'absolute' }}>
+            <div style={{ color: '#dc2626', marginBottom: '1rem' }}>
+              <svg style={{ width: '4rem', height: '4rem', margin: '0 auto' }} fill="currentColor" viewBox="0 0 20 20">
+                <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clipRule="evenodd" />
+              </svg>
+            </div>
+            <h3 style={{ fontSize: '1.125rem', fontWeight: '500', color: '#7f1d1d', marginBottom: '0.5rem' }}>YouTube Video Unavailable</h3>
+            <p style={{ color: '#b91c1c' }}>No video ID provided for this YouTube module.</p>
+            {video_title && (
+              <p style={{ fontSize: '0.875rem', color: '#dc2626', marginTop: '0.5rem' }}>Expected video: {video_title}</p>
+            )}
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  // Aspect ratio styles with proper responsive video container
+  const getAspectRatioStyles = (ratio: string) => {
+    const ratioMap = {
+      '16:9': { position: 'relative' as const, width: '100%', height: '0', paddingBottom: '56.25%' },
+      '4:3': { position: 'relative' as const, width: '100%', height: '0', paddingBottom: '75%' },
+      '1:1': { position: 'relative' as const, width: '100%', height: '0', paddingBottom: '100%' }
+    };
+    return ratioMap[ratio as keyof typeof ratioMap] || ratioMap['16:9'];
   };
 
   // Build the embed URL
@@ -80,85 +123,76 @@ const ModuleYoutube: React.FC<ModuleYoutubeProps> = ({ data }) => {
     return `https://img.youtube.com/vi/${video_id}/maxresdefault.jpg`;
   };
 
-  const containerClasses = [
-    'module-youtube my-8',
-    sizeClasses[player_size]
-  ].join(' ');
+
 
   return (
-    <div className={containerClasses}>
+    <div style={containerStyles}>
       {/* Title */}
       {video_title && (
-        <h3 className="text-2xl font-semibold mb-4 text-gray-900">
+        <h3 style={{
+          fontSize: '1.5rem',
+          fontWeight: '600',
+          marginBottom: '1rem',
+          color: '#111827'
+        }}>
           {video_title}
         </h3>
       )}
 
       {/* Video Player */}
-      <div className={`${aspectRatioClasses[aspect_ratio]} rounded-lg overflow-hidden shadow-lg bg-gray-100`}>
+      <div style={{
+        ...getAspectRatioStyles(aspect_ratio),
+        borderRadius: '8px',
+        overflow: 'hidden',
+        boxShadow: '0 10px 15px -3px rgba(0, 0, 0, 0.1)',
+        backgroundColor: '#f3f4f6'
+      }}>
         <iframe
           src={buildEmbedUrl()}
           title={video_title || `YouTube video ${video_id}`}
           frameBorder="0"
           allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
           allowFullScreen
-          className="w-full h-full"
           loading="lazy"
+          style={{
+            position: 'absolute',
+            top: 0,
+            left: 0,
+            width: '100%',
+            height: '100%',
+            border: '0px'
+          }}
         />
       </div>
 
       {/* Description */}
       {video_description && (
-        <div className="mt-4 p-4 bg-gray-50 rounded-lg">
-          <p className="text-gray-700 leading-relaxed">
+        <div style={{
+          marginTop: '0.75rem',
+          padding: '0.75rem',
+          backgroundColor: '#f9fafb',
+          borderRadius: '4px',
+          fontSize: '0.875rem'
+        }}>
+          <p style={{
+            color: '#374151',
+            lineHeight: '1.625'
+          }}>
             {video_description}
           </p>
         </div>
       )}
 
-      {/* Video Info Footer */}
-      <div className="mt-4 flex items-center justify-between text-sm text-gray-500">
-        <div className="flex items-center space-x-4">
-          <span className="flex items-center">
-            <svg className="w-4 h-4 mr-1" fill="currentColor" viewBox="0 0 20 20">
-              <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM9.555 7.168A1 1 0 008 8v4a1 1 0 001.555.832l3-2a1 1 0 000-1.664l-3-2z" clipRule="evenodd" />
-            </svg>
-            YouTube Video
-          </span>
-          
-          {start_time && (
-            <span className="flex items-center">
-              <svg className="w-4 h-4 mr-1" fill="currentColor" viewBox="0 0 20 20">
-                <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.415-1.415L11 9.586V6z" clipRule="evenodd" />
-              </svg>
-              Starts at {Math.floor(start_time / 60)}:{(start_time % 60).toString().padStart(2, '0')}
-            </span>
-          )}
+      {/* Minimal footer - only show if there's start time */}
+      {start_time && (
+        <div style={{
+          marginTop: '0.5rem',
+          fontSize: '0.75rem',
+          color: '#6b7280'
+        }}>
+          Video starts at {Math.floor(start_time / 60)}:{(start_time % 60).toString().padStart(2, '0')}
         </div>
-
-        <div className="flex items-center space-x-2">
-          {privacy_mode && (
-            <span className="flex items-center text-green-600">
-              <svg className="w-4 h-4 mr-1" fill="currentColor" viewBox="0 0 20 20">
-                <path fillRule="evenodd" d="M2.166 4.999A11.954 11.954 0 0010 1.944 11.954 11.954 0 0017.834 5c.11.65.166 1.32.166 2.001 0 5.225-3.34 9.67-8 11.317C5.34 16.67 2 12.225 2 7c0-.682.057-1.35.166-2.001zm11.541 3.708a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
-              </svg>
-              Privacy Mode
-            </span>
-          )}
-          
-          <a
-            href={`https://www.youtube.com/watch?v=${video_id}${start_time ? `&t=${start_time}` : ''}`}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="text-red-600 hover:text-red-700 transition-colors duration-200 flex items-center"
-          >
-            <svg className="w-4 h-4 mr-1" fill="currentColor" viewBox="0 0 20 20">
-              <path fillRule="evenodd" d="M12.293 5.293a1 1 0 011.414 0l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-2.293-2.293a1 1 0 010-1.414z" clipRule="evenodd" />
-            </svg>
-            Watch on YouTube
-          </a>
-        </div>
-      </div>
+      )}
     </div>
   );
 };

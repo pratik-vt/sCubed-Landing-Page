@@ -1,9 +1,9 @@
 'use client';
 
-import React from 'react';
+import React, { useState } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
-import { Calendar, User, Clock, ChevronUp } from 'lucide-react';
+import { Calendar, User, Clock, ChevronUp, Share2, Check, Copy } from 'lucide-react';
 
 // Import Strapi types and utilities
 import { 
@@ -33,7 +33,6 @@ import {
   relatedPosts,
   socialShare,
   breadcrumb,
-  categoryTag,
   scrollToTop,
   authorInfo,
   authorAvatar,
@@ -50,6 +49,22 @@ import {
   categoriesTagsSection,
   sectionWrapper,
   sectionLabel,
+  authorName,
+  authorPosition,
+  authorBio,
+  authorStats,
+  authorStat,
+  authorStatLabel,
+  authorStatValue,
+  contentDivider,
+  shareHeader,
+  copyLinkButton,
+  copySuccess,
+  socialShareGrid,
+  shareStats,
+  authorCard,
+  authorContent,
+  authorMeta,
 } from './styles.css';
 import './global.css';
 
@@ -58,12 +73,14 @@ interface BlogArticleProps {
 }
 
 const BlogArticle: React.FC<BlogArticleProps> = ({ post }) => {
+  const [copySuccess, setCopySuccess] = useState(false);
+
   // Get post data
   const title = post.title;
   const heroImageUrl = (post.hero_image || post.featured_image) 
     ? getStrapiImageUrl(post.hero_image || post.featured_image) 
     : '';
-  const authorName = post.author?.name || 'S³ Team';
+  const authorName = post.author?.name || 'S Cubed Team';
   const authorAvatarImage = post.author?.avatar;
   const authorAvatarUrl = authorAvatarImage ? getStrapiImageUrl(authorAvatarImage) : null;
   const authorPosition = post.author?.position;
@@ -75,18 +92,94 @@ const BlogArticle: React.FC<BlogArticleProps> = ({ post }) => {
   const contentBlocks = post.content_blocks || [];
 
   const scrollToSection = (id: string) => {
+    console.log('scrollToSection', id);
     const element = document.getElementById(id);
-    element?.scrollIntoView({ behavior: 'smooth' });
+    if (element) {
+      // Calculate header height offset
+      const isMobile = typeof window !== 'undefined' && window.innerWidth <= 768;
+      const headerHeight = isMobile ? 60 : 80; // Match Layout styles
+      const additionalOffset =isMobile ? 80 : 65; // Extra spacing for better UX
+      
+      // Calculate the position to scroll to
+      const elementTop = element.getBoundingClientRect().top + window.pageYOffset;
+      const offsetPosition = elementTop - headerHeight - additionalOffset;
+      
+      // Smooth scroll to the calculated position
+      window.scrollTo({
+        top: offsetPosition,
+        behavior: 'smooth'
+      });
+    }
   };
 
   const handleScrollToTop = () => {
     if (typeof window !== 'undefined') {
-      window.scrollTo({ top: 0, behavior: 'smooth' });
+      window.scrollTo({ 
+        top: 0, 
+        behavior: 'smooth' 
+      });
     }
   };
 
-  // Get primary category for breadcrumb
-  const primaryCategory = categories.length > 0 ? categories[0] : null;
+  const handleCopyLink = async () => {
+    if (typeof window !== 'undefined') {
+      try {
+        await navigator.clipboard.writeText(window.location.href);
+        setCopySuccess(true);
+        setTimeout(() => setCopySuccess(false), 2000);
+      } catch (err) {
+        console.error('Failed to copy link:', err);
+      }
+    }
+  };
+
+  // Function to extract h2 headings from markdown content
+  const extractH2Headings = (content: string): Array<{ heading: string; id: string }> => {
+    if (!content) return [];
+    
+    // Match h2 headings in markdown format (## heading)
+    const h2Regex = /^##\s+(.+)$/gm;
+    const matches = [];
+    let match;
+    
+    while ((match = h2Regex.exec(content)) !== null) {
+      const heading = match[1].trim();
+      // Create a URL-friendly ID from the heading
+      const id = heading
+        .toLowerCase()
+        .replace(/[^\w\s-]/g, '') // Remove special characters
+        .replace(/\s+/g, '-') // Replace spaces with hyphens
+        .trim();
+      
+      matches.push({ heading, id });
+    }
+    
+    return matches;
+  };
+
+  // Generate table of contents from h2 headings
+  const generateTableOfContents = () => {
+    const tocEntries: Array<{ heading: string; id: string; blockIndex: number }> = [];
+    
+    contentBlocks.forEach((block, index) => {
+      if (block.__component === 'blog.text-module' && block.content) {
+        const h2Headings = extractH2Headings(block.content);
+        h2Headings.forEach((h2) => {
+          tocEntries.push({
+            heading: h2.heading,
+            id: `${h2.id}-block-${index}`, // Ensure unique IDs across blocks
+            blockIndex: index
+          });
+        });
+      }
+    });
+    
+    return tocEntries;
+  };
+
+  const tableOfContentsData = generateTableOfContents();
+
+
 
   return (
     <div className={articleContainer}>
@@ -130,11 +223,6 @@ const BlogArticle: React.FC<BlogArticleProps> = ({ post }) => {
         {/* Breadcrumb */}
         <nav className={breadcrumb}>
           <Link href="/">Home</Link> / <Link href="/blog">Blog</Link>
-          {primaryCategory && (
-            <>
-              {' '} / <span className={categoryTag}>{primaryCategory.name}</span>
-            </>
-          )}
           {' '} / <span>{title}</span>
         </nav>
 
@@ -142,17 +230,13 @@ const BlogArticle: React.FC<BlogArticleProps> = ({ post }) => {
           {/* Main Content */}
           <main className={mainContent}>
             <article>
-              {/* Audio Player - Optional for podcast-style content */}
-              {/* You can add this back if you have audio content in Strapi */}
-              {/* <div className={audioPlayer} style={{ marginBottom: '2rem' }}>
-                <Play size={20} />
-                <span>Listen to Audio Version</span>
-              </div> */}
-
               {/* Dynamic Content Blocks */}
               <div className={articleContent}>
                 <DynamicContentRenderer content_blocks={contentBlocks} />
               </div>
+
+              {/* Content Divider */}
+              <div className={contentDivider} />
 
               {/* Categories and Tags */}
               {(categories.length > 0 || postTags.length > 0) && (
@@ -197,35 +281,84 @@ const BlogArticle: React.FC<BlogArticleProps> = ({ post }) => {
                 </div>
               )}
 
-              {/* Author Information */}
+              {/* Content Divider */}
+              <div className={contentDivider} />
+
+              {/* Enhanced Author Information */}
               {post.author && (
-                <div className={authorInfo}>
-                  {authorAvatarUrl && (
-                    <div className={authorAvatar}>
-                      <Image
-                        src={authorAvatarUrl}
-                        alt={authorName}
-                        width={80}
-                        height={80}
-                        style={{ borderRadius: '50%' }}
-                      />
-                    </div>
-                  )}
-                  <div className={authorDetails}>
-                    <h4>{authorName}</h4>
-                    {authorPosition && <p>{authorPosition}</p>}
-                    {authorBio && (
-                      <p>{authorBio}</p>
+                <div className={authorCard}>
+                  <div className={authorInfo}>
+                    {authorAvatarUrl && (
+                      <div className={authorAvatar}>
+                        <Image
+                          src={authorAvatarUrl}
+                          alt={authorName}
+                          width={80}
+                          height={80}
+                          style={{ borderRadius: '50%' }}
+                        />
+                      </div>
                     )}
+                    <div className={authorContent}>
+                      <div className={authorDetails}>
+                        <h3 className={authorName}>{authorName}</h3>
+                        {authorPosition && (
+                          <p className={authorPosition}>{authorPosition}</p>
+                        )}
+                        {authorBio && (
+                          <p className={authorBio}>{authorBio}</p>
+                        )}
+                      </div>
+                      <div className={authorMeta}>
+                        <div className={authorStats}>
+                          <div className={authorStat}>
+                            <span className={authorStatLabel}>Published</span>
+                            <strong className={authorStatValue}>{publishDate}</strong>
+                          </div>
+                          <div className={authorStat}>
+                            <span className={authorStatLabel}>Read Time</span>
+                            <strong className={authorStatValue}>{readTime} min</strong>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
                   </div>
                 </div>
               )}
 
-              {/* Social Share */}
+              {/* Enhanced Social Share */}
               {post.social_share && (
                 <div className={socialShare}>
-                  <h4 className={socialShareTitle}>Share this article</h4>
-                  <div className={socialShareButtons}>
+                  <div className={shareHeader}>
+                    <div>
+                      <h3 className={socialShareTitle}>
+                        <Share2 size={24} />
+                        Share this article
+                      </h3>
+                      <div className={shareStats}>
+                        Help others discover this content
+                      </div>
+                    </div>
+                  </div>
+                  
+                  <div className={socialShareGrid}>
+                    <button
+                      onClick={handleCopyLink}
+                      className={copyLinkButton}
+                    >
+                      {copySuccess ? (
+                        <>
+                          <Check size={16} />
+                          <span>Copied!</span>
+                        </>
+                      ) : (
+                        <>
+                          <Copy size={16} />
+                          <span>Copy Link</span>
+                        </>
+                      )}
+                    </button>
+
                     <a
                       href={`https://twitter.com/intent/tweet?text=${encodeURIComponent(title)}&url=${encodeURIComponent(typeof window !== 'undefined' ? window.location.href : '')}`}
                       target="_blank"
@@ -237,6 +370,7 @@ const BlogArticle: React.FC<BlogArticleProps> = ({ post }) => {
                       </svg>
                       Twitter
                     </a>
+
                     <a
                       href={`https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(typeof window !== 'undefined' ? window.location.href : '')}`}
                       target="_blank"
@@ -248,6 +382,7 @@ const BlogArticle: React.FC<BlogArticleProps> = ({ post }) => {
                       </svg>
                       LinkedIn
                     </a>
+
                     <a
                       href={`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(typeof window !== 'undefined' ? window.location.href : '')}`}
                       target="_blank"
@@ -268,25 +403,17 @@ const BlogArticle: React.FC<BlogArticleProps> = ({ post }) => {
           {/* Sidebar */}
           <aside className={sidebar}>
             {/* Table of Contents - if enabled */}
-            {post.table_of_contents && contentBlocks.length > 0 && (
+            {post.table_of_contents && tableOfContentsData.length > 0 && (
               <div className={tableOfContents}>
                 <h3 className={tocTitle}>Table of Contents</h3>
                 <ul className={tocList}>
-                  {contentBlocks
-                    .filter(block => block.__component === 'blog.text-module' && block.content)
-                    .slice(0, 5) // Limit to first 5 text modules
-                    .map((block, index) => {
-                      // Extract heading from content (simple approach)
-                      const headingMatch = block.content.match(/^#+\s(.+)$/m);
-                      const heading = headingMatch ? headingMatch[1] : `Section ${index + 1}`;
-                      return (
-                        <li key={block.id || index} className={tocItem}>
-                          <button onClick={() => scrollToSection(`section-${index}`)}>
-                            {heading}
-                          </button>
-                        </li>
-                      );
-                    })}
+                                    {tableOfContentsData.map((tocEntry, index) => (
+                    <li key={`${tocEntry.id}-${index}`} className={tocItem}>
+                      <button onClick={() => scrollToSection(tocEntry.id)}>
+                        {tocEntry.heading}
+                      </button>
+                    </li>
+                  ))}
                 </ul>
               </div>
             )}

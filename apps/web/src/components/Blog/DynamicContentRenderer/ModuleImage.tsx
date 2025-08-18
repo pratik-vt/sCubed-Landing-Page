@@ -20,6 +20,9 @@ interface ModuleImageProps {
 }
 
 const ModuleImage: React.FC<ModuleImageProps> = ({ data }) => {
+  // Keep minimal debug logging to verify the fix
+  console.log('ModuleImage - Image present:', !!data.image, 'Clickable:', data.clickable, 'Link URL:', data.link_url);
+
   const {
     image,
     caption,
@@ -38,6 +41,7 @@ const ModuleImage: React.FC<ModuleImageProps> = ({ data }) => {
       <div className="module-image py-4">
         <div className="bg-gray-200 rounded-lg p-8 text-center text-gray-500">
           Image not available
+          {data.image && <div className="text-xs mt-2">Image data present but URL not accessible</div>}
         </div>
       </div>
     );

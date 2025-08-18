@@ -4,10 +4,16 @@ import Footer from '../Footer/footer';
 import Navigation from '../Navigation';
 import Container from '../Container';
 
-import { contentStyle, headerWrapperStyles } from './styles.css';
+import { contentStyle, contentStyleZeroMargin, headerWrapperStyles } from './styles.css';
 
-const Layout: FC<{ children: React.ReactNode }> = ({
+interface LayoutProps {
+  children: React.ReactNode;
+  zeroHeaderMargin?: boolean;
+}
+
+const Layout: FC<LayoutProps> = ({
   children,
+  zeroHeaderMargin = false,
 }) => {
   return (
     <Container>
@@ -15,7 +21,9 @@ const Layout: FC<{ children: React.ReactNode }> = ({
         <Navigation />
       </div>
 
-      <div className={contentStyle}>{children}</div>
+      <div className={zeroHeaderMargin ? contentStyleZeroMargin : contentStyle}>
+        {children}
+      </div>
       <Footer />
     </Container>
   );

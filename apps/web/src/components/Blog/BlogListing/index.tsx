@@ -5,6 +5,11 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { Calendar, User } from 'lucide-react';
 
+// Import blog placeholder image
+import BlogPlaceholder from '../../../images/blog-placeholder.png';
+
+
+
 // Import Strapi utilities
 import { 
   getBlogPosts, 
@@ -27,7 +32,6 @@ import {
   postMeta,
   metaItem,
   loadMoreButton,
-  categoryBadge,
 } from './styles.css';
 import './global.css';
 
@@ -84,12 +88,6 @@ const BlogListing: React.FC = () => {
     await fetchPosts(nextPage, true);
   };
 
-  // Helper function to get category name
-  const getCategoryName = (post: BlogPost): string => {
-    const categories = post.categories;
-    return categories && categories.length > 0 ? categories[0].name : 'Uncategorized';
-  };
-
   // Helper function to get read time
   const getReadTime = (post: BlogPost): string => {
     const readTime = post.estimated_read_time || 
@@ -137,30 +135,15 @@ const BlogListing: React.FC = () => {
           margin: '0 auto',
           padding: '0 2rem'
         }}>
-          <h1 style={{
-            fontSize: '3rem',
-            fontWeight: '700',
-            marginBottom: '1rem',
-            lineHeight: '1.2'
-          }}>
+          <h1 className="hero-title">
             S Cubed Insights & Updates
           </h1>
-          <p style={{
-            fontSize: '1.25rem',
-            opacity: 0.9,
-            lineHeight: '1.6',
-            maxWidth: '600px',
-            margin: '0 auto'
-          }}>
+          <p className="hero-subtitle">
             Stay updated with the latest developments in therapy practice management, 
             industry insights, and expert guidance from our team.
           </p>
           {totalPosts > 0 && (
-            <p style={{
-              fontSize: '1rem',
-              opacity: 0.8,
-              marginTop: '1rem'
-            }}>
+            <p className="hero-count">
               {totalPosts} article{totalPosts !== 1 ? 's' : ''} available
             </p>
           )}
@@ -194,9 +177,8 @@ const BlogListing: React.FC = () => {
               const featuredImageUrl = post.featured_image 
                 ? getStrapiImageUrl(post.featured_image) 
                 : '';
-              const authorName = post.author?.name || 'S³ Team';
+              const authorName = post.author?.name || 'S Cubed Team';
               const publishDate = formatDate(post.publishedAt);
-              const categoryName = getCategoryName(post);
               const readTime = getReadTime(post);
 
               return (
@@ -212,11 +194,13 @@ const BlogListing: React.FC = () => {
                           style={{ objectFit: 'cover', width: '100%', height: '100%' }}
                         />
                       ) : (
-                        <div className="bg-gradient-to-br from-primary-100 to-primary-200 w-full h-full flex items-center justify-center">
-                          <span className="text-primary-600 text-sm font-medium">
-                            S³ Blog
-                          </span>
-                        </div>
+                        <Image
+                          src={BlogPlaceholder}
+                          alt="S Cubed Blog Placeholder"
+                          width={400}
+                          height={280}
+                          style={{ objectFit: 'cover', width: '100%', height: '100%' }}
+                        />
                       )}
                                               {post.featured && (
                         <span className={featuredBadge}>FEATURED</span>
@@ -225,12 +209,16 @@ const BlogListing: React.FC = () => {
                     
                     <div className={postContent}>
                       <div>
-                                              <h2 className={postTitle}>{post.title}</h2>
-                      <p className={postExcerpt}>{post.excerpt}</p>
+                        <h2 
+                          className={postTitle}
+                          title={post.title}
+                        >
+                          {post.title}
+                        </h2>
+                        <p className={postExcerpt}>{post.excerpt}</p>
                       </div>
                       
                       <div className={postMeta}>
-                        <span className={categoryBadge}>{categoryName}</span>
                         <span className={metaItem}>
                           <User size={16} />
                           {authorName}
@@ -268,12 +256,7 @@ const BlogListing: React.FC = () => {
           </div>
         )}
 
-        {/* End message */}
-        {!hasMorePosts && blogPosts.length > 0 && (
-          <div className="text-center mt-8 py-4 text-gray-500">
-            <p>You've reached the end of our blog posts.</p>
-          </div>
-        )}
+
       </div>
     </div>
   );

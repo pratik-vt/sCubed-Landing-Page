@@ -5,6 +5,16 @@ import { colors, typography, spacing, shadows, radius } from '../../../styles/to
 export const articleContainer = style({
   backgroundColor: colors.neutral[50],
   minHeight: '100vh',
+  marginTop: '-80px', // Compensate for layout margin
+  paddingTop: '80px', // Add padding to push content below header
+  position: 'relative',
+  
+  '@media': {
+    '(max-width: 768px)': {
+      marginTop: '-60px',
+      paddingTop: '60px',
+    },
+  },
 });
 
 export const heroSection = style({
@@ -105,6 +115,7 @@ export const contentWrapper = style({
   marginTop: '-2rem',
   borderRadius: `${radius.xl} ${radius.xl} 0 0`,
   boxShadow: '0 -4px 6px -1px rgba(0, 0, 0, 0.1)',
+  zIndex: 1,
   
   '@media': {
     '(max-width: 768px)': {
@@ -193,6 +204,13 @@ export const audioPlayer = style({
 export const articleContent = style({
   lineHeight: typography.lineHeight.relaxed,
   color: colors.neutral[700],
+  scrollPaddingTop: '100px', // Account for fixed header
+  
+  '@media': {
+    '(max-width: 768px)': {
+      scrollPaddingTop: '80px',
+    },
+  },
 });
 
 export const contentSection = style({
@@ -253,7 +271,26 @@ export const responsiveTable = style({
   backgroundColor: colors.white,
 });
 
-
+// Content Divider
+export const contentDivider = style({
+  width: '100%',
+  height: '1px',
+  background: `linear-gradient(90deg, transparent 0%, ${colors.neutral[200]} 50%, transparent 100%)`,
+  margin: `${spacing.xl} 0`,
+  position: 'relative',
+  
+  '::after': {
+    content: '',
+    position: 'absolute',
+    top: '-4px',
+    left: '50%',
+    transform: 'translateX(-50%)',
+    width: '8px',
+    height: '8px',
+    backgroundColor: colors.primary[200],
+    borderRadius: '50%',
+  },
+});
 
 export const tableOfContents = style({
   backgroundColor: colors.neutral[50],
@@ -261,7 +298,16 @@ export const tableOfContents = style({
   borderRadius: radius.md,
   padding: spacing.lg,
   position: 'sticky',
-  top: spacing.lg,
+  top: '100px', // Account for fixed header height
+  maxHeight: 'calc(100vh - 120px)',
+  overflowY: 'auto',
+  
+  '@media': {
+    '(max-width: 768px)': {
+      top: '80px',
+      maxHeight: 'calc(100vh - 100px)',
+    },
+  },
 });
 
 export const tocTitle = style({
@@ -301,43 +347,222 @@ export const relatedPostCard = style({
   },
 });
 
-export const socialShare = style({
-  marginTop: spacing.xl,
-  padding: spacing.lg,
+// Enhanced Author Section
+export const authorCard = style({
   backgroundColor: colors.white,
-  borderRadius: radius.lg,
-  border: `1px solid ${colors.neutral[200]}`,
-  boxShadow: shadows.sm,
+  borderRadius: radius.xl,
+  boxShadow: shadows.md,
+  overflow: 'hidden',
+  marginTop: spacing.xl,
+  marginBottom: spacing.xl,
+  border: `1px solid ${colors.neutral[100]}`,
+  transition: 'all 0.3s ease',
+  
+  ':hover': {
+    boxShadow: shadows.lg,
+    transform: 'translateY(-2px)',
+  },
+});
+
+export const authorInfo = style({
+  display: 'flex',
+  alignItems: 'flex-start',
+  gap: spacing.lg,
+  padding: spacing.xl,
+  
+  '@media': {
+    '(max-width: 768px)': {
+      flexDirection: 'column',
+      alignItems: 'center',
+      textAlign: 'center',
+      padding: spacing.lg,
+    },
+  },
+});
+
+export const authorAvatar = style({
+  flexShrink: 0,
+  position: 'relative',
+  
+  '::after': {
+    content: '',
+    position: 'absolute',
+    top: '-3px',
+    left: '-3px',
+    right: '-3px',
+    bottom: '-3px',
+    background: `linear-gradient(135deg, ${colors.primary[500]}, ${colors.accent.teal})`,
+    borderRadius: '50%',
+    zIndex: -1,
+  },
+});
+
+export const authorContent = style({
+  flex: 1,
+  display: 'flex',
+  flexDirection: 'column',
+  gap: spacing.md,
+});
+
+export const authorDetails = style({
+  flex: 1,
+});
+
+export const authorName = style({
+  fontSize: typography.fontSize['2xl'],
+  fontWeight: typography.fontWeight.bold,
+  color: colors.neutral[900],
+  marginBottom: spacing.xs,
+  fontFamily: typography.fontFamily.heading,
+});
+
+export const authorPosition = style({
+  fontSize: typography.fontSize.lg,
+  fontWeight: typography.fontWeight.medium,
+  color: colors.primary[600],
+  marginBottom: spacing.sm,
+});
+
+export const authorBio = style({
+  fontSize: typography.fontSize.base,
+  lineHeight: typography.lineHeight.relaxed,
+  color: colors.neutral[600],
+  margin: 0,
+});
+
+export const authorMeta = style({
+  display: 'flex',
+  justifyContent: 'space-between',
+  alignItems: 'flex-end',
+  
+  '@media': {
+    '(max-width: 768px)': {
+      justifyContent: 'center',
+    },
+  },
+});
+
+export const authorStats = style({
+  display: 'flex',
+  gap: spacing.lg,
+  
+  '@media': {
+    '(max-width: 768px)': {
+      gap: spacing.md,
+    },
+  },
+});
+
+export const authorStat = style({
+  display: 'flex',
+  flexDirection: 'column',
+  alignItems: 'center',
+  gap: '4px',
+});
+
+export const authorStatLabel = style({
+  fontSize: typography.fontSize.xs,
+  color: colors.neutral[500],
+  textTransform: 'uppercase',
+  letterSpacing: '0.05em',
+  fontWeight: typography.fontWeight.medium,
+});
+
+export const authorStatValue = style({
+  fontSize: typography.fontSize.sm,
+  color: colors.neutral[900],
+  fontWeight: typography.fontWeight.semibold,
+});
+
+// Enhanced Social Share
+export const socialShare = style({
+  backgroundColor: colors.white,
+  borderRadius: radius.xl,
+  boxShadow: shadows.md,
+  overflow: 'hidden',
+  marginTop: spacing.xl,
+  border: `1px solid ${colors.neutral[100]}`,
+});
+
+export const shareHeader = style({
+  padding: spacing.xl,
+  paddingBottom: spacing.lg,
+  background: `linear-gradient(135deg, ${colors.primary[50]} 0%, ${colors.neutral[50]} 100%)`,
+  borderBottom: `1px solid ${colors.neutral[100]}`,
 });
 
 export const socialShareTitle = style({
-  fontSize: typography.fontSize.lg,
-  fontWeight: typography.fontWeight.semibold,
-  color: colors.neutral[800],
-  marginBottom: spacing.md,
+  fontSize: typography.fontSize['2xl'],
+  fontWeight: typography.fontWeight.bold,
+  color: colors.neutral[900],
+  marginBottom: spacing.xs,
+  display: 'flex',
+  alignItems: 'center',
+  gap: spacing.sm,
+  fontFamily: typography.fontFamily.heading,
 });
 
-export const socialShareButtons = style({
-  display: 'flex',
+export const shareStats = style({
+  fontSize: typography.fontSize.sm,
+  color: colors.neutral[600],
+  fontStyle: 'italic',
+});
+
+export const socialShareGrid = style({
+  display: 'grid',
+  gridTemplateColumns: 'repeat(auto-fit, minmax(140px, 1fr))',
   gap: spacing.sm,
-  flexWrap: 'wrap',
+  padding: spacing.xl,
+  paddingTop: spacing.lg,
+  
+  '@media': {
+    '(max-width: 768px)': {
+      gridTemplateColumns: '1fr',
+      gap: spacing.md,
+    },
+  },
 });
 
 export const socialButton = style({
   display: 'inline-flex',
   alignItems: 'center',
+  justifyContent: 'center',
   gap: spacing.xs,
-  padding: `${spacing.sm} ${spacing.md}`,
-  borderRadius: radius.md,
+  padding: `${spacing.md} ${spacing.lg}`,
+  borderRadius: radius.lg,
   textDecoration: 'none',
   fontSize: typography.fontSize.sm,
   fontWeight: typography.fontWeight.medium,
-  transition: 'all 0.2s ease',
+  transition: 'all 0.3s ease',
+  border: 'none',
+  cursor: 'pointer',
+  position: 'relative',
+  overflow: 'hidden',
   
   ':hover': {
-    transform: 'translateY(-1px)',
-    boxShadow: shadows.md,
+    transform: 'translateY(-2px)',
+    boxShadow: shadows.lg,
   },
+  
+  ':active': {
+    transform: 'translateY(0)',
+  },
+});
+
+export const copyLinkButton = style([socialButton, {
+  backgroundColor: colors.neutral[100],
+  color: colors.neutral[700],
+  border: `2px solid ${colors.neutral[200]}`,
+  
+  ':hover': {
+    backgroundColor: colors.neutral[200],
+    borderColor: colors.neutral[300],
+    color: colors.neutral[800],
+  },
+}]);
+
+export const copySuccess = style({
+  color: colors.accent.green,
 });
 
 export const twitterButton = style([socialButton, {
@@ -428,8 +653,9 @@ export const scrollToTop = style({
   justifyContent: 'center',
   cursor: 'pointer',
   boxShadow: shadows.lg,
-  transition: 'all 0.2s ease',
-  zIndex: 10,
+  transition: 'all 0.3s ease',
+  zIndex: 1000,
+  opacity: 1,
   
   ':hover': {
     backgroundColor: colors.primary[700],
@@ -437,12 +663,16 @@ export const scrollToTop = style({
     boxShadow: shadows.xl,
   },
   
+  ':active': {
+    transform: 'translateY(0)',
+  },
+  
   '@media': {
     '(max-width: 768px)': {
       bottom: spacing.md,
       right: spacing.md,
-      width: '40px',
-      height: '40px',
+      width: '44px',
+      height: '44px',
     },
   },
 });
@@ -459,26 +689,8 @@ export const codeBlock = style({
   border: `1px solid ${colors.neutral[300]}`,
 });
 
-export const authorInfo = style({
-  display: 'flex',
-  alignItems: 'center',
-  gap: spacing.lg,
-  padding: spacing.lg,
-  backgroundColor: colors.white,
-  borderRadius: radius.lg,
-  border: `1px solid ${colors.neutral[200]}`,
-  boxShadow: shadows.sm,
-  marginTop: spacing.xl,
-  marginBottom: spacing.lg,
-});
-
-export const authorAvatar = style({
-  flexShrink: 0,
-});
-
-export const authorDetails = style({
-  flex: 1,
-});
+// Legacy author styles (keeping for backward compatibility)
+// authorDetails is already declared above
 
 export const tags = style({
   display: 'flex',
@@ -501,4 +713,11 @@ export const tag = style({
     backgroundColor: colors.primary[200],
     color: colors.primary[800],
   },
+});
+
+// Deprecated styles - keeping for legacy component compatibility
+export const socialShareButtons = style({
+  display: 'flex',
+  gap: spacing.sm,
+  flexWrap: 'wrap',
 }); 

@@ -15,24 +15,47 @@ interface DynamicContentRendererProps {
 const DynamicContentRenderer: React.FC<DynamicContentRendererProps> = ({ 
   content_blocks 
 }) => {
+  console.log('content_blocks', content_blocks);
   const renderContentBlock = (block: ContentBlock, index: number) => {
     const key = `${block.__component}-${block.id || index}`;
+    // Add section ID for TOC scrolling
+    const sectionId = `section-${index}`;
     
     switch (block.__component) {
       case 'blog.text-module':
-        return <TextModule key={key} data={block} />;
+        return (
+          <div key={key} id={sectionId}>
+            <TextModule data={block} blockIndex={index} />
+          </div>
+        );
       case 'blog.module-image':
-        return <ModuleImage key={key} data={block} />;
+        return (
+          <div key={key} id={sectionId}>
+            <ModuleImage data={block} />
+          </div>
+        );
       case 'blog.module-quote':
-        return <ModuleQuote key={key} data={block} />;
+        return (
+          <div key={key} id={sectionId}>
+            <ModuleQuote data={block} />
+          </div>
+        );
       case 'blog.module-youtube':
-        return <ModuleYoutube key={key} data={block} />;
+        return (
+          <div key={key} id={sectionId}>
+            <ModuleYoutube data={block} />
+          </div>
+        );
       case 'blog.module-audio':
-        return <ModuleAudio key={key} data={block} />;
+        return (
+          <div key={key} id={sectionId}>
+            <ModuleAudio data={block} />
+          </div>
+        );
       default:
         console.warn(`Unknown component type: ${block.__component}`);
         return (
-          <div key={key} className="p-4 border border-red-200 bg-red-50 rounded-lg">
+          <div key={key} id={sectionId} className="p-4 border border-red-200 bg-red-50 rounded-lg">
             <p className="text-red-600 text-sm">
               Unknown content block type: {block.__component}
             </p>
@@ -50,7 +73,7 @@ const DynamicContentRenderer: React.FC<DynamicContentRendererProps> = ({
   }
 
   return (
-    <div className="dynamic-content space-y-8">
+    <div className="dynamic-content space-y-8" style={{ overflowAnchor: 'auto' }}>
       {content_blocks.map(renderContentBlock)}
     </div>
   );

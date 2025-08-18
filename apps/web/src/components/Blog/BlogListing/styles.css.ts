@@ -200,20 +200,6 @@ export const heroMeta = style({
   flexWrap: 'wrap',
 });
 
-export const categoryBadge = style({
-  display: 'inline-flex',
-  alignItems: 'center',
-  backgroundColor: colors.primary[100],
-  color: colors.primary[700],
-  padding: `${spacing.xs} ${spacing.md}`,
-  borderRadius: radius.base,
-  fontSize: typography.fontSize.sm,
-  fontWeight: typography.fontWeight.semibold,
-  textTransform: 'uppercase',
-  letterSpacing: '0.05em',
-  height: 'fit-content',
-});
-
 export const newsletterSection = style({
   marginBottom: spacing['3xl'],
 });
@@ -330,7 +316,7 @@ export const postCard = style({
   display: 'flex',
   flexDirection: 'row',
   alignItems: 'stretch',
-  height: '280px', // Increased height for better proportions
+  height: '320px', // Increased height for better meta visibility
   position: 'relative',
   
   ':hover': {
@@ -353,7 +339,7 @@ export const postCard = style({
   
   '@media': {
     '(max-width: 1024px)': {
-      height: '260px',
+      height: '300px', // Increased from 260px
     },
     '(max-width: 768px)': {
       flexDirection: 'column',
@@ -397,16 +383,19 @@ export const featuredBadge = style({
 });
 
 export const postContent = style({
-  padding: spacing.xl,
+  padding: `${spacing.xl} ${spacing.xl} ${spacing.lg}`, // Reduced bottom padding for better balance
   display: 'flex',
   flexDirection: 'column',
   justifyContent: 'space-between',
   flex: 1,
   minWidth: 0, // Prevents flex item from overflowing
-  height: '100%', // Take full height of the card
+  height: 'auto',// Take full height of the card
   overflow: 'visible', // Ensure content is not clipped
   
   '@media': {
+    '(max-width: 1024px)': {
+      padding: `${spacing.lg} ${spacing.lg} ${spacing.md}`, // Balanced padding on medium screens
+    },
     '(max-width: 768px)': {
       padding: spacing.lg,
       height: 'auto', // Auto height on mobile
@@ -422,13 +411,23 @@ export const postTitle = style({
   color: colors.neutral[900],
   lineHeight: typography.lineHeight.tight,
   marginBottom: spacing.md,
+  marginTop: 0,
   fontFamily: typography.fontFamily.heading,
   
-  // Clamp to 2 lines
+  // Clamp to 2 lines with ellipsis
   display: '-webkit-box',
   WebkitLineClamp: 2,
   WebkitBoxOrient: 'vertical',
   overflow: 'hidden',
+  textOverflow: 'ellipsis',
+  wordBreak: 'break-word',
+  hyphens: 'auto',
+  
+  // Hover effect for better UX
+  ':hover': {
+    color: colors.primary[600],
+    cursor: 'default',
+  },
   
   '@media': {
     '(max-width: 1024px)': {
@@ -444,17 +443,23 @@ export const postExcerpt = style({
   fontSize: typography.fontSize.base,
   color: colors.neutral[600],
   lineHeight: typography.lineHeight.relaxed,
-  marginBottom: spacing.md,
+  marginBottom: spacing.lg, // Increased margin for better spacing
+  flex: 1, // Allow to grow but not shrink
   
-  // Clamp to 2 lines to control height better
+  // Clamp to 3 lines for better content balance
   display: '-webkit-box',
-  WebkitLineClamp: 2,
+  WebkitLineClamp: 3,
   WebkitBoxOrient: 'vertical',
   overflow: 'hidden',
   
   '@media': {
+    '(max-width: 1024px)': {
+      WebkitLineClamp: 2, // Reduce to 2 lines on smaller screens
+      marginBottom: spacing.md,
+    },
     '(max-width: 768px)': {
       marginBottom: spacing.sm,
+      WebkitLineClamp: 2,
     },
   },
 });
@@ -464,11 +469,16 @@ export const postMeta = style({
   flexWrap: 'wrap',
   alignItems: 'center',
   gap: spacing.lg,
-  marginTop: spacing.md,
-  paddingTop: spacing.sm,
+  marginTop: 'auto', // Push to bottom with flexbox
+  paddingTop: spacing.md, // Increased padding for better visibility
   borderTop: `1px solid ${colors.neutral[200]}`,
+  flexShrink: 0, // Prevent shrinking
   
   '@media': {
+    '(max-width: 1024px)': {
+      paddingTop: spacing.sm,
+      gap: spacing.md,
+    },
     '(max-width: 768px)': {
       gap: spacing.md,
       marginTop: spacing.sm,

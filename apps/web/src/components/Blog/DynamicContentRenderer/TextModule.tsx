@@ -12,9 +12,10 @@ interface TextModuleData {
 
 interface TextModuleProps {
   data: TextModuleData;
+  blockIndex?: number;
 }
 
-const TextModule: React.FC<TextModuleProps> = ({ data }) => {
+const TextModule: React.FC<TextModuleProps> = ({ data, blockIndex = 0 }) => {
   const {
     content = '',
     text_alignment = 'left',
@@ -75,9 +76,28 @@ const TextModule: React.FC<TextModuleProps> = ({ data }) => {
             h1: ({ children }: { children: React.ReactNode }) => (
               <h1 className="text-4xl font-bold mb-6 text-gray-900">{children}</h1>
             ),
-            h2: ({ children }: { children: React.ReactNode }) => (
-              <h2 className="text-3xl font-semibold mb-5 text-gray-900">{children}</h2>
-            ),
+            h2: ({ children }: { children: React.ReactNode }) => {
+              // Create ID from heading text for TOC linking
+              const headingText = typeof children === 'string' ? children : 
+                React.Children.toArray(children).join('');
+              const baseId = headingText
+                .toLowerCase()
+                .replace(/[^\w\s-]/g, '')
+                .replace(/\s+/g, '-')
+                .trim();
+              // Include block index to ensure uniqueness across blocks
+              const headingId = `${baseId}-block-${blockIndex}`;
+              
+              return (
+                <h2 
+                  id={headingId} 
+                  className="text-3xl font-semibold mb-5 text-gray-900"
+                  style={{ scrollMarginTop: '100px' }}
+                >
+                  {children}
+                </h2>
+              );
+            },
             h3: ({ children }: { children: React.ReactNode }) => (
               <h3 className="text-2xl font-semibold mb-4 text-gray-900">{children}</h3>
             ),

@@ -37,4 +37,53 @@ globalStyle(`${postCard}:hover ${readMoreLink}`, {
 // Post card hover before effect
 globalStyle(`${postCard}:hover:before`, {
   opacity: 1,
+});
+
+// Hero section text styles
+globalStyle('.hero-title', {
+  fontSize: '3rem',
+  fontWeight: '700',
+  marginBottom: '1rem',
+  lineHeight: '1.2',
+  
+  '@media': {
+    '(max-width: 768px)': {
+      fontSize: '2rem',
+    },
+    '(max-width: 480px)': {
+      fontSize: '1.75rem',
+    },
+  },
+});
+
+globalStyle('.hero-subtitle', {
+  fontSize: '1.25rem',
+  opacity: 0.9,
+  lineHeight: '1.6',
+  maxWidth: '600px',
+  margin: '0 auto',
+  
+  '@media': {
+    '(max-width: 768px)': {
+      fontSize: '1rem',
+    },
+    '(max-width: 480px)': {
+      fontSize: '0.9rem',
+    },
+  },
+});
+
+globalStyle('.hero-count', {
+  fontSize: '1rem',
+  opacity: 0.8,
+  marginTop: '1rem',
+  
+  '@media': {
+    '(max-width: 768px)': {
+      fontSize: '0.875rem',
+    },
+    '(max-width: 480px)': {
+      fontSize: '0.8rem',
+    },
+  },
 }); 
