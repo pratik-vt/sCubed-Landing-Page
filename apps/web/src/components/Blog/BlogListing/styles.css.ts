@@ -504,27 +504,7 @@ export const readMoreLink = style({
   transition: 'color 0.2s ease',
 });
 
-export const loadMoreButton = style({
-  backgroundColor: colors.primary[600],
-  color: colors.white,
-  border: 'none',
-  padding: `${spacing.md} ${spacing.xl}`,
-  borderRadius: radius.md,
-  fontSize: typography.fontSize.base,
-  fontWeight: typography.fontWeight.medium,
-  cursor: 'pointer',
-  transition: 'all 0.2s ease',
-  
-  ':hover': {
-    backgroundColor: colors.primary[700],
-    transform: 'translateY(-1px)',
-    boxShadow: shadows.md,
-  },
-  
-  ':active': {
-    transform: 'translateY(0)',
-  },
-});
+
 
 export const filterDropdown = style({
   position: 'relative',

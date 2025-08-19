@@ -1,6 +1,4 @@
-'use client';
-
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { Calendar, User } from 'lucide-react';
@@ -8,17 +6,16 @@ import { Calendar, User } from 'lucide-react';
 // Import blog placeholder image
 import BlogPlaceholder from '../../../images/blog-placeholder.png';
 
-
-
-// Import Strapi utilities
+// Import Strapi utilities and types
 import { 
-  getBlogPosts, 
   BlogPost, 
   getStrapiImageUrl, 
   formatDate, 
   calculateReadTime 
 } from '../../../lib/strapi';
 
+// Import pagination client component
+import BlogPagination from './BlogPagination';
 import {
   listingContainer,
   postsWrapper,
@@ -31,63 +28,33 @@ import {
   postExcerpt,
   postMeta,
   metaItem,
-  loadMoreButton,
 } from './styles.css';
 import './global.css';
 
-const BlogListing: React.FC = () => {
-  const [blogPosts, setBlogPosts] = useState<BlogPost[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
-  const [page, setPage] = useState(1);
-  const [hasMorePosts, setHasMorePosts] = useState(true);
-  const [totalPosts, setTotalPosts] = useState(0);
-
-  // Fetch blog posts from Strapi
-  const fetchPosts = async (pageNum: number = 1, append: boolean = false) => {
-    try {
-      setLoading(true);
-      const response = await getBlogPosts({
-        page: pageNum,
-        pageSize: 6
-      });
-
-      if (response.data) {
-        if (append) {
-          setBlogPosts(prev => [...prev, ...response.data]);
-        } else {
-          setBlogPosts(response.data);
-        }
-
-        // Update pagination info
-        const pagination = response.meta.pagination;
-        if (pagination) {
-          setTotalPosts(pagination.total);
-          setHasMorePosts(pagination.page < pagination.pageCount);
-        }
-      }
-    } catch (err) {
-      console.error('Error fetching blog posts:', err);
-      setError('Failed to load blog posts. Please try again later.');
-    } finally {
-      setLoading(false);
-    }
+interface BlogListingProps {
+  initialPosts: BlogPost[];
+  pagination?: {
+    page: number;
+    pageSize: number;
+    pageCount: number;
+    total: number;
   };
+  currentPage: number;
+  searchQuery?: string;
+  categoryFilter?: string;
+  tagFilter?: string;
+  error?: string;
+}
 
-  // Initial fetch on component mount
-  useEffect(() => {
-    fetchPosts();
-  }, []);
-
-  // Load more posts
-  const loadMorePosts = async () => {
-    if (!hasMorePosts || loading) return;
-    
-    const nextPage = page + 1;
-    setPage(nextPage);
-    await fetchPosts(nextPage, true);
-  };
-
+const BlogListing: React.FC<BlogListingProps> = ({
+  initialPosts,
+  pagination,
+  currentPage,
+  searchQuery,
+  categoryFilter,
+  tagFilter,
+  error,
+}) => {
   // Helper function to get read time
   const getReadTime = (post: BlogPost): string => {
     const readTime = post.estimated_read_time || 
@@ -96,7 +63,7 @@ const BlogListing: React.FC = () => {
   };
 
   // Error state
-  if (error && blogPosts.length === 0) {
+  if (error && initialPosts.length === 0) {
     return (
       <div className={listingContainer}>
         <div className={postsWrapper}>
@@ -106,12 +73,12 @@ const BlogListing: React.FC = () => {
                 Unable to Load Blog Posts
               </h3>
               <p className="text-red-600 mb-4">{error}</p>
-              <button
-                onClick={() => fetchPosts()}
-                className="bg-red-600 text-white px-4 py-2 rounded-lg hover:bg-red-700 transition-colors"
+              <Link
+                href="/blog"
+                className="bg-red-600 text-white px-4 py-2 rounded-lg hover:bg-red-700 transition-colors inline-block"
               >
-                Try Again
-              </button>
+                Refresh Page
+              </Link>
             </div>
           </div>
         </div>
@@ -142,9 +109,9 @@ const BlogListing: React.FC = () => {
             Stay updated with the latest developments in therapy practice management, 
             industry insights, and expert guidance from our team.
           </p>
-          {totalPosts > 0 && (
+          {pagination && pagination.total > 0 && (
             <p className="hero-count">
-              {totalPosts} article{totalPosts !== 1 ? 's' : ''} available
+              {pagination.total} article{pagination.total !== 1 ? 's' : ''} available
             </p>
           )}
         </div>
@@ -152,13 +119,7 @@ const BlogListing: React.FC = () => {
 
       {/* Posts Section */}
       <div className={postsWrapper}>
-        {loading && blogPosts.length === 0 ? (
-          // Initial loading state
-          <div className="text-center py-12">
-            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary-600 mx-auto mb-4"></div>
-            <p className="text-gray-600">Loading blog posts...</p>
-          </div>
-        ) : blogPosts.length === 0 ? (
+        {initialPosts.length === 0 && !error ? (
           // No posts state
           <div className="text-center py-12">
             <div className="bg-gray-50 rounded-lg p-8 max-w-md mx-auto">
@@ -173,7 +134,7 @@ const BlogListing: React.FC = () => {
         ) : (
           // Posts grid
           <div className={postsGrid}>
-            {blogPosts.map((post) => {
+            {initialPosts.map((post) => {
               const featuredImageUrl = post.featured_image 
                 ? getStrapiImageUrl(post.featured_image) 
                 : '';
@@ -202,7 +163,7 @@ const BlogListing: React.FC = () => {
                           style={{ objectFit: 'cover', width: '100%', height: '100%' }}
                         />
                       )}
-                                              {post.featured && (
+                      {post.featured && (
                         <span className={featuredBadge}>FEATURED</span>
                       )}
                     </div>
@@ -236,27 +197,16 @@ const BlogListing: React.FC = () => {
           </div>
         )}
 
-        {/* Load More Button */}
-        {hasMorePosts && blogPosts.length > 0 && (
-          <div style={{ textAlign: 'center', marginTop: '3rem' }}>
-            <button 
-              onClick={loadMorePosts} 
-              className={loadMoreButton}
-              disabled={loading}
-            >
-              {loading ? (
-                <span className="flex items-center">
-                  <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white mr-2"></div>
-                  Loading...
-                </span>
-              ) : (
-                'Load More Articles'
-              )}
-            </button>
-          </div>
+        {/* Pagination Component */}
+        {pagination && pagination.pageCount > 1 && (
+          <BlogPagination
+            currentPage={currentPage}
+            totalPages={pagination.pageCount}
+            searchQuery={searchQuery}
+            categoryFilter={categoryFilter}
+            tagFilter={tagFilter}
+          />
         )}
-
-
       </div>
     </div>
   );
