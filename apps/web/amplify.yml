@@ -1,34 +1,32 @@
 version: 1
-# Solution 1: Using appRoot (treats apps/web as application root)
-appRoot: apps/web
 frontend:
   phases:
     preBuild:
       commands:
         - nvm install 20
         - nvm use 20
-        - cd ../..
         - yarn install --frozen-lockfile
     build:
       commands:
         - nvm use 20
-        - cd ../..
         - yarn build:web
     postBuild:
       commands:
         - echo "Build completed successfully"
-        - ls -la .next
+        - ls -la apps/web/.next
   artifacts:
-    baseDirectory: .next
+    baseDirectory: apps/web/.next
     files:
       - '**/*'
   cache:
     paths:
-      - ../../node_modules/**/*
-      - ../../.yarn/cache/**/*
-      - .next/cache/**/*
+      - node_modules/**/*
+      - .yarn/cache/**/*
+      - apps/web/.next/cache/**/*
 
-
-# SETUP IN AMPLIFY CONSOLE:
-# 1. Set App Root: apps/web
-# 2. Deploy normally - start command is automatic 
+# Add this section to override start command
+customHeaders:
+  - pattern: '**'
+    headers:
+      - key: 'Custom-Start'
+        value: 'cd apps/web && yarn start'
