@@ -1,45 +1,34 @@
 version: 1
-backend:
-  phases:
-    build:
-      commands:
-        - '# Execute Amplify CLI with the helper script'
-        - amplifyPush --simple
+# Solution 1: Using appRoot (treats apps/web as application root)
+appRoot: apps/web
 frontend:
   phases:
     preBuild:
       commands:
-        - echo "Installing dependencies..."
-        - npm ci
-        - echo "Node version:"
-        - node --version
-        - echo "NPM version:"
-        - npm --version
-        - echo "Setting up environment for SSR..."
+        - nvm install 20
+        - nvm use 20
+        - cd ../..
+        - yarn install --frozen-lockfile
     build:
       commands:
-        - echo "Building Next.js application with SSR support..."
-        - npm run build
-        - echo "Build completed successfully"
+        - nvm use 20
+        - cd ../..
+        - yarn build:web
     postBuild:
       commands:
-        - echo "Post-build phase completed"
-        - echo "SSR application ready for deployment"
+        - echo "Build completed successfully"
+        - ls -la .next
   artifacts:
-    # For Next.js SSR, we serve the entire .next directory
-    # This includes server-side components and static assets
     baseDirectory: .next
     files:
       - '**/*'
   cache:
     paths:
-      - node_modules/**/*
+      - ../../node_modules/**/*
+      - ../../.yarn/cache/**/*
       - .next/cache/**/*
-# Environment variables for Strapi integration
-# Note: Set these in Amplify Console under App Settings > Environment Variables
-environment:
-  variables:
-    # These will be overridden by Amplify Console settings
-    STRAPI_URL: 'https://your-strapi-domain.com'
-    NEXT_PUBLIC_STRAPI_URL: 'https://your-strapi-domain.com'
-    # STRAPI_TOKEN: 'your-api-token' # Set this securely in Amplify Console 
+
+
+# SETUP IN AMPLIFY CONSOLE:
+# 1. Set App Root: apps/web
+# 2. Deploy normally - start command is automatic 
