@@ -161,29 +161,6 @@ export async function getBlogPosts(params: {
 } = {}): Promise<StrapiResponse<BlogPost[]>> {
   const { page = 1, pageSize = 10, featured, category, tag, search } = params;
   
-  const filters: any = {
-    // Will add status filter later once basic functionality works
-  };
-  
-  if (featured !== undefined) {
-    filters.featured = featured;
-  }
-  
-  if (category) {
-    filters.categories = { slug: category };
-  }
-  
-  if (tag) {
-    filters.tags = { slug: tag };
-  }
-  
-  if (search) {
-    filters.$or = [
-      { title: { $containsi: search } },
-      { excerpt: { $containsi: search } }
-    ];
-  }
-
   const queryParams = new URLSearchParams({
     'pagination[page]': page.toString(),
     'pagination[pageSize]': pageSize.toString(),
@@ -195,9 +172,28 @@ export async function getBlogPosts(params: {
     'sort': 'publishedAt:desc'
   });
 
-  // Only add filters if there are any
-  if (Object.keys(filters).length > 0) {
-    queryParams.set('filters', JSON.stringify(filters));
+  // Add status filter
+  queryParams.set('filters[status][$eq]', 'published');
+  
+  // Add featured filter if specified
+  if (featured !== undefined) {
+    queryParams.set('filters[featured][$eq]', featured.toString());
+  }
+  
+  // Add category filter if specified
+  if (category) {
+    queryParams.set('filters[categories][slug][$eq]', category);
+  }
+  
+  // Add tag filter if specified  
+  if (tag) {
+    queryParams.set('filters[tags][slug][$eq]', tag);
+  }
+  
+  // Add search filter if specified
+  if (search) {
+    queryParams.set('filters[$or][0][title][$containsi]', search);
+    queryParams.set('filters[$or][1][excerpt][$containsi]', search);
   }
 
   return fetchAPI(`/blog-posts?${queryParams}`);
