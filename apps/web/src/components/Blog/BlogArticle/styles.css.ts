@@ -639,44 +639,7 @@ export const sectionLabel = style({
   letterSpacing: '0.05em',
 });
 
-export const scrollToTop = style({
-  position: 'fixed',
-  bottom: spacing.lg,
-  right: spacing.lg,
-  backgroundColor: colors.primary[600],
-  color: colors.white,
-  border: 'none',
-  borderRadius: radius.full,
-  width: '48px',
-  height: '48px',
-  display: 'flex',
-  alignItems: 'center',
-  justifyContent: 'center',
-  cursor: 'pointer',
-  boxShadow: shadows.lg,
-  transition: 'all 0.3s ease',
-  zIndex: 1000,
-  opacity: 1,
-  
-  ':hover': {
-    backgroundColor: colors.primary[700],
-    transform: 'translateY(-2px)',
-    boxShadow: shadows.xl,
-  },
-  
-  ':active': {
-    transform: 'translateY(0)',
-  },
-  
-  '@media': {
-    '(max-width: 768px)': {
-      bottom: spacing.md,
-      right: spacing.md,
-      width: '44px',
-      height: '44px',
-    },
-  },
-});
+
 
 export const codeBlock = style({
   backgroundColor: colors.neutral[900],

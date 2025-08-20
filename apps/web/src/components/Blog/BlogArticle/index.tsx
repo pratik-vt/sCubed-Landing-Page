@@ -3,7 +3,7 @@
 import React, { useState } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
-import { Calendar, User, Clock, ChevronUp, Share2, Check, Copy } from 'lucide-react';
+import { Calendar, User, Clock, Share2, Check, Copy } from 'lucide-react';
 
 // Import Strapi types and utilities
 import { 
@@ -33,7 +33,6 @@ import {
   relatedPosts,
   socialShare,
   breadcrumb,
-  scrollToTop,
   authorInfo,
   authorAvatar,
   authorDetails,
@@ -112,14 +111,7 @@ const BlogArticle: React.FC<BlogArticleProps> = ({ post }) => {
     }
   };
 
-  const handleScrollToTop = () => {
-    if (typeof window !== 'undefined') {
-      window.scrollTo({ 
-        top: 0, 
-        behavior: 'smooth' 
-      });
-    }
-  };
+
 
   const handleCopyLink = async () => {
     if (typeof window !== 'undefined') {
@@ -428,11 +420,6 @@ const BlogArticle: React.FC<BlogArticleProps> = ({ post }) => {
           </aside>
         </div>
       </div>
-
-      {/* Scroll to Top */}
-      <button className={scrollToTop} onClick={handleScrollToTop}>
-        <ChevronUp size={20} />
-      </button>
     </div>
   );
 };
