@@ -36,81 +36,81 @@ deploy_to_ec2:
     - develop
 
 
-build_app:
-  stage: build
-  tags:
-    - docker-int-ha
-  image: dockernetzwelt/gitlab-runner:base_common
-  before_script:
-  - apt-get update && apt-get install -y zip
-  - cd /builds/development/scubed-landing-page/apps/web/
-  - echo "NEXT_PUBLIC_SITE_URL=$NEXT_PUBLIC_SITE_URL_1" > .env
-  - echo "NEXT_PUBLIC_ADMIN_APP_URL=$NEXT_PUBLIC_ADMIN_APP_URL_1" >> .env
-  - echo "NEXT_PUBLIC_ADMIN_APP_API_URL=$NEXT_PUBLIC_ADMIN_APP_API_URL_1" >> .env
-  - echo "NEXT_PUBLIC_GTM_ID=$NEXT_PUBLIC_GTM_ID" >> .env
-  - echo "NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION=$NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION" >> .env
-  - echo "NEXT_PUBLIC_FACEBOOK_URL=$NEXT_PUBLIC_FACEBOOK_URL" >> .env
-  - echo "NEXT_PUBLIC_INSTAGRAM_URL=$NEXT_PUBLIC_INSTAGRAM_URL" >> .env
-  - echo "NEXT_PUBLIC_YOUTUBE_URL=$NEXT_PUBLIC_YOUTUBE_URL" >> .env
-  - echo "NEXT_PUBLIC_LINKEDIN_URL=$NEXT_PUBLIC_LINKEDIN_URL" >> .env
-  - echo "NEXT_PUBLIC_PHONE_NUMBER=$NEXT_PUBLIC_PHONE_NUMBER" >> .env
-  - echo "NEXT_PUBLIC_EMAIL=$NEXT_PUBLIC_EMAIL" >> .env
-  - echo "NEXT_PUBLIC_ADDRESS=$NEXT_PUBLIC_ADDRESS" >> .env
-  - echo "NEXT_PUBLIC_CALENDLY_URL=$NEXT_PUBLIC_CALENDLY_URL" >> .env
-  script:
-    - export NVM_DIR="/home/gitlab-runner/.nvm"
-    - source $NVM_DIR/nvm.sh
-    - nvm install v22.18.0
-    - nvm use v22.18.0
-    - npm install -g yarn
-    - yarn install
-    - yarn build
-    - export BUILD_NAME="nextjs-static-${CI_PIPELINE_ID}.zip"
-    - cd .next
-    - zip -r "$CI_PROJECT_DIR/$BUILD_NAME" ./*
-  artifacts:
-    paths:
-      - nextjs-static-*.zip
+# build_app:
+#   stage: build
+#   tags:
+#     - docker-int-ha
+#   image: dockernetzwelt/gitlab-runner:base_common
+#   before_script:
+#   - apt-get update && apt-get install -y zip
+#   - cd /builds/development/scubed-landing-page/apps/web/
+#   - echo "NEXT_PUBLIC_SITE_URL=$NEXT_PUBLIC_SITE_URL_1" > .env
+#   - echo "NEXT_PUBLIC_ADMIN_APP_URL=$NEXT_PUBLIC_ADMIN_APP_URL_1" >> .env
+#   - echo "NEXT_PUBLIC_ADMIN_APP_API_URL=$NEXT_PUBLIC_ADMIN_APP_API_URL_1" >> .env
+#   - echo "NEXT_PUBLIC_GTM_ID=$NEXT_PUBLIC_GTM_ID" >> .env
+#   - echo "NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION=$NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION" >> .env
+#   - echo "NEXT_PUBLIC_FACEBOOK_URL=$NEXT_PUBLIC_FACEBOOK_URL" >> .env
+#   - echo "NEXT_PUBLIC_INSTAGRAM_URL=$NEXT_PUBLIC_INSTAGRAM_URL" >> .env
+#   - echo "NEXT_PUBLIC_YOUTUBE_URL=$NEXT_PUBLIC_YOUTUBE_URL" >> .env
+#   - echo "NEXT_PUBLIC_LINKEDIN_URL=$NEXT_PUBLIC_LINKEDIN_URL" >> .env
+#   - echo "NEXT_PUBLIC_PHONE_NUMBER=$NEXT_PUBLIC_PHONE_NUMBER" >> .env
+#   - echo "NEXT_PUBLIC_EMAIL=$NEXT_PUBLIC_EMAIL" >> .env
+#   - echo "NEXT_PUBLIC_ADDRESS=$NEXT_PUBLIC_ADDRESS" >> .env
+#   - echo "NEXT_PUBLIC_CALENDLY_URL=$NEXT_PUBLIC_CALENDLY_URL" >> .env
+#   script:
+#     - export NVM_DIR="/home/gitlab-runner/.nvm"
+#     - source $NVM_DIR/nvm.sh
+#     - nvm install v22.18.0
+#     - nvm use v22.18.0
+#     - npm install -g yarn
+#     - yarn install
+#     - yarn build
+#     - export BUILD_NAME="nextjs-static-${CI_PIPELINE_ID}.zip"
+#     - cd .next
+#     - zip -r "$CI_PROJECT_DIR/$BUILD_NAME" ./*
+#   artifacts:
+#     paths:
+#       - nextjs-static-*.zip
 
 
 # DEPLOY TO AMPLIFY
 
-deploy_to_amplify:
-  stage: deploy
-  tags:
-    - docker-int-ha
-  image: dockernetzwelt/gitlab-runner:base_common
-  before_script:
-    - export DEBIAN_FRONTEND=noninteractive
-    - apt-get update && apt-get install -y awscli curl jq unzip
-    - mkdir -p ~/.aws
-    - |
-      cat > ~/.aws/credentials <<EOF
-      [scubed-amplify]
-      aws_access_key_id = $AWS_ACCESS_KEY_ID
-      aws_secret_access_key = $AWS_SECRET_ACCESS_KEY
-      EOF
-    - |
-      cat > ~/.aws/config <<EOF
-      [scubed-amplify]
-      region = $AWS_DEFAULT_REGION
-      output = json
-      EOF
-    - export BUILD_NAME="nextjs-static-${CI_PIPELINE_ID}.zip"
+# deploy_to_amplify:
+#   stage: deploy
+#   tags:
+#     - docker-int-ha
+#   image: dockernetzwelt/gitlab-runner:base_common
+#   before_script:
+#     - export DEBIAN_FRONTEND=noninteractive
+#     - apt-get update && apt-get install -y awscli curl jq unzip
+#     - mkdir -p ~/.aws
+#     - |
+#       cat > ~/.aws/credentials <<EOF
+#       [scubed-amplify]
+#       aws_access_key_id = $AWS_ACCESS_KEY_ID
+#       aws_secret_access_key = $AWS_SECRET_ACCESS_KEY
+#       EOF
+#     - |
+#       cat > ~/.aws/config <<EOF
+#       [scubed-amplify]
+#       region = $AWS_DEFAULT_REGION
+#       output = json
+#       EOF
+#     - export BUILD_NAME="nextjs-static-${CI_PIPELINE_ID}.zip"
 
-  script:
-    - DEPLOYMENT_INFO=$(aws amplify create-deployment --app-id "$AMPLIFY_APP_ID" --branch-name "$AMPLIFY_BRANCH_NAME" --profile scubed-amplify)
-    - JOB_ID=$(echo "$DEPLOYMENT_INFO" | jq -r '.jobId')
-    - UPLOAD_URL=$(echo "$DEPLOYMENT_INFO" | jq -r '.zipUploadUrl')
+#   script:
+#     - DEPLOYMENT_INFO=$(aws amplify create-deployment --app-id "$AMPLIFY_APP_ID" --branch-name "$AMPLIFY_BRANCH_NAME" --profile scubed-amplify)
+#     - JOB_ID=$(echo "$DEPLOYMENT_INFO" | jq -r '.jobId')
+#     - UPLOAD_URL=$(echo "$DEPLOYMENT_INFO" | jq -r '.zipUploadUrl')
 
-    - curl -T "$BUILD_NAME" "$UPLOAD_URL"
+#     - curl -T "$BUILD_NAME" "$UPLOAD_URL"
 
-    - aws amplify start-deployment --app-id "$AMPLIFY_APP_ID" --branch-name "$AMPLIFY_BRANCH_NAME" --job-id "$JOB_ID" --profile scubed-amplify
+#     - aws amplify start-deployment --app-id "$AMPLIFY_APP_ID" --branch-name "$AMPLIFY_BRANCH_NAME" --job-id "$JOB_ID" --profile scubed-amplify
 
-  dependencies:
-    - build_app
-  only:
-    - develop
+#   dependencies:
+#     - build_app
+#   only:
+#     - develop
 
 
 
