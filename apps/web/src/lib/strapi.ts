@@ -6,6 +6,7 @@ async function fetchAPI(endpoint: string, options: RequestInit = {}) {
   const url = `${STRAPI_URL}/api${endpoint}`;
   
   const defaultOptions: RequestInit = {
+    cache: 'no-cache',
     headers: {
       'Content-Type': 'application/json',
       ...(STRAPI_TOKEN && { Authorization: `Bearer ${STRAPI_TOKEN}` }),
@@ -19,6 +20,7 @@ async function fetchAPI(endpoint: string, options: RequestInit = {}) {
       ...defaultOptions.headers,
       ...options.headers,
     },
+    
   };
 
   try {
