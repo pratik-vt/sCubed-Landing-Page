@@ -42,7 +42,7 @@ const GuardianHero: React.FC = () => {
             </p>
             <div className={ctaSection}>
               <Link 
-                href="/guardian-portal/login" 
+                href={process.env.NEXT_PUBLIC_GUARDIAN_APP_URL + `auth/login`}
                 className={primaryButton}
                 style={{
                   fontSize: '18px',
