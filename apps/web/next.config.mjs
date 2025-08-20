@@ -28,7 +28,7 @@ export default withVanillaExtract({
       },
       {
         protocol: 'https',
-        hostname: 'your-strapi-domain.com', // Replace with your actual Strapi domain
+        hostname: 'dev-strapi.scubed.io', // Replace with your actual Strapi domain
         pathname: '/uploads/**',
       },
     ],
