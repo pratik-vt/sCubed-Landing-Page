@@ -32,6 +32,7 @@ deploy_to_ec2:
         npm install &&
         pm2 restart strapi-dev || pm2 start npm --name strapi-dev -- run develop
       "
+  when: manual
   only:
     - develop
 

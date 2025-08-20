@@ -1,6 +1,6 @@
-import { mergeConfig } from 'vite';
+import { mergeConfig, type UserConfig } from 'vite';
 
-export default (config) => {
+export default (config: UserConfig) => {
   // Important: always return the modified config
   return mergeConfig(config, {
     server: {
