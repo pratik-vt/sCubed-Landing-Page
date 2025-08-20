@@ -500,6 +500,7 @@ export const socialShareTitle = style({
   alignItems: 'center',
   gap: spacing.sm,
   fontFamily: typography.fontFamily.heading,
+  margin: 0,
 });
 
 export const shareStats = style({
@@ -528,7 +529,7 @@ export const socialButton = style({
   alignItems: 'center',
   justifyContent: 'center',
   gap: spacing.xs,
-  padding: `${spacing.md} ${spacing.lg}`,
+  padding: `${spacing.sm}`,
   borderRadius: radius.lg,
   textDecoration: 'none',
   fontSize: typography.fontSize.sm,
