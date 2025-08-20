@@ -2,6 +2,10 @@ import type { Metadata } from 'next';
 import '../components/Container/fonts.css';
 import '../components/Container/style.css';
 
+// Get environment for robots meta tag
+const appEnv = process.env.NEXT_PUBLIC_APP_ENV || 'dev';
+const shouldBlockIndexing = appEnv === 'stage' || appEnv === 'dev';
+
 export const metadata: Metadata = {
   title:
     'Best Practice Management & Billing Software for Therapy Practices | S Cubed',
@@ -15,6 +19,17 @@ export const metadata: Metadata = {
     shortcut: '/favicon.ico',
     apple: '/apple-icon.png',
   },
+  // Block indexing for staging and development environments
+  ...(shouldBlockIndexing && {
+    robots: {
+      index: false,
+      follow: false,
+      googleBot: {
+        index: false,
+        follow: false,
+      },
+    },
+  }),
 };
 
 export default function RootLayout({
