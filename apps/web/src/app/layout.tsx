@@ -32,6 +32,29 @@ export const metadata: Metadata = {
   }),
 };
 
+const organizationSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'Organization',
+  name: 'S Cubed',
+  url: 'https://www.scubed.io/',
+  logo: 'https://www.scubed.io/logo.png',
+  description:
+    'S Cubed empowers providers to manage ABA, OT, PT, speech, and counseling with ease - streamlining scheduling, billing, documentation, and compliance in one platform.',
+  foundingDate: '2024',
+  contactPoint: {
+    '@type': 'ContactPoint',
+    telephone: '+1-254-434-4959',
+    contactType: 'Customer Service',
+    email: 'info@scubed.io',
+  },
+  sameAs: [
+    'https://www.facebook.com/people/Spectrum-Solutions/61571781968975/',
+    'https://www.instagram.com/scubed_solutions/',
+    'https://www.youtube.com/@SpectrumSolutionsSoftware',
+    'https://www.linkedin.com/company/spectrum-solutions-software/',
+  ],
+};
+
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -43,6 +66,12 @@ export default function RootLayout({
         <link rel="icon" href="/favicon.ico" sizes="any" />
         <link rel="icon" href="/icon.png" type="image/png" />
         <link rel="apple-touch-icon" href="/apple-icon.png" />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify(organizationSchema),
+          }}
+        />
       </head>
       <body>{children}</body>
     </html>
