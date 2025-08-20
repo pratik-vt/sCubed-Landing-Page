@@ -7,14 +7,7 @@ export default [
     config: {
       enabled: true,
       headers: '*',
-      origin: [
-        'http://localhost:3000',
-        'http://localhost:1337',
-        'https://dev.scubed.io',
-        'https://www.dev.scubed.io',
-        'https://scubed.io',
-        'https://www.scubed.io'
-      ]
+      origin: '*'
     }
   },
   'strapi::poweredBy',
