@@ -31,10 +31,42 @@ const IndexPage: React.FC<PageProps> = () => {
 
 export default IndexPage;
 
-export const Head: HeadFC = () => (
-  <SEO
-    title="ABA Therapy Software for Providers | Simplify Scheduling & Billing"
-    description="S Cubed empowers providers to manage ABA, OT, PT, speech, and counseling with ease - streamlining scheduling, billing, documentation, and compliance in one platform."
-    pathname=""
-  />
-);
+export const Head: HeadFC = () => {
+  const organizationSchema = {
+    '@context': 'https://schema.org',
+    '@type': 'Organization',
+    name: 'S Cubed',
+    url: 'https://www.scubed.io/',
+    logo: 'https://www.scubed.io/logo.png',
+    description:
+      'S Cubed empowers providers to manage ABA, OT, PT, speech, and counseling with ease - streamlining scheduling, billing, documentation, and compliance in one platform.',
+    foundingDate: '2024',
+    contactPoint: {
+      '@type': 'ContactPoint',
+      telephone: '+1-254-434-4959',
+      contactType: 'Customer Service',
+      email: 'info@scubed.io',
+    },
+    sameAs: [
+      'https://www.facebook.com/people/Spectrum-Solutions/61571781968975/',
+      'https://www.instagram.com/scubed_solutions/',
+      'https://www.youtube.com/@SpectrumSolutionsSoftware',
+      'https://www.linkedin.com/company/spectrum-solutions-software/',
+    ],
+  };
+
+  return (
+    <SEO
+      title="ABA Therapy Software for Providers | Simplify Scheduling & Billing"
+      description="S Cubed empowers providers to manage ABA, OT, PT, speech, and counseling with ease - streamlining scheduling, billing, documentation, and compliance in one platform."
+      pathname=""
+    >
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify(organizationSchema),
+        }}
+      />
+    </SEO>
+  );
+};
