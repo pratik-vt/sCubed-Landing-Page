@@ -227,9 +227,6 @@ const BlogArticle: React.FC<BlogArticleProps> = ({ post }) => {
                 <DynamicContentRenderer content_blocks={contentBlocks} />
               </div>
 
-              {/* Content Divider */}
-              <div className={contentDivider} />
-
               {/* Categories and Tags */}
               {(categories.length > 0 || postTags.length > 0) && (
                 <div className={categoriesTagsSection}>
@@ -272,9 +269,6 @@ const BlogArticle: React.FC<BlogArticleProps> = ({ post }) => {
                   )}
                 </div>
               )}
-
-              {/* Content Divider */}
-              <div className={contentDivider} />
 
               {/* Enhanced Author Information */}
               {post.author && (
