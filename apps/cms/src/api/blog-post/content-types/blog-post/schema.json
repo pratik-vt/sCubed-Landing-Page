@@ -48,12 +48,7 @@
       "required": false,
       "allowedTypes": ["images"]
     },
-    "status": {
-      "type": "enumeration",
-      "enum": ["draft", "review", "published", "archived"],
-      "default": "draft",
-      "required": true
-    },
+
     "featured": {
       "type": "boolean",
       "default": false

@@ -122,7 +122,7 @@ export interface BlogPost {
   content_blocks?: ContentBlock[];
   featured_image?: StrapiImage;
   hero_image?: StrapiImage;
-  status: 'draft' | 'review' | 'published' | 'archived';
+
   featured: boolean;
   estimated_read_time?: number;
   meta_title?: string;
@@ -172,8 +172,8 @@ export async function getBlogPosts(params: {
     'sort': 'publishedAt:desc'
   });
 
-  // Add status filter
-  queryParams.set('filters[status][$eq]', 'published');
+  // Add publishedAt filter to only get published content
+  queryParams.set('filters[publishedAt][$notNull]', 'true');
   
   // Add featured filter if specified
   if (featured !== undefined) {
@@ -206,7 +206,7 @@ export async function getBlogPost(slug: string): Promise<StrapiResponse<BlogPost
     
     // Filters
     queryParams.set('filters[slug][$eq]', slug);
-    queryParams.set('filters[status][$eq]', 'published');
+    queryParams.set('filters[publishedAt][$notNull]', 'true');
     
     // Basic population
     queryParams.set('populate[author]', 'true');
@@ -226,7 +226,7 @@ export async function getBlogPost(slug: string): Promise<StrapiResponse<BlogPost
     // Fallback to basic population if the advanced syntax fails
     const fallbackParams = new URLSearchParams();
     fallbackParams.set('filters[slug][$eq]', slug);
-    fallbackParams.set('filters[status][$eq]', 'published');
+    fallbackParams.set('filters[publishedAt][$notNull]', 'true');
     fallbackParams.set('populate', '*');
     
     return await fetchAPI(`/blog-posts?${fallbackParams}`);

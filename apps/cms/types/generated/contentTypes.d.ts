@@ -483,11 +483,6 @@ export interface ApiBlogPostBlogPost extends Struct.CollectionTypeSchema {
     publishedAt: Schema.Attribute.DateTime;
     slug: Schema.Attribute.UID<'title'> & Schema.Attribute.Required;
     social_share: Schema.Attribute.Boolean & Schema.Attribute.DefaultTo<true>;
-    status: Schema.Attribute.Enumeration<
-      ['draft', 'review', 'published', 'archived']
-    > &
-      Schema.Attribute.Required &
-      Schema.Attribute.DefaultTo<'draft'>;
     table_of_contents: Schema.Attribute.Boolean &
       Schema.Attribute.DefaultTo<true>;
     tags: Schema.Attribute.Relation<'manyToMany', 'api::tag.tag'>;
