@@ -1,5 +1,7 @@
 import { globalStyle } from '@vanilla-extract/css';
+
 import { colors, spacing } from '../../../styles/tokens.css';
+
 import { searchBar, postCard, readMoreLink, heroCard } from './styles.css';
 
 // Search bar icon styles

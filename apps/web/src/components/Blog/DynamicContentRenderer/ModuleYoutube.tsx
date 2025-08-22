@@ -1,5 +1,4 @@
 import React from 'react';
-import Image from 'next/image';
 
 import { getStrapiImageUrl, StrapiImage } from '../../../lib/strapi';
 
@@ -35,7 +34,6 @@ const ModuleYoutube: React.FC<ModuleYoutubeProps> = ({ data }) => {
     privacy_mode = true
   } = data;
 
-  // Size styles for the container - using CSS instead of Tailwind
   const getSizeStyles = (size: string) => {
     const sizeMap = {
       small: { maxWidth: '384px', margin: '0 auto' },     
@@ -46,7 +44,6 @@ const ModuleYoutube: React.FC<ModuleYoutubeProps> = ({ data }) => {
     return sizeMap[size as keyof typeof sizeMap] || sizeMap.large;
   };
 
-  // Container styles without Tailwind
   const containerStyles = {
     marginTop: '2rem',
     marginBottom: '2rem',

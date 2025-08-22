@@ -5,7 +5,6 @@ import { Calendar, User } from 'lucide-react';
 
 // Import blog placeholder image
 import BlogPlaceholder from '../../../images/blog-placeholder.png';
-
 // Import Strapi utilities and types
 import { 
   BlogPost, 
