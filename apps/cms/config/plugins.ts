@@ -9,14 +9,14 @@ export default ({ env }) => ({
           // The AWS SDK will automatically use IAM roles if available
           // No need to specify accessKeyId or secretAccessKey
           region: env('AWS_REGION'),
-          // S3 bucket parameters for private bucket with signed URLs
-          params: {
-            Bucket: env('AWS_S3_BUCKET'),
-            // Set ACL to 'private' for private bucket with signed URLs
-            ACL: 'private',
-            // Signed URL expiration time in seconds (default: 15 minutes)
-            signedUrlExpires: env.int('AWS_SIGNED_URL_EXPIRES', 15 * 60),
-          },
+        },
+        // S3 bucket parameters for private bucket with signed URLs
+        params: {
+          Bucket: env('AWS_S3_BUCKET'),
+          // Set ACL to 'private' for private bucket with signed URLs
+          ACL: 'private',
+          // Signed URL expiration time in seconds (default: 15 minutes)
+          signedUrlExpires: env.int('AWS_SIGNED_URL_EXPIRES', 15 * 60),
         },
       },
       actionOptions: {
