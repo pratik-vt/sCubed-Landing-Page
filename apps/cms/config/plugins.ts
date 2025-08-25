@@ -1,9 +1,22 @@
-export default () => ({
+export default ({ env }) => ({
   upload: {
     config: {
-      provider: 'local',
+      provider: 'aws-s3',
       providerOptions: {
-        sizeLimit: 100000000, // 100mb in bytes
+        region: env('AWS_REGION'),
+        bucket: env('AWS_S3_BUCKET'),
+        // Use IAM roles instead of access keys for authentication
+        // This is more secure and follows AWS best practices
+        s3Options: {
+          // The AWS SDK will automatically use IAM roles if available
+          // No need to specify accessKeyId or secretAccessKey
+          region: env('AWS_REGION'),
+        },
+      },
+      actionOptions: {
+        upload: {},
+        uploadStream: {},
+        delete: {},
       },
     },
   },

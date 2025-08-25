@@ -1,61 +1,125 @@
-# 🚀 Getting started with Strapi
+# Strapi CMS for S Cubed Landing Page
 
-Strapi comes with a full featured [Command Line Interface](https://docs.strapi.io/dev-docs/cli) (CLI) which lets you scaffold and manage your project in seconds.
+This is the Strapi CMS backend that provides content management for the S Cubed Landing Page.
 
-### `develop`
+## Quick Start
 
-Start your Strapi application with autoReload enabled. [Learn more](https://docs.strapi.io/dev-docs/cli#strapi-develop)
+```bash
+# Install dependencies
+npm install
 
-```
+# Start development server
 npm run develop
-# or
-yarn develop
-```
 
-### `start`
-
-Start your Strapi application with autoReload disabled. [Learn more](https://docs.strapi.io/dev-docs/cli#strapi-start)
-
-```
-npm run start
-# or
-yarn start
-```
-
-### `build`
-
-Build your admin panel. [Learn more](https://docs.strapi.io/dev-docs/cli#strapi-build)
-
-```
+# Build for production
 npm run build
-# or
-yarn build
+
+# Start production server
+npm start
 ```
 
-## ⚙️ Deployment
+## Development
 
-Strapi gives you many possible deployment options for your project including [Strapi Cloud](https://cloud.strapi.io). Browse the [deployment section of the documentation](https://docs.strapi.io/dev-docs/deployment) to find the best solution for your use case.
-
-```
-yarn strapi deploy
+```bash
+npm run develop
 ```
 
-## 📚 Learn more
+This will start the Strapi development server with auto-reload.
 
-- [Resource center](https://strapi.io/resource-center) - Strapi resource center.
-- [Strapi documentation](https://docs.strapi.io) - Official Strapi documentation.
-- [Strapi tutorials](https://strapi.io/tutorials) - List of tutorials made by the core team and the community.
-- [Strapi blog](https://strapi.io/blog) - Official Strapi blog containing articles made by the Strapi team and the community.
-- [Changelog](https://strapi.io/changelog) - Find out about the Strapi product updates, new features and general improvements.
+## Content Types
 
-Feel free to check out the [Strapi GitHub repository](https://github.com/strapi/strapi). Your feedback and contributions are welcome!
+The CMS includes the following content types:
+- Blog Posts
+- Authors
+- Categories
+- Tags
+- Contact Submissions
 
-## ✨ Community
+## Environment Variables
 
-- [Discord](https://discord.strapi.io) - Come chat with the Strapi community including the core team.
-- [Forum](https://forum.strapi.io/) - Place to discuss, ask questions and find answers, show your Strapi project and get feedback or just talk with other Community members.
-- [Awesome Strapi](https://github.com/strapi/awesome-strapi) - A curated list of awesome things related to Strapi.
+Copy `.env.example` to `.env` and configure the following variables:
 
----
+### Database Configuration
+- `DATABASE_CLIENT` - Database type (sqlite, postgres, mysql)
+- `DATABASE_HOST` - Database host
+- `DATABASE_PORT` - Database port
+- `DATABASE_NAME` - Database name
+- `DATABASE_USERNAME` - Database username
+- `DATABASE_PASSWORD` - Database password
 
-<sub>🤫 Psst! [Strapi is hiring](https://strapi.io/careers).</sub>
+### AWS S3 Upload Configuration
+
+For file uploads using AWS S3, configure the following environment variables:
+
+```bash
+# AWS S3 Configuration (Required)
+AWS_S3_BUCKET=your-s3-bucket-name
+AWS_REGION=us-east-1
+
+# Note: This configuration uses IAM roles for authentication
+# No AWS access keys are required when running on AWS infrastructure
+# Ensure your EC2 instance/container has an IAM role with S3 permissions:
+# - s3:GetObject
+# - s3:PutObject
+# - s3:DeleteObject
+# - s3:ListBucket
+```
+
+### IAM Role Configuration
+
+When deploying to AWS, ensure your infrastructure has an IAM role attached with the following permissions:
+
+```json
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Effect": "Allow",
+      "Action": [
+        "s3:GetObject",
+        "s3:PutObject",
+        "s3:DeleteObject"
+      ],
+      "Resource": "arn:aws:s3:::your-s3-bucket-name/*"
+    },
+    {
+      "Effect": "Allow",
+      "Action": [
+        "s3:ListBucket"
+      ],
+      "Resource": "arn:aws:s3:::your-s3-bucket-name"
+    }
+  ]
+}
+```
+
+## Data Management
+
+```bash
+# Export data
+npm run data:export
+
+# Import data
+npm run data:import
+
+# List available backups
+npm run data:list
+```
+
+## Production Deployment
+
+```bash
+# Build the application
+npm run build
+
+# Start production server
+npm start
+```
+
+## TypeScript
+
+This project is configured with TypeScript. Run type checking with:
+
+```bash
+npm run typecheck
+```
