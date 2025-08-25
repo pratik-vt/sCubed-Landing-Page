@@ -29,6 +29,8 @@ deploy_to_ec2:
         echo 'API_TOKEN_SALT=$API_TOKEN_SALT'  >> .env &&
         echo 'ADMIN_JWT_SECRET=$ADMIN_JWT_SECRET' >> .env &&
         echo 'TRANSFER_TOKEN_SALT=$TRANSFER_TOKEN_SALT' >> .env &&
+        echo 'AWS_REGION=$AWS_REGION' >> .env &&
+        echo 'AWS_BUCKET=$AWS_BUCKET' >> .env &&
         npm install &&
         pm2 restart strapi-dev || pm2 start npm --name strapi-dev -- run develop
       "
