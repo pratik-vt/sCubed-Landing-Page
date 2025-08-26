@@ -76,6 +76,11 @@ export const centerText = style({
       maxWidth: '600px',
       padding: '0 10px',
     },
+    'screen and (max-width: 1024px)': {
+      fontSize: '12px',
+      padding: '0 10px',
+      whiteSpace: 'normal',
+    },
     'screen and (max-width: 768px)': {
       fontSize: '12px', // Smaller on mobile to prevent overflow
       maxWidth: '100%',
@@ -149,7 +154,17 @@ export const navStyle = style({
   textDecoration: 'none',
   marginRight: '50px',
   position: 'relative',
-  '@media': { 'screen and (max-width: 768px)': { marginRight: '0' } },
+  '@media': {
+    'screen and (max-width: 1200px)': { 
+      fontSize: '16px',
+      marginRight: '30px'
+    },
+    'screen and (max-width: 1024px)': { 
+      fontSize: '15px',
+      marginRight: '20px'
+    },
+    'screen and (max-width: 768px)': { marginRight: '0' }
+  },
 });
 
 export const activeNavStyle = style([navStyle, { color: '#000' }]);
@@ -164,12 +179,8 @@ export const hamburger = style({
     '(min-width: 1025px)': {
       display: 'none',
     },
-    // Medium-Large screens (769px-1024px) - Small laptops: Hidden
-    '(max-width: 1024px) and (min-width: 769px)': {
-      display: 'none',
-    },
-    // Medium and Small screens (768px and below) - Show hamburger
-    '(max-width: 768px)': {
+    // Tablets and smaller - Show hamburger
+    '(max-width: 1024px)': {
       display: 'flex',
       marginRight: '15px',
     },
@@ -192,12 +203,8 @@ export const navMenu = style({
     '(min-width: 1025px)': {
       display: 'flex',
     },
-    // Medium-Large screens (769px-1024px) - Small laptops: Keep horizontal
-    '(max-width: 1024px) and (min-width: 769px)': {
-      display: 'flex',
-    },
-    // Medium and Small screens (768px and below) - Mobile menu
-    '(max-width: 768px)': {
+    // Tablets and smaller - Hidden unless open
+    '(max-width: 1024px)': {
       display: 'none',
       flexDirection: 'column',
       alignItems: 'center',
@@ -242,12 +249,8 @@ export const closeButtonWrapper = style({
     '(min-width: 1025px)': {
       display: 'none',
     },
-    // Medium-Large screens (769px-1024px) - Small laptops: Hidden
-    '(max-width: 1024px) and (min-width: 769px)': {
-      display: 'none',
-    },
-    // Medium and Small screens (768px and below) - Show close button
-    '(max-width: 768px)': {
+    // Tablets and smaller - Show close button when menu is open
+    '(max-width: 1024px)': {
       display: 'flex',
       marginRight: '15px',
     },
@@ -345,6 +348,10 @@ export const loginButton = style({
   },
   selectors: { '&:hover:before': { width: '300px', height: '300px' } },
   '@media': {
+    'screen and (max-width: 1024px)': { 
+      padding: '10px 20px', 
+      fontSize: '15px' 
+    },
     'screen and (max-width: 768px)': { padding: '10px 24px', fontSize: '14px' },
   },
 });
