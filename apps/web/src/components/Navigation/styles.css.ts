@@ -8,11 +8,15 @@ export const headerContentStyles = style({
   alignItems: 'center',
   padding: '0px 10px 10px 10px',
   color: '#000',
+  width: '100%',
+  boxSizing: 'border-box',
   '@media': {
     'screen and (max-width: 768px)': {
       padding: '0 15px',
       background: `#fff`,
       height: '60px',
+      maxWidth: '100%',
+      overflowX: 'hidden',
     },
   },
 });
@@ -22,6 +26,9 @@ export const contactInfoContainer = style({
   backgroundColor: '#7a7eed',
   color: '#fff',
   padding: '6px 0',
+  maxWidth: '100vw',
+  overflowX: 'hidden',
+  boxSizing: 'border-box',
   '@media': { 'screen and (max-width: 768px)': { padding: '8px 0' } },
 });
 
@@ -32,43 +39,56 @@ export const contactInfoWrapper = style({
   justifyContent: 'space-between',
   alignItems: 'center',
   padding: '0 10px',
+  width: '100%',
+  boxSizing: 'border-box',
   '@media': {
     'screen and (max-width: 768px)': {
       flexDirection: 'column',
       alignItems: 'center',
       gap: '15px',
       padding: '5px 15px',
+      maxWidth: '100%',
+      overflowX: 'hidden',
     },
   },
 });
 
 export const centerText = style({
-  flex: '2', // Keep increased flex value for more space
+  flex: '2',
   textAlign: 'center',
-  fontSize: '14px', // Back to 14px to match email font size
-  fontWeight: '700', // Keep it bold
+  fontSize: '14px',
+  fontWeight: '700',
   color: '#fff',
   lineHeight: '1.4',
-  whiteSpace: 'nowrap', // Keep it on single line
-  maxWidth: '800px', // Increased max width to accommodate full text
-  margin: '0 auto', // Center the text within its container
-  padding: '0 20px', // Add padding for breathing room
+  whiteSpace: 'nowrap',
+  maxWidth: '800px',
+  margin: '0 auto',
+  padding: '0 20px',
+  boxSizing: 'border-box',
+  overflow: 'hidden',
   '@media': {
     'screen and (max-width: 1400px)': {
       maxWidth: '700px',
       padding: '0 15px',
     },
     'screen and (max-width: 1200px)': {
-      fontSize: '13px', // Slightly smaller only on smaller screens
+      fontSize: '13px',
       maxWidth: '600px',
       padding: '0 10px',
     },
     'screen and (max-width: 768px)': {
-      fontSize: '14px', // Keep same as email on mobile
+      fontSize: '12px', // Smaller on mobile to prevent overflow
       maxWidth: '100%',
-      order: 2, // Show after contact info on mobile
-      whiteSpace: 'normal', // Allow wrapping on mobile for readability
-      padding: '0',
+      order: 2,
+      whiteSpace: 'normal',
+      padding: '0 10px',
+      wordWrap: 'break-word',
+      overflowWrap: 'break-word',
+    },
+    'screen and (max-width: 480px)': {
+      fontSize: '11px',
+      padding: '0 5px',
+      lineHeight: '1.3',
     },
   },
 });
@@ -140,7 +160,19 @@ export const hamburger = style({
   cursor: 'pointer',
   zIndex: 1002,
   '@media': {
-    'screen and (max-width: 768px)': { display: 'flex', marginRight: `15px` },
+    // Large screens (1025px+) - Desktop: Hidden
+    '(min-width: 1025px)': {
+      display: 'none',
+    },
+    // Medium-Large screens (769px-1024px) - Small laptops: Hidden
+    '(max-width: 1024px) and (min-width: 769px)': {
+      display: 'none',
+    },
+    // Medium and Small screens (768px and below) - Show hamburger
+    '(max-width: 768px)': {
+      display: 'flex',
+      marginRight: '15px',
+    },
   },
 });
 
@@ -156,7 +188,16 @@ export const navMenu = style({
   display: 'flex',
   alignItems: 'center',
   '@media': {
-    'screen and (max-width: 768px)': {
+    // Large screens (1025px+) - Desktop: Horizontal menu
+    '(min-width: 1025px)': {
+      display: 'flex',
+    },
+    // Medium-Large screens (769px-1024px) - Small laptops: Keep horizontal
+    '(max-width: 1024px) and (min-width: 769px)': {
+      display: 'flex',
+    },
+    // Medium and Small screens (768px and below) - Mobile menu
+    '(max-width: 768px)': {
       display: 'none',
       flexDirection: 'column',
       alignItems: 'center',
@@ -168,8 +209,10 @@ export const navMenu = style({
       borderTop: '1px solid #ededef',
       minHeight: '90vh',
       gap: '30px',
-      padding: `30px 0`,
+      padding: '30px 0',
       zIndex: 1001,
+      boxSizing: 'border-box',
+      overflow: 'hidden',
     },
   },
 });
@@ -195,7 +238,19 @@ export const closeButtonWrapper = style({
   display: 'none',
   zIndex: 1002,
   '@media': {
-    'screen and (max-width: 768px)': { display: 'flex', marginRight: `15px` },
+    // Large screens (1025px+) - Desktop: Hidden
+    '(min-width: 1025px)': {
+      display: 'none',
+    },
+    // Medium-Large screens (769px-1024px) - Small laptops: Hidden
+    '(max-width: 1024px) and (min-width: 769px)': {
+      display: 'none',
+    },
+    // Medium and Small screens (768px and below) - Show close button
+    '(max-width: 768px)': {
+      display: 'flex',
+      marginRight: '15px',
+    },
   },
 });
 

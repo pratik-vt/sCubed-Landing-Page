@@ -9,6 +9,9 @@ export const headerWrapperStyles = style({
   transition: 'all 0.3s ease',
   backgroundColor: '#fff',
   boxShadow: '0 4px 12px -2px rgba(0, 0, 0, 0.1)',
+  maxWidth: '100vw',
+  overflowX: 'hidden',
+  boxSizing: 'border-box',
 });
 
 export const pageStyles = style({

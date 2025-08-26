@@ -11,9 +11,23 @@ globalStyle('html, body ,img', {
 
 globalStyle('html', {
   scrollBehavior: 'smooth',
+  overflowX: 'hidden',
 });
 
-export const ContainerStyle = style({ outline: `none`, borderWidth: `1px` });
+globalStyle('body', {
+  overflowX: 'hidden',
+  width: '100%',
+  maxWidth: '100vw',
+});
+
+export const ContainerStyle = style({ 
+  outline: `none`, 
+  borderWidth: `1px`,
+  width: '100%',
+  maxWidth: '100vw',
+  overflowX: 'hidden',
+  boxSizing: 'border-box',
+});
 export const InnerContainerStyle = style({
   maxWidth: `1400px`,
   width: `100%`,

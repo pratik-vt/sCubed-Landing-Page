@@ -2,6 +2,53 @@ import { globalStyle, keyframes, style } from '@vanilla-extract/css';
 
 import { colors } from '../../styles/tokens.css';
 
+// Global styles to prevent horizontal scrolling
+globalStyle('html, body', {
+  overflowX: 'hidden',
+  maxWidth: '100vw',
+  width: '100%',
+  boxSizing: 'border-box',
+  margin: 0,
+  padding: 0,
+});
+
+globalStyle('*, *::before, *::after', {
+  boxSizing: 'border-box',
+  maxWidth: '100%',
+});
+
+// Ensure all containers respect viewport width
+globalStyle('div, section, article, main, header, nav, form', {
+  maxWidth: '100%',
+  boxSizing: 'border-box',
+});
+
+// Specific fix for containers that might overflow
+globalStyle('[class*="Container"], [class*="container"], [class*="wrapper"], [class*="Wrapper"]', {
+  maxWidth: '100%',
+  overflowX: 'hidden',
+  boxSizing: 'border-box',
+});
+
+// Additional comprehensive fix for all potentially problematic elements
+globalStyle('input, textarea, select, button, img, video, iframe', {
+  maxWidth: '100%',
+  boxSizing: 'border-box',
+});
+
+// Ensure no fixed width elements cause overflow
+globalStyle('[style*="width"]', {
+  maxWidth: '100% !important',
+});
+
+// Final catch-all for any remaining overflow issues
+globalStyle('#__next, [id*="root"]', {
+  width: '100%',
+  maxWidth: '100vw',
+  overflowX: 'hidden',
+  boxSizing: 'border-box',
+});
+
 // Animation keyframes
 const spin = keyframes({
   from: { transform: 'rotate(0deg)' },
@@ -35,18 +82,31 @@ export const pageWrapper = style({
   fontFamily:
     'Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif',
   animation: `${fadeIn} 0.6s ease-out`,
+  minHeight: '100vh',
+  width: '100%',
+  maxWidth: '100vw',
+  overflowX: 'hidden',
+  boxSizing: 'border-box',
   '@media': {
-    '(max-width: 820px)': {
+    // Large screens (1025px+) - Desktop
+    '(min-width: 1025px)': {
+      marginTop: '-45px',
+      paddingTop: '125px',
+    },
+    // Medium-Large screens (769px-1024px) - Small laptops/large tablets
+    '(max-width: 1024px) and (min-width: 769px)': {
+      marginTop: '-50px',
+      paddingTop: '130px',
+    },
+    // Medium screens (481px-768px) - Tablets
+    '(max-width: 768px) and (min-width: 481px)': {
       marginTop: '-70px',
       paddingTop: '150px',
     },
-    '(max-width: 800px)': {
+    // Small screens (320px-480px) - Phones
+    '(max-width: 480px)': {
       marginTop: '-100px',
       paddingTop: '180px',
-    },
-    '(max-width: 767px)': {
-      marginTop: '-220px',
-      paddingTop: '300px',
     },
   },
 });
@@ -57,6 +117,9 @@ export const backgroundContainer = style({
   paddingBottom: '2rem',
   background: `linear-gradient(135deg, ${colors.primary[50]} 0%, ${colors.white} 25%, ${colors.primary[100]} 50%, ${colors.white} 75%, ${colors.primary[50]} 100%)`,
   overflow: 'hidden',
+  width: '100%',
+  maxWidth: '100vw',
+  boxSizing: 'border-box',
 });
 
 export const backgroundDecorative = style({
@@ -93,27 +156,56 @@ export const mainContainer = style({
   position: 'relative',
   maxWidth: '1600px',
   margin: '0 auto',
-  padding: '2rem 1.5rem 1rem 1.5rem', // Reduced bottom padding from 2rem to 1rem
+  padding: '2rem 1.5rem 1rem 1.5rem',
   zIndex: 1,
   '@media': {
-    '(max-width: 768px)': {
-      padding: '1.5rem 1rem 0.5rem 1rem', // Reduced bottom padding on mobile too
+    // Large screens (1025px+) - Desktop
+    '(min-width: 1025px)': {
+      padding: '2rem 2rem 1rem 2rem',
+      maxWidth: '1600px',
+    },
+    // Medium-Large screens (769px-1024px) - Small laptops/large tablets
+    '(max-width: 1024px) and (min-width: 769px)': {
+      padding: '1.75rem 1.5rem 1rem 1.5rem',
+      maxWidth: '1200px',
+    },
+    // Medium screens (481px-768px) - Tablets
+    '(max-width: 768px) and (min-width: 481px)': {
+      padding: '1.5rem 1.25rem 0.75rem 1.25rem',
+      maxWidth: '100%',
+    },
+    // Small screens (320px-480px) - Phones
+    '(max-width: 480px)': {
+      padding: '1rem 1rem 0.5rem 1rem',
+      maxWidth: '100%',
     },
   },
 });
 
 export const gridContainer = style({
-  display: 'grid',
-  gridTemplateColumns: '1fr 2fr',
-  gap: '2rem',
-  alignItems: 'start',
+  display: 'block', // Default to block to prevent overflow
+  width: '100%',
+  maxWidth: '100%',
+  boxSizing: 'border-box',
   '@media': {
-    '(max-width: 1024px)': {
-      gridTemplateColumns: '1fr',
-      gap: '2rem',
+    // Large screens (1025px+) - Desktop: Use grid for 2-column layout
+    '(min-width: 1025px)': {
+      display: 'grid',
+      gridTemplateColumns: '1fr 2fr',
+      gap: '2.5rem',
+      alignItems: 'start',
     },
-    '(max-width: 768px)': {
-      gap: '1.5rem',
+    // Medium-Large screens (769px-1024px) - Small laptops: block layout
+    '(max-width: 1024px) and (min-width: 769px)': {
+      display: 'block',
+    },
+    // Medium screens (481px-768px) - Tablets: block layout
+    '(max-width: 768px) and (min-width: 481px)': {
+      display: 'block',
+    },
+    // Small screens (320px-480px) - Phones: block layout
+    '(max-width: 480px)': {
+      display: 'block',
     },
   },
 });
@@ -124,17 +216,53 @@ export const leftPanel = style({
   flexDirection: 'column',
   gap: '1.25rem',
   animation: `${slideInLeft} 0.8s ease-out`,
+  width: '100%',
+  maxWidth: '100%',
+  boxSizing: 'border-box',
   '@media': {
-    '(max-width: 768px)': {
+    // Large screens (1025px+) - Desktop
+    '(min-width: 1025px)': {
+      gap: '1.5rem',
+    },
+    // Medium-Large screens (769px-1024px) - Small laptops/large tablets
+    '(max-width: 1024px) and (min-width: 769px)': {
+      gap: '1.375rem',
+      marginBottom: '2rem', // Add spacing when stacked
+    },
+    // Medium screens (481px-768px) - Tablets
+    '(max-width: 768px) and (min-width: 481px)': {
+      gap: '1.25rem',
+      marginBottom: '2rem', // Add spacing when stacked
+    },
+    // Small screens (320px-480px) - Phones
+    '(max-width: 480px)': {
       gap: '1rem',
+      marginBottom: '1.5rem', // Add spacing when stacked
     },
   },
 });
 
 export const contactSection = style({
   textAlign: 'left',
+  width: '100%',
+  maxWidth: '100%',
+  boxSizing: 'border-box',
+  overflow: 'hidden',
   '@media': {
-    '(max-width: 1023px)': {
+    // Large screens (1025px+) - Desktop: Left aligned
+    '(min-width: 1025px)': {
+      textAlign: 'left',
+    },
+    // Medium-Large screens (769px-1024px) - Small laptops: Center for better balance
+    '(max-width: 1024px) and (min-width: 769px)': {
+      textAlign: 'center',
+    },
+    // Medium screens (481px-768px) - Tablets: Center
+    '(max-width: 768px) and (min-width: 481px)': {
+      textAlign: 'center',
+    },
+    // Small screens (320px-480px) - Phones: Center
+    '(max-width: 480px)': {
       textAlign: 'center',
     },
   },
@@ -151,15 +279,29 @@ export const formTitle = style({
   marginBottom: '0.75rem',
   letterSpacing: '-0.02em',
   '@media': {
-    '(min-width: 1024px)': {
-      fontSize: '3rem',
+    // Large screens (1025px+) - Desktop
+    '(min-width: 1025px)': {
+      fontSize: '3.25rem',
+      lineHeight: '1.1',
+      marginBottom: '1rem',
     },
-    '(max-width: 768px)': {
-      fontSize: '2rem',
-      marginBottom: '0.5rem',
+    // Medium-Large screens (769px-1024px) - Small laptops/large tablets
+    '(max-width: 1024px) and (min-width: 769px)': {
+      fontSize: '2.75rem',
+      lineHeight: '1.15',
+      marginBottom: '0.875rem',
     },
+    // Medium screens (481px-768px) - Tablets
+    '(max-width: 768px) and (min-width: 481px)': {
+      fontSize: '2.25rem',
+      lineHeight: '1.2',
+      marginBottom: '0.75rem',
+    },
+    // Small screens (320px-480px) - Phones
     '(max-width: 480px)': {
-      fontSize: '1.75rem',
+      fontSize: '1.875rem',
+      lineHeight: '1.25',
+      marginBottom: '0.625rem',
     },
   },
 });
@@ -202,14 +344,31 @@ export const contactCardHeader = style({
   alignItems: 'center',
   justifyContent: 'center',
   color: colors.primary[700],
-  fontSize: '1.125rem', // Increased from 1rem
+  fontSize: '1.125rem',
   fontWeight: '700',
   letterSpacing: '-0.01em',
   textAlign: 'center',
+  wordWrap: 'break-word',
   '@media': {
-    '(max-width: 768px)': {
+    // Large screens (1025px+) - Desktop
+    '(min-width: 1025px)': {
+      padding: '1.25rem 1.25rem 0.625rem 1.25rem',
+      fontSize: '1.25rem',
+    },
+    // Medium-Large screens (769px-1024px) - Small laptops/large tablets
+    '(max-width: 1024px) and (min-width: 769px)': {
+      padding: '1.125rem 1.125rem 0.5rem 1.125rem',
+      fontSize: '1.125rem',
+    },
+    // Medium screens (481px-768px) - Tablets
+    '(max-width: 768px) and (min-width: 481px)': {
+      padding: '1rem 1rem 0.5rem 1rem',
+      fontSize: '1.125rem',
+    },
+    // Small screens (320px-480px) - Phones
+    '(max-width: 480px)': {
       padding: '0.875rem 0.875rem 0.375rem 0.875rem',
-      fontSize: '1rem', // Increased from 0.9rem
+      fontSize: '1rem',
     },
   },
 });
@@ -220,7 +379,23 @@ export const contactCardContent = style({
   flexDirection: 'column',
   gap: '0.75rem',
   '@media': {
-    '(max-width: 768px)': {
+    // Large screens (1025px+) - Desktop
+    '(min-width: 1025px)': {
+      padding: '0 1.25rem 1.25rem 1.25rem',
+      gap: '0.875rem',
+    },
+    // Medium-Large screens (769px-1024px) - Small laptops/large tablets
+    '(max-width: 1024px) and (min-width: 769px)': {
+      padding: '0 1.125rem 1.125rem 1.125rem',
+      gap: '0.75rem',
+    },
+    // Medium screens (481px-768px) - Tablets
+    '(max-width: 768px) and (min-width: 481px)': {
+      padding: '0 1rem 1rem 1rem',
+      gap: '0.75rem',
+    },
+    // Small screens (320px-480px) - Phones
+    '(max-width: 480px)': {
       padding: '0 0.875rem 0.875rem 0.875rem',
       gap: '0.625rem',
     },
@@ -238,6 +413,8 @@ export const contactItem = style({
   position: 'relative',
   background: 'transparent',
   border: '1px solid transparent',
+  wordWrap: 'break-word',
+  overflow: 'hidden',
   ':hover': {
     background: `linear-gradient(135deg, ${colors.primary[50]} 0%, ${colors.primary[100]} 100%)`,
     transform: 'translateX(6px)',
@@ -245,9 +422,26 @@ export const contactItem = style({
     boxShadow: `0 4px 12px -2px ${colors.primary[600]}20, inset 0 1px 0 rgba(255, 255, 255, 0.6)`,
   },
   '@media': {
-    '(max-width: 768px)': {
+    // Large screens (1025px+) - Desktop
+    '(min-width: 1025px)': {
+      padding: '0.75rem 0.75rem',
+      gap: '0.625rem',
+    },
+    // Medium-Large screens (769px-1024px) - Small laptops/large tablets
+    '(max-width: 1024px) and (min-width: 769px)': {
+      padding: '0.625rem 0.625rem',
+      gap: '0.5rem',
+    },
+    // Medium screens (481px-768px) - Tablets
+    '(max-width: 768px) and (min-width: 481px)': {
+      padding: '0.75rem 0.625rem',
+      gap: '0.625rem',
+    },
+    // Small screens (320px-480px) - Phones
+    '(max-width: 480px)': {
       padding: '0.875rem 0.75rem',
       gap: '0.75rem',
+      fontSize: '0.875rem',
     },
   },
 });
@@ -328,6 +522,16 @@ export const rightPanel = style({
   display: 'flex',
   flexDirection: 'column',
   animation: `${slideInRight} 0.8s ease-out 0.2s both`,
+  width: '100%',
+  maxWidth: '100%',
+  boxSizing: 'border-box',
+  '@media': {
+    // Ensure proper spacing on all screen sizes
+    '(max-width: 1024px)': {
+      width: '100%',
+      maxWidth: '100%',
+    },
+  },
 });
 
 export const cardContainer = style({
@@ -339,8 +543,27 @@ export const cardContainer = style({
   border: `1px solid ${colors.neutral[200]}50`,
   overflow: 'hidden',
   animation: `${scaleIn} 0.6s ease-out 0.4s both`,
+  width: '100%',
+  maxWidth: '100%',
+  boxSizing: 'border-box',
   '@media': {
-    '(max-width: 768px)': {
+    // Large screens (1025px+) - Desktop
+    '(min-width: 1025px)': {
+      borderRadius: '2.25rem',
+      marginTop: '3rem',
+    },
+    // Medium-Large screens (769px-1024px) - Small laptops/large tablets
+    '(max-width: 1024px) and (min-width: 769px)': {
+      borderRadius: '2rem',
+      marginTop: '2.25rem',
+    },
+    // Medium screens (481px-768px) - Tablets
+    '(max-width: 768px) and (min-width: 481px)': {
+      borderRadius: '1.75rem',
+      marginTop: '1.5rem',
+    },
+    // Small screens (320px-480px) - Phones
+    '(max-width: 480px)': {
       borderRadius: '1.5rem',
       marginTop: '1rem',
     },
@@ -363,7 +586,20 @@ export const cardHeader = style({
     background: `linear-gradient(90deg, ${colors.primary[600]} 0%, ${colors.primary[500]} 50%, ${colors.primary[600]} 100%)`,
   },
   '@media': {
-    '(max-width: 768px)': {
+    // Large screens (1025px+) - Desktop
+    '(min-width: 1025px)': {
+      padding: '1.25rem',
+    },
+    // Medium-Large screens (769px-1024px) - Small laptops/large tablets
+    '(max-width: 1024px) and (min-width: 769px)': {
+      padding: '1.125rem',
+    },
+    // Medium screens (481px-768px) - Tablets
+    '(max-width: 768px) and (min-width: 481px)': {
+      padding: '1rem',
+    },
+    // Small screens (320px-480px) - Phones
+    '(max-width: 480px)': {
       padding: '0.75rem',
     },
   },
@@ -371,8 +607,22 @@ export const cardHeader = style({
 
 export const cardContent = style({
   padding: '1.5rem',
+  boxSizing: 'border-box',
   '@media': {
-    '(max-width: 768px)': {
+    // Large screens (1025px+) - Desktop
+    '(min-width: 1025px)': {
+      padding: '2rem',
+    },
+    // Medium-Large screens (769px-1024px) - Small laptops/large tablets
+    '(max-width: 1024px) and (min-width: 769px)': {
+      padding: '1.75rem',
+    },
+    // Medium screens (481px-768px) - Tablets
+    '(max-width: 768px) and (min-width: 481px)': {
+      padding: '1.5rem',
+    },
+    // Small screens (320px-480px) - Phones
+    '(max-width: 480px)': {
       padding: '1.25rem',
     },
   },
@@ -382,8 +632,23 @@ export const formContainer = style({
   display: 'flex',
   flexDirection: 'column',
   gap: '1.5rem',
+  width: '100%',
+  boxSizing: 'border-box',
   '@media': {
-    '(max-width: 768px)': {
+    // Large screens (1025px+) - Desktop
+    '(min-width: 1025px)': {
+      gap: '1.75rem',
+    },
+    // Medium-Large screens (769px-1024px) - Small laptops/large tablets
+    '(max-width: 1024px) and (min-width: 769px)': {
+      gap: '1.5rem',
+    },
+    // Medium screens (481px-768px) - Tablets
+    '(max-width: 768px) and (min-width: 481px)': {
+      gap: '1.375rem',
+    },
+    // Small screens (320px-480px) - Phones
+    '(max-width: 480px)': {
       gap: '1.25rem',
     },
   },
@@ -491,10 +756,12 @@ const baseInputStyle = {
   border: `1.5px solid ${colors.neutral[200]}`,
   borderRadius: '0.5rem',
   fontSize: '0.875rem',
-  fontWeight: '400', // Changed from '500' to normal weight
+  fontWeight: '400',
   transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
   backgroundColor: colors.white,
   boxShadow: `0 1px 2px 0 ${colors.neutral[200]}10`,
+  width: '100%',
+  boxSizing: 'border-box' as const,
   ':focus': {
     outline: 'none',
     borderColor: colors.primary[600],
@@ -504,8 +771,34 @@ const baseInputStyle = {
     borderColor: colors.primary[400],
   },
   '::placeholder': {
-    color: '#52525b', // Direct dark color for better contrast
+    color: '#52525b',
     fontWeight: '400',
+  },
+  '@media': {
+    // Large screens (1025px+) - Desktop
+    '(min-width: 1025px)': {
+      height: '3rem',
+      fontSize: '0.9375rem',
+      padding: '0 1.125rem',
+    },
+    // Medium-Large screens (769px-1024px) - Small laptops/large tablets
+    '(max-width: 1024px) and (min-width: 769px)': {
+      height: '2.875rem',
+      fontSize: '0.875rem',
+      padding: '0 1rem',
+    },
+    // Medium screens (481px-768px) - Tablets
+    '(max-width: 768px) and (min-width: 481px)': {
+      height: '2.75rem',
+      fontSize: '0.875rem',
+      padding: '0 1rem',
+    },
+    // Small screens (320px-480px) - Phones
+    '(max-width: 480px)': {
+      height: '2.5rem',
+      fontSize: '0.8125rem',
+      padding: '0 0.875rem',
+    },
   },
 };
 
@@ -543,11 +836,13 @@ export const textareaStyle = style({
   borderRadius: '0.5rem',
   fontSize: '0.875rem',
   fontFamily: 'inherit',
-  fontWeight: '400', // Changed from '500' to normal weight
+  fontWeight: '400',
   resize: 'vertical',
   transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
   backgroundColor: colors.white,
   boxShadow: `0 1px 2px 0 ${colors.neutral[200]}10`,
+  width: '100%',
+  boxSizing: 'border-box',
   ':focus': {
     outline: 'none',
     borderColor: colors.primary[600],
@@ -557,8 +852,34 @@ export const textareaStyle = style({
     borderColor: colors.primary[400],
   },
   '::placeholder': {
-    color: '#52525b', // Direct dark color for better contrast
+    color: '#52525b',
     fontWeight: '400',
+  },
+  '@media': {
+    // Large screens (1025px+) - Desktop
+    '(min-width: 1025px)': {
+      minHeight: '5rem',
+      fontSize: '0.9375rem',
+      padding: '0.875rem 1.125rem',
+    },
+    // Medium-Large screens (769px-1024px) - Small laptops/large tablets
+    '(max-width: 1024px) and (min-width: 769px)': {
+      minHeight: '4.75rem',
+      fontSize: '0.875rem',
+      padding: '0.75rem 1rem',
+    },
+    // Medium screens (481px-768px) - Tablets
+    '(max-width: 768px) and (min-width: 481px)': {
+      minHeight: '4.5rem',
+      fontSize: '0.875rem',
+      padding: '0.75rem 1rem',
+    },
+    // Small screens (320px-480px) - Phones
+    '(max-width: 480px)': {
+      minHeight: '4rem',
+      fontSize: '0.8125rem',
+      padding: '0.625rem 0.875rem',
+    },
   },
 });
 
@@ -623,6 +944,7 @@ export const submitButton = style({
   transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
   boxShadow: '0 4px 6px -1px rgba(122, 126, 237, 0.4)',
   letterSpacing: '0.01em',
+  boxSizing: 'border-box',
   ':hover': {
     background: 'linear-gradient(135deg, #6c6ee5 0%, #9171e8 100%)',
     boxShadow: '0 6px 8px -1px rgba(122, 126, 237, 0.5)',
@@ -638,9 +960,27 @@ export const submitButton = style({
     transform: 'none',
   },
   '@media': {
-    '(max-width: 768px)': {
+    // Large screens (1025px+) - Desktop
+    '(min-width: 1025px)': {
+      height: '3.25rem',
+      fontSize: '1.0625rem',
+      borderRadius: '0.625rem',
+    },
+    // Medium-Large screens (769px-1024px) - Small laptops/large tablets
+    '(max-width: 1024px) and (min-width: 769px)': {
+      height: '3rem',
+      fontSize: '1rem',
+    },
+    // Medium screens (481px-768px) - Tablets
+    '(max-width: 768px) and (min-width: 481px)': {
+      height: '2.875rem',
+      fontSize: '0.9375rem',
+    },
+    // Small screens (320px-480px) - Phones
+    '(max-width: 480px)': {
       height: '2.75rem',
       fontSize: '0.875rem',
+      gap: '0.375rem',
     },
   },
 });
