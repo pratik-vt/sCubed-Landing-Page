@@ -51,14 +51,14 @@ export const benefitIcon = style({
   borderRadius: '50%',
   background: `linear-gradient(135deg, ${colors.primary[600]} 0%, ${colors.primary[400]} 100%)`,
   color: colors.white,
-  marginBottom: '20px',
+  flexShrink: 0,
 });
 
 export const benefitTitle = style({
   fontSize: '24px',
   fontWeight: typography.fontWeight.bold,
   color: colors.neutral[900],
-  marginBottom: '16px',
+  margin: 0,
   lineHeight: '1.3',
   fontFamily: typography.fontFamily.heading,
   '@media': {

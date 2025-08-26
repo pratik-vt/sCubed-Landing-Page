@@ -116,7 +116,7 @@ const GuardianWhyChoose: React.FC = () => {
               custom={index}
             >
               <motion.div
-                style={{ display: 'flex', alignItems: 'flex-start', gap: '20px' }}
+                style={{ display: 'flex', alignItems: 'center', gap: '20px' }}
               >
                 <motion.div className={featureIcon} >
                   {feature.icon}

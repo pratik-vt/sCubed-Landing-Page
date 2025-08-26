@@ -182,8 +182,10 @@ const GuardianBenefits: React.FC = () => {
               whileHover="hover"
               custom={index}
             >
-                <div className={benefitIcon}>{benefit.icon}</div>
-                <h3 className={benefitTitle}>{benefit.title}</h3>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '16px', marginBottom: '20px' }}>
+                  <div className={benefitIcon}>{benefit.icon}</div>
+                  <h3 className={benefitTitle}>{benefit.title}</h3>
+                </div>
                 <ul className={benefitList}>
                   {benefit.items.map((item, index) => (
                     <li key={index} className={benefitItem}>
