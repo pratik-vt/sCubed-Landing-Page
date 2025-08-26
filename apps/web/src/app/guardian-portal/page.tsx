@@ -12,9 +12,9 @@ import GuardianWhyChoose from '../../components/guardian-portal/GuardianWhyChoos
 import { getFAQCollection, transformFAQData } from '../../lib/faq-api';
 
 export const metadata: Metadata = {
-  title: 'Guardian Portal | Stay Connected to Your Child\'s Care Journey',
+  title: 'Guardian & Parent Portal for Therapy Practices | Secure & HIPAA Compliant',
   description:
-    'Access your child\'s progress, treatment plans, and care team communications securely from anywhere. Our Guardian Portal keeps families engaged and informed.',
+    'A secure, HIPAA compliant guardian and parent portal for therapy practices. Access child\'s progress, updates, treatment plans, care team communications, and appointments in one place.',
 };
 
 // Fallback FAQ data
