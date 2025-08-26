@@ -1,15 +1,15 @@
-import React from 'react';
 import Image from 'next/image';
+import React from 'react';
 
-import { InnerContainerStyle } from '../Container/style.css';
-import CalendlyWidget from '../CalendlyWidget';
 import heroImg from '../../images/Image.jpg';
+import CalendlyWidget from '../CalendlyWidget';
+import { InnerContainerStyle } from '../Container/style.css';
 
 import {
-  heroStyles,
-  heroImage,
-  textBlockStyles,
   heroHeading,
+  heroImage,
+  heroStyles,
+  textBlockStyles,
 } from './style.css';
 
 

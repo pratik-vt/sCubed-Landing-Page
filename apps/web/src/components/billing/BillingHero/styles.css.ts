@@ -94,11 +94,17 @@ export const heroImageContent = style({
   alignItems: 'center',
   '@media': {
     'screen and (max-width: 968px)': {
-      order: -1,
       maxWidth: '400px',
       margin: '0 auto',
     },
   },
+});
+
+// Simple hover animation for the hero image
+export const heroImage = style({
+  transform: 'scale(1.15)', // Default size is the previous hover size
+  transition: 'transform 0.3s ease',
+  transformOrigin: 'top left', // Grows towards bottom right
 });
 
 export const heroTitle = style({

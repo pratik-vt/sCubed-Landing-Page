@@ -2,14 +2,25 @@ import { style } from '@vanilla-extract/css';
 
 export const heroStyles = style({
   position: 'relative',
+  overflow: 'hidden',
+  width: '100%',
 });
 
 export const heroImage = style({
   width: `100%`,
+  height: `100vh`,
+  objectFit: 'cover',
+  objectPosition: 'center top',
 
   '@media': {
     'screen and (max-width: 768px)': {
-      height: `50vh`,
+      height: `85vh`,
+    },
+    'screen and (min-width: 768px) and (max-width: 1024px)': {
+      height: `95vh`,
+    },
+    'screen and (min-width: 1024px)': {
+      height: `110vh`,
     },
   },
 });

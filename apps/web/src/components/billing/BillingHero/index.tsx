@@ -1,13 +1,14 @@
 'use client';
 
 import { motion, useInView, Variants } from 'framer-motion';
-import Image from 'next/image';
 import { CheckCircle } from 'lucide-react';
+import Image from 'next/image';
 import React, { useRef } from 'react';
 
+import billingImg from '../../../images/Billing.jpg';
+import billingBannerImg from '../../../images/billing-banner.png';
 import CalendlyButton from '../CalendlyButton';
 import { primaryButton } from '../CalendlyButton/styles.css';
-import billingImg from '../../../images/Billing.jpg';
 
 import {
   backgroundImage,
@@ -22,6 +23,7 @@ import {
   heroContainer,
   heroContent,
   heroDescription,
+  heroImage,
   heroImageContent,
   heroSection,
   heroTextContent,
@@ -140,11 +142,12 @@ const BillingHero: React.FC = () => {
             <div className={heroImageContent}>
               <Image
                 alt="Professional billing and financial management for healthcare practices"
-                src={billingImg}
+                src={billingBannerImg}
                 quality={100}
                 placeholder="blur"
                 width={600}
                 height={500}
+                className={heroImage}
               />
             </div>
           </div>
