@@ -89,22 +89,36 @@ export const heroTextContent = style({
 });
 
 export const heroImageContent = style({
-  display: 'flex',
-  justifyContent: 'center',
-  alignItems: 'center',
+  position: 'relative',
+  width: '100%',
+  maxWidth: '600px',
+  aspectRatio: '6/5', // Maintains 600:500 aspect ratio
+  margin: '0 auto',
   '@media': {
     'screen and (max-width: 968px)': {
       maxWidth: '400px',
-      margin: '0 auto',
+      aspectRatio: '4/3.33', // Slightly adjusted for mobile
+    },
+    'screen and (max-width: 480px)': {
+      maxWidth: '320px',
     },
   },
 });
 
 // Simple hover animation for the hero image
 export const heroImage = style({
+  objectFit: 'contain',
   transform: 'scale(1.15)', // Default size is the previous hover size
   transition: 'transform 0.3s ease',
-  transformOrigin: 'top left', // Grows towards bottom right
+  transformOrigin: 'center', // Center the scaling
+  '@media': {
+    'screen and (max-width: 968px)': {
+      transform: 'scale(1.35)', // Reduced scaling on tablet
+    },
+    'screen and (max-width: 480px)': {
+      transform: 'scale(1.25)', // No scaling on mobile to prevent overflow
+    },
+  },
 });
 
 export const heroTitle = style({

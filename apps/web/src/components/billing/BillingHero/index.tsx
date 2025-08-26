@@ -145,8 +145,8 @@ const BillingHero: React.FC = () => {
                 src={billingBannerImg}
                 quality={100}
                 placeholder="blur"
-                width={600}
-                height={500}
+                fill
+                sizes="(max-width: 968px) 400px, 600px"
                 className={heroImage}
               />
             </div>
