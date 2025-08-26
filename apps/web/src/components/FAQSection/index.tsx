@@ -1,7 +1,7 @@
 'use client';
 
-import { AnimatePresence, motion, Variants, useInView } from 'framer-motion';
-import React, { useState, useRef } from 'react';
+import { AnimatePresence, motion, useInView, Variants } from 'framer-motion';
+import React, { useRef, useState } from 'react';
 
 import * as styles from './styles.css';
 
@@ -179,6 +179,7 @@ const FAQSection: React.FC<FAQSectionProps> = ({
           >
             <motion.span 
               className={styles.icon}
+              initial={false}
               animate={isOpen ? 'open' : 'closed'}
               variants={chevronVariants}
             >

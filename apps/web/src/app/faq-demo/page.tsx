@@ -1,9 +1,7 @@
-import React from 'react';
 import type { Metadata } from 'next';
 
+import FAQSection, { FAQItem } from '@/components/FAQSection';
 import Layout from '@/components/Layout';
-import FAQSection from '@/components/FAQSection';
-import { FAQItem } from '@/components/FAQSection';
 
 export const metadata: Metadata = {
   title: 'FAQ Demo - S Cubed',
