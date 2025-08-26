@@ -5,19 +5,23 @@ import Image from 'next/image';
 import Link from 'next/link';
 import React from 'react';
 
-import { primaryButton } from '../../billing/CalendlyButton/styles.css';
 import guardianPortalImg from '../../../images/guardian-portal.png';
+import { primaryButton } from '../../billing/CalendlyButton/styles.css';
 
 import {
+  actionWord,
+  brandHighlight,
   ctaSection,
+  heroBanner,
   heroContainer,
   heroContent,
-  heroDescription,
   heroImageContent,
   heroSection,
+  heroSubheadline,
   heroTextContent,
   heroTitle,
   heroTitleHighlight,
+  mobileButton
 } from './styles.css';
 
 const GuardianHero: React.FC = () => {
@@ -34,8 +38,10 @@ const GuardianHero: React.FC = () => {
             <h1 className={heroTitle}>
               Your <span className={heroTitleHighlight}>Child&apos;s Care</span>, Just a Click Away
             </h1>
-            <p className={heroDescription}>
-              Stay informed, stay involved, and stay connected - anytime, anywhere - with our secure Guardian Portal. 
+            <div className={heroBanner}>
+              <span className={actionWord}>Stay informed</span>, <span className={actionWord}>stay involved</span>, and <span className={actionWord}>stay connected</span> – anytime, anywhere – with our secure <span className={brandHighlight}>Guardian Portal</span>.
+            </div>
+            <p className={heroSubheadline}>
               Our Guardian Portal is built to keep families engaged in their child&apos;s care journey. 
               It gives guardians secure, real-time access to everything they need. It simplifies communication, 
               progress tracking and appointments management so that guardians stay informed every step of the way.
@@ -43,11 +49,7 @@ const GuardianHero: React.FC = () => {
             <div className={ctaSection}>
               <Link 
                 href={process.env.NEXT_PUBLIC_GUARDIAN_APP_URL + `auth/login`}
-                className={primaryButton}
-                style={{
-                  fontSize: '18px',
-                  textDecoration: 'none',
-                }}
+                className={`${primaryButton} ${mobileButton}`}
               >
                 Login as Guardian →
               </Link>

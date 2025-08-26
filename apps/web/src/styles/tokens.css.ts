@@ -72,6 +72,7 @@ export const typography = {
   // Line heights
   lineHeight: {
     tight: '1.25',
+    snug: '1.35',
     normal: '1.5',
     relaxed: '1.75',
   },

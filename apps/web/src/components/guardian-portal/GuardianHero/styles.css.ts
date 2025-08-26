@@ -2,10 +2,8 @@ import { style } from '@vanilla-extract/css';
 
 import {
   colors,
-  radius,
-  shadows,
   spacing,
-  typography,
+  typography
 } from '../../../styles/tokens.css';
 
 export const heroSection = style({
@@ -90,16 +88,62 @@ export const heroTitleHighlight = style({
   color: colors.primary[600],
 });
 
-export const heroDescription = style({
+export const heroBanner = style({
   fontSize: typography.fontSize.xl,
-  color: colors.neutral[600],
+  fontWeight: typography.fontWeight.normal,
+  color: colors.neutral[700],
+  lineHeight: typography.lineHeight.normal,
+  marginBottom: spacing.lg,
+  fontFamily: typography.fontFamily.body,
+  maxWidth: '90%',
+  '@media': {
+    'screen and (max-width: 968px)': {
+      maxWidth: '100%',
+      textAlign: 'center',
+    },
+    'screen and (max-width: 768px)': {
+      fontSize: typography.fontSize.lg,
+      marginBottom: spacing.md,
+    },
+  },
+});
+
+export const heroSubheadline = style({
+  fontSize: typography.fontSize.lg,
+  color: colors.neutral[500],
   lineHeight: typography.lineHeight.relaxed,
   marginBottom: spacing.xl,
   fontFamily: typography.fontFamily.body,
   fontWeight: typography.fontWeight.normal,
+  maxWidth: '95%',
+  '@media': {
+    'screen and (max-width: 968px)': {
+      maxWidth: '100%',
+      textAlign: 'center',
+    },
+    'screen and (max-width: 768px)': {
+      fontSize: typography.fontSize.base,
+      marginBottom: spacing.lg,
+    },
+  },
+});
+
+export const actionWord = style({
+  fontWeight: typography.fontWeight.bold,
+});
+
+export const brandHighlight = style({
+  color: colors.primary[600],
+  fontWeight: typography.fontWeight.semibold,
+});
+
+export const mobileButton = style({
+  fontSize: '18px',
+  textDecoration: 'none',
   '@media': {
     'screen and (max-width: 768px)': {
-      fontSize: typography.fontSize.lg,
+      width: '100%',
+      textAlign: 'center',
     },
   },
 });
@@ -110,6 +154,9 @@ export const ctaSection = style({
   '@media': {
     'screen and (max-width: 968px)': {
       justifyContent: 'center',
+    },
+    'screen and (max-width: 768px)': {
+      width: '100%',
     },
   },
 });
