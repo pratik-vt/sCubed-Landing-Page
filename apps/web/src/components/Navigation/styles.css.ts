@@ -29,7 +29,9 @@ export const contactInfoContainer = style({
   maxWidth: '100vw',
   overflowX: 'hidden',
   boxSizing: 'border-box',
-  '@media': { 'screen and (max-width: 768px)': { padding: '8px 0' } },
+  '@media': { 
+    'screen and (max-width: 1024px)': { padding: '8px 0' } 
+  },
 });
 
 export const contactInfoWrapper = style({
@@ -42,7 +44,7 @@ export const contactInfoWrapper = style({
   width: '100%',
   boxSizing: 'border-box',
   '@media': {
-    'screen and (max-width: 768px)': {
+    'screen and (max-width: 1024px)': {
       flexDirection: 'column',
       alignItems: 'center',
       gap: '15px',
@@ -102,7 +104,7 @@ export const contactInfoGroup = style({
   display: 'flex',
   gap: '20px',
   '@media': {
-    'screen and (max-width: 768px)': {
+    'screen and (max-width: 1024px)': {
       flexDirection: 'row',
       alignItems: 'center',
       gap: '10px',
@@ -119,7 +121,9 @@ export const contactInfoItem = style({
   justifyContent: 'center',
   fontSize: '14px',
   gap: '5px',
-  '@media': { 'screen and (max-width: 768px)': { justifyContent: 'center' } },
+  '@media': { 
+    'screen and (max-width: 1024px)': { justifyContent: 'center' } 
+  },
 });
 
 export const contactInfoLink = style({
@@ -305,7 +309,7 @@ export const iconWrapper = style({
 export const contactInfoDivider = style({
   display: 'none',
   '@media': {
-    'screen and (max-width: 768px)': {
+    'screen and (max-width: 1024px)': {
       display: 'block',
       width: '1px',
       height: '20px',
