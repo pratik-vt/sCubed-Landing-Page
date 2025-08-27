@@ -3,6 +3,7 @@ import { notFound } from 'next/navigation';
 import type { Metadata } from 'next';
 
 import BlogArticle from '../../../components/Blog/BlogArticle';
+import BlogSchema from '../../../components/Blog/BlogSchema';
 import { getBlogPost, getStrapiImageUrl } from '../../../lib/strapi';
 
 interface BlogDetailPageProps {
@@ -85,7 +86,7 @@ export async function generateMetadata({ params }: BlogDetailPageProps): Promise
         'article:tag': tags,
       },
     };
-    
+
     return metadata;
   } catch (error) {
     console.error('Error generating metadata for blog post:', error);
@@ -109,13 +110,19 @@ export default async function BlogDetailPage({ params }: BlogDetailPageProps) {
     
     const post = response.data[0];
     
+    // Build the current URL for the schema
+    const currentUrl = `${process.env.NEXT_PUBLIC_SITE_URL || 'https://scubed.io'}/blog/${slug}`;
+    
     // Debug the post data structure
     console.log('Blog post data:', JSON.stringify(post, null, 2));
     console.log('Author data:', post.author);
     console.log('Author avatar:', post.author?.avatar);
     
     return (
+      <>
+        <BlogSchema post={post} url={currentUrl} />
         <BlogArticle post={post} />
+      </>
     );
   } catch (error) {
     console.error('Error fetching blog post:', error);
