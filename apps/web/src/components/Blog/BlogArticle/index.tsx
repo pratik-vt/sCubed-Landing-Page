@@ -35,6 +35,7 @@ import {
   breadcrumb,
   authorInfo,
   authorAvatar,
+  authorAvatarFallback,
   authorDetails,
   tags,
   tag,
@@ -73,6 +74,7 @@ interface BlogArticleProps {
 
 const BlogArticle: React.FC<BlogArticleProps> = ({ post }) => {
   const [copySuccess, setCopySuccess] = useState(false);
+  const [avatarError, setAvatarError] = useState(false);
 
   // Get post data
   const title = post.title;
@@ -89,6 +91,16 @@ const BlogArticle: React.FC<BlogArticleProps> = ({ post }) => {
   const categories = post.categories || [];
   const postTags = post.tags || [];
   const contentBlocks = post.content_blocks || [];
+
+  // Debug author data
+  console.log('Author debug:', {
+    author: post.author,
+    authorName,
+    authorAvatarImage,
+    authorAvatarUrl,
+    authorPosition,
+    authorBio
+  });
 
   const scrollToSection = (id: string) => {
     console.log('scrollToSection', id);
@@ -272,22 +284,40 @@ const BlogArticle: React.FC<BlogArticleProps> = ({ post }) => {
 
               {/* Enhanced Author Information */}
               {post.author && (
-                <div className={authorCard}>
+                <section className={authorCard} aria-labelledby="author-heading">
                   <div className={authorInfo}>
-                    {authorAvatarUrl && (
-                      <div className={authorAvatar}>
+                    {/* Author Avatar - Always show with fallback */}
+                    <div className={authorAvatar} role="img" aria-label={`${authorName} profile picture`}>
+                      {authorAvatarUrl && !avatarError ? (
                         <Image
                           src={authorAvatarUrl}
-                          alt={authorName}
+                          alt=""
                           width={80}
                           height={80}
-                          style={{ borderRadius: '50%' }}
+                          style={{ 
+                            borderRadius: '50%', 
+                            objectFit: 'cover',
+                            width: '100%',
+                            height: '100%'
+                          }}
+                          priority
+                          onError={(e) => {
+                            console.error('Failed to load author avatar:', authorAvatarUrl);
+                            setAvatarError(true);
+                          }}
                         />
-                      </div>
-                    )}
+                      ) : (
+                        <div 
+                          className={authorAvatarFallback}
+                          aria-label={`${authorName} initials`}
+                        >
+                          {authorName.charAt(0).toUpperCase()}
+                        </div>
+                      )}
+                    </div>
                     <div className={authorContent}>
                       <div className={authorDetails}>
-                        <h3 className={authorName}>{authorName}</h3>
+                        <h3 id="author-heading" className={authorName}>{authorName}</h3>
                         {authorPosition && (
                           <p className={authorPosition}>{authorPosition}</p>
                         )}
@@ -295,21 +325,9 @@ const BlogArticle: React.FC<BlogArticleProps> = ({ post }) => {
                           <p className={authorBio}>{authorBio}</p>
                         )}
                       </div>
-                      <div className={authorMeta}>
-                        <div className={authorStats}>
-                          <div className={authorStat}>
-                            <span className={authorStatLabel}>Published</span>
-                            <strong className={authorStatValue}>{publishDate}</strong>
-                          </div>
-                          <div className={authorStat}>
-                            <span className={authorStatLabel}>Read Time</span>
-                            <strong className={authorStatValue}>{readTime} min</strong>
-                          </div>
-                        </div>
-                      </div>
                     </div>
                   </div>
-                </div>
+                </section>
               )}
 
               {/* Enhanced Social Share */}

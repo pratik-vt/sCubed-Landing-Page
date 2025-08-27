@@ -110,6 +110,11 @@ export default async function BlogDetailPage({ params }: BlogDetailPageProps) {
     
     const post = response.data[0];
     
+    // Debug the post data structure
+    console.log('Blog post data:', JSON.stringify(post, null, 2));
+    console.log('Author data:', post.author);
+    console.log('Author avatar:', post.author?.avatar);
+    
     return (
       <Layout zeroHeaderMargin={true}>
         <BlogArticle post={post} />

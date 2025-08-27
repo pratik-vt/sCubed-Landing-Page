@@ -208,8 +208,8 @@ export async function getBlogPost(slug: string): Promise<StrapiResponse<BlogPost
     queryParams.set('filters[slug][$eq]', slug);
     queryParams.set('filters[publishedAt][$notNull]', 'true');
     
-    // Basic population
-    queryParams.set('populate[author]', 'true');
+    // Basic population with explicit author avatar
+    queryParams.set('populate[author][populate][avatar]', 'true');
     queryParams.set('populate[categories]', 'true');
     queryParams.set('populate[tags]', 'true');
     queryParams.set('populate[featured_image]', 'true');

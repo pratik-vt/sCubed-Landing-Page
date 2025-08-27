@@ -366,9 +366,9 @@ export const authorCard = style({
 
 export const authorInfo = style({
   display: 'flex',
-  alignItems: 'flex-start',
+  alignItems: 'center',
   gap: spacing.lg,
-  padding: spacing.xl,
+  padding: spacing.lg,
   
   '@media': {
     '(max-width: 768px)': {
@@ -383,6 +383,10 @@ export const authorInfo = style({
 export const authorAvatar = style({
   flexShrink: 0,
   position: 'relative',
+  width: '80px',
+  height: '80px',
+  borderRadius: '50%',
+  overflow: 'hidden',
   
   '::after': {
     content: '',
@@ -395,6 +399,21 @@ export const authorAvatar = style({
     borderRadius: '50%',
     zIndex: -1,
   },
+});
+
+export const authorAvatarFallback = style({
+  width: '80px',
+  height: '80px',
+  borderRadius: '50%',
+  backgroundColor: colors.neutral[200],
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'center',
+  fontSize: typography.fontSize['2xl'],
+  fontWeight: typography.fontWeight.bold,
+  color: colors.neutral[600],
+  fontFamily: typography.fontFamily.heading,
+  textTransform: 'uppercase',
 });
 
 export const authorContent = style({
