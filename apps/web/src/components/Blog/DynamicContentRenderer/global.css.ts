@@ -1,6 +1,7 @@
 import { globalStyle } from '@vanilla-extract/css';
 
 import { colors, typography, spacing } from '../../../styles/tokens.css';
+
 import { transcriptContent } from './styles.css';
 
 // Transcript content global styles

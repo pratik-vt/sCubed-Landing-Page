@@ -2,6 +2,7 @@ import React from 'react';
 import Image from 'next/image';
 
 import { getStrapiImageUrl, StrapiImage } from '../../../lib/strapi';
+
 import { 
   moduleContainer,
   playerContainer,

@@ -39,6 +39,9 @@ function Footer() {
         <div className={bottomFooter}>
           <span className={rights}>© {currentYear} S Cubed. All rights reserved.</span>
           <div className={footerLinks}>
+            <Link className={links} href={`/faqs`}>
+              FAQs
+            </Link>
             <a
               className={links}
               href={process.env.NEXT_PUBLIC_GUARDIAN_APP_URL || ''}

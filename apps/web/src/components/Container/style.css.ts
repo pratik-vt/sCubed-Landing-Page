@@ -25,7 +25,6 @@ export const ContainerStyle = style({
   borderWidth: `1px`,
   width: '100%',
   maxWidth: '100vw',
-  overflowX: 'hidden',
   boxSizing: 'border-box',
 });
 export const InnerContainerStyle = style({
