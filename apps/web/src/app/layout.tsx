@@ -1,6 +1,8 @@
 import type { Metadata } from 'next';
+
 import '../components/Container/fonts.css';
 import '../components/Container/style.css';
+import ConditionalLayout from '../components/ConditionalLayout';
 
 // Get environment for robots meta tag
 const appEnv = process.env.NEXT_PUBLIC_APP_ENV || 'dev';
@@ -79,7 +81,11 @@ export default function RootLayout({
           }}
         />
       </head>
-      <body>{children}</body>
+      <body>
+        <ConditionalLayout>
+          {children}
+        </ConditionalLayout>
+      </body>
     </html>
   );
 }

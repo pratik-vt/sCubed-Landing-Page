@@ -1,6 +1,5 @@
 import type { Metadata } from 'next';
 
-import Layout from '../../components/Layout';
 import { Heading, Section } from '../../components/Pages';
 import {
   olItemStyle,
@@ -16,7 +15,7 @@ export const metadata: Metadata = {
 
 export default function TermsPage() {
   return (
-    <Layout>
+    <>
       <Heading>Terms & Conditions</Heading>
       <h3>Spectrum Solutions Software</h3>
       <Section>
@@ -907,6 +906,6 @@ export default function TermsPage() {
         (CPT) content, you agree to the terms set forth in the AMA Supplemental
         License Terms.
       </Section>
-    </Layout>
+    </>
   );
 }

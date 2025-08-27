@@ -4,16 +4,16 @@ import Footer from '../Footer/footer';
 import Navigation from '../Navigation';
 import Container from '../Container';
 
-import { contentStyle, contentStyleZeroMargin, headerWrapperStyles } from './styles.css';
+import { contentStyle, fullWidthContentStyle, headerWrapperStyles } from './styles.css';
 
 interface LayoutProps {
   children: React.ReactNode;
-  zeroHeaderMargin?: boolean;
+  fullWidth?: boolean;
 }
 
 const Layout: FC<LayoutProps> = ({
   children,
-  zeroHeaderMargin = false,
+  fullWidth = false,
 }) => {
   return (
     <Container>
@@ -21,7 +21,7 @@ const Layout: FC<LayoutProps> = ({
         <Navigation />
       </div>
 
-      <div className={zeroHeaderMargin ? contentStyleZeroMargin : contentStyle}>
+      <div className={fullWidth ? fullWidthContentStyle : contentStyle}>
         {children}
       </div>
       <Footer />

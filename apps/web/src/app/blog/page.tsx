@@ -1,7 +1,6 @@
 import React from 'react';
 import type { Metadata } from 'next';
 
-import Layout from '../../components/Layout';
 import BlogListing from '../../components/Blog/BlogListing';
 import { getBlogPosts } from '../../lib/strapi';
 
@@ -31,7 +30,7 @@ export const metadata: Metadata = {
   },
 };
 
-export default async function BlogPage({ searchParams }: BlogPageProps) {
+export default async function BlogPage({ searchParams }: Readonly<BlogPageProps>) {
   const params = await searchParams;
   const page = parseInt(params.page || '1', 10);
   const search = params.search || '';
@@ -49,7 +48,6 @@ export default async function BlogPage({ searchParams }: BlogPageProps) {
     });
 
     return (
-      <Layout zeroHeaderMargin={true}>
         <BlogListing 
           initialPosts={response.data}
           pagination={response.meta.pagination}
@@ -58,14 +56,12 @@ export default async function BlogPage({ searchParams }: BlogPageProps) {
           categoryFilter={category}
           tagFilter={tag}
         />
-      </Layout>
     );
   } catch (error) {
     console.error('Error fetching blog posts:', error);
     
     // Return with empty data if fetch fails
     return (
-      <Layout zeroHeaderMargin={true}>
         <BlogListing 
           initialPosts={[]}
           pagination={{
@@ -80,7 +76,6 @@ export default async function BlogPage({ searchParams }: BlogPageProps) {
           tagFilter={tag}
           error="Failed to load blog posts. Please try again later."
         />
-      </Layout>
     );
   }
 } 

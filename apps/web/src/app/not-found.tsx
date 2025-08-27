@@ -1,7 +1,6 @@
 import React from 'react';
 import type { Metadata } from 'next';
 
-import Layout from '../components/Layout';
 import NotFoundButtons from '../components/NotFoundButtons';
 
 export const metadata: Metadata = {
@@ -11,7 +10,6 @@ export const metadata: Metadata = {
 
 export default function NotFound() {
   return (
-    <Layout>
       <div style={{
         minHeight: '60vh',
         display: 'flex',
@@ -89,6 +87,5 @@ export default function NotFound() {
           </div>
         </div>
       </div>
-    </Layout>
   );
 }

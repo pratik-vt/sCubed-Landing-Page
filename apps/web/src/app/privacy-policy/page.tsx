@@ -11,7 +11,7 @@ export const metadata: Metadata = {
 
 export default function PrivacyPage() {
   return (
-    <Layout>
+    <>
       <Heading>Privacy Policy</Heading>
       <Section>
         <h3>Privacy Notice</h3> SCubed including (without limitation) our
@@ -320,6 +320,6 @@ export default function PrivacyPage() {
         </a>
         .
       </Section>
-    </Layout>
+    </>
   );
 }

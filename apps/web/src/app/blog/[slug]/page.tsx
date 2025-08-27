@@ -2,9 +2,8 @@ import React from 'react';
 import { notFound } from 'next/navigation';
 import type { Metadata } from 'next';
 
-import Layout from '../../../components/Layout';
 import BlogArticle from '../../../components/Blog/BlogArticle';
-import { getBlogPost, getStrapiImageUrl, formatDate } from '../../../lib/strapi';
+import { getBlogPost, getStrapiImageUrl } from '../../../lib/strapi';
 
 interface BlogDetailPageProps {
   params: Promise<{
@@ -116,9 +115,7 @@ export default async function BlogDetailPage({ params }: BlogDetailPageProps) {
     console.log('Author avatar:', post.author?.avatar);
     
     return (
-      <Layout zeroHeaderMargin={true}>
         <BlogArticle post={post} />
-      </Layout>
     );
   } catch (error) {
     console.error('Error fetching blog post:', error);

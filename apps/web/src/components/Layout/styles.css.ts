@@ -14,17 +14,11 @@ export const contentStyle = style({
   position: 'relative',
   width: '80%',
   margin: '0 auto',
-  marginTop: '80px',
-  '@media': {
-    'screen and (max-width: 768px)': {
-      marginTop: '60px',
-    },
-  },
 });
 
-export const contentStyleZeroMargin = style({
+export const fullWidthContentStyle = style({
   position: 'relative',
-  width: '80%',
+  width: '100%',
   margin: '0 auto',
   marginTop: '0px',
 });
