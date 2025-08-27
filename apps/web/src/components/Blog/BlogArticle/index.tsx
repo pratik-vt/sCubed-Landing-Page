@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { Calendar, User, Clock, Share2, Check, Copy } from 'lucide-react';
@@ -75,6 +75,7 @@ interface BlogArticleProps {
 const BlogArticle: React.FC<BlogArticleProps> = ({ post }) => {
   const [copySuccess, setCopySuccess] = useState(false);
   const [avatarError, setAvatarError] = useState(false);
+  const [currentUrl, setCurrentUrl] = useState('');
 
   // Get post data
   const title = post.title;
@@ -91,6 +92,13 @@ const BlogArticle: React.FC<BlogArticleProps> = ({ post }) => {
   const categories = post.categories || [];
   const postTags = post.tags || [];
   const contentBlocks = post.content_blocks || [];
+
+  // Set current URL on client side
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      setCurrentUrl(window.location.href);
+    }
+  }, []);
 
   // Debug author data
   console.log('Author debug:', {
@@ -126,9 +134,9 @@ const BlogArticle: React.FC<BlogArticleProps> = ({ post }) => {
 
 
   const handleCopyLink = async () => {
-    if (typeof window !== 'undefined') {
+    if (currentUrl) {
       try {
-        await navigator.clipboard.writeText(window.location.href);
+        await navigator.clipboard.writeText(currentUrl);
         setCopySuccess(true);
         setTimeout(() => setCopySuccess(false), 2000);
       } catch (err) {
@@ -319,7 +327,7 @@ const BlogArticle: React.FC<BlogArticleProps> = ({ post }) => {
                       <div className={authorDetails}>
                         <h3 id="author-heading" className={authorName}>{authorName}</h3>
                         {authorPosition && (
-                          <p className={authorPosition}>{authorPosition}</p>
+                          <p className={authorPosition}><strong>{authorPosition}</strong></p>
                         )}
                         {authorBio && (
                           <p className={authorBio}>{authorBio}</p>
@@ -331,7 +339,7 @@ const BlogArticle: React.FC<BlogArticleProps> = ({ post }) => {
               )}
 
               {/* Enhanced Social Share */}
-              {post.social_share && (
+              {(post.social_share || true) && (
                 <div className={socialShare}>
                   <div className={shareHeader}>
                     <div>
@@ -364,19 +372,19 @@ const BlogArticle: React.FC<BlogArticleProps> = ({ post }) => {
                     </button>
 
                     <a
-                      href={`https://twitter.com/intent/tweet?text=${encodeURIComponent(title)}&url=${encodeURIComponent(typeof window !== 'undefined' ? window.location.href : '')}`}
+                      href={`https://twitter.com/intent/tweet?text=${encodeURIComponent(title)}&url=${encodeURIComponent(currentUrl || '#')}`}
                       target="_blank"
                       rel="noopener noreferrer"
                       className={twitterButton}
                     >
                       <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
-                        <path d="M23.953 4.57a10 10 0 01-2.825.775 4.958 4.958 0 002.163-2.723c-.951.555-2.005.959-3.127 1.184a4.92 4.92 0 00-8.384 4.482C7.69 8.095 4.067 6.13 1.64 3.162a4.822 4.822 0 00-.666 2.475c0 1.71.87 3.213 2.188 4.096a4.904 4.904 0 01-2.228-.616v.06a4.923 4.923 0 003.946 4.827 4.996 4.996 0 01-2.212.085 4.936 4.936 0 004.604 3.417 9.867 9.867 0 01-6.102 2.105c-.39 0-.779-.023-1.17-.067a13.995 13.995 0 007.557 2.209c9.053 0 13.998-7.496 13.998-13.985 0-.21 0-.42-.015-.63A9.935 9.935 0 0024 4.59z"/>
+                        <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
                       </svg>
-                      Twitter
+                      X (Twitter)
                     </a>
 
                     <a
-                      href={`https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(typeof window !== 'undefined' ? window.location.href : '')}`}
+                      href={`https://www.linkedin.com/shareArticle?mini=true&url=${encodeURIComponent(currentUrl || '#')}&title=${encodeURIComponent(title)}&summary=${encodeURIComponent(post.excerpt || '')}`}
                       target="_blank"
                       rel="noopener noreferrer"
                       className={linkedinButton}
@@ -388,7 +396,7 @@ const BlogArticle: React.FC<BlogArticleProps> = ({ post }) => {
                     </a>
 
                     <a
-                      href={`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(typeof window !== 'undefined' ? window.location.href : '')}`}
+                      href={`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(currentUrl || '#')}&quote=${encodeURIComponent(title + ' - ' + (post.excerpt || ''))}`}
                       target="_blank"
                       rel="noopener noreferrer"
                       className={facebookButton}
@@ -423,12 +431,12 @@ const BlogArticle: React.FC<BlogArticleProps> = ({ post }) => {
             )}
 
             {/* Related Posts Placeholder */}
-            <div className={relatedPosts}>
+            {/* <div className={relatedPosts}>
               <h3>Related Articles</h3>
               <div style={{ color: '#6b7280', fontSize: '0.875rem', marginTop: '1rem' }}>
                 Related articles will be available soon.
               </div>
-            </div>
+            </div> */}
           </aside>
         </div>
       </div>
