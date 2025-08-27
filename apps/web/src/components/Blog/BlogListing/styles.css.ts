@@ -316,7 +316,7 @@ export const postCard = style({
   display: 'flex',
   flexDirection: 'row',
   alignItems: 'stretch',
-  height: '320px', // Increased height for better meta visibility
+  height: '340px', // Increased height for better image display
   position: 'relative',
   
   ':hover': {
@@ -339,7 +339,7 @@ export const postCard = style({
   
   '@media': {
     '(max-width: 1024px)': {
-      height: '300px', // Increased from 260px
+      height: '340px', // Increased height for better image display on tablets
     },
     '(max-width: 768px)': {
       flexDirection: 'column',
@@ -359,11 +359,15 @@ export const postImage = style({
   
   '@media': {
     '(max-width: 1024px)': {
-      width: '250px',
+      width: '280px', // Increased width for better image display on tablets
     },
     '(max-width: 768px)': {
       width: '100%',
-      height: '200px', // Fixed height on mobile
+      height: '320px', // Slightly increased height on mobile for better proportion
+    },
+    '(max-width: 568px)': {
+      width: '100%',
+      height: '220px', // Slightly increased height on mobile for better proportion
     },
   },
 });
@@ -394,7 +398,7 @@ export const postContent = style({
   
   '@media': {
     '(max-width: 1024px)': {
-      padding: `${spacing.lg} ${spacing.lg} ${spacing.md}`, // Balanced padding on medium screens
+      padding: `${spacing.xl} ${spacing.lg} ${spacing.md}`, // Increased top padding for better balance with larger card
     },
     '(max-width: 768px)': {
       padding: spacing.lg,

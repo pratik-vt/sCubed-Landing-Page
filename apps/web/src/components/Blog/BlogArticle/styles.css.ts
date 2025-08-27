@@ -1,4 +1,4 @@
-import { style } from '@vanilla-extract/css';
+import { style, globalStyle } from '@vanilla-extract/css';
 
 import { colors, typography, spacing, shadows, radius } from '../../../styles/tokens.css';
 
@@ -427,6 +427,10 @@ export const authorDetails = style({
   flex: 1,
 });
 
+globalStyle(`${authorDetails} h3`, {
+  margin: 0,
+});
+
 export const authorName = style({
   fontSize: typography.fontSize['2xl'],
   fontWeight: typography.fontWeight.bold,
@@ -585,12 +589,13 @@ export const copySuccess = style({
   color: colors.accent.green,
 });
 
+// X (formerly Twitter) button
 export const twitterButton = style([socialButton, {
-  backgroundColor: '#1DA1F2',
+  backgroundColor: '#000000', // X's official black color
   color: colors.white,
   
   ':hover': {
-    backgroundColor: '#0d8bd9',
+    backgroundColor: '#333333',
   },
 }]);
 
