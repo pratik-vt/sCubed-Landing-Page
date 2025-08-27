@@ -2,6 +2,7 @@
 
 import React, { FC, useState, useEffect } from 'react';
 import { PopupModal } from 'react-calendly';
+import { useRouter } from 'next/navigation';
 
 import Button from '../Button/button';
 import { container, buttonStyle } from '../ModalForm/styles.css';
@@ -11,6 +12,7 @@ type Props = {
   buttonBackground: string;
   buttonWidth?: string;
   buttonText?: string;
+  navigateTo?: string;
 };
 
 const CalendlyWidget: FC<Props> = ({
@@ -18,7 +20,9 @@ const CalendlyWidget: FC<Props> = ({
   buttonBackground,
   buttonWidth,
   buttonText,
+  navigateTo,
 }) => {
+  const router = useRouter();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isClient, setIsClient] = useState(false);
   const [calendlyLoaded, setCalendlyLoaded] = useState(false);
@@ -28,8 +32,12 @@ const CalendlyWidget: FC<Props> = ({
   }, []);
 
   const handleOpenModal = () => {
-    setIsModalOpen(true);
-    setCalendlyLoaded(true);
+    if (navigateTo) {
+      router.push(navigateTo);
+    } else {
+      setIsModalOpen(true);
+      setCalendlyLoaded(true);
+    }
   };
 
   const calendlyUrl = process.env.NEXT_PUBLIC_CALENDLY_URL;

@@ -62,6 +62,9 @@ const Header: React.FC = () => {
         <CalendlyWidget
           buttonColor="rgb(51, 51, 51)"
           buttonBackground="#a0f5d1"
+          buttonText="BOOK A FREE DEMO"
+          buttonWidth="200px"
+          navigateTo="/get-started"
         />
       </div>
     </main>

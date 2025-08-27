@@ -30,7 +30,13 @@ const Hero: React.FC = () => {
             Ready to scale your business with our easy-to-use clinical and
             practice management platform?
           </p>
-          <CalendlyWidget buttonColor="#000" buttonBackground="#fff" />
+          <CalendlyWidget 
+            buttonColor="#000" 
+            buttonBackground="#fff" 
+            buttonText="BOOK A FREE DEMO"
+            buttonWidth="200px"
+            navigateTo="/get-started"
+          />
         </div>
       </div>
     </main>

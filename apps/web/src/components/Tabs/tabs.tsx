@@ -118,7 +118,9 @@ const Tabs: React.FC = () => {
                     <CalendlyWidget
                       buttonColor="#333"
                       buttonBackground="#66e3ed"
-                      buttonWidth="170px"
+                      buttonWidth="200px"
+                      buttonText="BOOK A FREE DEMO"
+                      navigateTo="/get-started"
                     />
                   </div>
                 </div>
@@ -147,7 +149,9 @@ const Tabs: React.FC = () => {
                 <CalendlyWidget
                   buttonColor="#333"
                   buttonBackground="#66e3ed"
-                  buttonWidth="170px"
+                  buttonWidth="200px"
+                  buttonText="BOOK A FREE DEMO"
+                  navigateTo="/get-started"
                 />
               </div>
             </div>
