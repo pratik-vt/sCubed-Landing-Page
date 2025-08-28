@@ -66,8 +66,6 @@ interface FormData {
   companyName: string;
   phoneNumber: string;
   state: string;
-  numberOfStaff: string;
-  disciplines: string;
   hasExperience: boolean;
   previousSoftware?: string;
   comments: string;
@@ -79,7 +77,6 @@ const MAX_LENGTHS = {
   lastName: 255,
   companyName: 255,
   state: 255,
-  disciplines: 255,
   softwareName: 255,
   comments: 1000,
 };
@@ -114,14 +111,6 @@ interface ApiErrorResponse {
   status_code: number;
 }
 
-const staffSizes = [
-  '1-5 employees',
-  '6-15 employees',
-  '16-30 employees',
-  '31-50 employees',
-  '51-100 employees',
-  '100+ employees',
-];
 
 const GetStartedForm: React.FC = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -197,8 +186,6 @@ const GetStartedForm: React.FC = () => {
       phone_number: 'phoneNumber',
       email_id: 'email',
       state: 'state',
-      specialities: 'disciplines',
-      staff: 'numberOfStaff',
       other_software_experience: 'previousSoftware',
       software_name: 'previousSoftware',
       comments: 'comments',
@@ -219,10 +206,8 @@ const GetStartedForm: React.FC = () => {
       phone_number: data.phoneNumber,
       email_id: data.email,
       state: data.state,
-      specialities: data.disciplines || '',
-      staff: data.numberOfStaff
-        ? parseInt(data.numberOfStaff.split('-')[0])
-        : 0,
+      specialities: '',
+      staff: 0,
       other_software_experience: data.hasExperience,
       software_name: data.previousSoftware || '',
       comments: data.comments || '',
@@ -843,47 +828,6 @@ const GetStartedForm: React.FC = () => {
                       </div>
                     </div>
 
-                    {/* Number of Staff and Disciplines */}
-                    <div className={twoColumnGrid}>
-                      <div className={formGroup}>
-                        <label className={labelStyle}>Number of Staff</label>
-                        <select
-                          className={selectStyle}
-                          {...register('numberOfStaff')}
-                        >
-                          <option value="" style={{ color: '#9ca3af' }}>
-                            Select team size
-                          </option>
-                          {staffSizes.map((size) => (
-                            <option key={size} value={size}>
-                              {size}
-                            </option>
-                          ))}
-                        </select>
-                        {renderFieldError(
-                          errors.numberOfStaff,
-                          'numberOfStaff',
-                        )}
-                      </div>
-
-                      <div className={formGroup}>
-                        <label className={labelStyle}>
-                          Disciplines/Specialties
-                        </label>
-                        <input
-                          type="text"
-                          className={inputStyle}
-                          placeholder="ABA, OT, PT, Speech, etc."
-                          {...register('disciplines', {
-                            maxLength: {
-                              value: MAX_LENGTHS.disciplines,
-                              message: `Disciplines must not exceed ${MAX_LENGTHS.disciplines} characters`,
-                            },
-                          })}
-                        />
-                        {renderFieldError(errors.disciplines, 'disciplines')}
-                      </div>
-                    </div>
 
                     {/* Software Experience and Comments */}
                     <div className={twoColumnGrid}>

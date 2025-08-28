@@ -315,7 +315,7 @@ export const contactCard = style({
 });
 
 export const contactCardHeader = style({
-  padding: '1rem 1rem 0.5rem 1rem',
+  padding: '0.625rem 0.75rem 0.25rem 0.75rem',
   display: 'flex',
   alignItems: 'center',
   justifyContent: 'center',
@@ -328,52 +328,52 @@ export const contactCardHeader = style({
   '@media': {
     // Large screens (1025px+) - Desktop
     '(min-width: 1025px)': {
-      padding: '1.25rem 1.25rem 0.625rem 1.25rem',
+      padding: '0.75rem 0.875rem 0.375rem 0.875rem',
       fontSize: '1.25rem',
     },
     // Medium-Large screens (769px-1024px) - Small laptops/large tablets
     '(max-width: 1024px) and (min-width: 769px)': {
-      padding: '1.125rem 1.125rem 0.5rem 1.125rem',
+      padding: '0.625rem 0.75rem 0.25rem 0.75rem',
       fontSize: '1.125rem',
     },
     // Medium screens (481px-768px) - Tablets
     '(max-width: 768px) and (min-width: 481px)': {
-      padding: '1rem 1rem 0.5rem 1rem',
+      padding: '0.5rem 0.625rem 0.25rem 0.625rem',
       fontSize: '1.125rem',
     },
     // Small screens (320px-480px) - Phones
     '(max-width: 480px)': {
-      padding: '0.875rem 0.875rem 0.375rem 0.875rem',
+      padding: '0.5rem 0.5rem 0.25rem 0.5rem',
       fontSize: '1rem',
     },
   },
 });
 
 export const contactCardContent = style({
-  padding: '0 1rem 1rem 1rem',
+  padding: '0 0.75rem 0.625rem 0.75rem',
   display: 'flex',
   flexDirection: 'column',
-  gap: '0.75rem',
+  gap: '0.5rem',
   '@media': {
     // Large screens (1025px+) - Desktop
     '(min-width: 1025px)': {
-      padding: '0 1.25rem 1.25rem 1.25rem',
-      gap: '0.875rem',
+      padding: '0 0.875rem 0.75rem 0.875rem',
+      gap: '0.625rem',
     },
     // Medium-Large screens (769px-1024px) - Small laptops/large tablets
     '(max-width: 1024px) and (min-width: 769px)': {
-      padding: '0 1.125rem 1.125rem 1.125rem',
-      gap: '0.75rem',
+      padding: '0 0.75rem 0.625rem 0.75rem',
+      gap: '0.5rem',
     },
     // Medium screens (481px-768px) - Tablets
     '(max-width: 768px) and (min-width: 481px)': {
-      padding: '0 1rem 1rem 1rem',
-      gap: '0.75rem',
+      padding: '0 0.625rem 0.5rem 0.625rem',
+      gap: '0.5rem',
     },
     // Small screens (320px-480px) - Phones
     '(max-width: 480px)': {
-      padding: '0 0.875rem 0.875rem 0.875rem',
-      gap: '0.625rem',
+      padding: '0 0.5rem 0.5rem 0.5rem',
+      gap: '0.375rem',
     },
   },
 });
@@ -381,8 +381,8 @@ export const contactCardContent = style({
 export const contactItem = style({
   display: 'flex',
   alignItems: 'center',
-  gap: '0.5rem',
-  padding: '0.625rem 0.625rem',
+  gap: '0.375rem',
+  padding: '0.375rem 0.5rem',
   borderRadius: '0.75rem',
   transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
   cursor: 'pointer',
@@ -400,23 +400,23 @@ export const contactItem = style({
   '@media': {
     // Large screens (1025px+) - Desktop
     '(min-width: 1025px)': {
-      padding: '0.75rem 0.75rem',
-      gap: '0.625rem',
+      padding: '0.5rem 0.625rem',
+      gap: '0.5rem',
     },
     // Medium-Large screens (769px-1024px) - Small laptops/large tablets
     '(max-width: 1024px) and (min-width: 769px)': {
-      padding: '0.625rem 0.625rem',
-      gap: '0.5rem',
+      padding: '0.375rem 0.5rem',
+      gap: '0.375rem',
     },
     // Medium screens (481px-768px) - Tablets
     '(max-width: 768px) and (min-width: 481px)': {
-      padding: '0.75rem 0.625rem',
-      gap: '0.625rem',
+      padding: '0.5rem 0.5rem',
+      gap: '0.5rem',
     },
     // Small screens (320px-480px) - Phones
     '(max-width: 480px)': {
-      padding: '0.875rem 0.75rem',
-      gap: '0.75rem',
+      padding: '0.625rem 0.5rem',
+      gap: '0.5rem',
       fontSize: '0.875rem',
     },
   },
