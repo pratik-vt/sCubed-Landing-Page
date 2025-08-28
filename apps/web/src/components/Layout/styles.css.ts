@@ -4,7 +4,7 @@ export const headerWrapperStyles = style({
   width: '100%',
   position: 'sticky',
   top: 0,
-  zIndex: 10,
+  zIndex: 100,
   borderBottom: '1px solid #ededef',
   transition: 'background-color 0.3s ease',
   backgroundColor: '#fff',

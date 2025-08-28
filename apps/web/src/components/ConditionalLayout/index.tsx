@@ -17,10 +17,16 @@ export default function ConditionalLayout({ children }: Readonly<ConditionalLayo
                          pathname.startsWith('/blog/') || 
                          pathname === '/privacy-policy' || 
                          pathname === '/terms-conditions' ||
-                         pathname === '/get-started';
+                         pathname === '/get-started' ||
+                         pathname === '/billing' ||
+                         pathname === '/features' ||
+                         pathname === '/guardian-portal';
   
   // Determine if the page should use full width layout
-  const shouldUseFullWidth = pathname === '/get-started';
+  const shouldUseFullWidth = pathname === '/get-started' || 
+                            pathname === '/billing' || 
+                            pathname === '/features' || 
+                            pathname === '/guardian-portal';
   
   if (shouldUseLayout) {
     return <Layout fullWidth={shouldUseFullWidth}>{children}</Layout>;

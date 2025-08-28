@@ -1,17 +1,16 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
 import Image from 'next/image';
+import React, { useEffect, useState } from 'react';
 
-// import Button from '../Button/button';
-import { headingStyle, descStyle } from '../Container/style.css';
-import CalendlyWidget from '../CalendlyWidget';
-import Navigation from '../Navigation';
 import banner from '../../images/Banner.jpg';
+import CalendlyWidget from '../CalendlyWidget';
+import { descStyle, headingStyle } from '../Container/style.css';
+import Navigation from '../Navigation';
 
 import {
-  headerWrapperStyles,
   bannerImg,
+  headerWrapperStyles,
   pageStyles,
   textBlockStyle,
 } from './styles.css';

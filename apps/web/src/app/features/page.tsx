@@ -3,8 +3,6 @@ import type { Metadata } from 'next';
 import Container from '../../components/Container';
 import CTAFeatures from '../../components/features/CTAFeatures';
 import FeaturesComprehensive from '../../components/features/FeaturesComprehensive';
-import Footer from '../../components/Footer/footer';
-import HeaderSimple from '../../components/features/HeaderSimple';
 import HeroFeatures from '../../components/features/HeroFeatures';
 
 export const metadata: Metadata = {
@@ -16,11 +14,9 @@ export const metadata: Metadata = {
 export default function FeaturesPage() {
   return (
     <Container>
-      <HeaderSimple />
       <HeroFeatures />
       <FeaturesComprehensive />
       <CTAFeatures />
-      <Footer />
     </Container>
   );
 }

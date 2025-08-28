@@ -1,18 +1,17 @@
 'use client';
 
 import { format } from '@react-input/mask';
-import Link from 'next/link';
-import Image from 'next/image';
 import { Mail, Phone } from 'lucide-react';
-import React, { useEffect, useState } from 'react';
+import Image from 'next/image';
+import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
+import React, { useEffect, useState } from 'react';
 
 import desktopLogoImg from '../../images/HeaderLogo.png';
 import mobileLogoImg from '../../images/scubed-logo-small.png';
 
 import {
   activeLinkStyle,
-  activeNavStyle,
   bar,
   centerText,
   closeButtonWrapper,
@@ -35,7 +34,7 @@ import {
   navMenuOpen,
   navStyle,
   socialIconWrapper,
-  socialIconsContainer,
+  socialIconsContainer
 } from './styles.css';
 
 const Navigation: React.FC = () => {
@@ -80,6 +79,11 @@ const Navigation: React.FC = () => {
       document.body.style.removeProperty('top');
     };
   }, [menuOpen]);
+
+  // Close menu when pathname changes
+  useEffect(() => {
+    setMenuOpen(false);
+  }, [pathname]);
 
   const toggleMenu = () => setMenuOpen(!menuOpen);
 
@@ -190,7 +194,14 @@ const Navigation: React.FC = () => {
         </div>
       </div>
       <div className={headerContentStyles}>
-        <div className={logoOuter} onClick={() => router.push('/')}>
+        <div 
+          className={logoOuter} 
+          onClick={() => router.push('/')} 
+          onKeyDown={(e) => e.key === 'Enter' && router.push('/')}
+          tabIndex={0}
+          role="button"
+          aria-label="Go to homepage"
+        >
           <div className={desktopLogo}>
             <Image alt="S Cubed" src={desktopLogoImg} quality={100} placeholder="blur" />
           </div>
@@ -246,13 +257,27 @@ const Navigation: React.FC = () => {
           </button>
         </nav>
         {!menuOpen ? (
-          <div className={hamburger} onClick={toggleMenu}>
+          <div 
+            className={hamburger} 
+            onClick={toggleMenu}
+            onKeyDown={(e) => e.key === 'Enter' && toggleMenu()}
+            tabIndex={0}
+            role="button"
+            aria-label="Open menu"
+          >
             {[...Array(3)].map((_, index) => (
               <div key={index} className={bar}></div>
             ))}
           </div>
         ) : (
-          <div className={closeButtonWrapper} onClick={toggleMenu}>
+          <div 
+            className={closeButtonWrapper} 
+            onClick={toggleMenu}
+            onKeyDown={(e) => e.key === 'Enter' && toggleMenu()}
+            tabIndex={0}
+            role="button"
+            aria-label="Close menu"
+          >
             <div className={crossLine1}>
               <div className={crossLine2}></div>
             </div>

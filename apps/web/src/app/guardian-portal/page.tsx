@@ -2,8 +2,6 @@ import type { Metadata } from 'next';
 
 import Container from '../../components/Container';
 import FAQSection from '../../components/FAQSection';
-import Footer from '../../components/Footer/footer';
-import HeaderSimple from '../../components/features/HeaderSimple';
 import GuardianBenefits from '../../components/guardian-portal/GuardianBenefits';
 import GuardianCTA from '../../components/guardian-portal/GuardianCTA';
 import GuardianHero from '../../components/guardian-portal/GuardianHero';
@@ -117,7 +115,6 @@ export default async function GuardianPortalPage() {
 
   return (
     <Container>
-      <HeaderSimple />
       <GuardianHero />
       <GuardianIntroduction />
       <GuardianBenefits />
@@ -133,7 +130,6 @@ export default async function GuardianPortalPage() {
           ))}
       
       <GuardianCTA />
-      <Footer />
     </Container>
   );
 }

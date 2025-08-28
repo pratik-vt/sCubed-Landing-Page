@@ -2,13 +2,11 @@ import type { Metadata } from 'next';
 
 import Container from '../../components/Container';
 import FAQSection from '../../components/FAQSection';
-import Footer from '../../components/Footer/footer';
 import BillingCTA from '../../components/billing/BillingCTA';
 import BillingFeatures from '../../components/billing/BillingFeatures';
 import BillingHero from '../../components/billing/BillingHero';
 import BillingKeyFeatures from '../../components/billing/BillingKeyFeatures';
 import BillingWorkflow from '../../components/billing/BillingWorkflow';
-import HeaderSimple from '../../components/features/HeaderSimple';
 import { getFAQCollection, transformFAQData } from '../../lib/faq-api';
 
 export const metadata: Metadata = {
@@ -67,7 +65,6 @@ export default async function BillingPage() {
 
   return (
     <Container>
-      <HeaderSimple />
       <BillingHero />
       <BillingFeatures />
       <BillingWorkflow />
@@ -83,7 +80,6 @@ export default async function BillingPage() {
       ))}
       
       <BillingCTA />
-      <Footer />
     </Container>
   );
 }

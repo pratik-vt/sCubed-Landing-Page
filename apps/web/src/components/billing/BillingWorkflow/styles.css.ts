@@ -100,7 +100,7 @@ export const navigationButton = style({
   alignItems: 'center',
   justifyContent: 'center',
   cursor: 'pointer',
-  zIndex: 20,
+  zIndex: 5,
   color: colors.neutral[600],
   boxShadow: '0 4px 12px rgba(0, 0, 0, 0.1)',
   transition: 'all 0.3s ease',
@@ -215,7 +215,7 @@ export const workflowNumber = style({
   fontFamily: typography.fontFamily.heading,
   boxShadow: `0 3px 12px rgba(122, 126, 237, 0.4)`, // Enhanced shadow
   border: `2px solid ${colors.white}`, // White border for better contrast
-  zIndex: 10, // Ensure it's above other content
+  zIndex: 5, // Ensure it's above other content
   transition: 'all 0.3s ease',
 });
 

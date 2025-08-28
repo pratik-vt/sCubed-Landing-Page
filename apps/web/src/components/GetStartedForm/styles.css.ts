@@ -4,7 +4,6 @@ import { colors } from '../../styles/tokens.css';
 
 // Global styles to prevent horizontal scrolling
 globalStyle('html, body', {
-  overflowX: 'hidden',
   maxWidth: '100vw',
   width: '100%',
   boxSizing: 'border-box',
@@ -26,7 +25,6 @@ globalStyle('div, section, article, main, header, nav, form', {
 // Specific fix for containers that might overflow
 globalStyle('[class*="Container"], [class*="container"], [class*="wrapper"], [class*="Wrapper"]', {
   maxWidth: '100%',
-  overflowX: 'hidden',
   boxSizing: 'border-box',
 });
 
@@ -45,7 +43,6 @@ globalStyle('[style*="width"]', {
 globalStyle('#__next, [id*="root"]', {
   width: '100%',
   maxWidth: '100vw',
-  overflowX: 'hidden',
   boxSizing: 'border-box',
 });
 
@@ -83,7 +80,6 @@ export const pageWrapper = style({
   minHeight: '100vh',
   width: '100%',
   maxWidth: '100vw',
-  overflowX: 'hidden',
   boxSizing: 'border-box',
 });
 
