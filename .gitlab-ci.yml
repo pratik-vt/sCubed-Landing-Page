@@ -54,9 +54,9 @@ deploy_to_ec2_prod:
         echo 'DATABASE_CLIENT=$DATABASE_CLIENT' > .env &&
         echo 'DATABASE_HOST=$DATABASE_HOST' >> .env &&
         echo 'DATABASE_PORT=$DATABASE_PORT' >> .env &&
-        echo 'DATABASE_NAME=$DATABASE_NAME' >> .env &&
-        echo 'DATABASE_USERNAME=$DATABASE_USERNAME' >> .env &&
-        echo 'DATABASE_PASSWORD=$DATABASE_PASSWORD' >> .env &&
+        echo 'DATABASE_NAME=$DATABASE_NAME_PROD' >> .env &&
+        echo 'DATABASE_USERNAME=$DATABASE_USERNAME_PROD' >> .env &&
+        echo 'DATABASE_PASSWORD=$DATABASE_PASSWORD_PROD' >> .env &&
         echo 'DATABASE_SSL=$DATABASE_SSL' >> .env &&
         echo 'DATABASE_SCHEMA=$DATABASE_SCHEMA' >> .env &&
         echo 'APP_KEYS=$APP_KEYS' >> .env &&
