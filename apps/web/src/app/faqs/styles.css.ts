@@ -7,20 +7,10 @@ export const heroSection = style({
   position: 'relative',
   width: '100%',
   marginTop: '0px',
-  paddingTop: `calc(${spacing.md} + 107px)`,
   paddingBottom: '0',
   background: `linear-gradient(135deg, ${colors.primary[50]} 0%, ${colors.white} 100%)`,
   borderBottom: `1px solid ${colors.neutral[100]}`,
   overflow: 'hidden',
-  '@media': {
-    'screen and (max-width: 820px)': {
-      paddingTop: `calc(${spacing.sm} + 100px)`,
-    },
-    'screen and (max-width: 768px)': {
-      paddingBottom: '0',
-      paddingTop: `calc(${spacing.sm} + 120px)`,
-    },
-  },
 });
 
 export const heroContainer = style({

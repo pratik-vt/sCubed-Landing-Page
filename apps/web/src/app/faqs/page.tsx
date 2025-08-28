@@ -14,7 +14,6 @@ import {
   heroContainer,
   heroContent,
   heroDescription,
-  heroSection,
   heroSubtitle,
   heroTitle,
   heroTitleHighlight,
@@ -25,12 +24,9 @@ import {
   sectionExpanded,
   sectionHeader,
   sectionTitle,
-  wrapper,
+  wrapper
 } from './styles.css';
 
-import Container from '@/components/Container';
-import HeaderSimple from '@/components/features/HeaderSimple';
-import Footer from '@/components/Footer/footer';
 
 // FAQ data structure
 const faqData = {
@@ -111,7 +107,7 @@ const faqData = {
       name: 'Management of Clinics at Multiple Locations',
       items: [
         {
-          question: 'Can I enroll my multiple clinics on S Cubed (OR What about multiple clinics or locations)?',
+          question: 'Can I enroll my multiple clinics on S Cubed?',
           answer: (
             <>
               <strong>Absolutely!</strong> S Cubed lets you manage <strong>multiple clinic locations</strong> from <strong>one account</strong>, keeping everything organized and accessible in <strong>one portal</strong>.
@@ -359,9 +355,8 @@ export default function FAQPage() {
   };
 
   return (
-    <Container>
-      <HeaderSimple />
-      <div className={heroSection}>
+    <>
+      
         <div className={heroContainer}>
           <div className={heroContent}>
             <h1 className={heroTitle}>
@@ -376,7 +371,7 @@ export default function FAQPage() {
             </p>
           </div>
         </div>
-      </div>
+      
       
       <div className={container}>
         <div className={wrapper}>
@@ -476,7 +471,6 @@ export default function FAQPage() {
           </div>
         </div>
       </div>
-      <Footer />
-    </Container>
+    </>
   );
 }

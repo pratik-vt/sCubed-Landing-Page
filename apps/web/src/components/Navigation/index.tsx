@@ -58,13 +58,26 @@ const Navigation: React.FC = () => {
 
   useEffect(() => {
     if (menuOpen) {
+      // Prevent scrolling on body
       document.body.style.overflow = 'hidden';
+      document.body.style.position = 'fixed';
+      document.body.style.width = '100%';
+      document.body.style.top = `-${window.scrollY}px`;
     } else {
+      // Restore body scroll
+      const scrollY = document.body.style.top;
       document.body.style.removeProperty('overflow');
+      document.body.style.removeProperty('position');
+      document.body.style.removeProperty('width');
+      document.body.style.removeProperty('top');
+      window.scrollTo(0, parseInt(scrollY || '0') * -1);
     }
 
     return () => {
       document.body.style.removeProperty('overflow');
+      document.body.style.removeProperty('position');
+      document.body.style.removeProperty('width');
+      document.body.style.removeProperty('top');
     };
   }, [menuOpen]);
 

@@ -77,8 +77,6 @@ const scaleIn = keyframes({
 
 // Main layout styles
 export const pageWrapper = style({
-  marginTop: '-45px',
-  paddingTop: '125px',
   fontFamily:
     'Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif',
   animation: `${fadeIn} 0.6s ease-out`,
@@ -87,28 +85,6 @@ export const pageWrapper = style({
   maxWidth: '100vw',
   overflowX: 'hidden',
   boxSizing: 'border-box',
-  '@media': {
-    // Large screens (1025px+) - Desktop
-    '(min-width: 1025px)': {
-      marginTop: '-45px',
-      paddingTop: '125px',
-    },
-    // Medium-Large screens (769px-1024px) - Small laptops/large tablets
-    '(max-width: 1024px) and (min-width: 769px)': {
-      marginTop: '-50px',
-      paddingTop: '130px',
-    },
-    // Medium screens (481px-768px) - Tablets
-    '(max-width: 768px) and (min-width: 481px)': {
-      marginTop: '-70px',
-      paddingTop: '150px',
-    },
-    // Small screens (320px-480px) - Phones
-    '(max-width: 480px)': {
-      marginTop: '-100px',
-      paddingTop: '180px',
-    },
-  },
 });
 
 export const backgroundContainer = style({
