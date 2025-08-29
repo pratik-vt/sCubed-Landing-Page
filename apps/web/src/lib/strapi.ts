@@ -1,4 +1,4 @@
-const STRAPI_URL = process.env.STRAPI_URL || process.env.NEXT_PUBLIC_STRAPI_URL || 'http://localhost:1337';
+const STRAPI_URL = process.env.STRAPI_URL || process.env.NEXT_PUBLIC_STRAPI_URL || 'https://cms.scubed.io';
 const STRAPI_TOKEN = process.env.STRAPI_TOKEN;
 
 // Base fetch function with error handling
