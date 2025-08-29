@@ -37,6 +37,11 @@ export async function generateMetadata({ params }: BlogDetailPageProps): Promise
     // Get featured image URL for social sharing
     const imageUrl = getStrapiImageUrl(post.featured_image || post.hero_image);
     
+    // Build absolute URLs for social sharing
+    const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://scubed.io';
+    const absoluteUrl = `${baseUrl}/blog/${slug}`;
+    const absoluteImageUrl = imageUrl && !imageUrl.startsWith('http') ? `${baseUrl}${imageUrl}` : imageUrl;
+    
     // Build author name
     const authorName = post.author?.name || 'S Cubed Team';
     
@@ -54,14 +59,16 @@ export async function generateMetadata({ params }: BlogDetailPageProps): Promise
         title,
         description,
         type: 'article',
+        url: absoluteUrl,
+        siteName: 'S Cubed',
         publishedTime: post.publishedAt,
         modifiedTime: post.updatedAt,
         authors: [authorName],
         tags: post.tags?.map(tag => tag.name) || [],
-        ...(imageUrl && {
+        ...(absoluteImageUrl && {
           images: [
             {
-              url: imageUrl,
+              url: absoluteImageUrl,
               width: post.featured_image?.width || post.hero_image?.width || 1200,
               height: post.featured_image?.height || post.hero_image?.height || 630,
               alt: post.featured_image?.alternativeText || post.hero_image?.alternativeText || post.title,
@@ -73,17 +80,24 @@ export async function generateMetadata({ params }: BlogDetailPageProps): Promise
         card: 'summary_large_image',
         title,
         description,
-        ...(imageUrl && {
-          images: [imageUrl],
+        site: '@scubed_solutions',
+        creator: '@scubed_solutions',
+        ...(absoluteImageUrl && {
+          images: [absoluteImageUrl],
         }),
       },
-      // Structured data for rich snippets
+      // Structured data for rich snippets and LinkedIn compatibility
       other: {
         'article:author': authorName,
         'article:published_time': post.publishedAt,
         'article:modified_time': post.updatedAt,
         'article:section': categories,
         'article:tag': tags,
+        // LinkedIn specific meta tags
+        'og:site_name': 'S Cubed',
+        'og:locale': 'en_US',
+        // Ensure proper URL is set for LinkedIn
+        'og:url': absoluteUrl,
       },
     };
 

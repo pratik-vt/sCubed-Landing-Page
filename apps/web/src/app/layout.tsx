@@ -27,6 +27,15 @@ export const metadata: Metadata = {
     shortcut: '/favicon.ico',
     apple: '/apple-icon.png',
   },
+  openGraph: {
+    siteName: 'S Cubed',
+    locale: 'en_US',
+    type: 'website',
+  },
+  twitter: {
+    site: '@scubed_solutions',
+    creator: '@scubed_solutions',
+  },
   // Block indexing for staging and development environments
   ...(shouldBlockIndexing && {
     robots: {

@@ -93,6 +93,10 @@ const BlogArticle: React.FC<BlogArticleProps> = ({ post }) => {
   const postTags = post.tags || [];
   const contentBlocks = post.content_blocks || [];
 
+  // Fallback URL construction for social sharing
+  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://scubed.io';
+  const fallbackUrl = `${baseUrl}/blog/${post.slug}`;
+
   // Set current URL on client side
   useEffect(() => {
     if (typeof window !== 'undefined') {
@@ -134,9 +138,10 @@ const BlogArticle: React.FC<BlogArticleProps> = ({ post }) => {
 
 
   const handleCopyLink = async () => {
-    if (currentUrl) {
+    const urlToCopy = currentUrl || fallbackUrl;
+    if (urlToCopy) {
       try {
-        await navigator.clipboard.writeText(currentUrl);
+        await navigator.clipboard.writeText(urlToCopy);
         setCopySuccess(true);
         setTimeout(() => setCopySuccess(false), 2000);
       } catch (err) {
@@ -372,7 +377,7 @@ const BlogArticle: React.FC<BlogArticleProps> = ({ post }) => {
                     </button>
 
                     <a
-                      href={`https://twitter.com/intent/tweet?text=${encodeURIComponent(title)}&url=${encodeURIComponent(currentUrl || '#')}`}
+                      href={`https://twitter.com/intent/tweet?text=${encodeURIComponent(title)}&url=${encodeURIComponent(currentUrl || fallbackUrl)}&via=scubed_solutions`}
                       target="_blank"
                       rel="noopener noreferrer"
                       className={twitterButton}
@@ -384,7 +389,7 @@ const BlogArticle: React.FC<BlogArticleProps> = ({ post }) => {
                     </a>
 
                     <a
-                      href={`https://www.linkedin.com/shareArticle?mini=true&url=${encodeURIComponent(currentUrl || '#')}&title=${encodeURIComponent(title)}&summary=${encodeURIComponent(post.excerpt || '')}`}
+                      href={`https://www.linkedin.com/shareArticle?mini=true&url=${encodeURIComponent(currentUrl || fallbackUrl)}&title=${encodeURIComponent(title)}&summary=${encodeURIComponent(post.excerpt || post.meta_description || '')}&source=${encodeURIComponent('S Cubed')}`}
                       target="_blank"
                       rel="noopener noreferrer"
                       className={linkedinButton}
@@ -396,7 +401,7 @@ const BlogArticle: React.FC<BlogArticleProps> = ({ post }) => {
                     </a>
 
                     <a
-                      href={`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(currentUrl || '#')}&quote=${encodeURIComponent(title + ' - ' + (post.excerpt || ''))}`}
+                      href={`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(currentUrl || fallbackUrl)}&quote=${encodeURIComponent(title + ' - ' + (post.excerpt || post.meta_description || ''))}`}
                       target="_blank"
                       rel="noopener noreferrer"
                       className={facebookButton}
