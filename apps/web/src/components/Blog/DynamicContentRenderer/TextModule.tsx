@@ -4,6 +4,17 @@ import remarkGfm from 'remark-gfm';
 import rehypeRaw from 'rehype-raw';
 import type { Components } from 'react-markdown';
 
+import {
+  tableWrapper,
+  table,
+  tableHeader,
+  headerCell,
+  tableBody,
+  bodyRow,
+  bodyCell,
+  cellContent,
+} from './table.css';
+
 // Type for component props
 type ComponentProps = {
   children?: React.ReactNode;
@@ -220,27 +231,39 @@ const TextModule: React.FC<TextModuleProps> = ({ data, blockIndex = 0 }) => {
         {children}
       </mark>
     ),
-    // Custom table styles
+    // Enhanced table styles with custom CSS
     table: ({ children, ...props }: ComponentProps) => (
-      <div className="overflow-x-auto my-6">
-        <table className="min-w-full border border-gray-200 rounded-lg" {...props}>
+      <div className={tableWrapper}>
+        <table className={table} {...props}>
           {children}
         </table>
       </div>
     ),
     thead: ({ children, ...props }: ComponentProps) => (
-      <thead className="bg-gray-50" {...props}>
+      <thead className={tableHeader} {...props}>
         {children}
       </thead>
     ),
     th: ({ children, ...props }: ComponentProps) => (
-      <th className="px-4 py-3 text-left text-sm font-semibold text-gray-900 border-b border-gray-200" {...props}>
+      <th className={headerCell} {...props}>
         {children}
       </th>
     ),
-    td: ({ children, ...props }: ComponentProps) => (
-      <td className="px-4 py-3 text-sm text-gray-700 border-b border-gray-200" {...props}>
+    tbody: ({ children, ...props }: ComponentProps) => (
+      <tbody className={tableBody} {...props}>
         {children}
+      </tbody>
+    ),
+    tr: ({ children, ...props }: ComponentProps) => (
+      <tr className={bodyRow} {...props}>
+        {children}
+      </tr>
+    ),
+    td: ({ children, ...props }: ComponentProps) => (
+      <td className={bodyCell} {...props}>
+        <div className={cellContent}>
+          {children}
+        </div>
       </td>
     ),
   };
