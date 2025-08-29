@@ -2,12 +2,12 @@
 
 import { InputMask } from '@react-input/mask';
 import {
-  AlertCircle,
-  CheckCircle,
-  Globe,
-  Linkedin,
-  Mail,
-  Phone,
+    AlertCircle,
+    CheckCircle,
+    Globe,
+    Linkedin,
+    Mail,
+    Phone,
 } from 'lucide-react';
 import React, { useEffect, useState } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
@@ -18,45 +18,45 @@ import CalendlyButton from '../billing/CalendlyButton';
 import { primaryButton } from '../billing/CalendlyButton/styles.css';
 
 import {
-  backgroundContainer,
-  backgroundDecorative,
-  bottomHelperText,
-  cardContainer,
-  cardContent,
-  cardHeader,
-  checkboxHelperText,
-  checkboxInput,
-  checkboxLabel,
-  checkboxRow,
-  checkboxSection,
-  contactCard,
-  contactCardContent,
-  contactCardHeader,
-  contactItem,
-  contactSection,
-  errorMessage,
-  formContainer,
-  formGroup,
-  formTitle,
-  gridContainer,
-  infoBox,
-  infoBoxText,
-  inputStyle,
-  labelStyle,
-  leftPanel,
-  loadingSpinner,
-  mainContainer,
-  pageWrapper,
-  requiredMark,
-  rightPanel,
-  selectStyle,
-  submitButton,
-  successMessage,
-  successText,
-  successTitle,
-  textareaStyle,
-  titleGradient,
-  twoColumnGrid,
+    backgroundContainer,
+    backgroundDecorative,
+    bottomHelperText,
+    cardContainer,
+    cardContent,
+    cardHeader,
+    checkboxHelperText,
+    checkboxInput,
+    checkboxLabel,
+    checkboxRow,
+    checkboxSection,
+    contactCard,
+    contactCardContent,
+    contactCardHeader,
+    contactItem,
+    contactSection,
+    errorMessage,
+    formContainer,
+    formGroup,
+    formTitle,
+    gridContainer,
+    infoBox,
+    infoBoxText,
+    inputStyle,
+    labelStyle,
+    leftPanel,
+    loadingSpinner,
+    mainContainer,
+    pageWrapper,
+    requiredMark,
+    rightPanel,
+    selectStyle,
+    submitButton,
+    successMessage,
+    successText,
+    successTitle,
+    textareaStyle,
+    titleGradient,
+    twoColumnGrid,
 } from './styles.css';
 
 interface FormData {
@@ -495,7 +495,7 @@ const GetStartedForm: React.FC = () => {
                     </div>
                   </a>
                   <a
-                    href="https://www.scubed.io"
+                    href="https://scubed.io"
                     target="_blank"
                     rel="noopener noreferrer"
                     className={contactItem}
@@ -543,9 +543,9 @@ const GetStartedForm: React.FC = () => {
                           color: '#1f2937',
                           fontSize: '1rem',
                         }}
-                        title="www.scubed.io"
+                        title="https://scubed.io"
                       >
-                        www.scubed.io
+                        https://scubed.io
                       </span>
                     </div>
                   </a>
