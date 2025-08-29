@@ -7,7 +7,8 @@ export default (config: UserConfig) => {
       allowedHosts: [
         'localhost',
         '127.0.0.1',
-        'dev-strapi.scubed.io'
+        'dev-strapi.scubed.io',
+        'cms.scubed.io'
       ]
     },
     resolve: {
