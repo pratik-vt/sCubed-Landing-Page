@@ -66,7 +66,7 @@ deploy_to_ec2_prod:
         echo 'AWS_REGION=$AWS_REGION' >> .env &&
         echo 'AWS_S3_BUCKET=$AWS_S3_BUCKET_PROD' >> .env &&
         npm install &&
-        NODE_ENV=production npm run build &&
+        NODE_ENV=production NODE_OPTIONS='--max-old-space-size=4096' npm run build &&
         pm2 restart strapi-prod || pm2 start npm --name strapi-prod -- run start
       "
   when: manual
