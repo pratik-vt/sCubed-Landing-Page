@@ -127,10 +127,6 @@ export default async function BlogDetailPage({ params }: BlogDetailPageProps) {
     // Build the current URL for the schema
     const currentUrl = `${process.env.NEXT_PUBLIC_SITE_URL || 'https://scubed.io'}/blog/${slug}`;
     
-    // Debug the post data structure
-    console.log('Blog post data:', JSON.stringify(post, null, 2));
-    console.log('Author data:', post.author);
-    console.log('Author avatar:', post.author?.avatar);
     
     return (
       <>

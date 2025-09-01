@@ -139,7 +139,7 @@ const BlogListing: React.FC<BlogListingProps> = ({
                 : '';
               const authorName = post.author?.name || 'S Cubed Team';
               const publishDate = formatDate(post.publishedAt);
-              const readTime = getReadTime(post);
+              // const readTime = getReadTime(post);
 
               return (
                 <article key={post.id} className={postCard}>
@@ -172,6 +172,7 @@ const BlogListing: React.FC<BlogListingProps> = ({
                         <h2 
                           className={postTitle}
                           title={post.title}
+                          style={{ cursor: 'pointer' }}
                         >
                           {post.title}
                         </h2>
