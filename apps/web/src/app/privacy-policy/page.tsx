@@ -1,12 +1,14 @@
 import type { Metadata } from 'next';
 
-import Layout from '../../components/Layout';
 import { Heading, Section } from '../../components/Pages';
 
 export const metadata: Metadata = {
   title: 'Privacy & Policy - S Cubed',
   description:
     'Learn how S Cubed collects, uses, and protects your data. Review our privacy practices, data sharing, and user responsibilities.',
+  alternates: {
+    canonical: '/privacy-policy',
+  },
 };
 
 export default function PrivacyPage() {

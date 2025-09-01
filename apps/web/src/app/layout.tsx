@@ -37,16 +37,19 @@ export const metadata: Metadata = {
     creator: '@scubed_solutions',
   },
   // Block indexing for staging and development environments
-  ...(shouldBlockIndexing && {
-    robots: {
-      index: false,
-      follow: false,
-      googleBot: {
+  robots: shouldBlockIndexing 
+    ? {
         index: false,
         follow: false,
+        googleBot: {
+          index: false,
+          follow: false,
+        },
+      }
+    : {
+        index: true,
+        follow: true,
       },
-    },
-  }),
 };
 
 

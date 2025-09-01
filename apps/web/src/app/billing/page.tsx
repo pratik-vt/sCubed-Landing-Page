@@ -13,6 +13,9 @@ export const metadata: Metadata = {
   title: 'ABA Therapy Billing & RCM Services | Software for Claims & Insurance',
   description:
     'Optimize ABA therapy billing with expert RCM services and software. Manage claims, authorizations, and payments efficiently - all from one secure platform.',
+  alternates: {
+    canonical: '/billing',
+  },
 };
 
 // Fallback FAQ data

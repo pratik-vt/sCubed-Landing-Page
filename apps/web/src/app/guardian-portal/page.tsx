@@ -13,6 +13,9 @@ export const metadata: Metadata = {
   title: 'Guardian & Parent Portal for Therapy Practices | Secure & HIPAA Compliant',
   description:
     'A secure, HIPAA compliant guardian and parent portal for therapy practices. Access child\'s progress, updates, treatment plans, care team communications, and appointments in one place.',
+  alternates: {
+    canonical: '/guardian-portal',
+  },
 };
 
 // Fallback FAQ data

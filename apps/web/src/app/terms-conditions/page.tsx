@@ -11,6 +11,9 @@ export const metadata: Metadata = {
   title: 'Terms & Conditions - S Cubed',
   description:
     "Read S Cubed's Terms and Conditions outlining software use, payment terms, data rights, legal responsibilities, and compliance requirements.",
+  alternates: {
+    canonical: '/terms-conditions',
+  },
 };
 
 export default function TermsPage() {

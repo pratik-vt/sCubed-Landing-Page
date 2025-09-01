@@ -18,6 +18,9 @@ export const metadata: Metadata = {
   description:
     'Discover the latest insights, tips, and best practices for therapy practice management. Learn how to streamline your ABA, Speech, OT/PT, and counseling practice with S Cubed.',
   keywords: 'therapy blog, practice management tips, ABA insights, speech therapy, occupational therapy, physical therapy, counseling, S Cubed blog',
+  alternates: {
+    canonical: '/blog',
+  },
   openGraph: {
     title: 'Blog & Insights | S Cubed',
     description: 'Discover the latest insights, tips, and best practices for therapy practice management.',

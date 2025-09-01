@@ -1,8 +1,16 @@
-'use client';
-
+import type { Metadata } from 'next';
 import { AnimatePresence, motion, Variants } from 'framer-motion';
 import Link from 'next/link';
 import { useState } from 'react';
+
+export const metadata: Metadata = {
+  title: 'Frequently Asked Questions - S Cubed ABA Practice Management',
+  description:
+    'Find answers to common questions about S Cubed ABA practice management software. Learn about features, pricing, security, billing, scheduling, and more.',
+  alternates: {
+    canonical: '/faqs',
+  },
+};
 
 import {
   answer,
@@ -293,6 +301,8 @@ const faqData = {
     },
   ],
 };
+
+'use client';
 
 export default function FAQPage() {
   const [openSectionIndex, setOpenSectionIndex] = useState<number>(0); // First section open by default
