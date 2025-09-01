@@ -10,27 +10,12 @@ import {
 export const heroSection = style({
   position: 'relative',
   width: '100%',
-  padding: `${spacing['3xl']} 0 ${spacing['2xl']} 0`,
-  marginTop: '-45px', // Account for fixed header like features page
-  paddingTop: `calc(${spacing['3xl']} + 45px)`, // Add header height to padding
+  padding: `${spacing.lg} 0`,
   backgroundColor: colors.white,
   overflow: 'hidden',
   '@media': {
-    'screen and (max-width: 820px)': {
-      marginTop: '-70px',
-      paddingTop: `calc(${spacing['3xl']} + 70px)`,
-    },
-    'screen and (max-width: 800px)': {
-      marginTop: '-100px',
-      paddingTop: `calc(${spacing['3xl']} + 100px)`,
-    },
     'screen and (max-width: 768px)': {
-      padding: `${spacing['2xl']} 0 ${spacing.xl} 0`,
-      paddingTop: `calc(${spacing['2xl']} + 100px)`,
-    },
-    'screen and (max-width: 767px)': {
-      marginTop: '-220px',
-      paddingTop: `calc(${spacing['2xl']} + 220px + 40px)`,
+      padding: `${spacing.md} 0`,
     },
   },
 });
@@ -165,7 +150,7 @@ export const ctaSection = style({
 
 // Bullet list card styles
 export const bulletSection = style({
-  padding: `${spacing.xl} 0 ${spacing['3xl']} 0`,
+  padding: `${spacing.lg} 0 ${spacing.xl} 0`,
   background: `
     linear-gradient(135deg, ${colors.neutral[50]} 0%, ${colors.primary[50]} 30%, ${colors.neutral[50]} 70%, ${colors.primary[50]} 100%),
     radial-gradient(ellipse at top, rgba(122, 126, 237, 0.1) 0%, transparent 60%),
@@ -203,7 +188,7 @@ export const bulletSection = style({
   },
   '@media': {
     'screen and (max-width: 768px)': {
-      padding: `${spacing.lg} 0 ${spacing['2xl']} 0`,
+      padding: `${spacing.md} 0 ${spacing.lg} 0`,
     },
   },
 });
@@ -214,7 +199,7 @@ export const bulletCard = style({
     linear-gradient(135deg, transparent 0%, rgba(122, 126, 237, 0.02) 100%)
   `,
   borderRadius: '32px', // rounded-3xl equivalent
-  padding: spacing['3xl'], // Increased padding for more spacious feel
+  padding: spacing.xl,
   boxShadow: `
     0 32px 64px rgba(0, 0, 0, 0.12),
     0 0 0 1px rgba(255, 255, 255, 0.6),
@@ -275,7 +260,7 @@ export const bulletCard = style({
   },
   '@media': {
     'screen and (max-width: 768px)': {
-      padding: spacing['2xl'],
+      padding: spacing.lg,
       borderRadius: '24px',
     },
   },

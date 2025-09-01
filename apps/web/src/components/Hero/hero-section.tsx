@@ -34,7 +34,7 @@ const Hero: React.FC = () => {
             buttonColor="#000" 
             buttonBackground="#fff" 
             buttonText="BOOK A FREE DEMO"
-            buttonWidth="200px"
+            buttonWidth="210px"
             navigateTo="/get-started"
           />
         </div>

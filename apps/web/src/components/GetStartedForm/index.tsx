@@ -2,12 +2,12 @@
 
 import { InputMask } from '@react-input/mask';
 import {
-    AlertCircle,
-    CheckCircle,
-    Globe,
-    Linkedin,
-    Mail,
-    Phone,
+  AlertCircle,
+  CheckCircle,
+  Globe,
+  Linkedin,
+  Mail,
+  Phone,
 } from 'lucide-react';
 import React, { useEffect, useState } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
@@ -18,45 +18,44 @@ import CalendlyButton from '../billing/CalendlyButton';
 import { primaryButton } from '../billing/CalendlyButton/styles.css';
 
 import {
-    backgroundContainer,
-    backgroundDecorative,
-    bottomHelperText,
-    cardContainer,
-    cardContent,
-    cardHeader,
-    checkboxHelperText,
-    checkboxInput,
-    checkboxLabel,
-    checkboxRow,
-    checkboxSection,
-    contactCard,
-    contactCardContent,
-    contactCardHeader,
-    contactItem,
-    contactSection,
-    errorMessage,
-    formContainer,
-    formGroup,
-    formTitle,
-    gridContainer,
-    infoBox,
-    infoBoxText,
-    inputStyle,
-    labelStyle,
-    leftPanel,
-    loadingSpinner,
-    mainContainer,
-    pageWrapper,
-    requiredMark,
-    rightPanel,
-    selectStyle,
-    submitButton,
-    successMessage,
-    successText,
-    successTitle,
-    textareaStyle,
-    titleGradient,
-    twoColumnGrid,
+  backgroundContainer,
+  backgroundDecorative,
+  bottomHelperText,
+  cardContainer,
+  cardContent,
+  cardHeader,
+  checkboxInput,
+  checkboxLabel,
+  checkboxRow,
+  checkboxSection,
+  contactCard,
+  contactCardContent,
+  contactCardHeader,
+  contactItem,
+  contactSection,
+  errorMessage,
+  formContainer,
+  formGroup,
+  formTitle,
+  gridContainer,
+  infoBox,
+  infoBoxText,
+  inputStyle,
+  labelStyle,
+  leftPanel,
+  loadingSpinner,
+  mainContainer,
+  pageWrapper,
+  requiredMark,
+  rightPanel,
+  selectStyle,
+  submitButton,
+  successMessage,
+  successText,
+  successTitle,
+  textareaStyle,
+  titleGradient,
+  twoColumnGrid
 } from './styles.css';
 
 interface FormData {
@@ -857,12 +856,6 @@ const GetStartedForm: React.FC = () => {
                                 software
                               </label>
                             </div>
-                            <p
-                              id="hasExperience-help"
-                              className={checkboxHelperText}
-                            >
-                              Let us know your current setup
-                            </p>
                           </div>
 
                           {hasExperience && (
@@ -908,7 +901,7 @@ const GetStartedForm: React.FC = () => {
                         <textarea
                           className={textareaStyle}
                           placeholder="Tell us about your needs and goals..."
-                          rows={4}
+                          rows={3}
                           {...register('comments', {
                             maxLength: {
                               value: MAX_LENGTHS.comments,

@@ -9,27 +9,12 @@ import {
 export const heroSection = style({
   position: 'relative',
   width: '100%',
-  padding: `${spacing['3xl']} 0 ${spacing['2xl']} 0`,
-  marginTop: '-45px',
-  paddingTop: `calc(${spacing['3xl']} + 45px)`,
+  padding: `${spacing.lg} 0`,
   backgroundColor: colors.white,
   overflow: 'hidden',
   '@media': {
-    'screen and (max-width: 820px)': {
-      marginTop: '-70px',
-      paddingTop: `calc(${spacing['3xl']} + 70px)`,
-    },
-    'screen and (max-width: 800px)': {
-      marginTop: '-100px',
-      paddingTop: `calc(${spacing['3xl']} + 100px)`,
-    },
     'screen and (max-width: 768px)': {
-      padding: `${spacing['2xl']} 0 ${spacing.xl} 0`,
-      paddingTop: `calc(${spacing['2xl']} + 100px)`,
-    },
-    'screen and (max-width: 767px)': {
-      marginTop: '-220px',
-      paddingTop: `calc(${spacing['2xl']} + 220px + 40px)`,
+      padding: `${spacing.md} 0`,
     },
   },
 });

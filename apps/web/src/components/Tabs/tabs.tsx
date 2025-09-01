@@ -1,7 +1,7 @@
 'use client';
 
-import React, { useState } from 'react';
 import Image from 'next/image';
+import React, { useState } from 'react';
 
 import useWindowDimensions from '../../hooks/useWindowDimensions';
 import treatment from '../../images/Customized Treatment Plans.png';
@@ -9,9 +9,9 @@ import collection from '../../images/Data Collection & Reporting.png';
 import guardian from '../../images/Easy-to-use Guardian Portal.png';
 import appointment from '../../images/Efficient Appointment Scheduling.png';
 import appointmentPanel from '../../images/tabs/appointment.png';
-import treatmentPanel from '../../images/tabs/treatment-plan.png';
-import collectionPanel from '../../images/tabs/data-collection.png';
 import dashboardPanel from '../../images/tabs/dashboard.jpg';
+import collectionPanel from '../../images/tabs/data-collection.png';
+import treatmentPanel from '../../images/tabs/treatment-plan.png';
 import CalendlyWidget from '../CalendlyWidget';
 import {
   InnerContainerStyle,
@@ -118,7 +118,7 @@ const Tabs: React.FC = () => {
                     <CalendlyWidget
                       buttonColor="#333"
                       buttonBackground="#66e3ed"
-                      buttonWidth="200px"
+                      buttonWidth="210px"
                       buttonText="BOOK A FREE DEMO"
                       navigateTo="/get-started"
                     />
@@ -149,7 +149,7 @@ const Tabs: React.FC = () => {
                 <CalendlyWidget
                   buttonColor="#333"
                   buttonBackground="#66e3ed"
-                  buttonWidth="200px"
+                  buttonWidth="210px"
                   buttonText="BOOK A FREE DEMO"
                   navigateTo="/get-started"
                 />

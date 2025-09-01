@@ -2,12 +2,14 @@ import { style } from '@vanilla-extract/css';
 
 export const headerWrapperStyles = style({
   width: '100%',
-  position: 'sticky',
+  position: 'fixed',
   top: 0,
-  zIndex: 1000,
+  left: 0,
+  right: 0,
+  zIndex: 100,
   borderBottom: '1px solid #ededef',
   transition: 'background-color 0.3s ease',
-  backgroundColor: '#fff',
+  backgroundColor: 'transparent',
 });
 
 export const pageStyles = style({
@@ -32,6 +34,7 @@ export const textBlockStyle = style({
 export const bannerImg = style({
   width: `100%`,
   maxHeight: `800px`,
+  marginTop: '60px',
 
   '@media': {
     'screen and (max-width: 768px)': { height: `65vh` },

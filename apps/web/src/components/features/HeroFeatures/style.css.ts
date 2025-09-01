@@ -39,11 +39,9 @@ export const heroContent = style({
   marginBottom: '80px',
   position: 'relative',
   zIndex: 15,
-  paddingTop: '60px',
   '@media': {
     'screen and (min-width: 768px)': {
       marginBottom: '100px',
-      paddingTop: '80px',
     },
   },
 });
