@@ -77,12 +77,12 @@ export const heroImageContent = style({
   position: 'relative',
   width: '100%',
   maxWidth: '600px',
-  aspectRatio: '6/5', // Maintains 600:500 aspect ratio
+  aspectRatio: '6/5',
   margin: '0 auto',
   '@media': {
     'screen and (max-width: 968px)': {
       maxWidth: '400px',
-      aspectRatio: '4/3.33', // Slightly adjusted for mobile
+      aspectRatio: '4/3.33',
     },
     'screen and (max-width: 480px)': {
       maxWidth: '320px',
@@ -90,18 +90,19 @@ export const heroImageContent = style({
   },
 });
 
-// Simple hover animation for the hero image
+// Hero image styling without hover effects
 export const heroImage = style({
   objectFit: 'contain',
-  transform: 'scale(1.15)', // Default size is the previous hover size
-  transition: 'transform 0.3s ease',
-  transformOrigin: 'center', // Center the scaling
+  transform: 'scale(1.15)',
+  transformOrigin: 'top center',
   '@media': {
     'screen and (max-width: 968px)': {
-      transform: 'scale(1.35)', // Reduced scaling on tablet
+      maxWidth: '100%',
+      height: 'auto',
     },
     'screen and (max-width: 480px)': {
-      transform: 'scale(1.25)', // No scaling on mobile to prevent overflow
+      width: '100%',
+      height: 'auto',
     },
   },
 });

@@ -101,21 +101,27 @@ const BillingHero: React.FC = () => {
           <Image
             src={billingImg}
             alt="Professional billing and financial management for healthcare practices"
+            fill
+            sizes="100vw"
             style={{
-              width: '100%',
-              height: '100%',
               objectFit: 'cover',
               opacity: 0.5,
             }}
             placeholder="blur"
             priority
+            quality={100}
           />
           <div className={backgroundOverlay} />
         </div>
 
         <div className={heroContainer}>
           <div className={heroContent}>
-            <div className={heroTextContent}>
+            <motion.div 
+              className={heroTextContent}
+              initial={{ opacity: 0, x: -50 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.8, ease: 'easeOut' }}
+            >
               <h1 className={heroTitle}>
                 Smarter Billing Services for{' '}
                 <span className={heroTitleHighlight}>ABA, OT, Speech</span>, and{' '}
@@ -137,19 +143,31 @@ const BillingHero: React.FC = () => {
                   className={primaryButton}
                 />
               </div>
-            </div>
+            </motion.div>
 
-            <div className={heroImageContent}>
+            <motion.div 
+              className={heroImageContent}
+              initial={{ opacity: 0, x: 50 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.8, delay: 0.2, ease: 'easeOut' }}
+            >
               <Image
                 alt="Professional billing and financial management for healthcare practices"
                 src={billingBannerImg}
                 quality={100}
                 placeholder="blur"
-                fill
-                sizes="(max-width: 968px) 400px, 600px"
+                width={2400}
+                height={2000}
+                priority
+                sizes="(max-width: 480px) 100vw, (max-width: 968px) 800px, 1200px"
                 className={heroImage}
+                style={{
+                  width: '100%',
+                  height: 'auto',
+                  objectFit: 'contain',
+                }}
               />
-            </div>
+            </motion.div>
           </div>
         </div>
       </section>

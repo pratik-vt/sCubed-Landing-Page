@@ -149,14 +149,21 @@ export const ctaSection = style({
 // Removed primaryCTA and secondaryCTA - using CalendlyButton instead
 
 export const heroImageContent = style({
+  position: 'relative',
+  width: '100%',
+  maxWidth: '600px',
+  aspectRatio: '6/5',
+  margin: '0 auto',
   display: 'flex',
   justifyContent: 'center',
   alignItems: 'center',
   '@media': {
     'screen and (max-width: 968px)': {
-      order: -1,
       maxWidth: '400px',
-      margin: '0 auto',
+      aspectRatio: '4/3.33',
+    },
+    'screen and (max-width: 480px)': {
+      maxWidth: '320px',
     },
   },
 });

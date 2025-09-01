@@ -67,13 +67,16 @@ const GuardianHero: React.FC = () => {
               src={guardianPortalImg}
               quality={100}
               placeholder="blur"
-              width={600}
-              height={500}
+              width={2400}
+              height={1600}
+              priority
+              sizes="(max-width: 480px) 100vw, (max-width: 968px) 800px, 1200px"
               style={{
-                marginTop: '40px',
                 width: '100%',
                 height: 'auto',
-                maxWidth: '600px',
+                objectFit: 'contain',
+                transform: 'scale(1.15)',
+                transformOrigin: 'top center',
               }}
             />
           </motion.div>
