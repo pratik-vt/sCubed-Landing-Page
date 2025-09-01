@@ -34,4 +34,8 @@ globalStyle(`${transcriptContent} ol`, {
 
 globalStyle(`${transcriptContent} li`, {
   marginBottom: '0.25rem',
+});
+
+globalStyle('a', {
+  textDecoration: 'none',
 }); 

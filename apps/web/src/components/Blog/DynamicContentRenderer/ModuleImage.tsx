@@ -102,8 +102,6 @@ const ModuleImage: React.FC<ModuleImageProps> = ({ data }) => {
       {clickable && link_url ? (
         <a
           href={link_url}
-          target="_blank"
-          rel="noopener noreferrer"
           className="block transition-transform duration-200 hover:scale-105"
         >
           <ImageComponent />

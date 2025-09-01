@@ -165,9 +165,9 @@ const TextModule: React.FC<TextModuleProps> = ({ data, blockIndex = 0 }) => {
     // Custom link styles
     a: ({ children, ...props }: ComponentProps) => (
       <a
-        className="text-primary-600 hover:text-primary-700 underline transition-colors duration-200"
-        target="_blank"
-        rel="noopener noreferrer"
+        className="text-primary-600 hover:text-primary-700 transition-colors duration-200"
+        // target="_blank"
+        // rel="noopener noreferrer"
         {...props}
       >
         {children}

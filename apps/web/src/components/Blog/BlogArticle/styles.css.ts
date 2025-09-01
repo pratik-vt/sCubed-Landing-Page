@@ -32,6 +32,10 @@ export const heroSection = style({
       height: '50vh',
       minHeight: '300px',
     },
+    '(max-width: 414px)': {
+      height: '60vh',
+      minHeight: '300px',
+    },
   },
 });
 
@@ -59,7 +63,7 @@ export const heroContent = style({
   zIndex: 2,
   textAlign: 'center',
   color: colors.white,
-  maxWidth: '800px',
+  maxWidth: '1000px',
   padding: `0 ${spacing.xl}`,
   
   '@media': {
@@ -77,8 +81,20 @@ export const heroTitle = style({
   textShadow: '0 2px 4px rgba(0, 0, 0, 0.3)',
   
   '@media': {
+    '(max-width: 1024px)': {
+      fontSize: '3rem',
+    },
     '(max-width: 768px)': {
       fontSize: '2.5rem',
+    },
+    '(max-width: 650px)': {
+      fontSize: '2rem',
+    },
+    '(max-width: 576px)': {
+      fontSize: '1.75rem',
+    },
+    '(max-width: 480px)': {
+      fontSize: '1.5rem',
     },
   },
 });

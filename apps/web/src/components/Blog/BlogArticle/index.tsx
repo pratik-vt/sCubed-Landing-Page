@@ -104,18 +104,7 @@ const BlogArticle: React.FC<BlogArticleProps> = ({ post }) => {
     }
   }, []);
 
-  // Debug author data
-  console.log('Author debug:', {
-    author: post.author,
-    authorName,
-    authorAvatarImage,
-    authorAvatarUrl,
-    authorPosition,
-    authorBio
-  });
-
   const scrollToSection = (id: string) => {
-    console.log('scrollToSection', id);
     const element = document.getElementById(id);
     if (element) {
       // Calculate header height offset
@@ -296,7 +285,7 @@ const BlogArticle: React.FC<BlogArticleProps> = ({ post }) => {
               )}
 
               {/* Enhanced Author Information */}
-              {post.author && (
+              {post?.author?.bio && (
                 <section className={authorCard} aria-labelledby="author-heading">
                   <div className={authorInfo}>
                     {/* Author Avatar - Always show with fallback */}
