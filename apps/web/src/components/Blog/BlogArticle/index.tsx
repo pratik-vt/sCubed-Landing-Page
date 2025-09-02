@@ -13,6 +13,7 @@ import {
   calculateReadTime 
 } from '../../../lib/strapi';
 import DynamicContentRenderer from '../DynamicContentRenderer';
+import BlogContactForm from '../BlogContactForm';
 
 import {
   articleContainer,
@@ -424,13 +425,8 @@ const BlogArticle: React.FC<BlogArticleProps> = ({ post }) => {
               </div>
             )}
 
-            {/* Related Posts Placeholder */}
-            {/* <div className={relatedPosts}>
-              <h3>Related Articles</h3>
-              <div style={{ color: '#6b7280', fontSize: '0.875rem', marginTop: '1rem' }}>
-                Related articles will be available soon.
-              </div>
-            </div> */}
+            {/* Contact Form */}
+            <BlogContactForm />
           </aside>
         </div>
       </div>

@@ -312,25 +312,24 @@ export const tableOfContents = style({
   backgroundColor: colors.neutral[50],
   border: `1px solid ${colors.neutral[200]}`,
   borderRadius: radius.md,
-  padding: spacing.lg,
-  position: 'sticky',
-  top: '100px', // Account for fixed header height
-  maxHeight: 'calc(100vh - 120px)',
+  padding: spacing.md,
+  marginBottom: spacing.lg,
+  maxHeight: '300px',
   overflowY: 'auto',
   
   '@media': {
     '(max-width: 768px)': {
-      top: '80px',
-      maxHeight: 'calc(100vh - 100px)',
+      maxHeight: '250px',
+      marginBottom: spacing.md,
     },
   },
 });
 
 export const tocTitle = style({
-  fontSize: typography.fontSize.lg,
+  fontSize: typography.fontSize.base,
   fontWeight: typography.fontWeight.semibold,
   color: colors.neutral[900],
-  marginBottom: spacing.md,
+  marginBottom: spacing.sm,
 });
 
 export const tocList = style({
