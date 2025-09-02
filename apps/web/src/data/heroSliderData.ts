@@ -7,14 +7,14 @@ export const heroSliderData: HeroSliderItem[] = [
     description: 'How <a href="https://www.trevorsplace.net/" target="_blank" rel="noopener noreferrer">Trevor\'s Place</a> & <a href="https://scubed.io/">S Cubed</a> are transforming therapy and family communication through innovation and compassion.',
     image: {
       src: '/images/As featured in USA Today.jpg',
-      alt: 'As featured in USA Today',
+      alt: "As featured in USA Today",
       width: 1200,
       height: 600,
       mobileSrc: '/images/As featured in USA Today-mobile.png', // Optional mobile image
     },
     link: {
       href: 'https://www.usatoday.com/story/special/contributor-content/2025/08/28/from-playing-school-to-building-trevors-place-how-one-mothers-journey-became-a-lifeline-for-families/85873205007/',
-      text: 'As featured in USA Today',
+      text: "As featured in 'USA Today'",
       external: true,
     },
   },
