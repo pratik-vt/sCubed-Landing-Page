@@ -104,11 +104,11 @@ const Footer: React.FC = () => {
               />
             </div>
             <p className={brandDescription}>
-              <strong>S Cubed</strong> strives to leave a <strong>positive impact</strong> on every child who needs
-              help by ensuring our <strong>advanced clinical and practice management
-              solutions</strong> are nothing short of the <strong>best</strong> for our practitioners.
+              S Cubed strives to leave a positive impact on every child who needs
+              help by ensuring our advanced clinical and practice management
+              solutions are nothing short of the best for our practitioners.
               <br />
-              <strong>S Cubed</strong>, or <strong>Spectrum Solutions Software</strong>, aims to <strong>revolutionize</strong> the <strong>effectiveness</strong> of therapy practices and <strong>improve client care</strong>.
+              S Cubed, or Spectrum Solutions Software, aims to revolutionize the effectiveness of therapy practices and improve client care.
             </p>
           </div>
 
