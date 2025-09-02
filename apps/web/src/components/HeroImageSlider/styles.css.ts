@@ -1,0 +1,290 @@
+import { globalStyle, style } from '@vanilla-extract/css';
+
+import {
+  colors,
+  radius,
+  shadows,
+  spacing,
+  typography,
+} from '../../styles/tokens.css';
+
+export const heroSliderSection = style({
+  position: 'relative',
+  width: '100%',
+  height: '100vh',
+  minHeight: '600px',
+  maxHeight: '800px',
+  overflow: 'hidden',
+  marginTop: '24px', // Account for fixed header (contact info + nav)
+  '@media': {
+    'screen and (max-width: 768px)': {
+      height: '70vh',
+      minHeight: '500px',
+      maxHeight: '600px',
+      marginTop: '128px', // Fixed header on mobile
+    },
+    'screen and (max-width: 480px)': {
+      height: '60vh',
+      minHeight: '400px',
+      maxHeight: '500px',
+      marginTop: '96px', // Fixed header on small mobile
+    },
+  },
+});
+
+export const heroSliderContainer = style({
+  position: 'relative',
+  width: '100%',
+  height: '100%',
+});
+
+export const heroSliderContent = style({
+  position: 'relative',
+  width: '100%',
+  height: '100%',
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'flex-start', // Changed from center to flex-start
+});
+
+export const heroSliderImageWrapper = style({
+  position: 'absolute',
+  top: 0,
+  left: 0,
+  width: '100%',
+  height: '100%',
+  zIndex: 1,
+});
+
+export const heroSliderImage = style({
+  width: '100%',
+  height: '100%',
+  objectFit: 'cover',
+  objectPosition: 'center',
+});
+
+export const heroSliderOverlay = style({
+  position: 'absolute',
+  top: 0,
+  left: 0,
+  width: '100%',
+  height: '100%',
+  background: 'linear-gradient(135deg, rgba(0, 0, 0, 0.4) 0%, rgba(0, 0, 0, 0.2) 100%)',
+  zIndex: 2,
+});
+
+export const heroSliderTextContent = style({
+  position: 'relative',
+  zIndex: 3,
+  textAlign: 'left',
+  color: colors.white,
+  maxWidth: '800px',
+  padding: `0 ${spacing.lg}`,
+  marginLeft: '5%', // Add left margin to move content from edge
+  '@media': {
+    'screen and (max-width: 768px)': {
+      maxWidth: '450px',
+      padding: `0 ${spacing.md}`,
+      marginLeft: '0', // Remove left margin on mobile for better spacing
+      textAlign: 'left',
+    },
+    'screen and (max-width: 480px)': {
+      maxWidth: '320px',
+      padding: `0 ${spacing.sm}`,
+      marginLeft: '0',
+      textAlign: 'left',
+    },
+  },
+});
+
+export const heroSliderTitle = style({
+  fontSize: typography.fontSize['6xl'],
+  fontWeight: typography.fontWeight.bold,
+  fontFamily: typography.fontFamily.heading,
+  lineHeight: typography.lineHeight.tight,
+  marginBottom: spacing.lg,
+  textShadow: '0 2px 4px rgba(0, 0, 0, 0.3)',
+  '@media': {
+    'screen and (max-width: 768px)': {
+      fontSize: typography.fontSize['5xl'],
+      marginBottom: spacing.md,
+    },
+    'screen and (max-width: 480px)': {
+      fontSize: typography.fontSize['4xl'],
+      marginBottom: spacing.sm,
+    },
+  },
+});
+
+export const heroSliderDescription = style({
+  fontSize: typography.fontSize.xl,
+  fontFamily: typography.fontFamily.body,
+  lineHeight: typography.lineHeight.relaxed,
+  marginBottom: spacing['2xl'],
+  textShadow: '0 1px 2px rgba(0, 0, 0, 0.3)',
+  opacity: 0.95,
+  '@media': {
+    'screen and (max-width: 768px)': {
+      fontSize: typography.fontSize.lg,
+      marginBottom: spacing.xl,
+    },
+    'screen and (max-width: 480px)': {
+      fontSize: typography.fontSize.base,
+      marginBottom: spacing.lg,
+    },
+  },
+});
+
+// Global styles for links and paragraphs in description
+globalStyle(`${heroSliderDescription} a`, {
+  color: `${colors.white} !important`,
+  textDecoration: 'none !important',
+  fontWeight: `${typography.fontWeight.bold} !important`,
+  transition: 'all 0.2s ease',
+});
+
+globalStyle(`${heroSliderDescription} a:hover`, {
+  color: `${colors.primary[200]} !important`,
+});
+
+globalStyle(`${heroSliderDescription} p`, {
+  margin: 0,
+});
+
+export const heroSliderButton = style({
+  display: 'inline-flex',
+  alignItems: 'center',
+  gap: spacing.sm,
+  padding: `${spacing.md} ${spacing.xl}`,
+  backgroundColor: colors.primary[600],
+  color: colors.white,
+  textDecoration: 'none',
+  borderRadius: radius.lg,
+  fontSize: typography.fontSize.lg,
+  fontWeight: typography.fontWeight.semibold,
+  fontFamily: typography.fontFamily.body,
+  border: 'none',
+  cursor: 'pointer',
+  transition: 'all 0.3s ease',
+  boxShadow: shadows.lg,
+  ':hover': {
+    backgroundColor: colors.primary[700],
+    transform: 'translateY(-2px)',
+    boxShadow: shadows.xl,
+  },
+  ':active': {
+    transform: 'translateY(0)',
+  },
+  '@media': {
+    'screen and (max-width: 768px)': {
+      fontSize: typography.fontSize.base,
+      padding: `${spacing.sm} ${spacing.lg}`,
+    },
+  },
+});
+
+export const heroSliderNavigation = style({
+  position: 'absolute',
+  top: '50%',
+  left: 0,
+  right: 0,
+  zIndex: 4,
+  display: 'flex',
+  justifyContent: 'space-between',
+  padding: `0 ${spacing.xl}`,
+  pointerEvents: 'none',
+  '@media': {
+    'screen and (max-width: 768px)': {
+      padding: `0 ${spacing.lg}`,
+    },
+    'screen and (max-width: 480px)': {
+      padding: `0 ${spacing.md}`,
+    },
+  },
+});
+
+const navigationButtonBase = style({
+  width: '44px',
+  height: '44px',
+  borderRadius: radius.full,
+  backgroundColor: 'rgba(255, 255, 255, 0.9)',
+  border: 'none',
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'center',
+  cursor: 'pointer',
+  color: colors.neutral[700],
+  boxShadow: shadows.md,
+  transition: 'all 0.3s ease',
+  pointerEvents: 'auto',
+  ':hover': {
+    backgroundColor: colors.white,
+    color: colors.primary[600],
+    transform: 'scale(1.05)',
+    boxShadow: shadows.lg,
+  },
+  ':active': {
+    transform: 'scale(0.95)',
+  },
+  '@media': {
+    'screen and (max-width: 768px)': {
+      width: '40px',
+      height: '40px',
+    },
+    'screen and (max-width: 480px)': {
+      width: '36px',
+      height: '36px',
+    },
+  },
+});
+
+export const heroSliderPrevButton = style([
+  navigationButtonBase,
+  {
+    transform: 'translateY(-50%)',
+  },
+]);
+
+export const heroSliderNextButton = style([
+  navigationButtonBase,
+  {
+    transform: 'translateY(-50%)',
+  },
+]);
+
+export const heroSliderIndicators = style({
+  position: 'absolute',
+  bottom: spacing.xl,
+  left: '50%',
+  transform: 'translateX(-50%)',
+  zIndex: 4,
+  display: 'flex',
+  gap: spacing.sm,
+  '@media': {
+    'screen and (max-width: 768px)': {
+      bottom: spacing.lg,
+    },
+    'screen and (max-width: 480px)': {
+      bottom: spacing.md,
+    },
+  },
+});
+
+export const heroSliderIndicator = style({
+  width: '12px',
+  height: '12px',
+  borderRadius: radius.full,
+  backgroundColor: 'rgba(255, 255, 255, 0.5)',
+  border: 'none',
+  cursor: 'pointer',
+  transition: 'all 0.3s ease',
+  ':hover': {
+    backgroundColor: 'rgba(255, 255, 255, 0.8)',
+    transform: 'scale(1.2)',
+  },
+});
+
+export const heroSliderIndicatorActive = style({
+  backgroundColor: colors.white,
+  transform: 'scale(1.2)',
+});

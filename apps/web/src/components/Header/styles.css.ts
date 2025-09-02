@@ -7,7 +7,7 @@ export const headerWrapperStyles = style({
   left: 0,
   right: 0,
   zIndex: 100,
-  borderBottom: '1px solid #ededef',
+  // borderBottom: '1px solid #ededef',
   transition: 'background-color 0.3s ease',
   backgroundColor: 'transparent',
 });
@@ -34,7 +34,6 @@ export const textBlockStyle = style({
 export const bannerImg = style({
   width: `100%`,
   maxHeight: `800px`,
-  marginTop: '60px',
 
   '@media': {
     'screen and (max-width: 768px)': { height: `65vh` },

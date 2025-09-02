@@ -16,16 +16,38 @@ import {
 } from './styles.css';
 
 
-const Header: React.FC = () => {
+interface HeaderProps {
+  menuItemColor?: string;
+  activeMenuItemColor?: string;
+  activeLinkAccentColor?: string;
+}
+
+const Header: React.FC<HeaderProps> = ({
+  menuItemColor,
+  activeMenuItemColor,
+  activeLinkAccentColor,
+}) => {
   const [headerBackground, setHeaderBackground] = useState<boolean>(false);
+  const [isDesktop, setIsDesktop] = useState<boolean>(false);
 
   useEffect(() => {
     const handleScroll = () => {
-      setHeaderBackground(window.scrollY > 50);
+      setHeaderBackground(window.scrollY > 150);
     };
+    
+    const handleResize = () => {
+      setIsDesktop(window.innerWidth >= 1025);
+    };
+    
     handleScroll();
+    handleResize();
     window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
+    window.addEventListener('resize', handleResize);
+    
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+      window.removeEventListener('resize', handleResize);
+    };
   }, []);
 
   return (
@@ -36,9 +58,13 @@ const Header: React.FC = () => {
           backgroundColor: headerBackground ? '#fff' : 'transparent',
         }}
       >
-        <Navigation />
+        <Navigation 
+          menuItemColor={isDesktop ? (headerBackground ? '#000' : '#ffffff') : (menuItemColor || '#474747')}
+          activeMenuItemColor={isDesktop ? (headerBackground ? '#000' : '#ffffff') : (activeMenuItemColor || '#000')}
+          activeLinkAccentColor={activeLinkAccentColor}
+        />
       </div>
-      <Image
+      {/* <Image
         alt="Description of the image"
         src={banner}
         className={bannerImg}
@@ -65,7 +91,7 @@ const Header: React.FC = () => {
           buttonWidth="210px"
           navigateTo="/get-started"
         />
-      </div>
+      </div> */}
     </main>
   );
 };

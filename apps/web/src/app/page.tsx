@@ -6,10 +6,12 @@ import Features from '../components/Features/features';
 import Footer from '../components/Footer/footer';
 import Header from '../components/Header/header';
 import Hero from '../components/Hero/hero-section';
+import HeroImageSlider from '../components/HeroImageSlider';
 import OrganizationSchema from '../components/OrganizationSchema';
 import Partners from '../components/Partners/partners';
 import Stand from '../components/Standout/standout';
 import Tabs from '../components/Tabs/tabs';
+import { heroSliderData } from '../data/heroSliderData';
 
 export const metadata: Metadata = {
   title: 'S Cubed - ABA Practice Management Software | Therapy Clinic Software',
@@ -36,6 +38,7 @@ export default function HomePage() {
   return (
     <>
       <OrganizationSchema />
+      <HeroImageSlider items={heroSliderData} />
       <Container>
         <Header />
         <Features />

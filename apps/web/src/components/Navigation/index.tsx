@@ -37,7 +37,17 @@ import {
   socialIconsContainer
 } from './styles.css';
 
-const Navigation: React.FC = () => {
+interface NavigationProps {
+  menuItemColor?: string;
+  activeMenuItemColor?: string;
+  activeLinkAccentColor?: string;
+}
+
+const Navigation: React.FC<NavigationProps> = ({
+  menuItemColor = '#474747',
+  activeMenuItemColor = '#000',
+  activeLinkAccentColor = '#7a7eed',
+}) => {
   const [menuOpen, setMenuOpen] = useState<boolean>(false);
   const pathname = usePathname();
   const router = useRouter();
@@ -216,33 +226,89 @@ const Navigation: React.FC = () => {
           </div>
         </div>
         <nav className={`${navMenu} ${menuOpen ? navMenuOpen : ''}`}>
-          <Link href="/" className={navStyle}>
-            Home {pathname === '/' && <span className={activeLinkStyle} />}
+          <Link 
+            href="/" 
+            className={navStyle}
+            style={{ 
+              color: pathname === '/' ? activeMenuItemColor : menuItemColor 
+            }}
+          >
+            Home {pathname === '/' && (
+              <span 
+                className={activeLinkStyle} 
+                style={{ backgroundColor: activeLinkAccentColor }}
+              />
+            )}
           </Link>
-          <Link href="/billing" className={navStyle}>
+          <Link 
+            href="/billing" 
+            className={navStyle}
+            style={{ 
+              color: (pathname === '/billing' || pathname === '/billing/') ? activeMenuItemColor : menuItemColor 
+            }}
+          >
             Billing {(pathname === '/billing' || pathname === '/billing/') && (
-              <span className={activeLinkStyle} />
+              <span 
+                className={activeLinkStyle} 
+                style={{ backgroundColor: activeLinkAccentColor }}
+              />
             )}
           </Link>
-          <Link href="/features" className={navStyle}>
+          <Link 
+            href="/features" 
+            className={navStyle}
+            style={{ 
+              color: (pathname === '/features' || pathname === '/features/') ? activeMenuItemColor : menuItemColor 
+            }}
+          >
             Features {(pathname === '/features' || pathname === '/features/') && (
-              <span className={activeLinkStyle} />
+              <span 
+                className={activeLinkStyle} 
+                style={{ backgroundColor: activeLinkAccentColor }}
+              />
             )}
           </Link>
-          <Link href="/guardian-portal" className={navStyle}>
+          <Link 
+            href="/guardian-portal" 
+            className={navStyle}
+            style={{ 
+              color: (pathname === '/guardian-portal' || pathname === '/guardian-portal/') ? activeMenuItemColor : menuItemColor 
+            }}
+          >
             Guardian Portal {(pathname === '/guardian-portal' || pathname === '/guardian-portal/') && (
-              <span className={activeLinkStyle} />
+              <span 
+                className={activeLinkStyle} 
+                style={{ backgroundColor: activeLinkAccentColor }}
+              />
             )}
           </Link>
-          <Link href="/blog" className={navStyle}>
+          <Link 
+            href="/blog" 
+            className={navStyle}
+            style={{ 
+              color: (pathname === '/blog' || pathname === '/blog/') ? activeMenuItemColor : menuItemColor 
+            }}
+          >
             Blog {(pathname === '/blog' || pathname === '/blog/') && (
-              <span className={activeLinkStyle} />
+              <span 
+                className={activeLinkStyle} 
+                style={{ backgroundColor: activeLinkAccentColor }}
+              />
             )}
           </Link>
-          <Link href="/get-started" className={navStyle}>
+          <Link 
+            href="/get-started" 
+            className={navStyle}
+            style={{ 
+              color: (pathname === '/get-started' || pathname === '/get-started/') ? activeMenuItemColor : menuItemColor 
+            }}
+          >
             Get Started
             {(pathname === '/get-started' || pathname === '/get-started/') && (
-              <span className={activeLinkStyle} />
+              <span 
+                className={activeLinkStyle} 
+                style={{ backgroundColor: activeLinkAccentColor }}
+              />
             )}
           </Link>
           <button
