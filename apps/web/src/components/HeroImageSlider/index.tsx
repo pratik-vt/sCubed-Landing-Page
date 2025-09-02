@@ -41,6 +41,7 @@ export interface HeroSliderItem {
     text: string;
     external?: boolean;
   };
+  contentAlign?: 'left' | 'center' | 'right'; // Optional content alignment
 }
 
 interface HeroImageSliderProps {
@@ -116,7 +117,13 @@ const HeroImageSlider: React.FC<HeroImageSliderProps> = ({
       onMouseLeave={handleMouseLeave}
     >
       <div className={heroSliderContainer}>
-        <div className={heroSliderContent}>
+        <div 
+          className={heroSliderContent}
+          style={{
+            justifyContent: currentItem.contentAlign === 'center' ? 'center' : 
+                           currentItem.contentAlign === 'right' ? 'flex-end' : 'flex-start'
+          }}
+        >
           <AnimatePresence mode="wait">
             <motion.div
               key={currentItem.id}
@@ -145,6 +152,12 @@ const HeroImageSlider: React.FC<HeroImageSliderProps> = ({
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.2 }}
+            style={{ 
+              textAlign: currentItem.contentAlign || 'left',
+              marginLeft: currentItem.contentAlign === 'center' ? '0' : 
+                         currentItem.contentAlign === 'right' ? '0' : '5%',
+              marginRight: currentItem.contentAlign === 'right' ? '5%' : '0'
+            }}
           >
             <motion.h1
               className={heroSliderTitle}

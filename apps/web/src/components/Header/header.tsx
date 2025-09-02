@@ -32,7 +32,7 @@ const Header: React.FC<HeaderProps> = ({
 
   useEffect(() => {
     const handleScroll = () => {
-      setHeaderBackground(window.scrollY > 150);
+      setHeaderBackground(window.scrollY > 50);
     };
     
     const handleResize = () => {
@@ -59,8 +59,8 @@ const Header: React.FC<HeaderProps> = ({
         }}
       >
         <Navigation 
-          menuItemColor={isDesktop ? (headerBackground ? '#000' : '#ffffff') : (menuItemColor || '#474747')}
-          activeMenuItemColor={isDesktop ? (headerBackground ? '#000' : '#ffffff') : (activeMenuItemColor || '#000')}
+          menuItemColor={isDesktop ? '#000' : (menuItemColor || '#000')}
+          activeMenuItemColor={isDesktop ? '#000' : (activeMenuItemColor || '#000')}
           activeLinkAccentColor={activeLinkAccentColor}
         />
       </div>

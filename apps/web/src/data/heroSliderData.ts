@@ -21,7 +21,7 @@ export const heroSliderData: HeroSliderItem[] = [
   {
     id: 'empowering-practice',
     title: 'Empowering Your Practice, Enhancing Every Life You Touch',
-    description: 'S Cubed is an all-in-one platform packed with powerful Clinical and Practice Management functionalities, designed to streamline operations and enhance outcomes.',
+    description: "S Cubed is an all-in-one platform packed with powerful Clinical and Practice Management functionalities, designed to streamline operations and enhance outcomes. Whether you're running a healthcare clinic or managing services in educational or school-based settings, S cubed empowers you to focus on delivering exceptional care with less hassle and greater efficiency.",
     image: {
       src: '/images/Banner.jpg',
       alt: 'S Cubed Practice Management Dashboard',
@@ -32,6 +32,7 @@ export const heroSliderData: HeroSliderItem[] = [
       href: '/get-started',
       text: 'Book a Free Demo',
     },
+    contentAlign: 'center', // Example: Center this slide's content
   },
   // {
   //   id: 'comprehensive-data',

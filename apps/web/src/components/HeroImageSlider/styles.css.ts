@@ -69,7 +69,7 @@ export const heroSliderOverlay = style({
   left: 0,
   width: '100%',
   height: '100%',
-  background: 'linear-gradient(135deg, rgba(0, 0, 0, 0.4) 0%, rgba(0, 0, 0, 0.2) 100%)',
+  // background: 'linear-gradient(135deg, rgba(55, 65, 255, 0.2) 0%, rgba(122, 126, 237, 0.15) 100%)',
   zIndex: 2,
 });
 
@@ -77,7 +77,7 @@ export const heroSliderTextContent = style({
   position: 'relative',
   zIndex: 3,
   textAlign: 'left',
-  color: colors.white,
+  color: colors.neutral[900],
   maxWidth: '800px',
   padding: `0 ${spacing.lg}`,
   marginLeft: '5%', // Add left margin to move content from edge
@@ -103,7 +103,6 @@ export const heroSliderTitle = style({
   fontFamily: typography.fontFamily.heading,
   lineHeight: typography.lineHeight.tight,
   marginBottom: spacing.lg,
-  textShadow: '0 2px 4px rgba(0, 0, 0, 0.3)',
   '@media': {
     'screen and (max-width: 768px)': {
       fontSize: typography.fontSize['5xl'],
@@ -121,8 +120,7 @@ export const heroSliderDescription = style({
   fontFamily: typography.fontFamily.body,
   lineHeight: typography.lineHeight.relaxed,
   marginBottom: spacing['2xl'],
-  textShadow: '0 1px 2px rgba(0, 0, 0, 0.3)',
-  opacity: 0.95,
+  opacity: 0.9,
   '@media': {
     'screen and (max-width: 768px)': {
       fontSize: typography.fontSize.lg,
@@ -137,14 +135,14 @@ export const heroSliderDescription = style({
 
 // Global styles for links and paragraphs in description
 globalStyle(`${heroSliderDescription} a`, {
-  color: `${colors.white} !important`,
+  color: `${colors.primary[600]} !important`,
   textDecoration: 'none !important',
   fontWeight: `${typography.fontWeight.bold} !important`,
   transition: 'all 0.2s ease',
 });
 
 globalStyle(`${heroSliderDescription} a:hover`, {
-  color: `${colors.primary[200]} !important`,
+  color: `${colors.primary[700]} !important`,
 });
 
 globalStyle(`${heroSliderDescription} p`, {
