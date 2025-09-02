@@ -99,7 +99,7 @@ const BlogContactForm: React.FC = () => {
     };
 
     try {
-      const apiUrl = `${process.env.NEXT_PUBLIC_ADMIN_APP_API_URL}pages/contact-us`;
+      const apiUrl = '/api/contact';
 
       const response = await fetch(apiUrl, {
         method: 'POST',
