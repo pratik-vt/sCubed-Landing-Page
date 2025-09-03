@@ -4,6 +4,7 @@ import type { Metadata } from 'next';
 
 import BlogArticle from '../../../components/Blog/BlogArticle';
 import BlogSchema from '../../../components/Blog/BlogSchema';
+import BreadcrumbSchema from '../../../components/Blog/BreadcrumbSchema';
 import { getBlogPost, getStrapiImageUrl } from '../../../lib/strapi';
 
 interface BlogDetailPageProps {
@@ -134,6 +135,7 @@ export default async function BlogDetailPage({ params }: BlogDetailPageProps) {
     return (
       <>
         <BlogSchema post={post} url={currentUrl} />
+        <BreadcrumbSchema post={post} url={currentUrl} />
         <BlogArticle post={post} />
       </>
     );
