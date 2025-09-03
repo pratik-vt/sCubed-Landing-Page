@@ -2,7 +2,7 @@
 
 import { motion, AnimatePresence } from 'framer-motion';
 import { ChevronLeft, ChevronRight, ExternalLink } from 'lucide-react';
-import Image from 'next/image';
+import Image, { StaticImageData } from 'next/image';
 import Link from 'next/link';
 import React, { useEffect, useState } from 'react';
 
@@ -30,11 +30,11 @@ export interface HeroSliderItem {
   title: string;
   description: string | React.ReactNode; // Allow JSX/HTML in description
   image: {
-    src: string;
+    src: string | StaticImageData;
     alt: string;
     width?: number;
     height?: number;
-    mobileSrc?: string; // Optional mobile image
+    mobileSrc?: string | StaticImageData; // Optional mobile image
     position?: string; // CSS object-position for desktop (e.g., 'center right', 'left center')
     mobilePosition?: string; // Mobile-specific image position
   };
@@ -63,21 +63,30 @@ const HeroImageSlider: React.FC<HeroImageSliderProps> = ({
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isAutoPlaying, setIsAutoPlaying] = useState(autoPlay);
   const [isMobile, setIsMobile] = useState(false);
-  const [imageLoaded, setImageLoaded] = useState(false);
+  const [imagesLoaded, setImagesLoaded] = useState<Record<number, boolean>>({});
+  const [isTransitioning, setIsTransitioning] = useState(false);
 
   const nextSlide = () => {
-    setCurrentIndex((prevIndex) => (prevIndex + 1) % items.length);
-    setImageLoaded(false); // Reset loading state for new image
+    if (isTransitioning) return;
+    setIsTransitioning(true);
+    const nextIndex = (currentIndex + 1) % items.length;
+    setCurrentIndex(nextIndex);
+    setTimeout(() => setIsTransitioning(false), 600);
   };
 
   const prevSlide = () => {
-    setCurrentIndex((prevIndex) => (prevIndex - 1 + items.length) % items.length);
-    setImageLoaded(false); // Reset loading state for new image
+    if (isTransitioning) return;
+    setIsTransitioning(true);
+    const prevIndex = (currentIndex - 1 + items.length) % items.length;
+    setCurrentIndex(prevIndex);
+    setTimeout(() => setIsTransitioning(false), 600);
   };
 
   const goToSlide = (index: number) => {
+    if (isTransitioning || index === currentIndex) return;
+    setIsTransitioning(true);
     setCurrentIndex(index);
-    setImageLoaded(false); // Reset loading state for new image
+    setTimeout(() => setIsTransitioning(false), 600);
   };
 
   // Auto-play functionality
@@ -101,27 +110,39 @@ const HeroImageSlider: React.FC<HeroImageSliderProps> = ({
     return () => window.removeEventListener('resize', checkMobile);
   }, []);
 
-  // Preload next images for better performance
+  // Preload adjacent images for smooth transitions
   useEffect(() => {
     if (items.length <= 1) return;
 
-    const preloadImages = () => {
-      items.forEach((item, index) => {
-        if (index !== currentIndex) {
-          const img = new window.Image();
-          const imageSrc = isMobile && item.image.mobileSrc 
-            ? item.image.mobileSrc 
-            : item.image.src;
-          img.src = imageSrc;
+    const preloadAdjacentImages = () => {
+      const nextIndex = (currentIndex + 1) % items.length;
+      const prevIndex = (currentIndex - 1 + items.length) % items.length;
+      
+      [nextIndex, prevIndex].forEach(index => {
+        const item = items[index];
+        if (!imagesLoaded[index]) {
+          // For static imports, images are already optimized by Next.js
+          if (typeof item.image.src !== 'string') {
+            setImagesLoaded(prev => ({ ...prev, [index]: true }));
+          } else {
+            // Only preload string URLs
+            const img = new window.Image();
+            const imageSrc = isMobile && item.image.mobileSrc 
+              ? item.image.mobileSrc as string
+              : item.image.src as string;
+            
+            img.onload = () => {
+              setImagesLoaded(prev => ({ ...prev, [index]: true }));
+            };
+            img.src = imageSrc;
+          }
         }
       });
     };
 
-    // Preload after a short delay to not interfere with current image
-    const timeoutId = setTimeout(preloadImages, 1000);
-
-    return () => clearTimeout(timeoutId);
-  }, [currentIndex, items, isMobile]);
+    // Preload immediately for smoother transitions
+    preloadAdjacentImages();
+  }, [currentIndex, items, isMobile, imagesLoaded]);
 
   // Pause auto-play on hover
   const handleMouseEnter = () => {
@@ -164,7 +185,7 @@ const HeroImageSlider: React.FC<HeroImageSliderProps> = ({
               key={currentItem.id}
               className={heroSliderImageWrapper}
               initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
+              animate={{ opacity: imagesLoaded[currentIndex] ? 1 : 0.8 }}
               exit={{ opacity: 0 }}
               transition={{ duration: 0.5 }}
             >
@@ -174,13 +195,17 @@ const HeroImageSlider: React.FC<HeroImageSliderProps> = ({
                 width={currentItem.image.width || 1920}
                 height={currentItem.image.height || 800}
                 className={heroSliderImage}
-                priority={currentIndex === 0} // Only prioritize first image
-                quality={90} // High quality but compressed
-                placeholder="blur"
-                blurDataURL="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTkyMCIgaGVpZ2h0PSI4MDAiIHZpZXdCb3g9IjAgMCAxOTIwIDgwMCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHJlY3Qgd2lkdGg9IjE5MjAiIGhlaWdodD0iODAwIiBmaWxsPSIjZjhmYWZjIi8+Cjwvc3ZnPgo="
-                sizes="(max-width: 768px) 100vw, (max-width: 1200px) 100vw, 100vw"
-                onLoad={() => setImageLoaded(true)}
-                style={{ objectPosition: currentImagePosition }}
+                priority={currentIndex === 0} // Prioritize first image
+                loading={currentIndex === 0 ? 'eager' : 'lazy'}
+                quality={85} // Optimized quality
+                placeholder={typeof currentImageSrc !== 'string' ? 'blur' : 'empty'}
+                sizes="(max-width: 768px) 100vw, (max-width: 1024px) 100vw, 100vw"
+                onLoad={() => setImagesLoaded(prev => ({ ...prev, [currentIndex]: true }))}
+                style={{ 
+                  objectPosition: currentImagePosition,
+                  filter: imagesLoaded[currentIndex] ? 'none' : 'blur(5px)',
+                  transition: 'filter 0.3s ease-in-out'
+                }}
               />
               <div className={heroSliderOverlay} />
             </motion.div>

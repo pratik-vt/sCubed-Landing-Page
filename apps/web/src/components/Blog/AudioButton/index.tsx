@@ -1,10 +1,10 @@
 'use client';
 
 import React, { useState, useRef, useEffect } from 'react';
-
 import { Play, Pause } from 'lucide-react';
 
 import { StrapiImage, getStrapiImageUrl } from '../../../lib/strapi';
+
 import {
   audioButton,
   audioButtonContent,
