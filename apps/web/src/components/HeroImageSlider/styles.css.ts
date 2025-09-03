@@ -70,7 +70,7 @@ export const heroSliderOverlay = style({
   left: 0,
   width: '100%',
   height: '100%',
-  background: 'rgba(248, 250, 252, 0.95)', // Light background to prevent black flash
+  // No background - overlay removed
   zIndex: 2,
 });
 
