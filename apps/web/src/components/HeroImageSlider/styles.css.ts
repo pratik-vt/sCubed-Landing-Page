@@ -81,17 +81,31 @@ export const heroSliderTextContent = style({
   maxWidth: '800px',
   padding: `0 ${spacing.lg}`,
   marginLeft: '5%', // Add left margin to move content from edge
+  marginRight: '5%', // Add right margin to prevent overlap with right button
   '@media': {
+    'screen and (max-width: 1200px)': {
+      maxWidth: '700px',
+      marginLeft: '8%', // Increase margins on medium screens
+      marginRight: '8%',
+    },
+    'screen and (max-width: 960px)': {
+      maxWidth: '600px',
+      marginLeft: '10%', // Further increase margins at 960px
+      marginRight: '10%',
+      padding: `0 ${spacing.md}`,
+    },
     'screen and (max-width: 768px)': {
       maxWidth: '450px',
       padding: `0 ${spacing.md}`,
-      marginLeft: '0', // Remove left margin on mobile for better spacing
+      marginLeft: '5%', // Reduce margins on mobile
+      marginRight: '5%',
       textAlign: 'left',
     },
     'screen and (max-width: 480px)': {
       maxWidth: '320px',
       padding: `0 ${spacing.sm}`,
-      marginLeft: '0',
+      marginLeft: '8%', // Small margins on mobile
+      marginRight: '8%',
       textAlign: 'left',
     },
   },
@@ -105,11 +119,11 @@ export const heroSliderTitle = style({
   marginBottom: spacing.lg,
   '@media': {
     'screen and (max-width: 768px)': {
-      fontSize: typography.fontSize['5xl'],
+      fontSize: '2rem', // Set to 2rem as requested
       marginBottom: spacing.md,
     },
     'screen and (max-width: 480px)': {
-      fontSize: typography.fontSize['4xl'],
+      fontSize: '2rem', // Keep consistent 2rem on small mobile too
       marginBottom: spacing.sm,
     },
   },
@@ -123,12 +137,7 @@ export const heroSliderDescription = style({
   opacity: 0.9,
   '@media': {
     'screen and (max-width: 768px)': {
-      fontSize: typography.fontSize.lg,
-      marginBottom: spacing.xl,
-    },
-    'screen and (max-width: 480px)': {
-      fontSize: typography.fontSize.base,
-      marginBottom: spacing.lg,
+      display: 'none', // Hide description on mobile
     },
   },
 });
@@ -174,9 +183,17 @@ export const heroSliderButton = style({
     transform: 'translateY(0)',
   },
   '@media': {
+    'screen and (max-width: 1024px)': {
+      fontSize: typography.fontSize.base,
+      padding: `${spacing.sm} ${spacing.md}`, // Reduced padding for iPad
+    },
     'screen and (max-width: 768px)': {
       fontSize: typography.fontSize.base,
-      padding: `${spacing.sm} ${spacing.lg}`,
+      padding: `${spacing.xs} ${spacing.sm}`, // Further reduced padding for mobile
+    },
+    'screen and (max-width: 480px)': {
+      fontSize: typography.fontSize.sm,
+      padding: `${spacing.xs} ${spacing.sm}`, // Minimal padding for small mobile
     },
   },
 });
@@ -192,11 +209,17 @@ export const heroSliderNavigation = style({
   padding: `0 ${spacing.xl}`,
   pointerEvents: 'none',
   '@media': {
-    'screen and (max-width: 768px)': {
+    'screen and (max-width: 1200px)': {
       padding: `0 ${spacing.lg}`,
     },
+    'screen and (max-width: 960px)': {
+      padding: `0 ${spacing.sm}`, // Reduce padding at 960px to avoid overlap
+    },
+    'screen and (max-width: 768px)': {
+      padding: `0 ${spacing.xs}`, // Further reduce on tablet
+    },
     'screen and (max-width: 480px)': {
-      padding: `0 ${spacing.md}`,
+      padding: `0 ${spacing.xs}`, // Minimal padding on mobile
     },
   },
 });
@@ -218,11 +241,11 @@ const navigationButtonBase = style({
   ':hover': {
     backgroundColor: colors.white,
     color: colors.primary[600],
-    transform: 'scale(1.05)',
+    transform: 'translateY(-50%) scale(1.05)',
     boxShadow: shadows.lg,
   },
   ':active': {
-    transform: 'scale(0.95)',
+    transform: 'translateY(-50%) scale(0.95)',
   },
   '@media': {
     'screen and (max-width: 768px)': {

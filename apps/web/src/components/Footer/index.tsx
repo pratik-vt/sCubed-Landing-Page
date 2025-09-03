@@ -1,7 +1,7 @@
 'use client';
 
 import { format } from '@react-input/mask';
-import { ArrowRight, ExternalLink, Mail, Phone } from 'lucide-react';
+import { ExternalLink, Mail, Phone } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
@@ -20,11 +20,6 @@ import {
   contactInfo,
   contactItem,
   copyrightText,
-  ctaButton,
-  ctaContent,
-  ctaDescription,
-  ctaSection,
-  ctaTitle,
   footerColumn,
   footerContainer,
   footerContent,
@@ -57,24 +52,6 @@ const Footer: React.FC = () => {
   return (
     <footer className={footerWrapper}>
       <div className={footerContainer}>
-        {/* CTA Section */}
-        <div className={ctaSection}>
-          <div className={ctaContent}>
-            <h3 className={ctaTitle}>Ready to Transform Your Practice?</h3>
-            <p className={ctaDescription}>
-              Join thousands of therapy practices using S Cubed to streamline their operations.
-            </p>
-          </div>
-          <button
-            className={ctaButton}
-            onClick={() => router.push('/get-started')}
-            aria-label="Get started with S Cubed"
-          >
-            Get Started
-            <ArrowRight className={iconStyle} />
-          </button>
-        </div>
-
         {/* Main Footer Content */}
         <div className={footerContent}>
           {/* Brand Section */}

@@ -35,10 +35,13 @@ export interface HeroSliderItem {
     width?: number;
     height?: number;
     mobileSrc?: string; // Optional mobile image
+    position?: string; // CSS object-position for desktop (e.g., 'center right', 'left center')
+    mobilePosition?: string; // Mobile-specific image position
   };
   link?: {
     href: string;
     text: string;
+    mobileText?: string; // Optional mobile-specific link text
     external?: boolean;
   };
   contentAlign?: 'left' | 'center' | 'right'; // Optional content alignment
@@ -60,17 +63,21 @@ const HeroImageSlider: React.FC<HeroImageSliderProps> = ({
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isAutoPlaying, setIsAutoPlaying] = useState(autoPlay);
   const [isMobile, setIsMobile] = useState(false);
+  const [imageLoaded, setImageLoaded] = useState(false);
 
   const nextSlide = () => {
     setCurrentIndex((prevIndex) => (prevIndex + 1) % items.length);
+    setImageLoaded(false); // Reset loading state for new image
   };
 
   const prevSlide = () => {
     setCurrentIndex((prevIndex) => (prevIndex - 1 + items.length) % items.length);
+    setImageLoaded(false); // Reset loading state for new image
   };
 
   const goToSlide = (index: number) => {
     setCurrentIndex(index);
+    setImageLoaded(false); // Reset loading state for new image
   };
 
   // Auto-play functionality
@@ -82,10 +89,10 @@ const HeroImageSlider: React.FC<HeroImageSliderProps> = ({
     return () => clearInterval(interval);
   }, [isAutoPlaying, autoPlayInterval, items.length]);
 
-  // Mobile detection
+  // Mobile detection (includes iPad)
   useEffect(() => {
     const checkMobile = () => {
-      setIsMobile(window.innerWidth <= 768);
+      setIsMobile(window.innerWidth <= 1024); // Include iPad (1024px and below)
     };
 
     checkMobile();
@@ -93,6 +100,28 @@ const HeroImageSlider: React.FC<HeroImageSliderProps> = ({
 
     return () => window.removeEventListener('resize', checkMobile);
   }, []);
+
+  // Preload next images for better performance
+  useEffect(() => {
+    if (items.length <= 1) return;
+
+    const preloadImages = () => {
+      items.forEach((item, index) => {
+        if (index !== currentIndex) {
+          const img = new window.Image();
+          const imageSrc = isMobile && item.image.mobileSrc 
+            ? item.image.mobileSrc 
+            : item.image.src;
+          img.src = imageSrc;
+        }
+      });
+    };
+
+    // Preload after a short delay to not interfere with current image
+    const timeoutId = setTimeout(preloadImages, 1000);
+
+    return () => clearTimeout(timeoutId);
+  }, [currentIndex, items, isMobile]);
 
   // Pause auto-play on hover
   const handleMouseEnter = () => {
@@ -109,6 +138,12 @@ const HeroImageSlider: React.FC<HeroImageSliderProps> = ({
   const currentImageSrc = isMobile && currentItem.image.mobileSrc 
     ? currentItem.image.mobileSrc 
     : currentItem.image.src;
+  const currentImagePosition = isMobile && currentItem.image.mobilePosition 
+    ? currentItem.image.mobilePosition 
+    : currentItem.image.position || 'center';
+  const currentLinkText = isMobile && currentItem.link?.mobileText 
+    ? currentItem.link.mobileText 
+    : currentItem.link?.text;
 
   return (
     <header 
@@ -136,11 +171,16 @@ const HeroImageSlider: React.FC<HeroImageSliderProps> = ({
               <Image
                 src={currentImageSrc}
                 alt={currentItem.image.alt}
-                width={currentItem.image.width || 1200}
-                height={currentItem.image.height || 600}
+                width={currentItem.image.width || 1920}
+                height={currentItem.image.height || 800}
                 className={heroSliderImage}
-                priority
-                sizes="100vw"
+                priority={currentIndex === 0} // Only prioritize first image
+                quality={90} // High quality but compressed
+                placeholder="blur"
+                blurDataURL="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAYEBQYFBAYGBQYHBwYIChAKCgkJChQODwwQFxQYGBcUFhYaHSUfGhsjHBYWICwgIyYnKSopGR8tMC0oMCUoKSj/2wBDAQcHBwoIChMKChMoGhYaKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCj/wAARCAABAAEDASIAAhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAAAAv/xAAUEAEAAAAAAAAAAAAAAAAAAAAA/8QAFQEBAQAAAAAAAAAAAAAAAAAAAAX/xAAUEQEAAAAAAAAAAAAAAAAAAAAA/9oADAMBAAIRAxEAPwCdABmX/9k="
+                sizes="(max-width: 768px) 100vw, (max-width: 1200px) 100vw, 100vw"
+                onLoad={() => setImageLoaded(true)}
+                style={{ objectPosition: currentImagePosition }}
               />
               <div className={heroSliderOverlay} />
             </motion.div>
@@ -154,9 +194,10 @@ const HeroImageSlider: React.FC<HeroImageSliderProps> = ({
             transition={{ duration: 0.6, delay: 0.2 }}
             style={{ 
               textAlign: currentItem.contentAlign || 'left',
-              marginLeft: currentItem.contentAlign === 'center' ? '0' : 
-                         currentItem.contentAlign === 'right' ? '0' : '5%',
-              marginRight: currentItem.contentAlign === 'right' ? '5%' : '0'
+              marginLeft: currentItem.contentAlign === 'center' ? 'auto' : 
+                         currentItem.contentAlign === 'right' ? 'auto' : undefined,
+              marginRight: currentItem.contentAlign === 'center' ? 'auto' : 
+                          currentItem.contentAlign === 'right' ? undefined : undefined
             }}
           >
             <motion.h1
@@ -194,12 +235,12 @@ const HeroImageSlider: React.FC<HeroImageSliderProps> = ({
                     rel="noopener noreferrer"
                     className={heroSliderButton}
                   >
-                    {currentItem.link.text}
+                    {currentLinkText}
                     <ExternalLink size={20} />
                   </a>
                 ) : (
                   <Link href={currentItem.link.href} className={heroSliderButton}>
-                    {currentItem.link.text}
+                    {currentLinkText}
                   </Link>
                 )}
               </motion.div>

@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 
 import Container from '../components/Container';
+import CTA from '../components/CTA';
 import Disciplines from '../components/Disciplines/disciplines';
 import Features from '../components/Features/features';
 import Footer from '../components/Footer/footer';
@@ -47,6 +48,9 @@ export default function HomePage() {
         <Stand />
         <Hero />
         <Partners />
+      </Container>
+      <CTA />
+      <Container>
         <Footer />
       </Container>
     </>
