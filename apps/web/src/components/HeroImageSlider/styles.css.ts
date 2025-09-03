@@ -16,6 +16,7 @@ export const heroSliderSection = style({
   maxHeight: '800px',
   overflow: 'hidden',
   marginTop: '24px', // Account for fixed header (contact info + nav)
+  backgroundColor: '#f8fafc', // Light background to prevent black flash
   '@media': {
     'screen and (max-width: 768px)': {
       height: '70vh',
@@ -69,7 +70,7 @@ export const heroSliderOverlay = style({
   left: 0,
   width: '100%',
   height: '100%',
-  // background: 'linear-gradient(135deg, rgba(55, 65, 255, 0.2) 0%, rgba(122, 126, 237, 0.15) 100%)',
+  background: 'rgba(248, 250, 252, 0.95)', // Light background to prevent black flash
   zIndex: 2,
 });
 
