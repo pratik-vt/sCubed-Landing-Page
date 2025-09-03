@@ -14,6 +14,7 @@ import {
 } from '../../../lib/strapi';
 import DynamicContentRenderer from '../DynamicContentRenderer';
 import BlogContactForm from '../BlogContactForm';
+import AudioButton from '../AudioButton';
 
 import {
   articleContainer,
@@ -31,7 +32,6 @@ import {
   tocList,
   tocItem,
   sidebar,
-  relatedPosts,
   socialShare,
   breadcrumb,
   authorInfo,
@@ -41,7 +41,6 @@ import {
   tags,
   tag,
   socialShareTitle,
-  socialShareButtons,
   twitterButton,
   linkedinButton,
   facebookButton,
@@ -51,21 +50,14 @@ import {
   sectionWrapper,
   sectionLabel,
   authorName,
-  authorPosition,
-  authorBio,
-  authorStats,
-  authorStat,
-  authorStatLabel,
-  authorStatValue,
-  contentDivider,
   shareHeader,
   copyLinkButton,
-  copySuccess,
   socialShareGrid,
   shareStats,
   authorCard,
   authorContent,
-  authorMeta,
+  breadcrumbRow,
+  audioButtonInline,
 } from './styles.css';
 import './global.css';
 
@@ -227,11 +219,23 @@ const BlogArticle: React.FC<BlogArticleProps> = ({ post }) => {
 
       {/* Content Wrapper */}
       <div className={contentWrapper}>
-        {/* Breadcrumb */}
-        <nav className={breadcrumb}>
-          <Link href="/">Home</Link> / <Link href="/blog">Blog</Link>
-          {' '} / <span>{title}</span>
-        </nav>
+        {/* Breadcrumb and Audio Button Row */}
+        <div className={breadcrumbRow}>
+          <nav className={breadcrumb}>
+            <Link href="/">Home</Link> / <Link href="/blog">Blog</Link>
+            {' '} / <span>{title}</span>
+          </nav>
+
+          {/* Audio Button - if audio version exists */}
+          {post.audio_version && (
+            <div className={audioButtonInline}>
+              <AudioButton 
+                audioFile={post.audio_version} 
+                title={title}
+              />
+            </div>
+          )}
+        </div>
 
         <div className={contentLayout}>
           {/* Main Content */}
@@ -290,7 +294,7 @@ const BlogArticle: React.FC<BlogArticleProps> = ({ post }) => {
                 <section className={authorCard} aria-labelledby="author-heading">
                   <div className={authorInfo}>
                     {/* Author Avatar - Always show with fallback */}
-                    <div className={authorAvatar} role="img" aria-label={`${authorName} profile picture`}>
+                    <div className={authorAvatar} aria-label={`${authorName} profile picture`}>
                       {authorAvatarUrl && !avatarError ? (
                         <Image
                           src={authorAvatarUrl}
@@ -334,7 +338,7 @@ const BlogArticle: React.FC<BlogArticleProps> = ({ post }) => {
               )}
 
               {/* Enhanced Social Share */}
-              {(post.social_share || true) && (
+              {post.social_share && (
                 <div className={socialShare}>
                   <div className={shareHeader}>
                     <div>

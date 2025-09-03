@@ -659,6 +659,34 @@ export const sidebar = style({
   },
 });
 
+export const breadcrumbRow = style({
+  display: 'flex',
+  justifyContent: 'space-between',
+  alignItems: 'center',
+  marginBottom: spacing.lg,
+  gap: spacing.md,
+  
+  '@media': {
+    '(max-width: 768px)': {
+      flexDirection: 'column',
+      alignItems: 'flex-start',
+      gap: spacing.sm,
+    },
+  },
+});
+
+export const audioButtonInline = style({
+  flexShrink: 0,
+  
+  '@media': {
+    '(max-width: 768px)': {
+      alignSelf: 'stretch',
+      display: 'flex',
+      justifyContent: 'center',
+    },
+  },
+});
+
 export const categoriesTagsSection = style({
   marginTop: spacing.xl,
   paddingTop: spacing.lg,

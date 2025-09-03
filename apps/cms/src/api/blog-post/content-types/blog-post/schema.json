@@ -48,7 +48,13 @@
       "required": false,
       "allowedTypes": ["images"]
     },
-
+    "audio_version": {
+      "type": "media",
+      "multiple": false,
+      "required": false,
+      "allowedTypes": ["audios"],
+      "description": "Audio version of the blog post for Listen to Audio feature. Supported formats: MP3, WAV, OGG, AAC, M4A"
+    },
     "featured": {
       "type": "boolean",
       "default": false

@@ -122,7 +122,7 @@ export interface BlogPost {
   content_blocks?: ContentBlock[];
   featured_image?: StrapiImage;
   hero_image?: StrapiImage;
-
+  audio_version?: StrapiImage;
   featured: boolean;
   estimated_read_time?: number;
   meta_title?: string;
@@ -169,6 +169,7 @@ export async function getBlogPosts(params: {
     'populate[2]': 'tags',
     'populate[3]': 'featured_image',
     'populate[4]': 'hero_image',
+    'populate[5]': 'audio_version',
     'sort': 'publishedAt:desc'
   });
 
@@ -214,6 +215,7 @@ export async function getBlogPost(slug: string): Promise<StrapiResponse<BlogPost
     queryParams.set('populate[tags]', 'true');
     queryParams.set('populate[featured_image]', 'true');
     queryParams.set('populate[hero_image]', 'true');
+    queryParams.set('populate[audio_version]', 'true');
     
     // Populate content_blocks with all nested fields (required for polymorphic structures)
     // The error message indicates we must use '*' for polymorphic structures
