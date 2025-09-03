@@ -1,10 +1,12 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { InputMask } from '@react-input/mask';
 import { AlertCircle, CheckCircle, Mail } from 'lucide-react';
 import isEmail from 'validator/lib/isEmail';
+
+import ReCaptcha, { ReCaptchaRef } from '../../ReCaptcha';
 
 import {
   formContainer,
@@ -52,6 +54,9 @@ const BlogContactForm: React.FC = () => {
   const [submitSuccess, setSubmitSuccess] = useState(false);
   const [submitError, setSubmitError] = useState<string | null>(null);
   const [apiFieldErrors, setApiFieldErrors] = useState<Record<string, string>>({});
+  const [recaptchaToken, setRecaptchaToken] = useState<string | null>(null);
+  const [recaptchaError, setRecaptchaError] = useState<string | null>(null);
+  const recaptchaRef = useRef<ReCaptchaRef>(null);
 
   const {
     register,
@@ -73,10 +78,39 @@ const BlogContactForm: React.FC = () => {
     return fieldMap[apiField] || apiField;
   };
 
+  // reCAPTCHA handlers
+  const handleRecaptchaChange = (token: string | null) => {
+    setRecaptchaToken(token);
+    setRecaptchaError(null);
+    // Clear API field errors for recaptcha when user completes it
+    if (token && apiFieldErrors.recaptcha) {
+      const { recaptcha, ...otherErrors } = apiFieldErrors;
+      setApiFieldErrors(otherErrors);
+    }
+  };
+
+  const handleRecaptchaError = () => {
+    setRecaptchaError('reCAPTCHA error occurred. Please try again.');
+    setRecaptchaToken(null);
+  };
+
+  const handleRecaptchaExpired = () => {
+    setRecaptchaError('reCAPTCHA has expired. Please verify again.');
+    setRecaptchaToken(null);
+  };
+
   const onSubmit: SubmitHandler<FormData> = async (data) => {
     setIsSubmitting(true);
     setSubmitError(null);
     setApiFieldErrors({});
+    setRecaptchaError(null);
+
+    // Check if reCAPTCHA is completed
+    if (!recaptchaToken) {
+      setRecaptchaError('Please complete the reCAPTCHA verification');
+      setIsSubmitting(false);
+      return;
+    }
 
     // Split full name into first and last name for API
     const nameParts = data.fullName.trim().split(' ');
@@ -96,6 +130,7 @@ const BlogContactForm: React.FC = () => {
       other_software_experience: false,
       software_name: '',
       comments: data.message || '',
+      recaptcha_token: recaptchaToken,
     };
 
     try {
@@ -112,6 +147,9 @@ const BlogContactForm: React.FC = () => {
       if (response.ok) {
         setSubmitSuccess(true);
         setApiFieldErrors({});
+        setRecaptchaToken(null);
+        setRecaptchaError(null);
+        recaptchaRef.current?.reset();
         reset();
       } else {
         const errorData: ApiErrorResponse = await response.json().catch(() => ({
@@ -127,8 +165,14 @@ const BlogContactForm: React.FC = () => {
           // Handle field-specific errors
           const fieldErrors: Record<string, string> = {};
           errorData.errors.forEach((error: ApiError) => {
-            const formFieldName = mapApiFieldToFormField(error.field);
-            fieldErrors[formFieldName] = error.message;
+            if (error.field === 'recaptcha') {
+              setRecaptchaError(error.message);
+              setRecaptchaToken(null);
+              recaptchaRef.current?.reset();
+            } else {
+              const formFieldName = mapApiFieldToFormField(error.field);
+              fieldErrors[formFieldName] = error.message;
+            }
           });
           setApiFieldErrors(fieldErrors);
           setSubmitError('Please correct the errors below and try again.');
@@ -340,6 +384,15 @@ const BlogContactForm: React.FC = () => {
             {submitError}
           </div>
         )}
+
+        {/* reCAPTCHA */}
+        <ReCaptcha
+          ref={recaptchaRef}
+          onVerify={handleRecaptchaChange}
+          onError={handleRecaptchaError}
+          onExpired={handleRecaptchaExpired}
+          error={recaptchaError}
+        />
 
         <button
           type="submit"

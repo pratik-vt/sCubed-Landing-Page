@@ -9,13 +9,14 @@ import {
   Mail,
   Phone,
 } from 'lucide-react';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import isEmail from 'validator/lib/isEmail';
 
 import { colors } from '../../styles/tokens.css';
 import CalendlyButton from '../billing/CalendlyButton';
 import { primaryButton } from '../billing/CalendlyButton/styles.css';
+import ReCaptcha, { ReCaptchaRef } from '../ReCaptcha';
 
 import {
   backgroundContainer,
@@ -118,6 +119,9 @@ const GetStartedForm: React.FC = () => {
   const [apiFieldErrors, setApiFieldErrors] = useState<Record<string, string>>(
     {},
   );
+  const [recaptchaToken, setRecaptchaToken] = useState<string | null>(null);
+  const [recaptchaError, setRecaptchaError] = useState<string | null>(null);
+  const recaptchaRef = useRef<ReCaptchaRef>(null);
   const [states, setStates] = useState<StateData[]>([]);
   const [statesLoading, setStatesLoading] = useState(true);
   const [statesError, setStatesError] = useState<string | null>(null);
@@ -192,10 +196,39 @@ const GetStartedForm: React.FC = () => {
     return fieldMap[apiField] || apiField;
   };
 
+  // reCAPTCHA handlers
+  const handleRecaptchaChange = (token: string | null) => {
+    setRecaptchaToken(token);
+    setRecaptchaError(null);
+    // Clear API field errors for recaptcha when user completes it
+    if (token && apiFieldErrors.recaptcha) {
+      const { recaptcha, ...otherErrors } = apiFieldErrors;
+      setApiFieldErrors(otherErrors);
+    }
+  };
+
+  const handleRecaptchaError = () => {
+    setRecaptchaError('reCAPTCHA error occurred. Please try again.');
+    setRecaptchaToken(null);
+  };
+
+  const handleRecaptchaExpired = () => {
+    setRecaptchaError('reCAPTCHA has expired. Please verify again.');
+    setRecaptchaToken(null);
+  };
+
   const onSubmit: SubmitHandler<FormData> = async (data) => {
     setIsSubmitting(true);
     setSubmitError(null);
     setApiFieldErrors({});
+    setRecaptchaError(null);
+
+    // Check if reCAPTCHA is completed
+    if (!recaptchaToken) {
+      setRecaptchaError('Please complete the reCAPTCHA verification');
+      setIsSubmitting(false);
+      return;
+    }
 
     // Transform camelCase to snake_case for API
     const transformedData = {
@@ -210,6 +243,7 @@ const GetStartedForm: React.FC = () => {
       other_software_experience: data.hasExperience,
       software_name: data.previousSoftware || '',
       comments: data.comments || '',
+      recaptcha_token: recaptchaToken,
     };
 
     try {
@@ -226,6 +260,9 @@ const GetStartedForm: React.FC = () => {
       if (response.ok) {
         setSubmitSuccess(true);
         setApiFieldErrors({});
+        setRecaptchaToken(null);
+        setRecaptchaError(null);
+        recaptchaRef.current?.reset();
         reset();
         window.scrollTo({ top: 0, behavior: 'smooth' });
       } else {
@@ -242,8 +279,14 @@ const GetStartedForm: React.FC = () => {
           // Handle field-specific errors
           const fieldErrors: Record<string, string> = {};
           errorData.errors.forEach((error: ApiError) => {
-            const formFieldName = mapApiFieldToFormField(error.field);
-            fieldErrors[formFieldName] = error.message;
+            if (error.field === 'recaptcha') {
+              setRecaptchaError(error.message);
+              setRecaptchaToken(null);
+              recaptchaRef.current?.reset();
+            } else {
+              const formFieldName = mapApiFieldToFormField(error.field);
+              fieldErrors[formFieldName] = error.message;
+            }
           });
           setApiFieldErrors(fieldErrors);
 
@@ -925,6 +968,17 @@ const GetStartedForm: React.FC = () => {
                         {submitError}
                       </div>
                     )}
+
+                    {/* reCAPTCHA */}
+                    <div className="pt-4">
+                      <ReCaptcha
+                        ref={recaptchaRef}
+                        onVerify={handleRecaptchaChange}
+                        onError={handleRecaptchaError}
+                        onExpired={handleRecaptchaExpired}
+                        error={recaptchaError}
+                      />
+                    </div>
 
                     {/* Submit Button */}
                     <div className="pt-4">
