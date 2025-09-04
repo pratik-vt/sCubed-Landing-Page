@@ -13,7 +13,7 @@ export const ctaSection = style({
   boxSizing: 'border-box',
   margin: `${spacing['3xl']} auto`,
   maxWidth: '1400px',
-  width: '100%',
+  width: 'auto',
   '@media': {
     'screen and (max-width: 768px)': {
       flexDirection: 'column',

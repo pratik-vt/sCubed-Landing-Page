@@ -68,7 +68,8 @@ export const heroContent = style({
   
   '@media': {
     '(max-width: 768px)': {
-      padding: `0 ${spacing.lg}`,
+      maxWidth: '100%',
+      padding: `0 ${spacing.sm}`,
     },
   },
 });
@@ -135,7 +136,8 @@ export const contentWrapper = style({
   
   '@media': {
     '(max-width: 768px)': {
-      padding: spacing.lg,
+      maxWidth: '100%',
+      padding: spacing.sm,
       marginTop: '-1rem',
     },
   },

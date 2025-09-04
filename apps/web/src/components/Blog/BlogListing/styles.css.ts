@@ -14,7 +14,8 @@ export const postsWrapper = style({
   
   '@media': {
     '(max-width: 768px)': {
-      padding: `0 ${spacing.lg} ${spacing['2xl']}`,
+      maxWidth: '100%',
+      padding: `0 ${spacing.sm} ${spacing['2xl']}`,
     },
   },
 });
