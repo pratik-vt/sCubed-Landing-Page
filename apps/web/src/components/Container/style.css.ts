@@ -384,7 +384,12 @@ export const descStyle = style({
 });
 export const disciplineImg = style({
   '@media': {
-    'screen and (max-width: 768px)': { padding: `0 30px` },
+    'screen and (max-width: 768px)': { 
+      padding: `0 30px`,
+      height: `200px`,
+      width: `100%`,
+      objectFit: `contain`
+    },
     'screen and (min-width: 768px) and (max-width: 1200px)': {
       padding: `0 30px`,
     },

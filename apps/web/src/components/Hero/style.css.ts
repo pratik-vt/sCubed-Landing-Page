@@ -2,7 +2,7 @@ import { style } from '@vanilla-extract/css';
 
 export const heroStyles = style({
   position: 'relative',
-  marginTop: '60px',
+  // marginTop: '60px',
 });
 
 export const heroImage = style({

@@ -193,8 +193,9 @@ export const heroSliderButton = style({
       padding: `${spacing.xs} ${spacing.sm}`, // Further reduced padding for mobile
     },
     'screen and (max-width: 480px)': {
-      fontSize: typography.fontSize.sm,
+      fontSize: typography.fontSize.xs,
       padding: `${spacing.xs} ${spacing.sm}`, // Minimal padding for small mobile
+      gap: spacing.xs,
     },
   },
 });

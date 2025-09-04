@@ -20,7 +20,7 @@ export const ctaSection = style({
       textAlign: 'center',
       gap: spacing.md,
       padding: '15px',
-      margin: `${spacing['2xl']} 15px`,
+      margin: `0 15px`,
     },
   },
 });
