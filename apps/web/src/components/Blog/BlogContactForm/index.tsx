@@ -56,6 +56,7 @@ const BlogContactForm: React.FC = () => {
   const [apiFieldErrors, setApiFieldErrors] = useState<Record<string, string>>({});
   const [recaptchaToken, setRecaptchaToken] = useState<string | null>(null);
   const [recaptchaError, setRecaptchaError] = useState<string | null>(null);
+  const [messageLength, setMessageLength] = useState(0);
   const recaptchaRef = useRef<ReCaptchaRef>(null);
 
   const {
@@ -63,7 +64,14 @@ const BlogContactForm: React.FC = () => {
     handleSubmit,
     formState: { errors },
     reset,
+    watch,
   } = useForm<FormData>();
+  
+  // Watch message field for character count
+  const messageValue = watch('message', '');
+  useEffect(() => {
+    setMessageLength(messageValue?.length || 0);
+  }, [messageValue]);
 
   // Map API field names back to form field names
   const mapApiFieldToFormField = (apiField: string): string => {
@@ -144,6 +152,7 @@ const BlogContactForm: React.FC = () => {
         setApiFieldErrors({});
         setRecaptchaToken(null);
         setRecaptchaError(null);
+        setMessageLength(0);
         recaptchaRef.current?.reset();
         reset();
       } else {
@@ -242,6 +251,7 @@ const BlogContactForm: React.FC = () => {
               setSubmitSuccess(false);
               setSubmitError(null);
               setApiFieldErrors({});
+              setMessageLength(0);
             }}
             style={{
               background: 'none',
@@ -347,11 +357,20 @@ const BlogContactForm: React.FC = () => {
         <div className={formGroup} style={{ gridColumn: '1 / -1' }}>
           <label className={labelStyle}>
             Message <span className={requiredMark}>*</span>
+            <span style={{ 
+              float: 'right', 
+              fontSize: '0.75rem', 
+              color: messageLength > MAX_LENGTHS.message ? '#ef4444' : '#6b7280',
+              fontWeight: 'normal' 
+            }}>
+              {messageLength}/{MAX_LENGTHS.message}
+            </span>
           </label>
           <textarea
             className={textareaStyle}
             placeholder="Tell us about your practice and how we can help..."
             rows={4}
+            maxLength={MAX_LENGTHS.message + 1} // Allow one extra character to trigger validation
             {...register('message', {
               required: 'Message is required',
               maxLength: {
