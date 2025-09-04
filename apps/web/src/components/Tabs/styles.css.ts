@@ -11,10 +11,21 @@ export const tab = style({
   fontSize: `24px`,
   color: `#333`,
   fontWeight: `500`,
+  padding: `10px`,
+  transition: 'all 0.3s ease',
   '@media': {
+    'screen and (max-width: 1024px)': {
+      flex: '1 1 50%',
+      minWidth: '150px',
+    },
     'screen and (max-width: 768px)': {
-      position: `relative`,
-      marginBottom: `10px`,
+      flex: '1 1 50%',
+      fontSize: '18px',
+      padding: '8px',
+    },
+    'screen and (max-width: 480px)': {
+      flex: '1 1 50%',
+      fontSize: '16px',
     },
   },
 });
@@ -25,8 +36,21 @@ export const tabsList = style({
   borderBottom: `1px solid #ededef`,
   marginBottom: `35px`,
   '@media': {
+    'screen and (max-width: 1024px)': {
+      display: 'grid',
+      gridTemplateColumns: 'repeat(2, 1fr)',
+      gap: '10px',
+      borderBottom: 'none',
+    },
     'screen and (max-width: 768px)': {
-      flexDirection: `column`,
+      display: 'grid',
+      gridTemplateColumns: 'repeat(2, 1fr)',
+      gap: '10px',
+      marginBottom: '20px',
+    },
+    'screen and (max-width: 480px)': {
+      gridTemplateColumns: 'repeat(2, 1fr)',
+      gap: '8px',
     },
   },
 });
@@ -35,12 +59,28 @@ export const tabDataHeading = style({
   fontSize: `24px`,
   fontWeight: `500`,
   color: `#333`,
+  '@media': {
+    'screen and (max-width: 1024px)': {
+      fontSize: '18px',
+    },
+    'screen and (max-width: 768px)': {
+      fontSize: '16px',
+    },
+    'screen and (max-width: 480px)': {
+      fontSize: '14px',
+    },
+  },
 });
 
 export const tabData = style({
   maxWidth: `240px`,
   width: `100%`,
   textAlign: `center`,
+  '@media': {
+    'screen and (max-width: 768px)': {
+      maxWidth: '100%',
+    },
+  },
 });
 
 export const panelHeading = style({

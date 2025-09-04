@@ -84,78 +84,59 @@ const Tabs: React.FC = () => {
               style={{
                 cursor: 'pointer',
                 borderBottom:
-                  activeTab === index ? '4px solid #7a7eed' : 'none',
+                  screenWidth > 768 && activeTab === index ? '4px solid #7a7eed' : 'none',
+                backgroundColor:
+                  activeTab === index ? 'rgba(122, 126, 237, 0.1)' : 'transparent',
+                borderRadius: screenWidth <= 768 ? '8px' : '0',
+                boxShadow:
+                  screenWidth <= 768 && activeTab === index 
+                    ? '0 2px 8px rgba(122, 126, 237, 0.2)' 
+                    : 'none',
               }}
             >
               <Image
                 src={content.image}
                 alt={content.alt}
                 sizes="(min-width: 1200px) 240px, 33vw"
+                style={{
+                  maxWidth: screenWidth <= 768 ? '60px' : '100%',
+                  height: 'auto',
+                }}
               />
               <div className={tabData}>
                 <h3 className={tabDataHeading}>{content.heading}</h3>
               </div>
-              {screenWidth <= 768 && activeTab === index && (
-                <div className={tabPanel}>
-                  <Image
-                    className={tabPanelImage}
-                    src={content.panel}
-                    alt={content.alt}
-                    sizes="(min-width: 1200px) 820px, 100vw"
-                    style={{
-                      objectFit: 'contain',
-                      width: '100%',
-                      height: 'auto',
-                    }}
-                    placeholder="blur"
-                    priority
-                  />
-                  <div className={panelContent}>
-                    <div className={panelHeading}>{content.heading}</div>
-                    <div className={sectionDescription}>
-                      {content.description}
-                    </div>
-                    <CalendlyWidget
-                      buttonColor="#333"
-                      buttonBackground="#66e3ed"
-                      buttonWidth="210px"
-                      buttonText="BOOK A FREE DEMO"
-                      navigateTo="/get-started"
-                    />
-                  </div>
-                </div>
-              )}
             </div>
           ))}
         </div>
-        {screenWidth > 768 &&
-          tabContents.map((content, index) => (
-            <div
-              key={content.heading}
-              className={activeTab === index ? tabPanel : hidePanel}
-            >
-              <Image
-                className={tabPanelImage}
-                src={content.panel}
-                alt={content.alt}
-                sizes="(min-width: 1400px) 820px, (min-width: 768px) 60vw, 100vw"
-                style={{ objectFit: 'contain', width: '100%', height: 'auto' }}
-                placeholder="blur"
-                priority
+        {/* Display content panel for all screen sizes */}
+        {tabContents.map((content, index) => (
+          <div
+            key={content.heading}
+            className={activeTab === index ? tabPanel : hidePanel}
+          >
+            <Image
+              className={tabPanelImage}
+              src={content.panel}
+              alt={content.alt}
+              sizes="(min-width: 1400px) 820px, (min-width: 768px) 60vw, 100vw"
+              style={{ objectFit: 'contain', width: '100%', height: 'auto' }}
+              placeholder="blur"
+              priority
+            />
+            <div className={panelContent}>
+              <div className={panelHeading}>{content.heading}</div>
+              <div className={sectionDescription}>{content.description}</div>
+              <CalendlyWidget
+                buttonColor="#333"
+                buttonBackground="#66e3ed"
+                buttonWidth="210px"
+                buttonText="BOOK A FREE DEMO"
+                navigateTo="/get-started"
               />
-              <div className={panelContent}>
-                <div className={panelHeading}>{content.heading}</div>
-                <div className={sectionDescription}>{content.description}</div>
-                <CalendlyWidget
-                  buttonColor="#333"
-                  buttonBackground="#66e3ed"
-                  buttonWidth="210px"
-                  buttonText="BOOK A FREE DEMO"
-                  navigateTo="/get-started"
-                />
-              </div>
             </div>
-          ))}
+          </div>
+        ))}
       </div>
     </div>
   );
