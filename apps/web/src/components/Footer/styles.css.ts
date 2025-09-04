@@ -49,6 +49,8 @@ export const brandSection = style({
   '@media': {
     'screen and (max-width: 1024px)': {
       gridColumn: '1 / -1',
+      alignItems: 'center',
+      textAlign: 'center',
     },
     'screen and (max-width: 768px)': {
       alignItems: 'center',
@@ -74,6 +76,12 @@ export const brandDescription = style({
   maxWidth: '400px',
   marginBottom: '0',
   '@media': {
+    'screen and (max-width: 1024px)': {
+      maxWidth: '600px',
+      textAlign: 'center',
+      margin: '0 auto',
+      paddingTop: spacing.md,
+    },
     'screen and (max-width: 768px)': {
       fontSize: typography.fontSize.sm,
       maxWidth: '100%',
@@ -244,6 +252,10 @@ export const logosRow = style({
   gap: spacing.xl,
   marginTop: spacing.md,
   '@media': {
+    'screen and (max-width: 1024px)': {
+      justifyContent: 'center',
+      gap: spacing.lg,
+    },
     'screen and (max-width: 768px)': {
       justifyContent: 'center',
       gap: spacing.lg,

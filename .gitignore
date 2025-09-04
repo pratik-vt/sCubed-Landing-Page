@@ -281,3 +281,6 @@ Thumbs.db
 .cache/
 src/gatsby-types.d.ts
 
+# claude-code
+.mcp.json
+.claude
