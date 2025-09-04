@@ -3,6 +3,7 @@ import type { Metadata } from 'next';
 import ConditionalLayout from '../components/ConditionalLayout';
 import '../components/Container/fonts.css';
 import '../components/Container/style.css';
+import '../styles/global.css';
 
 // Get environment for robots meta tag and tracking scripts
 const appEnv = process.env.NEXT_PUBLIC_APP_ENV || 'dev';

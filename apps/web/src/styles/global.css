@@ -1,0 +1,18 @@
+/* Global styles for the application */
+
+/* Hide reCAPTCHA badge for invisible reCAPTCHA */
+.grecaptcha-badge {
+  visibility: hidden !important;
+}
+
+/* Ensure links in reCAPTCHA notice are styled properly */
+.recaptcha-notice a {
+  color: inherit;
+  text-decoration: underline;
+  opacity: 0.8;
+  transition: opacity 0.2s ease;
+}
+
+.recaptcha-notice a:hover {
+  opacity: 1;
+}
