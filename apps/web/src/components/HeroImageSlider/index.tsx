@@ -65,6 +65,9 @@ const HeroImageSlider: React.FC<HeroImageSliderProps> = ({
   const [isMobile, setIsMobile] = useState(false);
   const [imagesLoaded, setImagesLoaded] = useState<Record<number, boolean>>({});
   const [isTransitioning, setIsTransitioning] = useState(false);
+  const [touchStart, setTouchStart] = useState<number | null>(null);
+  const [touchEnd, setTouchEnd] = useState<number | null>(null);
+  const [isDragging, setIsDragging] = useState(false);
 
   const nextSlide = () => {
     if (isTransitioning) return;
@@ -153,6 +156,42 @@ const HeroImageSlider: React.FC<HeroImageSliderProps> = ({
     setIsAutoPlaying(autoPlay);
   };
 
+  // Touch/Swipe handlers
+  const minSwipeDistance = 50; // Minimum distance in pixels for a swipe
+
+  const onTouchStart = (e: React.TouchEvent) => {
+    setIsDragging(true);
+    setTouchEnd(null); // Reset touchEnd
+    setTouchStart(e.targetTouches[0].clientX);
+    // Pause autoplay when user starts swiping
+    setIsAutoPlaying(false);
+  };
+
+  const onTouchMove = (e: React.TouchEvent) => {
+    setTouchEnd(e.targetTouches[0].clientX);
+  };
+
+  const onTouchEnd = () => {
+    setIsDragging(false);
+    if (!touchStart || !touchEnd) return;
+    
+    const distance = touchStart - touchEnd;
+    const isLeftSwipe = distance > minSwipeDistance;
+    const isRightSwipe = distance < -minSwipeDistance;
+
+    if (isLeftSwipe && items.length > 1) {
+      nextSlide();
+    }
+    if (isRightSwipe && items.length > 1) {
+      prevSlide();
+    }
+    
+    // Resume autoplay after swipe if it was originally enabled
+    setTimeout(() => {
+      setIsAutoPlaying(autoPlay);
+    }, 1000);
+  };
+
   if (!items.length) return null;
 
   const currentItem = items[currentIndex];
@@ -171,6 +210,9 @@ const HeroImageSlider: React.FC<HeroImageSliderProps> = ({
       className={`${heroSliderSection} ${className || ''}`}
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
+      onTouchStart={onTouchStart}
+      onTouchMove={onTouchMove}
+      onTouchEnd={onTouchEnd}
     >
       <div className={heroSliderContainer}>
         <div 
@@ -185,9 +227,16 @@ const HeroImageSlider: React.FC<HeroImageSliderProps> = ({
               key={currentItem.id}
               className={heroSliderImageWrapper}
               initial={{ opacity: 0 }}
-              animate={{ opacity: imagesLoaded[currentIndex] ? 1 : 0.8 }}
+              animate={{ 
+                opacity: imagesLoaded[currentIndex] ? 1 : 0.8,
+                x: isDragging && touchStart && touchEnd ? (touchEnd - touchStart) * 0.2 : 0
+              }}
               exit={{ opacity: 0 }}
-              transition={{ duration: 0.5 }}
+              transition={{ 
+                duration: isDragging ? 0 : 0.5,
+                type: isDragging ? 'tween' : 'spring'
+              }}
+              style={{ cursor: items.length > 1 ? 'grab' : 'default' }}
             >
               <Image
                 src={currentImageSrc}

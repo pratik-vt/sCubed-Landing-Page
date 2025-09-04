@@ -36,7 +36,7 @@ interface FormData {
 const MAX_LENGTHS = {
   fullName: 255,
   companyName: 255,
-  message: 1000,
+  message: 800,
 };
 
 interface ApiError {

@@ -13,11 +13,21 @@ export const formContainer = style({
   borderRadius: '0.75rem', // matches radius.md
   padding: '1.5rem', // matches spacing.md
   boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06)',
+  position: 'relative',
+  overflow: 'visible', // Allow CAPTCHA to be visible but contained
+  width: '100%',
+  boxSizing: 'border-box',
   
   '@media': {
     'screen and (max-width: 768px)': {
-      padding: '1.5rem',
+      padding: '1.25rem',
       borderRadius: '0.75rem',
+      maxWidth: '100%',
+      overflow: 'visible',
+    },
+    'screen and (max-width: 480px)': {
+      padding: '1rem',
+      overflow: 'visible',
     },
   },
 });

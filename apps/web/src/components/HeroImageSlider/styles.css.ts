@@ -17,6 +17,9 @@ export const heroSliderSection = style({
   overflow: 'hidden',
   marginTop: '24px', // Account for fixed header (contact info + nav)
   backgroundColor: '#f8fafc', // Light background to prevent black flash
+  userSelect: 'none', // Prevent text selection during swipe
+  WebkitUserSelect: 'none',
+  touchAction: 'pan-y pinch-zoom', // Allow vertical scroll but handle horizontal swipes
   '@media': {
     'screen and (max-width: 768px)': {
       height: '70vh',
