@@ -1,6 +1,6 @@
 'use client';
 
-import React, { forwardRef, useImperativeHandle, useRef } from 'react';
+import React, { forwardRef, useImperativeHandle, useRef, useEffect, useState } from 'react';
 import ReCAPTCHA from 'react-google-recaptcha';
 
 import { recaptchaContainer, recaptchaError } from './styles.css';
@@ -21,7 +21,22 @@ export interface ReCaptchaRef {
 }
 
 const ReCaptcha = forwardRef<ReCaptchaRef, ReCaptchaProps>(
-  ({ onVerify, onError, onExpired, error, theme = 'light', size = 'normal' }, ref) => {
+  ({ onVerify, onError, onExpired, error, theme = 'light', size: propSize }, ref) => {
+    const [responsiveSize, setResponsiveSize] = useState<'compact' | 'normal'>('normal');
+    
+    useEffect(() => {
+      const handleResize = () => {
+        // Use compact size for mobile devices
+        setResponsiveSize(window.innerWidth <= 480 ? 'compact' : 'normal');
+      };
+      
+      handleResize(); // Set initial size
+      window.addEventListener('resize', handleResize);
+      
+      return () => window.removeEventListener('resize', handleResize);
+    }, []);
+    
+    const size = propSize || responsiveSize;
     const recaptchaRef = useRef<ReCAPTCHA>(null);
 
     useImperativeHandle(ref, () => ({
