@@ -1,6 +1,6 @@
 'use client';
 
-import React, { forwardRef, useImperativeHandle, useRef, useEffect, useState } from 'react';
+import { forwardRef, useEffect, useImperativeHandle, useRef, useState } from 'react';
 import ReCAPTCHA from 'react-google-recaptcha';
 
 import { recaptchaContainer, recaptchaError } from './styles.css';
@@ -12,6 +12,7 @@ interface ReCaptchaProps {
   error?: string | null;
   theme?: 'light' | 'dark';
   size?: 'compact' | 'normal' | 'invisible';
+  siteKey?: string; // Optional custom site key
 }
 
 export interface ReCaptchaRef {
@@ -21,7 +22,7 @@ export interface ReCaptchaRef {
 }
 
 const ReCaptcha = forwardRef<ReCaptchaRef, ReCaptchaProps>(
-  ({ onVerify, onError, onExpired, error, theme = 'light', size: propSize }, ref) => {
+  ({ onVerify, onError, onExpired, error, theme = 'light', size: propSize, siteKey: customSiteKey }, ref) => {
     const [responsiveSize, setResponsiveSize] = useState<'compact' | 'normal'>('normal');
     
     useEffect(() => {
@@ -51,10 +52,11 @@ const ReCaptcha = forwardRef<ReCaptchaRef, ReCaptchaProps>(
       },
     }));
 
-    const siteKey = process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY;
+    // Use custom site key if provided, otherwise use default
+    const siteKey = customSiteKey || process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY;
 
     if (!siteKey) {
-      console.error('reCAPTCHA site key is not configured. Please set NEXT_PUBLIC_RECAPTCHA_SITE_KEY environment variable.');
+      console.error('reCAPTCHA site key is not configured. Please provide siteKey prop or set NEXT_PUBLIC_RECAPTCHA_SITE_KEY environment variable.');
       return (
         <div className={recaptchaContainer}>
           <div className={recaptchaError}>

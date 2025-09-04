@@ -1,12 +1,12 @@
 import { style } from '@vanilla-extract/css';
 
-import { colors, typography, spacing, shadows, radius } from '../../styles/tokens.css';
+import { colors, radius, spacing, typography } from '../../styles/tokens.css';
 
 export const footerWrapper = style({
   width: '100%',
   background: `linear-gradient(135deg, ${colors.primary[50]} 0%, rgba(122, 126, 237, 0.05) 100%)`,
   borderTop: `1px solid ${colors.primary[100]}`,
-  marginTop: spacing['3xl'],
+  marginTop: spacing.xl,
   overflowX: 'hidden',
 });
 
@@ -14,11 +14,11 @@ export const footerContainer = style({
   maxWidth: '1400px',
   width: '100%',
   margin: '0 auto',
-  padding: `${spacing['2xl']} ${spacing.md}`,
+  padding: `${spacing.lg} ${spacing.md}`,
   boxSizing: 'border-box',
   '@media': {
     'screen and (max-width: 768px)': {
-      padding: `${spacing.xl} 15px`,
+      padding: `${spacing.md} 15px`,
       width: '100%',
       maxWidth: '100%',
     },
@@ -27,17 +27,16 @@ export const footerContainer = style({
 
 export const footerContent = style({
   display: 'grid',
-  gridTemplateColumns: '2fr 1fr 1fr 1fr',
+  gridTemplateColumns: '1fr 1.5fr',
   gap: spacing.xl,
   '@media': {
     'screen and (max-width: 1024px)': {
-      gridTemplateColumns: '1fr 1fr',
+      gridTemplateColumns: '1fr',
       gap: spacing.lg,
     },
     'screen and (max-width: 768px)': {
       gridTemplateColumns: '1fr',
-      gap: spacing.sm,
-      textAlign: 'center',
+      gap: spacing.md,
     },
   },
 });
@@ -45,15 +44,48 @@ export const footerContent = style({
 export const brandSection = style({
   display: 'flex',
   flexDirection: 'column',
-  paddingBottom: '10px',
+  paddingRight: spacing.lg,
   '@media': {
     'screen and (max-width: 1024px)': {
       gridColumn: '1 / -1',
       alignItems: 'center',
       textAlign: 'center',
+      paddingRight: 0,
+      paddingBottom: spacing.md,
+      borderBottom: `1px solid ${colors.neutral[200]}`,
     },
     'screen and (max-width: 768px)': {
       alignItems: 'center',
+    },
+  },
+});
+
+export const rightColumn = style({
+  display: 'flex',
+  flexDirection: 'column',
+  gap: spacing.lg,
+});
+
+export const newsletterRow = style({
+  width: '100%',
+  paddingBottom: spacing.md,
+  borderBottom: `1px solid ${colors.neutral[200]}`,
+  '@media': {
+    'screen and (max-width: 768px)': {
+      paddingBottom: spacing.sm,
+    },
+  },
+});
+
+export const linksRow = style({
+  display: 'grid',
+  gridTemplateColumns: '1fr 1fr 1fr',
+  gap: spacing.md,
+  '@media': {
+    'screen and (max-width: 768px)': {
+      gridTemplateColumns: '1fr',
+      gap: spacing.sm,
+      textAlign: 'center',
     },
   },
 });
@@ -83,6 +115,7 @@ export const brandDescription = style({
       paddingTop: spacing.md,
     },
     'screen and (max-width: 768px)': {
+      textAlign: 'center',
       fontSize: typography.fontSize.sm,
       maxWidth: '100%',
       marginBottom: '0',
@@ -93,34 +126,37 @@ export const brandDescription = style({
 export const footerColumn = style({
   display: 'flex',
   flexDirection: 'column',
-  gap: spacing.sm,
+  gap: '8px',
   '@media': {
     'screen and (max-width: 768px)': {
       alignItems: 'center',
-      marginBottom: spacing.lg,
+      marginBottom: spacing.md,
+      gap: spacing.xs,
     },
   },
 });
 
 export const columnTitle = style({
-  fontSize: typography.fontSize.lg,
+  fontSize: typography.fontSize.base,
   fontWeight: typography.fontWeight.semibold,
   color: colors.neutral[900],
-  marginBottom: spacing.xs,
+  marginBottom: '8px',
   position: 'relative',
   display: 'inline-block',
   ':after': {
     content: '""',
     position: 'absolute',
-    bottom: '-4px',
+    bottom: '-2px',
     left: '0',
-    width: '30px',
+    width: '25px',
     height: '2px',
     background: colors.primary[600],
     borderRadius: radius.full,
   },
   '@media': {
     'screen and (max-width: 768px)': {
+      fontSize: typography.fontSize.lg,
+      marginBottom: spacing.xs,
       ':after': {
         left: '50%',
         transform: 'translateX(-50%)',
@@ -130,7 +166,7 @@ export const columnTitle = style({
 });
 
 export const footerLink = style({
-  fontSize: typography.fontSize.base,
+  fontSize: typography.fontSize.sm,
   color: colors.neutral[600],
   textDecoration: 'none',
   transition: 'all 0.2s ease',
@@ -138,10 +174,11 @@ export const footerLink = style({
   paddingLeft: '0',
   ':hover': {
     color: colors.primary[600],
-    paddingLeft: '5px',
+    paddingLeft: '3px',
   },
   '@media': {
     'screen and (max-width: 768px)': {
+      fontSize: typography.fontSize.base,
       ':hover': {
         paddingLeft: '0',
       },
@@ -150,7 +187,8 @@ export const footerLink = style({
 });
 
 export const bottomSection = style({
-  paddingTop: spacing.lg,
+  marginTop: spacing.md,
+  paddingTop: spacing.md,
   borderTop: `1px solid ${colors.neutral[200]}`,
   display: 'flex',
   justifyContent: 'space-between',
@@ -162,6 +200,8 @@ export const bottomSection = style({
       flexDirection: 'column',
       textAlign: 'center',
       gap: spacing.sm,
+      marginTop: spacing.sm,
+      paddingTop: spacing.sm,
     },
   },
 });

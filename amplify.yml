@@ -14,6 +14,10 @@ applications:
           commands:
             # Write server-side environment variables to .env.production for Next.js SSR
             - env | grep -e RECAPTCHA_SECRET_KEY >> .env.production
+            - env | grep -e RECAPTCHA_SECRET_KEY_V3 >> .env.production
+            - env | grep -e MAILCHIMP_API_KEY >> .env.production
+            - env | grep -e MAILCHIMP_SERVER_PREFIX >> .env.production
+            - env | grep -e MAILCHIMP_LIST_ID >> .env.production
             - env | grep -e NEXT_PUBLIC_ADMIN_APP_API_URL >> .env.production
             - env | grep -e NEXT_PUBLIC_ >> .env.production
             - yarn build

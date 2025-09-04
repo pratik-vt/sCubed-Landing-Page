@@ -10,6 +10,7 @@ import React from 'react';
 import bacbaImage from '../../images/BACBA.jpg';
 import logoImage from '../../images/HeaderLogo.png';
 import hipaaImage from '../../images/HIPAA.png';
+import NewsletterForm from '../NewsletterForm';
 
 import {
   bottomSection,
@@ -29,8 +30,11 @@ import {
   iconStyle,
   legalLink,
   legalLinks,
+  linksRow,
   logosRow,
   logoWrapper,
+  newsletterRow,
+  rightColumn,
 } from './styles.css';
 
 const Footer: React.FC = () => {
@@ -52,9 +56,9 @@ const Footer: React.FC = () => {
   return (
     <footer className={footerWrapper}>
       <div className={footerContainer}>
-        {/* Main Footer Content */}
+        {/* Main Footer Content - Two Column Layout */}
         <div className={footerContent}>
-          {/* Brand Section */}
+          {/* Column 1: Brand Section */}
           <div className={brandSection}>
             <div className={logosRow}>
               <div className={logoWrapper} onClick={handleLogoClick}>
@@ -89,58 +93,69 @@ const Footer: React.FC = () => {
             </p>
           </div>
 
-          {/* Company */}
-          <div className={footerColumn}>
-            <h4 className={columnTitle}>Company</h4>
-            <Link href="/" className={footerLink}>
-              Home
-            </Link>
-            <Link href="/billing" className={footerLink}>
-              Billing
-            </Link>
-            <Link href="/features" className={footerLink}>
-              Features
-            </Link>
-            <Link href="/guardian-portal" className={footerLink}>
-              Guardian Portal
-            </Link>
-          </div>
+          {/* Column 2: Newsletter + Footer Links */}
+          <div className={rightColumn}>
+            {/* Row 1: Newsletter Section */}
+            <div className={newsletterRow}>
+              <NewsletterForm />
+            </div>
+            
+            {/* Row 2: Company, Resources, Contact */}
+            <div className={linksRow}>
+              {/* Company */}
+              <div className={footerColumn}>
+                <h4 className={columnTitle}>Company</h4>
+                <Link href="/" className={footerLink}>
+                  Home
+                </Link>
+                <Link href="/billing" className={footerLink}>
+                  Billing
+                </Link>
+                <Link href="/features" className={footerLink}>
+                  Features
+                </Link>
+                <Link href="/guardian-portal" className={footerLink}>
+                  Guardian Portal
+                </Link>
+              </div>
 
-          {/* Resources */}
-          <div className={footerColumn}>
-            <h4 className={columnTitle}>Resources</h4>
-            <a
-              href={process.env.NEXT_PUBLIC_GUARDIAN_APP_URL + `auth/login`}
-              target="_blank"
-              rel="noopener noreferrer"
-              className={footerLink}
-            >
-              Guardian Portal Login <ExternalLink className={iconStyle} style={{ display: 'inline-block', width: '14px', height: '14px', marginLeft: '4px' }} />
-            </a>
-            <Link href="/blog" className={footerLink}>
-              Blog
-            </Link>
-            <Link href="/faqs" className={footerLink}>
-              FAQs
-            </Link>
-          </div>
+              {/* Resources */}
+              <div className={footerColumn}>
+                <h4 className={columnTitle}>Resources</h4>
+                <a
+                  href={process.env.NEXT_PUBLIC_GUARDIAN_APP_URL + `auth/login`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className={footerLink}
+                >
+                  Guardian Portal Login <ExternalLink className={iconStyle} style={{ display: 'inline-block', width: '14px', height: '14px', marginLeft: '4px' }} />
+                </a>
+                <Link href="/blog" className={footerLink}>
+                  Blog
+                </Link>
+                <Link href="/faqs" className={footerLink}>
+                  FAQs
+                </Link>
+              </div>
 
-          {/* Contact */}
-          <div className={footerColumn}>
-            <h4 className={columnTitle}>Contact</h4>
-            <div className={contactInfo}>
-              {phoneNumber && (
-                <a href={phoneLink} className={contactItem}>
-                  <Phone className={iconStyle} />
-                  {phoneNumber}
-                </a>
-              )}
-              {email && (
-                <a href={`mailto:${email}`} className={contactItem}>
-                  <Mail className={iconStyle} />
-                  {email}
-                </a>
-              )}
+              {/* Contact */}
+              <div className={footerColumn}>
+                <h4 className={columnTitle}>Contact</h4>
+                <div className={contactInfo}>
+                  {phoneNumber && (
+                    <a href={phoneLink} className={contactItem}>
+                      <Phone className={iconStyle} />
+                      {phoneNumber}
+                    </a>
+                  )}
+                  {email && (
+                    <a href={`mailto:${email}`} className={contactItem}>
+                      <Mail className={iconStyle} />
+                      {email}
+                    </a>
+                  )}
+                </div>
+              </div>
             </div>
           </div>
         </div>
