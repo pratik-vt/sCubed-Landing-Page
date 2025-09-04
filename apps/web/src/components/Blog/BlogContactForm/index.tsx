@@ -124,11 +124,6 @@ const BlogContactForm: React.FC = () => {
       company_name: data.companyName || '',
       phone_number: data.phoneNumber,
       email_id: data.email,
-      state: '', // Not required for blog contact form
-      specialities: '',
-      staff: 0,
-      other_software_experience: false,
-      software_name: '',
       comments: data.message || '',
       recaptcha_token: recaptchaToken,
     };
