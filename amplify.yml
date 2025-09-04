@@ -1,0 +1,27 @@
+version: 1
+applications:
+  - appRoot: apps/web      # must be a string
+    frontend:
+      phases:
+        preBuild:
+          commands:
+            - nvm install 22
+            - nvm use 22
+            - rm -rf node_modules
+            - rm -rf .next
+            - yarn install
+        build:
+          commands:
+            # Write server-side environment variables to .env.production for Next.js SSR
+            - env | grep -e RECAPTCHA_SECRET_KEY >> .env.production
+            - env | grep -e NEXT_PUBLIC_ADMIN_APP_API_URL >> .env.production
+            - env | grep -e NEXT_PUBLIC_ >> .env.production
+            - yarn build
+      artifacts:
+        baseDirectory: .next
+        files:
+          - '**/*'
+      cache:
+        paths:
+          - .next/cache/**/*
+          - node_modules/**/*

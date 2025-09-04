@@ -257,7 +257,7 @@ const HeroImageSlider: React.FC<HeroImageSliderProps> = ({
                   <a
                     href={currentItem.link.href}
                     target="_blank"
-                    rel="noopener noreferrer"
+                    rel="noopener noreferrer nofollow"
                     className={heroSliderButton}
                   >
                     {currentLinkText}
