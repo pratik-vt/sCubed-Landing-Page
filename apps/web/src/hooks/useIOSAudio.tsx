@@ -10,7 +10,7 @@ interface UseIOSAudioOptions {
 }
 
 interface UseIOSAudioReturn {
-  audioRef: React.RefObject<HTMLAudioElement>;
+  audioRef: React.RefObject<HTMLAudioElement | null>;
   isPlaying: boolean;
   isInitialized: boolean;
   error: string | null;
@@ -35,11 +35,18 @@ export const useIOSAudio = (options: UseIOSAudioOptions = {}): UseIOSAudioReturn
   // Detect iOS devices (including iPad with touch)
   const isIOS = useCallback(() => {
     if (typeof window === 'undefined') return false;
-    return (
-      /iPad|iPhone|iPod/.test(navigator.userAgent) ||
-      (navigator.userAgentData?.platform === 'macOS' && navigator.maxTouchPoints > 1) ||
-      (navigator.userAgent.includes('Mac') && navigator.maxTouchPoints > 1)
-    );
+    
+    // Check for iPhone, iPad, iPod
+    if (/iPad|iPhone|iPod/.test(navigator.userAgent)) {
+      return true;
+    }
+    
+    // Check for iPad Pro with Magic Keyboard (appears as Mac with touch)
+    if (navigator.userAgent.includes('Mac') && 'ontouchend' in document) {
+      return true;
+    }
+    
+    return false;
   }, []);
 
   // Initialize audio context for iOS

@@ -52,7 +52,7 @@ const AudioButton: React.FC<AudioButtonProps> = ({ audioFile, title, className }
       </button>
 
       <audio
-        ref={audioRef}
+        ref={audioRef as React.RefObject<HTMLAudioElement>}
         src={audioUrl}
         preload="metadata"
         style={{ display: 'none' }}
