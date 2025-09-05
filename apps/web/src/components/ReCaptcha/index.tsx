@@ -3,7 +3,7 @@
 import { forwardRef, useEffect, useImperativeHandle, useRef, useState } from 'react';
 import ReCAPTCHA from 'react-google-recaptcha';
 
-import { recaptchaContainer, recaptchaError } from './styles.css';
+import { recaptchaContainer, recaptchaContainerInvisible, recaptchaError } from './styles.css';
 
 interface ReCaptchaProps {
   onVerify: (token: string | null) => void;
@@ -66,8 +66,10 @@ const ReCaptcha = forwardRef<ReCaptchaRef, ReCaptchaProps>(
       );
     }
 
+    const isInvisible = size === 'invisible';
+    
     return (
-      <div className={recaptchaContainer}>
+      <div className={isInvisible ? recaptchaContainerInvisible : recaptchaContainer}>
         <ReCAPTCHA
           ref={recaptchaRef}
           sitekey={siteKey}

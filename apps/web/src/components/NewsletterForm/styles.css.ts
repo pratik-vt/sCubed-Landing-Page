@@ -70,6 +70,7 @@ export const formWrapper = style({
   flex: 1,
   maxWidth: '500px',
   width: '100%',
+  position: 'relative',
   '@media': {
     'screen and (max-width: 768px)': {
       maxWidth: '100%',
@@ -196,7 +197,7 @@ export const loadingSpinner = style({
 });
 
 export const errorMessage = style({
-  display: 'flex',
+  display: 'inline-flex',
   alignItems: 'center',
   gap: '6px',
   fontSize: typography.fontSize.sm,
@@ -204,25 +205,28 @@ export const errorMessage = style({
   padding: `10px ${spacing.md}`,
   borderRadius: radius.md,
   marginTop: spacing.sm,
-  width: '100%',
-  maxWidth: '500px',
+  width: 'fit-content',
+  maxWidth: '100%',
   animation: `${fadeIn} 0.3s ease-in-out`,
   color: '#dc2626',
   backgroundColor: '#fef2f2',
   border: '1px solid #fecaca',
+  boxSizing: 'border-box',
   '@media': {
     'screen and (max-width: 768px)': {
       fontSize: typography.fontSize.sm,
-      width: '100%',
+      width: 'auto',
+      maxWidth: '100%',
       justifyContent: 'center',
       textAlign: 'center' as const,
       marginTop: spacing.sm,
+      alignSelf: 'center',
     },
   },
 });
 
 export const successMessage = style({
-  display: 'flex',
+  display: 'inline-flex',
   alignItems: 'center',
   gap: '6px',
   fontSize: typography.fontSize.sm,
@@ -230,19 +234,22 @@ export const successMessage = style({
   padding: `10px ${spacing.md}`,
   borderRadius: radius.md,
   marginTop: spacing.sm,
-  width: '100%',
-  maxWidth: '500px',
+  width: 'fit-content',
+  maxWidth: '100%',
   animation: `${fadeIn} 0.3s ease-in-out`,
   color: '#16a34a',
   backgroundColor: '#f0fdf4',
   border: '1px solid #bbf7d0',
+  boxSizing: 'border-box',
   '@media': {
     'screen and (max-width: 768px)': {
       fontSize: typography.fontSize.sm,
-      width: '100%',
+      width: 'auto',
+      maxWidth: '100%',
       justifyContent: 'center',
       textAlign: 'center' as const,
       marginTop: spacing.sm,
+      alignSelf: 'center',
     },
   },
 });

@@ -28,6 +28,10 @@ export const recaptchaContainer = style({
   },
 });
 
+export const recaptchaContainerInvisible = style({
+  display: 'none',
+});
+
 // Style the direct child div of recaptcha container - the actual reCAPTCHA widget
 globalStyle(`${recaptchaContainer} > div`, {
   maxWidth: '304px', // Standard reCAPTCHA width
