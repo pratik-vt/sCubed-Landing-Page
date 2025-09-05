@@ -39,7 +39,7 @@ const faqData = {
           question: 'What is S Cubed?',
           answer: (
             <>
-              S Cubed is an <strong>ABA practice management software</strong> that helps you run the business side of an ABA clinic. That includes managing <strong>appointments</strong>, <strong>staff</strong>, <strong>client data</strong>, <strong>billing</strong>, and <strong>progress reports</strong>.
+              S Cubed is an ABA practice management software that helps you run the business side of an ABA clinic. That includes managing appointments, staff, client data, billing, and progress reports.
             </>
           ),
         },
@@ -47,7 +47,7 @@ const faqData = {
           question: 'How can I access the S Cubed platform?',
           answer: (
             <>
-              To access the S Cubed platform, you must have a <strong>registered email address and password</strong> created within S Cubed. Once your account is set up, you can log in <strong>securely</strong> from any device with an internet connection, whether it's a <strong>desktop, laptop, tablet, or smartphone</strong>, through our web portal or mobile app. To know more, reach out to us or check our demo.
+              To access the S Cubed platform, you must have a registered email address and password created within S Cubed. Once your account is set up, you can log in securely from any device with an internet connection, whether it's a desktop, laptop, tablet, or smartphone, through our web portal or mobile app. To know more, reach out to us or check our demo.
             </>
           ),
         },
@@ -55,7 +55,7 @@ const faqData = {
           question: 'Can the platform be used outside of the US?',
           answer: (
             <>
-              <strong>No.</strong> The platform is currently available only for use within the <strong>United States</strong> and is not supported for international use.
+              No. The platform is currently available only for use within the United States and is not supported for international use.
             </>
           ),
         },
@@ -63,7 +63,7 @@ const faqData = {
           question: 'How can S Cubed help your ABA practise?',
           answer: (
             <>
-              S Cubed streamlines every aspect of your ABA practice, from <strong>scheduling appointments</strong> and creating <strong>customizable treatment plans & session notes</strong> to <strong>tracking client progress</strong> and managing <strong>staff availability</strong>. You can easily analyze session data, generate reports for insurance and compliance, and keep parents informed through a <strong>secure guardian portal</strong>.
+              S Cubed streamlines every aspect of your ABA practice, from scheduling appointments and creating customizable treatment plans & session notes to tracking client progress and managing staff availability. You can easily analyze session data, generate reports for insurance and compliance, and keep parents informed through a secure guardian portal.
             </>
           ),
         },
@@ -76,7 +76,7 @@ const faqData = {
           question: 'Can the clinic assign tasks and reminders to staff and clients?',
           answer: (
             <>
-              <strong>Yes.</strong> The clinic can create, assign, and track <strong>tasks and reminders</strong> to ensure staff and clients stay on top of important activities, deadlines, and follow-ups.
+              Yes. The clinic can create, assign, and track tasks and reminders to ensure staff and clients stay on top of important activities, deadlines, and follow-ups.
             </>
           ),
         },
@@ -84,7 +84,7 @@ const faqData = {
           question: 'Can the clinic share announcements with staff and clients?',
           answer: (
             <>
-              <strong>Yes.</strong> The clinic can post important updates, policies, or general information as <strong>announcements</strong>, which will be visible to both <strong>staff members and clients</strong> as needed.
+              Yes. The clinic can post important updates, policies, or general information as announcements, which will be visible to both staff members and clients as needed.
             </>
           ),
         },
@@ -97,7 +97,7 @@ const faqData = {
           question: 'Does the clinic have a secure way to communicate with staff and clients?',
           answer: (
             <>
-              <strong>Yes.</strong> The portal includes a <strong>HIPAA-compliant secure messaging system</strong> that allows private and safe communication between <strong>staff-to-staff</strong> and <strong>staff-to-client</strong>.
+              Yes. The portal includes a HIPAA-compliant secure messaging system that allows private and safe communication between staff-to-staff and staff-to-client.
             </>
           ),
         },
@@ -110,7 +110,7 @@ const faqData = {
           question: 'Can I enroll my multiple clinics on S Cubed?',
           answer: (
             <>
-              <strong>Absolutely!</strong> S Cubed lets you manage <strong>multiple clinic locations</strong> from <strong>one account</strong>, keeping everything organized and accessible in <strong>one portal</strong>.
+              Absolutely! S Cubed lets you manage multiple clinic locations from one account, keeping everything organized and accessible in one portal.
             </>
           ),
         },
@@ -118,7 +118,7 @@ const faqData = {
           question: 'How can I see the data of multiple clinics?',
           answer: (
             <>
-              If you have <strong>access permissions</strong> for more than one clinic, you can view their data by <strong>switching between clinics</strong> from the clinic selection menu in your account. Once you select a clinic, all <strong>reports, appointments, and records</strong> will display for that clinic only.
+              If you have access permissions for more than one clinic, you can view their data by switching between clinics from the clinic selection menu in your account. Once you select a clinic, all reports, appointments, and records will display for that clinic only.
             </>
           ),
         },
@@ -126,7 +126,7 @@ const faqData = {
           question: 'Can therapists in the same clinic view each other\'s client details?',
           answer: (
             <>
-              <strong>No.</strong> Therapists can only view the details of clients who are <strong>assigned to them</strong>. Client information is restricted to maintain <strong>privacy</strong> and comply with <strong>HIPAA regulations</strong>, ensuring that data is only accessible to <strong>authorized staff</strong>.
+              No. Therapists can only view the details of clients who are assigned to them. Client information is restricted to maintain privacy and comply with HIPAA regulations, ensuring that data is only accessible to authorized staff.
             </>
           ),
         },
@@ -139,7 +139,7 @@ const faqData = {
           question: 'Can staff book appointments directly from the calendar?',
           answer: (
             <>
-              <strong>Yes.</strong> Staff can schedule appointments <strong>directly through the calendar</strong>, making it easy to manage client sessions without switching between systems.
+              Yes. Staff can schedule appointments directly through the calendar, making it easy to manage client sessions without switching between systems.
             </>
           ),
         },
@@ -147,7 +147,7 @@ const faqData = {
           question: 'Can appointments be rescheduled or canceled through the calendar?',
           answer: (
             <>
-              <strong>Yes.</strong> Staff members can request to <strong>reschedule or cancel appointments</strong>. The updates are reflected <strong>instantly</strong> in the calendar.
+              Yes. Staff members can request to reschedule or cancel appointments. The updates are reflected instantly in the calendar.
             </>
           ),
         },
@@ -155,7 +155,7 @@ const faqData = {
           question: 'Does the calendar show appointment details?',
           answer: (
             <>
-              <strong>Yes.</strong> Clicking on an appointment in the calendar displays key details such as <strong>date, time, assigned staff, and session type</strong>.
+              Yes. Clicking on an appointment in the calendar displays key details such as date, time, assigned staff, and session type.
             </>
           ),
         },
@@ -163,7 +163,7 @@ const faqData = {
           question: 'Can the clinic see multiple appointments at once?',
           answer: (
             <>
-              <strong>Yes.</strong> The calendar supports a <strong>day, week, or month view</strong>, allowing the clinic to see all scheduled appointments and avoid conflicts.
+              Yes. The calendar supports a day, week, or month view, allowing the clinic to see all scheduled appointments and avoid conflicts.
             </>
           ),
         },
@@ -176,7 +176,7 @@ const faqData = {
           question: 'Is my clinic data safe on S Cubed?',
           answer: (
             <>
-              <strong>Yes.</strong> We take <strong>data security</strong> very seriously. Our platform is <strong>HIPAA-compliant</strong>, meaning all <strong>protected health information (PHI)</strong> is handled according to strict privacy and security regulations. We also implement <strong>secure user authentication</strong>, <strong>role-based access controls</strong>, and <strong>regular system monitoring</strong> to safeguard your clinic's data at all times.
+              Yes. We take data security very seriously. Our platform is HIPAA-compliant, meaning all protected health information (PHI) is handled according to strict privacy and security regulations. We also implement secure user authentication, role-based access controls, and regular system monitoring to safeguard your clinic's data at all times.
             </>
           ),
         },
@@ -184,7 +184,7 @@ const faqData = {
           question: 'What size clinics can use S Cubed?',
           answer: (
             <>
-              S Cubed is designed to support <strong>ABA practices of all sizes</strong>, from <strong>solo practitioners and small clinics</strong> to <strong>large multi-location organizations</strong>. Whether you have just a handful of clients or manage multiple teams, S Cubed <strong>scales with your needs</strong>, offering the flexibility to grow your practice without switching systems.
+              S Cubed is designed to support ABA practices of all sizes, from solo practitioners and small clinics to large multi-location organizations. Whether you have just a handful of clients or manage multiple teams, S Cubed scales with your needs, offering the flexibility to grow your practice without switching systems.
             </>
           ),
         },
@@ -192,7 +192,7 @@ const faqData = {
           question: 'Can the clinic set individual goals for each client?',
           answer: (
             <>
-              <strong>Yes.</strong> Therapists can set <strong>personalized goals</strong> based on each client's treatment plan and <strong>track progress over time</strong>.
+              Yes. Therapists can set personalized goals based on each client's treatment plan and track progress over time.
             </>
           ),
         },
@@ -200,7 +200,7 @@ const faqData = {
           question: 'Can the clinic view all client goals in one place?',
           answer: (
             <>
-              <strong>Yes.</strong> The system provides a <strong>consolidated view</strong> of all client goals, making it easier for the clinic to manage and review progress across clients.
+              Yes. The system provides a consolidated view of all client goals, making it easier for the clinic to manage and review progress across clients.
             </>
           ),
         },
@@ -208,7 +208,7 @@ const faqData = {
           question: 'Can goals be updated during the treatment?',
           answer: (
             <>
-              <strong>Yes.</strong> Goals can be <strong>adjusted anytime</strong> based on the client's progress, therapist recommendations, or changing treatment needs.
+              Yes. Goals can be adjusted anytime based on the client's progress, therapist recommendations, or changing treatment needs.
             </>
           ),
         },
@@ -216,7 +216,7 @@ const faqData = {
           question: 'Can the S Cubed portal generate reports showing goal progress?',
           answer: (
             <>
-              <strong>Yes.</strong> The portal allows the clinic to generate <strong>detailed reports</strong> showing <strong>goal & behavioral progress</strong> and <strong>session outcomes</strong>.
+              Yes. The portal allows the clinic to generate detailed reports showing goal & behavioral progress and session outcomes.
             </>
           ),
         },
@@ -224,7 +224,7 @@ const faqData = {
           question: 'Can the clinic view goal progress during or after each session?',
           answer: (
             <>
-              <strong>Yes.</strong> Goal performance and progress can be <strong>updated during sessions</strong> and <strong>reviewed after each session</strong>.
+              Yes. Goal performance and progress can be updated during sessions and reviewed after each session.
             </>
           ),
         },
@@ -232,7 +232,7 @@ const faqData = {
           question: 'Can I create treatment plans directly within S Cubed?',
           answer: (
             <>
-              <strong>Yes.</strong> S Cubed allows you to <strong>create, customize, and manage treatment plans</strong> directly within the platform ensuring that these plans are <strong>tailored to each client's needs</strong> and easily accessible to <strong>authorized staff</strong>.
+              Yes. S Cubed allows you to create, customize, and manage treatment plans directly within the platform ensuring that these plans are tailored to each client's needs and easily accessible to authorized staff.
             </>
           ),
         },
@@ -240,7 +240,7 @@ const faqData = {
           question: 'Can I create intake forms directly within S Cubed?',
           answer: (
             <>
-              <strong>Yes.</strong> S Cubed allows you to create <strong>custom intake forms</strong> directly within the platform, so you can collect <strong>client information, medical history, and consent documents digitally</strong>. These forms can be tailored to your clinic's needs and shared with clients for easy, <strong>paperless completion</strong>.
+              Yes. S Cubed allows you to create custom intake forms directly within the platform, so you can collect client information, medical history, and consent documents digitally. These forms can be tailored to your clinic's needs and shared with clients for easy, paperless completion.
             </>
           ),
         },
@@ -248,7 +248,7 @@ const faqData = {
           question: 'Can multiple staff members contribute to tracking the same client\'s goals?',
           answer: (
             <>
-              <strong>Yes.</strong> Multiple <strong>authorized staff members</strong> working with the same client can update and review the client's goal progress, ensuring <strong>coordinated care</strong>.
+              Yes. Multiple authorized staff members working with the same client can update and review the client's goal progress, ensuring coordinated care.
             </>
           ),
         },
@@ -256,7 +256,7 @@ const faqData = {
           question: 'How does the clinic record and manage session details?',
           answer: (
             <>
-              Therapists can add <strong>session notes directly</strong> in the portal, making it easy to document therapy sessions, <strong>track interventions</strong>, and maintain <strong>complete client records</strong>.
+              Therapists can add session notes directly in the portal, making it easy to document therapy sessions, track interventions, and maintain complete client records.
             </>
           ),
         },
@@ -264,7 +264,7 @@ const faqData = {
           question: 'Can the clinic generate reports?',
           answer: (
             <>
-              <strong>Yes.</strong> The portal provides <strong>detailed clinic-level reports</strong>, helping staff and administrators review <strong>client progress, appointment history, and overall clinic performance</strong>.
+              Yes. The portal provides detailed clinic-level reports, helping staff and administrators review client progress, appointment history, and overall clinic performance.
             </>
           ),
         },
@@ -277,7 +277,7 @@ const faqData = {
           question: 'Can I assign staff to specific clients?',
           answer: (
             <>
-              <strong>Yes.</strong> In S Cubed, staff can be <strong>assigned to clients</strong> based on the client's specific needs. This ensures that each client is matched with the <strong>most suitable provider</strong> for their care.
+              Yes. In S Cubed, staff can be assigned to clients based on the client's specific needs. This ensures that each client is matched with the most suitable provider for their care.
             </>
           ),
         },
@@ -285,7 +285,7 @@ const faqData = {
           question: 'Can S Cubed manage staff availability?',
           answer: (
             <>
-              <strong>Yes.</strong> S Cubed lets you manage both <strong>staff shifts and availability</strong>. Clinic admins can <strong>assign shifts, block time off, and update schedules in real time</strong>, ensuring appointments are booked only when staff are available.
+              Yes. S Cubed lets you manage both staff shifts and availability. Clinic admins can assign shifts, block time off, and update schedules in real time, ensuring appointments are booked only when staff are available.
             </>
           ),
         },
