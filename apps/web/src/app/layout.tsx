@@ -64,36 +64,54 @@ export default function RootLayout({
   return (
     <html lang="en">
       <head>
-        {/* Only load tracking scripts in production */}
+        {/* Only load tracking scripts in production with performance optimizations */}
         {isProduction && (
           <>
-            {/* Google Tag Manager */}
+            {/* Preconnect to Google domains for faster loading */}
+            <link rel="preconnect" href="https://www.googletagmanager.com" />
+            <link rel="preconnect" href="https://www.google-analytics.com" />
+            <link rel="preconnect" href="https://www.google.com" />
+            <link rel="preconnect" href="https://www.gstatic.com" />
+            <link rel="dns-prefetch" href="https://www.googletagmanager.com" />
+            <link rel="dns-prefetch" href="https://www.google-analytics.com" />
+            <link rel="dns-prefetch" href="https://www.google.com" />
+            <link rel="dns-prefetch" href="https://www.gstatic.com" />
+            
+            {/* Google Tag Manager - Optimized with defer */}
             <script
+              defer
               dangerouslySetInnerHTML={{
                 __html: `(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
 new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
-j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.defer=true;j.src=
 'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
 })(window,document,'script','dataLayer','GTM-WFFCJJSB');`,
               }}
             />
             {/* End Google Tag Manager */}
             
-            {/* Google tag (gtag.js) */}
-            <script async src="https://www.googletagmanager.com/gtag/js?id=G-SLJ6PQXV8M" />
+            {/* Google tag (gtag.js) - Deferred loading */}
+            <script defer src="https://www.googletagmanager.com/gtag/js?id=G-SLJ6PQXV8M" />
             <script
+              defer
               dangerouslySetInnerHTML={{
                 __html: `
-window.dataLayer = window.dataLayer || [];
-function gtag(){dataLayer.push(arguments);}
-gtag('js', new Date());
-gtag('config', 'G-SLJ6PQXV8M');
+window.addEventListener('load', function() {
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-SLJ6PQXV8M');
+});
                 `,
               }}
             />
             {/* End Google tag (gtag.js) */}
           </>
         )}
+        
+        {/* Preload critical resources */}
+        <link rel="preload" href="/images/HeaderLogo.png" as="image" />
+        <link rel="preload" href="/fonts/your-main-font.woff2" as="font" type="font/woff2" crossOrigin="anonymous" />
         
         <link rel="icon" href="/favicon.ico" sizes="any" />
         <link rel="icon" href="/icon.png" type="image/png" />

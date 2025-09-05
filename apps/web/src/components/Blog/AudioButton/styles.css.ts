@@ -42,9 +42,12 @@ export const audioButton = style({
     opacity: 0.6,
   },
 
-  ':disabled:hover': {
-    backgroundColor: colors.neutral[400],
-    transform: 'none',
+  selectors: {
+    '&:disabled:hover': {
+      backgroundColor: colors.neutral[400],
+      transform: 'none',
+      boxShadow: '0 1px 2px rgba(0, 0, 0, 0.05)',
+    },
   },
 
   '@media': {

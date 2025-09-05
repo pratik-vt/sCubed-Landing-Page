@@ -4,7 +4,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { ChevronLeft, ChevronRight, ExternalLink } from 'lucide-react';
 import Image, { StaticImageData } from 'next/image';
 import Link from 'next/link';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useMemo, useCallback } from 'react';
 
 import {
   heroSliderSection,
@@ -69,48 +69,57 @@ const HeroImageSlider: React.FC<HeroImageSliderProps> = ({
   const [touchEnd, setTouchEnd] = useState<number | null>(null);
   const [isDragging, setIsDragging] = useState(false);
 
-  const nextSlide = () => {
+  // Memoize slide navigation functions to prevent unnecessary re-renders
+  const nextSlide = useCallback(() => {
     if (isTransitioning) return;
     setIsTransitioning(true);
     const nextIndex = (currentIndex + 1) % items.length;
     setCurrentIndex(nextIndex);
-    setTimeout(() => setIsTransitioning(false), 600);
-  };
+    setTimeout(() => setIsTransitioning(false), 400); // Reduced from 600ms
+  }, [currentIndex, items.length, isTransitioning]);
 
-  const prevSlide = () => {
+  const prevSlide = useCallback(() => {
     if (isTransitioning) return;
     setIsTransitioning(true);
     const prevIndex = (currentIndex - 1 + items.length) % items.length;
     setCurrentIndex(prevIndex);
-    setTimeout(() => setIsTransitioning(false), 600);
-  };
+    setTimeout(() => setIsTransitioning(false), 400); // Reduced from 600ms
+  }, [currentIndex, items.length, isTransitioning]);
 
-  const goToSlide = (index: number) => {
+  const goToSlide = useCallback((index: number) => {
     if (isTransitioning || index === currentIndex) return;
     setIsTransitioning(true);
     setCurrentIndex(index);
-    setTimeout(() => setIsTransitioning(false), 600);
-  };
+    setTimeout(() => setIsTransitioning(false), 400); // Reduced from 600ms
+  }, [currentIndex, isTransitioning]);
 
-  // Auto-play functionality
+  // Auto-play functionality - optimized with useCallback dependency
   useEffect(() => {
     if (!isAutoPlaying || items.length <= 1) return;
 
     const interval = setInterval(nextSlide, autoPlayInterval);
 
     return () => clearInterval(interval);
-  }, [isAutoPlaying, autoPlayInterval, items.length]);
+  }, [isAutoPlaying, autoPlayInterval, items.length, nextSlide]);
 
-  // Mobile detection (includes iPad)
+  // Mobile detection (includes iPad) - optimized with debounce
   useEffect(() => {
+    let timeoutId: NodeJS.Timeout;
+    
     const checkMobile = () => {
-      setIsMobile(window.innerWidth <= 1024); // Include iPad (1024px and below)
+      clearTimeout(timeoutId);
+      timeoutId = setTimeout(() => {
+        setIsMobile(window.innerWidth <= 1024); // Include iPad (1024px and below)
+      }, 100); // Debounce resize events
     };
 
     checkMobile();
-    window.addEventListener('resize', checkMobile);
+    window.addEventListener('resize', checkMobile, { passive: true });
 
-    return () => window.removeEventListener('resize', checkMobile);
+    return () => {
+      window.removeEventListener('resize', checkMobile);
+      clearTimeout(timeoutId);
+    };
   }, []);
 
   // Preload adjacent images for smooth transitions
@@ -147,14 +156,14 @@ const HeroImageSlider: React.FC<HeroImageSliderProps> = ({
     preloadAdjacentImages();
   }, [currentIndex, items, isMobile, imagesLoaded]);
 
-  // Pause auto-play on hover
-  const handleMouseEnter = () => {
+  // Pause auto-play on hover - memoized for performance
+  const handleMouseEnter = useCallback(() => {
     setIsAutoPlaying(false);
-  };
+  }, []);
 
-  const handleMouseLeave = () => {
+  const handleMouseLeave = useCallback(() => {
     setIsAutoPlaying(autoPlay);
-  };
+  }, [autoPlay]);
 
   // Touch/Swipe handlers
   const minSwipeDistance = 50; // Minimum distance in pixels for a swipe
@@ -192,18 +201,31 @@ const HeroImageSlider: React.FC<HeroImageSliderProps> = ({
     }, 1000);
   };
 
-  if (!items.length) return null;
+  // Memoize computed values to prevent unnecessary recalculations
+  const currentItem = useMemo(() => items[currentIndex], [items, currentIndex]);
+  
+  const currentImageSrc = useMemo(() => 
+    isMobile && currentItem?.image.mobileSrc 
+      ? currentItem.image.mobileSrc 
+      : currentItem?.image.src,
+    [isMobile, currentItem]
+  );
+  
+  const currentImagePosition = useMemo(() => 
+    isMobile && currentItem?.image.mobilePosition 
+      ? currentItem.image.mobilePosition 
+      : currentItem?.image.position || 'center',
+    [isMobile, currentItem]
+  );
+  
+  const currentLinkText = useMemo(() => 
+    isMobile && currentItem?.link?.mobileText 
+      ? currentItem.link.mobileText 
+      : currentItem?.link?.text,
+    [isMobile, currentItem]
+  );
 
-  const currentItem = items[currentIndex];
-  const currentImageSrc = isMobile && currentItem.image.mobileSrc 
-    ? currentItem.image.mobileSrc 
-    : currentItem.image.src;
-  const currentImagePosition = isMobile && currentItem.image.mobilePosition 
-    ? currentItem.image.mobilePosition 
-    : currentItem.image.position || 'center';
-  const currentLinkText = isMobile && currentItem.link?.mobileText 
-    ? currentItem.link.mobileText 
-    : currentItem.link?.text;
+  if (!items.length) return null;
 
   return (
     <header 
@@ -233,8 +255,9 @@ const HeroImageSlider: React.FC<HeroImageSliderProps> = ({
               }}
               exit={{ opacity: 0 }}
               transition={{ 
-                duration: isDragging ? 0 : 0.5,
-                type: isDragging ? 'tween' : 'spring'
+                duration: isDragging ? 0 : 0.3, // Reduced from 0.5s for faster transitions
+                type: isDragging ? 'tween' : 'spring',
+                ease: 'easeOut'
               }}
               style={{ cursor: items.length > 1 ? 'grab' : 'default' }}
             >
@@ -246,9 +269,10 @@ const HeroImageSlider: React.FC<HeroImageSliderProps> = ({
                 className={heroSliderImage}
                 priority={currentIndex === 0} // Prioritize first image
                 loading={currentIndex === 0 ? 'eager' : 'lazy'}
-                quality={85} // Optimized quality
+                quality={80} // Further optimized quality
                 placeholder={typeof currentImageSrc !== 'string' ? 'blur' : 'empty'}
                 sizes="(max-width: 768px) 100vw, (max-width: 1024px) 100vw, 100vw"
+                decoding="async" // Improve loading performance
                 onLoad={() => setImagesLoaded(prev => ({ ...prev, [currentIndex]: true }))}
                 style={{ 
                   objectPosition: currentImagePosition,
