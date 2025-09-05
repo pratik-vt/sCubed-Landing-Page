@@ -1,4 +1,8 @@
+import Script from 'next/script';
 import type { Metadata } from 'next';
+
+import { getAllFAQItems } from '@/data/faq-data';
+import { generateFAQSchema, generateJSONLD } from '@/lib/faq-schema';
 
 export const metadata: Metadata = {
   title: 'FAQs - S Cubed',
@@ -10,5 +14,20 @@ export default function FAQsLayout({
 }: {
   readonly children: React.ReactNode;
 }) {
-  return <>{children}</>;
+  // Generate FAQ structured data
+  const faqItems = getAllFAQItems();
+  const faqSchema = generateFAQSchema(faqItems);
+  const jsonLd = generateJSONLD(faqSchema);
+
+  return (
+    <>
+      <Script
+        id="faq-schema"
+        type="application/ld+json"
+        strategy="beforeInteractive"
+        dangerouslySetInnerHTML={{ __html: jsonLd }}
+      />
+      {children}
+    </>
+  );
 }
