@@ -316,12 +316,12 @@ export const tableOfContents = style({
   borderRadius: radius.md,
   padding: spacing.md,
   marginBottom: spacing.lg,
-  maxHeight: '300px',
+  // maxHeight: '300px',
   overflowY: 'auto',
   
   '@media': {
     '(max-width: 768px)': {
-      maxHeight: '250px',
+      // maxHeight: '250px',
       marginBottom: spacing.md,
     },
   },

@@ -290,7 +290,7 @@ export const logosRow = style({
   display: 'flex',
   alignItems: 'center',
   gap: spacing.xl,
-  marginTop: spacing.md,
+  // marginTop: spacing.md,
   '@media': {
     'screen and (max-width: 1024px)': {
       justifyContent: 'center',

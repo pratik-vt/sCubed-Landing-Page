@@ -48,7 +48,7 @@ export default function HomePage() {
         <Stand />
         <Hero />
         <Partners />
-        <CTA />
+        {/* <CTA /> */}
         <Footer />
       </Container>
     </>
