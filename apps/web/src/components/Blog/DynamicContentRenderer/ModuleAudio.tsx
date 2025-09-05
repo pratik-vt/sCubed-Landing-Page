@@ -207,8 +207,10 @@ const ModuleAudio: React.FC<ModuleAudioProps> = ({ data }) => {
             aria-describedby={audio_description ? "audio-description" : undefined}
           >
             <source src={audioUrl} type="audio/mpeg" />
+            <source src={audioUrl} type="audio/mp4" />
             <source src={audioUrl} type="audio/wav" />
             <source src={audioUrl} type="audio/ogg" />
+            <source src={audioUrl} type="audio/aac" />
             Your browser does not support the audio element.
           </audio>
         </div>

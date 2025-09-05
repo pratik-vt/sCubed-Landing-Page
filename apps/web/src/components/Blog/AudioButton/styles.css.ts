@@ -34,6 +34,19 @@ export const audioButton = style({
     transform: 'translateY(0)',
   },
 
+  ':disabled': {
+    backgroundColor: colors.neutral[400],
+    cursor: 'not-allowed',
+    transform: 'none',
+    boxShadow: '0 1px 2px rgba(0, 0, 0, 0.05)',
+    opacity: 0.6,
+  },
+
+  ':disabled:hover': {
+    backgroundColor: colors.neutral[400],
+    transform: 'none',
+  },
+
   '@media': {
     [breakpoints.mobile]: {
       padding: `${spacing.xs} ${spacing.sm}`,

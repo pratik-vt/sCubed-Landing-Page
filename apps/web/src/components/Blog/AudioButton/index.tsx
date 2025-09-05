@@ -1,9 +1,10 @@
 'use client';
 
-import React, { useState, useRef, useEffect } from 'react';
+import React from 'react';
 import { Play, Pause } from 'lucide-react';
 
 import { StrapiImage, getStrapiImageUrl } from '../../../lib/strapi';
+import { useIOSAudio } from '../../../hooks/useIOSAudio';
 
 import {
   audioButton,
@@ -19,37 +20,13 @@ interface AudioButtonProps {
 }
 
 const AudioButton: React.FC<AudioButtonProps> = ({ audioFile, title, className }) => {
-  const [isPlaying, setIsPlaying] = useState(false);
-  const audioRef = useRef<HTMLAudioElement>(null);
-
   const audioUrl = audioFile ? getStrapiImageUrl(audioFile) : null;
-
-  useEffect(() => {
-    const audio = audioRef.current;
-    if (!audio) return;
-
-    const handleEnded = () => {
-      setIsPlaying(false);
-    };
-
-    audio.addEventListener('ended', handleEnded);
-
-    return () => {
-      audio.removeEventListener('ended', handleEnded);
-    };
-  }, [audioUrl]);
-
-  const togglePlay = () => {
-    const audio = audioRef.current;
-    if (!audio) return;
-
-    if (isPlaying) {
-      audio.pause();
-    } else {
-      audio.play();
-    }
-    setIsPlaying(!isPlaying);
-  };
+  
+  const { audioRef, isPlaying, error, togglePlay } = useIOSAudio({
+    onError: (errorMessage) => {
+      console.error('AudioButton error:', errorMessage);
+    },
+  });
 
   if (!audioUrl) {
     return null;
@@ -62,12 +39,15 @@ const AudioButton: React.FC<AudioButtonProps> = ({ audioFile, title, className }
         className={`${audioButton} ${className || ''}`}
         type="button"
         aria-label={`${isPlaying ? 'Pause' : 'Play'} audio version of ${title}`}
+        disabled={!!error}
       >
         <div className={audioButtonContent}>
           <div className={audioIcon}>
             {isPlaying ? <Pause size={20} /> : <Play size={20} />}
           </div>
-          <span className={audioText}>Listen to Audio Version</span>
+          <span className={audioText}>
+            {error ? 'Audio Unavailable' : 'Listen to Audio Version'}
+          </span>
         </div>
       </button>
 
@@ -75,7 +55,11 @@ const AudioButton: React.FC<AudioButtonProps> = ({ audioFile, title, className }
         ref={audioRef}
         src={audioUrl}
         preload="metadata"
+        style={{ display: 'none' }}
       >
+        <source src={audioUrl} type="audio/mpeg" />
+        <source src={audioUrl} type="audio/mp4" />
+        <source src={audioUrl} type="audio/wav" />
         <track kind="captions" srcLang="en" label="English" />
       </audio>
     </>
