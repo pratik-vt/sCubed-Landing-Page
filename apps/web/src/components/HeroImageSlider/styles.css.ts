@@ -203,6 +203,81 @@ export const heroSliderButton = style({
   },
 });
 
+export const heroSliderSecondaryButton = style({
+  display: 'inline-flex',
+  alignItems: 'center',
+  gap: spacing.sm,
+  padding: `${spacing.md} ${spacing.xl}`,
+  backgroundColor: 'transparent',
+  color: colors.primary[600],
+  textDecoration: 'none',
+  borderRadius: radius.lg,
+  fontSize: typography.fontSize.lg,
+  fontWeight: typography.fontWeight.semibold,
+  fontFamily: typography.fontFamily.body,
+  border: `2px solid ${colors.primary[600]}`,
+  cursor: 'pointer',
+  transition: 'all 0.3s ease',
+  ':hover': {
+    backgroundColor: colors.primary[50],
+    borderColor: colors.primary[700],
+    color: colors.primary[700],
+    transform: 'translateY(-2px)',
+  },
+  ':active': {
+    transform: 'translateY(0)',
+  },
+  '@media': {
+    'screen and (max-width: 1024px)': {
+      fontSize: typography.fontSize.base,
+      padding: `${spacing.sm} ${spacing.md}`,
+    },
+    'screen and (max-width: 768px)': {
+      fontSize: typography.fontSize.base,
+      padding: `${spacing.xs} ${spacing.sm}`,
+    },
+    'screen and (max-width: 480px)': {
+      fontSize: typography.fontSize.xs,
+      padding: `${spacing.xs} ${spacing.sm}`,
+      gap: spacing.xs,
+    },
+  },
+});
+
+export const heroSliderButtonContainer = style({
+  display: 'flex',
+  gap: spacing.lg,
+  alignItems: 'center',
+  justifyContent: 'flex-start',
+  '@media': {
+    'screen and (max-width: 768px)': {
+      flexDirection: 'column',
+      gap: spacing.md,
+      alignItems: 'flex-start',
+    },
+    'screen and (max-width: 480px)': {
+      gap: spacing.sm,
+    },
+  },
+});
+
+export const heroSliderButtonContainerCentered = style({
+  display: 'flex',
+  gap: spacing.lg,
+  alignItems: 'center',
+  justifyContent: 'center',
+  '@media': {
+    'screen and (max-width: 768px)': {
+      flexDirection: 'column',
+      gap: spacing.md,
+      alignItems: 'center',
+    },
+    'screen and (max-width: 480px)': {
+      gap: spacing.sm,
+    },
+  },
+});
+
 export const heroSliderNavigation = style({
   position: 'absolute',
   top: '50%',

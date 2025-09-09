@@ -17,6 +17,9 @@ import {
   heroSliderTitle,
   heroSliderDescription,
   heroSliderButton,
+  heroSliderSecondaryButton,
+  heroSliderButtonContainer,
+  heroSliderButtonContainerCentered,
   heroSliderNavigation,
   heroSliderPrevButton,
   heroSliderNextButton,
@@ -39,6 +42,12 @@ export interface HeroSliderItem {
     mobilePosition?: string; // Mobile-specific image position
   };
   link?: {
+    href: string;
+    text: string;
+    mobileText?: string; // Optional mobile-specific link text
+    external?: boolean;
+  };
+  secondaryLink?: {
     href: string;
     text: string;
     mobileText?: string; // Optional mobile-specific link text
@@ -320,27 +329,57 @@ const HeroImageSlider: React.FC<HeroImageSliderProps> = ({
               )}
             </motion.div>
 
-            {currentItem.link && (
+            {(currentItem.link || currentItem.secondaryLink) && (
               <motion.div
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.6, delay: 0.5 }}
               >
-                {currentItem.link.external ? (
-                  <a
-                    href={currentItem.link.href}
-                    target="_blank"
-                    rel="noopener noreferrer nofollow"
-                    className={heroSliderButton}
-                  >
-                    {currentLinkText}
-                    <ExternalLink size={20} />
-                  </a>
-                ) : (
-                  <Link href={currentItem.link.href} className={heroSliderButton}>
-                    {currentLinkText}
-                  </Link>
-                )}
+                <div className={currentItem.secondaryLink ? 
+                  (currentItem.contentAlign === 'center' ? heroSliderButtonContainerCentered : heroSliderButtonContainer) 
+                  : undefined}>
+                  {currentItem.secondaryLink && (
+                    currentItem.secondaryLink.external ? (
+                      <a
+                        href={currentItem.secondaryLink.href}
+                        target="_blank"
+                        rel="noopener noreferrer nofollow"
+                        className={heroSliderSecondaryButton}
+                      >
+                        {isMobile && currentItem.secondaryLink.mobileText 
+                          ? currentItem.secondaryLink.mobileText 
+                          : currentItem.secondaryLink.text}
+                        <ExternalLink size={20} />
+                      </a>
+                    ) : (
+                      <Link 
+                        href={currentItem.secondaryLink.href} 
+                        className={heroSliderSecondaryButton}
+                      >
+                        {isMobile && currentItem.secondaryLink.mobileText 
+                          ? currentItem.secondaryLink.mobileText 
+                          : currentItem.secondaryLink.text}
+                      </Link>
+                    )
+                  )}
+                  {currentItem.link && (
+                    currentItem.link.external ? (
+                      <a
+                        href={currentItem.link.href}
+                        target="_blank"
+                        rel="noopener noreferrer nofollow"
+                        className={heroSliderButton}
+                      >
+                        {currentLinkText}
+                        <ExternalLink size={20} />
+                      </a>
+                    ) : (
+                      <Link href={currentItem.link.href} className={heroSliderButton}>
+                        {currentLinkText}
+                      </Link>
+                    )
+                  )}
+                </div>
               </motion.div>
             )}
           </motion.div>

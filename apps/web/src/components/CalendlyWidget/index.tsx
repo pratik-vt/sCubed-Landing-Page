@@ -13,6 +13,7 @@ type Props = {
   buttonWidth?: string;
   buttonText?: string;
   navigateTo?: string;
+  border?: string;
 };
 
 const CalendlyWidget: FC<Props> = ({
@@ -21,6 +22,7 @@ const CalendlyWidget: FC<Props> = ({
   buttonWidth,
   buttonText,
   navigateTo,
+  border,
 }) => {
   const router = useRouter();
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -60,6 +62,7 @@ const CalendlyWidget: FC<Props> = ({
         color={buttonColor}
         backgroundColor={buttonBackground}
         width={buttonWidth ?? '180px'}
+        border={border}
         onClick={handleOpenModal}
       >
         {buttonText || 'BOOK A DEMO'}

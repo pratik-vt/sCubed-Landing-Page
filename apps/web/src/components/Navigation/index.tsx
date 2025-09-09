@@ -28,6 +28,7 @@ import {
   headerContentStyles,
   iconWrapper,
   loginButton,
+  tryForFreeButton,
   logoOuter,
   mobileLogo,
   navMenu,
@@ -320,6 +321,12 @@ const Navigation: React.FC<NavigationProps> = ({
             }
           >
             Login
+          </button>
+          <button
+            className={tryForFreeButton}
+            onClick={() => router.push('/get-started')}
+          >
+            Try for Free
           </button>
         </nav>
         {!menuOpen ? (

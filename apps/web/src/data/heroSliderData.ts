@@ -14,9 +14,13 @@ export const heroSliderData: HeroSliderItem[] = [
       width: 1920,
       height: 800,
     },
-    link: {
+    secondaryLink: {
       href: '/get-started',
       text: 'Book a Free Demo',
+    },
+    link: {
+      href: '/get-started',
+      text: 'Get Started for Free',
     },
     contentAlign: 'center', // Example: Center this slide's content
   },

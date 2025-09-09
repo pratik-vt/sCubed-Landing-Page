@@ -324,6 +324,31 @@ export const loginButton = style({
   padding: '12px 32px',
   fontSize: '16px',
   fontWeight: '600',
+  color: '#7a7eed',
+  background: 'transparent',
+  border: 'none',
+  borderRadius: '8px',
+  cursor: 'pointer',
+  transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
+  position: 'relative',
+  ':hover': {
+    color: '#6c6ee5',
+    textDecoration: 'underline',
+  },
+  ':active': { transform: 'scale(0.98)' },
+  '@media': {
+    'screen and (max-width: 1024px)': { 
+      padding: '10px 20px', 
+      fontSize: '15px' 
+    },
+    'screen and (max-width: 768px)': { padding: '10px 24px', fontSize: '14px' },
+  },
+});
+
+export const tryForFreeButton = style({
+  padding: '12px 32px',
+  fontSize: '16px',
+  fontWeight: '600',
   color: '#ffffff',
   background: 'linear-gradient(135deg, #7a7eed 0%, #9f7aea 100%)',
   border: 'none',
@@ -333,6 +358,7 @@ export const loginButton = style({
   position: 'relative',
   overflow: 'hidden',
   boxShadow: '0 2px 8px rgba(122, 126, 237, 0.3)',
+  marginLeft: '15px',
   ':hover': {
     transform: 'scale(1.05) translateY(-2px)',
     boxShadow: '0 6px 20px rgba(122, 126, 237, 0.4)',
@@ -355,9 +381,14 @@ export const loginButton = style({
   '@media': {
     'screen and (max-width: 1024px)': { 
       padding: '10px 20px', 
-      fontSize: '15px' 
+      fontSize: '15px',
+      marginLeft: '10px',
     },
-    'screen and (max-width: 768px)': { padding: '10px 24px', fontSize: '14px' },
+    'screen and (max-width: 768px)': { 
+      padding: '10px 24px', 
+      fontSize: '14px',
+      marginLeft: '10px',
+    },
   },
 });
 
