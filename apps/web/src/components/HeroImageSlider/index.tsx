@@ -28,6 +28,9 @@ import {
   heroSliderIndicatorActive,
 } from './styles.css';
 
+import { useFreeTrialModal } from '@/contexts/FreeTrialModalContext';
+
+
 export interface HeroSliderItem {
   id: string;
   title: string;
@@ -77,6 +80,7 @@ const HeroImageSlider: React.FC<HeroImageSliderProps> = ({
   const [touchStart, setTouchStart] = useState<number | null>(null);
   const [touchEnd, setTouchEnd] = useState<number | null>(null);
   const [isDragging, setIsDragging] = useState(false);
+  const { openModal } = useFreeTrialModal();
 
   // Memoize slide navigation functions to prevent unnecessary re-renders
   const nextSlide = useCallback(() => {
@@ -351,6 +355,15 @@ const HeroImageSlider: React.FC<HeroImageSliderProps> = ({
                           : currentItem.secondaryLink.text}
                         <ExternalLink size={20} />
                       </a>
+                    ) : currentItem.secondaryLink.href === '/get-started' ? (
+                      <button
+                        onClick={openModal}
+                        className={heroSliderSecondaryButton}
+                      >
+                        {isMobile && currentItem.secondaryLink.mobileText 
+                          ? currentItem.secondaryLink.mobileText 
+                          : currentItem.secondaryLink.text}
+                      </button>
                     ) : (
                       <Link 
                         href={currentItem.secondaryLink.href} 
@@ -373,6 +386,13 @@ const HeroImageSlider: React.FC<HeroImageSliderProps> = ({
                         {currentLinkText}
                         <ExternalLink size={20} />
                       </a>
+                    ) : currentItem.link.href === '/get-started' ? (
+                      <button
+                        onClick={openModal}
+                        className={heroSliderButton}
+                      >
+                        {currentLinkText}
+                      </button>
                     ) : (
                       <Link href={currentItem.link.href} className={heroSliderButton}>
                         {currentLinkText}

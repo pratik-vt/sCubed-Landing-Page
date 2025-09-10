@@ -16,3 +16,101 @@
 .recaptcha-notice a:hover {
   opacity: 1;
 }
+
+/* Free Trial Modal - Complete Override for Perfect Centering */
+.react-responsive-modal-overlay {
+  /* Reset all positioning */
+  position: fixed !important;
+  top: 0 !important;
+  left: 0 !important;
+  right: 0 !important;
+  bottom: 0 !important;
+  width: 100vw !important;
+  height: 100vh !important;
+  min-height: 100vh !important;
+  
+  /* Flexbox centering - modern best practice */
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  
+  /* Visual styling */
+  background-color: rgba(0, 0, 0, 0.6) !important;
+  backdrop-filter: blur(8px) !important;
+  
+  /* Z-index */
+  z-index: 99999999 !important;
+  
+  /* Padding to prevent edge clipping */
+  padding: 20px !important;
+  box-sizing: border-box !important;
+}
+
+/* Fix for super parent container height issue */
+.react-responsive-modal-root {
+  position: fixed !important;
+  top: 0 !important;
+  left: 0 !important;
+  right: 0 !important;
+  bottom: 0 !important;
+  width: 100vw !important;
+  height: 100vh !important;
+  min-height: 100vh !important;
+  z-index: 99999999 !important;
+  pointer-events: none !important;
+}
+
+.react-responsive-modal-root * {
+  pointer-events: auto !important;
+}
+
+/* Additional failsafe for any collapsed parent containers */
+body:has(.react-responsive-modal-overlay) {
+  overflow: hidden !important;
+}
+
+/* Ensure modal container hierarchy has proper dimensions */
+.react-responsive-modal-container {
+  position: fixed !important;
+  top: 0 !important;
+  left: 0 !important;
+  right: 0 !important;
+  bottom: 0 !important;
+  width: 100vw !important;
+  height: 100vh !important;
+  min-height: 100vh !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  z-index: 99999999 !important;
+}
+
+.react-responsive-modal-modal {
+  /* Remove all positioning overrides */
+  position: relative !important;
+  top: auto !important;
+  left: auto !important;
+  right: auto !important;
+  bottom: auto !important;
+  transform: none !important;
+  
+  /* Remove margins that interfere with flexbox centering */
+  margin: 0 !important;
+  
+  /* Size constraints */
+  max-width: 90vw !important;
+  max-height: 85vh !important;
+  
+  /* Overflow handling for tall content */
+  overflow: auto !important;
+  
+  /* Z-index */
+  z-index: 999999999 !important;
+  
+  /* Border radius and styling */
+  border-radius: 12px !important;
+  background: white !important;
+  
+  /* Ensure box-sizing */
+  box-sizing: border-box !important;
+}

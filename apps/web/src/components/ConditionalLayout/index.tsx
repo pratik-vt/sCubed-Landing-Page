@@ -5,6 +5,8 @@ import { ReactNode } from 'react';
 
 import Layout from '../Layout';
 
+import { FreeTrialModalProvider } from '@/contexts/FreeTrialModalContext';
+
 interface ConditionalLayoutProps {
   children: ReactNode;
 }
@@ -28,10 +30,13 @@ export default function ConditionalLayout({ children }: Readonly<ConditionalLayo
                             pathname === '/features' || 
                             pathname === '/guardian-portal';
   
-  if (shouldUseLayout) {
-    return <Layout fullWidth={shouldUseFullWidth}>{children}</Layout>;
-  }
-  
-  // All other pages (including home) render without Layout
-  return <>{children}</>;
+  return (
+    <FreeTrialModalProvider>
+      {shouldUseLayout ? (
+        <Layout fullWidth={shouldUseFullWidth}>{children}</Layout>
+      ) : (
+        <>{children}</>
+      )}
+    </FreeTrialModalProvider>
+  );
 }

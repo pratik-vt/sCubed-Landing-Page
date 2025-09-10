@@ -28,15 +28,18 @@ import {
   headerContentStyles,
   iconWrapper,
   loginButton,
-  tryForFreeButton,
   logoOuter,
   mobileLogo,
   navMenu,
   navMenuOpen,
   navStyle,
   socialIconWrapper,
-  socialIconsContainer
+  socialIconsContainer,
+  tryForFreeButton,
 } from './styles.css';
+
+import { useFreeTrialModal } from '@/contexts/FreeTrialModalContext';
+
 
 interface NavigationProps {
   menuItemColor?: string;
@@ -52,6 +55,7 @@ const Navigation: React.FC<NavigationProps> = ({
   const [menuOpen, setMenuOpen] = useState<boolean>(false);
   const pathname = usePathname();
   const router = useRouter();
+  const { openModal } = useFreeTrialModal();
 
   // Get environment variables for contact information
   const rawPhone = process.env.NEXT_PUBLIC_PHONE_NUMBER;
@@ -104,32 +108,33 @@ const Navigation: React.FC<NavigationProps> = ({
           <div className={contactInfoGroup}>
             {phoneLink && (
               <div className={contactInfoItem}>
-              <div className={iconWrapper} title="Call us">
-                <Phone size={16} />
-              </div>
-              <a href={`tel:+1${phoneLink}`} className={contactInfoLink}>
-                {phoneNumber}
-              </a>
-            </div>
-            )}
-            {email && (
-              <>  
-              <div className={contactInfoDivider}></div>
-              <div className={contactInfoItem}>
-                <div className={iconWrapper} title="Email us">
-                  <Mail size={16} />
+                <div className={iconWrapper} title="Call us">
+                  <Phone size={16} />
                 </div>
-                <a href={`mailto:${email}`} className={contactInfoLink}>
-                  {email}
+                <a href={`tel:+1${phoneLink}`} className={contactInfoLink}>
+                  {phoneNumber}
                 </a>
               </div>
+            )}
+            {email && (
+              <>
+                <div className={contactInfoDivider}></div>
+                <div className={contactInfoItem}>
+                  <div className={iconWrapper} title="Email us">
+                    <Mail size={16} />
+                  </div>
+                  <a href={`mailto:${email}`} className={contactInfoLink}>
+                    {email}
+                  </a>
+                </div>
               </>
             )}
           </div>
 
           {/* Center: Tagline */}
           <div className={centerText}>
-            Crafted by a team of expert BCBAs, in collaboration with ST, OT, PT, and Billing professionals
+            Crafted by a team of expert BCBAs, in collaboration with ST, OT, PT,
+            and Billing professionals
           </div>
 
           {/* Right: Social Icons */}
@@ -199,20 +204,24 @@ const Navigation: React.FC<NavigationProps> = ({
               </svg>
             </a>
           </div>
-
         </div>
       </div>
       <div className={headerContentStyles}>
-        <div 
-          className={logoOuter} 
-          onClick={() => router.push('/')} 
+        <div
+          className={logoOuter}
+          onClick={() => router.push('/')}
           onKeyDown={(e) => e.key === 'Enter' && router.push('/')}
           tabIndex={0}
           role="button"
           aria-label="Go to homepage"
         >
           <div className={desktopLogo}>
-            <Image alt="S Cubed" src={desktopLogoImg} quality={100} placeholder="blur" />
+            <Image
+              alt="S Cubed"
+              src={desktopLogoImg}
+              quality={100}
+              placeholder="blur"
+            />
           </div>
           <div className={mobileLogo}>
             <Image
@@ -225,87 +234,109 @@ const Navigation: React.FC<NavigationProps> = ({
           </div>
         </div>
         <nav className={`${navMenu} ${menuOpen ? navMenuOpen : ''}`}>
-          <Link 
-            href="/" 
+          <Link
+            href="/"
             className={navStyle}
-            style={{ 
-              color: pathname === '/' ? activeMenuItemColor : menuItemColor 
+            style={{
+              color: pathname === '/' ? activeMenuItemColor : menuItemColor,
             }}
           >
-            Home {pathname === '/' && (
-              <span 
-                className={activeLinkStyle} 
+            Home{' '}
+            {pathname === '/' && (
+              <span
+                className={activeLinkStyle}
                 style={{ backgroundColor: activeLinkAccentColor }}
               />
             )}
           </Link>
-          <Link 
-            href="/billing" 
+          <Link
+            href="/billing"
             className={navStyle}
-            style={{ 
-              color: (pathname === '/billing' || pathname === '/billing/') ? activeMenuItemColor : menuItemColor 
+            style={{
+              color:
+                pathname === '/billing' || pathname === '/billing/'
+                  ? activeMenuItemColor
+                  : menuItemColor,
             }}
           >
-            Billing {(pathname === '/billing' || pathname === '/billing/') && (
-              <span 
-                className={activeLinkStyle} 
+            Billing{' '}
+            {(pathname === '/billing' || pathname === '/billing/') && (
+              <span
+                className={activeLinkStyle}
                 style={{ backgroundColor: activeLinkAccentColor }}
               />
             )}
           </Link>
-          <Link 
-            href="/features" 
+          <Link
+            href="/features"
             className={navStyle}
-            style={{ 
-              color: (pathname === '/features' || pathname === '/features/') ? activeMenuItemColor : menuItemColor 
+            style={{
+              color:
+                pathname === '/features' || pathname === '/features/'
+                  ? activeMenuItemColor
+                  : menuItemColor,
             }}
           >
-            Features {(pathname === '/features' || pathname === '/features/') && (
-              <span 
-                className={activeLinkStyle} 
+            Features{' '}
+            {(pathname === '/features' || pathname === '/features/') && (
+              <span
+                className={activeLinkStyle}
                 style={{ backgroundColor: activeLinkAccentColor }}
               />
             )}
           </Link>
-          <Link 
-            href="/guardian-portal" 
+          <Link
+            href="/guardian-portal"
             className={navStyle}
-            style={{ 
-              color: (pathname === '/guardian-portal' || pathname === '/guardian-portal/') ? activeMenuItemColor : menuItemColor 
+            style={{
+              color:
+                pathname === '/guardian-portal' ||
+                pathname === '/guardian-portal/'
+                  ? activeMenuItemColor
+                  : menuItemColor,
             }}
           >
-            Guardian Portal {(pathname === '/guardian-portal' || pathname === '/guardian-portal/') && (
-              <span 
-                className={activeLinkStyle} 
+            Guardian Portal{' '}
+            {(pathname === '/guardian-portal' ||
+              pathname === '/guardian-portal/') && (
+              <span
+                className={activeLinkStyle}
                 style={{ backgroundColor: activeLinkAccentColor }}
               />
             )}
           </Link>
-          <Link 
-            href="/blog" 
+          <Link
+            href="/blog"
             className={navStyle}
-            style={{ 
-              color: (pathname === '/blog' || pathname === '/blog/') ? activeMenuItemColor : menuItemColor 
+            style={{
+              color:
+                pathname === '/blog' || pathname === '/blog/'
+                  ? activeMenuItemColor
+                  : menuItemColor,
             }}
           >
-            Blog {(pathname === '/blog' || pathname === '/blog/') && (
-              <span 
-                className={activeLinkStyle} 
+            Blog{' '}
+            {(pathname === '/blog' || pathname === '/blog/') && (
+              <span
+                className={activeLinkStyle}
                 style={{ backgroundColor: activeLinkAccentColor }}
               />
             )}
           </Link>
-          <Link 
-            href="/get-started" 
+          <Link
+            href="/get-started"
             className={navStyle}
-            style={{ 
-              color: (pathname === '/get-started' || pathname === '/get-started/') ? activeMenuItemColor : menuItemColor 
+            style={{
+              color:
+                pathname === '/get-started' || pathname === '/get-started/'
+                  ? activeMenuItemColor
+                  : menuItemColor,
             }}
           >
             Get Started
             {(pathname === '/get-started' || pathname === '/get-started/') && (
-              <span 
-                className={activeLinkStyle} 
+              <span
+                className={activeLinkStyle}
                 style={{ backgroundColor: activeLinkAccentColor }}
               />
             )}
@@ -314,7 +345,7 @@ const Navigation: React.FC<NavigationProps> = ({
             className={loginButton}
             onClick={() =>
               window.location.assign(
-                (process.env.NEXT_PUBLIC_ADMIN_APP_URL + `auth/login`),
+                process.env.NEXT_PUBLIC_ADMIN_APP_URL + `auth/login`,
               )
             }
           >
@@ -322,14 +353,14 @@ const Navigation: React.FC<NavigationProps> = ({
           </button>
           <button
             className={tryForFreeButton}
-            onClick={() => router.push('/get-started')}
+            onClick={openModal}
           >
             Try for Free
           </button>
         </nav>
         {!menuOpen ? (
-          <div 
-            className={hamburger} 
+          <div
+            className={hamburger}
             onClick={toggleMenu}
             onKeyDown={(e) => e.key === 'Enter' && toggleMenu()}
             tabIndex={0}
@@ -341,8 +372,8 @@ const Navigation: React.FC<NavigationProps> = ({
             ))}
           </div>
         ) : (
-          <div 
-            className={closeButtonWrapper} 
+          <div
+            className={closeButtonWrapper}
             onClick={toggleMenu}
             onKeyDown={(e) => e.key === 'Enter' && toggleMenu()}
             tabIndex={0}
