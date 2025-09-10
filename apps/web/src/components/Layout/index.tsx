@@ -1,6 +1,6 @@
 import React, { FC } from 'react';
 
-import Footer from '../Footer/footer';
+import Footer from '../Footer';
 import Navigation from '../Navigation';
 import Container from '../Container';
 

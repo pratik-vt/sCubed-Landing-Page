@@ -4,8 +4,6 @@ import { AnimatePresence, motion, Variants } from 'framer-motion';
 import Link from 'next/link';
 import { useState } from 'react';
 
-import { faqData } from '@/data/faq-data';
-
 import {
   answer,
   chevronIcon,
@@ -28,6 +26,9 @@ import {
   sectionTitle,
   wrapper
 } from './styles.css';
+
+import { faqData } from '@/data/faq-data';
+
 
 export default function FAQClient() {
   const [openSectionIndex, setOpenSectionIndex] = useState<number>(0); // First section open by default

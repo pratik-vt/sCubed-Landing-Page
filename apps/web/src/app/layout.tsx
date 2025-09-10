@@ -1,4 +1,4 @@
-import type { Metadata } from 'next';
+import type { Metadata, Viewport } from 'next';
 
 import ConditionalLayout from '../components/ConditionalLayout';
 import '../components/Container/fonts.css';
@@ -10,6 +10,13 @@ const appEnv = process.env.NEXT_PUBLIC_APP_ENV || 'dev';
 const shouldBlockIndexing = appEnv === 'stage' || appEnv === 'dev';
 const isProduction = appEnv === 'prod';
 
+export const viewport: Viewport = {
+  width: 'device-width',
+  initialScale: 1,
+  maximumScale: 1,
+  userScalable: false,
+};
+
 export const metadata: Metadata = {
   title:
     'Best Practice Management & Billing Software for Therapy Practices | S Cubed',
@@ -18,12 +25,6 @@ export const metadata: Metadata = {
   metadataBase: new URL(
     process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000',
   ),
-  viewport: {
-    width: 'device-width',
-    initialScale: 1,
-    maximumScale: 1,
-    userScalable: false,
-  },
   icons: {
     icon: '/icon.png',
     shortcut: '/favicon.ico',

@@ -1,6 +1,5 @@
 'use client';
 
-import { format } from '@react-input/mask';
 import { Mail, Phone } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -9,6 +8,7 @@ import React, { useEffect, useState } from 'react';
 
 import desktopLogoImg from '../../images/HeaderLogo.png';
 import mobileLogoImg from '../../images/scubed-logo-small.png';
+import { formatPhone } from '../../utils/phoneFormatter';
 
 import {
   activeLinkStyle,
@@ -55,9 +55,7 @@ const Navigation: React.FC<NavigationProps> = ({
 
   // Get environment variables for contact information
   const rawPhone = process.env.NEXT_PUBLIC_PHONE_NUMBER;
-  const phoneNumber = rawPhone
-    ? format(rawPhone, { mask: '(___) ___-____', replacement: { _: /\d/ } })
-    : '';
+  const phoneNumber = rawPhone ? formatPhone(rawPhone) : '';
   const phoneLink = rawPhone || '';
   const email = process.env.NEXT_PUBLIC_EMAIL || '';
   // Get environment variables for social media links

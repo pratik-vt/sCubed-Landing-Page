@@ -34,7 +34,7 @@ const Partners = dynamic(() => import('../components/Partners/partners'), {
   loading: () => <div style={{ height: '200px' }}>Loading partners...</div>,
 });
 
-const Footer = dynamic(() => import('../components/Footer/footer'), {
+const Footer = dynamic(() => import('../components/Footer'), {
   loading: () => <div style={{ height: '400px' }}>Loading footer...</div>,
 });
 

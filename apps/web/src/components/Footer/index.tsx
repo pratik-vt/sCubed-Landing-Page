@@ -1,6 +1,5 @@
 'use client';
 
-import { format } from '@react-input/mask';
 import { ExternalLink, Mail, Phone } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -10,6 +9,7 @@ import React from 'react';
 import bacbaImage from '../../images/BACBA.jpg';
 import logoImage from '../../images/HeaderLogo.png';
 import hipaaImage from '../../images/HIPAA.png';
+import { formatPhone } from '../../utils/phoneFormatter';
 import NewsletterForm from '../NewsletterForm';
 
 import {
@@ -43,9 +43,7 @@ const Footer: React.FC = () => {
 
   // Get environment variables for contact information
   const rawPhone = process.env.NEXT_PUBLIC_PHONE_NUMBER;
-  const phoneNumber = rawPhone
-    ? format(rawPhone, { mask: '(___) ___-____', replacement: { _: /\d/ } })
-    : '';
+  const phoneNumber = rawPhone ? formatPhone(rawPhone) : '';
   const phoneLink = rawPhone ? `tel:${rawPhone}` : '';
   const email = process.env.NEXT_PUBLIC_EMAIL || '';
 
