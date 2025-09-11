@@ -380,6 +380,25 @@ export const loginText = style({
   },
 });
 
+// Login info message
+export const loginInfoMessage = style({
+  fontSize: '14px',
+  color: '#4b5563',
+  lineHeight: '1.5',
+  textAlign: 'center',
+  margin: '0 0 16px 0',
+  padding: '12px 16px',
+  backgroundColor: 'rgba(122, 126, 237, 0.05)',
+  borderRadius: '8px',
+  border: '1px solid rgba(122, 126, 237, 0.1)',
+  '@media': {
+    '(max-width: 640px)': {
+      fontSize: '13px',
+      padding: '10px 12px',
+    },
+  },
+});
+
 // Login button
 export const loginButton = style({
   padding: '14px 32px',

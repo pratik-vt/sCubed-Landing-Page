@@ -1,18 +1,24 @@
 'use client';
 
 import { InputMask, unformat } from '@react-input/mask';
-import { AlertCircle, Check, Loader2, Rocket, X } from 'lucide-react';
-import { FC, useEffect, useState } from 'react';
+import { AlertCircle, Check, Loader2, Lock, Rocket, X } from 'lucide-react';
+import { FC, useCallback, useEffect, useRef, useState } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { Modal } from 'react-responsive-modal';
 import 'react-responsive-modal/styles.css';
 import isEmail from 'validator/lib/isEmail';
 import isMobilePhone from 'validator/lib/isMobilePhone';
 
+import ReCaptcha, { ReCaptchaRef } from '@/components/ReCaptcha';
+
 import {
   actionButtons,
   cancelButton,
+  checkboxInput,
   closeButton,
+  consentCheckbox,
+  consentLabel,
+  consentSection,
   errorBanner,
   errorMessage,
   fieldWrapper,
@@ -32,6 +38,8 @@ import {
   modalOverlay,
   modalSubtitle,
   modalTitle,
+  privacyIcon,
+  privacyNote,
   progressBar,
   progressBarFill,
   requiredIndicator,
@@ -57,6 +65,9 @@ type FreeTrialInputs = {
   fullName: string;
   email: string;
   phoneNumber: string;
+  
+  // Consent
+  consentToContact: boolean;
 };
 
 type StateOption = {
@@ -93,6 +104,9 @@ const FreeTrialModal: FC<Props> = ({ isOpen, onClose, onSuccess }) => {
     message?: string;
   }>();
   const [apiErrors, setApiErrors] = useState<Record<string, string>>({});
+  const [recaptchaError, setRecaptchaError] = useState<string | null>(null);
+  const [pendingFormData, setPendingFormData] = useState<FreeTrialInputs | null>(null);
+  const recaptchaRef = useRef<ReCaptchaRef>(null);
 
   // Prevent body scroll when modal is open
   useEffect(() => {
@@ -121,6 +135,18 @@ const FreeTrialModal: FC<Props> = ({ isOpen, onClose, onSuccess }) => {
 
   const selectedState = watch('state');
   const selectedCity = watch('city');
+
+  // Get timezone from selected state
+  const getSelectedStateTimezone = () => {
+    if (!selectedState || !states.length) return 'America/New_York'; // Default timezone
+    
+    const stateData = states.find(state => state.id.toString() === selectedState);
+    if (stateData && stateData.timezones && stateData.timezones.length > 0) {
+      return stateData.timezones[0].timezone.timezone;
+    }
+    
+    return 'America/New_York'; // Fallback timezone
+  };
 
   // Fetch states on component mount
   useEffect(() => {
@@ -200,13 +226,13 @@ const FreeTrialModal: FC<Props> = ({ isOpen, onClose, onSuccess }) => {
     reset();
     setSubmitResponse({});
     setApiErrors({});
+    setRecaptchaError(null);
+    setPendingFormData(null);
+    recaptchaRef.current?.reset();
     onClose();
   };
 
-  const onSubmit: SubmitHandler<FreeTrialInputs> = async (data) => {
-    setSubmitResponse({});
-    setApiErrors({});
-    setSubmitting(true);
+  const submitToAPI = async (data: FreeTrialInputs, token: string) => {
 
     // TODO: Uncomment when API is ready
     // try {
@@ -229,6 +255,8 @@ const FreeTrialModal: FC<Props> = ({ isOpen, onClose, onSuccess }) => {
     //       contact_name: data.fullName,
     //       contact_email: data.email,
     //       contact_phone: data.phoneNumber,
+    //       consent_to_contact: data.consentToContact,
+    //       recaptcha_token: token,
     //     }),
     //   });
 
@@ -292,33 +320,80 @@ const FreeTrialModal: FC<Props> = ({ isOpen, onClose, onSuccess }) => {
       });
     } finally {
       setSubmitting(false);
+      setPendingFormData(null);
     }
   };
 
-  const getProgressPercentage = () => {
-    // List of required fields
-    const requiredFields: (keyof FreeTrialInputs)[] = [
-      'clinicName',
-      'taxId',
-      'npi',
-      'addressLine1',
-      'state',
-      'city',
-      'zipCode',
-      'fullName',
-      'email',
-      'phoneNumber'
-    ];
+  const onSubmit: SubmitHandler<FreeTrialInputs> = async (data) => {
+    setSubmitResponse({});
+    setApiErrors({});
+    setRecaptchaError(null);
+    setSubmitting(true);
+    setPendingFormData(data);
     
+    // Execute invisible reCAPTCHA
+    recaptchaRef.current?.execute();
+  };
+
+  const handleRecaptchaVerify = useCallback((token: string | null) => {
+    if (token && pendingFormData) {
+      // reCAPTCHA verified, now submit the form
+      submitToAPI(pendingFormData, token);
+    } else if (!token) {
+      setRecaptchaError('reCAPTCHA verification failed. Please try again.');
+      setSubmitting(false);
+      setPendingFormData(null);
+    }
+  }, [pendingFormData]);
+
+  const handleRecaptchaError = () => {
+    setRecaptchaError('reCAPTCHA error. Please try again.');
+    setSubmitting(false);
+    setPendingFormData(null);
+  };
+
+  const handleRecaptchaExpired = () => {
+    setRecaptchaError('reCAPTCHA expired. Please try again.');
+    setSubmitting(false);
+    setPendingFormData(null);
+  };
+
+  const requiredFieldsList: (keyof FreeTrialInputs)[] = [
+    'clinicName',
+    'taxId',
+    'npi',
+    'addressLine1',
+    'state',
+    'city',
+    'zipCode',
+    'fullName',
+    'email',
+    'phoneNumber'
+  ];
+
+  const getProgressPercentage = () => {
     // Count how many required fields are filled and valid
-    const filledRequiredFields = requiredFields.filter(
+    const filledRequiredFields = requiredFieldsList.filter(
       (field) => {
         const value = watch(field);
         return value && value.toString().trim() !== '' && !errors[field];
       }
     ).length;
     
-    return (filledRequiredFields / requiredFields.length) * 100;
+    return (filledRequiredFields / requiredFieldsList.length) * 100;
+  };
+
+  const isFormValid = () => {
+    // Check if all required fields are filled
+    const allFieldsFilled = requiredFieldsList.every((field) => {
+      const value = watch(field);
+      return value && value.toString().trim() !== '';
+    });
+    
+    // Check if consent checkbox is checked
+    const consentChecked = watch('consentToContact');
+    
+    return allFieldsFilled && consentChecked;
   };
 
   const isFieldValid = (fieldName: keyof FreeTrialInputs) => {
@@ -358,6 +433,9 @@ const FreeTrialModal: FC<Props> = ({ isOpen, onClose, onSuccess }) => {
 
   // If submission was successful, render SuccessModal directly
   if (submitResponse?.success) {
+    // Format timezone for display (e.g., "America/New_York" -> "America/New York")
+    const timezoneDisplay = getSelectedStateTimezone().replace(/_/g, ' ');
+    
     return (
       <SuccessModal
         onClose={handleClose}
@@ -369,7 +447,7 @@ const FreeTrialModal: FC<Props> = ({ isOpen, onClose, onSuccess }) => {
           day: 'numeric',
           year: 'numeric',
         })}
-        timezone={'IST'}
+        timezone={timezoneDisplay}
       />
     );
   }
@@ -399,15 +477,18 @@ const FreeTrialModal: FC<Props> = ({ isOpen, onClose, onSuccess }) => {
           alignItems: 'center',
           justifyContent: 'center',
           zIndex: 99999999,
+          overflowY: 'auto',
+          WebkitOverflowScrolling: 'touch',
         },
         modal: {
           position: 'relative',
-          margin: 0,
+          margin: '20px auto',
           maxWidth: '90vw',
           height: 'auto',
           maxHeight: '90vh',
           overflowY: 'auto',
           overflowX: 'hidden',
+          WebkitOverflowScrolling: 'touch',
         },
       }}
       showCloseIcon={false}
@@ -728,6 +809,46 @@ const FreeTrialModal: FC<Props> = ({ isOpen, onClose, onSuccess }) => {
                 </div>
               </div>
 
+              {/* Consent Section */}
+              <div className={consentSection}>
+                <div className={consentCheckbox}>
+                  <input
+                    type="checkbox"
+                    className={checkboxInput}
+                    id="consentCheckbox"
+                    {...register('consentToContact', {
+                      required: 'You must agree to be contacted to proceed',
+                    })}
+                  />
+                  <label htmlFor="consentCheckbox" className={consentLabel}>
+                    I hereby declare that S Cubed can contact me regarding my trial and related services.
+                    {errors.consentToContact && (
+                      <span className={errorMessage} style={{ display: 'block', marginTop: '4px' }}>
+                        {errors.consentToContact.message}
+                      </span>
+                    )}
+                  </label>
+                </div>
+                
+                <div className={privacyNote}>
+                  <Lock size={14} className={privacyIcon} />
+                  <span>
+                    S Cubed assures you that your information will remain private and will not be shared with anyone.
+                  </span>
+                </div>
+              </div>
+
+              {/* Invisible reCAPTCHA */}
+              <ReCaptcha
+                ref={recaptchaRef}
+                size="invisible"
+                siteKey={process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY_V3}
+                onVerify={handleRecaptchaVerify}
+                onError={handleRecaptchaError}
+                onExpired={handleRecaptchaExpired}
+                error={recaptchaError}
+              />
+
               <div className={actionButtons}>
                 <button
                   type="button"
@@ -740,7 +861,7 @@ const FreeTrialModal: FC<Props> = ({ isOpen, onClose, onSuccess }) => {
                 <button
                   type="submit"
                   className={submitButton}
-                  disabled={isSubmitting}
+                  disabled={isSubmitting || !isFormValid()}
                 >
                   {isSubmitting ? (
                     <>

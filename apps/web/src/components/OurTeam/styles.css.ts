@@ -69,7 +69,6 @@ export const heroSection = style({
   `,
   backgroundSize: '200% 200%, 200% 200%, 200% 200%, 200% 200%, 200% 200%, 200% 200%, 200% 200%, 100% 100%',
   backgroundPosition: '0% 0%, 100% 0%, 100% 100%, 0% 100%, 50% 50%, 50% 50%, 50% 50%, 0% 0%',
-  animation: `${meshMove} 20s ease-in-out infinite`,
   
   // Grain texture overlay for premium feel
   '::before': {
@@ -97,7 +96,6 @@ export const heroSection = style({
       radial-gradient(circle at 20% 30%, hsla(280, 70%, 70%, 0.3) 0px, transparent 50%),
       radial-gradient(circle at 80% 70%, hsla(200, 70%, 70%, 0.3) 0px, transparent 50%)
     `,
-    animation: `${meshMoveReverse} 25s ease-in-out infinite`,
     pointerEvents: 'none',
     opacity: 0.5,
   },
@@ -132,13 +130,6 @@ export const heroSection = style({
       minHeight: '160px',
       maxHeight: '28vh',
       padding: `${spacing.xs} ${spacing.sm}`,
-    },
-    // Reduced motion for accessibility
-    '(prefers-reduced-motion: reduce)': {
-      animation: 'none',
-      '::after': {
-        animation: 'none',
-      },
     },
   },
 });
@@ -475,7 +466,6 @@ export const ctaSection = style({
   position: 'relative',
   overflow: 'hidden',
   backgroundSize: '150% 150%, 150% 150%, 150% 150%, 100% 100%',
-  animation: `${meshMove} 15s ease-in-out infinite`,
   
   // Grain texture for consistency
   '::before': {
@@ -500,9 +490,6 @@ export const ctaSection = style({
     },
     'screen and (max-height: 600px)': {
       padding: `${spacing.sm} ${spacing.sm}`,
-    },
-    '(prefers-reduced-motion: reduce)': {
-      animation: 'none',
     },
   },
 });

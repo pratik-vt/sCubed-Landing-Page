@@ -27,9 +27,12 @@ export const modalContainer = style({
   maxHeight: 'calc(90vh - 40px)',
   overflowY: 'auto',
   overflowX: 'hidden',
+  WebkitOverflowScrolling: 'touch', // Enable smooth scrolling on iOS
   '@media': {
     '(max-width: 640px)': {
       maxHeight: 'calc(100vh - 60px)',
+      overflowY: 'auto',
+      WebkitOverflowScrolling: 'touch',
     },
   },
 });
@@ -57,12 +60,16 @@ export const modalContent = style({
   border: `1px solid ${colors.primary[200]}`,
   backdropFilter: 'blur(12px)',
   position: 'relative',
-  overflow: 'hidden',
+  overflow: 'visible', // Changed from hidden to visible
+  maxHeight: '90vh',
   '@media': {
     '(max-width: 640px)': {
       width: '95vw',
-      padding: '28px 24px',
+      maxWidth: '95vw',
+      padding: '24px 20px',
       borderRadius: radius.xl,
+      maxHeight: 'calc(100vh - 40px)',
+      margin: '20px auto',
     },
     '(max-height: 700px)': {
       padding: '20px 24px',
@@ -186,13 +193,17 @@ export const formWrapper = style({
   paddingLeft: '2px',
   paddingRight: '4px',
   maxHeight: 'calc(80vh - 200px)',
+  WebkitOverflowScrolling: 'touch', // Enable smooth scrolling on iOS
   '@media': {
     '(max-width: 640px)': {
       gap: '12px',
-      maxHeight: 'calc(100vh - 250px)',
+      maxHeight: 'calc(100vh - 280px)', // Ensure space for button
+      overflowY: 'auto',
+      WebkitOverflowScrolling: 'touch',
+      paddingBottom: '20px', // Add padding at bottom for better scrolling
     },
     '(max-height: 700px)': {
-      maxHeight: 'calc(100vh - 220px)',
+      maxHeight: 'calc(100vh - 250px)',
     },
   },
 });
@@ -381,13 +392,20 @@ export const actionButtons = style({
   justifyContent: 'space-between',
   alignItems: 'center',
   gap: '12px',
-  marginTop: '24px',
   paddingTop: '20px',
   borderTop: '1px solid #e5e7eb',
+  position: 'sticky',
+  bottom: 0,
+  backgroundColor: colors.primary[50],
+  backgroundImage: 'linear-gradient(135deg, rgba(255, 255, 255, 0.95), rgba(122, 126, 237, 0.06))',
+  marginTop: 'auto',
+  zIndex: 10,
   '@media': {
     '(max-width: 640px)': {
       flexDirection: 'column-reverse',
       gap: '10px',
+      paddingBottom: '10px',
+      paddingTop: '15px',
     },
   },
 });
@@ -439,6 +457,7 @@ export const submitButton = style({
   boxShadow: `${shadows.purple}, ${shadows.lg}`,
   position: 'relative',
   overflow: 'hidden',
+  textAlign: 'center', // Center text alignment
   ':hover': {
     background: `linear-gradient(135deg, ${colors.primary[700]}, ${colors.primary[800]})`,
     transform: 'translateY(-2px) scale(1.02)', // Slight scale on hover
@@ -552,4 +571,57 @@ export const inputError = style({
   borderColor: '#dc2626', // Red-600 for better contrast
   borderWidth: '1px', // Keep normal border width
   boxShadow: '0 0 0 2px rgba(220, 38, 38, 0.15)', // Subtle red glow
+});
+
+export const consentSection = style({
+  padding: '12px 16px',
+  backgroundColor: 'rgba(122, 126, 237, 0.03)',
+  borderRadius: radius.lg,
+  border: `1px solid ${colors.primary[200]}`,
+});
+
+export const consentCheckbox = style({
+  display: 'flex',
+  alignItems: 'flex-start',
+  gap: '10px',
+  marginBottom: '10px',
+  cursor: 'pointer',
+  ':hover': {
+    opacity: 0.9,
+  },
+});
+
+export const checkboxInput = style({
+  marginTop: '2px',
+  width: '18px',
+  height: '18px',
+  cursor: 'pointer',
+  accentColor: colors.primary[600],
+  flexShrink: 0,
+});
+
+export const consentLabel = style({
+  fontSize: typography.fontSize.sm,
+  color: colors.neutral[700],
+  lineHeight: typography.lineHeight.relaxed,
+  userSelect: 'none',
+  cursor: 'pointer',
+  flex: 1,
+});
+
+export const privacyNote = style({
+  display: 'flex',
+  alignItems: 'flex-start',
+  gap: '8px',
+  fontSize: typography.fontSize.xs,
+  color: colors.neutral[600],
+  lineHeight: typography.lineHeight.relaxed,
+  fontStyle: 'italic',
+  opacity: 0.9,
+});
+
+export const privacyIcon = style({
+  flexShrink: 0,
+  marginTop: '2px',
+  color: colors.primary[600],
 });

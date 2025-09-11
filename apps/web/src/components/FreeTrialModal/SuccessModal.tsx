@@ -16,6 +16,7 @@ import {
   infoChip,
   infoRow,
   loginButton,
+  loginInfoMessage,
   loginSection,
   loginText,
   modalBackdrop,
@@ -173,27 +174,29 @@ const SuccessModal: FC<Props> = ({
 
           <div className={successContent}>
             <p>
-              Explore S Cubed and unlock all the features available during your 30-day trial.
-              <span className={successHighlight}>We're thrilled to have you on board!</span>
+              🚀 Explore S Cubed and enjoy full access to all features during your trial.
+              <br />
+              <span className={successHighlight}>💜 We're excited to have you with us!</span>
             </p>
           </div>
 
           <div className={loginSection}>
-            <p className={loginText}>Ready to get started?</p>
+            <p className={loginText}>What's next?</p>
+            <div className={loginInfoMessage}>
+              <strong>📧 Your login credentials will be sent to your registered email within 2 business days.</strong>
+              <br />
+              Once you receive them, you'll be able to log in to your S Cubed dashboard and start exploring our complete suite of practice management tools.
+            </div>
             <button
               onClick={() => {
-                // Close modal and redirect to login
+                // Close modal and redirect to home
                 onClose();
-                // Trigger the same login action as header navigation
-                const loginButton = document.querySelector('[data-login-button]');
-                if (loginButton instanceof HTMLElement) {
-                  loginButton.click();
-                }
+                window.location.href = '/';
               }}
               className={loginButton}
-              aria-label="Login to your account"
+              aria-label="Go to homepage"
             >
-              Login to Your Account
+              Go to Home
             </button>
           </div>
       </div>
