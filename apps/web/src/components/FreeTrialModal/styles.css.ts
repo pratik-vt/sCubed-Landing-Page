@@ -86,13 +86,13 @@ export const modalHeader = style({
   flexDirection: 'column',
   alignItems: 'center',
   textAlign: 'center',
-  marginBottom: '8px',
+  marginBottom: '4px',
   '@media': {
     '(max-width: 640px)': {
-      marginBottom: '4px',
+      marginBottom: '2px',
     },
     '(max-height: 700px)': {
-      marginBottom: '4px',
+      marginBottom: '2px',
     },
   },
 });
@@ -151,7 +151,7 @@ export const progressBar = style({
   height: '6px', // Slimmer height for modern feel
   backgroundColor: colors.neutral[200],
   borderRadius: radius.full,
-  marginBottom: '12px', // Reduced gap below progress bar
+  marginBottom: '8px', // Further reduced gap below progress bar
   overflow: 'hidden',
   boxShadow: 'inset 0 1px 2px rgba(0, 0, 0, 0.05)',
   position: 'relative',

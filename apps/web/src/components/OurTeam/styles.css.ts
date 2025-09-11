@@ -34,14 +34,22 @@ export const pageContainer = style({
   minHeight: '100vh',
   backgroundColor: colors.white,
   position: 'relative',
-  overflow: 'hidden',
+  overflow: 'visible',
+  display: 'flex',
+  flexDirection: 'column',
 });
 
 export const heroSection = style({
   color: colors.white,
-  padding: `${spacing['2xl']} ${spacing.sm} ${spacing['2xl']}`,
+  padding: `clamp(${spacing.sm}, 2vh, ${spacing.lg}) ${spacing.sm}`,
   position: 'relative',
   overflow: 'hidden',
+  minHeight: 'clamp(180px, 25vh, 350px)',
+  height: 'auto',
+  maxHeight: '35vh',
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'center',
   
   // Base gradient background
   background: `
@@ -96,7 +104,34 @@ export const heroSection = style({
   
   '@media': {
     'screen and (max-width: 768px)': {
-      padding: `${spacing.xl} ${spacing.sm} ${spacing.xl}`,
+      padding: `clamp(${spacing.sm}, 2vh, ${spacing.md}) ${spacing.sm}`,
+      minHeight: 'clamp(160px, 25vh, 300px)',
+      maxHeight: '35vh',
+    },
+    'screen and (min-width: 769px) and (max-width: 1024px)': {
+      padding: `clamp(${spacing.sm}, 2vh, ${spacing.md}) ${spacing.sm}`,
+      minHeight: 'clamp(180px, 28vh, 320px)',
+      maxHeight: '35vh',
+    },
+    'screen and (min-width: 1025px) and (max-width: 1440px)': {
+      padding: `clamp(${spacing.sm}, 2.5vh, ${spacing.lg}) ${spacing.sm}`,
+      minHeight: 'clamp(200px, 30vh, 350px)',
+      maxHeight: '38vh',
+    },
+    'screen and (min-width: 1441px)': {
+      padding: `${spacing.lg} ${spacing.sm}`,
+      minHeight: '280px',
+      maxHeight: '350px',
+    },
+    'screen and (max-height: 700px)': {
+      minHeight: '180px',
+      maxHeight: '30vh',
+      padding: `${spacing.sm} ${spacing.sm}`,
+    },
+    'screen and (max-height: 600px)': {
+      minHeight: '160px',
+      maxHeight: '28vh',
+      padding: `${spacing.xs} ${spacing.sm}`,
     },
     // Reduced motion for accessibility
     '(prefers-reduced-motion: reduce)': {
@@ -114,46 +149,87 @@ export const heroContent = style({
   textAlign: 'center',
   position: 'relative',
   zIndex: 1,
+  width: '100%',
+  display: 'flex',
+  flexDirection: 'column',
+  justifyContent: 'center',
+  gap: spacing.xs,
 });
 
 export const heroTitle = style({
-  fontSize: typography.fontSize['6xl'],
+  fontSize: `clamp(${typography.fontSize['2xl']}, 4vw, ${typography.fontSize['4xl']})`,
   fontWeight: typography.fontWeight.bold,
   fontFamily: typography.fontFamily.heading,
-  marginBottom: spacing.md,
+  marginBottom: spacing.xs,
   marginTop: 0,
   color: '#ffffff',
   textShadow: '0 4px 30px rgba(0,0,0,0.2), 0 2px 10px rgba(0,0,0,0.3)',
   letterSpacing: '-0.02em',
+  lineHeight: '1.1',
   '@media': {
     'screen and (max-width: 768px)': {
+      fontSize: `clamp(${typography.fontSize['xl']}, 4vw, ${typography.fontSize['2xl']})`,
+      marginBottom: spacing.xs,
+    },
+    'screen and (min-width: 1441px)': {
       fontSize: typography.fontSize['4xl'],
-      marginBottom: spacing.sm,
+    },
+    'screen and (max-height: 700px)': {
+      fontSize: `clamp(${typography.fontSize['xl']}, 3.5vw, ${typography.fontSize['2xl']})`,
+      marginBottom: spacing.xs,
+    },
+    'screen and (max-height: 600px)': {
+      fontSize: typography.fontSize['xl'],
+      marginBottom: '4px',
     },
   },
 });
 
 export const heroText = style({
-  fontSize: typography.fontSize.xl,
-  lineHeight: typography.lineHeight.relaxed,
+  fontSize: `clamp(${typography.fontSize.sm}, 1.5vw, ${typography.fontSize.base})`,
+  lineHeight: '1.5',
   maxWidth: '48rem',
   margin: '0 auto',
   color: 'rgba(255, 255, 255, 0.95)',
   textShadow: '0 2px 10px rgba(0,0,0,0.2)',
   fontWeight: typography.fontWeight.medium,
+  marginBottom: 0,
   '@media': {
     'screen and (max-width: 768px)': {
-      fontSize: typography.fontSize.lg,
+      fontSize: `clamp(${typography.fontSize.xs}, 1.8vw, ${typography.fontSize.sm})`,
       color: 'rgba(255, 255, 255, 0.92)',
+      maxWidth: '100%',
+      padding: `0 ${spacing.xs}`,
+      lineHeight: '1.4',
+    },
+    'screen and (min-width: 1441px)': {
+      fontSize: typography.fontSize.lg,
+      lineHeight: '1.6',
+    },
+    'screen and (max-height: 700px)': {
+      fontSize: typography.fontSize.sm,
+      lineHeight: '1.4',
+      maxWidth: '90%',
+    },
+    'screen and (max-height: 600px)': {
+      fontSize: typography.fontSize.xs,
+      lineHeight: '1.3',
+      maxWidth: '85%',
     },
   },
 });
 
 export const section = style({
-  padding: `${spacing['2xl']} ${spacing.sm}`,
+  padding: `clamp(${spacing.sm}, 3vh, ${spacing.lg}) ${spacing.sm}`,
   '@media': {
     'screen and (max-width: 768px)': {
-      padding: `${spacing.xl} ${spacing.sm}`,
+      padding: `clamp(${spacing.xs}, 2vh, ${spacing.md}) ${spacing.sm}`,
+    },
+    'screen and (max-height: 700px)': {
+      padding: `${spacing.sm} ${spacing.sm}`,
+    },
+    'screen and (max-height: 600px)': {
+      padding: `${spacing.xs} ${spacing.sm}`,
     },
   },
 });
@@ -171,7 +247,7 @@ export const sectionContent = style({
 });
 
 export const sectionTitle = style({
-  fontSize: typography.fontSize['4xl'],
+  fontSize: typography.fontSize['3xl'],
   fontWeight: typography.fontWeight.bold,
   fontFamily: typography.fontFamily.heading,
   textAlign: 'center',
@@ -180,8 +256,16 @@ export const sectionTitle = style({
   color: colors.neutral[900],
   '@media': {
     'screen and (max-width: 768px)': {
-      fontSize: typography.fontSize['3xl'],
+      fontSize: typography.fontSize['2xl'],
       marginBottom: spacing.xs,
+    },
+    'screen and (min-width: 769px) and (max-width: 1024px)': {
+      fontSize: typography.fontSize['2xl'],
+      marginBottom: spacing.xs,
+    },
+    'screen and (min-width: 1025px) and (max-width: 1440px)': {
+      fontSize: typography.fontSize['3xl'],
+      marginBottom: spacing.sm,
     },
   },
 });
@@ -254,7 +338,7 @@ export const cardText = style({
 
 export const teamGrid = style({
   display: 'grid',
-  gap: spacing.xl,
+  gap: spacing.lg,
   '@media': {
     'screen and (min-width: 640px)': {
       gridTemplateColumns: 'repeat(1, 1fr)',
@@ -276,10 +360,17 @@ export const teamCard = style({
   transition: 'all 0.4s cubic-bezier(0.4, 0, 0.2, 1)',
   background: 'linear-gradient(135deg, #ffffff 0%, #fafbff 100%)',
   border: '1px solid rgba(122, 126, 237, 0.08)',
+  maxHeight: '600px',
+  overflowY: 'auto',
   ':hover': {
     boxShadow: '0 20px 60px rgba(122, 126, 237, 0.2)',
     transform: 'translateY(-5px) scale(1.01)',
     borderColor: colors.primary[200],
+  },
+  '@media': {
+    'screen and (min-width: 769px) and (max-width: 1440px)': {
+      maxHeight: '500px',
+    },
   },
 });
 
@@ -292,8 +383,8 @@ export const teamCardLayout = style({
 export const teamCardHeader = style({
   display: 'flex',
   alignItems: 'flex-start',
-  padding: spacing.md,
-  gap: spacing.md,
+  padding: spacing.sm,
+  gap: spacing.sm,
   background: 'linear-gradient(135deg, rgba(122, 126, 237, 0.03) 0%, transparent 100%)',
   '@media': {
     'screen and (max-width: 768px)': {
@@ -305,14 +396,24 @@ export const teamCardHeader = style({
 });
 
 export const teamImageWrapper = style({
-  width: '128px',
-  height: '128px',
+  width: '100px',
+  height: '100px',
   borderRadius: radius.full,
   overflow: 'hidden',
   flexShrink: 0,
   border: `4px solid ${colors.primary[100]}`,
   boxShadow: '0 4px 20px rgba(122, 126, 237, 0.15)',
   transition: 'transform 0.3s ease',
+  '@media': {
+    'screen and (max-width: 768px)': {
+      width: '120px',
+      height: '120px',
+    },
+    'screen and (min-width: 1441px)': {
+      width: '128px',
+      height: '128px',
+    },
+  },
 });
 
 export const teamImage = style({
@@ -326,11 +427,19 @@ export const teamInfo = style({
 });
 
 export const teamName = style({
-  fontSize: typography.fontSize.xl,
+  fontSize: typography.fontSize.lg,
   fontWeight: typography.fontWeight.bold,
   fontFamily: typography.fontFamily.heading,
   color: colors.primary[600],
   marginBottom: spacing.xs,
+  '@media': {
+    'screen and (max-width: 768px)': {
+      fontSize: typography.fontSize.xl,
+    },
+    'screen and (min-width: 1441px)': {
+      fontSize: typography.fontSize.xl,
+    },
+  },
 });
 
 export const teamTitle = style({
@@ -340,10 +449,16 @@ export const teamTitle = style({
 });
 
 export const teamBio = style({
-  padding: `0 ${spacing.md} ${spacing.md}`,
+  padding: `0 ${spacing.sm} ${spacing.sm}`,
   fontSize: typography.fontSize.sm,
   lineHeight: typography.lineHeight.relaxed,
   color: colors.neutral[600],
+  '@media': {
+    'screen and (min-width: 769px) and (max-width: 1440px)': {
+      fontSize: typography.fontSize.xs,
+      lineHeight: typography.lineHeight.normal,
+    },
+  },
 });
 
 export const ctaSection = style({
@@ -355,7 +470,7 @@ export const ctaSection = style({
     linear-gradient(125deg, #667eea 0%, #764ba2 100%)
   `,
   color: colors.white,
-  padding: `${spacing['2xl']} ${spacing.sm}`,
+  padding: `clamp(${spacing.sm}, 3vh, ${spacing.lg}) ${spacing.sm}`,
   textAlign: 'center',
   position: 'relative',
   overflow: 'hidden',
@@ -377,6 +492,15 @@ export const ctaSection = style({
   },
   
   '@media': {
+    'screen and (max-width: 768px)': {
+      padding: `clamp(${spacing.sm}, 4vh, ${spacing.lg}) ${spacing.sm}`,
+    },
+    'screen and (max-height: 700px)': {
+      padding: `${spacing.md} ${spacing.sm}`,
+    },
+    'screen and (max-height: 600px)': {
+      padding: `${spacing.sm} ${spacing.sm}`,
+    },
     '(prefers-reduced-motion: reduce)': {
       animation: 'none',
     },

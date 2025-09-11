@@ -1,15 +1,15 @@
 import { Metadata } from 'next';
 
-import AboutUs from '@/components/AboutUs';
+import OurTeam from '@/components/OurTeam';
 import Layout from '@/components/Layout';
 
 export const metadata: Metadata = {
-  title: 'About Us | S Cubed',
-  description: 'Learn about S Cubed - our story, mission, team, and why therapists trust us to transform their practice management.',
-  keywords: 'S Cubed, about us, team, mission, healthcare software, practice management, therapy services',
+  title: 'Our Team | S Cubed',
+  description: 'Meet the S Cubed team - our story, mission, leadership, and why therapists trust us to transform their practice management.',
+  keywords: 'S Cubed, our team, leadership, mission, healthcare software, practice management, therapy services',
   openGraph: {
-    title: 'About Us | S Cubed',
-    description: 'Learn about S Cubed - our story, mission, team, and why therapists trust us to transform their practice management.',
+    title: 'Our Team | S Cubed',
+    description: 'Meet the S Cubed team - our story, mission, leadership, and why therapists trust us to transform their practice management.',
     type: 'website',
   },
 };
@@ -17,7 +17,7 @@ export const metadata: Metadata = {
 export default function AboutPage() {
   return (
     <Layout>
-      <AboutUs />
+      <OurTeam />
     </Layout>
   );
 }

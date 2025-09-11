@@ -40,19 +40,18 @@ import {
   submitButton,
 } from './styles.css';
 import SuccessModal from './SuccessModal';
-import { formatNPI, formatTaxId, phoneTrack } from './utils';
+import { formatNPI, formatTaxId, formatZipCode, phoneTrack } from './utils';
 
 type FreeTrialInputs = {
   // Clinic Details
   clinicName: string;
   taxId: string;
-  npi?: string;
+  npi: string;
   addressLine1: string;
   addressLine2?: string;
   state: string;
   city: string;
   zipCode: string;
-  timezone: string;
 
   // Primary Contact Information
   fullName: string;
@@ -134,17 +133,11 @@ const FreeTrialModal: FC<Props> = ({ isOpen, onClose, onSuccess }) => {
   useEffect(() => {
     if (selectedState) {
       fetchCities(selectedState);
-      // Auto-populate timezone based on state
-      const state = states.find((s) => s.id.toString() === selectedState);
-      if (state?.timezones?.[0]?.timezone?.timezone) {
-        setValue('timezone', state.timezones[0].timezone.timezone);
-      }
     } else {
       setCities([]);
       setValue('city', '');
-      setValue('timezone', '');
     }
-  }, [selectedState, states, setValue]);
+  }, [selectedState, setValue]);
 
   const fetchStates = async () => {
     setLoadingStates(true);
@@ -303,11 +296,29 @@ const FreeTrialModal: FC<Props> = ({ isOpen, onClose, onSuccess }) => {
   };
 
   const getProgressPercentage = () => {
-    const totalFields = 12; // Total required fields
-    const filledFields = Object.keys(dirtyFields).filter(
-      (key) => !errors[key as keyof FreeTrialInputs],
+    // List of required fields
+    const requiredFields: (keyof FreeTrialInputs)[] = [
+      'clinicName',
+      'taxId',
+      'npi',
+      'addressLine1',
+      'state',
+      'city',
+      'zipCode',
+      'fullName',
+      'email',
+      'phoneNumber'
+    ];
+    
+    // Count how many required fields are filled and valid
+    const filledRequiredFields = requiredFields.filter(
+      (field) => {
+        const value = watch(field);
+        return value && value.toString().trim() !== '' && !errors[field];
+      }
     ).length;
-    return Math.min((filledFields / totalFields) * 100, 100);
+    
+    return (filledRequiredFields / requiredFields.length) * 100;
   };
 
   const isFieldValid = (fieldName: keyof FreeTrialInputs) => {
@@ -358,7 +369,7 @@ const FreeTrialModal: FC<Props> = ({ isOpen, onClose, onSuccess }) => {
           day: 'numeric',
           year: 'numeric',
         })}
-        timezone={watch('timezone') || 'IST'}
+        timezone={'IST'}
       />
     );
   }
@@ -432,8 +443,6 @@ const FreeTrialModal: FC<Props> = ({ isOpen, onClose, onSuccess }) => {
                 </div>
               )}
 
-              <div className={sectionHeader}>Clinic Details</div>
-
               <div className={formGrid}>
                 {/* Row 1: Clinic Name - Full width */}
                 <div className={formGroupFull}>
@@ -503,12 +512,15 @@ const FreeTrialModal: FC<Props> = ({ isOpen, onClose, onSuccess }) => {
                 </div>
 
                 <div className={formGroup}>
-                  <label className={labelStyle}>NPI</label>
+                  <label className={labelStyle}>
+                    NPI<span className={requiredIndicator}>*</span>
+                  </label>
                   <input
                     type="text"
                     className={getInputClassName('npi')}
-                    placeholder="10 digits (optional)"
+                    placeholder="10 digits"
                     {...register('npi', {
+                      required: true,
                       pattern: {
                         value: /^\d{10}$/,
                         message: 'Must be 10 digits',
@@ -520,7 +532,7 @@ const FreeTrialModal: FC<Props> = ({ isOpen, onClose, onSuccess }) => {
                       },
                     })}
                   />
-                  {(errors.npi || apiErrors.npi) && (
+                  {shouldShowError('npi') && (
                     <span className={errorMessage}>
                       {errors.npi?.message || apiErrors.npi}
                     </span>
@@ -618,12 +630,18 @@ const FreeTrialModal: FC<Props> = ({ isOpen, onClose, onSuccess }) => {
                     <input
                       type="text"
                       className={getInputClassName('zipCode')}
-                      placeholder="XXXXX"
+                      placeholder="XXXXX or XXXXX-XXXX"
+                      maxLength={10}
                       {...register('zipCode', {
                         required: true, // Just validate, don't show message
                         pattern: {
                           value: /^\d{5}(-\d{4})?$/,
                           message: 'Invalid',
+                        },
+                        onChange: (e) => {
+                          const formatted = formatZipCode(e.target.value);
+                          setValue('zipCode', formatted);
+                          return formatted;
                         },
                       })}
                     />
@@ -634,45 +652,7 @@ const FreeTrialModal: FC<Props> = ({ isOpen, onClose, onSuccess }) => {
                     )}
                   </div>
                 </div>
-
-                {/* Row 6: Timezone */}
-                <div className={formGroupFull}>
-                  <label className={labelStyle}>
-                    Timezone<span className={requiredIndicator}>*</span>
-                  </label>
-                  <select
-                    className={getSelectClassName('timezone')}
-                    {...register('timezone', {
-                      required: true, // Just validate, don't show message
-                    })}
-                    disabled={!selectedState}
-                  >
-                    <option value="">
-                      {!selectedState
-                        ? 'Select a state first'
-                        : 'Select Timezone'}
-                    </option>
-                    {selectedState &&
-                      states
-                        .find((s) => s.id.toString() === selectedState)
-                        ?.timezones?.map((tz) => (
-                          <option
-                            key={tz.timezone_id}
-                            value={tz.timezone.timezone}
-                          >
-                            {tz.timezone.timezone}
-                          </option>
-                        ))}
-                  </select>
-                  {(errors.timezone || apiErrors.timezone) && (
-                    <span className={errorMessage}>
-                      {errors.timezone?.message || apiErrors.timezone}
-                    </span>
-                  )}
-                </div>
               </div>
-
-              <div className={sectionHeader}>Primary Contact Information</div>
 
               <div className={formGrid}>
                 {/* Row 1: Full Name */}

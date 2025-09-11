@@ -363,7 +363,7 @@ const Navigation: React.FC<NavigationProps> = ({
                   : menuItemColor,
             }}
           >
-            About Us
+            Our Team
             {(pathname === '/about' || pathname === '/about/') && (
               <span
                 className={activeLinkStyle}

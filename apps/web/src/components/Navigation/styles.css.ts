@@ -21,7 +21,6 @@ export const headerContentStyles = style({
   width: '100%',
   boxSizing: 'border-box',
   position: 'relative',
-  backgroundColor: '#fff',
   transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
   '@media': {
     'screen and (max-width: 768px)': {

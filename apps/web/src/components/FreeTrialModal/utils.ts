@@ -49,3 +49,21 @@ export const phoneTrack: Track = ({
   }
   return data;
 };
+
+/**
+ * Formats ZIP code input to XXXXX or XXXXX-XXXX format
+ */
+export const formatZipCode = (value: string): string => {
+  // Remove all non-digits
+  const digitsOnly = value.replace(/\D/g, '');
+  
+  // Limit to 9 digits maximum (5 for zip, 4 for extension)
+  const limited = digitsOnly.substring(0, 9);
+  
+  // Add hyphen after 5 digits if there are more digits
+  if (limited.length > 5) {
+    return `${limited.substring(0, 5)}-${limited.substring(5)}`;
+  }
+  
+  return limited;
+};
