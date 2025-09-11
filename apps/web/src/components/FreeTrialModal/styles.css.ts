@@ -1,4 +1,5 @@
 import { style, keyframes, globalStyle } from '@vanilla-extract/css';
+
 import { colors, shadows, radius, typography } from '@/styles/tokens.css';
 
 const fadeIn = keyframes({
@@ -20,16 +21,12 @@ const spin = keyframes({
 export const modalContainer = style({
   position: 'relative',
   width: '100%',
-  overflow: 'visible', // No scroll
+  overflow: 'visible',
   display: 'flex',
   flexDirection: 'column',
-  minHeight: 'auto', // Allow natural height
-  maxHeight: '85vh', // Prevent modal from being too tall
-  '@media': {
-    '(max-height: 800px)': {
-      maxHeight: '90vh', // Use more space on smaller screens
-    },
-  },
+  height: 'fit-content',
+  minHeight: '200px', // Ensure minimum height to prevent collapse
+  maxHeight: 'fit-content',
 });
 
 export const modalOverlay = style({

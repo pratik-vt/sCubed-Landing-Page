@@ -1,15 +1,7 @@
 'use client';
 
-import { InputMask, Track, unformat } from '@react-input/mask';
-import {
-  AlertCircle,
-  Check,
-  CheckCircle,
-  ChevronRight,
-  Loader2,
-  Rocket,
-  X,
-} from 'lucide-react';
+import { InputMask, unformat } from '@react-input/mask';
+import { AlertCircle, Check, Loader2, Rocket, X } from 'lucide-react';
 import { FC, useEffect, useState } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { Modal } from 'react-responsive-modal';
@@ -46,8 +38,9 @@ import {
   sectionHeader,
   selectStyle,
   submitButton,
-  successMessage,
 } from './styles.css';
+import SuccessModal from './SuccessModal';
+import { formatNPI, formatTaxId, phoneTrack } from './utils';
 
 type FreeTrialInputs = {
   // Clinic Details
@@ -102,26 +95,17 @@ const FreeTrialModal: FC<Props> = ({ isOpen, onClose, onSuccess }) => {
   }>();
   const [apiErrors, setApiErrors] = useState<Record<string, string>>({});
 
-  // Auto-formatting functions
-  const formatTaxId = (value: string) => {
-    // Remove all non-digits
-    const digitsOnly = value.replace(/\D/g, '');
-    
-    // Limit to 9 digits maximum
-    const limited = digitsOnly.substring(0, 9);
-    
-    // Add hyphen after 2 digits
-    if (limited.length > 2) {
-      return `${limited.substring(0, 2)}-${limited.substring(2)}`;
+  // Prevent body scroll when modal is open
+  useEffect(() => {
+    if (isOpen) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = '';
     }
-    
-    return limited;
-  };
-
-  const formatNPI = (value: string) => {
-    // Remove all non-digits and limit to 10 digits
-    return value.replace(/\D/g, '').substring(0, 10);
-  };
+    return () => {
+      document.body.style.overflow = '';
+    };
+  }, [isOpen]);
 
   const {
     register,
@@ -133,6 +117,7 @@ const FreeTrialModal: FC<Props> = ({ isOpen, onClose, onSuccess }) => {
     trigger,
   } = useForm<FreeTrialInputs>({
     mode: 'onBlur',
+    shouldFocusError: false,
   });
 
   const selectedState = watch('state');
@@ -300,19 +285,12 @@ const FreeTrialModal: FC<Props> = ({ isOpen, onClose, onSuccess }) => {
     // Demo mode - Always succeed
     try {
       // Simulate API call delay
-      await new Promise(resolve => setTimeout(resolve, 1500));
-      
+      await new Promise((resolve) => setTimeout(resolve, 1500));
+
       setSubmitResponse({
         success: true,
         message: 'Welcome to S Cubed! Your trial has started.',
       });
-
-      setTimeout(() => {
-        handleClose();
-        if (onSuccess) {
-          onSuccess();
-        }
-      }, 2000);
     } catch (error) {
       // This shouldn't happen in demo mode, but keeping for safety
       setSubmitResponse({
@@ -322,27 +300,6 @@ const FreeTrialModal: FC<Props> = ({ isOpen, onClose, onSuccess }) => {
     } finally {
       setSubmitting(false);
     }
-  };
-
-  const phoneTrack: Track = ({
-    inputType,
-    value,
-    data,
-    selectionStart,
-    selectionEnd,
-  }) => {
-    if (inputType === 'insert' && !/^\D*1/.test(data) && selectionStart <= 1) {
-      return `1${data}`;
-    }
-    if (
-      inputType !== 'insert' &&
-      selectionStart <= 1 &&
-      selectionEnd < value.length
-    ) {
-      if (selectionEnd > 2) return '1';
-      if (selectionEnd === 2) return false;
-    }
-    return data;
   };
 
   const getProgressPercentage = () => {
@@ -377,16 +334,34 @@ const FreeTrialModal: FC<Props> = ({ isOpen, onClose, onSuccess }) => {
   const shouldShowError = (fieldName: keyof FreeTrialInputs) => {
     const fieldError = errors[fieldName];
     const apiError = apiErrors[fieldName];
-    
+
     // Always show API errors
     if (apiError) return true;
-    
+
     // Don't show error if it's just a required field error (no message)
     if (fieldError && fieldError.type === 'required') return false;
-    
+
     // Show other validation errors (format, length, etc.)
     return !!fieldError;
   };
+
+  // If submission was successful, render SuccessModal directly
+  if (submitResponse?.success) {
+    return (
+      <SuccessModal
+        onClose={handleClose}
+        clinicName={watch('clinicName')}
+        trialEndDate={new Date(
+          Date.now() + 30 * 24 * 60 * 60 * 1000,
+        ).toLocaleDateString('en-US', {
+          month: 'short',
+          day: 'numeric',
+          year: 'numeric',
+        })}
+        timezone={watch('timezone') || 'IST'}
+      />
+    );
+  }
 
   return (
     <Modal
@@ -418,7 +393,9 @@ const FreeTrialModal: FC<Props> = ({ isOpen, onClose, onSuccess }) => {
           position: 'relative',
           margin: 0,
           maxWidth: '90vw',
-          maxHeight: '85vh',
+          height: 'fit-content',
+          minHeight: 'fit-content',
+          maxHeight: 'calc(100vh - 40px)',
         },
       }}
       showCloseIcon={false}
@@ -432,368 +409,372 @@ const FreeTrialModal: FC<Props> = ({ isOpen, onClose, onSuccess }) => {
         >
           <X size={20} />
         </button>
-        
+
         <div className={modalHeader}>
-          <h2 className={modalTitle}>Start Your 30-Day Free Trial</h2>
-          <p className={modalSubtitle}>
-            Complete this quick form to activate your free trial
-          </p>
-        </div>
+              <h2 className={modalTitle}>Start Your 30-Day Free Trial</h2>
+              <p className={modalSubtitle}>
+                Complete this quick form to activate your free trial
+              </p>
+            </div>
 
-        <div className={progressBar}>
-          <div
-            className={progressBarFill}
-            style={{ width: `${getProgressPercentage()}%` }}
-          />
-        </div>
+            <div className={progressBar}>
+              <div
+                className={progressBarFill}
+                style={{ width: `${getProgressPercentage()}%` }}
+              />
+            </div>
+            <form className={formWrapper} onSubmit={handleSubmit(onSubmit)}>
+              {submitResponse?.message && !submitResponse.success && (
+                <div className={errorBanner}>
+                  <AlertCircle size={20} />
+                  <span>{submitResponse.message}</span>
+                </div>
+              )}
 
-        {submitResponse?.success ? (
-          <div className={successMessage}>
-            <CheckCircle size={24} />
-            <p>{submitResponse.message}</p>
-          </div>
-        ) : (
-          <form className={formWrapper} onSubmit={handleSubmit(onSubmit)}>
-            {submitResponse?.message && !submitResponse.success && (
-              <div className={errorBanner}>
-                <AlertCircle size={20} />
-                <span>{submitResponse.message}</span>
-              </div>
-            )}
+              <div className={sectionHeader}>Clinic Details</div>
 
-            <div className={sectionHeader}>Clinic Details</div>
-
-            <div className={formGrid}>
-              {/* Row 1: Clinic Name - Full width */}
-              <div className={formGroupFull}>
-                <label className={labelStyle}>
-                  Clinic Name<span className={requiredIndicator}>*</span>
-                </label>
-                <div className={fieldWrapper}>
-                  <input
-                    type="text"
-                    className={getInputClassName('clinicName')}
-                    placeholder="Enter clinic name"
-                    {...register('clinicName', {
-                      required: true, // Just validate, don't show message
-                      minLength: { value: 2, message: 'Min 2 characters' },
-                      maxLength: { value: 100, message: 'Max 100 characters' },
-                    })}
-                  />
-                  {isFieldValid('clinicName') && (
-                    <Check
-                      size={16}
-                      style={{
-                        position: 'absolute',
-                        right: '12px',
-                        top: '10px',
-                        color: '#10b981',
-                      }}
+              <div className={formGrid}>
+                {/* Row 1: Clinic Name - Full width */}
+                <div className={formGroupFull}>
+                  <label className={labelStyle}>
+                    Clinic Name<span className={requiredIndicator}>*</span>
+                  </label>
+                  <div className={fieldWrapper}>
+                    <input
+                      type="text"
+                      className={getInputClassName('clinicName')}
+                      placeholder="Enter clinic name"
+                      {...register('clinicName', {
+                        required: true, // Just validate, don't show message
+                        minLength: { value: 2, message: 'Min 2 characters' },
+                        maxLength: {
+                          value: 100,
+                          message: 'Max 100 characters',
+                        },
+                      })}
                     />
-                  )}
-                </div>
-                {shouldShowError('clinicName') && (
-                  <span className={errorMessage}>
-                    {errors.clinicName?.message || apiErrors.clinic_name}
-                  </span>
-                )}
-              </div>
-
-              {/* Row 2: Tax ID and NPI */}
-              <div className={formGroup}>
-                <label className={labelStyle}>
-                  Tax ID<span className={requiredIndicator}>*</span>
-                </label>
-                <input
-                  type="text"
-                  className={getInputClassName('taxId')}
-                  placeholder="XX-XXXXXXX"
-                  {...register('taxId', {
-                    required: true, // Just validate, don't show message
-                    pattern: {
-                      value: /^\d{2}-\d{7}$/,
-                      message: 'Format: XX-XXXXXXX',
-                    },
-                    onChange: (e) => {
-                      const formatted = formatTaxId(e.target.value);
-                      setValue('taxId', formatted);
-                      return formatted;
-                    },
-                  })}
-                />
-                {shouldShowError('taxId') && (
-                  <span className={errorMessage}>
-                    {errors.taxId?.message || apiErrors.tax_id}
-                  </span>
-                )}
-              </div>
-
-              <div className={formGroup}>
-                <label className={labelStyle}>NPI</label>
-                <input
-                  type="text"
-                  className={getInputClassName('npi')}
-                  placeholder="10 digits (optional)"
-                  {...register('npi', {
-                    pattern: {
-                      value: /^\d{10}$/,
-                      message: 'Must be 10 digits',
-                    },
-                    onChange: (e) => {
-                      const formatted = formatNPI(e.target.value);
-                      setValue('npi', formatted);
-                      return formatted;
-                    },
-                  })}
-                />
-                {(errors.npi || apiErrors.npi) && (
-                  <span className={errorMessage}>
-                    {errors.npi?.message || apiErrors.npi}
-                  </span>
-                )}
-              </div>
-
-              {/* Row 3: Address Line 1 */}
-              <div className={formGroupFull}>
-                <label className={labelStyle}>
-                  Address Line 1<span className={requiredIndicator}>*</span>
-                </label>
-                <input
-                  type="text"
-                  className={getInputClassName('addressLine1')}
-                  placeholder="Street address"
-                  {...register('addressLine1', {
-                    required: true, // Just validate, don't show message
-                    minLength: { value: 5, message: 'Min 5 characters' },
-                  })}
-                />
-                {(errors.addressLine1 || apiErrors.address_line_1) && (
-                  <span className={errorMessage}>
-                    {errors.addressLine1?.message || apiErrors.address_line_1}
-                  </span>
-                )}
-              </div>
-
-              {/* Row 4: Address Line 2 */}
-              <div className={formGroupFull}>
-                <label className={labelStyle}>Address Line 2</label>
-                <input
-                  type="text"
-                  className={inputStyle}
-                  placeholder="Apt, suite, unit (optional)"
-                  {...register('addressLine2')}
-                />
-              </div>
-
-              {/* Row 5: State, City, Zip - Special layout */}
-              <div className={locationRow}>
-                <div className={fieldWrapper}>
-                  <label className={labelStyle}>
-                    State<span className={requiredIndicator}>*</span>
-                  </label>
-                  <select
-                    className={getSelectClassName('state')}
-                    {...register('state', { required: true })}
-                    disabled={loadingStates}
-                  >
-                    <option value="">
-                      {loadingStates ? 'Loading...' : 'Select State'}
-                    </option>
-                    {states.map((state) => (
-                      <option key={state.id} value={state.id.toString()}>
-                        {state.name} ({state.code})
-                      </option>
-                    ))}
-                  </select>
-                  {(errors.state || apiErrors.state) && (
+                    {isFieldValid('clinicName') && (
+                      <Check
+                        size={16}
+                        style={{
+                          position: 'absolute',
+                          right: '12px',
+                          top: '10px',
+                          color: '#10b981',
+                        }}
+                      />
+                    )}
+                  </div>
+                  {shouldShowError('clinicName') && (
                     <span className={errorMessage}>
-                      {errors.state?.message || apiErrors.state}
+                      {errors.clinicName?.message || apiErrors.clinic_name}
                     </span>
                   )}
                 </div>
 
-                <div className={fieldWrapper}>
+                {/* Row 2: Tax ID and NPI */}
+                <div className={formGroup}>
                   <label className={labelStyle}>
-                    City<span className={requiredIndicator}>*</span>
-                  </label>
-                  <select
-                    className={getSelectClassName('city')}
-                    {...register('city', { required: true })}
-                    disabled={!selectedState || loadingCities}
-                  >
-                    <option value="">
-                      {loadingCities ? 'Loading...' : 'Select City'}
-                    </option>
-                    {cities.map((city) => (
-                      <option key={city.id} value={city.id}>
-                        {city.name}
-                      </option>
-                    ))}
-                  </select>
-                  {(errors.city || apiErrors.city) && (
-                    <span className={errorMessage}>
-                      {errors.city?.message || apiErrors.city}
-                    </span>
-                  )}
-                </div>
-
-                <div className={fieldWrapper}>
-                  <label className={labelStyle}>
-                    Zip<span className={requiredIndicator}>*</span>
+                    Tax ID<span className={requiredIndicator}>*</span>
                   </label>
                   <input
                     type="text"
-                    className={getInputClassName('zipCode')}
-                    placeholder="XXXXX"
-                    {...register('zipCode', {
+                    className={getInputClassName('taxId')}
+                    placeholder="XX-XXXXXXX"
+                    {...register('taxId', {
                       required: true, // Just validate, don't show message
                       pattern: {
-                        value: /^\d{5}(-\d{4})?$/,
-                        message: 'Invalid',
+                        value: /^\d{2}-\d{7}$/,
+                        message: 'Format: XX-XXXXXXX',
+                      },
+                      onChange: (e) => {
+                        const formatted = formatTaxId(e.target.value);
+                        setValue('taxId', formatted);
+                        return formatted;
                       },
                     })}
                   />
-                  {(errors.zipCode || apiErrors.zip_code) && (
+                  {shouldShowError('taxId') && (
                     <span className={errorMessage}>
-                      {errors.zipCode?.message || apiErrors.zip_code}
+                      {errors.taxId?.message || apiErrors.tax_id}
+                    </span>
+                  )}
+                </div>
+
+                <div className={formGroup}>
+                  <label className={labelStyle}>NPI</label>
+                  <input
+                    type="text"
+                    className={getInputClassName('npi')}
+                    placeholder="10 digits (optional)"
+                    {...register('npi', {
+                      pattern: {
+                        value: /^\d{10}$/,
+                        message: 'Must be 10 digits',
+                      },
+                      onChange: (e) => {
+                        const formatted = formatNPI(e.target.value);
+                        setValue('npi', formatted);
+                        return formatted;
+                      },
+                    })}
+                  />
+                  {(errors.npi || apiErrors.npi) && (
+                    <span className={errorMessage}>
+                      {errors.npi?.message || apiErrors.npi}
+                    </span>
+                  )}
+                </div>
+
+                {/* Row 3: Address Line 1 */}
+                <div className={formGroupFull}>
+                  <label className={labelStyle}>
+                    Address Line 1<span className={requiredIndicator}>*</span>
+                  </label>
+                  <input
+                    type="text"
+                    className={getInputClassName('addressLine1')}
+                    placeholder="Street address"
+                    {...register('addressLine1', {
+                      required: true, // Just validate, don't show message
+                      minLength: { value: 5, message: 'Min 5 characters' },
+                    })}
+                  />
+                  {(errors.addressLine1 || apiErrors.address_line_1) && (
+                    <span className={errorMessage}>
+                      {errors.addressLine1?.message || apiErrors.address_line_1}
+                    </span>
+                  )}
+                </div>
+
+                {/* Row 4: Address Line 2 */}
+                <div className={formGroupFull}>
+                  <label className={labelStyle}>Address Line 2</label>
+                  <input
+                    type="text"
+                    className={inputStyle}
+                    placeholder="Apt, suite, unit (optional)"
+                    {...register('addressLine2')}
+                  />
+                </div>
+
+                {/* Row 5: State, City, Zip - Special layout */}
+                <div className={locationRow}>
+                  <div className={fieldWrapper}>
+                    <label className={labelStyle}>
+                      State<span className={requiredIndicator}>*</span>
+                    </label>
+                    <select
+                      className={getSelectClassName('state')}
+                      {...register('state', { required: true })}
+                      disabled={loadingStates}
+                    >
+                      <option value="">
+                        {loadingStates ? 'Loading...' : 'Select State'}
+                      </option>
+                      {states.map((state) => (
+                        <option key={state.id} value={state.id.toString()}>
+                          {state.name} ({state.code})
+                        </option>
+                      ))}
+                    </select>
+                    {(errors.state || apiErrors.state) && (
+                      <span className={errorMessage}>
+                        {errors.state?.message || apiErrors.state}
+                      </span>
+                    )}
+                  </div>
+
+                  <div className={fieldWrapper}>
+                    <label className={labelStyle}>
+                      City<span className={requiredIndicator}>*</span>
+                    </label>
+                    <select
+                      className={getSelectClassName('city')}
+                      {...register('city', { required: true })}
+                      disabled={!selectedState || loadingCities}
+                    >
+                      <option value="">
+                        {loadingCities ? 'Loading...' : 'Select City'}
+                      </option>
+                      {cities.map((city) => (
+                        <option key={city.id} value={city.id}>
+                          {city.name}
+                        </option>
+                      ))}
+                    </select>
+                    {(errors.city || apiErrors.city) && (
+                      <span className={errorMessage}>
+                        {errors.city?.message || apiErrors.city}
+                      </span>
+                    )}
+                  </div>
+
+                  <div className={fieldWrapper}>
+                    <label className={labelStyle}>
+                      Zip<span className={requiredIndicator}>*</span>
+                    </label>
+                    <input
+                      type="text"
+                      className={getInputClassName('zipCode')}
+                      placeholder="XXXXX"
+                      {...register('zipCode', {
+                        required: true, // Just validate, don't show message
+                        pattern: {
+                          value: /^\d{5}(-\d{4})?$/,
+                          message: 'Invalid',
+                        },
+                      })}
+                    />
+                    {(errors.zipCode || apiErrors.zip_code) && (
+                      <span className={errorMessage}>
+                        {errors.zipCode?.message || apiErrors.zip_code}
+                      </span>
+                    )}
+                  </div>
+                </div>
+
+                {/* Row 6: Timezone */}
+                <div className={formGroupFull}>
+                  <label className={labelStyle}>
+                    Timezone<span className={requiredIndicator}>*</span>
+                  </label>
+                  <select
+                    className={getSelectClassName('timezone')}
+                    {...register('timezone', {
+                      required: true, // Just validate, don't show message
+                    })}
+                    disabled={!selectedState}
+                  >
+                    <option value="">
+                      {!selectedState
+                        ? 'Select a state first'
+                        : 'Select Timezone'}
+                    </option>
+                    {selectedState &&
+                      states
+                        .find((s) => s.id.toString() === selectedState)
+                        ?.timezones?.map((tz) => (
+                          <option
+                            key={tz.timezone_id}
+                            value={tz.timezone.timezone}
+                          >
+                            {tz.timezone.timezone}
+                          </option>
+                        ))}
+                  </select>
+                  {(errors.timezone || apiErrors.timezone) && (
+                    <span className={errorMessage}>
+                      {errors.timezone?.message || apiErrors.timezone}
                     </span>
                   )}
                 </div>
               </div>
 
-              {/* Row 6: Timezone */}
-              <div className={formGroupFull}>
-                <label className={labelStyle}>
-                  Timezone<span className={requiredIndicator}>*</span>
-                </label>
-                <select
-                  className={getSelectClassName('timezone')}
-                  {...register('timezone', {
-                    required: true, // Just validate, don't show message
-                  })}
+              <div className={sectionHeader}>Primary Contact Information</div>
+
+              <div className={formGrid}>
+                {/* Row 1: Full Name */}
+                <div className={formGroupFull}>
+                  <label className={labelStyle}>
+                    Full Name<span className={requiredIndicator}>*</span>
+                  </label>
+                  <input
+                    type="text"
+                    className={getInputClassName('fullName')}
+                    placeholder="First and Last Name"
+                    {...register('fullName', {
+                      required: true, // Just validate, don't show message
+                      minLength: { value: 2, message: 'Min 2 characters' },
+                    })}
+                  />
+                  {(errors.fullName || apiErrors.contact_name) && (
+                    <span className={errorMessage}>
+                      {errors.fullName?.message || apiErrors.contact_name}
+                    </span>
+                  )}
+                </div>
+
+                {/* Row 2: Email and Phone */}
+                <div className={formGroup}>
+                  <label className={labelStyle}>
+                    Email Address<span className={requiredIndicator}>*</span>
+                  </label>
+                  <input
+                    type="email"
+                    className={getInputClassName('email')}
+                    placeholder="email@example.com"
+                    {...register('email', {
+                      required: true, // Just validate, don't show message
+                      validate: (value) => isEmail(value) || 'Invalid email',
+                    })}
+                  />
+                  {(errors.email || apiErrors.contact_email) && (
+                    <span className={errorMessage}>
+                      {errors.email?.message || apiErrors.contact_email}
+                    </span>
+                  )}
+                </div>
+
+                <div className={formGroup}>
+                  <label className={labelStyle}>
+                    Phone Number<span className={requiredIndicator}>*</span>
+                  </label>
+                  <InputMask
+                    type="text"
+                    track={phoneTrack}
+                    mask="+_ (___) ___-____"
+                    replacement={{ _: /\d/ }}
+                    className={getInputClassName('phoneNumber')}
+                    placeholder="(XXX) XXX-XXXX"
+                    {...register('phoneNumber', {
+                      required: true, // Just validate, don't show message
+                      validate: (phone) =>
+                        isMobilePhone(phone, 'en-US', { strictMode: false }) ||
+                        'Invalid phone',
+                      setValueAs: (value: string) =>
+                        unformat(value, {
+                          mask: '+1 (___) ___-____',
+                          replacement: { _: /\d/ },
+                        }),
+                    })}
+                  />
+                  {(errors.phoneNumber || apiErrors.contact_phone) && (
+                    <span className={errorMessage}>
+                      {errors.phoneNumber?.message || apiErrors.contact_phone}
+                    </span>
+                  )}
+                </div>
+              </div>
+
+              <div className={actionButtons}>
+                <button
+                  type="button"
+                  onClick={handleClose}
+                  className={cancelButton}
+                  disabled={isSubmitting}
                 >
-                  <option value="">Select Timezone</option>
-                  <option value="America/New_York">Eastern Time (ET)</option>
-                  <option value="America/Chicago">Central Time (CT)</option>
-                  <option value="America/Denver">Mountain Time (MT)</option>
-                  <option value="America/Los_Angeles">Pacific Time (PT)</option>
-                  <option value="America/Phoenix">Arizona Time</option>
-                  <option value="America/Anchorage">Alaska Time</option>
-                  <option value="Pacific/Honolulu">Hawaii Time</option>
-                </select>
-                {(errors.timezone || apiErrors.timezone) && (
-                  <span className={errorMessage}>
-                    {errors.timezone?.message || apiErrors.timezone}
-                  </span>
-                )}
+                  Cancel
+                </button>
+                <button
+                  type="submit"
+                  className={submitButton}
+                  disabled={isSubmitting}
+                >
+                  {isSubmitting ? (
+                    <>
+                      <Loader2 size={16} className={loadingSpinner} />
+                      Creating Account...
+                    </>
+                  ) : (
+                    <>
+                      <Rocket size={18} />
+                      Start Free Trial
+                    </>
+                  )}
+                </button>
               </div>
-            </div>
-
-            <div className={sectionHeader}>Primary Contact Information</div>
-
-            <div className={formGrid}>
-              {/* Row 1: Full Name */}
-              <div className={formGroupFull}>
-                <label className={labelStyle}>
-                  Full Name<span className={requiredIndicator}>*</span>
-                </label>
-                <input
-                  type="text"
-                  className={getInputClassName('fullName')}
-                  placeholder="First and Last Name"
-                  {...register('fullName', {
-                    required: true, // Just validate, don't show message
-                    minLength: { value: 2, message: 'Min 2 characters' },
-                  })}
-                />
-                {(errors.fullName || apiErrors.contact_name) && (
-                  <span className={errorMessage}>
-                    {errors.fullName?.message || apiErrors.contact_name}
-                  </span>
-                )}
-              </div>
-
-              {/* Row 2: Email and Phone */}
-              <div className={formGroup}>
-                <label className={labelStyle}>
-                  Email Address<span className={requiredIndicator}>*</span>
-                </label>
-                <input
-                  type="email"
-                  className={getInputClassName('email')}
-                  placeholder="email@example.com"
-                  {...register('email', {
-                    required: true, // Just validate, don't show message
-                    validate: (value) => isEmail(value) || 'Invalid email',
-                  })}
-                />
-                {(errors.email || apiErrors.contact_email) && (
-                  <span className={errorMessage}>
-                    {errors.email?.message || apiErrors.contact_email}
-                  </span>
-                )}
-              </div>
-
-              <div className={formGroup}>
-                <label className={labelStyle}>
-                  Phone Number<span className={requiredIndicator}>*</span>
-                </label>
-                <InputMask
-                  type="text"
-                  track={phoneTrack}
-                  mask="+_ (___) ___-____"
-                  replacement={{ _: /\d/ }}
-                  className={getInputClassName('phoneNumber')}
-                  placeholder="(XXX) XXX-XXXX"
-                  {...register('phoneNumber', {
-                    required: true, // Just validate, don't show message
-                    validate: (phone) =>
-                      isMobilePhone(phone, 'en-US', { strictMode: false }) ||
-                      'Invalid phone',
-                    setValueAs: (value: string) =>
-                      unformat(value, {
-                        mask: '+1 (___) ___-____',
-                        replacement: { _: /\d/ },
-                      }),
-                  })}
-                />
-                {(errors.phoneNumber || apiErrors.contact_phone) && (
-                  <span className={errorMessage}>
-                    {errors.phoneNumber?.message || apiErrors.contact_phone}
-                  </span>
-                )}
-              </div>
-            </div>
-
-            <div className={actionButtons}>
-              <button
-                type="button"
-                onClick={handleClose}
-                className={cancelButton}
-                disabled={isSubmitting}
-              >
-                Cancel
-              </button>
-              <button
-                type="submit"
-                className={submitButton}
-                disabled={isSubmitting}
-              >
-                {isSubmitting ? (
-                  <>
-                    <Loader2 size={16} className={loadingSpinner} />
-                    Creating Account...
-                  </>
-                ) : (
-                  <>
-                    <Rocket size={18} />
-                    Start Free Trial
-                  </>
-                )}
-              </button>
-            </div>
-          </form>
-        )}
+            </form>
       </div>
     </Modal>
   );
