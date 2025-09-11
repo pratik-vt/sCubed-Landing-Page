@@ -131,17 +131,17 @@ const SuccessModal: FC<Props> = ({
             className={closeButton}
             aria-label="Close success modal"
           >
-            <X size={20} />
+            <X size={24} />
           </button>
 
           <div className={successHeader}>
             <div className={titleRow}>
-              <span style={{ fontSize: '32px', display: 'flex', alignItems: 'center' }}>🎉</span>
+              <span style={{ fontSize: '42px', display: 'flex', alignItems: 'center' }}>🎉</span>
               <h2 id="welcome-title" className={successTitle}>
                 Welcome aboard!
               </h2>
               <div className={successBadge}>
-                <CheckCircle2 size={16} />
+                <CheckCircle2 size={20} />
               </div>
             </div>
             <p className={successSubtext}>Your 30-day S Cubed trial has started</p>

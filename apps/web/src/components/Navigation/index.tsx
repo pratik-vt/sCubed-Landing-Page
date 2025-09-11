@@ -341,6 +341,24 @@ const Navigation: React.FC<NavigationProps> = ({
               />
             )}
           </Link>
+          <Link
+            href="/about"
+            className={navStyle}
+            style={{
+              color:
+                pathname === '/about' || pathname === '/about/'
+                  ? activeMenuItemColor
+                  : menuItemColor,
+            }}
+          >
+            About Us
+            {(pathname === '/about' || pathname === '/about/') && (
+              <span
+                className={activeLinkStyle}
+                style={{ backgroundColor: activeLinkAccentColor }}
+              />
+            )}
+          </Link>
           <button
             className={loginButton}
             onClick={() =>

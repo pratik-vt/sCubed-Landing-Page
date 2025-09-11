@@ -67,24 +67,24 @@ export const modalBackdrop = style({
 // Main modal card - PROPERLY CENTERED
 export const successModalCard = style({
   position: 'relative',
-  maxWidth: '600px',
+  maxWidth: '720px',
   width: '90%',
   maxHeight: 'calc(100vh - 40px)',
   backgroundColor: '#fff',
-  borderRadius: '16px',
-  boxShadow: '0 8px 24px rgba(0, 0, 0, 0.2)',
-  padding: '24px',
+  borderRadius: '20px',
+  boxShadow: '0 12px 32px rgba(0, 0, 0, 0.25)',
+  padding: '36px',
   display: 'flex',
   flexDirection: 'column',
-  gap: '16px',
+  gap: '24px',
   overflowY: 'visible',
   overflowX: 'hidden',
   '@media': {
     '(max-width: 640px)': {
       width: 'calc(100vw - 32px)',
       maxHeight: 'calc(100vh - 32px)',
-      padding: '20px',
-      gap: '14px',
+      padding: '24px',
+      gap: '18px',
     },
   },
 });
@@ -97,12 +97,12 @@ export const modalEnter = style({
 // Close button
 export const closeButton = style({
   position: 'absolute',
-  top: '12px',
-  right: '12px',
-  padding: '6px',
+  top: '16px',
+  right: '16px',
+  padding: '10px',
   backgroundColor: 'transparent',
   border: 'none',
-  borderRadius: '8px',
+  borderRadius: '10px',
   cursor: 'pointer',
   color: '#9ca3af',
   transition: 'all 0.15s ease',
@@ -123,14 +123,14 @@ export const closeButton = style({
 export const successHeader = style({
   display: 'flex',
   flexDirection: 'column',
-  gap: '4px',
+  gap: '8px',
   alignItems: 'center',
   textAlign: 'center',
-  paddingBottom: '2px',
+  paddingBottom: '8px',
   '@media': {
     '(max-height: 600px)': {
-      gap: '2px',
-      paddingBottom: 0,
+      gap: '4px',
+      paddingBottom: 4,
     },
   },
 });
@@ -140,25 +140,25 @@ export const titleRow = style({
   display: 'flex',
   alignItems: 'center',
   justifyContent: 'center',
-  gap: '8px',
+  gap: '12px',
   width: '100%',
 });
 
 // Main title
 export const successTitle = style({
-  fontSize: '22px',
-  fontWeight: 600,
+  fontSize: '32px',
+  fontWeight: 700,
   color: '#111827',
   lineHeight: 1.1,
   fontFamily: typography.fontFamily.heading,
-  letterSpacing: '-0.01em',
+  letterSpacing: '-0.02em',
   margin: 0,
   '@media': {
     '(max-width: 640px)': {
-      fontSize: '18px',
+      fontSize: '24px',
     },
     '(max-height: 600px)': {
-      fontSize: '18px',
+      fontSize: '22px',
     },
   },
 });
@@ -168,51 +168,56 @@ export const successBadge = style({
   display: 'flex',
   alignItems: 'center',
   justifyContent: 'center',
-  width: '24px',
-  height: '24px',
+  width: '32px',
+  height: '32px',
   backgroundColor: '#10b981',
   borderRadius: '50%',
   color: 'white',
-  marginLeft: '10px',
+  marginLeft: '12px',
   flexShrink: 0,
   animation: `${checkBounce} 300ms ease-out 400ms both`,
   '@media': {
     '(max-width: 640px)': {
-      width: '20px',
-      height: '20px',
-      marginLeft: '8px',
+      width: '26px',
+      height: '26px',
+      marginLeft: '10px',
     },
   },
 });
 
 // Subtext - CENTER ALIGNED
 export const successSubtext = style({
-  fontSize: '15px',
+  fontSize: '18px',
   color: '#6b7280',
   lineHeight: 1.5,
   margin: 0,
   fontWeight: 400,
   textAlign: 'center',
+  '@media': {
+    '(max-width: 640px)': {
+      fontSize: '16px',
+    },
+  },
 });
 
 // Info row for status pills
 export const infoRow = style({
   display: 'grid',
   gridTemplateColumns: 'repeat(3, minmax(0, 1fr))',
-  gap: '8px',
+  gap: '12px',
   animation: `${slideUp} 200ms ease-out 100ms both`,
   width: '100%',
   '@media': {
     '(max-width: 640px)': {
       gridTemplateColumns: 'repeat(3, minmax(0, 1fr))',
-      gap: '5px',
+      gap: '8px',
     },
     '(max-width: 380px)': {
       gridTemplateColumns: '1fr',
-      gap: '5px',
+      gap: '8px',
     },
     '(max-height: 600px)': {
-      gap: '5px',
+      gap: '8px',
     },
   },
 });
@@ -221,14 +226,14 @@ export const infoRow = style({
 export const statusPill = style({
   display: 'flex',
   alignItems: 'center',
-  gap: '6px',
-  padding: '8px 10px',
+  gap: '10px',
+  padding: '14px 16px',
   backgroundColor: 'rgba(139, 92, 246, 0.04)',
   border: '1px solid rgba(139, 92, 246, 0.16)',
-  borderRadius: '10px',
+  borderRadius: '12px',
   transition: 'all 0.2s cubic-bezier(0.4, 0, 0.2, 1)',
   cursor: 'default',
-  minHeight: '44px',
+  minHeight: '60px',
   ':hover': {
     transform: 'translateY(-2px)',
     boxShadow: '0 4px 12px rgba(139, 92, 246, 0.15)',
@@ -237,31 +242,31 @@ export const statusPill = style({
   },
   '@media': {
     '(max-width: 640px)': {
-      minHeight: '40px',
-      padding: '6px 8px',
-      gap: '4px',
+      minHeight: '52px',
+      padding: '10px 12px',
+      gap: '8px',
     },
     '(max-height: 600px)': {
-      minHeight: '38px',
-      padding: '5px 7px',
+      minHeight: '48px',
+      padding: '8px 10px',
     },
   },
 });
 
 // Chip icon (emoji)
 export const chipIcon = style({
-  fontSize: '16px',
+  fontSize: '22px',
   flexShrink: 0,
   display: 'flex',
   alignItems: 'center',
   justifyContent: 'center',
-  width: '18px',
-  height: '18px',
+  width: '26px',
+  height: '26px',
   '@media': {
     '(max-width: 640px)': {
-      fontSize: '14px',
-      width: '16px',
-      height: '16px',
+      fontSize: '18px',
+      width: '22px',
+      height: '22px',
     },
   },
 });
@@ -278,7 +283,7 @@ export const infoChip = style({
 
 // Chip label - IMPROVED CONTRAST
 export const chipLabel = style({
-  fontSize: '10px',
+  fontSize: '12px',
   fontWeight: 600,
   color: '#7c3aed',
   letterSpacing: '0.04em',
@@ -286,15 +291,15 @@ export const chipLabel = style({
   lineHeight: 1,
   '@media': {
     '(max-width: 640px)': {
-      fontSize: '9px',
+      fontSize: '11px',
     },
   },
 });
 
 // Chip value
 export const chipValue = style({
-  fontSize: '13px',
-  fontWeight: 500,
+  fontSize: '16px',
+  fontWeight: 600,
   color: '#1f2937',
   whiteSpace: 'nowrap',
   overflow: 'hidden',
@@ -302,23 +307,27 @@ export const chipValue = style({
   lineHeight: 1.2,
   '@media': {
     '(max-width: 640px)': {
-      fontSize: '12px',
+      fontSize: '14px',
     },
   },
 });
 
 // Success content
 export const successContent = style({
-  padding: '2px 8px 0',
+  padding: '8px 12px 0',
   animation: `${slideUp} 200ms ease-out 150ms both`,
-  fontSize: '13px',
-  lineHeight: 1.5,
+  fontSize: '16px',
+  lineHeight: 1.6,
   color: '#4b5563',
   textAlign: 'center',
   '@media': {
+    '(max-width: 640px)': {
+      fontSize: '14px',
+      lineHeight: 1.5,
+    },
     '(max-height: 600px)': {
-      fontSize: '12px',
-      lineHeight: 1.4,
+      fontSize: '14px',
+      lineHeight: 1.5,
     },
   },
 });
@@ -326,14 +335,18 @@ export const successContent = style({
 // Highlighted text - ENHANCED STYLING
 export const successHighlight = style({
   display: 'block',
-  marginTop: '3px',
+  marginTop: '8px',
   color: '#7c3aed',
-  fontWeight: 600,
-  fontSize: '14px',
+  fontWeight: 700,
+  fontSize: '18px',
   '@media': {
+    '(max-width: 640px)': {
+      fontSize: '16px',
+      marginTop: '6px',
+    },
     '(max-height: 600px)': {
-      fontSize: '13px',
-      marginTop: '2px',
+      fontSize: '15px',
+      marginTop: '4px',
     },
   },
 });
@@ -343,33 +356,38 @@ export const loginSection = style({
   display: 'flex',
   flexDirection: 'column',
   alignItems: 'center',
-  gap: '8px',
-  paddingTop: '6px',
+  gap: '12px',
+  paddingTop: '16px',
   borderTop: '1px solid rgba(139, 92, 246, 0.1)',
   animation: `${slideUp} 200ms ease-out 200ms both`,
   '@media': {
     '(max-height: 600px)': {
-      gap: '6px',
-      paddingTop: '4px',
+      gap: '8px',
+      paddingTop: '8px',
     },
   },
 });
 
 // Login text
 export const loginText = style({
-  fontSize: '13px',
+  fontSize: '16px',
   color: '#6b7280',
   margin: 0,
+  '@media': {
+    '(max-width: 640px)': {
+      fontSize: '14px',
+    },
+  },
 });
 
 // Login button
 export const loginButton = style({
-  padding: '9px 22px',
+  padding: '14px 32px',
   backgroundColor: '#7c3aed',
   color: 'white',
   border: 'none',
-  borderRadius: '8px',
-  fontSize: '13px',
+  borderRadius: '10px',
+  fontSize: '16px',
   fontWeight: 600,
   cursor: 'pointer',
   transition: 'all 0.2s ease',
@@ -383,12 +401,12 @@ export const loginButton = style({
   },
   '@media': {
     '(max-width: 640px)': {
-      padding: '8px 18px',
-      fontSize: '12px',
+      padding: '12px 24px',
+      fontSize: '14px',
     },
     '(max-height: 600px)': {
-      padding: '7px 16px',
-      fontSize: '12px',
+      padding: '10px 20px',
+      fontSize: '14px',
     },
   },
 });
