@@ -393,9 +393,10 @@ const FreeTrialModal: FC<Props> = ({ isOpen, onClose, onSuccess }) => {
           position: 'relative',
           margin: 0,
           maxWidth: '90vw',
-          height: 'fit-content',
-          minHeight: 'fit-content',
-          maxHeight: 'calc(100vh - 40px)',
+          height: 'auto',
+          maxHeight: '90vh',
+          overflowY: 'auto',
+          overflowX: 'hidden',
         },
       }}
       showCloseIcon={false}

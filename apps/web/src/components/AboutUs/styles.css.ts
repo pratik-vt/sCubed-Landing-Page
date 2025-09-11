@@ -12,6 +12,24 @@ const shimmer = keyframes({
   '100%': { backgroundPosition: '1000px 0' },
 });
 
+// Mesh gradient animations
+const meshMove = keyframes({
+  '0%, 100%': { transform: 'translate(0, 0) scale(1)' },
+  '33%': { transform: 'translate(30px, -30px) scale(1.1)' },
+  '66%': { transform: 'translate(-20px, 20px) scale(0.9)' },
+});
+
+const meshMoveReverse = keyframes({
+  '0%, 100%': { transform: 'translate(0, 0) scale(1)' },
+  '33%': { transform: 'translate(-30px, 30px) scale(1.1)' },
+  '66%': { transform: 'translate(20px, -20px) scale(0.9)' },
+});
+
+const meshRotate = keyframes({
+  '0%': { transform: 'rotate(0deg)' },
+  '100%': { transform: 'rotate(360deg)' },
+});
+
 export const pageContainer = style({
   minHeight: '100vh',
   backgroundColor: colors.white,
@@ -20,10 +38,32 @@ export const pageContainer = style({
 });
 
 export const heroSection = style({
-  background: `linear-gradient(135deg, ${colors.primary[600]} 0%, ${colors.primary[500]} 50%, #5a5fc7 100%)`,
   color: colors.white,
-  padding: `${spacing['2xl']} ${spacing.sm} ${spacing['3xl']}`,
+  padding: `${spacing['2xl']} ${spacing.sm} ${spacing['2xl']}`,
   position: 'relative',
+  overflow: 'hidden',
+  
+  // Base gradient background
+  background: `
+    linear-gradient(125deg, #667eea 0%, #764ba2 100%)
+  `,
+  
+  // Mesh gradient overlay
+  backgroundImage: `
+    radial-gradient(at 40% 20%, hsla(248, 68%, 65%, 1) 0px, transparent 50%),
+    radial-gradient(at 80% 0%, hsla(189, 65%, 73%, 0.8) 0px, transparent 50%),
+    radial-gradient(at 0% 50%, hsla(355, 65%, 78%, 0.6) 0px, transparent 50%),
+    radial-gradient(at 80% 50%, hsla(240, 68%, 62%, 0.7) 0px, transparent 50%),
+    radial-gradient(at 0% 100%, hsla(22, 65%, 73%, 0.5) 0px, transparent 50%),
+    radial-gradient(at 80% 100%, hsla(242, 68%, 66%, 0.8) 0px, transparent 50%),
+    radial-gradient(at 0% 0%, hsla(343, 65%, 73%, 0.6) 0px, transparent 50%),
+    linear-gradient(125deg, #667eea 0%, #764ba2 100%)
+  `,
+  backgroundSize: '200% 200%, 200% 200%, 200% 200%, 200% 200%, 200% 200%, 200% 200%, 200% 200%, 100% 100%',
+  backgroundPosition: '0% 0%, 100% 0%, 100% 100%, 0% 100%, 50% 50%, 50% 50%, 50% 50%, 0% 0%',
+  animation: `${meshMove} 20s ease-in-out infinite`,
+  
+  // Grain texture overlay for premium feel
   '::before': {
     content: '""',
     position: 'absolute',
@@ -31,24 +71,39 @@ export const heroSection = style({
     left: 0,
     right: 0,
     bottom: 0,
-    background: 'radial-gradient(circle at 20% 80%, rgba(255,255,255,0.1) 0%, transparent 50%)',
+    backgroundImage: `url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='turbulence' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.02'/%3E%3C/svg%3E")`,
     pointerEvents: 'none',
+    opacity: 0.4,
+    mixBlendMode: 'overlay',
   },
+  
+  // Animated gradient blobs
   '::after': {
     content: '""',
     position: 'absolute',
-    top: '50%',
-    right: '-10%',
-    width: '300px',
-    height: '300px',
-    background: 'radial-gradient(circle, rgba(255,255,255,0.05) 0%, transparent 70%)',
-    borderRadius: '50%',
-    animation: `${float} 6s ease-in-out infinite`,
+    top: '-50%',
+    left: '-50%',
+    width: '200%',
+    height: '200%',
+    background: `
+      radial-gradient(circle at 20% 30%, hsla(280, 70%, 70%, 0.3) 0px, transparent 50%),
+      radial-gradient(circle at 80% 70%, hsla(200, 70%, 70%, 0.3) 0px, transparent 50%)
+    `,
+    animation: `${meshMoveReverse} 25s ease-in-out infinite`,
     pointerEvents: 'none',
+    opacity: 0.5,
   },
+  
   '@media': {
     'screen and (max-width: 768px)': {
-      padding: `${spacing.xl} ${spacing.sm} ${spacing['2xl']}`,
+      padding: `${spacing.xl} ${spacing.sm} ${spacing.xl}`,
+    },
+    // Reduced motion for accessibility
+    '(prefers-reduced-motion: reduce)': {
+      animation: 'none',
+      '::after': {
+        animation: 'none',
+      },
     },
   },
 });
@@ -67,11 +122,9 @@ export const heroTitle = style({
   fontFamily: typography.fontFamily.heading,
   marginBottom: spacing.md,
   marginTop: 0,
-  background: 'linear-gradient(to right, #ffffff 0%, #f0f0ff 100%)',
-  backgroundClip: 'text',
-  WebkitBackgroundClip: 'text',
-  WebkitTextFillColor: 'transparent',
-  textShadow: '0 2px 20px rgba(255,255,255,0.1)',
+  color: '#ffffff',
+  textShadow: '0 4px 30px rgba(0,0,0,0.2), 0 2px 10px rgba(0,0,0,0.3)',
+  letterSpacing: '-0.02em',
   '@media': {
     'screen and (max-width: 768px)': {
       fontSize: typography.fontSize['4xl'],
@@ -85,11 +138,13 @@ export const heroText = style({
   lineHeight: typography.lineHeight.relaxed,
   maxWidth: '48rem',
   margin: '0 auto',
-  opacity: 0.95,
-  textShadow: '0 1px 2px rgba(0,0,0,0.1)',
+  color: 'rgba(255, 255, 255, 0.95)',
+  textShadow: '0 2px 10px rgba(0,0,0,0.2)',
+  fontWeight: typography.fontWeight.medium,
   '@media': {
     'screen and (max-width: 768px)': {
       fontSize: typography.fontSize.lg,
+      color: 'rgba(255, 255, 255, 0.92)',
     },
   },
 });
@@ -292,34 +347,39 @@ export const teamBio = style({
 });
 
 export const ctaSection = style({
-  background: `linear-gradient(135deg, ${colors.primary[500]} 0%, ${colors.primary[600]} 50%, #5a5fc7 100%)`,
+  background: `linear-gradient(125deg, #667eea 0%, #764ba2 100%)`,
+  backgroundImage: `
+    radial-gradient(at 20% 50%, hsla(280, 70%, 70%, 0.6) 0px, transparent 50%),
+    radial-gradient(at 80% 50%, hsla(200, 70%, 70%, 0.5) 0px, transparent 50%),
+    radial-gradient(at 50% 0%, hsla(355, 65%, 75%, 0.4) 0px, transparent 50%),
+    linear-gradient(125deg, #667eea 0%, #764ba2 100%)
+  `,
   color: colors.white,
   padding: `${spacing['2xl']} ${spacing.sm}`,
   textAlign: 'center',
   position: 'relative',
   overflow: 'hidden',
+  backgroundSize: '150% 150%, 150% 150%, 150% 150%, 100% 100%',
+  animation: `${meshMove} 15s ease-in-out infinite`,
+  
+  // Grain texture for consistency
   '::before': {
     content: '""',
     position: 'absolute',
-    top: '-50%',
-    left: '-50%',
-    width: '200%',
-    height: '200%',
-    background: 'radial-gradient(circle, rgba(255,255,255,0.05) 0%, transparent 70%)',
-    animation: `${float} 8s ease-in-out infinite`,
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
+    backgroundImage: `url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='turbulence' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.02'/%3E%3C/svg%3E")`,
     pointerEvents: 'none',
+    opacity: 0.3,
+    mixBlendMode: 'overlay',
   },
-  '::after': {
-    content: '""',
-    position: 'absolute',
-    bottom: '-20%',
-    right: '-20%',
-    width: '400px',
-    height: '400px',
-    background: 'radial-gradient(circle, rgba(255,255,255,0.03) 0%, transparent 60%)',
-    borderRadius: '50%',
-    animation: `${float} 10s ease-in-out infinite reverse`,
-    pointerEvents: 'none',
+  
+  '@media': {
+    '(prefers-reduced-motion: reduce)': {
+      animation: 'none',
+    },
   },
 });
 

@@ -29,7 +29,12 @@ import {
   iconWrapper,
   loginButton,
   logoOuter,
+  mobileActiveNavStyle,
+  mobileHeaderWrapper,
+  mobileHeaderWrapperOpen,
   mobileLogo,
+  mobileOverlay,
+  mobileOverlayOpen,
   navMenu,
   navMenuOpen,
   navStyle,
@@ -102,7 +107,11 @@ const Navigation: React.FC<NavigationProps> = ({
 
   return (
     <>
-      <div className={contactInfoContainer}>
+      {/* Mobile overlay background */}
+      <div className={`${mobileOverlay} ${menuOpen ? mobileOverlayOpen : ''}`} />
+      
+      {/* Contact info bar - hide on mobile when menu is open */}
+      <div className={contactInfoContainer} style={{ display: menuOpen ? 'none' : undefined }}>
         <div className={contactInfoWrapper}>
           {/* Left: Phone and Email */}
           <div className={contactInfoGroup}>
@@ -206,7 +215,10 @@ const Navigation: React.FC<NavigationProps> = ({
           </div>
         </div>
       </div>
-      <div className={headerContentStyles}>
+      
+      {/* Mobile header wrapper - moves to top when menu is open */}
+      <div className={`${mobileHeaderWrapper} ${menuOpen ? mobileHeaderWrapperOpen : ''}`}>
+        <div className={headerContentStyles}>
         <div
           className={logoOuter}
           onClick={() => router.push('/')}
@@ -236,7 +248,7 @@ const Navigation: React.FC<NavigationProps> = ({
         <nav className={`${navMenu} ${menuOpen ? navMenuOpen : ''}`}>
           <Link
             href="/"
-            className={navStyle}
+            className={`${navStyle} ${pathname === '/' ? mobileActiveNavStyle : ''}`}
             style={{
               color: pathname === '/' ? activeMenuItemColor : menuItemColor,
             }}
@@ -251,7 +263,7 @@ const Navigation: React.FC<NavigationProps> = ({
           </Link>
           <Link
             href="/billing"
-            className={navStyle}
+            className={`${navStyle} ${pathname === '/billing' || pathname === '/billing/' ? mobileActiveNavStyle : ''}`}
             style={{
               color:
                 pathname === '/billing' || pathname === '/billing/'
@@ -269,7 +281,7 @@ const Navigation: React.FC<NavigationProps> = ({
           </Link>
           <Link
             href="/features"
-            className={navStyle}
+            className={`${navStyle} ${pathname === '/features' || pathname === '/features/' ? mobileActiveNavStyle : ''}`}
             style={{
               color:
                 pathname === '/features' || pathname === '/features/'
@@ -287,7 +299,7 @@ const Navigation: React.FC<NavigationProps> = ({
           </Link>
           <Link
             href="/guardian-portal"
-            className={navStyle}
+            className={`${navStyle} ${pathname === '/guardian-portal' || pathname === '/guardian-portal/' ? mobileActiveNavStyle : ''}`}
             style={{
               color:
                 pathname === '/guardian-portal' ||
@@ -307,7 +319,7 @@ const Navigation: React.FC<NavigationProps> = ({
           </Link>
           <Link
             href="/blog"
-            className={navStyle}
+            className={`${navStyle} ${pathname === '/blog' || pathname === '/blog/' ? mobileActiveNavStyle : ''}`}
             style={{
               color:
                 pathname === '/blog' || pathname === '/blog/'
@@ -325,7 +337,7 @@ const Navigation: React.FC<NavigationProps> = ({
           </Link>
           <Link
             href="/get-started"
-            className={navStyle}
+            className={`${navStyle} ${pathname === '/get-started' || pathname === '/get-started/' ? mobileActiveNavStyle : ''}`}
             style={{
               color:
                 pathname === '/get-started' || pathname === '/get-started/'
@@ -343,7 +355,7 @@ const Navigation: React.FC<NavigationProps> = ({
           </Link>
           <Link
             href="/about"
-            className={navStyle}
+            className={`${navStyle} ${pathname === '/about' || pathname === '/about/' ? mobileActiveNavStyle : ''}`}
             style={{
               color:
                 pathname === '/about' || pathname === '/about/'
@@ -403,6 +415,7 @@ const Navigation: React.FC<NavigationProps> = ({
             </div>
           </div>
         )}
+        </div>
       </div>
     </>
   );

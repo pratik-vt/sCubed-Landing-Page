@@ -21,12 +21,17 @@ const spin = keyframes({
 export const modalContainer = style({
   position: 'relative',
   width: '100%',
-  overflow: 'visible',
   display: 'flex',
   flexDirection: 'column',
-  height: 'fit-content',
-  minHeight: '200px', // Ensure minimum height to prevent collapse
-  maxHeight: 'fit-content',
+  height: 'auto',
+  maxHeight: 'calc(90vh - 40px)',
+  overflowY: 'auto',
+  overflowX: 'hidden',
+  '@media': {
+    '(max-width: 640px)': {
+      maxHeight: 'calc(100vh - 60px)',
+    },
+  },
 });
 
 export const modalOverlay = style({
@@ -39,18 +44,18 @@ export const modalOverlay = style({
 });
 
 export const modalContent = style({
-  width: '720px', // Slightly wider
+  width: '720px',
   maxWidth: '90vw',
-  backgroundColor: colors.primary[50], // Light purple background
-  backgroundImage: 'linear-gradient(135deg, rgba(255, 255, 255, 0.95), rgba(122, 126, 237, 0.06))', // Enhanced gradient
-  boxShadow: `${shadows.purple}, 0 25px 50px -12px rgba(0, 0, 0, 0.25)`, // Enhanced shadow (shadow-2xl)
+  backgroundColor: colors.primary[50],
+  backgroundImage: 'linear-gradient(135deg, rgba(255, 255, 255, 0.95), rgba(122, 126, 237, 0.06))',
+  boxShadow: `${shadows.purple}, 0 25px 50px -12px rgba(0, 0, 0, 0.25)`,
   padding: '36px 40px',
-  borderRadius: '24px', // More rounded (rounded-3xl equivalent)
-  animation: `${fadeIn} 0.4s cubic-bezier(0.4, 0, 0.2, 1)`, // Smoother animation
+  borderRadius: '24px',
+  animation: `${fadeIn} 0.4s cubic-bezier(0.4, 0, 0.2, 1)`,
   display: 'flex',
   flexDirection: 'column',
-  border: `1px solid ${colors.primary[200]}`, // More visible border
-  backdropFilter: 'blur(12px)', // More blur
+  border: `1px solid ${colors.primary[200]}`,
+  backdropFilter: 'blur(12px)',
   position: 'relative',
   overflow: 'hidden',
   '@media': {
@@ -58,6 +63,9 @@ export const modalContent = style({
       width: '95vw',
       padding: '28px 24px',
       borderRadius: radius.xl,
+    },
+    '(max-height: 700px)': {
+      padding: '20px 24px',
     },
   },
   // Add subtle inner glow
@@ -78,7 +86,15 @@ export const modalHeader = style({
   flexDirection: 'column',
   alignItems: 'center',
   textAlign: 'center',
-  marginBottom: '8px', // Further reduced spacing
+  marginBottom: '8px',
+  '@media': {
+    '(max-width: 640px)': {
+      marginBottom: '4px',
+    },
+    '(max-height: 700px)': {
+      marginBottom: '4px',
+    },
+  },
 });
 
 export const modalTitle = style({
@@ -163,34 +179,50 @@ export const progressBarFill = style({
 export const formWrapper = style({
   display: 'flex',
   flexDirection: 'column',
-  gap: '16px', // Reduced from 20px to 16px (space-y-4 → space-y-3 equivalent)
+  gap: '16px',
   flex: 1,
-  overflowY: 'visible', // Remove scroll on large screens
+  overflowY: 'auto',
   overflowX: 'hidden',
-  paddingLeft: '2px', // Ensure section headers have space for left border
+  paddingLeft: '2px',
+  paddingRight: '4px',
+  maxHeight: 'calc(80vh - 200px)',
   '@media': {
-    '(max-height: 800px)': {
-      overflowY: 'auto', // Re-enable scroll on smaller screens
-      paddingRight: '4px', // Space for scrollbar if needed
+    '(max-width: 640px)': {
+      gap: '12px',
+      maxHeight: 'calc(100vh - 250px)',
+    },
+    '(max-height: 700px)': {
+      maxHeight: 'calc(100vh - 220px)',
     },
   },
 });
 
 export const sectionHeader = style({
-  fontSize: typography.fontSize.lg, // Larger - equivalent to text-lg
-  fontWeight: typography.fontWeight.medium, // Lighter font weight (500)
-  color: colors.neutral[800], // Slightly lighter color to match lighter weight
-  padding: '12px 16px 12px 20px', // Reduced padding for tighter layout
-  marginBottom: '12px', // Reduced bottom margin
-  backgroundColor: colors.primary[50], // Lighter background
-  borderRadius: radius.lg, // More rounded corners (rounded-2xl equivalent)
-  margin: '0 0 12px 0', // Reduced margin
+  fontSize: typography.fontSize.lg,
+  fontWeight: typography.fontWeight.medium,
+  color: colors.neutral[800],
+  padding: '12px 16px 12px 20px',
+  marginBottom: '12px',
+  backgroundColor: colors.primary[50],
+  borderRadius: radius.lg,
+  margin: '0 0 12px 0',
   fontFamily: typography.fontFamily.heading,
-  boxShadow: `${shadows.sm}, inset 0 1px 0 rgba(255, 255, 255, 0.1)`, // Enhanced shadow with inset
+  boxShadow: `${shadows.sm}, inset 0 1px 0 rgba(255, 255, 255, 0.1)`,
   position: 'relative',
   background: `linear-gradient(135deg, ${colors.primary[50]}, ${colors.primary[100]})`,
   border: `1px solid ${colors.primary[200]}`,
-  borderLeft: `5px solid ${colors.primary[600]}`, // Thicker left border
+  borderLeft: `5px solid ${colors.primary[600]}`,
+  '@media': {
+    '(max-width: 640px)': {
+      padding: '8px 12px 8px 16px',
+      marginBottom: '8px',
+      fontSize: typography.fontSize.base,
+    },
+    '(max-height: 700px)': {
+      padding: '8px 12px 8px 16px',
+      marginBottom: '8px',
+    },
+  },
   // Add subtle icon-like decoration
   '::before': {
     content: '""',

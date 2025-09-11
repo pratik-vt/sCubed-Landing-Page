@@ -1,4 +1,14 @@
-import { style } from '@vanilla-extract/css';
+import { style, keyframes } from '@vanilla-extract/css';
+
+// Animation for sliding header to top
+const slideToTop = keyframes({
+  '0%': {
+    transform: 'translateY(0)',
+  },
+  '100%': {
+    transform: 'translateY(0)',
+  },
+});
 
 export const headerContentStyles = style({
   maxWidth: '1400px',
@@ -10,6 +20,9 @@ export const headerContentStyles = style({
   color: '#000',
   width: '100%',
   boxSizing: 'border-box',
+  position: 'relative',
+  backgroundColor: '#fff',
+  transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
   '@media': {
     'screen and (max-width: 768px)': {
       padding: '0 15px',
@@ -164,20 +177,44 @@ export const navStyle = style({
       marginRight: '30px'
     },
     'screen and (max-width: 1024px)': { 
-      fontSize: '15px',
-      marginRight: '20px'
+      fontSize: '18px',
+      marginRight: '0',
+      padding: '14px 30px',
+      width: 'auto',
+      textAlign: 'center',
+      transition: 'all 0.2s ease',
+      borderRadius: '8px',
+      ':hover': {
+        color: '#7a7eed',
+        backgroundColor: 'rgba(122, 126, 237, 0.05)',
+      },
     },
-    'screen and (max-width: 768px)': { marginRight: '0' }
+    'screen and (max-width: 768px)': { 
+      marginRight: '0',
+      fontSize: '18px',
+      padding: '14px 30px',
+    }
   },
 });
 
 export const activeNavStyle = style([navStyle, { color: '#000' }]);
 
+// Style for active nav items on mobile
+export const mobileActiveNavStyle = style({
+  '@media': {
+    '(max-width: 1024px)': {
+      backgroundColor: 'rgba(122, 126, 237, 0.08)',
+      color: '#7a7eed',
+      fontWeight: '600',
+    },
+  },
+});
+
 export const hamburger = style({
   display: 'none',
   flexDirection: 'column',
   cursor: 'pointer',
-  zIndex: 1002,
+  zIndex: 10002,
   '@media': {
     // Large screens (1025px+) - Desktop: Hidden
     '(min-width: 1025px)': {
@@ -213,23 +250,32 @@ export const navMenu = style({
       flexDirection: 'column',
       alignItems: 'center',
       position: 'fixed',
-      top: '70px',
+      top: '60px',
       left: '0',
       width: '100%',
       backgroundColor: '#fff',
-      borderTop: '1px solid #ededef',
-      height: 'calc(100vh - 70px)',
-      gap: '30px',
-      padding: '30px 0',
-      zIndex: 1001,
+      height: 'calc(100vh - 60px)',
+      gap: '25px',
+      padding: '30px 20px',
+      zIndex: 9999,
       boxSizing: 'border-box',
       overflowY: 'auto',
       overflowX: 'hidden',
+      transform: 'translateY(-100vh)',
+      transition: 'transform 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
+      borderTop: '1px solid #ededef',
     },
   },
 });
 
-export const navMenuOpen = style({ display: 'flex !important' });
+export const navMenuOpen = style({ 
+  display: 'flex !important',
+  '@media': {
+    '(max-width: 1024px)': {
+      transform: 'translateY(0) !important',
+    },
+  },
+});
 
 export const activeLinkStyle = style({
   content: '""',
@@ -241,14 +287,27 @@ export const activeLinkStyle = style({
   bottom: '-20px',
   left: '50%',
   transform: 'translateX(-50%)',
-  '@media': { 'screen and (max-width: 768px)': { bottom: '-8px' } },
+  '@media': { 
+    'screen and (max-width: 1024px)': { 
+      width: '60px',
+      height: '3px',
+      bottom: '-5px',
+      borderRadius: '2px',
+    },
+    'screen and (max-width: 768px)': { 
+      width: '60px',
+      height: '3px',
+      bottom: '-5px',
+      borderRadius: '2px',
+    } 
+  },
 });
 
 export const closeButtonWrapper = style({
   width: '30px',
   cursor: 'pointer',
   display: 'none',
-  zIndex: 1002,
+  zIndex: 10002,
   '@media': {
     // Large screens (1025px+) - Desktop: Hidden
     '(min-width: 1025px)': {
@@ -338,10 +397,16 @@ export const loginButton = style({
   ':active': { transform: 'scale(0.98)' },
   '@media': {
     'screen and (max-width: 1024px)': { 
-      padding: '10px 20px', 
-      fontSize: '15px' 
+      padding: '12px 40px', 
+      fontSize: '16px',
+      width: '200px',
+      border: '2px solid #7a7eed',
     },
-    'screen and (max-width: 768px)': { padding: '10px 24px', fontSize: '14px' },
+    'screen and (max-width: 768px)': { 
+      padding: '12px 40px', 
+      fontSize: '16px',
+      width: '200px',
+    },
   },
 });
 
@@ -380,14 +445,17 @@ export const tryForFreeButton = style({
   selectors: { '&:hover:before': { width: '300px', height: '300px' } },
   '@media': {
     'screen and (max-width: 1024px)': { 
-      padding: '10px 20px', 
-      fontSize: '15px',
-      marginLeft: '10px',
+      padding: '14px 40px', 
+      fontSize: '16px',
+      marginLeft: '0',
+      marginTop: '10px',
+      width: '200px',
     },
     'screen and (max-width: 768px)': { 
-      padding: '10px 24px', 
-      fontSize: '14px',
-      marginLeft: '10px',
+      padding: '14px 40px', 
+      fontSize: '16px',
+      marginLeft: '0',
+      width: '200px',
     },
   },
 });
@@ -406,6 +474,59 @@ export const mobileLogo = style({
       display: 'flex',
       alignItems: 'center',
       height: '40px',
+    },
+  },
+});
+
+// Fullscreen overlay background
+export const mobileOverlay = style({
+  display: 'none',
+  '@media': {
+    '(max-width: 1024px)': {
+      position: 'fixed',
+      top: '0',
+      left: '0',
+      width: '100vw',
+      height: '100vh',
+      backgroundColor: '#fff',
+      zIndex: 9997,
+      opacity: 0,
+      visibility: 'hidden',
+      transition: 'opacity 0.3s ease, visibility 0.3s ease',
+    },
+  },
+});
+
+export const mobileOverlayOpen = style({
+  '@media': {
+    '(max-width: 1024px)': {
+      opacity: 1,
+      visibility: 'visible',
+      display: 'block',
+    },
+  },
+});
+
+// Mobile header wrapper that moves to top
+export const mobileHeaderWrapper = style({
+  '@media': {
+    '(max-width: 1024px)': {
+      position: 'relative',
+      zIndex: 10000,
+      transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
+    },
+  },
+});
+
+export const mobileHeaderWrapperOpen = style({
+  '@media': {
+    '(max-width: 1024px)': {
+      position: 'fixed',
+      top: '0',
+      left: '0',
+      width: '100%',
+      backgroundColor: '#fff',
+      boxShadow: '0 2px 10px rgba(0, 0, 0, 0.1)',
     },
   },
 });

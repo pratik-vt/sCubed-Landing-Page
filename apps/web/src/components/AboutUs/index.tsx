@@ -4,6 +4,16 @@ import React, { useRef } from 'react';
 import Image from 'next/image';
 import { motion, useInView, Variants } from 'framer-motion';
 import { useRouter } from 'next/navigation';
+import { 
+  Lightbulb, 
+  Rocket, 
+  Target, 
+  RefreshCw, 
+  Building2, 
+  Lock, 
+  Users, 
+  TrendingUp 
+} from 'lucide-react';
 
 import CalendlyWidget from '../CalendlyWidget';
 import emilyCarterImg from '../../images/emily-carter.jpg';
@@ -108,38 +118,46 @@ const AboutUs = () => {
 
   const missionPoints = [
     {
-      title: "💡 What Keeps Us Going",
+      icon: Lightbulb,
+      title: "What Keeps Us Going",
       content: "We didn't want to build a software, we wanted to reshape how care gets delivered"
     },
     {
-      title: "🚀 What Moved Us To Start",
+      icon: Rocket,
+      title: "What Moved Us To Start",
       content: "We know the work is heavy, so we give you tools to find space and focus on your practice."
     },
     {
-      title: "🎯 What We Set Out To Do",
+      icon: Target,
+      title: "What We Set Out To Do",
       content: "We don't want to innovate anything, we're here to take the \"real weight\" off your shoulders."
     },
     {
-      title: "🔄 How We Turn Listing Into Action",
+      icon: RefreshCw,
+      title: "How We Turn Listing Into Action",
       content: "S Cubed is built by considering the real therapists and listening to their real needs so they can focus better on care."
     }
   ];
 
   const whyChooseUsPoints = [
     {
-      title: "🏥 One Platform For All",
+      icon: Building2,
+      title: "One Platform For All",
       content: "Most clinics struggle with different systems for different needs while S Cubed provides you with one clean, connected platform."
     },
     {
-      title: "🔒 Truly HIPAA-Compliant",
+      icon: Lock,
+      title: "Truly HIPAA-Compliant",
       content: "S Cubed is built with HIPAA compliance which means you are care-free about your data and we make sure your data is encrypted, it has role-based access and secure cloud hosting."
     },
     {
-      title: "👥 Made With Providers, For Providers",
+      icon: Users,
+      title: "Made With Providers, For Providers",
       content: "This platform is not built just to make it work, it is made to support after having a real talk with ABA therapists, BCBAs, OTs, PTs, and counselors."
     },
     {
-      title: "📈 Grows With You",
+      icon: TrendingUp,
+      title: "Grows With You",
       content: "S Cubed is made to adapt to your requirements, whether you are a solo practitioner, a multi-location clinic or an educational institute, our platform will grow with you."
     }
   ];
@@ -210,7 +228,13 @@ const AboutUs = () => {
                 }}
               >
                 <div className={styles.cardContent}>
-                  <h3 className={styles.cardTitle}>{point.title}</h3>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '8px' }}>
+                    <point.icon 
+                      size={24} 
+                      style={{ color: '#7a7eed', flexShrink: 0 }}
+                    />
+                    <h3 className={styles.cardTitle} style={{ margin: 0 }}>{point.title}</h3>
+                  </div>
                   <p className={styles.cardText}>{point.content}</p>
                 </div>
               </motion.div>
@@ -326,7 +350,13 @@ const AboutUs = () => {
                 }}
               >
                 <div className={styles.cardContent}>
-                  <h3 className={styles.cardTitle}>{point.title}</h3>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '8px' }}>
+                    <point.icon 
+                      size={24} 
+                      style={{ color: '#7a7eed', flexShrink: 0 }}
+                    />
+                    <h3 className={styles.cardTitle} style={{ margin: 0 }}>{point.title}</h3>
+                  </div>
                   <p className={styles.cardText}>{point.content}</p>
                 </div>
               </motion.div>
