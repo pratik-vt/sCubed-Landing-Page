@@ -15,9 +15,7 @@ const Disciplines: React.FC = () => (
     <div className={disciplineWrapper}>
       <h2 className={sectionHeading}>Disciplines</h2>
       <div className={sectiondesc}>
-        S Cubed Platform simplifies the way you manage your practice and clinical
-        process. It is designed to integrate with various disciplines allowing
-        you to focus on your little clients’ well-being.
+      The S Cubed Platform simplifies therapy practice management by streamlining both clinical and administrative tasks. As one of the best ABA practice management software solutions, it is designed to integrate across multiple disciplines - helping you stay efficient while focusing on what matters most: clients well-being.
       </div>
       <Image
         className={disciplineImg}

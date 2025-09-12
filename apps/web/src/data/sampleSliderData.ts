@@ -112,7 +112,7 @@ export const testimonialsSliderData: SliderItem[] = [
   {
     id: 'multi-location',
     title: 'Multi-Location Management',
-    description: 'Manage multiple clinic locations from a single, unified platform.',
+    description: 'Manage multi-location clinics effortlessly with S Cubed’s unified clinic management software. Centralize scheduling, streamline staff coordination, and boost productivity - all from one powerful platform.',
     image: {
       src: '/images/Multi-Location Clinic Management.png',
       alt: 'Multi-Location Clinic Management',

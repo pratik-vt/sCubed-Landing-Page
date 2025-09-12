@@ -1,5 +1,5 @@
-import React from 'react';
 import Image from 'next/image';
+import React from 'react';
 
 import behavoir from '../../images/Behavior Tracking.png';
 import document from '../../images/Document Management.png';
@@ -38,18 +38,20 @@ const Stand: React.FC = () => (
     <div className={InnerContainerStyle}>
       <div className={disciplineWrapper}>
         <h2 style={{ paddingTop: '50px' }} className={sectionHeading}>
-          What Makes Us Stand Out?
+          Smarter ABA Practice Management Tools - Stronger Outcomes
         </h2>
         <div className={featureContainers}>
           <div className={featureItems}>
             <div className={standWrapper}>
               <Image src={smart} alt="HIPAA Compliant" />
               <div className={featureText}>
-                <h3 style={standHead}>Smart Billing Management </h3>
+                <h3 style={standHead}>Smarter ABA Therapy Billing Services</h3>
                 <span style={standDesc}>
-                  S Cubed offers an integrated billing system with features like
-                  automated charge capture, accurate error checking, and
-                  detailed billing reports.
+                  S Cubed offers integrated therapy billing software with
+                  automated charge capture, error checking, and detailed
+                  reports. Our platform streamlines ABA therapy billing
+                  services, helping you save time, reduce errors, and get paid
+                  faster.
                 </span>
               </div>
             </div>
@@ -71,9 +73,10 @@ const Stand: React.FC = () => (
               <div className={featureText}>
                 <h3 style={standHead}>Behavior Tracking </h3>
                 <span style={standDesc}>
-                  Identify and examine kids’ behavioral patterns to help
-                  therapists treat them effectively, track their development,
-                  and prepare useful reports.
+                  With our precisely built ABA data collection software, you can
+                  track children’s developmental progress, analyze behavioral
+                  patterns, and generate meaningful reports that make treatment
+                  more effective.
                 </span>
               </div>
             </div>
@@ -82,9 +85,7 @@ const Stand: React.FC = () => (
               <div className={featureText}>
                 <h3 style={standHead}>Multi-Location Clinic Management</h3>
                 <span style={standDesc}>
-                  Manage your multi-location clinics with our unified S Cubed
-                  platform allowing you centralized scheduling, staff
-                  coordination, and ensuring productivity.
+                Manage multi-location clinics effortlessly with S Cubed’s unified clinic management software. Centralize scheduling, streamline staff coordination, and boost productivity - all from one powerful platform.
                 </span>
               </div>
             </div>

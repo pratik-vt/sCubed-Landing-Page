@@ -34,9 +34,9 @@ const tabBox: React.CSSProperties = { marginTop: '80px' };
 
 const tabContents = [
   {
-    heading: 'Efficient Appointment Scheduling',
+    heading: 'Therapy Appointment Scheduling, Simplified',
     description:
-      'Optimize your appointment scheduling with our powerful calendar system. Streamline operations across clinics and educational/school settings with automated reminders that reduce no-shows and keep schedules running smoothly.',
+      'Optimize your practice with therapy appointment scheduling software that keeps everything organized and efficient. Our powerful calendar system functions as intuitive ABA scheduling software, helping you streamline operations across clinics and school-based settings with automated reminders that reduce no-shows and keep schedules running smoothly.',
     image: appointment,
     alt: 'appointment',
     panel: appointmentPanel,
@@ -50,9 +50,9 @@ const tabContents = [
     panel: treatmentPanel,
   },
   {
-    heading: 'Data Collection & Reporting',
+    heading: 'ABA Data Collection Software & Reporting Made Simple',
     description:
-      'Gather, analyze, and report critical data easily. Make informed decisions with comprehensive data insights.',
+      'Gather, analyze, and report critical data with ease. Our ABA data collection software and ABA data collection systems provide accurate, comprehensive insights - helping you make informed decisions that improve outcomes.',
     image: collection,
     alt: 'collection',
     panel: collectionPanel,
@@ -60,7 +60,7 @@ const tabContents = [
   {
     heading: 'Easy-to-use Guardian Portal',
     description:
-      'Provide guardians with an intuitive portal to access information, updates, and communicate with the clinic effortlessly.',
+      'Provide guardians with an intuitive portal to access updates, view information, and communicate with the clinic effortlessly. As part of our comprehensive clinical management solutions, this feature strengthens transparency and keeps families engaged in the care process.',
     image: guardian,
     alt: 'guardian',
     panel: dashboardPanel,
@@ -84,13 +84,17 @@ const Tabs: React.FC = () => {
               style={{
                 cursor: 'pointer',
                 borderBottom:
-                  screenWidth > 768 && activeTab === index ? '4px solid #7a7eed' : 'none',
+                  screenWidth > 768 && activeTab === index
+                    ? '4px solid #7a7eed'
+                    : 'none',
                 backgroundColor:
-                  activeTab === index ? 'rgba(122, 126, 237, 0.1)' : 'transparent',
+                  activeTab === index
+                    ? 'rgba(122, 126, 237, 0.1)'
+                    : 'transparent',
                 borderRadius: screenWidth <= 768 ? '8px' : '0',
                 boxShadow:
-                  screenWidth <= 768 && activeTab === index 
-                    ? '0 2px 8px rgba(122, 126, 237, 0.2)' 
+                  screenWidth <= 768 && activeTab === index
+                    ? '0 2px 8px rgba(122, 126, 237, 0.2)'
                     : 'none',
               }}
             >

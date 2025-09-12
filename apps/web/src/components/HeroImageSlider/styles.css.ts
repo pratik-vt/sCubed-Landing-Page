@@ -121,6 +121,7 @@ export const heroSliderTitle = style({
   fontFamily: typography.fontFamily.heading,
   lineHeight: typography.lineHeight.tight,
   marginBottom: spacing.lg,
+  whiteSpace: 'pre-line', // This allows \n characters to create line breaks
   '@media': {
     'screen and (max-width: 768px)': {
       fontSize: '2rem', // Set to 2rem as requested

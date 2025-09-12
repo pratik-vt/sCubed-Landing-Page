@@ -1,13 +1,15 @@
-import { HeroSliderItem } from '../components/HeroImageSlider';
-import BannerImage from '../../public/images/Banner.jpg';
-import USATodayImage from '../../public/images/As featured in USA Today.jpg';
 import USATodayMobileImage from '../../public/images/As featured in USA Today-mobile.jpg';
+import USATodayImage from '../../public/images/As featured in USA Today.jpg';
+import BannerImage from '../../public/images/Banner.jpg';
+import { HeroSliderItem } from '../components/HeroImageSlider';
 
 export const heroSliderData: HeroSliderItem[] = [
   {
     id: 'empowering-practice',
-    title: 'Empowering Your Practice, Enhancing Every Life You Touch',
-    description: "S Cubed is an all-in-one platform packed with powerful Clinical and Practice Management functionalities, designed to streamline operations and enhance outcomes. Whether you're running a healthcare clinic or managing services in educational or school-based settings, S cubed empowers you to focus on delivering exceptional care with less hassle and greater efficiency.",
+    title:
+      'ABA Practice Management Software\nThat Empowers Your Practice\nAnd The People You Serve',
+    description:
+      'S Cubed is an all-in-one platform with powerful clinical tools, applied behavior analysis (ABA) data collection, and therapy practice management features, built to streamline operations and improve outcomes. Whether supporting healthcare clinics, ABA services, or school-based programs, S Cubed helps you deliver exceptional care with less hassle and greater efficiency.',
     image: {
       src: BannerImage,
       alt: 'S Cubed Practice Management Dashboard',
@@ -26,11 +28,12 @@ export const heroSliderData: HeroSliderItem[] = [
   },
   {
     id: 'from-mothers-journey',
-    title: 'From a Mother\'s Journey Became a Lifeline for Families',
-    description: 'How <a href="https://www.trevorsplace.net/" target="_blank" rel="noopener noreferrer">Trevor\'s Place</a> & <a href="https://scubed.io/">S Cubed</a> are transforming therapy and family communication through innovation and compassion.',
+    title: "From a Mother's Journey Became a Lifeline for Families",
+    description:
+      'How <a href="https://www.trevorsplace.net/" target="_blank" rel="noopener noreferrer">Trevor\'s Place</a> & <a href="https://scubed.io/">S Cubed</a> are transforming therapy and family communication through innovation and compassion.',
     image: {
       src: USATodayImage,
-      alt: "As featured in USA Today",
+      alt: 'As featured in USA Today',
       width: 1920,
       height: 800,
       mobileSrc: USATodayMobileImage, // Optional mobile image

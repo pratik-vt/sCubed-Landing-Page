@@ -1,6 +1,7 @@
 import Image from 'next/image';
 import React from 'react';
 
+import partnerImg from '../../images/Image-1.jpg';
 import tick from '../../images/tick.png';
 import {
   InnerContainerStyle,
@@ -8,7 +9,6 @@ import {
   tabBox,
   tabPanel,
 } from '../Container/style.css';
-import partnerImg from '../../images/Image-1.jpg';
 
 import {
   content,
@@ -23,7 +23,7 @@ const Partners: React.FC = () => {
     <div className={InnerContainerStyle}>
       <div className={tabBox}>
         <h2 className={sectionHeading}>
-          Why choose S Cubed as your clinical and practice management partner?
+          Empowering Providers with Smarter ABA Practice Management Software
         </h2>
         <div className={content}>
           Experience the difference with S Cubed - your all-in-one clinical and
