@@ -45,7 +45,6 @@ import {
 
 import { useFreeTrialModal } from '@/contexts/FreeTrialModalContext';
 
-
 interface NavigationProps {
   menuItemColor?: string;
   activeMenuItemColor?: string;
@@ -108,10 +107,15 @@ const Navigation: React.FC<NavigationProps> = ({
   return (
     <>
       {/* Mobile overlay background */}
-      <div className={`${mobileOverlay} ${menuOpen ? mobileOverlayOpen : ''}`} />
-      
+      <div
+        className={`${mobileOverlay} ${menuOpen ? mobileOverlayOpen : ''}`}
+      />
+
       {/* Contact info bar - hide on mobile when menu is open */}
-      <div className={contactInfoContainer} style={{ display: menuOpen ? 'none' : undefined }}>
+      <div
+        className={contactInfoContainer}
+        style={{ display: menuOpen ? 'none' : undefined }}
+      >
         <div className={contactInfoWrapper}>
           {/* Left: Phone and Email */}
           <div className={contactInfoGroup}>
@@ -215,206 +219,206 @@ const Navigation: React.FC<NavigationProps> = ({
           </div>
         </div>
       </div>
-      
+
       {/* Mobile header wrapper - moves to top when menu is open */}
-      <div className={`${mobileHeaderWrapper} ${menuOpen ? mobileHeaderWrapperOpen : ''}`}>
+      <div
+        className={`${mobileHeaderWrapper} ${menuOpen ? mobileHeaderWrapperOpen : ''}`}
+      >
         <div className={headerContentStyles}>
-        <div
-          className={logoOuter}
-          onClick={() => router.push('/')}
-          onKeyDown={(e) => e.key === 'Enter' && router.push('/')}
-          tabIndex={0}
-          role="button"
-          aria-label="Go to homepage"
-        >
-          <div className={desktopLogo}>
-            <Image
-              alt="S Cubed"
-              src={desktopLogoImg}
-              quality={100}
-              placeholder="blur"
-            />
-          </div>
-          <div className={mobileLogo}>
-            <Image
-              alt="S Cubed"
-              src={mobileLogoImg}
-              quality={100}
-              placeholder="blur"
-              style={{ height: '100%', width: 'auto', objectFit: 'contain' }}
-            />
-          </div>
-        </div>
-        <nav className={`${navMenu} ${menuOpen ? navMenuOpen : ''}`}>
-          <Link
-            href="/"
-            className={`${navStyle} ${pathname === '/' ? mobileActiveNavStyle : ''}`}
-            style={{
-              color: pathname === '/' ? activeMenuItemColor : menuItemColor,
-            }}
-          >
-            Home{' '}
-            {pathname === '/' && (
-              <span
-                className={activeLinkStyle}
-                style={{ backgroundColor: activeLinkAccentColor }}
-              />
-            )}
-          </Link>
-          <Link
-            href="/billing"
-            className={`${navStyle} ${pathname === '/billing' || pathname === '/billing/' ? mobileActiveNavStyle : ''}`}
-            style={{
-              color:
-                pathname === '/billing' || pathname === '/billing/'
-                  ? activeMenuItemColor
-                  : menuItemColor,
-            }}
-          >
-            Billing{' '}
-            {(pathname === '/billing' || pathname === '/billing/') && (
-              <span
-                className={activeLinkStyle}
-                style={{ backgroundColor: activeLinkAccentColor }}
-              />
-            )}
-          </Link>
-          <Link
-            href="/features"
-            className={`${navStyle} ${pathname === '/features' || pathname === '/features/' ? mobileActiveNavStyle : ''}`}
-            style={{
-              color:
-                pathname === '/features' || pathname === '/features/'
-                  ? activeMenuItemColor
-                  : menuItemColor,
-            }}
-          >
-            Features{' '}
-            {(pathname === '/features' || pathname === '/features/') && (
-              <span
-                className={activeLinkStyle}
-                style={{ backgroundColor: activeLinkAccentColor }}
-              />
-            )}
-          </Link>
-          <Link
-            href="/guardian-portal"
-            className={`${navStyle} ${pathname === '/guardian-portal' || pathname === '/guardian-portal/' ? mobileActiveNavStyle : ''}`}
-            style={{
-              color:
-                pathname === '/guardian-portal' ||
-                pathname === '/guardian-portal/'
-                  ? activeMenuItemColor
-                  : menuItemColor,
-            }}
-          >
-            Guardian Portal{' '}
-            {(pathname === '/guardian-portal' ||
-              pathname === '/guardian-portal/') && (
-              <span
-                className={activeLinkStyle}
-                style={{ backgroundColor: activeLinkAccentColor }}
-              />
-            )}
-          </Link>
-          <Link
-            href="/blog"
-            className={`${navStyle} ${pathname === '/blog' || pathname === '/blog/' ? mobileActiveNavStyle : ''}`}
-            style={{
-              color:
-                pathname === '/blog' || pathname === '/blog/'
-                  ? activeMenuItemColor
-                  : menuItemColor,
-            }}
-          >
-            Blog{' '}
-            {(pathname === '/blog' || pathname === '/blog/') && (
-              <span
-                className={activeLinkStyle}
-                style={{ backgroundColor: activeLinkAccentColor }}
-              />
-            )}
-          </Link>
-          <Link
-            href="/get-started"
-            className={`${navStyle} ${pathname === '/get-started' || pathname === '/get-started/' ? mobileActiveNavStyle : ''}`}
-            style={{
-              color:
-                pathname === '/get-started' || pathname === '/get-started/'
-                  ? activeMenuItemColor
-                  : menuItemColor,
-            }}
-          >
-            Get Started
-            {(pathname === '/get-started' || pathname === '/get-started/') && (
-              <span
-                className={activeLinkStyle}
-                style={{ backgroundColor: activeLinkAccentColor }}
-              />
-            )}
-          </Link>
-          <Link
-            href="/about"
-            className={`${navStyle} ${pathname === '/about' || pathname === '/about/' ? mobileActiveNavStyle : ''}`}
-            style={{
-              color:
-                pathname === '/about' || pathname === '/about/'
-                  ? activeMenuItemColor
-                  : menuItemColor,
-            }}
-          >
-            Our Team
-            {(pathname === '/about' || pathname === '/about/') && (
-              <span
-                className={activeLinkStyle}
-                style={{ backgroundColor: activeLinkAccentColor }}
-              />
-            )}
-          </Link>
-          <button
-            className={loginButton}
-            onClick={() =>
-              window.location.assign(
-                process.env.NEXT_PUBLIC_ADMIN_APP_URL + `auth/login`,
-              )
-            }
-          >
-            Login
-          </button>
-          <button
-            className={tryForFreeButton}
-            onClick={openModal}
-          >
-            Try for Free
-          </button>
-        </nav>
-        {!menuOpen ? (
           <div
-            className={hamburger}
-            onClick={toggleMenu}
-            onKeyDown={(e) => e.key === 'Enter' && toggleMenu()}
+            className={logoOuter}
+            onClick={() => router.push('/')}
+            onKeyDown={(e) => e.key === 'Enter' && router.push('/')}
             tabIndex={0}
             role="button"
-            aria-label="Open menu"
+            aria-label="Go to homepage"
           >
-            {[...Array(3)].map((_, index) => (
-              <div key={index} className={bar}></div>
-            ))}
-          </div>
-        ) : (
-          <div
-            className={closeButtonWrapper}
-            onClick={toggleMenu}
-            onKeyDown={(e) => e.key === 'Enter' && toggleMenu()}
-            tabIndex={0}
-            role="button"
-            aria-label="Close menu"
-          >
-            <div className={crossLine1}>
-              <div className={crossLine2}></div>
+            <div className={desktopLogo}>
+              <Image
+                alt="S Cubed"
+                src={desktopLogoImg}
+                quality={100}
+                placeholder="blur"
+              />
+            </div>
+            <div className={mobileLogo}>
+              <Image
+                alt="S Cubed"
+                src={mobileLogoImg}
+                quality={100}
+                placeholder="blur"
+                style={{ height: '100%', width: 'auto', objectFit: 'contain' }}
+              />
             </div>
           </div>
-        )}
+          <nav className={`${navMenu} ${menuOpen ? navMenuOpen : ''}`}>
+            <Link
+              href="/"
+              className={`${navStyle} ${pathname === '/' ? mobileActiveNavStyle : ''}`}
+              style={{
+                color: pathname === '/' ? activeMenuItemColor : menuItemColor,
+              }}
+            >
+              Home{' '}
+              {pathname === '/' && (
+                <span
+                  className={activeLinkStyle}
+                  style={{ backgroundColor: activeLinkAccentColor }}
+                />
+              )}
+            </Link>
+            <Link
+              href="/billing"
+              className={`${navStyle} ${pathname === '/billing' || pathname === '/billing/' ? mobileActiveNavStyle : ''}`}
+              style={{
+                color:
+                  pathname === '/billing' || pathname === '/billing/'
+                    ? activeMenuItemColor
+                    : menuItemColor,
+              }}
+            >
+              Billing{' '}
+              {(pathname === '/billing' || pathname === '/billing/') && (
+                <span
+                  className={activeLinkStyle}
+                  style={{ backgroundColor: activeLinkAccentColor }}
+                />
+              )}
+            </Link>
+            <Link
+              href="/features"
+              className={`${navStyle} ${pathname === '/features' || pathname === '/features/' ? mobileActiveNavStyle : ''}`}
+              style={{
+                color:
+                  pathname === '/features' || pathname === '/features/'
+                    ? activeMenuItemColor
+                    : menuItemColor,
+              }}
+            >
+              Features{' '}
+              {(pathname === '/features' || pathname === '/features/') && (
+                <span
+                  className={activeLinkStyle}
+                  style={{ backgroundColor: activeLinkAccentColor }}
+                />
+              )}
+            </Link>
+            <Link
+              href="/guardian-portal"
+              className={`${navStyle} ${pathname === '/guardian-portal' || pathname === '/guardian-portal/' ? mobileActiveNavStyle : ''}`}
+              style={{
+                color:
+                  pathname === '/guardian-portal' ||
+                  pathname === '/guardian-portal/'
+                    ? activeMenuItemColor
+                    : menuItemColor,
+              }}
+            >
+              Guardian Portal{' '}
+              {(pathname === '/guardian-portal' ||
+                pathname === '/guardian-portal/') && (
+                <span
+                  className={activeLinkStyle}
+                  style={{ backgroundColor: activeLinkAccentColor }}
+                />
+              )}
+            </Link>
+            <Link
+              href="/blog"
+              className={`${navStyle} ${pathname === '/blog' || pathname === '/blog/' ? mobileActiveNavStyle : ''}`}
+              style={{
+                color:
+                  pathname === '/blog' || pathname === '/blog/'
+                    ? activeMenuItemColor
+                    : menuItemColor,
+              }}
+            >
+              Blog{' '}
+              {(pathname === '/blog' || pathname === '/blog/') && (
+                <span
+                  className={activeLinkStyle}
+                  style={{ backgroundColor: activeLinkAccentColor }}
+                />
+              )}
+            </Link>
+            <Link
+              href="/get-started"
+              className={`${navStyle} ${pathname === '/get-started' || pathname === '/get-started/' ? mobileActiveNavStyle : ''}`}
+              style={{
+                color:
+                  pathname === '/get-started' || pathname === '/get-started/'
+                    ? activeMenuItemColor
+                    : menuItemColor,
+              }}
+            >
+              Get Started
+              {(pathname === '/get-started' ||
+                pathname === '/get-started/') && (
+                <span
+                  className={activeLinkStyle}
+                  style={{ backgroundColor: activeLinkAccentColor }}
+                />
+              )}
+            </Link>
+            <Link
+              href="/our-team"
+              className={`${navStyle} ${pathname === '/our-team' || pathname === '/our-team/' ? mobileActiveNavStyle : ''}`}
+              style={{
+                color:
+                  pathname === '/our-team' || pathname === '/our-team/'
+                    ? activeMenuItemColor
+                    : menuItemColor,
+              }}
+            >
+              Our Team
+              {(pathname === '/our-team' || pathname === '/our-team/') && (
+                <span
+                  className={activeLinkStyle}
+                  style={{ backgroundColor: activeLinkAccentColor }}
+                />
+              )}
+            </Link>
+            <button
+              className={loginButton}
+              onClick={() =>
+                window.location.assign(
+                  process.env.NEXT_PUBLIC_ADMIN_APP_URL + `auth/login`,
+                )
+              }
+            >
+              Login
+            </button>
+            <button className={tryForFreeButton} onClick={openModal}>
+              Try for Free
+            </button>
+          </nav>
+          {!menuOpen ? (
+            <div
+              className={hamburger}
+              onClick={toggleMenu}
+              onKeyDown={(e) => e.key === 'Enter' && toggleMenu()}
+              tabIndex={0}
+              role="button"
+              aria-label="Open menu"
+            >
+              {[...Array(3)].map((_, index) => (
+                <div key={index} className={bar}></div>
+              ))}
+            </div>
+          ) : (
+            <div
+              className={closeButtonWrapper}
+              onClick={toggleMenu}
+              onKeyDown={(e) => e.key === 'Enter' && toggleMenu()}
+              tabIndex={0}
+              role="button"
+              aria-label="Close menu"
+            >
+              <div className={crossLine1}>
+                <div className={crossLine2}></div>
+              </div>
+            </div>
+          )}
         </div>
       </div>
     </>

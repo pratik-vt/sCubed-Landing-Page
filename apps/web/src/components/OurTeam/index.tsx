@@ -126,7 +126,7 @@ const OurTeam = () => {
       icon: Lightbulb,
       title: 'What Keeps Us Going',
       content:
-        "We didn't want to build a software, we wanted to reshape how care gets delivered",
+        "We didn't want to build a software, we wanted to reshape how care gets delivered.",
     },
     {
       icon: Rocket,
