@@ -314,10 +314,8 @@ export const chipValue = style({
 
 // Success content
 export const successContent = style({
-  padding: '8px 12px 0',
   animation: `${slideUp} 200ms ease-out 150ms both`,
   fontSize: '16px',
-  lineHeight: 1.6,
   color: '#4b5563',
   textAlign: 'center',
   '@media': {
@@ -357,7 +355,6 @@ export const loginSection = style({
   flexDirection: 'column',
   alignItems: 'center',
   gap: '12px',
-  paddingTop: '16px',
   borderTop: '1px solid rgba(139, 92, 246, 0.1)',
   animation: `${slideUp} 200ms ease-out 200ms both`,
   '@media': {
@@ -386,7 +383,6 @@ export const loginInfoMessage = style({
   color: '#4b5563',
   lineHeight: '1.5',
   textAlign: 'center',
-  margin: '0 0 16px 0',
   padding: '12px 16px',
   backgroundColor: 'rgba(122, 126, 237, 0.05)',
   borderRadius: '8px',

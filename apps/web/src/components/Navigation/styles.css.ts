@@ -1,4 +1,4 @@
-import { style, keyframes } from '@vanilla-extract/css';
+import { style, keyframes, globalStyle } from '@vanilla-extract/css';
 
 // Animation for sliding header to top
 const slideToTop = keyframes({
@@ -178,11 +178,12 @@ export const navStyle = style({
     'screen and (max-width: 1024px)': { 
       fontSize: '18px',
       marginRight: '0',
-      padding: '14px 30px',
+      padding: '12px 30px',
       width: 'auto',
       textAlign: 'center',
       transition: 'all 0.2s ease',
       borderRadius: '8px',
+      flexShrink: 0,
       ':hover': {
         color: '#7a7eed',
         backgroundColor: 'rgba(122, 126, 237, 0.05)',
@@ -190,9 +191,13 @@ export const navStyle = style({
     },
     'screen and (max-width: 768px)': { 
       marginRight: '0',
-      fontSize: '18px',
-      padding: '14px 30px',
-    }
+      fontSize: '16px',
+      padding: '10px 25px',
+    },
+    'screen and (max-height: 700px)': {
+      padding: '8px 20px',
+      fontSize: '15px',
+    },
   },
 });
 
@@ -254,15 +259,28 @@ export const navMenu = style({
       width: '100%',
       backgroundColor: '#fff',
       height: 'calc(100vh - 60px)',
-      gap: '25px',
-      padding: '30px 20px',
+      gap: '15px',
+      padding: '20px 20px 30px',
       zIndex: 9999,
       boxSizing: 'border-box',
       overflowY: 'auto',
       overflowX: 'hidden',
+      WebkitOverflowScrolling: 'touch',
       transform: 'translateY(-100vh)',
       transition: 'transform 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
       borderTop: '1px solid #ededef',
+      // Ensure scrollbar is visible when needed
+      scrollbarWidth: 'thin',
+      scrollbarColor: '#7a7eed #f0f0f0',
+    },
+    // Extra small devices
+    '(max-width: 640px)': {
+      gap: '10px',
+      padding: '15px 20px 30px',
+    },
+    '(max-height: 700px)': {
+      gap: '8px',
+      padding: '10px 20px 25px',
     },
   },
 });
@@ -389,6 +407,9 @@ export const loginButton = style({
   cursor: 'pointer',
   transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
   position: 'relative',
+  flexShrink: 0,
+  textAlign: 'center',
+  display: 'inline-block',
   ':hover': {
     color: '#6c6ee5',
     textDecoration: 'underline',
@@ -400,11 +421,23 @@ export const loginButton = style({
       fontSize: '16px',
       width: '200px',
       border: '2px solid #7a7eed',
+      marginTop: '10px',
+      textAlign: 'center',
+      display: 'block',
     },
     'screen and (max-width: 768px)': { 
-      padding: '12px 40px', 
-      fontSize: '16px',
-      width: '200px',
+      padding: '10px 35px', 
+      fontSize: '15px',
+      width: '180px',
+      textAlign: 'center',
+      display: 'block',
+    },
+    'screen and (max-height: 700px)': {
+      padding: '8px 30px',
+      fontSize: '14px',
+      width: '160px',
+      textAlign: 'center',
+      display: 'block',
     },
   },
 });
@@ -423,6 +456,9 @@ export const tryForFreeButton = style({
   overflow: 'hidden',
   boxShadow: '0 2px 8px rgba(122, 126, 237, 0.3)',
   marginLeft: '15px',
+  flexShrink: 0,
+  textAlign: 'center',
+  display: 'inline-block',
   ':hover': {
     transform: 'scale(1.05) translateY(-2px)',
     boxShadow: '0 6px 20px rgba(122, 126, 237, 0.4)',
@@ -448,13 +484,27 @@ export const tryForFreeButton = style({
       fontSize: '16px',
       marginLeft: '0',
       marginTop: '10px',
+      marginBottom: '20px',
       width: '200px',
+      textAlign: 'center',
+      display: 'block',
     },
     'screen and (max-width: 768px)': { 
-      padding: '14px 40px', 
-      fontSize: '16px',
+      padding: '12px 35px', 
+      fontSize: '15px',
       marginLeft: '0',
-      width: '200px',
+      width: '180px',
+      marginBottom: '20px',
+      textAlign: 'center',
+      display: 'block',
+    },
+    'screen and (max-height: 700px)': {
+      padding: '10px 30px',
+      fontSize: '14px',
+      width: '160px',
+      marginBottom: '15px',
+      textAlign: 'center',
+      display: 'block',
     },
   },
 });
@@ -526,6 +576,41 @@ export const mobileHeaderWrapperOpen = style({
       width: '100%',
       backgroundColor: '#fff',
       boxShadow: '0 2px 10px rgba(0, 0, 0, 0.1)',
+    },
+  },
+});
+
+// Webkit scrollbar styling for mobile nav menu
+globalStyle(`.${navMenu}::-webkit-scrollbar`, {
+  '@media': {
+    '(max-width: 1024px)': {
+      width: '6px',
+    },
+  },
+});
+
+globalStyle(`.${navMenu}::-webkit-scrollbar-track`, {
+  '@media': {
+    '(max-width: 1024px)': {
+      background: '#f0f0f0',
+      borderRadius: '3px',
+    },
+  },
+});
+
+globalStyle(`.${navMenu}::-webkit-scrollbar-thumb`, {
+  '@media': {
+    '(max-width: 1024px)': {
+      background: '#7a7eed',
+      borderRadius: '3px',
+    },
+  },
+});
+
+globalStyle(`.${navMenu}::-webkit-scrollbar-thumb:hover`, {
+  '@media': {
+    '(max-width: 1024px)': {
+      background: '#6c6ee5',
     },
   },
 });

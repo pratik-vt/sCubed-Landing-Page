@@ -41,12 +41,11 @@ export const pageContainer = style({
 
 export const heroSection = style({
   color: colors.white,
-  padding: `clamp(${spacing.sm}, 2vh, ${spacing.lg}) ${spacing.sm}`,
+  padding: `${spacing.xl} ${spacing.md}`,
   position: 'relative',
   overflow: 'hidden',
-  minHeight: 'clamp(180px, 25vh, 350px)',
+  minHeight: 'auto',
   height: 'auto',
-  maxHeight: '35vh',
   display: 'flex',
   alignItems: 'center',
   justifyContent: 'center',
@@ -101,35 +100,31 @@ export const heroSection = style({
   },
   
   '@media': {
-    'screen and (max-width: 768px)': {
-      padding: `clamp(${spacing.sm}, 2vh, ${spacing.md}) ${spacing.sm}`,
-      minHeight: 'clamp(160px, 25vh, 300px)',
-      maxHeight: '35vh',
+    'screen and (max-width: 480px)': {
+      padding: '48px 24px',
+      minHeight: 'auto',
+    },
+    'screen and (min-width: 481px) and (max-width: 768px)': {
+      padding: '56px 32px',
+      minHeight: 'auto',
     },
     'screen and (min-width: 769px) and (max-width: 1024px)': {
-      padding: `clamp(${spacing.sm}, 2vh, ${spacing.md}) ${spacing.sm}`,
-      minHeight: 'clamp(180px, 28vh, 320px)',
-      maxHeight: '35vh',
+      padding: `${spacing.lg} ${spacing.md}`,
+      minHeight: '250px',
     },
     'screen and (min-width: 1025px) and (max-width: 1440px)': {
-      padding: `clamp(${spacing.sm}, 2.5vh, ${spacing.lg}) ${spacing.sm}`,
-      minHeight: 'clamp(200px, 30vh, 350px)',
-      maxHeight: '38vh',
+      padding: `${spacing.xl} ${spacing.lg}`,
+      minHeight: '280px',
     },
     'screen and (min-width: 1441px)': {
-      padding: `${spacing.lg} ${spacing.sm}`,
-      minHeight: '280px',
-      maxHeight: '350px',
+      padding: `${spacing.xl} ${spacing.lg}`,
+      minHeight: '300px',
     },
     'screen and (max-height: 700px)': {
-      minHeight: '180px',
-      maxHeight: '30vh',
-      padding: `${spacing.sm} ${spacing.sm}`,
+      padding: '32px 24px',
     },
     'screen and (max-height: 600px)': {
-      minHeight: '160px',
-      maxHeight: '28vh',
-      padding: `${spacing.xs} ${spacing.sm}`,
+      padding: '24px 20px',
     },
   },
 });
@@ -144,23 +139,40 @@ export const heroContent = style({
   display: 'flex',
   flexDirection: 'column',
   justifyContent: 'center',
-  gap: spacing.xs,
+  gap: spacing.md,
+  padding: '0',
+  '@media': {
+    'screen and (max-width: 768px)': {
+      gap: '20px',
+      padding: '0',
+    },
+    'screen and (max-width: 480px)': {
+      gap: '16px',
+      padding: '0',
+    },
+  },
 });
 
 export const heroTitle = style({
-  fontSize: `clamp(${typography.fontSize['2xl']}, 4vw, ${typography.fontSize['4xl']})`,
+  fontSize: typography.fontSize['3xl'],
   fontWeight: typography.fontWeight.bold,
   fontFamily: typography.fontFamily.heading,
-  marginBottom: spacing.xs,
+  marginBottom: spacing.md,
   marginTop: 0,
   color: '#ffffff',
   textShadow: '0 4px 30px rgba(0,0,0,0.2), 0 2px 10px rgba(0,0,0,0.3)',
   letterSpacing: '-0.02em',
-  lineHeight: '1.1',
+  lineHeight: '1.2',
   '@media': {
     'screen and (max-width: 768px)': {
-      fontSize: `clamp(${typography.fontSize['xl']}, 4vw, ${typography.fontSize['2xl']})`,
-      marginBottom: spacing.xs,
+      fontSize: typography.fontSize['2xl'],
+      marginBottom: '16px',
+      lineHeight: '1.3',
+    },
+    'screen and (max-width: 480px)': {
+      fontSize: '28px',
+      marginBottom: '12px',
+      lineHeight: '1.3',
     },
     'screen and (min-width: 1441px)': {
       fontSize: typography.fontSize['4xl'],
@@ -177,21 +189,29 @@ export const heroTitle = style({
 });
 
 export const heroText = style({
-  fontSize: `clamp(${typography.fontSize.sm}, 1.5vw, ${typography.fontSize.base})`,
-  lineHeight: '1.5',
+  fontSize: typography.fontSize.base,
+  lineHeight: '1.6',
   maxWidth: '48rem',
   margin: '0 auto',
   color: 'rgba(255, 255, 255, 0.95)',
   textShadow: '0 2px 10px rgba(0,0,0,0.2)',
   fontWeight: typography.fontWeight.medium,
   marginBottom: 0,
+  paddingLeft: '16px',
+  paddingRight: '16px',
   '@media': {
     'screen and (max-width: 768px)': {
-      fontSize: `clamp(${typography.fontSize.xs}, 1.8vw, ${typography.fontSize.sm})`,
-      color: 'rgba(255, 255, 255, 0.92)',
+      fontSize: typography.fontSize.base,
+      color: 'rgba(255, 255, 255, 0.95)',
       maxWidth: '100%',
-      padding: `0 ${spacing.xs}`,
-      lineHeight: '1.4',
+      padding: '0 20px',
+      lineHeight: '1.7',
+      wordWrap: 'break-word',
+    },
+    'screen and (max-width: 480px)': {
+      fontSize: '15px',
+      padding: '0 16px',
+      lineHeight: '1.6',
     },
     'screen and (min-width: 1441px)': {
       fontSize: typography.fontSize.lg,
@@ -211,16 +231,19 @@ export const heroText = style({
 });
 
 export const section = style({
-  padding: `clamp(${spacing.sm}, 3vh, ${spacing.lg}) ${spacing.sm}`,
+  padding: `clamp(${spacing.md}, 4vh, ${spacing.xl}) ${spacing.md}`,
   '@media': {
     'screen and (max-width: 768px)': {
-      padding: `clamp(${spacing.xs}, 2vh, ${spacing.md}) ${spacing.sm}`,
+      padding: '40px 24px',
+    },
+    'screen and (max-width: 480px)': {
+      padding: '32px 20px',
     },
     'screen and (max-height: 700px)': {
-      padding: `${spacing.sm} ${spacing.sm}`,
+      padding: '28px 20px',
     },
     'screen and (max-height: 600px)': {
-      padding: `${spacing.xs} ${spacing.sm}`,
+      padding: '24px 16px',
     },
   },
 });
@@ -461,11 +484,12 @@ export const ctaSection = style({
     linear-gradient(125deg, #667eea 0%, #764ba2 100%)
   `,
   color: colors.white,
-  padding: `clamp(${spacing.sm}, 3vh, ${spacing.lg}) ${spacing.sm}`,
+  padding: `${spacing.xl} ${spacing.md}`,
   textAlign: 'center',
   position: 'relative',
   overflow: 'hidden',
   backgroundSize: '150% 150%, 150% 150%, 150% 150%, 100% 100%',
+  minHeight: 'auto',
   
   // Grain texture for consistency
   '::before': {

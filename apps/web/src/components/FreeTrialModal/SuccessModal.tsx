@@ -1,10 +1,7 @@
 'use client';
 
 import confetti from 'canvas-confetti';
-import {
-  CheckCircle2,
-  X,
-} from 'lucide-react';
+import { CheckCircle2, X } from 'lucide-react';
 import { FC, useEffect, useRef } from 'react';
 
 import {
@@ -18,7 +15,6 @@ import {
   loginButton,
   loginInfoMessage,
   loginSection,
-  loginText,
   modalBackdrop,
   modalEnter,
   statusPill,
@@ -116,7 +112,7 @@ const SuccessModal: FC<Props> = ({
     <div className={modalBackdrop}>
       {/* Light purple blurred overlay */}
       <div className={celebrationOverlay} aria-hidden="true" />
-      
+
       {/* Modal content */}
       <div
         ref={modalRef}
@@ -125,80 +121,97 @@ const SuccessModal: FC<Props> = ({
         aria-labelledby="welcome-title"
         className={`${successModalCard} ${modalEnter}`}
       >
-          <button
-            ref={closeButtonRef}
-            type="button"
-            onClick={onClose}
-            className={closeButton}
-            aria-label="Close success modal"
-          >
-            <X size={24} />
-          </button>
+        <button
+          ref={closeButtonRef}
+          type="button"
+          onClick={onClose}
+          className={closeButton}
+          aria-label="Close success modal"
+        >
+          <X size={24} />
+        </button>
 
-          <div className={successHeader}>
-            <div className={titleRow}>
-              <span style={{ fontSize: '42px', display: 'flex', alignItems: 'center' }}>🎉</span>
-              <h2 id="welcome-title" className={successTitle}>
-                Welcome aboard!
-              </h2>
-              <div className={successBadge}>
-                <CheckCircle2 size={20} />
-              </div>
-            </div>
-            <p className={successSubtext}>Your 30-day S Cubed trial has started</p>
-          </div>
-
-          <div className={infoRow} aria-live="polite">
-            <div className={statusPill}>
-              <span className={chipIcon}>📅</span>
-              <div className={infoChip}>
-                <span className={chipLabel}>Ends</span>
-                <span className={chipValue}>{trialEndDate}</span>
-              </div>
-            </div>
-            <div className={statusPill}>
-              <span className={chipIcon}>🏷️</span>
-              <div className={infoChip}>
-                <span className={chipLabel}>Plan</span>
-                <span className={chipValue}>Free Trial</span>
-              </div>
-            </div>
-            <div className={statusPill}>
-              <span className={chipIcon}>🌍</span>
-              <div className={infoChip}>
-                <span className={chipLabel}>Timezone</span>
-                <span className={chipValue}>{timezone}</span>
-              </div>
-            </div>
-          </div>
-
-          <div className={successContent}>
-            <p>
-              🚀 Explore S Cubed and enjoy full access to all features during your trial.
-              <br />
-              <span className={successHighlight}>💜 We're excited to have you with us!</span>
-            </p>
-          </div>
-
-          <div className={loginSection}>
-            <p className={loginText}>What's next?</p>
-            <div className={loginInfoMessage}>
-              <strong>📧 Your login credentials will be sent to your registered email within 2 business days.</strong>
-              <br />
-              Once you receive them, you'll be able to log in to your S Cubed dashboard and start exploring our complete suite of practice management tools.
-            </div>
-            <button
-              onClick={() => {
-                // Close modal and redirect to home
-                onClose();
-                window.location.href = '/';
+        <div className={successHeader}>
+          <div className={titleRow}>
+            <span
+              style={{
+                fontSize: '42px',
+                display: 'flex',
+                alignItems: 'center',
               }}
-              className={loginButton}
-              aria-label="Go to homepage"
             >
-              Go to Home
-            </button>
+              🎉
+            </span>
+            <h2 id="welcome-title" className={successTitle}>
+              Welcome aboard!
+            </h2>
+            <div className={successBadge}>
+              <CheckCircle2 size={20} />
+            </div>
           </div>
+          <p className={successSubtext}>
+            Your 30-day S Cubed trial has started
+          </p>
+        </div>
+
+        <div className={infoRow} aria-live="polite">
+          <div className={statusPill}>
+            <span className={chipIcon}>📅</span>
+            <div className={infoChip}>
+              <span className={chipLabel}>Ends</span>
+              <span className={chipValue}>{trialEndDate}</span>
+            </div>
+          </div>
+          <div className={statusPill}>
+            <span className={chipIcon}>🏷️</span>
+            <div className={infoChip}>
+              <span className={chipLabel}>Plan</span>
+              <span className={chipValue}>Free Trial</span>
+            </div>
+          </div>
+          <div className={statusPill}>
+            <span className={chipIcon}>🌍</span>
+            <div className={infoChip}>
+              <span className={chipLabel}>Timezone</span>
+              <span className={chipValue}>{timezone}</span>
+            </div>
+          </div>
+        </div>
+
+        <div className={successContent}>
+          <p>
+            🚀 Explore S Cubed and enjoy full access to all features during your
+            trial.
+            <br />
+            <span className={successHighlight}>
+              💜 We're excited to have you with us!
+            </span>
+          </p>
+        </div>
+
+        <div className={loginSection}>
+          <div className={loginInfoMessage}>
+            <strong>
+              📧 Your login credentials will be sent to your registered email
+              within 2 business days.
+            </strong>
+            <br />
+            Once you receive them, you'll be able to log in to your S Cubed
+            dashboard and start exploring our complete suite of practice
+            management tools.
+          </div>
+          <button
+            onClick={() => {
+              // Close modal and redirect to home
+              onClose();
+              window.location.href = '/';
+            }}
+            className={loginButton}
+            aria-label="Go to homepage"
+          >
+            Go to Home
+          </button>
+        </div>
       </div>
     </div>
   );

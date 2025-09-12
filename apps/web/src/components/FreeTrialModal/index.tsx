@@ -9,7 +9,6 @@ import 'react-responsive-modal/styles.css';
 import isEmail from 'validator/lib/isEmail';
 import isMobilePhone from 'validator/lib/isMobilePhone';
 
-import ReCaptcha, { ReCaptchaRef } from '@/components/ReCaptcha';
 
 import {
   actionButtons,
@@ -49,6 +48,8 @@ import {
 } from './styles.css';
 import SuccessModal from './SuccessModal';
 import { formatNPI, formatTaxId, formatZipCode, phoneTrack } from './utils';
+
+import ReCaptcha, { ReCaptchaRef } from '@/components/ReCaptcha';
 
 type FreeTrialInputs = {
   // Clinic Details
@@ -508,15 +509,15 @@ const FreeTrialModal: FC<Props> = ({ isOpen, onClose, onSuccess }) => {
               <p className={modalSubtitle}>
                 Complete this quick form to activate your free trial
               </p>
+              <div className={progressBar}>
+                <div
+                  className={progressBarFill}
+                  style={{ width: `${getProgressPercentage()}%` }}
+                />
+              </div>
             </div>
 
-            <div className={progressBar}>
-              <div
-                className={progressBarFill}
-                style={{ width: `${getProgressPercentage()}%` }}
-              />
-            </div>
-            <form className={formWrapper} onSubmit={handleSubmit(onSubmit)}>
+            <form className={formWrapper} onSubmit={handleSubmit(onSubmit)} id="freeTrialForm">
               {submitResponse?.message && !submitResponse.success && (
                 <div className={errorBanner}>
                   <AlertCircle size={20} />
@@ -838,45 +839,47 @@ const FreeTrialModal: FC<Props> = ({ isOpen, onClose, onSuccess }) => {
                 </div>
               </div>
 
-              {/* Invisible reCAPTCHA */}
-              <ReCaptcha
-                ref={recaptchaRef}
-                size="invisible"
-                siteKey={process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY_V3}
-                onVerify={handleRecaptchaVerify}
-                onError={handleRecaptchaError}
-                onExpired={handleRecaptchaExpired}
-                error={recaptchaError}
-              />
-
-              <div className={actionButtons}>
-                <button
-                  type="button"
-                  onClick={handleClose}
-                  className={cancelButton}
-                  disabled={isSubmitting}
-                >
-                  Cancel
-                </button>
-                <button
-                  type="submit"
-                  className={submitButton}
-                  disabled={isSubmitting || !isFormValid()}
-                >
-                  {isSubmitting ? (
-                    <>
-                      <Loader2 size={16} className={loadingSpinner} />
-                      Creating Account...
-                    </>
-                  ) : (
-                    <>
-                      <Rocket size={18} />
-                      Start Free Trial
-                    </>
-                  )}
-                </button>
-              </div>
             </form>
+
+            {/* Invisible reCAPTCHA */}
+            <ReCaptcha
+              ref={recaptchaRef}
+              size="invisible"
+              siteKey={process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY_V3}
+              onVerify={handleRecaptchaVerify}
+              onError={handleRecaptchaError}
+              onExpired={handleRecaptchaExpired}
+              error={recaptchaError}
+            />
+
+            <div className={actionButtons}>
+              <button
+                type="button"
+                onClick={handleClose}
+                className={cancelButton}
+                disabled={isSubmitting}
+              >
+                Cancel
+              </button>
+              <button
+                type="submit"
+                form="freeTrialForm"
+                className={submitButton}
+                disabled={isSubmitting || !isFormValid()}
+              >
+                {isSubmitting ? (
+                  <>
+                    <Loader2 size={16} className={loadingSpinner} />
+                    Creating Account...
+                  </>
+                ) : (
+                  <>
+                    <Rocket size={18} />
+                    Start Free Trial
+                  </>
+                )}
+              </button>
+            </div>
       </div>
     </Modal>
   );

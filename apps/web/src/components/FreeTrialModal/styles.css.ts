@@ -29,10 +29,19 @@ export const modalContainer = style({
   overflowX: 'hidden',
   WebkitOverflowScrolling: 'touch', // Enable smooth scrolling on iOS
   '@media': {
+    '(max-width: 1024px)': {
+      height: '100%',
+      maxHeight: '100%',
+      display: 'flex',
+      flexDirection: 'column',
+      overflow: 'hidden', // Container itself doesn't scroll
+    },
     '(max-width: 640px)': {
-      maxHeight: 'calc(100vh - 60px)',
-      overflowY: 'auto',
-      WebkitOverflowScrolling: 'touch',
+      height: '100%',
+      maxHeight: '100%',
+      display: 'flex',
+      flexDirection: 'column',
+      overflow: 'hidden', // Container itself doesn't scroll
     },
   },
 });
@@ -44,6 +53,26 @@ export const modalOverlay = style({
   display: 'flex',
   alignItems: 'center',
   justifyContent: 'center',
+  '@media': {
+    '(max-width: 1024px)': {
+      position: 'fixed',
+      top: 0,
+      left: 0,
+      right: 0,
+      bottom: 0,
+      overflowY: 'hidden',
+      WebkitOverflowScrolling: 'touch',
+    },
+    '(max-width: 640px)': {
+      position: 'fixed',
+      top: 0,
+      left: 0,
+      right: 0,
+      bottom: 0,
+      overflowY: 'hidden',
+      WebkitOverflowScrolling: 'touch',
+    },
+  },
 });
 
 export const modalContent = style({
@@ -63,13 +92,27 @@ export const modalContent = style({
   overflow: 'visible', // Changed from hidden to visible
   maxHeight: '90vh',
   '@media': {
+    '(max-width: 1024px)': {
+      width: '90vw',
+      maxWidth: '90vw',
+      height: 'calc(100vh - 40px)',
+      maxHeight: 'calc(100vh - 40px)',
+      padding: '0',
+      display: 'flex',
+      flexDirection: 'column',
+      overflow: 'hidden',
+    },
     '(max-width: 640px)': {
       width: '95vw',
       maxWidth: '95vw',
-      padding: '24px 20px',
-      borderRadius: radius.xl,
+      height: 'calc(100vh - 40px)',
       maxHeight: 'calc(100vh - 40px)',
+      padding: '0',
+      borderRadius: radius.xl,
       margin: '20px auto',
+      display: 'flex',
+      flexDirection: 'column',
+      overflow: 'hidden',
     },
     '(max-height: 700px)': {
       padding: '20px 24px',
@@ -95,8 +138,25 @@ export const modalHeader = style({
   textAlign: 'center',
   marginBottom: '4px',
   '@media': {
+    '(max-width: 1024px)': {
+      padding: '20px 20px 10px',
+      marginBottom: '0',
+      position: 'sticky',
+      top: 0,
+      backgroundColor: colors.primary[50],
+      backgroundImage: 'linear-gradient(135deg, rgba(255, 255, 255, 0.95), rgba(122, 126, 237, 0.06))',
+      zIndex: 15,
+      borderBottom: `1px solid ${colors.neutral[200]}`,
+    },
     '(max-width: 640px)': {
-      marginBottom: '2px',
+      padding: '20px 20px 10px',
+      marginBottom: '0',
+      position: 'sticky',
+      top: 0,
+      backgroundColor: colors.primary[50],
+      backgroundImage: 'linear-gradient(135deg, rgba(255, 255, 255, 0.95), rgba(122, 126, 237, 0.06))',
+      zIndex: 15,
+      borderBottom: `1px solid ${colors.neutral[200]}`,
     },
     '(max-height: 700px)': {
       marginBottom: '2px',
@@ -144,6 +204,7 @@ export const closeButton = style({
   display: 'flex',
   alignItems: 'center',
   justifyContent: 'center',
+  zIndex: 20,
   ':hover': {
     backgroundColor: 'rgba(0, 0, 0, 0.05)',
     color: '#1a1a1a',
@@ -151,6 +212,20 @@ export const closeButton = style({
   ':focus': {
     outline: 'none',
     boxShadow: '0 0 0 2px rgba(139, 92, 246, 0.3)',
+  },
+  '@media': {
+    '(max-width: 1024px)': {
+      position: 'fixed',
+      top: '12px',
+      right: '12px',
+      zIndex: 30,
+    },
+    '(max-width: 640px)': {
+      position: 'fixed',
+      top: '12px',
+      right: '12px',
+      zIndex: 30,
+    },
   },
 });
 
@@ -162,6 +237,14 @@ export const progressBar = style({
   overflow: 'hidden',
   boxShadow: 'inset 0 1px 2px rgba(0, 0, 0, 0.05)',
   position: 'relative',
+  '@media': {
+    '(max-width: 1024px)': {
+      margin: '0 20px 8px',
+    },
+    '(max-width: 640px)': {
+      margin: '0 20px 8px',
+    },
+  },
 });
 
 export const progressBarFill = style({
@@ -195,12 +278,25 @@ export const formWrapper = style({
   maxHeight: 'calc(80vh - 200px)',
   WebkitOverflowScrolling: 'touch', // Enable smooth scrolling on iOS
   '@media': {
+    '(max-width: 1024px)': {
+      gap: '12px',
+      flex: 1,
+      overflowY: 'auto',
+      overflowX: 'hidden',
+      WebkitOverflowScrolling: 'touch',
+      padding: '12px 20px 20px',
+      maxHeight: 'none',
+      minHeight: 0,
+    },
     '(max-width: 640px)': {
       gap: '12px',
-      maxHeight: 'calc(100vh - 280px)', // Ensure space for button
+      flex: 1,
       overflowY: 'auto',
+      overflowX: 'hidden',
       WebkitOverflowScrolling: 'touch',
-      paddingBottom: '20px', // Add padding at bottom for better scrolling
+      padding: '12px 20px 20px',
+      maxHeight: 'none',
+      minHeight: 0,
     },
     '(max-height: 700px)': {
       maxHeight: 'calc(100vh - 250px)',
@@ -401,11 +497,33 @@ export const actionButtons = style({
   marginTop: 'auto',
   zIndex: 10,
   '@media': {
+    '(max-width: 1024px)': {
+      position: 'sticky',
+      bottom: 0,
+      left: 0,
+      right: 0,
+      padding: '15px 20px 20px',
+      backgroundColor: colors.primary[50],
+      backgroundImage: 'linear-gradient(135deg, rgba(255, 255, 255, 0.95), rgba(122, 126, 237, 0.06))',
+      borderTop: `1px solid ${colors.neutral[200]}`,
+      marginTop: '0',
+      zIndex: 15,
+      flexShrink: 0,
+    },
     '(max-width: 640px)': {
       flexDirection: 'column-reverse',
       gap: '10px',
-      paddingBottom: '10px',
-      paddingTop: '15px',
+      position: 'sticky',
+      bottom: 0,
+      left: 0,
+      right: 0,
+      padding: '15px 20px 20px',
+      backgroundColor: colors.primary[50],
+      backgroundImage: 'linear-gradient(135deg, rgba(255, 255, 255, 0.95), rgba(122, 126, 237, 0.06))',
+      borderTop: `1px solid ${colors.neutral[200]}`,
+      marginTop: '0',
+      zIndex: 15,
+      flexShrink: 0,
     },
   },
 });
@@ -624,4 +742,22 @@ export const privacyIcon = style({
   flexShrink: 0,
   marginTop: '2px',
   color: colors.primary[600],
+});
+
+// Ensure proper scrolling on all touch devices
+globalStyle('html, body', {
+  '@media': {
+    '(max-width: 1024px)': {
+      WebkitOverflowScrolling: 'touch',
+    },
+  },
+});
+
+// Add global styles for modal body scrolling
+globalStyle(`.${modalContent} *`, {
+  '@media': {
+    '(max-width: 1024px)': {
+      WebkitOverflowScrolling: 'touch',
+    },
+  },
 });
