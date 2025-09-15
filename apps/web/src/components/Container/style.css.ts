@@ -20,8 +20,8 @@ globalStyle('body', {
   maxWidth: '100vw',
 });
 
-export const ContainerStyle = style({ 
-  outline: `none`, 
+export const ContainerStyle = style({
+  outline: `none`,
   borderWidth: `1px`,
   width: '100%',
   maxWidth: '100vw',
@@ -143,7 +143,7 @@ export const mobileTabPanel = style({
 export const featureItems = style({
   display: 'flex',
   alignItems: 'flex-start',
-  gap: '30px',
+  gap: '50px',
   justifyContent: `space-between`,
   width: `100%`,
   '@media': {
@@ -162,6 +162,7 @@ export const standWrapper = style({
   display: 'flex',
   alignItems: 'flex-start',
   gap: `20px`,
+  flex: '1',
 });
 export const featureContainers = style({
   width: '100%',
@@ -384,11 +385,11 @@ export const descStyle = style({
 });
 export const disciplineImg = style({
   '@media': {
-    'screen and (max-width: 768px)': { 
+    'screen and (max-width: 768px)': {
       padding: `0 30px`,
       height: `200px`,
       width: `100%`,
-      objectFit: `contain`
+      objectFit: `contain`,
     },
     'screen and (min-width: 768px) and (max-width: 1200px)': {
       padding: `0 30px`,
