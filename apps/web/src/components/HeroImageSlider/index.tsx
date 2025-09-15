@@ -350,27 +350,18 @@ const HeroImageSlider: React.FC<HeroImageSliderProps> = ({
                         rel="noopener noreferrer nofollow"
                         className={heroSliderSecondaryButton}
                       >
-                        {isMobile && currentItem.secondaryLink.mobileText 
-                          ? currentItem.secondaryLink.mobileText 
+                        {isMobile && currentItem.secondaryLink.mobileText
+                          ? currentItem.secondaryLink.mobileText
                           : currentItem.secondaryLink.text}
                         <ExternalLink size={20} />
                       </a>
-                    ) : currentItem.secondaryLink.href === '/get-started' ? (
-                      <button
-                        onClick={openModal}
-                        className={heroSliderSecondaryButton}
-                      >
-                        {isMobile && currentItem.secondaryLink.mobileText 
-                          ? currentItem.secondaryLink.mobileText 
-                          : currentItem.secondaryLink.text}
-                      </button>
                     ) : (
-                      <Link 
-                        href={currentItem.secondaryLink.href} 
+                      <Link
+                        href={currentItem.secondaryLink.href}
                         className={heroSliderSecondaryButton}
                       >
-                        {isMobile && currentItem.secondaryLink.mobileText 
-                          ? currentItem.secondaryLink.mobileText 
+                        {isMobile && currentItem.secondaryLink.mobileText
+                          ? currentItem.secondaryLink.mobileText
                           : currentItem.secondaryLink.text}
                       </Link>
                     )
