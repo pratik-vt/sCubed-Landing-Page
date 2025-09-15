@@ -15,26 +15,23 @@ export const heroSliderSection = style({
   minHeight: '600px',
   maxHeight: '800px',
   overflow: 'hidden',
-  marginTop: '80px', // Account for fixed header (contact info + nav) - increased from 24px
+  marginTop: '24px', // Account for fixed header (contact info + nav)
   backgroundColor: '#f8fafc', // Light background to prevent black flash
   userSelect: 'none', // Prevent text selection during swipe
   WebkitUserSelect: 'none',
   touchAction: 'pan-y pinch-zoom', // Allow vertical scroll but handle horizontal swipes
   '@media': {
-    'screen and (max-width: 1024px)': {
-      marginTop: '140px', // iPad and tablet - account for stacked header
-    },
     'screen and (max-width: 768px)': {
       height: '70vh',
       minHeight: '500px',
       maxHeight: '600px',
-      marginTop: '160px', // Fixed header on mobile - increased from 128px
+      marginTop: '128px', // Fixed header on mobile
     },
     'screen and (max-width: 480px)': {
       height: '60vh',
       minHeight: '400px',
       maxHeight: '500px',
-      marginTop: '140px', // Fixed header on small mobile - increased from 96px
+      marginTop: '96px', // Fixed header on small mobile
     },
   },
 });
@@ -52,19 +49,6 @@ export const heroSliderContent = style({
   display: 'flex',
   alignItems: 'center',
   justifyContent: 'flex-start', // Changed from center to flex-start
-  paddingTop: '40px', // Add safe zone padding at top
-  paddingBottom: '40px', // Reduced bottom padding since indicators are now at the very bottom
-  boxSizing: 'border-box',
-  '@media': {
-    'screen and (max-width: 768px)': {
-      paddingTop: '30px', // Adjust padding for mobile
-      paddingBottom: '30px', // Reduced bottom padding
-    },
-    'screen and (max-width: 480px)': {
-      paddingTop: '20px', // Smaller padding on small mobile
-      paddingBottom: '20px', // Reduced bottom padding
-    },
-  },
 });
 
 export const heroSliderImageWrapper = style({
@@ -99,11 +83,9 @@ export const heroSliderTextContent = style({
   textAlign: 'left',
   color: colors.neutral[900],
   maxWidth: '800px',
-  padding: `${spacing.xl} ${spacing.lg}`, // Add vertical padding for safety
+  padding: `0 ${spacing.lg}`,
   marginLeft: '5%', // Add left margin to move content from edge
   marginRight: '5%', // Add right margin to prevent overlap with right button
-  marginTop: '0', // Ensure no extra top margin
-  marginBottom: '60px', // Fixed bottom margin to ensure space for indicators
   '@media': {
     'screen and (max-width: 1200px)': {
       maxWidth: '700px',
@@ -114,25 +96,21 @@ export const heroSliderTextContent = style({
       maxWidth: '600px',
       marginLeft: '10%', // Further increase margins at 960px
       marginRight: '10%',
-      padding: `${spacing.lg} ${spacing.md}`,
+      padding: `0 ${spacing.md}`,
     },
     'screen and (max-width: 768px)': {
       maxWidth: '450px',
-      padding: `${spacing.md} ${spacing.md}`,
+      padding: `${spacing.lg} ${spacing.md} 0`, // Add top padding on mobile
       marginLeft: '5%', // Reduce margins on mobile
       marginRight: '5%',
       textAlign: 'left',
-      marginTop: '20px', // Add top margin on mobile for extra safety
-      marginBottom: '80px', // More bottom margin on mobile to prevent overlap
     },
     'screen and (max-width: 480px)': {
       maxWidth: '320px',
-      padding: `${spacing.sm} ${spacing.sm}`,
+      padding: `${spacing.md} ${spacing.sm} 0`, // Add top padding on small mobile
       marginLeft: '8%', // Small margins on mobile
       marginRight: '8%',
       textAlign: 'left',
-      marginTop: '15px', // Add top margin on small mobile
-      marginBottom: '70px', // Ensure space between content and indicators
     },
   },
 });
@@ -277,9 +255,11 @@ export const heroSliderButtonContainer = style({
       flexDirection: 'column',
       gap: spacing.md,
       alignItems: 'flex-start',
+      marginBottom: '60px', // Add space for indicators on mobile
     },
     'screen and (max-width: 480px)': {
       gap: spacing.sm,
+      marginBottom: '50px', // Slightly less on smaller screens
     },
   },
 });
@@ -294,9 +274,11 @@ export const heroSliderButtonContainerCentered = style({
       flexDirection: 'column',
       gap: spacing.md,
       alignItems: 'center',
+      marginBottom: '60px', // Add space for indicators on mobile
     },
     'screen and (max-width: 480px)': {
       gap: spacing.sm,
+      marginBottom: '50px', // Slightly less on smaller screens
     },
   },
 });
@@ -378,19 +360,18 @@ export const heroSliderNextButton = style([
 
 export const heroSliderIndicators = style({
   position: 'absolute',
-  bottom: '20px', // Moved closer to bottom edge
+  bottom: spacing.xl,
   left: '50%',
   transform: 'translateX(-50%)',
   zIndex: 4,
   display: 'flex',
   gap: spacing.sm,
-  padding: '10px', // Add padding to create clickable area
   '@media': {
     'screen and (max-width: 768px)': {
-      bottom: '20px', // Keep consistent distance from bottom on mobile
+      bottom: '20px', // Fixed position to avoid button overlap on mobile
     },
     'screen and (max-width: 480px)': {
-      bottom: '15px', // Slightly closer on small mobile
+      bottom: '16px', // Slightly less on smaller mobile
     },
   },
 });
