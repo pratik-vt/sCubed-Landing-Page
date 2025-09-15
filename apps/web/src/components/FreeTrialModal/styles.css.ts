@@ -95,21 +95,22 @@ export const modalContent = style({
     '(max-width: 1024px)': {
       width: '90vw',
       maxWidth: '90vw',
-      height: 'calc(100vh - 40px)',
-      maxHeight: 'calc(100vh - 40px)',
+      height: 'calc(100vh - 60px)', // Increased margin to ensure bottom border is visible
+      maxHeight: 'calc(100vh - 60px)', // Increased margin to ensure bottom border is visible
       padding: '0',
       display: 'flex',
       flexDirection: 'column',
       overflow: 'hidden',
+      margin: '30px auto', // Added margin for better visibility
     },
     '(max-width: 640px)': {
       width: '95vw',
       maxWidth: '95vw',
-      height: 'calc(100vh - 40px)',
-      maxHeight: 'calc(100vh - 40px)',
+      height: 'calc(100vh - 60px)', // Increased margin to ensure bottom border is visible
+      maxHeight: 'calc(100vh - 60px)', // Increased margin to ensure bottom border is visible
       padding: '0',
       borderRadius: radius.xl,
-      margin: '20px auto',
+      margin: '30px auto', // Increased margin for better visibility
       display: 'flex',
       flexDirection: 'column',
       overflow: 'hidden',

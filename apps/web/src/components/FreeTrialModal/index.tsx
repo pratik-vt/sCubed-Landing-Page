@@ -108,6 +108,17 @@ const FreeTrialModal: FC<Props> = ({ isOpen, onClose, onSuccess }) => {
     useState<FreeTrialInputs | null>(null);
   const recaptchaRef = useRef<ReCaptchaRef>(null);
 
+  // Detect iOS devices (all browsers) to handle scroll issues
+  const isIosDevice = () => {
+    if (typeof window === 'undefined') return false;
+    const ua = window.navigator.userAgent;
+    // Check for iOS devices (iPhone, iPad, iPod)
+    const iOS = !!ua.match(/iPad/i) || !!ua.match(/iPhone/i) || !!ua.match(/iPod/i);
+    // Also check for iOS in standalone mode (PWA)
+    const isStandalone = (window.navigator as any).standalone === true;
+    return iOS || isStandalone;
+  };
+
   // Prevent body scroll when modal is open
   useEffect(() => {
     if (isOpen) {
@@ -459,6 +470,7 @@ const FreeTrialModal: FC<Props> = ({ isOpen, onClose, onSuccess }) => {
       center={true}
       closeOnEsc={false}
       closeOnOverlayClick={false}
+      blockScroll={!isIosDevice()} // Disable blockScroll for iOS devices to fix scrolling issues
       classNames={{
         modal: modalContent,
         overlay: modalOverlay,
@@ -482,10 +494,10 @@ const FreeTrialModal: FC<Props> = ({ isOpen, onClose, onSuccess }) => {
         },
         modal: {
           position: 'relative',
-          margin: '20px auto',
+          margin: '20px',
           maxWidth: '90vw',
           height: 'auto',
-          maxHeight: '90vh',
+          maxHeight: 'calc(100vh - 40px)', // Ensure modal doesn't exceed viewport minus margins
           overflowY: 'auto',
           overflowX: 'hidden',
           WebkitOverflowScrolling: 'touch',
