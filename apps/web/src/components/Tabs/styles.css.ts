@@ -11,17 +11,21 @@ export const tab = style({
   fontSize: `24px`,
   color: `#333`,
   fontWeight: `500`,
-  padding: `10px`,
-  transition: 'all 0.3s ease',
+  padding: `10px 10px 14px 10px`, // Extra bottom padding for border
+  marginBottom: '-4px', // Compensate for border height to align with tabsList border
+  transition: 'border-color 0.3s ease, background-color 0.3s ease',
+  flex: '1',
   '@media': {
     'screen and (max-width: 1024px)': {
       flex: '1 1 50%',
       minWidth: '150px',
+      marginBottom: '0',
     },
     'screen and (max-width: 768px)': {
       flex: '1 1 50%',
       fontSize: '18px',
       padding: '8px',
+      marginBottom: '0',
     },
     'screen and (max-width: 480px)': {
       flex: '1 1 50%',
@@ -31,7 +35,7 @@ export const tab = style({
 });
 export const tabsList = style({
   display: `flex`,
-  alignItems: `center`,
+  alignItems: `stretch`, // Keep this - needed for consistent tab heights
   justifyContent: `space-between`,
   borderBottom: `1px solid #ededef`,
   marginBottom: `35px`,

@@ -86,6 +86,8 @@ const Tabs: React.FC = () => {
                 borderBottom:
                   screenWidth > 768 && activeTab === index
                     ? '4px solid #7a7eed'
+                    : screenWidth > 768
+                    ? '4px solid transparent'
                     : 'none',
                 backgroundColor:
                   activeTab === index
