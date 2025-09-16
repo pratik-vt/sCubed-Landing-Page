@@ -8,6 +8,8 @@ export const heroSliderData: HeroSliderItem[] = [
     id: 'empowering-practice',
     title:
       'ABA Practice Management Software\nThat Empowers Your Practice\nAnd The People You Serve',
+    mobileTitle:
+      'ABA Practice Management Software That Empowers Your Practice And The People You Serve',
     description:
       'S Cubed is an all-in-one platform with powerful clinical tools, applied behavior analysis (ABA) data collection, and therapy practice management features, built to streamline operations and improve outcomes. Whether supporting healthcare clinics, ABA services, or school-based programs, S Cubed helps you deliver exceptional care with less hassle and greater efficiency.',
     image: {

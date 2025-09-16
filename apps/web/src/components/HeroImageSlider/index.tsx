@@ -34,6 +34,7 @@ import { useFreeTrialModal } from '@/contexts/FreeTrialModalContext';
 export interface HeroSliderItem {
   id: string;
   title: string;
+  mobileTitle?: string; // Optional mobile-specific title without line breaks
   description: string | React.ReactNode; // Allow JSX/HTML in description
   image: {
     src: string | StaticImageData;
@@ -317,7 +318,7 @@ const HeroImageSlider: React.FC<HeroImageSliderProps> = ({
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: 0.3 }}
             >
-              {currentItem.title}
+              {isMobile && currentItem.mobileTitle ? currentItem.mobileTitle : currentItem.title}
             </motion.h1>
             
             <motion.div
