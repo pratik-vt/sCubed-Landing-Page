@@ -123,12 +123,28 @@ export const heroSliderTitle = style({
   marginBottom: spacing.lg,
   whiteSpace: 'pre-line', // This allows \n characters to create line breaks
   '@media': {
-    'screen and (max-width: 768px)': {
-      fontSize: '2rem', // Set to 2rem as requested
+    // Tablet devices
+    'screen and (max-width: 1024px)': {
+      fontSize: '2.5rem', // Smaller for tablets
+      lineHeight: '1.2',
       marginBottom: spacing.md,
     },
+    // Mobile devices
+    'screen and (max-width: 768px)': {
+      fontSize: '1.75rem', // Smaller for mobile
+      lineHeight: '1.15',
+      marginBottom: spacing.md,
+    },
+    // Small mobile devices
     'screen and (max-width: 480px)': {
-      fontSize: '2rem', // Keep consistent 2rem on small mobile too
+      fontSize: '1.5rem', // Even smaller for small mobile
+      lineHeight: '1.1',
+      marginBottom: spacing.sm,
+    },
+    // Extra small devices (including iPhone 13 at 390px)
+    'screen and (max-width: 390px)': {
+      fontSize: '1.35rem', // Smallest size for extra small screens
+      lineHeight: '1.1',
       marginBottom: spacing.sm,
     },
   },
@@ -367,11 +383,15 @@ export const heroSliderIndicators = style({
   display: 'flex',
   gap: spacing.sm,
   '@media': {
+    // Hide indicators on tablets and below
+    'screen and (max-width: 1024px)': {
+      display: 'none', // Hide on tablets
+    },
     'screen and (max-width: 768px)': {
-      bottom: '20px', // Fixed position to avoid button overlap on mobile
+      display: 'none', // Hide on mobile
     },
     'screen and (max-width: 480px)': {
-      bottom: '16px', // Slightly less on smaller mobile
+      display: 'none', // Hide on small mobile
     },
   },
 });
