@@ -1,6 +1,8 @@
 import type { Metadata } from 'next';
 
+import BreadcrumbSchema from '../../components/BreadcrumbSchema';
 import Container from '../../components/Container';
+import FAQSchema from '../../components/FAQSchema';
 import FAQSection from '../../components/FAQSection';
 import BillingCTA from '../../components/billing/BillingCTA';
 import BillingFeatures from '../../components/billing/BillingFeatures';
@@ -66,23 +68,35 @@ async function getBillingFAQs() {
 export default async function BillingPage() {
   const faqData = await getBillingFAQs();
 
+  // Flatten all FAQ items for schema
+  const allFAQs = faqData.sections.flatMap(section => section.items);
+
   return (
-    <Container>
-      <BillingHero />
-      <BillingFeatures />
-      <BillingWorkflow />
-      <BillingKeyFeatures />
-      
-      {faqData.sections.map((section, index) => (
-        <FAQSection 
-          key={section.name}
-          title={index === 0 ? faqData.title : ""}
-          sectionTitle={section.name}
-          faqs={section.items}
-        />
-      ))}
-      
-      <BillingCTA />
-    </Container>
+    <>
+      <BreadcrumbSchema 
+        items={[
+          { name: 'Home', item: '/' },
+          { name: 'Billing', item: '/billing' }
+        ]} 
+      />
+      <FAQSchema faqs={allFAQs} pageSlug="billing" />
+      <Container>
+        <BillingHero />
+        <BillingFeatures />
+        <BillingWorkflow />
+        <BillingKeyFeatures />
+        
+        {faqData.sections.map((section, index) => (
+          <FAQSection 
+            key={section.name}
+            title={index === 0 ? faqData.title : ""}
+            sectionTitle={section.name}
+            faqs={section.items}
+          />
+        ))}
+        
+        <BillingCTA />
+      </Container>
+    </>
   );
 }

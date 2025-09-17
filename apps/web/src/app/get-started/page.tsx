@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 
+import BreadcrumbSchema from '../../components/BreadcrumbSchema';
 import Container from '../../components/Container';
 import GetStartedForm from '../../components/GetStartedForm';
 
@@ -13,8 +14,16 @@ export const metadata: Metadata = {
 
 export default function GetStartedPage() {
   return (
-    <Container>
-      <GetStartedForm />
-    </Container>
+    <>
+      <BreadcrumbSchema 
+        items={[
+          { name: 'Home', item: '/' },
+          { name: 'Get Started', item: '/get-started' }
+        ]} 
+      />
+      <Container>
+        <GetStartedForm />
+      </Container>
+    </>
   );
 }

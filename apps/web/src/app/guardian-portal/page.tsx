@@ -1,6 +1,8 @@
 import type { Metadata } from 'next';
 
+import BreadcrumbSchema from '../../components/BreadcrumbSchema';
 import Container from '../../components/Container';
+import FAQSchema from '../../components/FAQSchema';
 import FAQSection from '../../components/FAQSection';
 import GuardianBenefits from '../../components/guardian-portal/GuardianBenefits';
 import GuardianCTA from '../../components/guardian-portal/GuardianCTA';
@@ -116,23 +118,35 @@ async function getGuardianPortalFAQs() {
 export default async function GuardianPortalPage() {
   const faqData = await getGuardianPortalFAQs();
 
+  // Flatten all FAQ items for schema
+  const allFAQs = faqData.sections.flatMap(section => section.items);
+
   return (
-    <Container>
-      <GuardianHero />
-      <GuardianIntroduction />
-      <GuardianBenefits />
-      <GuardianWhyChoose />
-      
-      {faqData.sections.map((section, index) => (
-            <FAQSection 
-              key={section.name}
-              title={index === 0 ? faqData.title : ""}
-              sectionTitle={section.name}
-              faqs={section.items}
-            />
-          ))}
-      
-      <GuardianCTA />
-    </Container>
+    <>
+      <BreadcrumbSchema 
+        items={[
+          { name: 'Home', item: '/' },
+          { name: 'Guardian Portal', item: '/guardian-portal' }
+        ]} 
+      />
+      <FAQSchema faqs={allFAQs} pageSlug="guardian-portal" />
+      <Container>
+        <GuardianHero />
+        <GuardianIntroduction />
+        <GuardianBenefits />
+        <GuardianWhyChoose />
+        
+        {faqData.sections.map((section, index) => (
+              <FAQSection 
+                key={section.name}
+                title={index === 0 ? faqData.title : ""}
+                sectionTitle={section.name}
+                faqs={section.items}
+              />
+            ))}
+        
+        <GuardianCTA />
+      </Container>
+    </>
   );
 }

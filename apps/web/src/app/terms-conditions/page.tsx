@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 
+import BreadcrumbSchema from '../../components/BreadcrumbSchema';
 import { Heading, Section } from '../../components/Pages';
 import {
   olItemStyle,
@@ -19,6 +20,12 @@ export const metadata: Metadata = {
 export default function TermsPage() {
   return (
     <>
+      <BreadcrumbSchema 
+        items={[
+          { name: 'Home', item: '/' },
+          { name: 'Terms & Conditions', item: '/terms-conditions' }
+        ]} 
+      />
       <Heading>Terms & Conditions</Heading>
       <h3>Spectrum Solutions Software</h3>
       <Section>

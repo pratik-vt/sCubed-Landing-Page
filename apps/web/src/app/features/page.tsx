@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 
+import BreadcrumbSchema from '../../components/BreadcrumbSchema';
 import Container from '../../components/Container';
 import CTAFeatures from '../../components/features/CTAFeatures';
 import FeaturesComprehensive from '../../components/features/FeaturesComprehensive';
@@ -16,10 +17,18 @@ export const metadata: Metadata = {
 
 export default function FeaturesPage() {
   return (
-    <Container>
-      <HeroFeatures />
-      <FeaturesComprehensive />
-      <CTAFeatures />
-    </Container>
+    <>
+      <BreadcrumbSchema 
+        items={[
+          { name: 'Home', item: '/' },
+          { name: 'Features', item: '/features' }
+        ]} 
+      />
+      <Container>
+        <HeroFeatures />
+        <FeaturesComprehensive />
+        <CTAFeatures />
+      </Container>
+    </>
   );
 }

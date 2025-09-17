@@ -1,5 +1,6 @@
 import { Metadata } from 'next';
 
+import BreadcrumbSchema from '@/components/BreadcrumbSchema';
 import Layout from '@/components/Layout';
 import OurTeam from '@/components/OurTeam';
 
@@ -19,8 +20,16 @@ export const metadata: Metadata = {
 
 export default function OurTeamPage() {
   return (
-    <Layout>
-      <OurTeam />
-    </Layout>
+    <>
+      <BreadcrumbSchema 
+        items={[
+          { name: 'Home', item: '/' },
+          { name: 'Our Team', item: '/our-team' }
+        ]} 
+      />
+      <Layout>
+        <OurTeam />
+      </Layout>
+    </>
   );
 }

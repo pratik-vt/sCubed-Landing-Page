@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 
+import BreadcrumbSchema from '../../components/BreadcrumbSchema';
 import { Heading, Section } from '../../components/Pages';
 
 export const metadata: Metadata = {
@@ -14,6 +15,12 @@ export const metadata: Metadata = {
 export default function PrivacyPage() {
   return (
     <>
+      <BreadcrumbSchema 
+        items={[
+          { name: 'Home', item: '/' },
+          { name: 'Privacy Policy', item: '/privacy-policy' }
+        ]} 
+      />
       <Heading>Privacy Policy</Heading>
       <Section>
         <h3>Privacy Notice</h3> SCubed including (without limitation) our
