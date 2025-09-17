@@ -113,9 +113,9 @@ export const modalContent = style({
       flexDirection: 'column',
       overflow: 'hidden',
     },
-    '(max-height: 700px)': {
-      padding: '20px 24px',
-    },
+    // '(max-height: 700px)': {
+    //   padding: '20px 24px',
+    // },
   },
   // Add subtle inner glow
   '::before': {
