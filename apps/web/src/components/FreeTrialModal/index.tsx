@@ -244,89 +244,67 @@ const FreeTrialModal: FC<Props> = ({ isOpen, onClose, onSuccess }) => {
   };
 
   const submitToAPI = async (data: FreeTrialInputs, token: string) => {
-    // TODO: Uncomment when API is ready
-    // try {
-    //   const apiUrl = process.env.NEXT_PUBLIC_ADMIN_APP_API_URL;
-    //   const response = await fetch(`${apiUrl}/v1/clinics/free-trial`, {
-    //     method: 'POST',
-    //     headers: {
-    //       'Content-Type': 'application/json',
-    //     },
-    //     body: JSON.stringify({
-    //       clinic_name: data.clinicName,
-    //       tax_id: data.taxId,
-    //       npi: data.npi,
-    //       address_line_1: data.addressLine1,
-    //       address_line_2: data.addressLine2,
-    //       state_id: data.state,
-    //       city_id: data.city,
-    //       zip_code: data.zipCode,
-    //       timezone: data.timezone,
-    //       contact_name: data.fullName,
-    //       contact_email: data.email,
-    //       contact_phone: data.phoneNumber,
-    //       consent_to_contact: data.consentToContact,
-    //       recaptcha_token: token,
-    //     }),
-    //   });
-
-    //   if (response.ok) {
-    //     setSubmitResponse({
-    //       success: true,
-    //       message: 'Welcome to S Cubed! Your trial has started.',
-    //     });
-
-    //     setTimeout(() => {
-    //       handleClose();
-    //       if (onSuccess) {
-    //         onSuccess();
-    //       }
-    //     }, 2000);
-    //   } else {
-    //     const errorData = await response.json();
-    //     if (response.status === 422 && errorData.errors) {
-    //       const fieldErrors: Record<string, string> = {};
-    //       errorData.errors.forEach((error: any) => {
-    //         if (error.field && error.message) {
-    //           fieldErrors[error.field] = error.message;
-    //         }
-    //       });
-    //       setApiErrors(fieldErrors);
-    //       setSubmitResponse({
-    //         success: false,
-    //         message: 'Please correct the errors and try again.',
-    //       });
-    //     } else {
-    //       setSubmitResponse({
-    //         success: false,
-    //         message:
-    //           errorData.message || 'An error occurred. Please try again.',
-    //       });
-    //     }
-    //   }
-    // } catch (error) {
-    //   setSubmitResponse({
-    //     success: false,
-    //     message: 'Network error. Please check your connection and try again.',
-    //   });
-    // } finally {
-    //   setSubmitting(false);
-    // }
-
-    // Demo mode - Always succeed
     try {
-      // Simulate API call delay
-      await new Promise((resolve) => setTimeout(resolve, 1500));
-
-      setSubmitResponse({
-        success: true,
-        message: 'Welcome to S Cubed! Your trial has started.',
+      const response = await fetch('/api/free-trial', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          clinic_name: data.clinicName,
+          tax_id: data.taxId,
+          npi: data.npi,
+          address_line_1: data.addressLine1,
+          address_line_2: data.addressLine2,
+          state_id: data.state,
+          city_id: data.city,
+          zip_code: data.zipCode,
+          full_name: data.fullName,
+          email: data.email,
+          phone_number: data.phoneNumber,
+          consent_to_contact: data.consentToContact,
+          recaptcha_token: token,
+        }),
       });
+
+      if (response.ok) {
+        setSubmitResponse({
+          success: true,
+          message: 'Welcome to S Cubed! Your trial has started.',
+        });
+
+        setTimeout(() => {
+          handleClose();
+          if (onSuccess) {
+            onSuccess();
+          }
+        }, 2000);
+      } else {
+        const errorData = await response.json();
+        if (response.status === 422 && errorData.errors) {
+          const fieldErrors: Record<string, string> = {};
+          errorData.errors.forEach((error: any) => {
+            if (error.field && error.message) {
+              fieldErrors[error.field] = error.message;
+            }
+          });
+          setApiErrors(fieldErrors);
+          setSubmitResponse({
+            success: false,
+            message: 'Please correct the errors and try again.',
+          });
+        } else {
+          setSubmitResponse({
+            success: false,
+            message:
+              errorData.message || 'An error occurred. Please try again.',
+          });
+        }
+      }
     } catch (error) {
-      // This shouldn't happen in demo mode, but keeping for safety
       setSubmitResponse({
         success: false,
-        message: 'An unexpected error occurred. Please try again.',
+        message: 'Network error. Please check your connection and try again.',
       });
     } finally {
       setSubmitting(false);
@@ -763,11 +741,18 @@ const FreeTrialModal: FC<Props> = ({ isOpen, onClose, onSuccess }) => {
                 {...register('fullName', {
                   required: true, // Just validate, don't show message
                   minLength: { value: 2, message: 'Min 2 characters' },
+                  validate: (value) => {
+                    const nameParts = value.trim().split(/\s+/);
+                    if (nameParts.length < 2) {
+                      return 'Please enter your full name (first and last name)';
+                    }
+                    return true;
+                  },
                 })}
               />
-              {(errors.fullName || apiErrors.contact_name) && (
+              {(errors.fullName || apiErrors.contact_name || apiErrors.full_name) && (
                 <span className={errorMessage}>
-                  {errors.fullName?.message || apiErrors.contact_name}
+                  {errors.fullName?.message || apiErrors.contact_name || apiErrors.full_name}
                 </span>
               )}
             </div>
