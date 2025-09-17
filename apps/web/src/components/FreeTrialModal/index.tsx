@@ -494,10 +494,9 @@ const FreeTrialModal: FC<Props> = ({ isOpen, onClose, onSuccess }) => {
         },
         modal: {
           position: 'relative',
-          margin: '20px',
           maxWidth: '90vw',
           height: 'auto',
-          maxHeight: 'calc(100vh - 40px)', // Ensure modal doesn't exceed viewport minus margins
+          maxHeight: 'calc(100vh - 80px)', // Ensure modal doesn't exceed viewport minus margins
           overflowY: 'auto',
           overflowX: 'hidden',
           WebkitOverflowScrolling: 'touch',

@@ -30,14 +30,14 @@ export const modalContainer = style({
   WebkitOverflowScrolling: 'touch', // Enable smooth scrolling on iOS
   '@media': {
     '(max-width: 1024px)': {
-      height: '100%',
+      height: 'auto',
       maxHeight: '100%',
       display: 'flex',
       flexDirection: 'column',
       overflow: 'hidden', // Container itself doesn't scroll
     },
     '(max-width: 640px)': {
-      height: '100%',
+      height: 'auto',
       maxHeight: '100%',
       display: 'flex',
       flexDirection: 'column',
@@ -95,7 +95,6 @@ export const modalContent = style({
     '(max-width: 1024px)': {
       width: '90vw',
       maxWidth: '90vw',
-      height: 'calc(100vh - 60px)', // Increased margin to ensure bottom border is visible
       maxHeight: 'calc(100vh - 60px)', // Increased margin to ensure bottom border is visible
       padding: '0',
       display: 'flex',
@@ -106,7 +105,6 @@ export const modalContent = style({
     '(max-width: 640px)': {
       width: '95vw',
       maxWidth: '95vw',
-      height: 'calc(100vh - 60px)', // Increased margin to ensure bottom border is visible
       maxHeight: 'calc(100vh - 60px)', // Increased margin to ensure bottom border is visible
       padding: '0',
       borderRadius: radius.xl,
