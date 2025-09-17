@@ -3,19 +3,29 @@ import { style } from '@vanilla-extract/css';
 import { colors, typography, spacing, shadows, radius } from '../../../styles/tokens.css';
 
 export const listingContainer = style({
-  backgroundColor: colors.neutral[50],
   minHeight: '100vh',
+  backgroundColor: colors.neutral[50],
 });
 
 export const postsWrapper = style({
-  maxWidth: '1200px',
-  margin: '0 auto',
-  padding: `0 ${spacing.xl} ${spacing['3xl']}`,
+  maxWidth: '100%',
+  padding: `${spacing.xl} 0 ${spacing['3xl']}`,
   
   '@media': {
     '(max-width: 768px)': {
-      maxWidth: '100%',
-      padding: `0 ${spacing.sm} ${spacing['2xl']}`,
+      padding: `${spacing.lg} 0 ${spacing['2xl']}`,
+    },
+  },
+});
+
+export const postsContainer = style({
+  maxWidth: '1200px',
+  margin: '0 auto',
+  padding: `0 ${spacing.xl}`,
+  
+  '@media': {
+    '(max-width: 768px)': {
+      padding: `0 ${spacing.sm}`,
     },
   },
 });

@@ -5,6 +5,8 @@ import { Calendar, User } from 'lucide-react';
 
 // Import blog placeholder image
 import BlogPlaceholder from '../../../images/blog-placeholder.png';
+// Import hero background image
+import HeroBackground from '../../../images/S Cubed Insights & Updates.jpg';
 // Import Strapi utilities and types
 import { 
   BlogPost, 
@@ -18,6 +20,7 @@ import BlogPagination from './BlogPagination';
 import {
   listingContainer,
   postsWrapper,
+  postsContainer,
   postsGrid,
   postCard,
   postImage,
@@ -89,13 +92,33 @@ const BlogListing: React.FC<BlogListingProps> = ({
     <div className={listingContainer}>
       {/* Hero Section */}
       <div className="hero-section" style={{
-        background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+        position: 'relative',
         padding: '4rem 0 3rem',
-        marginBottom: '3rem',
         borderRadius: '0 0 24px 24px',
         color: 'white',
-        textAlign: 'center' as const
+        textAlign: 'center' as const,
+        overflow: 'hidden',
+        zIndex: 1,
       }}>
+        {/* Background Image */}
+        <div style={{
+          position: 'absolute',
+          top: 0,
+          left: 0,
+          right: 0,
+          bottom: 0,
+          zIndex: -2,
+          borderRadius: '0 0 24px 24px',
+          overflow: 'hidden'
+        }}>
+          <Image
+            src={HeroBackground}
+            alt="S Cubed Insights & Updates"
+            fill
+            style={{ objectFit: 'cover' }}
+            priority
+          />
+        </div>
         <div style={{
           maxWidth: '800px',
           margin: '0 auto',
@@ -118,22 +141,23 @@ const BlogListing: React.FC<BlogListingProps> = ({
 
       {/* Posts Section */}
       <div className={postsWrapper}>
-        {initialPosts.length === 0 && !error ? (
-          // No posts state
-          <div className="text-center py-12">
-            <div className="bg-gray-50 rounded-lg p-8 max-w-md mx-auto">
-              <h3 className="text-lg font-semibold text-gray-800 mb-2">
-                No Blog Posts Yet
-              </h3>
-              <p className="text-gray-600">
-                Check back soon for our latest insights and updates!
-              </p>
+        <div className={postsContainer}>
+          {initialPosts.length === 0 && !error ? (
+            // No posts state
+            <div className="text-center py-12">
+              <div className="bg-gray-50 rounded-lg p-8 max-w-md mx-auto">
+                <h3 className="text-lg font-semibold text-gray-800 mb-2">
+                  No Blog Posts Yet
+                </h3>
+                <p className="text-gray-600">
+                  Check back soon for our latest insights and updates!
+                </p>
+              </div>
             </div>
-          </div>
-        ) : (
-          // Posts grid
-          <div className={postsGrid}>
-            {initialPosts.map((post) => {
+          ) : (
+            // Posts grid
+            <div className={postsGrid}>
+              {initialPosts.map((post) => {
               const featuredImageUrl = post.featured_image 
                 ? getStrapiImageUrl(post.featured_image) 
                 : '';
@@ -193,20 +217,21 @@ const BlogListing: React.FC<BlogListingProps> = ({
                   </Link>
                 </article>
               );
-            })}
-          </div>
-        )}
+              })}
+            </div>
+          )}
 
-        {/* Pagination Component */}
-        {pagination && pagination.pageCount > 1 && (
-          <BlogPagination
-            currentPage={currentPage}
-            totalPages={pagination.pageCount}
-            searchQuery={searchQuery}
-            categoryFilter={categoryFilter}
-            tagFilter={tagFilter}
-          />
-        )}
+          {/* Pagination Component */}
+          {pagination && pagination.pageCount > 1 && (
+            <BlogPagination
+              currentPage={currentPage}
+              totalPages={pagination.pageCount}
+              searchQuery={searchQuery}
+              categoryFilter={categoryFilter}
+              tagFilter={tagFilter}
+            />
+          )}
+        </div>
       </div>
     </div>
   );
