@@ -23,6 +23,7 @@ Sitemap: ${siteUrl}/sitemap.xml`,
   return new NextResponse(
     `User-agent: *
 Allow: /
+Disallow: /?tag*
 
 Sitemap: ${siteUrl}/sitemap.xml`,
     {
