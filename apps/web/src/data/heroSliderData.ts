@@ -40,7 +40,7 @@ export const heroSliderData: HeroSliderItem[] = [
       height: 800,
       mobileSrc: USATodayMobileImage, // Optional mobile image
       // position: 'center right', // Keep person visible on desktop
-      mobilePosition: 'center center', // Center the person on mobile
+      mobilePosition: 'right center', // Center the person on mobile
     },
     link: {
       href: 'https://www.usatoday.com/story/special/contributor-content/2025/08/28/from-playing-school-to-building-trevors-place-how-one-mothers-journey-became-a-lifeline-for-families/85873205007/',

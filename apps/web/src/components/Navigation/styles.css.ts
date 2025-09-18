@@ -1,4 +1,4 @@
-import { style, keyframes, globalStyle } from '@vanilla-extract/css';
+import { globalStyle, keyframes, style } from '@vanilla-extract/css';
 
 // Animation for sliding header to top
 const slideToTop = keyframes({
@@ -41,8 +41,8 @@ export const contactInfoContainer = style({
   maxWidth: '100vw',
   overflowX: 'hidden',
   boxSizing: 'border-box',
-  '@media': { 
-    'screen and (max-width: 1024px)': { padding: '8px 0' } 
+  '@media': {
+    'screen and (max-width: 1024px)': { padding: '8px 0' },
   },
 });
 
@@ -133,8 +133,8 @@ export const contactInfoItem = style({
   justifyContent: 'center',
   fontSize: '14px',
   gap: '5px',
-  '@media': { 
-    'screen and (max-width: 1024px)': { justifyContent: 'center' } 
+  '@media': {
+    'screen and (max-width: 1024px)': { justifyContent: 'center' },
   },
 });
 
@@ -171,11 +171,11 @@ export const navStyle = style({
   marginRight: '50px',
   position: 'relative',
   '@media': {
-    'screen and (max-width: 1200px)': { 
+    'screen and (max-width: 1200px)': {
       fontSize: '16px',
-      marginRight: '30px'
+      marginRight: '30px',
     },
-    'screen and (max-width: 1024px)': { 
+    'screen and (max-width: 1024px)': {
       fontSize: '18px',
       marginRight: '0',
       padding: '12px 30px',
@@ -189,7 +189,7 @@ export const navStyle = style({
         backgroundColor: 'rgba(122, 126, 237, 0.05)',
       },
     },
-    'screen and (max-width: 768px)': { 
+    'screen and (max-width: 768px)': {
       marginRight: '0',
       fontSize: '16px',
       padding: '10px 25px',
@@ -273,6 +273,9 @@ export const navMenu = style({
       scrollbarWidth: 'thin',
       scrollbarColor: '#7a7eed #f0f0f0',
     },
+    '(min-width: 769px) and (max-width:1024px)': {
+      top: '103px',
+    },
     // Extra small devices
     '(max-width: 640px)': {
       gap: '10px',
@@ -285,7 +288,7 @@ export const navMenu = style({
   },
 });
 
-export const navMenuOpen = style({ 
+export const navMenuOpen = style({
   display: 'flex !important',
   '@media': {
     '(max-width: 1024px)': {
@@ -304,19 +307,19 @@ export const activeLinkStyle = style({
   bottom: '-20px',
   left: '50%',
   transform: 'translateX(-50%)',
-  '@media': { 
-    'screen and (max-width: 1024px)': { 
+  '@media': {
+    'screen and (max-width: 1024px)': {
       width: '60px',
       height: '3px',
       bottom: '-5px',
       borderRadius: '2px',
     },
-    'screen and (max-width: 768px)': { 
+    'screen and (max-width: 768px)': {
       width: '60px',
       height: '3px',
       bottom: '-5px',
       borderRadius: '2px',
-    } 
+    },
   },
 });
 
@@ -416,8 +419,8 @@ export const loginButton = style({
   },
   ':active': { transform: 'scale(0.98)' },
   '@media': {
-    'screen and (max-width: 1024px)': { 
-      padding: '12px 40px', 
+    'screen and (max-width: 1024px)': {
+      padding: '12px 40px',
       fontSize: '16px',
       width: '200px',
       border: '2px solid #7a7eed',
@@ -425,8 +428,8 @@ export const loginButton = style({
       textAlign: 'center',
       display: 'block',
     },
-    'screen and (max-width: 768px)': { 
-      padding: '10px 35px', 
+    'screen and (max-width: 768px)': {
+      padding: '10px 35px',
       fontSize: '15px',
       width: '180px',
       textAlign: 'center',
@@ -479,8 +482,8 @@ export const tryForFreeButton = style({
   },
   selectors: { '&:hover:before': { width: '300px', height: '300px' } },
   '@media': {
-    'screen and (max-width: 1024px)': { 
-      padding: '14px 40px', 
+    'screen and (max-width: 1024px)': {
+      padding: '14px 40px',
       fontSize: '16px',
       marginLeft: '0',
       marginTop: '10px',
@@ -489,8 +492,8 @@ export const tryForFreeButton = style({
       textAlign: 'center',
       display: 'block',
     },
-    'screen and (max-width: 768px)': { 
-      padding: '12px 35px', 
+    'screen and (max-width: 768px)': {
+      padding: '12px 35px',
       fontSize: '15px',
       marginLeft: '0',
       width: '180px',

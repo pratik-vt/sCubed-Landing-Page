@@ -28,19 +28,19 @@
   width: 100vw !important;
   height: 100vh !important;
   min-height: 100vh !important;
-  
+
   /* Flexbox centering - modern best practice */
   display: flex !important;
   align-items: center !important;
   justify-content: center !important;
-  
+
   /* Visual styling */
   background-color: rgba(0, 0, 0, 0.6) !important;
   backdrop-filter: blur(8px) !important;
-  
+
   /* Z-index */
   z-index: 99999999 !important;
-  
+
   /* Padding to prevent edge clipping */
   padding: 20px !important;
   box-sizing: border-box !important;
@@ -93,24 +93,24 @@ body:has(.react-responsive-modal-overlay) {
   right: auto !important;
   bottom: auto !important;
   transform: none !important;
-  
+
   /* Remove margins that interfere with flexbox centering */
   margin: 0 !important;
-  
+
   /* Size constraints */
   max-width: 90vw !important;
-  max-height: 85vh !important;
-  
+  max-height: 80vh !important;
+
   /* Overflow handling for tall content */
   overflow: auto !important;
-  
+
   /* Z-index */
   z-index: 999999999 !important;
-  
+
   /* Border radius and styling */
   border-radius: 12px !important;
   background: white !important;
-  
+
   /* Ensure box-sizing */
   box-sizing: border-box !important;
 }

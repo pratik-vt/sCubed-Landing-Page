@@ -76,7 +76,8 @@ const FreeTrialModal: FC<Props> = ({ isOpen, onClose, onSuccess }) => {
   }>();
   const [apiErrors, setApiErrors] = useState<Record<string, string>>({});
   const [recaptchaError, setRecaptchaError] = useState<string | null>(null);
-  const [pendingFormData, setPendingFormData] = useState<FreeTrialInputs | null>(null);
+  const [pendingFormData, setPendingFormData] =
+    useState<FreeTrialInputs | null>(null);
   const recaptchaRef = useRef<ReCaptchaRef>(null);
   const {
     register,
@@ -204,16 +205,15 @@ const FreeTrialModal: FC<Props> = ({ isOpen, onClose, onSuccess }) => {
           message: 'Welcome to S Cubed! Your trial has started.',
         });
 
-        setTimeout(() => {
-          handleClose();
-          if (onSuccess) {
-            onSuccess();
-          }
-        }, 2000);
+        if (onSuccess) {
+          onSuccess();
+        }
       } else {
         const errorData = await response.json();
         if (response.status === 422 && errorData.errors) {
-          const { fieldErrors, displayMessage } = processApiErrors(errorData.errors);
+          const { fieldErrors, displayMessage } = processApiErrors(
+            errorData.errors,
+          );
           setApiErrors(fieldErrors);
           setSubmitResponse({
             success: false,
@@ -222,7 +222,8 @@ const FreeTrialModal: FC<Props> = ({ isOpen, onClose, onSuccess }) => {
         } else {
           setSubmitResponse({
             success: false,
-            message: errorData.message || 'An error occurred. Please try again.',
+            message:
+              errorData.message || 'An error occurred. Please try again.',
           });
         }
       }
@@ -301,7 +302,9 @@ const FreeTrialModal: FC<Props> = ({ isOpen, onClose, onSuccess }) => {
   };
 
   const isFieldValid = (fieldName: keyof FreeTrialInputs) => {
-    return touchedFields[fieldName] && !errors[fieldName] && !apiErrors[fieldName];
+    return (
+      touchedFields[fieldName] && !errors[fieldName] && !apiErrors[fieldName]
+    );
   };
 
   const getInputClassName = (fieldName: keyof FreeTrialInputs) => {
@@ -325,7 +328,10 @@ const FreeTrialModal: FC<Props> = ({ isOpen, onClose, onSuccess }) => {
   };
 
   if (submitResponse?.success) {
-    const timezoneDisplay = getSelectedStateTimezone(selectedState, states).replace(/_/g, ' ');
+    const timezoneDisplay = getSelectedStateTimezone(
+      selectedState,
+      states,
+    ).replace(/_/g, ' ');
 
     return (
       <SuccessModal
@@ -608,7 +614,9 @@ const FreeTrialModal: FC<Props> = ({ isOpen, onClose, onSuccess }) => {
                   })}
                 />
                 {errors.zipCode && (
-                  <span className={errorMessage}>{errors.zipCode?.message}</span>
+                  <span className={errorMessage}>
+                    {errors.zipCode?.message}
+                  </span>
                 )}
               </div>
             </div>

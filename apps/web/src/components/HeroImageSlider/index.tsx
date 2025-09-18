@@ -291,7 +291,8 @@ const HeroImageSlider: React.FC<HeroImageSliderProps> = ({
                 style={{ 
                   objectPosition: currentImagePosition,
                   filter: imagesLoaded[currentIndex] ? 'none' : 'blur(5px)',
-                  transition: 'filter 0.3s ease-in-out'
+                  transition: 'filter 0.3s ease-in-out',
+                  objectFit: 'cover',
                 }}
               />
               <div className={heroSliderOverlay} />

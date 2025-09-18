@@ -1,6 +1,6 @@
-import { style, keyframes } from '@vanilla-extract/css';
+import { keyframes, style } from '@vanilla-extract/css';
 
-import { colors, shadows, radius, typography } from '@/styles/tokens.css';
+import { typography } from '@/styles/tokens.css';
 
 // Animations
 const fadeInScale = keyframes({
@@ -109,6 +109,7 @@ export const closeButton = style({
   display: 'flex',
   alignItems: 'center',
   justifyContent: 'center',
+  outline: 'none',
   ':hover': {
     backgroundColor: 'rgba(139, 92, 246, 0.08)',
     color: '#6b7280',
@@ -116,6 +117,12 @@ export const closeButton = style({
   ':focus': {
     outline: '2px solid rgba(139, 92, 246, 0.4)',
     outlineOffset: '2px',
+  },
+  '@media': {
+    '(max-width: 768px)': {
+      top: '4px',
+      right: '4px',
+    },
   },
 });
 
