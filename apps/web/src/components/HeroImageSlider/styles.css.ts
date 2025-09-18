@@ -99,7 +99,7 @@ export const heroSliderTextContent = style({
       padding: `0 ${spacing.md}`,
     },
     'screen and (max-width: 768px)': {
-      maxWidth: '450px',
+      maxWidth: '80%',
       padding: `${spacing.lg} ${spacing.md} 0`, // Add top padding on mobile
       marginLeft: '5%', // Reduce margins on mobile
       marginRight: '5%',
@@ -157,7 +157,7 @@ export const heroSliderDescription = style({
   marginBottom: spacing['2xl'],
   opacity: 0.9,
   '@media': {
-    'screen and (max-width: 768px)': {
+    'screen and (max-width: 767px)': {
       display: 'none', // Hide description on mobile
     },
   },

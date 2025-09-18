@@ -1,6 +1,6 @@
-import { style, keyframes, globalStyle } from '@vanilla-extract/css';
+import { globalStyle, keyframes, style } from '@vanilla-extract/css';
 
-import { colors, shadows, radius, typography } from '@/styles/tokens.css';
+import { colors, radius, shadows, typography } from '@/styles/tokens.css';
 
 const fadeIn = keyframes({
   from: {
@@ -19,6 +19,8 @@ const spin = keyframes({
 });
 
 export const modalContainer = style({
+  padding: '40px',
+  boxSizing: 'border-box',
   position: 'relative',
   width: '100%',
   display: 'flex',
@@ -34,9 +36,11 @@ export const modalContainer = style({
       maxHeight: '100%',
       display: 'flex',
       flexDirection: 'column',
+      padding: '0px',
       overflow: 'hidden', // Container itself doesn't scroll
     },
     '(max-width: 640px)': {
+      padding: '0px',
       height: 'auto',
       maxHeight: '100%',
       display: 'flex',
@@ -79,7 +83,8 @@ export const modalContent = style({
   width: '720px',
   maxWidth: '90vw',
   backgroundColor: colors.primary[50],
-  backgroundImage: 'linear-gradient(135deg, rgba(255, 255, 255, 0.95), rgba(122, 126, 237, 0.06))',
+  backgroundImage:
+    'linear-gradient(135deg, rgba(255, 255, 255, 0.95), rgba(122, 126, 237, 0.06))',
   boxShadow: `${shadows.purple}, 0 25px 50px -12px rgba(0, 0, 0, 0.25)`,
   padding: '36px 40px',
   borderRadius: '24px',
@@ -125,7 +130,8 @@ export const modalContent = style({
     left: 0,
     right: 0,
     height: '2px',
-    background: 'linear-gradient(90deg, transparent, rgba(122, 126, 237, 0.4), transparent)',
+    background:
+      'linear-gradient(90deg, transparent, rgba(122, 126, 237, 0.4), transparent)',
     zIndex: 1,
   },
 });
@@ -143,7 +149,8 @@ export const modalHeader = style({
       position: 'sticky',
       top: 0,
       backgroundColor: colors.primary[50],
-      backgroundImage: 'linear-gradient(135deg, rgba(255, 255, 255, 0.95), rgba(122, 126, 237, 0.06))',
+      backgroundImage:
+        'linear-gradient(135deg, rgba(255, 255, 255, 0.95), rgba(122, 126, 237, 0.06))',
       zIndex: 15,
       borderBottom: `1px solid ${colors.neutral[200]}`,
     },
@@ -153,7 +160,8 @@ export const modalHeader = style({
       position: 'sticky',
       top: 0,
       backgroundColor: colors.primary[50],
-      backgroundImage: 'linear-gradient(135deg, rgba(255, 255, 255, 0.95), rgba(122, 126, 237, 0.06))',
+      backgroundImage:
+        'linear-gradient(135deg, rgba(255, 255, 255, 0.95), rgba(122, 126, 237, 0.06))',
       zIndex: 15,
       borderBottom: `1px solid ${colors.neutral[200]}`,
     },
@@ -167,7 +175,7 @@ export const modalTitle = style({
   fontSize: typography.fontSize['2xl'], // 24px - More prominent
   fontWeight: typography.fontWeight.bold,
   color: colors.neutral[900], // Deep neutral
-  marginBottom: '4px', // Tighter spacing to subtitle
+  margin: '0 0 4px 0', // Tighter spacing to subtitle
   lineHeight: typography.lineHeight.tight,
   fontFamily: typography.fontFamily.heading,
   background: `linear-gradient(135deg, ${colors.neutral[900]}, ${colors.primary[700]})`,
@@ -187,12 +195,14 @@ export const modalSubtitle = style({
   lineHeight: typography.lineHeight.relaxed,
   fontFamily: typography.fontFamily.body,
   opacity: 0.9,
+  margin: '0px',
 });
 
 export const closeButton = style({
   position: 'absolute',
-  top: '16px',
-  right: '16px',
+  top: '10px',
+  boxShadow: 'none !important',
+  right: '10px',
   padding: '8px',
   backgroundColor: 'transparent',
   border: 'none',
@@ -215,14 +225,14 @@ export const closeButton = style({
   '@media': {
     '(max-width: 1024px)': {
       position: 'fixed',
-      top: '12px',
-      right: '12px',
+      top: '10px',
+      right: '10px',
       zIndex: 30,
     },
     '(max-width: 640px)': {
       position: 'fixed',
-      top: '12px',
-      right: '12px',
+      top: '5px',
+      right: '5px',
       zIndex: 30,
     },
   },
@@ -260,7 +270,8 @@ export const progressBarFill = style({
     left: 0,
     right: 0,
     bottom: 0,
-    background: 'linear-gradient(90deg, transparent 0%, rgba(255, 255, 255, 0.2) 50%, transparent 100%)',
+    background:
+      'linear-gradient(90deg, transparent 0%, rgba(255, 255, 255, 0.2) 50%, transparent 100%)',
     borderRadius: radius.full,
   },
 });
@@ -492,7 +503,8 @@ export const actionButtons = style({
   position: 'sticky',
   bottom: 0,
   backgroundColor: colors.primary[50],
-  backgroundImage: 'linear-gradient(135deg, rgba(255, 255, 255, 0.95), rgba(122, 126, 237, 0.06))',
+  backgroundImage:
+    'linear-gradient(135deg, rgba(255, 255, 255, 0.95), rgba(122, 126, 237, 0.06))',
   marginTop: 'auto',
   zIndex: 10,
   '@media': {
@@ -503,7 +515,8 @@ export const actionButtons = style({
       right: 0,
       padding: '15px 20px 20px',
       backgroundColor: colors.primary[50],
-      backgroundImage: 'linear-gradient(135deg, rgba(255, 255, 255, 0.95), rgba(122, 126, 237, 0.06))',
+      backgroundImage:
+        'linear-gradient(135deg, rgba(255, 255, 255, 0.95), rgba(122, 126, 237, 0.06))',
       borderTop: `1px solid ${colors.neutral[200]}`,
       marginTop: '0',
       zIndex: 15,
@@ -518,7 +531,8 @@ export const actionButtons = style({
       right: 0,
       padding: '15px 20px 20px',
       backgroundColor: colors.primary[50],
-      backgroundImage: 'linear-gradient(135deg, rgba(255, 255, 255, 0.95), rgba(122, 126, 237, 0.06))',
+      backgroundImage:
+        'linear-gradient(135deg, rgba(255, 255, 255, 0.95), rgba(122, 126, 237, 0.06))',
       borderTop: `1px solid ${colors.neutral[200]}`,
       marginTop: '0',
       zIndex: 15,
@@ -598,7 +612,8 @@ export const submitButton = style({
     left: '-100%',
     width: '100%',
     height: '100%',
-    background: 'linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent)',
+    background:
+      'linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent)',
     transition: 'left 0.6s ease',
   },
   // Note: Hover animation handled by transition on ::before

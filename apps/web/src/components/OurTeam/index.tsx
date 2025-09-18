@@ -329,7 +329,9 @@ const OurTeam = () => {
         >
           <motion.h2 className={styles.sectionTitle} variants={fadeInUp}>
             Why Therapists{' '}
-            <span style={{ color: '#7a7eed' }}>Choose S Cubed</span>
+            <span style={{ color: '#7a7eed' }}>
+              Choose <div style={{ display: 'inline-block' }}>S Cubed</div>
+            </span>
           </motion.h2>
           <motion.p className={styles.sectionSubtitle} variants={fadeInUp}>
             The platform that grows with you, supports you, and never slows you
