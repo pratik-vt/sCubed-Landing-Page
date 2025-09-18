@@ -9,6 +9,15 @@ import 'react-responsive-modal/styles.css';
 import isEmail from 'validator/lib/isEmail';
 import isMobilePhone from 'validator/lib/isMobilePhone';
 
+import { REQUIRED_FIELDS } from './constants';
+import {
+  CityOption,
+  FreeTrialInputs,
+  StateOption,
+  getSelectedStateTimezone,
+  isIosDevice,
+  processApiErrors,
+} from './helpers';
 import {
   actionButtons,
   cancelButton,
@@ -49,43 +58,6 @@ import { formatNPI, formatTaxId, formatZipCode, phoneTrack } from './utils';
 
 import ReCaptcha, { ReCaptchaRef } from '@/components/ReCaptcha';
 
-type FreeTrialInputs = {
-  // Clinic Details
-  clinicName: string;
-  taxId: string;
-  npi: string;
-  addressLine1: string;
-  addressLine2?: string;
-  state: string;
-  city: string;
-  zipCode: string;
-
-  // Primary Contact Information
-  fullName: string;
-  email: string;
-  phoneNumber: string;
-
-  // Consent
-  consentToContact: boolean;
-};
-
-type StateOption = {
-  id: number;
-  name: string;
-  code: string;
-  timezones: Array<{
-    timezone_id: number;
-    timezone: {
-      timezone: string;
-    };
-  }>;
-};
-
-type CityOption = {
-  id: string;
-  name: string;
-};
-
 type Props = {
   isOpen: boolean;
   onClose: () => void;
@@ -104,33 +76,8 @@ const FreeTrialModal: FC<Props> = ({ isOpen, onClose, onSuccess }) => {
   }>();
   const [apiErrors, setApiErrors] = useState<Record<string, string>>({});
   const [recaptchaError, setRecaptchaError] = useState<string | null>(null);
-  const [pendingFormData, setPendingFormData] =
-    useState<FreeTrialInputs | null>(null);
+  const [pendingFormData, setPendingFormData] = useState<FreeTrialInputs | null>(null);
   const recaptchaRef = useRef<ReCaptchaRef>(null);
-
-  // Detect iOS devices (all browsers) to handle scroll issues
-  const isIosDevice = () => {
-    if (typeof window === 'undefined') return false;
-    const ua = window.navigator.userAgent;
-    // Check for iOS devices (iPhone, iPad, iPod)
-    const iOS = !!ua.match(/iPad/i) || !!ua.match(/iPhone/i) || !!ua.match(/iPod/i);
-    // Also check for iOS in standalone mode (PWA)
-    const isStandalone = (window.navigator as any).standalone === true;
-    return iOS || isStandalone;
-  };
-
-  // Prevent body scroll when modal is open
-  useEffect(() => {
-    if (isOpen) {
-      document.body.style.overflow = 'hidden';
-    } else {
-      document.body.style.overflow = '';
-    }
-    return () => {
-      document.body.style.overflow = '';
-    };
-  }, [isOpen]);
-
   const {
     register,
     handleSubmit,
@@ -144,29 +91,23 @@ const FreeTrialModal: FC<Props> = ({ isOpen, onClose, onSuccess }) => {
   });
 
   const selectedState = watch('state');
-
-  // Get timezone from selected state
-  const getSelectedStateTimezone = () => {
-    if (!selectedState || !states.length) return 'America/New_York'; // Default timezone
-
-    const stateData = states.find(
-      (state) => state.id.toString() === selectedState,
-    );
-    if (stateData?.timezones && stateData.timezones.length > 0) {
-      return stateData.timezones[0].timezone.timezone;
+  useEffect(() => {
+    if (isOpen) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = '';
     }
+    return () => {
+      document.body.style.overflow = '';
+    };
+  }, [isOpen]);
 
-    return 'America/New_York'; // Fallback timezone
-  };
-
-  // Fetch states on component mount
   useEffect(() => {
     if (isOpen) {
       fetchStates();
     }
   }, [isOpen]);
 
-  // Fetch cities when state changes
   useEffect(() => {
     if (selectedState) {
       fetchCities(selectedState);
@@ -233,16 +174,6 @@ const FreeTrialModal: FC<Props> = ({ isOpen, onClose, onSuccess }) => {
     }
   };
 
-  const handleClose = () => {
-    reset();
-    setSubmitResponse({});
-    setApiErrors({});
-    setRecaptchaError(null);
-    setPendingFormData(null);
-    recaptchaRef.current?.reset();
-    onClose();
-  };
-
   const submitToAPI = async (data: FreeTrialInputs, token: string) => {
     try {
       const response = await fetch('/api/free-trial', {
@@ -282,22 +213,16 @@ const FreeTrialModal: FC<Props> = ({ isOpen, onClose, onSuccess }) => {
       } else {
         const errorData = await response.json();
         if (response.status === 422 && errorData.errors) {
-          const fieldErrors: Record<string, string> = {};
-          errorData.errors.forEach((error: any) => {
-            if (error.field && error.message) {
-              fieldErrors[error.field] = error.message;
-            }
-          });
+          const { fieldErrors, displayMessage } = processApiErrors(errorData.errors);
           setApiErrors(fieldErrors);
           setSubmitResponse({
             success: false,
-            message: 'Please correct the errors and try again.',
+            message: displayMessage,
           });
         } else {
           setSubmitResponse({
             success: false,
-            message:
-              errorData.message || 'An error occurred. Please try again.',
+            message: errorData.message || 'An error occurred. Please try again.',
           });
         }
       }
@@ -312,21 +237,28 @@ const FreeTrialModal: FC<Props> = ({ isOpen, onClose, onSuccess }) => {
     }
   };
 
+  const handleClose = () => {
+    reset();
+    setSubmitResponse({});
+    setApiErrors({});
+    setRecaptchaError(null);
+    setPendingFormData(null);
+    recaptchaRef.current?.reset();
+    onClose();
+  };
+
   const onSubmit: SubmitHandler<FreeTrialInputs> = async (data) => {
     setSubmitResponse({});
     setApiErrors({});
     setRecaptchaError(null);
     setSubmitting(true);
     setPendingFormData(data);
-
-    // Execute invisible reCAPTCHA
     recaptchaRef.current?.execute();
   };
 
   const handleRecaptchaVerify = useCallback(
     (token: string | null) => {
       if (token && pendingFormData) {
-        // reCAPTCHA verified, now submit the form
         submitToAPI(pendingFormData, token);
       } else if (!token) {
         setRecaptchaError('reCAPTCHA verification failed. Please try again.');
@@ -349,46 +281,27 @@ const FreeTrialModal: FC<Props> = ({ isOpen, onClose, onSuccess }) => {
     setPendingFormData(null);
   };
 
-  const requiredFieldsList: (keyof FreeTrialInputs)[] = [
-    'clinicName',
-    'taxId',
-    'npi',
-    'addressLine1',
-    'state',
-    'city',
-    'zipCode',
-    'fullName',
-    'email',
-    'phoneNumber',
-  ];
-
   const getProgressPercentage = () => {
-    // Count how many required fields are filled and valid
-    const filledRequiredFields = requiredFieldsList.filter((field) => {
+    const filledRequiredFields = REQUIRED_FIELDS.filter((field) => {
       const value = watch(field);
       return value && value.toString().trim() !== '' && !errors[field];
     }).length;
 
-    return (filledRequiredFields / requiredFieldsList.length) * 100;
+    return (filledRequiredFields / REQUIRED_FIELDS.length) * 100;
   };
 
   const isFormValid = () => {
-    // Check if all required fields are filled
-    const allFieldsFilled = requiredFieldsList.every((field) => {
+    const allFieldsFilled = REQUIRED_FIELDS.every((field) => {
       const value = watch(field);
       return value && value.toString().trim() !== '';
     });
 
-    // Check if consent checkbox is checked
     const consentChecked = watch('consentToContact');
-
     return allFieldsFilled && consentChecked;
   };
 
   const isFieldValid = (fieldName: keyof FreeTrialInputs) => {
-    return (
-      touchedFields[fieldName] && !errors[fieldName] && !apiErrors[fieldName]
-    );
+    return touchedFields[fieldName] && !errors[fieldName] && !apiErrors[fieldName];
   };
 
   const getInputClassName = (fieldName: keyof FreeTrialInputs) => {
@@ -405,25 +318,14 @@ const FreeTrialModal: FC<Props> = ({ isOpen, onClose, onSuccess }) => {
     return selectStyle;
   };
 
-  // Helper function to determine if we should show error text (not for required-only errors)
   const shouldShowError = (fieldName: keyof FreeTrialInputs) => {
     const fieldError = errors[fieldName];
-    const apiError = apiErrors[fieldName];
-
-    // Always show API errors
-    if (apiError) return true;
-
-    // Don't show error if it's just a required field error (no message)
     if (fieldError && fieldError.type === 'required') return false;
-
-    // Show other validation errors (format, length, etc.)
     return !!fieldError;
   };
 
-  // If submission was successful, render SuccessModal directly
   if (submitResponse?.success) {
-    // Format timezone for display (e.g., "America/New_York" -> "America/New York")
-    const timezoneDisplay = getSelectedStateTimezone().replace(/_/g, ' ');
+    const timezoneDisplay = getSelectedStateTimezone(selectedState, states).replace(/_/g, ' ');
 
     return (
       <SuccessModal
@@ -448,7 +350,7 @@ const FreeTrialModal: FC<Props> = ({ isOpen, onClose, onSuccess }) => {
       center={true}
       closeOnEsc={false}
       closeOnOverlayClick={false}
-      blockScroll={!isIosDevice()} // Disable blockScroll for iOS devices to fix scrolling issues
+      blockScroll={!isIosDevice()}
       classNames={{
         modal: modalContent,
         overlay: modalOverlay,
@@ -474,7 +376,7 @@ const FreeTrialModal: FC<Props> = ({ isOpen, onClose, onSuccess }) => {
           position: 'relative',
           maxWidth: '90vw',
           height: 'auto',
-          maxHeight: 'calc(100vh - 80px)', // Ensure modal doesn't exceed viewport minus margins
+          maxHeight: 'calc(100vh - 80px)',
           overflowY: 'auto',
           overflowX: 'hidden',
           WebkitOverflowScrolling: 'touch',
@@ -510,6 +412,7 @@ const FreeTrialModal: FC<Props> = ({ isOpen, onClose, onSuccess }) => {
           onSubmit={handleSubmit(onSubmit)}
           id="freeTrialForm"
         >
+          {/* Error Banner */}
           {submitResponse?.message && !submitResponse.success && (
             <div className={errorBanner}>
               <AlertCircle size={20} />
@@ -517,8 +420,8 @@ const FreeTrialModal: FC<Props> = ({ isOpen, onClose, onSuccess }) => {
             </div>
           )}
 
+          {/* Clinic Details Section */}
           <div className={formGrid}>
-            {/* Row 1: Clinic Name - Full width */}
             <div className={formGroupFull}>
               <label className={labelStyle}>
                 Clinic Name<span className={requiredIndicator}>*</span>
@@ -529,12 +432,9 @@ const FreeTrialModal: FC<Props> = ({ isOpen, onClose, onSuccess }) => {
                   className={getInputClassName('clinicName')}
                   placeholder="Enter clinic name"
                   {...register('clinicName', {
-                    required: true, // Just validate, don't show message
+                    required: true,
                     minLength: { value: 2, message: 'Min 2 characters' },
-                    maxLength: {
-                      value: 100,
-                      message: 'Max 100 characters',
-                    },
+                    maxLength: { value: 100, message: 'Max 100 characters' },
                   })}
                 />
                 {isFieldValid('clinicName') && (
@@ -551,12 +451,11 @@ const FreeTrialModal: FC<Props> = ({ isOpen, onClose, onSuccess }) => {
               </div>
               {shouldShowError('clinicName') && (
                 <span className={errorMessage}>
-                  {errors.clinicName?.message || apiErrors.clinic_name}
+                  {errors.clinicName?.message}
                 </span>
               )}
             </div>
 
-            {/* Row 2: Tax ID and NPI */}
             <div className={formGroup}>
               <label className={labelStyle}>
                 Tax ID<span className={requiredIndicator}>*</span>
@@ -566,7 +465,7 @@ const FreeTrialModal: FC<Props> = ({ isOpen, onClose, onSuccess }) => {
                 className={getInputClassName('taxId')}
                 placeholder="XX-XXXXXXX"
                 {...register('taxId', {
-                  required: true, // Just validate, don't show message
+                  required: true,
                   pattern: {
                     value: /^\d{2}-\d{7}$/,
                     message: 'Format: XX-XXXXXXX',
@@ -579,9 +478,7 @@ const FreeTrialModal: FC<Props> = ({ isOpen, onClose, onSuccess }) => {
                 })}
               />
               {shouldShowError('taxId') && (
-                <span className={errorMessage}>
-                  {errors.taxId?.message || apiErrors.tax_id}
-                </span>
+                <span className={errorMessage}>{errors.taxId?.message}</span>
               )}
             </div>
 
@@ -607,13 +504,10 @@ const FreeTrialModal: FC<Props> = ({ isOpen, onClose, onSuccess }) => {
                 })}
               />
               {shouldShowError('npi') && (
-                <span className={errorMessage}>
-                  {errors.npi?.message || apiErrors.npi}
-                </span>
+                <span className={errorMessage}>{errors.npi?.message}</span>
               )}
             </div>
 
-            {/* Row 3: Address Line 1 */}
             <div className={formGroupFull}>
               <label className={labelStyle}>
                 Address Line 1<span className={requiredIndicator}>*</span>
@@ -623,18 +517,17 @@ const FreeTrialModal: FC<Props> = ({ isOpen, onClose, onSuccess }) => {
                 className={getInputClassName('addressLine1')}
                 placeholder="Street address"
                 {...register('addressLine1', {
-                  required: true, // Just validate, don't show message
+                  required: true,
                   minLength: { value: 5, message: 'Min 5 characters' },
                 })}
               />
-              {(errors.addressLine1 || apiErrors.address_line_1) && (
+              {errors.addressLine1 && (
                 <span className={errorMessage}>
-                  {errors.addressLine1?.message || apiErrors.address_line_1}
+                  {errors.addressLine1?.message}
                 </span>
               )}
             </div>
 
-            {/* Row 4: Address Line 2 */}
             <div className={formGroupFull}>
               <label className={labelStyle}>Address Line 2</label>
               <input
@@ -645,7 +538,6 @@ const FreeTrialModal: FC<Props> = ({ isOpen, onClose, onSuccess }) => {
               />
             </div>
 
-            {/* Row 5: State, City, Zip - Special layout */}
             <div className={locationRow}>
               <div className={fieldWrapper}>
                 <label className={labelStyle}>
@@ -665,10 +557,8 @@ const FreeTrialModal: FC<Props> = ({ isOpen, onClose, onSuccess }) => {
                     </option>
                   ))}
                 </select>
-                {(errors.state || apiErrors.state) && (
-                  <span className={errorMessage}>
-                    {errors.state?.message || apiErrors.state}
-                  </span>
+                {errors.state && (
+                  <span className={errorMessage}>{errors.state?.message}</span>
                 )}
               </div>
 
@@ -690,10 +580,8 @@ const FreeTrialModal: FC<Props> = ({ isOpen, onClose, onSuccess }) => {
                     </option>
                   ))}
                 </select>
-                {(errors.city || apiErrors.city) && (
-                  <span className={errorMessage}>
-                    {errors.city?.message || apiErrors.city}
-                  </span>
+                {errors.city && (
+                  <span className={errorMessage}>{errors.city?.message}</span>
                 )}
               </div>
 
@@ -707,7 +595,7 @@ const FreeTrialModal: FC<Props> = ({ isOpen, onClose, onSuccess }) => {
                   placeholder="XXXXX or XXXXX-XXXX"
                   maxLength={10}
                   {...register('zipCode', {
-                    required: true, // Just validate, don't show message
+                    required: true,
                     pattern: {
                       value: /^\d{5}(-\d{4})?$/,
                       message: 'Invalid',
@@ -719,17 +607,15 @@ const FreeTrialModal: FC<Props> = ({ isOpen, onClose, onSuccess }) => {
                     },
                   })}
                 />
-                {(errors.zipCode || apiErrors.zip_code) && (
-                  <span className={errorMessage}>
-                    {errors.zipCode?.message || apiErrors.zip_code}
-                  </span>
+                {errors.zipCode && (
+                  <span className={errorMessage}>{errors.zipCode?.message}</span>
                 )}
               </div>
             </div>
           </div>
 
+          {/* Contact Information Section */}
           <div className={formGrid}>
-            {/* Row 1: Full Name */}
             <div className={formGroupFull}>
               <label className={labelStyle}>
                 Full Name<span className={requiredIndicator}>*</span>
@@ -739,7 +625,7 @@ const FreeTrialModal: FC<Props> = ({ isOpen, onClose, onSuccess }) => {
                 className={getInputClassName('fullName')}
                 placeholder="First and Last Name"
                 {...register('fullName', {
-                  required: true, // Just validate, don't show message
+                  required: true,
                   minLength: { value: 2, message: 'Min 2 characters' },
                   validate: (value) => {
                     const nameParts = value.trim().split(/\s+/);
@@ -750,14 +636,11 @@ const FreeTrialModal: FC<Props> = ({ isOpen, onClose, onSuccess }) => {
                   },
                 })}
               />
-              {(errors.fullName || apiErrors.contact_name || apiErrors.full_name) && (
-                <span className={errorMessage}>
-                  {errors.fullName?.message || apiErrors.contact_name || apiErrors.full_name}
-                </span>
+              {errors.fullName && (
+                <span className={errorMessage}>{errors.fullName?.message}</span>
               )}
             </div>
 
-            {/* Row 2: Email and Phone */}
             <div className={formGroup}>
               <label className={labelStyle}>
                 Email Address<span className={requiredIndicator}>*</span>
@@ -767,14 +650,12 @@ const FreeTrialModal: FC<Props> = ({ isOpen, onClose, onSuccess }) => {
                 className={getInputClassName('email')}
                 placeholder="email@example.com"
                 {...register('email', {
-                  required: true, // Just validate, don't show message
+                  required: true,
                   validate: (value) => isEmail(value) || 'Invalid email',
                 })}
               />
-              {(errors.email || apiErrors.contact_email) && (
-                <span className={errorMessage}>
-                  {errors.email?.message || apiErrors.contact_email}
-                </span>
+              {errors.email && (
+                <span className={errorMessage}>{errors.email?.message}</span>
               )}
             </div>
 
@@ -790,7 +671,7 @@ const FreeTrialModal: FC<Props> = ({ isOpen, onClose, onSuccess }) => {
                 className={getInputClassName('phoneNumber')}
                 placeholder="(XXX) XXX-XXXX"
                 {...register('phoneNumber', {
-                  required: true, // Just validate, don't show message
+                  required: true,
                   validate: (phone) =>
                     isMobilePhone(phone, 'en-US', { strictMode: false }) ||
                     'Invalid phone',
@@ -801,15 +682,14 @@ const FreeTrialModal: FC<Props> = ({ isOpen, onClose, onSuccess }) => {
                     }),
                 })}
               />
-              {(errors.phoneNumber || apiErrors.contact_phone) && (
+              {errors.phoneNumber && (
                 <span className={errorMessage}>
-                  {errors.phoneNumber?.message || apiErrors.contact_phone}
+                  {errors.phoneNumber?.message}
                 </span>
               )}
             </div>
           </div>
 
-          {/* Consent Section */}
           <div className={consentSection}>
             <div className={consentCheckbox}>
               <input

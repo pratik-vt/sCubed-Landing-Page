@@ -45,13 +45,16 @@ async function verifyRecaptcha(token: string): Promise<boolean> {
     params.append('secret', secretKey);
     params.append('response', token);
 
-    const response = await fetch('https://www.google.com/recaptcha/api/siteverify', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/x-www-form-urlencoded',
+    const response = await fetch(
+      'https://www.google.com/recaptcha/api/siteverify',
+      {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/x-www-form-urlencoded',
+        },
+        body: params.toString(),
       },
-      body: params.toString(),
-    });
+    );
 
     const data = await response.json();
 
@@ -67,7 +70,9 @@ async function verifyRecaptcha(token: string): Promise<boolean> {
 }
 
 // Function to split full name into first and last name
-function splitFullName(fullName: string): { firstName: string; lastName: string } | null {
+function splitFullName(
+  fullName: string,
+): { firstName: string; lastName: string } | null {
   const nameParts = fullName.trim().split(/\s+/);
 
   // Require at least two name parts
@@ -91,13 +96,19 @@ export async function POST(request: NextRequest) {
       return NextResponse.json(
         {
           errors: [
-            ...(body.clinic_name ? [] : [{ field: 'clinic_name', message: 'Clinic name is required' }]),
-            ...(body.full_name ? [] : [{ field: 'full_name', message: 'Full name is required' }]),
-            ...(body.email ? [] : [{ field: 'email', message: 'Email is required' }]),
+            ...(body.clinic_name
+              ? []
+              : [{ field: 'clinic_name', message: 'Clinic name is required' }]),
+            ...(body.full_name
+              ? []
+              : [{ field: 'full_name', message: 'Full name is required' }]),
+            ...(body.email
+              ? []
+              : [{ field: 'email', message: 'Email is required' }]),
           ],
           status_code: 400,
         },
-        { status: 400 }
+        { status: 400 },
       );
     }
 
@@ -105,10 +116,15 @@ export async function POST(request: NextRequest) {
     if (!body.recaptcha_token) {
       return NextResponse.json(
         {
-          errors: [{ field: 'recaptcha', message: 'Please complete the reCAPTCHA verification' }],
+          errors: [
+            {
+              field: 'recaptcha',
+              message: 'Please complete the reCAPTCHA verification',
+            },
+          ],
           status_code: 400,
         },
-        { status: 400 }
+        { status: 400 },
       );
     }
 
@@ -116,10 +132,15 @@ export async function POST(request: NextRequest) {
     if (!isRecaptchaValid) {
       return NextResponse.json(
         {
-          errors: [{ field: 'recaptcha', message: 'reCAPTCHA verification failed. Please try again.' }],
+          errors: [
+            {
+              field: 'recaptcha',
+              message: 'reCAPTCHA verification failed. Please try again.',
+            },
+          ],
           status_code: 400,
         },
-        { status: 400 }
+        { status: 400 },
       );
     }
 
@@ -128,10 +149,12 @@ export async function POST(request: NextRequest) {
     if (!emailRegex.test(body.email)) {
       return NextResponse.json(
         {
-          errors: [{ field: 'email', message: 'Please enter a valid email address' }],
+          errors: [
+            { field: 'email', message: 'Please enter a valid email address' },
+          ],
           status_code: 400,
         },
-        { status: 400 }
+        { status: 400 },
       );
     }
 
@@ -141,10 +164,15 @@ export async function POST(request: NextRequest) {
     if (!nameResult) {
       return NextResponse.json(
         {
-          errors: [{ field: 'full_name', message: 'Please enter your full name (first and last name)' }],
+          errors: [
+            {
+              field: 'full_name',
+              message: 'Please enter your full name (first and last name)',
+            },
+          ],
           status_code: 400,
         },
-        { status: 400 }
+        { status: 400 },
       );
     }
 
@@ -154,13 +182,17 @@ export async function POST(request: NextRequest) {
     const adminApiUrl = process.env.NEXT_PUBLIC_ADMIN_APP_API_URL;
 
     if (!adminApiUrl) {
-      console.error('NEXT_PUBLIC_ADMIN_APP_API_URL environment variable is not set');
+      console.error(
+        'NEXT_PUBLIC_ADMIN_APP_API_URL environment variable is not set',
+      );
       return NextResponse.json(
         {
-          errors: [{ field: 'general', message: 'Service configuration error' }],
+          errors: [
+            { field: 'general', message: 'Service configuration error' },
+          ],
           status_code: 500,
         },
-        { status: 500 }
+        { status: 500 },
       );
     }
 
@@ -181,13 +213,16 @@ export async function POST(request: NextRequest) {
     };
 
     // Forward the request to the admin API
-    const response = await fetch(`${adminApiUrl}pages/free-trial-registration`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
+    const response = await fetch(
+      `${adminApiUrl}pages/free-trial-registration`,
+      {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(apiPayload),
       },
-      body: JSON.stringify(apiPayload),
-    });
+    );
 
     if (response.ok) {
       const data = await response.json();
@@ -199,27 +234,31 @@ export async function POST(request: NextRequest) {
         errorData = await response.json();
       } catch {
         errorData = {
-          errors: [{ field: 'general', message: 'An unexpected error occurred' }],
+          errors: [
+            { field: 'general', message: 'An unexpected error occurred' },
+          ],
           status_code: response.status,
         };
       }
 
+      console.log('errorData', errorData);
+
       // Map API field names back to frontend field names
       if (errorData.errors) {
-        errorData.errors = errorData.errors.map(error => {
+        errorData.errors = errorData.errors.map((error) => {
           const fieldMapping: Record<string, string> = {
-            'clinic_name': 'clinic_name',
-            'tax_id': 'tax_id',
-            'street_address_line_1': 'address_line_1',
-            'street_address_line_2': 'address_line_2',
-            'state_id': 'state',
-            'city_id': 'city',
-            'zipcode': 'zip_code',
-            'npi': 'npi',
-            'first_name': 'full_name',
-            'last_name': 'full_name',
-            'email': 'email',
-            'phone_number': 'phone_number',
+            clinic_name: 'clinic_name',
+            tax_id: 'tax_id',
+            street_address_line_1: 'address_line_1',
+            street_address_line_2: 'address_line_2',
+            state_id: 'state',
+            city_id: 'city',
+            zipcode: 'zip_code',
+            npi: 'npi',
+            first_name: 'full_name',
+            last_name: 'full_name',
+            email: 'email',
+            phone_number: 'phone_number',
           };
 
           return {
@@ -235,10 +274,15 @@ export async function POST(request: NextRequest) {
     console.error('Free trial API error:', error);
     return NextResponse.json(
       {
-        errors: [{ field: 'general', message: 'An unexpected error occurred. Please try again later.' }],
+        errors: [
+          {
+            field: 'general',
+            message: 'An unexpected error occurred. Please try again later.',
+          },
+        ],
         status_code: 500,
       },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }
