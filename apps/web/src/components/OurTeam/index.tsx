@@ -108,7 +108,7 @@ const OurTeam = () => {
       bio: "Mary is a seasoned healthcare professional with over 30 years of experience in the medical industry. She currently serves as the Director of Operations for Trevor's Place. With a certification in Human Resources and a deep understanding of healthcare operations, she leads with both strategic vision and empathy. Throughout her career, she has successfully started and managed multiple medical specialty offices, demonstrating her expertise in practice development and operational. A passionate advocate for quality care and community engagement, she has served on multiple community boards, using her experience to drive positive change and support underserved populations.",
     },
     {
-      name: 'Liz',
+      name: 'Liz De La Rocha',
       title: 'Director of Billing Operations',
       image: lizImg,
       bio: "Liz leads the Billing Operations department with precision, dedication, and a deep understanding of the financial side of healthcare services. She has built her career around ensuring accuracy, compliance, and transparency in billing practices, making her an invaluable part of the team. With her focus on streamlining processes and supporting families through often complex billing systems, Liz works tirelessly to create a smoother experience for clients while strengthening the organization's financial health. Her commitment ensures that care remains accessible and sustainable.",
@@ -296,7 +296,9 @@ const OurTeam = () => {
                         height={100}
                         placeholder="blur"
                         style={
-                          ['Mary Shabunia', 'Liz'].includes(member.name)
+                          ['Mary Shabunia', 'Liz De La Rocha'].includes(
+                            member.name,
+                          )
                             ? { objectPosition: 'center 20%' }
                             : undefined
                         }
