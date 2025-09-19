@@ -16,19 +16,21 @@ export default function ConditionalLayout({ children }: Readonly<ConditionalLayo
   
   // Only wrap specific pages with Layout component
   const shouldUseLayout = pathname === '/blog' ||  pathname === '/faqs' ||
-                         pathname.startsWith('/blog/') || 
-                         pathname === '/privacy-policy' || 
+                         pathname.startsWith('/blog/') ||
+                         pathname === '/privacy-policy' ||
                          pathname === '/terms-conditions' ||
                          pathname === '/get-started' ||
                          pathname === '/billing' ||
                          pathname === '/features' ||
-                         pathname === '/guardian-portal';
-  
+                         pathname === '/guardian-portal' ||
+                         pathname === '/events';
+
   // Determine if the page should use full width layout
-  const shouldUseFullWidth = pathname === '/get-started' || 
-                            pathname === '/billing' || 
-                            pathname === '/features' || 
-                            pathname === '/guardian-portal';
+  const shouldUseFullWidth = pathname === '/get-started' ||
+                            pathname === '/billing' ||
+                            pathname === '/features' ||
+                            pathname === '/guardian-portal' ||
+                            pathname === '/events';
   
   return (
     <FreeTrialModalProvider>

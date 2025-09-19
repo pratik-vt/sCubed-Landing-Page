@@ -131,6 +131,9 @@ const Footer: React.FC = () => {
                 <Link href="/blog" className={footerLink}>
                   Blog
                 </Link>
+                <Link href="/events" className={footerLink}>
+                  Events & News
+                </Link>
                 <Link href="/faqs" className={footerLink}>
                   FAQs
                 </Link>
