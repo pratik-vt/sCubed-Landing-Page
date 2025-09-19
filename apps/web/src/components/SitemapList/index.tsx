@@ -1,8 +1,9 @@
 import React from 'react';
 
+import * as styles from './styles.css';
+
 import { SitemapColumn } from '@/app/sitemap/page';
 
-import * as styles from './styles.css';
 
 interface SitemapListProps {
   columns: SitemapColumn[];

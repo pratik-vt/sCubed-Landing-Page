@@ -61,10 +61,9 @@ import ReCaptcha, { ReCaptchaRef } from '@/components/ReCaptcha';
 type Props = {
   isOpen: boolean;
   onClose: () => void;
-  onSuccess?: () => void;
 };
 
-const FreeTrialModal: FC<Props> = ({ isOpen, onClose, onSuccess }) => {
+const FreeTrialModal: FC<Props> = ({ isOpen, onClose }) => {
   const [isSubmitting, setSubmitting] = useState(false);
   const [states, setStates] = useState<StateOption[]>([]);
   const [cities, setCities] = useState<CityOption[]>([]);
@@ -204,10 +203,6 @@ const FreeTrialModal: FC<Props> = ({ isOpen, onClose, onSuccess }) => {
           success: true,
           message: 'Welcome to S Cubed! Your trial has started.',
         });
-
-        if (onSuccess) {
-          onSuccess();
-        }
       } else {
         const errorData = await response.json();
         if (response.status === 422 && errorData.errors) {

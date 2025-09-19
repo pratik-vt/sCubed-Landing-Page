@@ -202,9 +202,7 @@ const SuccessModal: FC<Props> = ({
           </div>
           <button
             onClick={() => {
-              // Close modal and redirect to home
               onClose();
-              window.location.href = '/';
             }}
             className={loginButton}
             aria-label="Go to homepage"

@@ -30,21 +30,12 @@ export const FreeTrialModalProvider: React.FC<FreeTrialModalProviderProps> = ({ 
   const openModal = () => setIsOpen(true);
   const closeModal = () => setIsOpen(false);
 
-  const handleSuccess = () => {
-    // Redirect to dashboard or show setup wizard
-    // For now, we'll just redirect to a success page
-    if (typeof window !== 'undefined') {
-      window.location.href = '/get-started?success=true';
-    }
-  };
-
   return (
     <FreeTrialModalContext.Provider value={{ openModal, closeModal, isOpen }}>
       {children}
-      <FreeTrialModal 
-        isOpen={isOpen} 
+      <FreeTrialModal
+        isOpen={isOpen}
         onClose={closeModal}
-        onSuccess={handleSuccess}
       />
     </FreeTrialModalContext.Provider>
   );
