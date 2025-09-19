@@ -170,6 +170,9 @@ const Footer: React.FC = () => {
             <Link href="/privacy-policy" className={legalLink}>
               Privacy Policy
             </Link>
+            <Link href="/sitemap" className={legalLink}>
+              Sitemap
+            </Link>
           </div>
         </div>
       </div>

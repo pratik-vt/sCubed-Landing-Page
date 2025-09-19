@@ -1,6 +1,6 @@
 import { MetadataRoute } from 'next';
 
-import { getBlogPosts } from '@/lib/strapi';
+export const revalidate = 3600; // Revalidate every hour
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000';
@@ -67,29 +67,13 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       changeFrequency: 'yearly',
       priority: 0.5,
     },
+    {
+      url: `${baseUrl}/sitemap`,
+      lastModified: new Date(),
+      changeFrequency: 'monthly',
+      priority: 0.3,
+    },
   ];
 
-  // Dynamic blog posts
-  let blogPosts: MetadataRoute.Sitemap = [];
-
-  try {
-    // Fetch all blog posts from Strapi
-    // Using a larger page size to get all posts in one request
-    const response = await getBlogPosts({ pageSize: 100 });
-
-    if (response?.data && Array.isArray(response.data)) {
-      blogPosts = response.data.map((post) => ({
-        url: `${baseUrl}/blog/${post.slug}`,
-        lastModified: new Date(post.updatedAt || post.publishedAt || post.createdAt),
-        changeFrequency: 'monthly' as const,
-        priority: 0.6,
-      }));
-    }
-  } catch (error) {
-    // Log error but don't break sitemap generation
-    console.error('Error fetching blog posts for sitemap:', error);
-  }
-
-  // Combine static and dynamic pages
-  return [...staticPages, ...blogPosts];
+  return staticPages;
 }
