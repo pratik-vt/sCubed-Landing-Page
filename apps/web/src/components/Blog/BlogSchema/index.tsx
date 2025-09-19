@@ -1,7 +1,7 @@
 import React from 'react';
 import Script from 'next/script';
 
-import { BlogPost, getStrapiImageUrl } from '../../../lib/strapi';
+import { BlogPost, getStrapiImageUrl, getPublishDate } from '../../../lib/strapi';
 
 interface BlogSchemaProps {
   post: BlogPost;
@@ -124,7 +124,7 @@ const BlogSchema: React.FC<BlogSchemaProps> = ({ post, url }) => {
         "url": getLogoUrl()
       }
     },
-    "datePublished": post.publishedAt,
+    "datePublished": getPublishDate(post),
     "dateModified": post.updatedAt,
     "articleSection": getArticleSection(),
     "wordcount": wordCount.toString(),

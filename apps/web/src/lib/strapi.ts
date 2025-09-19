@@ -27,7 +27,18 @@ async function fetchAPI(endpoint: string, options: RequestInit = {}) {
     const response = await fetch(url, mergedOptions);
     
     if (!response.ok) {
-      throw new Error(`Strapi API error: ${response.status} ${response.statusText}`);
+      // Try to get more detailed error information
+      let errorMessage = `Strapi API error: ${response.status} ${response.statusText}`;
+      try {
+        const errorData = await response.json();
+        if (errorData.error) {
+          errorMessage += ` - ${errorData.error.message || JSON.stringify(errorData.error)}`;
+        }
+      } catch (parseError) {
+        // If we can't parse the error response, use the original message
+      }
+      console.error('API URL:', url);
+      throw new Error(errorMessage);
     }
     
     const data = await response.json();
@@ -128,6 +139,7 @@ export interface BlogPost {
   meta_title?: string;
   meta_description?: string;
   publishedAt: string;
+  firstPublishedAt?: string; // Original publish date (optional, may not exist for older posts)
   createdAt: string;
   updatedAt: string;
   author?: Author | null;
@@ -170,7 +182,7 @@ export async function getBlogPosts(params: {
     'populate[3]': 'featured_image',
     'populate[4]': 'hero_image',
     'populate[5]': 'audio_version',
-    'sort': 'publishedAt:desc'
+    'sort': 'firstPublishedAt:desc'
   });
 
   // Add publishedAt filter to only get published content
@@ -268,6 +280,11 @@ export function getStrapiImageUrl(image: StrapiImage | undefined | null): string
   return url.startsWith('http') ? url : `${STRAPI_URL}${url}`;
 }
 
+// Helper function to get the original publish date (firstPublishedAt if available, otherwise publishedAt)
+export function getPublishDate(post: BlogPost): string {
+  return post.firstPublishedAt || post.publishedAt;
+}
+
 // Helper function to format date
 export function formatDate(dateString: string): string {
   const date = new Date(dateString);
@@ -276,6 +293,11 @@ export function formatDate(dateString: string): string {
     month: 'long',
     day: 'numeric'
   });
+}
+
+// Helper function to format the publish date for a blog post
+export function formatPublishDate(post: BlogPost): string {
+  return formatDate(getPublishDate(post));
 }
 
 // Helper function to calculate read time if not provided

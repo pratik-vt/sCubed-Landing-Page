@@ -464,6 +464,7 @@ export interface ApiBlogPostBlogPost extends Struct.CollectionTypeSchema {
       }>;
     featured: Schema.Attribute.Boolean & Schema.Attribute.DefaultTo<false>;
     featured_image: Schema.Attribute.Media<'images'>;
+    firstPublishedAt: Schema.Attribute.DateTime;
     hero_image: Schema.Attribute.Media<'images'>;
     locale: Schema.Attribute.String & Schema.Attribute.Private;
     localizations: Schema.Attribute.Relation<

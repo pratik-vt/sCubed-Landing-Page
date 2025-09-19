@@ -11,7 +11,7 @@ import HeroBackground from '../../../images/S Cubed Insights & Updates.jpg';
 import { 
   BlogPost, 
   getStrapiImageUrl, 
-  formatDate, 
+  formatPublishDate, 
   calculateReadTime 
 } from '../../../lib/strapi';
 
@@ -162,7 +162,7 @@ const BlogListing: React.FC<BlogListingProps> = ({
                 ? getStrapiImageUrl(post.featured_image) 
                 : '';
               const authorName = post.author?.name || 'S Cubed Team';
-              const publishDate = formatDate(post.publishedAt);
+              const publishDate = formatPublishDate(post);
               // const readTime = getReadTime(post);
 
               return (

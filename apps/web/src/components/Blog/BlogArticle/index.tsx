@@ -9,7 +9,7 @@ import { Calendar, User, Clock, Share2, Check, Copy } from 'lucide-react';
 import { 
   BlogPost, 
   getStrapiImageUrl, 
-  formatDate, 
+  formatPublishDate, 
   calculateReadTime 
 } from '../../../lib/strapi';
 import DynamicContentRenderer from '../DynamicContentRenderer';
@@ -80,7 +80,7 @@ const BlogArticle: React.FC<BlogArticleProps> = ({ post }) => {
   const authorAvatarUrl = authorAvatarImage ? getStrapiImageUrl(authorAvatarImage) : null;
   const authorPosition = post.author?.position;
   const authorBio = post.author?.bio;
-  const publishDate = formatDate(post.publishedAt);
+  const publishDate = formatPublishDate(post);
   const readTime = post.estimated_read_time || calculateReadTime(post.content_blocks || []);
   const categories = post.categories || [];
   const postTags = post.tags || [];

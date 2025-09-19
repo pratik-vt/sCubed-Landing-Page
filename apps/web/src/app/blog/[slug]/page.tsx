@@ -5,7 +5,7 @@ import type { Metadata } from 'next';
 import BlogArticle from '../../../components/Blog/BlogArticle';
 import BlogSchema from '../../../components/Blog/BlogSchema';
 import BreadcrumbSchema from '../../../components/Blog/BreadcrumbSchema';
-import { getBlogPost, getStrapiImageUrl } from '../../../lib/strapi';
+import { getBlogPost, getStrapiImageUrl, getPublishDate } from '../../../lib/strapi';
 
 interface BlogDetailPageProps {
   params: Promise<{
@@ -65,7 +65,7 @@ export async function generateMetadata({ params }: BlogDetailPageProps): Promise
         type: 'article',
         url: absoluteUrl,
         siteName: 'S Cubed',
-        publishedTime: post.publishedAt,
+        publishedTime: getPublishDate(post),
         modifiedTime: post.updatedAt,
         authors: [authorName],
         tags: post.tags?.map(tag => tag.name) || [],
@@ -93,7 +93,7 @@ export async function generateMetadata({ params }: BlogDetailPageProps): Promise
       // Structured data for rich snippets and LinkedIn compatibility
       other: {
         'article:author': authorName,
-        'article:published_time': post.publishedAt,
+        'article:published_time': getPublishDate(post),
         'article:modified_time': post.updatedAt,
         'article:section': categories,
         'article:tag': tags,
