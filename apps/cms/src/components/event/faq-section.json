@@ -1,0 +1,19 @@
+{
+  "collectionName": "components_event_faq_sections",
+  "info": {
+    "displayName": "FAQ Section",
+    "description": "Frequently asked questions for events"
+  },
+  "options": {},
+  "attributes": {
+    "title": {
+      "type": "string",
+      "default": "Frequently Asked Questions"
+    },
+    "faqs": {
+      "type": "component",
+      "repeatable": true,
+      "component": "event.faq-item"
+    }
+  }
+}

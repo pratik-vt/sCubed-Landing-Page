@@ -1,0 +1,45 @@
+{
+  "collectionName": "components_event_agenda_items",
+  "info": {
+    "displayName": "Agenda Item",
+    "description": "Event agenda/schedule item"
+  },
+  "options": {},
+  "attributes": {
+    "time": {
+      "type": "string",
+      "required": true
+    },
+    "duration_minutes": {
+      "type": "integer",
+      "min": 5,
+      "default": 60
+    },
+    "title": {
+      "type": "string",
+      "required": true
+    },
+    "description": {
+      "type": "text"
+    },
+    "speaker_name": {
+      "type": "string"
+    },
+    "session_type": {
+      "type": "enumeration",
+      "enum": [
+        "keynote",
+        "presentation",
+        "workshop",
+        "panel",
+        "break",
+        "networking",
+        "q&a"
+      ],
+      "default": "presentation"
+    },
+    "location": {
+      "type": "string"
+    }
+  }
+}

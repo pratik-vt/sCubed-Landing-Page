@@ -1,0 +1,35 @@
+{
+  "collectionName": "components_event_video_sections",
+  "info": {
+    "displayName": "Video Section",
+    "description": "Video content for events"
+  },
+  "options": {},
+  "attributes": {
+    "title": {
+      "type": "string"
+    },
+    "video_url": {
+      "type": "string",
+      "required": true
+    },
+    "video_type": {
+      "type": "enumeration",
+      "enum": ["youtube", "vimeo", "custom"],
+      "default": "youtube"
+    },
+    "thumbnail": {
+      "type": "media",
+      "multiple": false,
+      "required": false,
+      "allowedTypes": ["images"]
+    },
+    "description": {
+      "type": "text"
+    },
+    "autoplay": {
+      "type": "boolean",
+      "default": false
+    }
+  }
+}

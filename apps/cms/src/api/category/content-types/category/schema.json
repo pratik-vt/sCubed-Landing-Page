@@ -35,6 +35,12 @@
       "relation": "manyToMany",
       "target": "api::blog-post.blog-post",
       "mappedBy": "categories"
+    },
+    "events": {
+      "type": "relation",
+      "relation": "manyToMany",
+      "target": "api::event.event",
+      "mappedBy": "categories"
     }
   }
 } 

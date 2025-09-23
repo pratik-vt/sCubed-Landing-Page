@@ -1,0 +1,19 @@
+{
+  "collectionName": "components_event_sponsor_sections",
+  "info": {
+    "displayName": "Sponsor Section",
+    "description": "Event sponsors showcase"
+  },
+  "options": {},
+  "attributes": {
+    "title": {
+      "type": "string",
+      "default": "Our Sponsors"
+    },
+    "sponsors": {
+      "type": "component",
+      "repeatable": true,
+      "component": "event.sponsor"
+    }
+  }
+}

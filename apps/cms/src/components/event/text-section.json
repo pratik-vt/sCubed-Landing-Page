@@ -1,0 +1,27 @@
+{
+  "collectionName": "components_event_text_sections",
+  "info": {
+    "displayName": "Text Section",
+    "description": "Rich text content section for events"
+  },
+  "options": {},
+  "attributes": {
+    "heading": {
+      "type": "string"
+    },
+    "content": {
+      "type": "richtext",
+      "required": true
+    },
+    "text_alignment": {
+      "type": "enumeration",
+      "enum": ["left", "center", "right", "justify"],
+      "default": "left"
+    },
+    "background_style": {
+      "type": "enumeration",
+      "enum": ["none", "light", "primary", "accent"],
+      "default": "none"
+    }
+  }
+}

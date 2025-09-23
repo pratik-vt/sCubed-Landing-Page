@@ -4,6 +4,7 @@ import BreadcrumbSchema from '../../components/BreadcrumbSchema';
 import Container from '../../components/Container';
 import EventsHero from '../../components/events/EventsHero';
 import EventsGrid from '../../components/events/EventsGrid';
+import { ErrorBoundary } from '../../components/ErrorBoundary';
 
 export const metadata: Metadata = {
   title: 'Events & News | ABA Therapy Conferences, Webinars & Training',
@@ -25,7 +26,9 @@ export default function EventsPage() {
       />
       <EventsHero />
       <Container>
-        <EventsGrid />
+        <ErrorBoundary>
+          <EventsGrid />
+        </ErrorBoundary>
       </Container>
     </>
   );

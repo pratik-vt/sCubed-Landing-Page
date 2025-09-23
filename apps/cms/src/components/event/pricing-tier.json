@@ -1,0 +1,52 @@
+{
+  "collectionName": "components_event_pricing_tiers",
+  "info": {
+    "displayName": "Pricing Tier",
+    "description": "Event pricing tier/ticket type"
+  },
+  "options": {},
+  "attributes": {
+    "name": {
+      "type": "string",
+      "required": true
+    },
+    "price": {
+      "type": "decimal",
+      "required": true,
+      "min": 0
+    },
+    "currency": {
+      "type": "string",
+      "default": "USD",
+      "required": true
+    },
+    "description": {
+      "type": "text"
+    },
+    "features": {
+      "type": "json",
+      "default": []
+    },
+    "availability": {
+      "type": "enumeration",
+      "enum": [
+        "available",
+        "sold-out",
+        "coming-soon",
+        "expired"
+      ],
+      "default": "available"
+    },
+    "quantity_available": {
+      "type": "integer",
+      "min": 0
+    },
+    "early_bird": {
+      "type": "boolean",
+      "default": false
+    },
+    "sale_ends": {
+      "type": "datetime"
+    }
+  }
+}

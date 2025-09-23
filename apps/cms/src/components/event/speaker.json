@@ -1,0 +1,46 @@
+{
+  "collectionName": "components_event_speakers",
+  "info": {
+    "displayName": "Speaker",
+    "description": "Event speaker information"
+  },
+  "options": {},
+  "attributes": {
+    "name": {
+      "type": "string",
+      "required": true
+    },
+    "title": {
+      "type": "string",
+      "required": true
+    },
+    "company": {
+      "type": "string"
+    },
+    "bio": {
+      "type": "text",
+      "required": true
+    },
+    "photo": {
+      "type": "media",
+      "multiple": false,
+      "required": false,
+      "allowedTypes": ["images"]
+    },
+    "linkedin_url": {
+      "type": "string"
+    },
+    "twitter_url": {
+      "type": "string"
+    },
+    "website": {
+      "type": "string"
+    },
+    "session_title": {
+      "type": "string"
+    },
+    "session_description": {
+      "type": "text"
+    }
+  }
+}

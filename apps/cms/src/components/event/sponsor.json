@@ -1,0 +1,37 @@
+{
+  "collectionName": "components_event_sponsors",
+  "info": {
+    "displayName": "Sponsor",
+    "description": "Event sponsor information"
+  },
+  "options": {},
+  "attributes": {
+    "name": {
+      "type": "string",
+      "required": true
+    },
+    "logo": {
+      "type": "media",
+      "multiple": false,
+      "required": true,
+      "allowedTypes": ["images"]
+    },
+    "website": {
+      "type": "string"
+    },
+    "tier": {
+      "type": "enumeration",
+      "enum": [
+        "platinum",
+        "gold",
+        "silver",
+        "bronze",
+        "partner"
+      ],
+      "default": "partner"
+    },
+    "description": {
+      "type": "text"
+    }
+  }
+}
