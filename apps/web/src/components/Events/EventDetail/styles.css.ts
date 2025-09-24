@@ -79,11 +79,14 @@ export const heroRegisterButton = style({});
 export const heroMobileWrapper = style({
   display: 'none',
   width: '100%',
-  padding: `${spacing.lg} ${spacing.sm} 0`,
+  padding: `${spacing.lg} 0 0`,
 
   '@media': {
     '(max-width: 768px)': {
       display: 'block',
+      width: 'calc(100vw + 2rem)',
+      marginLeft: 'calc(50% - 50vw - 1rem)',
+      marginRight: 'calc(50% - 50vw - 1rem)',
     },
   },
 });
@@ -93,6 +96,8 @@ export const heroMobileImage = style({
   height: 'auto',
   objectFit: 'cover',
   borderRadius: radius.lg,
+  display: 'block',
+  margin: 0,
 });
 
 export const contentWrapper = style({
