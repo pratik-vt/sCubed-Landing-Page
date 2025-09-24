@@ -192,16 +192,25 @@ const EventDetail: React.FC<EventDetailProps> = memo(({ event }) => {
 
   return (
     <div className={styles.articleContainer}>
-      {/* Hero Section - Image only, no overlays or text */}
+      {/* Hero Section - Image displayed like ModuleImage on mobile */}
       <section className={styles.heroSection}>
         {heroImageUrl ? (
-          <Image
-            src={heroImageUrl}
-            alt={event.title}
-            fill
-            className={styles.heroImage}
-            priority
-          />
+          <>
+            <Image
+              src={heroImageUrl}
+              alt={event.title}
+              fill
+              className={styles.heroImage}
+              priority
+            />
+            <div className={styles.heroMobileWrapper}>
+              <img
+                src={heroImageUrl}
+                alt={event.title}
+                className={styles.heroMobileImage}
+              />
+            </div>
+          </>
         ) : null}
       </section>
 

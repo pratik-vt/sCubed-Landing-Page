@@ -35,12 +35,12 @@ export const heroSection = style({
 
   '@media': {
     '(max-width: 768px)': {
-      height: '50vh',
-      minHeight: '300px',
+      height: 'auto',
+      minHeight: 'auto',
     },
     '(max-width: 414px)': {
-      height: '60vh',
-      minHeight: '300px',
+      height: 'auto',
+      minHeight: 'auto',
     },
   },
 });
@@ -53,6 +53,12 @@ export const heroImage = style({
   height: '100%',
   objectFit: 'cover',
   filter: 'none',
+
+  '@media': {
+    '(max-width: 768px)': {
+      display: 'none',
+    },
+  },
 });
 
 export const heroOverlay = style({});
@@ -68,6 +74,26 @@ export const heroMetaItem = style({});
 export const heroCta = style({});
 
 export const heroRegisterButton = style({});
+
+// Mobile image rendering similar to ModuleImage behavior
+export const heroMobileWrapper = style({
+  display: 'none',
+  width: '100%',
+  padding: `${spacing.lg} ${spacing.sm} 0`,
+
+  '@media': {
+    '(max-width: 768px)': {
+      display: 'block',
+    },
+  },
+});
+
+export const heroMobileImage = style({
+  width: '100%',
+  height: 'auto',
+  objectFit: 'cover',
+  borderRadius: radius.lg,
+});
 
 export const contentWrapper = style({
   maxWidth: '1200px',
@@ -692,14 +718,13 @@ export const ctaDeadline = style({
 
 // Global styles for breadcrumb links
 globalStyle(`${breadcrumb} a`, {
-  color: colors.neutral[600],
+  color: colors.primary[600],
   textDecoration: 'none',
   transition: 'color 0.2s',
 });
 
 globalStyle(`${breadcrumb} a:hover`, {
-  color: colors.primary[600],
-  textDecoration: 'underline',
+  color: colors.primary[700],
 });
 
 globalStyle(`${breadcrumb} span`, {

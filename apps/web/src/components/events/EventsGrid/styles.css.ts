@@ -8,10 +8,13 @@ export const eventsSection = style({
   maxWidth: '1400px',
   margin: '0 auto',
   width: '100%',
+  padding: `0 ${spacing.xl} ${spacing['3xl']}`,
   '@media': {
-    // 'screen and (max-width: 768px)': {
-    //   padding: `${spacing.xl} ${spacing.md} ${spacing['3xl']} ${spacing.md}`,
-    // },
+    '(max-width: 768px)': {
+      maxWidth: '800px',
+      width: '90%',
+      padding: '0 1rem 4rem',
+    },
     'screen and (min-width: 768px) and (max-width: 1480px)': {
       maxWidth: '1000px',
     },
