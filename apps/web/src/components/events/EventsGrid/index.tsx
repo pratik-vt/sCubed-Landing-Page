@@ -3,6 +3,7 @@
 import { motion, useInView, Variants } from 'framer-motion';
 import { ArrowRight, Calendar, Clock, MapPin } from 'lucide-react';
 import Image from 'next/image';
+import { useRouter } from 'next/navigation';
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 
 import {
@@ -35,6 +36,7 @@ import {
 } from './styles.css';
 
 const EventsGrid: React.FC = () => {
+  const router = useRouter();
   const sectionRef = useRef<HTMLElement>(null);
   const [events, setEvents] = useState<Event[]>([]);
   const [isLoading, setIsLoading] = useState(true);
@@ -132,7 +134,8 @@ const EventsGrid: React.FC = () => {
               left: 0,
               width: '100%',
               height: '100%',
-              background: 'linear-gradient(90deg, #f0f0f0 0%, #e0e0e0 50%, #f0f0f0 100%)',
+              background:
+                'linear-gradient(90deg, #f0f0f0 0%, #e0e0e0 50%, #f0f0f0 100%)',
               backgroundSize: '200% 100%',
               animation: 'shimmer 1.5s infinite',
               zIndex: 1,
@@ -147,7 +150,10 @@ const EventsGrid: React.FC = () => {
           className={eventThumbnail}
           unoptimized
           onLoad={() => setIsImageLoading(false)}
-          style={{ opacity: isImageLoading ? 0 : 1, transition: 'opacity 0.3s' }}
+          style={{
+            opacity: isImageLoading ? 0 : 1,
+            transition: 'opacity 0.3s',
+          }}
         />
       </>
     );
@@ -327,6 +333,7 @@ const EventsGrid: React.FC = () => {
               className={eventCard}
               whileHover="hover"
               custom={index}
+              onClick={() => router.push(`/events/${event.slug}`)}
             >
               <motion.div variants={cardHoverVariants}>
                 <div className={eventImageWrapper}>
@@ -391,6 +398,9 @@ const EventsGrid: React.FC = () => {
                       whileHover={{ scale: 1.02 }}
                       whileTap={{ scale: 0.98 }}
                       aria-label={`View details for ${event.title}`}
+                      onClick={(e) => {
+                        e.stopPropagation();
+                      }}
                     >
                       <span>View More</span>
                       <ArrowRight size={14} />

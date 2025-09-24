@@ -1,6 +1,6 @@
 'use client';
 
-import { Calendar, Check, Clock, Copy, MapPin, Share2 } from 'lucide-react';
+import { Check, Copy, Share2 } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
 import React, { memo, useCallback, useEffect, useMemo, useState } from 'react';
@@ -9,7 +9,6 @@ import ReactMarkdown from 'react-markdown';
 import rehypeRaw from 'rehype-raw';
 import remarkGfm from 'remark-gfm';
 
-import Button from '../../Button/button';
 import {
   formatEventDate,
   formatEventTime,
@@ -18,7 +17,10 @@ import {
 } from '../../../lib/events-api';
 import { getStrapiImageUrl } from '../../../lib/strapi';
 import type { Event } from '../../../types/event';
+import BlogContactForm from '../../Blog/BlogContactForm';
+import Button from '../../Button/button';
 
+import * as blogTableStyles from '../../Blog/DynamicContentRenderer/table.css';
 import * as styles from './styles.css';
 
 interface EventDetailProps {
@@ -62,143 +64,104 @@ const EventDetail: React.FC<EventDetailProps> = memo(({ event }) => {
   // Custom markdown components for rich text rendering
   const markdownComponents: Components = {
     h1: ({ children, ...props }: ComponentProps) => (
-      <h1 className="text-4xl font-bold mb-6 text-gray-900" {...props}>
+      <h1 className={styles.markdownH1} {...props}>
         {children}
       </h1>
     ),
     h2: ({ children, ...props }: ComponentProps) => (
-      <h2 className="text-3xl font-semibold mb-5 text-gray-900" {...props}>
+      <h2 className={styles.markdownH2} {...props}>
         {children}
       </h2>
     ),
     h3: ({ children, ...props }: ComponentProps) => (
-      <h3 className="text-2xl font-semibold mb-4 text-gray-900" {...props}>
+      <h3 className={styles.markdownH3} {...props}>
         {children}
       </h3>
     ),
     h4: ({ children, ...props }: ComponentProps) => (
-      <h4 className="text-xl font-semibold mb-3 text-gray-900" {...props}>
+      <h4 className={styles.markdownH4} {...props}>
         {children}
       </h4>
     ),
     p: ({ children, ...props }: ComponentProps) => (
-      <p className="mb-4 text-gray-700 leading-relaxed" {...props}>
+      <p className={styles.markdownP} {...props}>
         {children}
       </p>
     ),
     ul: ({ children, ...props }: ComponentProps) => (
-      <ul className="mb-4 ml-6 space-y-2 list-disc text-gray-700" {...props}>
+      <ul className={styles.markdownUl} {...props}>
         {children}
       </ul>
     ),
     ol: ({ children, ...props }: ComponentProps) => (
-      <ol className="mb-4 ml-6 space-y-2 list-decimal text-gray-700" {...props}>
+      <ol className={styles.markdownOl} {...props}>
         {children}
       </ol>
     ),
     li: ({ children, ...props }: ComponentProps) => (
-      <li className="leading-relaxed" {...props}>
+      <li className={styles.markdownLi} {...props}>
         {children}
       </li>
     ),
-    a: ({ children, ...props }: ComponentProps) => (
+    a: ({ children, href, ...props }: ComponentProps) => (
       <a
-        className="text-primary-600 hover:text-primary-700 transition-colors duration-200 underline"
+        className={styles.markdownA}
+        href={href}
+        target="_blank"
+        rel="noopener noreferrer"
         {...props}
       >
         {children}
       </a>
     ),
     blockquote: ({ children, ...props }: ComponentProps) => (
-      <blockquote
-        className="border-l-4 border-primary-500 bg-primary-50 p-4 my-6 italic"
-        {...props}
-      >
+      <blockquote className={styles.markdownBlockquote} {...props}>
         {children}
       </blockquote>
     ),
-    code: ({ children, className, ...props }: ComponentProps) => {
-      const isInline = !className;
-      if (isInline) {
-        return (
-          <code
-            className="bg-gray-100 text-gray-800 px-2 py-1 rounded text-sm font-mono"
-            {...props}
-          >
-            {children}
-          </code>
-        );
-      }
-      return (
-        <code
-          className="block bg-gray-900 text-gray-100 p-4 rounded-lg overflow-x-auto font-mono"
-          {...props}
-        >
-          {children}
-        </code>
-      );
-    },
-    pre: ({ children, ...props }: ComponentProps) => (
-      <pre
-        className="bg-gray-900 text-gray-100 p-4 rounded-lg overflow-x-auto my-4 font-mono text-sm"
-        {...props}
-      >
-        {children}
-      </pre>
-    ),
     strong: ({ children, ...props }: ComponentProps) => (
-      <strong className="font-bold text-gray-900" {...props}>
+      <strong className={styles.markdownStrong} {...props}>
         {children}
       </strong>
     ),
     em: ({ children, ...props }: ComponentProps) => (
-      <em className="italic text-gray-800" {...props}>
+      <em className={styles.markdownEm} {...props}>
         {children}
       </em>
     ),
-    del: ({ children, ...props }: ComponentProps) => (
-      <del className="text-gray-500 line-through" {...props}>
-        {children}
-      </del>
-    ),
-    mark: ({ children, ...props }: ComponentProps) => (
-      <mark className="bg-yellow-200 px-1 rounded" {...props}>
-        {children}
-      </mark>
+    hr: ({ ...props }: ComponentProps) => (
+      <hr className={styles.markdownHr} {...props} />
     ),
     table: ({ children, ...props }: ComponentProps) => (
-      <div className="overflow-x-auto mb-6">
-        <table className="w-full border-collapse" {...props}>
+      <div className={blogTableStyles.tableWrapper}>
+        <table className={blogTableStyles.table} {...props}>
           {children}
         </table>
       </div>
     ),
     thead: ({ children, ...props }: ComponentProps) => (
-      <thead className="bg-gray-50 border-b-2 border-gray-200" {...props}>
+      <thead className={blogTableStyles.tableHeader} {...props}>
         {children}
       </thead>
     ),
     th: ({ children, ...props }: ComponentProps) => (
-      <th
-        className="px-6 py-3 text-left text-xs font-medium text-gray-700 uppercase tracking-wider"
-        {...props}
-      >
+      <th className={blogTableStyles.headerCell} {...props}>
         {children}
       </th>
     ),
     tbody: ({ children, ...props }: ComponentProps) => (
-      <tbody className="bg-white divide-y divide-gray-200" {...props}>
+      <tbody className={blogTableStyles.tableBody} {...props}>
         {children}
       </tbody>
     ),
     tr: ({ children, ...props }: ComponentProps) => (
-      <tr className="hover:bg-gray-50" {...props}>
+      <tr className={blogTableStyles.bodyRow} {...props}>
         {children}
       </tr>
     ),
     td: ({ children, ...props }: ComponentProps) => (
-      <td className="px-6 py-4 text-sm text-gray-700" {...props}>
-        {children}
+      <td className={blogTableStyles.bodyCell} {...props}>
+        <div className={blogTableStyles.cellContent}>{children}</div>
       </td>
     ),
   };
@@ -229,7 +192,7 @@ const EventDetail: React.FC<EventDetailProps> = memo(({ event }) => {
 
   return (
     <div className={styles.articleContainer}>
-      {/* Hero Section */}
+      {/* Hero Section - Image only, no overlays or text */}
       <section className={styles.heroSection}>
         {heroImageUrl ? (
           <Image
@@ -239,44 +202,7 @@ const EventDetail: React.FC<EventDetailProps> = memo(({ event }) => {
             className={styles.heroImage}
             priority
           />
-        ) : (
-          <div className="absolute inset-0 bg-gradient-to-br from-primary-500 to-primary-700" />
-        )}
-        <div className={styles.heroOverlay} />
-        <div className={styles.heroContent}>
-          <h1 className={styles.heroTitle}>{event.title}</h1>
-          <div className={styles.heroMeta}>
-            <span className={styles.heroMetaItem}>
-              <Calendar size={20} />
-              {eventDate}
-            </span>
-            <span className={styles.heroMetaItem}>
-              <Clock size={20} />
-              {eventTime}
-            </span>
-            <span className={styles.heroMetaItem}>
-              <MapPin size={20} />
-              {eventLocation}
-            </span>
-          </div>
-          {registrationOpen && event.registration_url && (
-            <div className={styles.heroCta}>
-              <Button
-                onClick={() => window.open(event.registration_url, '_blank')}
-                className={styles.heroRegisterButton}
-                style={{
-                  padding: '14px 32px',
-                  fontSize: '18px',
-                  fontWeight: '600',
-                  width: 'auto',
-                  height: 'auto',
-                }}
-              >
-                Register Now
-              </Button>
-            </div>
-          )}
-        </div>
+        ) : null}
       </section>
 
       {/* Content Wrapper */}
@@ -501,7 +427,9 @@ const EventDetail: React.FC<EventDetailProps> = memo(({ event }) => {
                 {/* Registration Status */}
                 {registrationOpen && event.registration_url ? (
                   <Button
-                    onClick={() => window.open(event.registration_url, '_blank')}
+                    onClick={() =>
+                      window.open(event.registration_url, '_blank')
+                    }
                     className={styles.registerButton}
                     style={{
                       width: '100%',
@@ -530,6 +458,9 @@ const EventDetail: React.FC<EventDetailProps> = memo(({ event }) => {
                 )}
               </div>
             </div>
+
+            {/* Contact Form */}
+            <BlogContactForm />
           </aside>
         </div>
       </div>

@@ -52,110 +52,22 @@ export const heroImage = style({
   width: '100%',
   height: '100%',
   objectFit: 'cover',
-  filter: 'brightness(0.4)',
+  filter: 'none',
 });
 
-export const heroOverlay = style({
-  position: 'absolute',
-  top: 0,
-  left: 0,
-  width: '100%',
-  height: '100%',
-  background:
-    'linear-gradient(135deg, rgba(102, 126, 234, 0.8) 0%, rgba(118, 75, 162, 0.8) 100%)',
-});
+export const heroOverlay = style({});
 
-export const heroContent = style({
-  position: 'relative',
-  zIndex: 2,
-  textAlign: 'center',
-  color: colors.white,
-  maxWidth: '1000px',
-  padding: `0 ${spacing.xl}`,
+export const heroContent = style({});
 
-  '@media': {
-    '(max-width: 768px)': {
-      maxWidth: '100%',
-      padding: `0 ${spacing.sm}`,
-    },
-  },
-});
+export const heroTitle = style({});
 
-export const heroTitle = style({
-  fontSize: '3.5rem',
-  fontWeight: typography.fontWeight.bold,
-  lineHeight: '1.2',
-  marginBottom: spacing.lg,
-  textShadow: '0 2px 4px rgba(0, 0, 0, 0.3)',
+export const heroMeta = style({});
 
-  '@media': {
-    '(max-width: 1024px)': {
-      fontSize: '3rem',
-    },
-    '(max-width: 768px)': {
-      fontSize: '2.5rem',
-    },
-    '(max-width: 650px)': {
-      fontSize: '2rem',
-    },
-    '(max-width: 576px)': {
-      fontSize: '1.75rem',
-    },
-    '(max-width: 480px)': {
-      fontSize: '1.5rem',
-    },
-  },
-});
+export const heroMetaItem = style({});
 
-export const heroMeta = style({
-  display: 'flex',
-  justifyContent: 'center',
-  gap: spacing.lg,
-  marginTop: spacing.lg,
-  flexWrap: 'wrap',
+export const heroCta = style({});
 
-  '@media': {
-    '(max-width: 768px)': {
-      gap: spacing.md,
-    },
-  },
-});
-
-export const heroMetaItem = style({
-  display: 'flex',
-  alignItems: 'center',
-  gap: '0.5rem',
-  fontSize: typography.fontSize.lg,
-  opacity: 0.9,
-  textShadow: '0 1px 2px rgba(0, 0, 0, 0.3)',
-});
-
-export const heroCta = style({
-  marginTop: spacing.xl,
-});
-
-export const heroRegisterButton = style({
-  display: 'inline-block',
-  padding: '14px 32px',
-  backgroundColor: colors.primary[600],
-  color: colors.white,
-  borderRadius: radius.lg,
-  textDecoration: 'none',
-  fontWeight: typography.fontWeight.semibold,
-  fontSize: typography.fontSize.lg,
-  transition: 'all 0.2s',
-  boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.3)',
-
-  ':hover': {
-    backgroundColor: colors.primary[700],
-    transform: 'translateY(-2px)',
-    boxShadow: '0 8px 12px -2px rgba(0, 0, 0, 0.4)',
-  },
-
-  ':active': {
-    transform: 'translateY(0)',
-  },
-});
+export const heroRegisterButton = style({});
 
 export const contentWrapper = style({
   maxWidth: '1200px',
@@ -406,9 +318,9 @@ export const facebookButton = style([
 // Sidebar styles
 export const sidebar = style({
   flex: '0 0 340px',
-  position: 'sticky',
-  top: '160px',
-  height: 'fit-content',
+  position: 'relative',
+  top: 'auto',
+  height: 'auto',
 
   '@media': {
     '(max-width: 1024px)': {
@@ -437,6 +349,7 @@ export const eventDetailsCard = style({
   overflow: 'hidden',
   transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
   position: 'relative',
+  marginBottom: '32px',
 
   '::before': {
     content: '""',
@@ -792,4 +705,220 @@ globalStyle(`${breadcrumb} a:hover`, {
 globalStyle(`${breadcrumb} span`, {
   color: colors.neutral[800],
   fontWeight: typography.fontWeight.medium,
+});
+
+// Add these markdown-specific styles to your styles.css file
+
+// Markdown Typography Styles
+export const markdownH1 = style({
+  fontSize: '2.5rem',
+  fontWeight: typography.fontWeight.bold,
+  lineHeight: '1.2',
+  marginTop: spacing.xl,
+  marginBottom: spacing.lg,
+  color: colors.neutral[900],
+
+  ':first-child': {
+    marginTop: 0,
+  },
+
+  '@media': {
+    '(max-width: 768px)': {
+      fontSize: '2rem',
+    },
+  },
+});
+
+export const markdownH2 = style({
+  fontSize: '2rem',
+  fontWeight: typography.fontWeight.semibold,
+  lineHeight: '1.3',
+  marginTop: spacing.xl,
+  marginBottom: spacing.md,
+  color: colors.neutral[900],
+
+  '@media': {
+    '(max-width: 768px)': {
+      fontSize: '1.75rem',
+    },
+  },
+});
+
+export const markdownH3 = style({
+  fontSize: '1.5rem',
+  fontWeight: typography.fontWeight.semibold,
+  lineHeight: '1.4',
+  marginTop: spacing.lg,
+  marginBottom: spacing.md,
+  color: colors.neutral[900],
+
+  '@media': {
+    '(max-width: 768px)': {
+      fontSize: '1.25rem',
+    },
+  },
+});
+
+export const markdownH4 = style({
+  fontSize: '1.25rem',
+  fontWeight: typography.fontWeight.semibold,
+  lineHeight: '1.4',
+  marginTop: spacing.lg,
+  marginBottom: spacing.sm,
+  color: colors.neutral[900],
+
+  '@media': {
+    '(max-width: 768px)': {
+      fontSize: '1.125rem',
+    },
+  },
+});
+
+export const markdownP = style({
+  marginBottom: spacing.md,
+  color: colors.neutral[700],
+  lineHeight: typography.lineHeight.relaxed,
+  fontSize: typography.fontSize.base,
+});
+
+export const markdownUl = style({
+  marginBottom: spacing.md,
+  marginLeft: spacing.lg,
+  listStyleType: 'disc',
+  color: colors.neutral[700],
+});
+
+export const markdownOl = style({
+  marginBottom: spacing.md,
+  marginLeft: spacing.lg,
+  listStyleType: 'decimal',
+  color: colors.neutral[700],
+});
+
+export const markdownLi = style({
+  lineHeight: typography.lineHeight.relaxed,
+  paddingLeft: spacing.xs,
+});
+
+export const markdownA = style({
+  color: colors.primary[600],
+  textDecoration: 'underline',
+  transition: 'color 0.2s ease',
+
+  ':hover': {
+    color: colors.primary[700],
+  },
+});
+
+export const markdownBlockquote = style({
+  borderLeft: `4px solid ${colors.primary[500]}`,
+  backgroundColor: colors.primary[50],
+  padding: spacing.lg,
+  marginTop: spacing.lg,
+  marginBottom: spacing.lg,
+  fontStyle: 'italic',
+  color: colors.neutral[700],
+});
+
+export const markdownStrong = style({
+  fontWeight: typography.fontWeight.bold,
+  color: colors.neutral[900],
+});
+
+export const markdownEm = style({
+  fontStyle: 'italic',
+  color: colors.neutral[800],
+});
+
+export const markdownHr = style({
+  border: 'none',
+  borderTop: `2px solid ${colors.neutral[200]}`,
+  marginTop: spacing.xl,
+  marginBottom: spacing.xl,
+});
+
+// Table Styles - CRITICAL FOR TABLE RENDERING
+export const tableWrapper = style({
+  overflowX: 'auto',
+  marginTop: spacing.lg,
+  marginBottom: spacing.lg,
+  borderRadius: radius.lg,
+  border: `1px solid ${colors.neutral[200]}`,
+});
+
+export const markdownTable = style({
+  width: '100%',
+  borderCollapse: 'separate',
+  borderSpacing: 0,
+  fontSize: typography.fontSize.sm,
+});
+
+export const markdownThead = style({
+  backgroundColor: colors.neutral[50],
+});
+
+export const markdownTh = style({
+  padding: `${spacing.md} ${spacing.lg}`,
+  textAlign: 'left',
+  fontWeight: typography.fontWeight.semibold,
+  color: colors.neutral[900],
+  borderBottom: `2px solid ${colors.neutral[200]}`,
+  fontSize: typography.fontSize.sm,
+  textTransform: 'uppercase',
+  letterSpacing: '0.05em',
+
+  ':first-child': {
+    borderTopLeftRadius: radius.md,
+  },
+
+  ':last-child': {
+    borderTopRightRadius: radius.md,
+  },
+});
+
+export const markdownTbody = style({
+  backgroundColor: colors.white,
+});
+
+export const markdownTr = style({
+  transition: 'background-color 0.2s ease',
+
+  ':hover': {
+    backgroundColor: colors.neutral[50],
+  },
+});
+
+export const markdownTd = style({
+  padding: `${spacing.md} ${spacing.lg}`,
+  color: colors.neutral[700],
+  borderBottom: `1px solid ${colors.neutral[100]}`,
+  fontSize: typography.fontSize.sm,
+  lineHeight: typography.lineHeight.relaxed,
+});
+
+// Remove unused styles (clean up)
+// Remove these from your file:
+// - cardHeaderIcon
+// - infoSection
+// - iconWrapper
+// - infoSubtext
+// - statusDot
+// - statusUpcoming
+// - statusOngoing
+// - statusCompleted
+// - secondaryButton
+// - ctaDeadline
+
+// Global styles for markdown list items
+globalStyle(`${markdownUl} li`, {
+  marginBottom: spacing.xs,
+});
+
+globalStyle(`${markdownOl} li`, {
+  marginBottom: spacing.xs,
+});
+
+// Global style for table last row td
+globalStyle(`${markdownTbody} tr:last-child ${markdownTd}`, {
+  borderBottom: 'none',
 });

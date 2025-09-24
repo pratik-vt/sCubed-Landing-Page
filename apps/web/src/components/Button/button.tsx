@@ -17,7 +17,7 @@ interface ButtonProps {
 
 const Button: React.FC<ButtonProps> = ({
   color = '#fff',
-  backgroundColor = '#007bff',
+  backgroundColor = '#7a7eed',
   height = '50px',
   width = '180px',
   border = 'none',

@@ -2,9 +2,9 @@ import type { Metadata } from 'next';
 
 import BreadcrumbSchema from '../../components/BreadcrumbSchema';
 import Container from '../../components/Container';
-import EventsHero from '../../components/events/EventsHero';
-import EventsGrid from '../../components/events/EventsGrid';
 import { ErrorBoundary } from '../../components/ErrorBoundary';
+import EventsGrid from '../../components/events/EventsGrid';
+import EventsHero from '../../components/events/EventsHero';
 
 export const metadata: Metadata = {
   title: 'Events & News | ABA Therapy Conferences, Webinars & Training',
