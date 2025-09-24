@@ -1,17 +1,37 @@
 'use client';
 
 import { motion, useInView, Variants } from 'framer-motion';
-import React, { useRef, useEffect, useState, useMemo, useCallback } from 'react';
-import Link from 'next/link';
+import { ArrowRight, Calendar, Clock, MapPin } from 'lucide-react';
+import Image from 'next/image';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 
-import { getEvents } from '../../../lib/events-api';
-import EventCard from '../../Events/EventCard';
-import EventCardSkeleton from '../../Events/EventCardSkeleton';
+import {
+  formatEventDate,
+  formatEventTime,
+  getEventLocationString,
+  getEvents,
+} from '../../../lib/events-api';
+import { getStrapiImageUrl } from '../../../lib/strapi';
 import type { Event } from '../../../types/event';
 
 import {
+  eventCard,
+  eventCardContent,
+  eventDate,
+  eventDescription,
+  eventDetails,
+  eventDetailsInfo,
+  eventDetailsItem,
   eventGrid,
+  eventIcon,
+  eventImageWrapper,
+  eventLink,
+  eventLocation,
   eventsSection,
+  eventThumbnail,
+  eventTime,
+  eventTitle,
+  eventType,
 } from './styles.css';
 
 const EventsGrid: React.FC = () => {
@@ -33,7 +53,6 @@ const EventsGrid: React.FC = () => {
         setEvents([]);
       }
     } catch (error) {
-      // Silently handle errors and show empty state
       setEvents([]);
     } finally {
       setIsLoading(false);
@@ -44,60 +63,198 @@ const EventsGrid: React.FC = () => {
     fetchEvents();
   }, [fetchEvents]);
 
-  const containerVariants: Variants = useMemo(
-    () => ({
-      hidden: { opacity: 0 },
-      visible: {
-        opacity: 1,
-        transition: {
-          staggerChildren: 0.1,
-          delayChildren: 0.2,
-        },
+  const containerVariants: Variants = {
+    hidden: {},
+    visible: {
+      transition: {
+        staggerChildren: 0.1,
+        delayChildren: 0.2,
       },
-    }),
-    []
-  );
+    },
+  };
 
-  const itemVariants: Variants = useMemo(
-    () => ({
-      hidden: {
-        opacity: 0,
-        y: 30,
-        scale: 0.95,
+  const cardHoverVariants: Variants = {
+    hover: {
+      y: -8,
+      transition: {
+        duration: 0.3,
+        ease: 'easeOut',
       },
-      visible: {
-        opacity: 1,
-        y: 0,
-        scale: 1,
-        transition: {
-          duration: 0.5,
-          ease: 'easeOut',
-        },
-      },
-    }),
-    []
-  );
+    },
+  };
+
+  const getEventTypeFromCategories = (event: Event): string => {
+    if (event.categories && event.categories.length > 0) {
+      const category = event.categories[0].name.toLowerCase();
+      if (category.includes('conference')) return 'conference';
+      if (category.includes('webinar')) return 'webinar';
+      if (category.includes('workshop')) return 'workshop';
+      if (category.includes('training')) return 'training';
+      if (category.includes('announcement')) return 'announcement';
+      return event.categories[0].name;
+    }
+    return 'event';
+  };
+
+  const getEventTypeStyle = (type: string) => {
+    switch (type.toLowerCase()) {
+      case 'conference':
+        return { background: 'rgba(122, 126, 237, 0.9)', color: '#ffffff' };
+      case 'webinar':
+        return { background: 'rgba(6, 182, 212, 0.9)', color: '#ffffff' };
+      case 'workshop':
+        return { background: 'rgba(16, 185, 129, 0.9)', color: '#ffffff' };
+      case 'announcement':
+        return { background: 'rgba(245, 158, 11, 0.9)', color: '#ffffff' };
+      case 'training':
+        return { background: 'rgba(139, 92, 246, 0.9)', color: '#ffffff' };
+      default:
+        return { background: 'rgba(107, 114, 128, 0.9)', color: '#ffffff' };
+    }
+  };
+
+  const truncateDescription = (text: string, maxLength: number = 120) => {
+    if (text.length <= maxLength) return text;
+    return text.substring(0, maxLength).trim() + '...';
+  };
 
   if (isLoading) {
     return (
       <section className={eventsSection}>
         <div className={eventGrid}>
           {[...Array(6)].map((_, index) => (
-            <EventCardSkeleton key={index} />
+            <div key={index} className={eventCard}>
+              <div className={eventImageWrapper}>
+                <div
+                  className={eventThumbnail}
+                  style={{
+                    background:
+                      'linear-gradient(90deg, #f0f0f0 0%, #e0e0e0 50%, #f0f0f0 100%)',
+                    backgroundSize: '200% 100%',
+                    animation: 'shimmer 1.5s infinite',
+                    width: '100%',
+                    height: '100%',
+                  }}
+                />
+              </div>
+              <div className={eventCardContent}>
+                <div
+                  style={{
+                    height: '20px',
+                    background:
+                      'linear-gradient(90deg, #f0f0f0 0%, #e0e0e0 50%, #f0f0f0 100%)',
+                    backgroundSize: '200% 100%',
+                    animation: 'shimmer 1.5s infinite',
+                    borderRadius: '4px',
+                    marginBottom: '12px',
+                    width: '60%',
+                  }}
+                />
+                <div
+                  style={{
+                    height: '28px',
+                    background:
+                      'linear-gradient(90deg, #f0f0f0 0%, #e0e0e0 50%, #f0f0f0 100%)',
+                    backgroundSize: '200% 100%',
+                    animation: 'shimmer 1.5s infinite',
+                    borderRadius: '4px',
+                    marginBottom: '8px',
+                  }}
+                />
+                <div
+                  style={{
+                    height: '40px',
+                    background:
+                      'linear-gradient(90deg, #f0f0f0 0%, #e0e0e0 50%, #f0f0f0 100%)',
+                    backgroundSize: '200% 100%',
+                    animation: 'shimmer 1.5s infinite',
+                    borderRadius: '4px',
+                    marginBottom: '12px',
+                  }}
+                />
+                <div className={eventDetails}>
+                  <div className={eventDetailsInfo}>
+                    <div
+                      style={{
+                        height: '16px',
+                        background:
+                          'linear-gradient(90deg, #f0f0f0 0%, #e0e0e0 50%, #f0f0f0 100%)',
+                        backgroundSize: '200% 100%',
+                        animation: 'shimmer 1.5s infinite',
+                        borderRadius: '4px',
+                        width: '120px',
+                        marginBottom: '6px',
+                      }}
+                    />
+                    <div
+                      style={{
+                        height: '16px',
+                        background:
+                          'linear-gradient(90deg, #f0f0f0 0%, #e0e0e0 50%, #f0f0f0 100%)',
+                        backgroundSize: '200% 100%',
+                        animation: 'shimmer 1.5s infinite',
+                        borderRadius: '4px',
+                        width: '100px',
+                        marginBottom: '6px',
+                      }}
+                    />
+                    <div
+                      style={{
+                        height: '16px',
+                        background:
+                          'linear-gradient(90deg, #f0f0f0 0%, #e0e0e0 50%, #f0f0f0 100%)',
+                        backgroundSize: '200% 100%',
+                        animation: 'shimmer 1.5s infinite',
+                        borderRadius: '4px',
+                        width: '140px',
+                      }}
+                    />
+                  </div>
+                  <div
+                    style={{
+                      height: '36px',
+                      background:
+                        'linear-gradient(90deg, #f0f0f0 0%, #e0e0e0 50%, #f0f0f0 100%)',
+                      backgroundSize: '200% 100%',
+                      animation: 'shimmer 1.5s infinite',
+                      borderRadius: '6px',
+                      width: '90px',
+                    }}
+                  />
+                </div>
+              </div>
+            </div>
           ))}
         </div>
+        <style jsx>{`
+          @keyframes shimmer {
+            0% {
+              background-position: -200% 0;
+            }
+            100% {
+              background-position: 200% 0;
+            }
+          }
+        `}</style>
       </section>
     );
   }
 
-  // If no events from API, show a better empty state
   if (events.length === 0) {
     return (
       <section className={eventsSection}>
         <div className={eventGrid}>
-          <div style={{ gridColumn: '1 / -1', textAlign: 'center', padding: '3rem 0' }}>
+          <div
+            style={{
+              gridColumn: '1 / -1',
+              textAlign: 'center',
+              padding: '3rem 0',
+            }}
+          >
             <h3>No events available</h3>
-            <p style={{ marginTop: '0.5rem', opacity: 0.7 }}>Please check back later for upcoming events.</p>
+            <p style={{ marginTop: '0.5rem', opacity: 0.7 }}>
+              Please check back later for upcoming events.
+            </p>
           </div>
         </div>
       </section>
@@ -110,17 +267,102 @@ const EventsGrid: React.FC = () => {
         className={eventGrid}
         variants={containerVariants}
         initial="hidden"
-        animate="visible"
+        animate={isInView ? 'visible' : 'hidden'}
       >
-        {events.map((event, index) => (
-          <motion.div
-            key={event.id}
-            variants={itemVariants}
-            custom={index}
-          >
-            <EventCard event={event} />
-          </motion.div>
-        ))}
+        {events.map((event, index) => {
+          const eventTypeValue = getEventTypeFromCategories(event);
+          const imageUrl = getStrapiImageUrl(event.featured_image);
+          const dateStr = formatEventDate(event.start_date, event.end_date);
+          const timeStr = `${formatEventTime(event.start_date)} - ${formatEventTime(event.end_date)}`;
+          const location = getEventLocationString(event);
+
+          return (
+            <motion.article
+              key={event.id}
+              className={eventCard}
+              whileHover="hover"
+              custom={index}
+            >
+              <motion.div variants={cardHoverVariants}>
+                <div className={eventImageWrapper}>
+                  {imageUrl ? (
+                    <Image
+                      src={imageUrl}
+                      alt={event.title}
+                      width={400}
+                      height={200}
+                      className={eventThumbnail}
+                      unoptimized
+                    />
+                  ) : (
+                    <div
+                      className={eventThumbnail}
+                      style={{
+                        background: `linear-gradient(135deg, ${getEventTypeStyle(eventTypeValue).background} 0%, rgba(107, 114, 128, 0.9) 100%)`,
+                        width: '100%',
+                        height: '100%',
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        color: '#ffffff',
+                        fontSize: '1.5rem',
+                        fontWeight: 600,
+                        textTransform: 'uppercase',
+                        letterSpacing: '0.1em',
+                      }}
+                    >
+                      <span>{eventTypeValue}</span>
+                    </div>
+                  )}
+                  <span
+                    className={eventType}
+                    style={getEventTypeStyle(eventTypeValue)}
+                  >
+                    {eventTypeValue.charAt(0).toUpperCase() +
+                      eventTypeValue.slice(1)}
+                  </span>
+                </div>
+
+                <div className={eventCardContent}>
+                  <h3 className={eventTitle}>{event.title}</h3>
+                  <p className={eventDescription}>
+                    {truncateDescription(event.excerpt || event.description)}
+                  </p>
+
+                  <div className={eventDetails}>
+                    <div className={eventDetailsInfo}>
+                      <div className={eventDetailsItem}>
+                        <Calendar className={eventIcon} size={16} />
+                        <span className={eventDate}>{dateStr}</span>
+                      </div>
+                      <div className={eventDetailsItem}>
+                        <Clock className={eventIcon} size={16} />
+                        <span className={eventTime}>{timeStr}</span>
+                      </div>
+                      <div className={eventDetailsItem}>
+                        <MapPin className={eventIcon} size={16} />
+                        <span className={eventLocation} title={location}>
+                          {location}
+                        </span>
+                      </div>
+                    </div>
+
+                    <motion.a
+                      href={`/events/${event.slug}`}
+                      className={eventLink}
+                      whileHover={{ scale: 1.02 }}
+                      whileTap={{ scale: 0.98 }}
+                      aria-label={`View details for ${event.title}`}
+                    >
+                      <span>View More</span>
+                      <ArrowRight size={14} />
+                    </motion.a>
+                  </div>
+                </div>
+              </motion.div>
+            </motion.article>
+          );
+        })}
       </motion.div>
     </section>
   );

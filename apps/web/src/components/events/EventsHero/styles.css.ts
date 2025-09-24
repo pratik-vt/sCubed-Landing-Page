@@ -28,7 +28,7 @@ const shimmer = keyframes({
 export const bannerSection = style({
   position: 'relative',
   width: '100%',
-  minHeight: '420px',
+  minHeight: '320px',
   display: 'flex',
   alignItems: 'center',
   justifyContent: 'center',
@@ -55,13 +55,13 @@ export const bannerSection = style({
       paddingTop: '147px',
     },
     'screen and (max-width: 768px)': {
-      minHeight: '380px',
+      minHeight: '280px',
       marginBottom: spacing.xl,
       marginTop: '-228px',
       paddingTop: '228px',
     },
     'screen and (max-width: 480px)': {
-      minHeight: '350px',
+      minHeight: '260px',
     },
   },
 });
@@ -107,7 +107,7 @@ export const bannerContent = style({
   alignItems: 'center',
   justifyContent: 'center',
   width: '100%',
-  padding: `${spacing['2xl']} ${spacing.md}`,
+  padding: `${spacing.xl} ${spacing.md}`,
   '@media': {
     'screen and (max-width: 768px)': {
       padding: `${spacing.xl} ${spacing.md}`,
@@ -123,16 +123,16 @@ export const bannerTextContent = style({
 
 export const bannerTitleWrapper = style({
   position: 'relative',
-  marginBottom: spacing.xl,
+  marginBottom: spacing.lg,
 });
 
 export const bannerIcon = style({
   display: 'inline-flex',
   alignItems: 'center',
   justifyContent: 'center',
-  width: '64px',
-  height: '64px',
-  marginBottom: spacing.md,
+  width: '48px',
+  height: '48px',
+  marginBottom: 0,
   background: 'rgba(255, 255, 255, 0.2)',
   backdropFilter: 'blur(10px)',
   borderRadius: radius.full,

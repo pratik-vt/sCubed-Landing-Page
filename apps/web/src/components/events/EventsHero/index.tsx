@@ -37,15 +37,21 @@ const EventsHero: React.FC = () => {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, delay: 0.1, ease: 'easeOut' }}
             >
-              <motion.div
-                className={bannerIcon}
-                initial={{ scale: 0, rotate: -180 }}
-                animate={{ scale: 1, rotate: 0 }}
-                transition={{ duration: 0.6, delay: 0.3, ease: 'easeOut' }}
-              >
-                <Calendar size={36} />
-              </motion.div>
               <h1 className={bannerTitle}>
+                <motion.span
+                  className={bannerIcon}
+                  initial={{ scale: 0, rotate: -180 }}
+                  animate={{ scale: 1, rotate: 0 }}
+                  transition={{ duration: 0.6, delay: 0.3, ease: 'easeOut' }}
+                  style={{
+                    display: 'inline-flex',
+                    marginRight: '16px',
+                    verticalAlign: 'middle',
+                    marginBottom: 0
+                  }}
+                >
+                  <Calendar size={32} />
+                </motion.span>
                 Events & <span className={bannerTitleHighlight}>News</span>
               </h1>
               <motion.div

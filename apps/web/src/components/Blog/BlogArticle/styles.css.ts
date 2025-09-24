@@ -1,6 +1,12 @@
-import { style, globalStyle } from '@vanilla-extract/css';
+import { globalStyle, style } from '@vanilla-extract/css';
 
-import { colors, typography, spacing, shadows, radius } from '../../../styles/tokens.css';
+import {
+  colors,
+  radius,
+  shadows,
+  spacing,
+  typography,
+} from '../../../styles/tokens.css';
 
 export const articleContainer = style({
   backgroundColor: colors.neutral[50],
@@ -8,7 +14,7 @@ export const articleContainer = style({
   marginTop: '-80px', // Compensate for layout margin
   paddingTop: '80px', // Add padding to push content below header
   position: 'relative',
-  
+
   '@media': {
     '(max-width: 768px)': {
       marginTop: '-60px',
@@ -26,7 +32,7 @@ export const heroSection = style({
   display: 'flex',
   alignItems: 'center',
   justifyContent: 'center',
-  
+
   '@media': {
     '(max-width: 768px)': {
       height: '50vh',
@@ -55,7 +61,8 @@ export const heroOverlay = style({
   left: 0,
   width: '100%',
   height: '100%',
-  background: 'linear-gradient(135deg, rgba(102, 126, 234, 0.8) 0%, rgba(118, 75, 162, 0.8) 100%)',
+  background:
+    'linear-gradient(135deg, rgba(102, 126, 234, 0.8) 0%, rgba(118, 75, 162, 0.8) 100%)',
 });
 
 export const heroContent = style({
@@ -65,7 +72,7 @@ export const heroContent = style({
   color: colors.white,
   maxWidth: '1000px',
   padding: `0 ${spacing.xl}`,
-  
+
   '@media': {
     '(max-width: 768px)': {
       maxWidth: '100%',
@@ -80,7 +87,7 @@ export const heroTitle = style({
   lineHeight: '1.2',
   marginBottom: spacing.lg,
   textShadow: '0 2px 4px rgba(0, 0, 0, 0.3)',
-  
+
   '@media': {
     '(max-width: 1024px)': {
       fontSize: '3rem',
@@ -106,7 +113,7 @@ export const heroMeta = style({
   gap: spacing.lg,
   marginTop: spacing.lg,
   flexWrap: 'wrap',
-  
+
   '@media': {
     '(max-width: 768px)': {
       gap: spacing.md,
@@ -133,7 +140,7 @@ export const contentWrapper = style({
   borderRadius: `${radius.xl} ${radius.xl} 0 0`,
   boxShadow: '0 -4px 6px -1px rgba(0, 0, 0, 0.1)',
   zIndex: 1,
-  
+
   '@media': {
     '(max-width: 768px)': {
       maxWidth: '100%',
@@ -175,7 +182,7 @@ export const articleTitle = style({
   color: colors.neutral[900],
   marginBottom: spacing.lg,
   fontFamily: typography.fontFamily.heading,
-  
+
   '@media': {
     '(max-width: 768px)': {
       fontSize: typography.fontSize['2xl'],
@@ -212,7 +219,7 @@ export const audioPlayer = style({
   transition: 'all 0.2s ease',
   fontSize: typography.fontSize.sm,
   fontWeight: typography.fontWeight.medium,
-  
+
   ':hover': {
     backgroundColor: colors.primary[100],
     borderColor: colors.primary[300],
@@ -223,7 +230,7 @@ export const articleContent = style({
   lineHeight: typography.lineHeight.relaxed,
   color: colors.neutral[700],
   scrollPaddingTop: '100px', // Account for fixed header
-  
+
   '@media': {
     '(max-width: 768px)': {
       scrollPaddingTop: '80px',
@@ -242,7 +249,7 @@ export const sectionTitle = style({
   marginBottom: spacing.lg,
   fontFamily: typography.fontFamily.heading,
   lineHeight: typography.lineHeight.tight,
-  
+
   '@media': {
     '(max-width: 768px)': {
       fontSize: typography.fontSize.xl,
@@ -258,7 +265,7 @@ export const listItem = style({
   lineHeight: typography.lineHeight.relaxed,
   paddingLeft: spacing.sm,
   position: 'relative',
-  
+
   '::before': {
     content: '•',
     color: colors.primary[600],
@@ -296,7 +303,7 @@ export const contentDivider = style({
   background: `linear-gradient(90deg, transparent 0%, ${colors.neutral[200]} 50%, transparent 100%)`,
   margin: `${spacing.xl} 0`,
   position: 'relative',
-  
+
   '::after': {
     content: '',
     position: 'absolute',
@@ -318,7 +325,7 @@ export const tableOfContents = style({
   marginBottom: spacing.lg,
   // maxHeight: '300px',
   overflowY: 'auto',
-  
+
   '@media': {
     '(max-width: 768px)': {
       // maxHeight: '250px',
@@ -356,7 +363,7 @@ export const relatedPostCard = style({
   marginBottom: spacing.lg,
   paddingBottom: spacing.lg,
   borderBottom: `1px solid ${colors.neutral[200]}`,
-  
+
   ':last-child': {
     marginBottom: 0,
     paddingBottom: 0,
@@ -374,7 +381,7 @@ export const authorCard = style({
   marginBottom: spacing.xl,
   border: `1px solid ${colors.neutral[100]}`,
   transition: 'all 0.3s ease',
-  
+
   ':hover': {
     boxShadow: shadows.lg,
     transform: 'translateY(-2px)',
@@ -386,7 +393,7 @@ export const authorInfo = style({
   alignItems: 'center',
   gap: spacing.lg,
   padding: spacing.lg,
-  
+
   '@media': {
     '(max-width: 768px)': {
       flexDirection: 'column',
@@ -404,7 +411,7 @@ export const authorAvatar = style({
   height: '80px',
   borderRadius: '50%',
   overflow: 'hidden',
-  
+
   '::after': {
     content: '',
     position: 'absolute',
@@ -474,7 +481,7 @@ export const authorMeta = style({
   display: 'flex',
   justifyContent: 'space-between',
   alignItems: 'flex-end',
-  
+
   '@media': {
     '(max-width: 768px)': {
       justifyContent: 'center',
@@ -485,7 +492,7 @@ export const authorMeta = style({
 export const authorStats = style({
   display: 'flex',
   gap: spacing.lg,
-  
+
   '@media': {
     '(max-width: 768px)': {
       gap: spacing.md,
@@ -555,7 +562,7 @@ export const socialShareGrid = style({
   gap: spacing.sm,
   padding: spacing.xl,
   paddingTop: spacing.lg,
-  
+
   '@media': {
     '(max-width: 768px)': {
       gridTemplateColumns: '1fr',
@@ -579,65 +586,77 @@ export const socialButton = style({
   cursor: 'pointer',
   position: 'relative',
   overflow: 'hidden',
-  
+
   ':hover': {
     transform: 'translateY(-2px)',
     boxShadow: shadows.lg,
   },
-  
+
   ':active': {
     transform: 'translateY(0)',
   },
 });
 
-export const copyLinkButton = style([socialButton, {
-  backgroundColor: colors.neutral[100],
-  color: colors.neutral[700],
-  border: `2px solid ${colors.neutral[200]}`,
-  
-  ':hover': {
-    backgroundColor: colors.neutral[200],
-    borderColor: colors.neutral[300],
-    color: colors.neutral[800],
+export const copyLinkButton = style([
+  socialButton,
+  {
+    backgroundColor: colors.neutral[100],
+    color: colors.neutral[700],
+    border: `2px solid ${colors.neutral[200]}`,
+
+    ':hover': {
+      backgroundColor: colors.neutral[200],
+      borderColor: colors.neutral[300],
+      color: colors.neutral[800],
+    },
   },
-}]);
+]);
 
 export const copySuccess = style({
   color: colors.accent.green,
 });
 
 // X (formerly Twitter) button
-export const twitterButton = style([socialButton, {
-  backgroundColor: '#000000', // X's official black color
-  color: colors.white,
-  
-  ':hover': {
-    backgroundColor: '#333333',
-  },
-}]);
+export const twitterButton = style([
+  socialButton,
+  {
+    backgroundColor: '#000000', // X's official black color
+    color: colors.white,
 
-export const linkedinButton = style([socialButton, {
-  backgroundColor: '#0077B5',
-  color: colors.white,
-  
-  ':hover': {
-    backgroundColor: '#005885',
+    ':hover': {
+      backgroundColor: '#333333',
+    },
   },
-}]);
+]);
 
-export const facebookButton = style([socialButton, {
-  backgroundColor: '#1877F2',
-  color: colors.white,
-  
-  ':hover': {
-    backgroundColor: '#0d61bf',
+export const linkedinButton = style([
+  socialButton,
+  {
+    backgroundColor: '#0077B5',
+    color: colors.white,
+
+    ':hover': {
+      backgroundColor: '#005885',
+    },
   },
-}]);
+]);
+
+export const facebookButton = style([
+  socialButton,
+  {
+    backgroundColor: '#1877F2',
+    color: colors.white,
+
+    ':hover': {
+      backgroundColor: '#0d61bf',
+    },
+  },
+]);
 
 export const contentLayout = style({
   display: 'flex',
   gap: spacing.xl,
-  
+
   '@media': {
     '(max-width: 1024px)': {
       flexDirection: 'column',
@@ -653,7 +672,7 @@ export const mainContent = style({
 
 export const sidebar = style({
   flex: '0 0 300px',
-  
+
   '@media': {
     '(max-width: 1024px)': {
       flex: 'none',
@@ -667,7 +686,7 @@ export const breadcrumbRow = style({
   alignItems: 'center',
   marginBottom: spacing.lg,
   gap: spacing.md,
-  
+
   '@media': {
     '(max-width: 768px)': {
       flexDirection: 'column',
@@ -679,7 +698,7 @@ export const breadcrumbRow = style({
 
 export const audioButtonInline = style({
   flexShrink: 0,
-  
+
   '@media': {
     '(max-width: 768px)': {
       alignSelf: 'stretch',
@@ -707,8 +726,6 @@ export const sectionLabel = style({
   textTransform: 'uppercase',
   letterSpacing: '0.05em',
 });
-
-
 
 export const codeBlock = style({
   backgroundColor: colors.neutral[900],
@@ -741,16 +758,9 @@ export const tag = style({
   fontWeight: typography.fontWeight.medium,
   textDecoration: 'none',
   transition: 'all 0.2s ease',
-  
+
   ':hover': {
     backgroundColor: colors.primary[200],
     color: colors.primary[800],
   },
 });
-
-// Deprecated styles - keeping for legacy component compatibility
-export const socialShareButtons = style({
-  display: 'flex',
-  gap: spacing.sm,
-  flexWrap: 'wrap',
-}); 

@@ -7,32 +7,16 @@ import type {
 import { StrapiResponse } from './strapi';
 
 const STRAPI_URL = process.env.STRAPI_URL || process.env.NEXT_PUBLIC_STRAPI_URL || 'http://localhost:1337';
-const STRAPI_TOKEN = process.env.STRAPI_TOKEN;
 
 async function fetchAPI(endpoint: string, options: RequestInit = {}) {
   const url = `${STRAPI_URL}/api${endpoint}`;
 
-  // Check if we're on the client side
-  const isClient = typeof window !== 'undefined';
-
-  // Use different defaults for client vs server
-  const defaultOptions: RequestInit = isClient
-    ? {
-        // Client-side options
-        headers: {
-          'Content-Type': 'application/json',
-          ...(STRAPI_TOKEN && STRAPI_TOKEN.length < 100 && { Authorization: `Bearer ${STRAPI_TOKEN}` }),
-        },
-      }
-    : {
-        // Server-side options with optimized caching
-        cache: 'force-cache',
-        next: { revalidate: 60 }, // Revalidate cache every minute for events
-        headers: {
-          'Content-Type': 'application/json',
-          ...(STRAPI_TOKEN && STRAPI_TOKEN.length < 100 && { Authorization: `Bearer ${STRAPI_TOKEN}` }),
-        },
-      };
+  const defaultOptions: RequestInit = {
+    cache: 'no-cache',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  };
 
   const mergedOptions = {
     ...defaultOptions,
@@ -53,23 +37,33 @@ async function fetchAPI(endpoint: string, options: RequestInit = {}) {
         if (errorData.error) {
           errorMessage += ` - ${errorData.error.message || JSON.stringify(errorData.error)}`;
         }
-      } catch {
+      } catch (parseError) {
         // If we can't parse the error response, use the original message
       }
+      console.error('API URL:', url);
       throw new Error(errorMessage);
     }
 
-    return await response.json();
+    const data = await response.json();
+    return data;
   } catch (error) {
-    // Re-throw with context for better error tracking in production
-    if (error instanceof Error) {
-      error.message = `Failed to fetch from ${endpoint}: ${error.message}`;
-    }
+    console.error('Strapi API fetch error:', error);
     throw error;
   }
 }
 
-export async function getEvents(filters: EventFilters = {}): Promise<EventsResponse> {
+export async function getEvents(
+  params: {
+    page?: number;
+    pageSize?: number;
+    featured?: boolean;
+    category?: string;
+    tag?: string;
+    search?: string;
+    start_date_after?: string;
+    start_date_before?: string;
+  } = {},
+): Promise<EventsResponse> {
   const {
     page = 1,
     pageSize = 10,
@@ -79,42 +73,37 @@ export async function getEvents(filters: EventFilters = {}): Promise<EventsRespo
     search,
     start_date_after,
     start_date_before
-  } = filters;
+  } = params;
 
   const queryParams = new URLSearchParams({
     'pagination[page]': page.toString(),
     'pagination[pageSize]': pageSize.toString(),
-    'populate[featured_image][fields][0]': 'url',
-    'populate[featured_image][fields][1]': 'alternativeText',
-    'populate[featured_image][fields][2]': 'width',
-    'populate[featured_image][fields][3]': 'height',
-    'populate[categories][fields][0]': 'name',
-    'populate[categories][fields][1]': 'slug',
-    'populate[categories][fields][2]': 'color',
-    'populate[tags][fields][0]': 'name',
-    'populate[tags][fields][1]': 'slug',
-    'sort': 'start_date:asc'
+    'populate[0]': 'featured_image',
+    'populate[1]': 'hero_image',
+    'populate[2]': 'categories',
+    'populate[3]': 'tags',
+    sort: 'start_date:asc',
   });
 
-  // Only published events
+  // Add publishedAt filter to only get published content
   queryParams.set('filters[publishedAt][$notNull]', 'true');
 
-  // Featured filter
+  // Add featured filter if specified
   if (featured !== undefined) {
     queryParams.set('filters[featured][$eq]', featured.toString());
   }
 
-  // Category filter
+  // Add category filter if specified
   if (category) {
     queryParams.set('filters[categories][slug][$eq]', category);
   }
 
-  // Tag filter
+  // Add tag filter if specified
   if (tag) {
     queryParams.set('filters[tags][slug][$eq]', tag);
   }
 
-  // Date range filters
+  // Add date range filters if specified
   if (start_date_after) {
     queryParams.set('filters[start_date][$gte]', start_date_after);
   }
@@ -123,7 +112,7 @@ export async function getEvents(filters: EventFilters = {}): Promise<EventsRespo
     queryParams.set('filters[start_date][$lte]', start_date_before);
   }
 
-  // Search filter
+  // Add search filter if specified
   if (search) {
     queryParams.set('filters[$or][0][title][$containsi]', search);
     queryParams.set('filters[$or][1][description][$containsi]', search);
@@ -134,28 +123,34 @@ export async function getEvents(filters: EventFilters = {}): Promise<EventsRespo
 }
 
 export async function getEvent(slug: string): Promise<StrapiResponse<Event[]>> {
-  if (!slug || typeof slug !== 'string') {
-    throw new Error('Invalid event slug provided');
+  try {
+    const queryParams = new URLSearchParams();
+
+    // Filters
+    queryParams.set('filters[slug][$eq]', slug);
+    queryParams.set('filters[publishedAt][$notNull]', 'true');
+
+    // Basic population with all fields
+    queryParams.set('populate[categories]', 'true');
+    queryParams.set('populate[tags]', 'true');
+    queryParams.set('populate[featured_image]', 'true');
+    queryParams.set('populate[hero_image]', 'true');
+
+    return await fetchAPI(`/events?${queryParams}`);
+  } catch (error) {
+    console.warn(
+      'Failed to fetch event with advanced population, falling back to basic population:',
+      error,
+    );
+
+    // Fallback to basic population if the advanced syntax fails
+    const fallbackParams = new URLSearchParams();
+    fallbackParams.set('filters[slug][$eq]', slug);
+    fallbackParams.set('filters[publishedAt][$notNull]', 'true');
+    fallbackParams.set('populate', '*');
+
+    return await fetchAPI(`/events?${fallbackParams}`);
   }
-
-  const queryParams = new URLSearchParams();
-
-  // Filters
-  queryParams.set('filters[slug][$eq]', slug);
-  queryParams.set('filters[publishedAt][$notNull]', 'true');
-
-  // Population - use wildcard for all relations
-  queryParams.set('populate', '*');
-
-  const response = await fetchAPI(`/events?${queryParams}`);
-
-  if (!response.data || response.data.length === 0) {
-    const error = new Error('Event not found');
-    (error as any).statusCode = 404;
-    throw error;
-  }
-
-  return response;
 }
 
 export async function getUpcomingEvents(limit: number = 5): Promise<EventsResponse> {

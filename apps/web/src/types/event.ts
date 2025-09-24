@@ -13,6 +13,9 @@ export interface Event {
   featured_image?: StrapiImage;
   hero_image?: StrapiImage;
   registration_url?: string;
+  registration_deadline?: string;
+  max_attendees?: number;
+  price?: string;
   featured: boolean;
   categories?: Category[];
   tags?: Tag[];

@@ -1,20 +1,22 @@
 'use client';
 
-import React, { useState, useEffect, useMemo, useCallback, memo } from 'react';
+import { Calendar, Check, Clock, Copy, MapPin, Share2 } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
-import { Calendar, Clock, MapPin, Share2, Check, Copy } from 'lucide-react';
-import DOMPurify from 'isomorphic-dompurify';
+import React, { memo, useCallback, useEffect, useMemo, useState } from 'react';
+import type { Components } from 'react-markdown';
+import ReactMarkdown from 'react-markdown';
+import rehypeRaw from 'rehype-raw';
+import remarkGfm from 'remark-gfm';
 
-import type { Event } from '../../../types/event';
-import { getStrapiImageUrl } from '../../../lib/strapi';
 import {
   formatEventDate,
   formatEventTime,
   getEventLocationString,
-  getEventStatus,
-  isEventRegistrationOpen
+  isEventRegistrationOpen,
 } from '../../../lib/events-api';
+import { getStrapiImageUrl } from '../../../lib/strapi';
+import type { Event } from '../../../types/event';
 
 import * as styles from './styles.css';
 
@@ -26,19 +28,179 @@ const EventDetail: React.FC<EventDetailProps> = memo(({ event }) => {
   const [copySuccess, setCopySuccess] = useState(false);
   const [currentUrl, setCurrentUrl] = useState('');
 
-  const status = useMemo(() => getEventStatus(event), [event]);
-  const registrationOpen = useMemo(() => isEventRegistrationOpen(event), [event]);
-  const heroImageUrl = useMemo(() =>
-    (event.hero_image || event.featured_image)
-      ? getStrapiImageUrl(event.hero_image || event.featured_image)
-      : '',
-    [event.hero_image, event.featured_image]
+  const registrationOpen = useMemo(
+    () => isEventRegistrationOpen(event),
+    [event],
   );
-  const eventDate = useMemo(() => formatEventDate(event.start_date, event.end_date), [event.start_date, event.end_date]);
-  const eventTime = useMemo(() => formatEventTime(event.start_date), [event.start_date]);
+  const heroImageUrl = useMemo(
+    () =>
+      event.hero_image || event.featured_image
+        ? getStrapiImageUrl(event.hero_image || event.featured_image)
+        : '',
+    [event.hero_image, event.featured_image],
+  );
+  const eventDate = useMemo(
+    () => formatEventDate(event.start_date, event.end_date),
+    [event.start_date, event.end_date],
+  );
+  const eventTime = useMemo(
+    () => formatEventTime(event.start_date),
+    [event.start_date],
+  );
   const eventLocation = useMemo(() => getEventLocationString(event), [event]);
   const categories = event.categories || [];
   const eventTags = event.tags || [];
+
+  // Type for markdown component props
+  type ComponentProps = {
+    children?: React.ReactNode;
+    className?: string;
+    [key: string]: any;
+  };
+
+  // Custom markdown components for rich text rendering
+  const markdownComponents: Components = {
+    h1: ({ children, ...props }: ComponentProps) => (
+      <h1 className="text-4xl font-bold mb-6 text-gray-900" {...props}>
+        {children}
+      </h1>
+    ),
+    h2: ({ children, ...props }: ComponentProps) => (
+      <h2 className="text-3xl font-semibold mb-5 text-gray-900" {...props}>
+        {children}
+      </h2>
+    ),
+    h3: ({ children, ...props }: ComponentProps) => (
+      <h3 className="text-2xl font-semibold mb-4 text-gray-900" {...props}>
+        {children}
+      </h3>
+    ),
+    h4: ({ children, ...props }: ComponentProps) => (
+      <h4 className="text-xl font-semibold mb-3 text-gray-900" {...props}>
+        {children}
+      </h4>
+    ),
+    p: ({ children, ...props }: ComponentProps) => (
+      <p className="mb-4 text-gray-700 leading-relaxed" {...props}>
+        {children}
+      </p>
+    ),
+    ul: ({ children, ...props }: ComponentProps) => (
+      <ul className="mb-4 ml-6 space-y-2 list-disc text-gray-700" {...props}>
+        {children}
+      </ul>
+    ),
+    ol: ({ children, ...props }: ComponentProps) => (
+      <ol className="mb-4 ml-6 space-y-2 list-decimal text-gray-700" {...props}>
+        {children}
+      </ol>
+    ),
+    li: ({ children, ...props }: ComponentProps) => (
+      <li className="leading-relaxed" {...props}>
+        {children}
+      </li>
+    ),
+    a: ({ children, ...props }: ComponentProps) => (
+      <a
+        className="text-primary-600 hover:text-primary-700 transition-colors duration-200 underline"
+        {...props}
+      >
+        {children}
+      </a>
+    ),
+    blockquote: ({ children, ...props }: ComponentProps) => (
+      <blockquote
+        className="border-l-4 border-primary-500 bg-primary-50 p-4 my-6 italic"
+        {...props}
+      >
+        {children}
+      </blockquote>
+    ),
+    code: ({ children, className, ...props }: ComponentProps) => {
+      const isInline = !className;
+      if (isInline) {
+        return (
+          <code
+            className="bg-gray-100 text-gray-800 px-2 py-1 rounded text-sm font-mono"
+            {...props}
+          >
+            {children}
+          </code>
+        );
+      }
+      return (
+        <code
+          className="block bg-gray-900 text-gray-100 p-4 rounded-lg overflow-x-auto font-mono"
+          {...props}
+        >
+          {children}
+        </code>
+      );
+    },
+    pre: ({ children, ...props }: ComponentProps) => (
+      <pre
+        className="bg-gray-900 text-gray-100 p-4 rounded-lg overflow-x-auto my-4 font-mono text-sm"
+        {...props}
+      >
+        {children}
+      </pre>
+    ),
+    strong: ({ children, ...props }: ComponentProps) => (
+      <strong className="font-bold text-gray-900" {...props}>
+        {children}
+      </strong>
+    ),
+    em: ({ children, ...props }: ComponentProps) => (
+      <em className="italic text-gray-800" {...props}>
+        {children}
+      </em>
+    ),
+    del: ({ children, ...props }: ComponentProps) => (
+      <del className="text-gray-500 line-through" {...props}>
+        {children}
+      </del>
+    ),
+    mark: ({ children, ...props }: ComponentProps) => (
+      <mark className="bg-yellow-200 px-1 rounded" {...props}>
+        {children}
+      </mark>
+    ),
+    table: ({ children, ...props }: ComponentProps) => (
+      <div className="overflow-x-auto mb-6">
+        <table className="w-full border-collapse" {...props}>
+          {children}
+        </table>
+      </div>
+    ),
+    thead: ({ children, ...props }: ComponentProps) => (
+      <thead className="bg-gray-50 border-b-2 border-gray-200" {...props}>
+        {children}
+      </thead>
+    ),
+    th: ({ children, ...props }: ComponentProps) => (
+      <th
+        className="px-6 py-3 text-left text-xs font-medium text-gray-700 uppercase tracking-wider"
+        {...props}
+      >
+        {children}
+      </th>
+    ),
+    tbody: ({ children, ...props }: ComponentProps) => (
+      <tbody className="bg-white divide-y divide-gray-200" {...props}>
+        {children}
+      </tbody>
+    ),
+    tr: ({ children, ...props }: ComponentProps) => (
+      <tr className="hover:bg-gray-50" {...props}>
+        {children}
+      </tr>
+    ),
+    td: ({ children, ...props }: ComponentProps) => (
+      <td className="px-6 py-4 text-sm text-gray-700" {...props}>
+        {children}
+      </td>
+    ),
+  };
 
   // Fallback URL construction for social sharing
   const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://scubed.io';
@@ -64,7 +226,6 @@ const EventDetail: React.FC<EventDetailProps> = memo(({ event }) => {
     }
   }, [currentUrl, fallbackUrl]);
 
-
   return (
     <div className={styles.articleContainer}>
       {/* Hero Section */}
@@ -82,9 +243,7 @@ const EventDetail: React.FC<EventDetailProps> = memo(({ event }) => {
         )}
         <div className={styles.heroOverlay} />
         <div className={styles.heroContent}>
-          <h1 className={styles.heroTitle}>
-            {event.title}
-          </h1>
+          <h1 className={styles.heroTitle}>{event.title}</h1>
           <div className={styles.heroMeta}>
             <span className={styles.heroMetaItem}>
               <Calendar size={20} />
@@ -119,8 +278,8 @@ const EventDetail: React.FC<EventDetailProps> = memo(({ event }) => {
         {/* Breadcrumb Row */}
         <div className={styles.breadcrumbRow}>
           <nav className={styles.breadcrumb}>
-            <Link href="/">Home</Link> / <Link href="/events">Events</Link>
-            {' '} / <span>{event.title}</span>
+            <Link href="/">Home</Link> / <Link href="/events">Events</Link> /{' '}
+            <span>{event.title}</span>
           </nav>
         </div>
 
@@ -128,16 +287,15 @@ const EventDetail: React.FC<EventDetailProps> = memo(({ event }) => {
           {/* Main Content */}
           <main className={styles.mainContent}>
             <article>
-              {/* Event Description - Sanitized */}
+              {/* Event Description - Rendered with Markdown */}
               <div className={styles.articleContent}>
-                <div
-                  dangerouslySetInnerHTML={{
-                    __html: DOMPurify.sanitize(event.description, {
-                      ADD_TAGS: ['iframe'],
-                      ADD_ATTR: ['allowfullscreen', 'frameborder', 'src']
-                    })
-                  }}
-                />
+                <ReactMarkdown
+                  components={markdownComponents}
+                  remarkPlugins={[remarkGfm]}
+                  rehypePlugins={[rehypeRaw]}
+                >
+                  {event.description || ''}
+                </ReactMarkdown>
               </div>
 
               {/* Categories and Tags */}
@@ -145,9 +303,7 @@ const EventDetail: React.FC<EventDetailProps> = memo(({ event }) => {
                 <div className={styles.categoriesTagsSection}>
                   {categories.length > 0 && (
                     <div className={styles.sectionWrapper}>
-                      <h4 className={styles.sectionLabel}>
-                        CATEGORIES
-                      </h4>
+                      <h4 className={styles.sectionLabel}>CATEGORIES</h4>
                       <div className={styles.tags}>
                         {categories.map((category) => (
                           <Link
@@ -164,9 +320,7 @@ const EventDetail: React.FC<EventDetailProps> = memo(({ event }) => {
 
                   {eventTags.length > 0 && (
                     <div className={styles.sectionWrapper}>
-                      <h4 className={styles.sectionLabel}>
-                        TAGS
-                      </h4>
+                      <h4 className={styles.sectionLabel}>TAGS</h4>
                       <div className={styles.tags}>
                         {eventTags.map((tagItem) => (
                           <Link
@@ -221,8 +375,13 @@ const EventDetail: React.FC<EventDetailProps> = memo(({ event }) => {
                     rel="noopener noreferrer"
                     className={styles.twitterButton}
                   >
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
-                      <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
+                    <svg
+                      width="16"
+                      height="16"
+                      viewBox="0 0 24 24"
+                      fill="currentColor"
+                    >
+                      <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" />
                     </svg>
                     X (Twitter)
                   </a>
@@ -233,8 +392,13 @@ const EventDetail: React.FC<EventDetailProps> = memo(({ event }) => {
                     rel="noopener noreferrer"
                     className={styles.linkedinButton}
                   >
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
-                      <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
+                    <svg
+                      width="16"
+                      height="16"
+                      viewBox="0 0 24 24"
+                      fill="currentColor"
+                    >
+                      <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z" />
                     </svg>
                     LinkedIn
                   </a>
@@ -245,8 +409,13 @@ const EventDetail: React.FC<EventDetailProps> = memo(({ event }) => {
                     rel="noopener noreferrer"
                     className={styles.facebookButton}
                   >
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
-                      <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
+                    <svg
+                      width="16"
+                      height="16"
+                      viewBox="0 0 24 24"
+                      fill="currentColor"
+                    >
+                      <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z" />
                     </svg>
                     Facebook
                   </a>
@@ -257,46 +426,98 @@ const EventDetail: React.FC<EventDetailProps> = memo(({ event }) => {
 
           {/* Sidebar */}
           <aside className={styles.sidebar}>
-            {/* Event Info Card */}
-            <div className={styles.eventInfoCard}>
-              <h3 className={styles.eventInfoTitle}>Event Details</h3>
+            {/* Event Details Card */}
+            <div className={styles.eventDetailsCard}>
+              <div className={styles.cardContent}>
+                <span className={styles.eventLabel}>Event Details</span>
 
-              {/* Date & Time */}
-              <div className={styles.infoSection}>
-                <h4><Calendar size={16} /> Date & Time</h4>
-                <p>{eventDate}</p>
-                <p className={styles.infoSubtext}>{eventTime}</p>
-              </div>
+                <h2 className={styles.eventCardTitle}>{event.title}</h2>
 
-              {/* Location */}
-              {event.location && (
-                <div className={styles.infoSection}>
-                  <h4><MapPin size={16} /> Location</h4>
-                  <p>{event.location}</p>
+                <div className={styles.eventDetails}>
+                  {/* Date */}
+                  <div className={styles.detailItem}>
+                    <div className={styles.iconContainer}>
+                      <svg
+                        className={styles.icon}
+                        viewBox="0 0 24 24"
+                        fill="currentColor"
+                        width="20"
+                        height="20"
+                      >
+                        <path d="M19 3h-1V1h-2v2H8V1H6v2H5c-1.11 0-1.99.9-1.99 2L3 19c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 16H5V8h14v11zM7 10h5v5H7z" />
+                      </svg>
+                    </div>
+                    <div className={styles.detailText}>
+                      <div className={styles.detailLabel}>Date</div>
+                      <div className={styles.detailValue}>{eventDate}</div>
+                    </div>
+                  </div>
+
+                  {/* Time */}
+                  <div className={styles.detailItem}>
+                    <div className={styles.iconContainer}>
+                      <svg
+                        className={styles.icon}
+                        viewBox="0 0 24 24"
+                        fill="currentColor"
+                        width="20"
+                        height="20"
+                      >
+                        <path d="M11.99 2C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2 11.99 2zM12 20c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8zm.5-13H11v6l5.25 3.15.75-1.23-4.5-2.67z" />
+                      </svg>
+                    </div>
+                    <div className={styles.detailText}>
+                      <div className={styles.detailLabel}>Time</div>
+                      <div className={styles.detailValue}>{eventTime}</div>
+                    </div>
+                  </div>
+
+                  {/* Location */}
+                  <div className={styles.detailItem}>
+                    <div className={styles.iconContainer}>
+                      <svg
+                        className={styles.icon}
+                        viewBox="0 0 24 24"
+                        fill="currentColor"
+                        width="20"
+                        height="20"
+                      >
+                        <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z" />
+                      </svg>
+                    </div>
+                    <div className={styles.detailText}>
+                      <div className={styles.detailLabel}>Location</div>
+                      <div className={styles.detailValue}>{eventLocation}</div>
+                    </div>
+                  </div>
                 </div>
-              )}
 
-              {/* Status */}
-              <div className={styles.infoSection}>
-                <h4>Status</h4>
-                <span className={`${styles.statusBadge} ${status === 'upcoming' ? styles.statusUpcoming : status === 'ongoing' ? styles.statusOngoing : styles.statusCompleted}`}>
-                  {status}
-                </span>
-              </div>
-
-              {/* Registration CTA */}
-              {registrationOpen && event.registration_url && (
-                <div className={styles.ctaWrapper}>
+                {/* Registration Status */}
+                {registrationOpen && event.registration_url ? (
                   <a
                     href={event.registration_url}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className={styles.registerButtonSidebar}
+                    className={styles.registerButton}
+                    aria-label="Register for this event"
                   >
                     Register for Event
                   </a>
-                </div>
-              )}
+                ) : (
+                  <div className={styles.registrationStatusClosed}>
+                    <svg
+                      className={styles.statusIcon}
+                      viewBox="0 0 24 24"
+                      fill="currentColor"
+                      width="16"
+                      height="16"
+                    >
+                      <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z" />
+                    </svg>
+                    Registration is currently closed
+                  </div>
+                )}
+              </div>
             </div>
           </aside>
         </div>

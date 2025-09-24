@@ -5,10 +5,12 @@ import SitemapList from '@/components/SitemapList';
 
 export const metadata: Metadata = {
   title: 'Site Map | S Cubed',
-  description: 'Complete list of all pages and content available on S Cubed website',
+  description:
+    'Complete list of all pages and content available on S Cubed website',
   openGraph: {
     title: 'Site Map | S Cubed',
-    description: 'Complete list of all pages and content available on S Cubed website',
+    description:
+      'Complete list of all pages and content available on S Cubed website',
     type: 'website',
   },
   robots: {
@@ -58,6 +60,7 @@ export default async function SitemapPage() {
             { url: '/terms-conditions', label: 'Terms & Conditions' },
             { url: '/privacy-policy', label: 'Privacy Policy' },
             { url: '/blog', label: 'Blog' },
+            { url: '/events', label: 'Events & News' },
             { url: '/guardian-portal', label: 'Guardian Portal Login' },
           ],
         },
