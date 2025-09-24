@@ -1,12 +1,11 @@
-import type {
-  Event,
-  EventsResponse,
-  EventFilters
-} from '../types/event';
+import type { Event, EventsResponse } from '../types/event';
 
 import { StrapiResponse } from './strapi';
 
-const STRAPI_URL = process.env.STRAPI_URL || process.env.NEXT_PUBLIC_STRAPI_URL || 'http://localhost:1337';
+const STRAPI_URL =
+  process.env.STRAPI_URL ||
+  process.env.NEXT_PUBLIC_STRAPI_URL ||
+  'http://localhost:1337';
 
 async function fetchAPI(endpoint: string, options: RequestInit = {}) {
   const url = `${STRAPI_URL}/api${endpoint}`;
@@ -72,7 +71,7 @@ export async function getEvents(
     tag,
     search,
     start_date_after,
-    start_date_before
+    start_date_before,
   } = params;
 
   const queryParams = new URLSearchParams({
@@ -153,33 +152,40 @@ export async function getEvent(slug: string): Promise<StrapiResponse<Event[]>> {
   }
 }
 
-export async function getUpcomingEvents(limit: number = 5): Promise<EventsResponse> {
+export async function getUpcomingEvents(
+  limit: number = 5,
+): Promise<EventsResponse> {
   const today = new Date().toISOString();
 
   return getEvents({
     pageSize: limit,
-    start_date_after: today
+    start_date_after: today,
   });
 }
 
-export async function getFeaturedEvents(limit: number = 3): Promise<EventsResponse> {
+export async function getFeaturedEvents(
+  limit: number = 3,
+): Promise<EventsResponse> {
   return getEvents({
     pageSize: limit,
-    featured: true
+    featured: true,
   });
 }
 
-export async function getRelatedEvents(event: Event, limit: number = 3): Promise<EventsResponse> {
+export async function getRelatedEvents(
+  event: Event,
+  limit: number = 3,
+): Promise<EventsResponse> {
   // Get events with similar categories or tags
   const categorySlug = event.categories?.[0]?.slug;
   const tagSlug = event.tags?.[0]?.slug;
 
   const queryParams = new URLSearchParams({
     'pagination[pageSize]': limit.toString(),
-    'populate': '*',
+    populate: '*',
     'filters[publishedAt][$notNull]': 'true',
     'filters[slug][$ne]': event.slug,
-    'sort': 'start_date:asc'
+    sort: 'start_date:asc',
   });
 
   if (categorySlug) {
@@ -201,13 +207,16 @@ export function formatEventDate(startDate: string, endDate: string): string {
   const options: Intl.DateTimeFormatOptions = {
     month: 'long',
     day: 'numeric',
-    year: 'numeric'
+    year: 'numeric',
   };
 
   if (start.toDateString() === end.toDateString()) {
     // Same day event
     return start.toLocaleDateString('en-US', options);
-  } else if (start.getMonth() === end.getMonth() && start.getFullYear() === end.getFullYear()) {
+  } else if (
+    start.getMonth() === end.getMonth() &&
+    start.getFullYear() === end.getFullYear()
+  ) {
     // Same month
     return `${start.toLocaleDateString('en-US', { month: 'long', day: 'numeric' })} - ${end.getDate()}, ${start.getFullYear()}`;
   } else {
@@ -221,11 +230,13 @@ export function formatEventTime(date: string): string {
 
   return eventDate.toLocaleTimeString('en-US', {
     hour: 'numeric',
-    minute: '2-digit'
+    minute: '2-digit',
   });
 }
 
-export function getEventStatus(event: Event): 'upcoming' | 'ongoing' | 'completed' {
+export function getEventStatus(
+  event: Event,
+): 'upcoming' | 'ongoing' | 'completed' {
   const now = new Date();
   const start = new Date(event.start_date);
   const end = new Date(event.end_date);
@@ -240,8 +251,44 @@ export function getEventStatus(event: Event): 'upcoming' | 'ongoing' | 'complete
 }
 
 export function isEventRegistrationOpen(event: Event): boolean {
-  const status = getEventStatus(event);
-  return status === 'upcoming' && !!event.registration_url;
+  if (!event.registration_url) return false;
+
+  const now = new Date();
+  const end = new Date(event.end_date);
+
+  // Check if registration deadline has passed
+  if (event.registration_deadline) {
+    const deadline = new Date(event.registration_deadline);
+    if (now > deadline) return false;
+  }
+
+  // Registration is open if current date is before or during the event
+  return now <= end;
+}
+
+export type RegistrationStatus =
+  | 'open'
+  | 'deadline_passed'
+  | 'event_ended'
+  | 'no_registration';
+
+export function getRegistrationStatus(event: Event): RegistrationStatus {
+  if (!event.registration_url) return 'no_registration';
+
+  const now = new Date();
+  const start = new Date(event.start_date);
+  const end = new Date(event.end_date);
+
+  // Check if event has ended
+  if (now > end) return 'event_ended';
+
+  // Check if registration deadline has passed
+  if (event.registration_deadline) {
+    const deadline = new Date(event.registration_deadline);
+    if (now > deadline) return 'deadline_passed';
+  }
+
+  return 'open';
 }
 
 export function getEventLocationString(event: Event): string {

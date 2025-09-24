@@ -9,6 +9,7 @@ import ReactMarkdown from 'react-markdown';
 import rehypeRaw from 'rehype-raw';
 import remarkGfm from 'remark-gfm';
 
+import Button from '../../Button/button';
 import {
   formatEventDate,
   formatEventTime,
@@ -260,14 +261,19 @@ const EventDetail: React.FC<EventDetailProps> = memo(({ event }) => {
           </div>
           {registrationOpen && event.registration_url && (
             <div className={styles.heroCta}>
-              <a
-                href={event.registration_url}
-                target="_blank"
-                rel="noopener noreferrer"
+              <Button
+                onClick={() => window.open(event.registration_url, '_blank')}
                 className={styles.heroRegisterButton}
+                style={{
+                  padding: '14px 32px',
+                  fontSize: '18px',
+                  fontWeight: '600',
+                  width: 'auto',
+                  height: 'auto',
+                }}
               >
                 Register Now
-              </a>
+              </Button>
             </div>
           )}
         </div>
@@ -494,15 +500,20 @@ const EventDetail: React.FC<EventDetailProps> = memo(({ event }) => {
 
                 {/* Registration Status */}
                 {registrationOpen && event.registration_url ? (
-                  <a
-                    href={event.registration_url}
-                    target="_blank"
-                    rel="noopener noreferrer"
+                  <Button
+                    onClick={() => window.open(event.registration_url, '_blank')}
                     className={styles.registerButton}
+                    style={{
+                      width: '100%',
+                      height: 'auto',
+                      padding: '12px 24px',
+                      fontSize: '16px',
+                      fontWeight: 'bold',
+                    }}
                     aria-label="Register for this event"
                   >
                     Register for Event
-                  </a>
+                  </Button>
                 ) : (
                   <div className={styles.registrationStatusClosed}>
                     <svg

@@ -118,6 +118,41 @@ const EventsGrid: React.FC = () => {
     return text.substring(0, maxLength).trim() + '...';
   };
 
+  // Component for event image with loading state
+  const EventImage: React.FC<{ src: string; alt: string }> = ({ src, alt }) => {
+    const [isImageLoading, setIsImageLoading] = useState(true);
+
+    return (
+      <>
+        {isImageLoading && (
+          <div
+            style={{
+              position: 'absolute',
+              top: 0,
+              left: 0,
+              width: '100%',
+              height: '100%',
+              background: 'linear-gradient(90deg, #f0f0f0 0%, #e0e0e0 50%, #f0f0f0 100%)',
+              backgroundSize: '200% 100%',
+              animation: 'shimmer 1.5s infinite',
+              zIndex: 1,
+            }}
+          />
+        )}
+        <Image
+          src={src}
+          alt={alt}
+          width={400}
+          height={200}
+          className={eventThumbnail}
+          unoptimized
+          onLoad={() => setIsImageLoading(false)}
+          style={{ opacity: isImageLoading ? 0 : 1, transition: 'opacity 0.3s' }}
+        />
+      </>
+    );
+  };
+
   if (isLoading) {
     return (
       <section className={eventsSection}>
@@ -263,6 +298,16 @@ const EventsGrid: React.FC = () => {
 
   return (
     <section className={eventsSection} ref={sectionRef}>
+      <style jsx>{`
+        @keyframes shimmer {
+          0% {
+            background-position: -200% 0;
+          }
+          100% {
+            background-position: 200% 0;
+          }
+        }
+      `}</style>
       <motion.div
         className={eventGrid}
         variants={containerVariants}
@@ -286,14 +331,7 @@ const EventsGrid: React.FC = () => {
               <motion.div variants={cardHoverVariants}>
                 <div className={eventImageWrapper}>
                   {imageUrl ? (
-                    <Image
-                      src={imageUrl}
-                      alt={event.title}
-                      width={400}
-                      height={200}
-                      className={eventThumbnail}
-                      unoptimized
-                    />
+                    <EventImage src={imageUrl} alt={event.title} />
                   ) : (
                     <div
                       className={eventThumbnail}
