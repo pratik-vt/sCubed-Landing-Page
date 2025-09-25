@@ -764,8 +764,6 @@ export const markdownH2 = style({
   fontSize: '2rem',
   fontWeight: typography.fontWeight.semibold,
   lineHeight: '1.3',
-  marginTop: spacing.xl,
-  marginBottom: spacing.md,
   color: colors.neutral[900],
 
   '@media': {
@@ -779,8 +777,6 @@ export const markdownH3 = style({
   fontSize: '1.5rem',
   fontWeight: typography.fontWeight.semibold,
   lineHeight: '1.4',
-  marginTop: spacing.lg,
-  marginBottom: spacing.md,
   color: colors.neutral[900],
 
   '@media': {
@@ -794,8 +790,6 @@ export const markdownH4 = style({
   fontSize: '1.25rem',
   fontWeight: typography.fontWeight.semibold,
   lineHeight: '1.4',
-  marginTop: spacing.lg,
-  marginBottom: spacing.sm,
   color: colors.neutral[900],
 
   '@media': {
@@ -806,20 +800,17 @@ export const markdownH4 = style({
 });
 
 export const markdownP = style({
-  marginBottom: spacing.md,
   color: colors.neutral[700],
   lineHeight: typography.lineHeight.relaxed,
   fontSize: typography.fontSize.base,
 });
 
 export const markdownUl = style({
-  marginBottom: spacing.md,
   listStyleType: 'disc',
   color: colors.neutral[700],
 });
 
 export const markdownOl = style({
-  marginBottom: spacing.md,
   marginLeft: spacing.sm,
   listStyleType: 'decimal',
   color: colors.neutral[700],
