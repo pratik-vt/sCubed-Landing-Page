@@ -34,6 +34,10 @@ export const heroSection = style({
   justifyContent: 'center',
 
   '@media': {
+    '(max-width: 1024px)': {
+      height: 'auto',
+      minHeight: 'auto',
+    },
     '(max-width: 768px)': {
       height: 'auto',
       minHeight: 'auto',
@@ -55,7 +59,7 @@ export const heroImage = style({
   filter: 'none',
 
   '@media': {
-    '(max-width: 768px)': {
+    '(max-width: 1024px)': {
       display: 'none',
     },
   },
@@ -82,7 +86,7 @@ export const heroMobileWrapper = style({
   padding: `${spacing.lg} 0 0`,
 
   '@media': {
-    '(max-width: 768px)': {
+    '(max-width: 1024px)': {
       display: 'block',
       width: 'calc(100vw + 2rem)',
       marginLeft: 'calc(50% - 50vw - 1rem)',
@@ -346,7 +350,7 @@ export const facebookButton = style([
   },
 ]);
 
-// Sidebar styles
+// Sidebar styles - hidden on mobile since content is duplicated in main area
 export const sidebar = style({
   flex: '0 0 340px',
   position: 'relative',
@@ -355,9 +359,7 @@ export const sidebar = style({
 
   '@media': {
     '(max-width: 1024px)': {
-      flex: 'none',
-      position: 'relative',
-      top: 'auto',
+      display: 'none', // Hide sidebar on mobile - content is shown in main area instead
     },
   },
 });
@@ -951,4 +953,35 @@ globalStyle(`${markdownOl} li`, {
 // Global style for table last row td
 globalStyle(`${markdownTbody} tr:last-child ${markdownTd}`, {
   borderBottom: 'none',
+});
+
+// Mobile-specific styles for reordering content
+export const articleWrapper = style({
+  display: 'flex',
+  flexDirection: 'column',
+});
+
+// Mobile Event Details - shown only on mobile, hidden on desktop
+export const mobileEventDetails = style({
+  display: 'none',
+
+  '@media': {
+    '(max-width: 1024px)': {
+      display: 'block',
+      marginBottom: spacing.xl,
+    },
+  },
+});
+
+// Mobile Contact Form - shown only on mobile, hidden on desktop
+export const mobileContactForm = style({
+  display: 'none',
+
+  '@media': {
+    '(max-width: 1024px)': {
+      display: 'block',
+      marginTop: spacing.xl,
+      marginBottom: spacing.xl,
+    },
+  },
 });

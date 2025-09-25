@@ -184,10 +184,10 @@ export const eventDetails = style({
   marginTop: 'auto',
 
   '@media': {
-    'screen and (max-width: 480px)': {
+    'screen and (max-width: 1024px)': {
       flexDirection: 'column',
       alignItems: 'stretch',
-      gap: spacing.sm,
+      gap: '1rem',
     },
   },
 });
@@ -241,15 +241,13 @@ export const eventLocation = style({
   margin: 0,
   padding: 0,
   lineHeight: '1.3',
-  maxWidth: '200px',
   overflow: 'hidden',
   textOverflow: 'ellipsis',
   whiteSpace: 'nowrap',
   display: 'inline-block',
-
   '@media': {
-    'screen and (max-width: 768px)': {
-      maxWidth: '150px',
+    'screen and (min-width: 1024px)': {
+      maxWidth: '200px',
     },
   },
 });
@@ -284,15 +282,11 @@ export const eventLink = style({
   },
 
   '@media': {
-    'screen and (max-width: 768px)': {
-      fontSize: typography.fontSize.sm,
-      padding: `6px 12px`,
-    },
-    'screen and (max-width: 480px)': {
-      width: '100%',
+    'screen and (max-width: 1024px)': {
       justifyContent: 'center',
       padding: `8px 16px`,
       alignSelf: 'auto',
+      fontSize: typography.fontSize.sm,
     },
   },
 });

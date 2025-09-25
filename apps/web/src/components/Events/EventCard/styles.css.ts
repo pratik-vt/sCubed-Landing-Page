@@ -6,7 +6,8 @@ const baseCard = style({
   backgroundColor: '#ffffff',
   borderRadius: '12px',
   overflow: 'hidden',
-  boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06)',
+  boxShadow:
+    '0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06)',
   transition: 'transform 0.2s, box-shadow 0.2s',
   textDecoration: 'none',
   color: 'inherit',
@@ -14,8 +15,9 @@ const baseCard = style({
 
   ':hover': {
     transform: 'translateY(-4px)',
-    boxShadow: '0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05)',
-  }
+    boxShadow:
+      '0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05)',
+  },
 });
 
 export const card = style([baseCard]);
@@ -28,9 +30,9 @@ export const featuredCard = style([
         gridColumn: 'span 2',
         display: 'grid',
         gridTemplateColumns: '1.2fr 1fr',
-      }
-    }
-  }
+      },
+    },
+  },
 ]);
 
 export const imageWrapper = style({
@@ -48,8 +50,8 @@ export const image = style({
   selectors: {
     [`${card}:hover &, ${featuredCard}:hover &`]: {
       transform: 'scale(1.05)',
-    }
-  }
+    },
+  },
 });
 
 export const imagePlaceholder = style({
@@ -107,7 +109,7 @@ export const statusBadge = styleVariants({
     fontWeight: 600,
     textTransform: 'uppercase',
     letterSpacing: '0.5px',
-  }
+  },
 });
 
 export const featuredBadge = style({
@@ -126,6 +128,11 @@ export const content = style({
   flex: 1,
   display: 'flex',
   flexDirection: 'column',
+  '@media': {
+    'screen and (max-width: 1024px)': {
+      paddingBottom: '28px',
+    },
+  },
 });
 
 export const dateTime = style({
@@ -158,6 +165,11 @@ export const title = style({
   display: '-webkit-box',
   WebkitLineClamp: 2,
   WebkitBoxOrient: 'vertical',
+  '@media': {
+    'screen and (max-width: 1024px)': {
+      WebkitLineClamp: 2,
+    },
+  },
 });
 
 export const excerpt = style({
@@ -171,6 +183,11 @@ export const excerpt = style({
   WebkitLineClamp: 3,
   WebkitBoxOrient: 'vertical',
   flex: 1,
+  '@media': {
+    'screen and (max-width: 1024px)': {
+      WebkitLineClamp: 2,
+    },
+  },
 });
 
 export const metadata = style({
@@ -180,6 +197,16 @@ export const metadata = style({
   marginBottom: '16px',
   paddingTop: '16px',
   borderTop: '1px solid #e5e7eb',
+  flexWrap: 'wrap',
+  gap: '8px',
+  rowGap: '10px',
+  '@media': {
+    'screen and (max-width: 1024px)': {
+      flexDirection: 'column',
+      alignItems: 'stretch',
+      gap: '12px',
+    },
+  },
 });
 
 export const location = style({
@@ -193,6 +220,11 @@ export const location = style({
 export const pricing = style({
   display: 'flex',
   alignItems: 'center',
+  '@media': {
+    'screen and (max-width: 1024px)': {
+      justifyContent: 'flex-start',
+    },
+  },
 });
 
 export const registerLink = style({
@@ -203,9 +235,13 @@ export const registerLink = style({
 
   ':hover': {
     textDecoration: 'underline',
-  }
+  },
+  '@media': {
+    'screen and (max-width: 1024px)': {
+      alignSelf: 'flex-start',
+    },
+  },
 });
-
 
 export const categories = style({
   display: 'flex',
@@ -221,4 +257,3 @@ export const category = style({
   fontWeight: 500,
   color: '#374151',
 });
-

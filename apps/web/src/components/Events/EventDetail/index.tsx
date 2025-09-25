@@ -19,8 +19,8 @@ import { getStrapiImageUrl } from '../../../lib/strapi';
 import type { Event } from '../../../types/event';
 import BlogContactForm from '../../Blog/BlogContactForm';
 import Button from '../../Button/button';
-
 import * as blogTableStyles from '../../Blog/DynamicContentRenderer/table.css';
+
 import * as styles from './styles.css';
 
 interface EventDetailProps {
@@ -227,7 +227,110 @@ const EventDetail: React.FC<EventDetailProps> = memo(({ event }) => {
         <div className={styles.contentLayout}>
           {/* Main Content */}
           <main className={styles.mainContent}>
-            <article>
+            <article className={styles.articleWrapper}>
+              {/* Mobile Event Details Card - shown only on mobile */}
+              <div className={styles.mobileEventDetails}>
+                <div className={styles.eventDetailsCard}>
+                  <div className={styles.cardContent}>
+                    <span className={styles.eventLabel}>Event Details</span>
+
+                    <h2 className={styles.eventCardTitle}>{event.title}</h2>
+
+                    <div className={styles.eventDetails}>
+                      {/* Date */}
+                      <div className={styles.detailItem}>
+                        <div className={styles.iconContainer}>
+                          <svg
+                            className={styles.icon}
+                            viewBox="0 0 24 24"
+                            fill="currentColor"
+                            width="20"
+                            height="20"
+                          >
+                            <path d="M19 3h-1V1h-2v2H8V1H6v2H5c-1.11 0-1.99.9-1.99 2L3 19c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 16H5V8h14v11zM7 10h5v5H7z" />
+                          </svg>
+                        </div>
+                        <div className={styles.detailText}>
+                          <div className={styles.detailLabel}>Date</div>
+                          <div className={styles.detailValue}>{eventDate}</div>
+                        </div>
+                      </div>
+
+                      {/* Time */}
+                      <div className={styles.detailItem}>
+                        <div className={styles.iconContainer}>
+                          <svg
+                            className={styles.icon}
+                            viewBox="0 0 24 24"
+                            fill="currentColor"
+                            width="20"
+                            height="20"
+                          >
+                            <path d="M11.99 2C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2 11.99 2zM12 20c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8zm.5-13H11v6l5.25 3.15.75-1.23-4.5-2.67z" />
+                          </svg>
+                        </div>
+                        <div className={styles.detailText}>
+                          <div className={styles.detailLabel}>Time</div>
+                          <div className={styles.detailValue}>{eventTime}</div>
+                        </div>
+                      </div>
+
+                      {/* Location */}
+                      <div className={styles.detailItem}>
+                        <div className={styles.iconContainer}>
+                          <svg
+                            className={styles.icon}
+                            viewBox="0 0 24 24"
+                            fill="currentColor"
+                            width="20"
+                            height="20"
+                          >
+                            <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z" />
+                          </svg>
+                        </div>
+                        <div className={styles.detailText}>
+                          <div className={styles.detailLabel}>Location</div>
+                          <div className={styles.detailValue}>{eventLocation}</div>
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* Registration Status */}
+                    {registrationOpen && event.registration_url ? (
+                      <Button
+                        onClick={() =>
+                          window.open(event.registration_url, '_blank')
+                        }
+                        className={styles.registerButton}
+                        style={{
+                          width: '100%',
+                          height: 'auto',
+                          padding: '12px 24px',
+                          fontSize: '16px',
+                          fontWeight: 'bold',
+                        }}
+                        aria-label="Register for this event"
+                      >
+                        Register for Event
+                      </Button>
+                    ) : (
+                      <div className={styles.registrationStatusClosed}>
+                        <svg
+                          className={styles.statusIcon}
+                          viewBox="0 0 24 24"
+                          fill="currentColor"
+                          width="16"
+                          height="16"
+                        >
+                          <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z" />
+                        </svg>
+                        Registration is currently closed
+                      </div>
+                    )}
+                  </div>
+                </div>
+              </div>
+
               {/* Event Description - Rendered with Markdown */}
               <div className={styles.articleContent}>
                 <ReactMarkdown
@@ -237,6 +340,11 @@ const EventDetail: React.FC<EventDetailProps> = memo(({ event }) => {
                 >
                   {event.description || ''}
                 </ReactMarkdown>
+              </div>
+
+              {/* Mobile Contact Form - shown only on mobile */}
+              <div className={styles.mobileContactForm}>
+                <BlogContactForm />
               </div>
 
               {/* Categories and Tags */}
@@ -365,7 +473,7 @@ const EventDetail: React.FC<EventDetailProps> = memo(({ event }) => {
             </article>
           </main>
 
-          {/* Sidebar */}
+          {/* Sidebar - Desktop only */}
           <aside className={styles.sidebar}>
             {/* Event Details Card */}
             <div className={styles.eventDetailsCard}>
