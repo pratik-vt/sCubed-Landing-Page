@@ -4,13 +4,12 @@ import { motion, useInView, Variants } from 'framer-motion';
 import { ArrowRight, Calendar, Clock, MapPin } from 'lucide-react';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
-import React, { useCallback, useEffect, useRef, useState } from 'react';
+import React, { useRef, useState } from 'react';
 
 import {
   formatEventDate,
   formatEventTime,
   getEventLocationString,
-  getEvents,
 } from '../../../lib/events-api';
 import { getStrapiImageUrl } from '../../../lib/strapi';
 import type { Event } from '../../../types/event';
@@ -35,35 +34,18 @@ import {
   eventType,
 } from './styles.css';
 
-const EventsGrid: React.FC = () => {
+interface EventsGridProps {
+  initialEvents: Event[];
+  error?: string;
+}
+
+const EventsGrid: React.FC<EventsGridProps> = ({ initialEvents, error }) => {
   const router = useRouter();
   const sectionRef = useRef<HTMLElement>(null);
-  const [events, setEvents] = useState<Event[]>([]);
-  const [isLoading, setIsLoading] = useState(true);
   const isInView = useInView(sectionRef, {
     once: true,
     margin: '-100px',
   });
-
-  const fetchEvents = useCallback(async () => {
-    try {
-      const response = await getEvents({ pageSize: 12 });
-
-      if (response?.data && Array.isArray(response.data)) {
-        setEvents(response.data);
-      } else {
-        setEvents([]);
-      }
-    } catch (error) {
-      setEvents([]);
-    } finally {
-      setIsLoading(false);
-    }
-  }, []);
-
-  useEffect(() => {
-    fetchEvents();
-  }, [fetchEvents]);
 
   const containerVariants: Variants = {
     hidden: {},
@@ -159,129 +141,61 @@ const EventsGrid: React.FC = () => {
     );
   };
 
-  if (isLoading) {
+  // Error state
+  if (error && initialEvents.length === 0) {
     return (
       <section className={eventsSection}>
         <div className={eventGrid}>
-          {[...Array(6)].map((_, index) => (
-            <div key={index} className={eventCard}>
-              <div className={eventImageWrapper}>
-                <div
-                  className={eventThumbnail}
-                  style={{
-                    background:
-                      'linear-gradient(90deg, #f0f0f0 0%, #e0e0e0 50%, #f0f0f0 100%)',
-                    backgroundSize: '200% 100%',
-                    animation: 'shimmer 1.5s infinite',
-                    width: '100%',
-                    height: '100%',
-                  }}
-                />
-              </div>
-              <div className={eventCardContent}>
-                <div
-                  style={{
-                    height: '20px',
-                    background:
-                      'linear-gradient(90deg, #f0f0f0 0%, #e0e0e0 50%, #f0f0f0 100%)',
-                    backgroundSize: '200% 100%',
-                    animation: 'shimmer 1.5s infinite',
-                    borderRadius: '4px',
-                    marginBottom: '12px',
-                    width: '60%',
-                  }}
-                />
-                <div
-                  style={{
-                    height: '28px',
-                    background:
-                      'linear-gradient(90deg, #f0f0f0 0%, #e0e0e0 50%, #f0f0f0 100%)',
-                    backgroundSize: '200% 100%',
-                    animation: 'shimmer 1.5s infinite',
-                    borderRadius: '4px',
-                    marginBottom: '8px',
-                  }}
-                />
-                <div
-                  style={{
-                    height: '40px',
-                    background:
-                      'linear-gradient(90deg, #f0f0f0 0%, #e0e0e0 50%, #f0f0f0 100%)',
-                    backgroundSize: '200% 100%',
-                    animation: 'shimmer 1.5s infinite',
-                    borderRadius: '4px',
-                    marginBottom: '12px',
-                  }}
-                />
-                <div className={eventDetails}>
-                  <div className={eventDetailsInfo}>
-                    <div
-                      style={{
-                        height: '16px',
-                        background:
-                          'linear-gradient(90deg, #f0f0f0 0%, #e0e0e0 50%, #f0f0f0 100%)',
-                        backgroundSize: '200% 100%',
-                        animation: 'shimmer 1.5s infinite',
-                        borderRadius: '4px',
-                        width: '120px',
-                        marginBottom: '6px',
-                      }}
-                    />
-                    <div
-                      style={{
-                        height: '16px',
-                        background:
-                          'linear-gradient(90deg, #f0f0f0 0%, #e0e0e0 50%, #f0f0f0 100%)',
-                        backgroundSize: '200% 100%',
-                        animation: 'shimmer 1.5s infinite',
-                        borderRadius: '4px',
-                        width: '100px',
-                        marginBottom: '6px',
-                      }}
-                    />
-                    <div
-                      style={{
-                        height: '16px',
-                        background:
-                          'linear-gradient(90deg, #f0f0f0 0%, #e0e0e0 50%, #f0f0f0 100%)',
-                        backgroundSize: '200% 100%',
-                        animation: 'shimmer 1.5s infinite',
-                        borderRadius: '4px',
-                        width: '140px',
-                      }}
-                    />
-                  </div>
-                  <div
-                    style={{
-                      height: '36px',
-                      background:
-                        'linear-gradient(90deg, #f0f0f0 0%, #e0e0e0 50%, #f0f0f0 100%)',
-                      backgroundSize: '200% 100%',
-                      animation: 'shimmer 1.5s infinite',
-                      borderRadius: '6px',
-                      width: '90px',
-                    }}
-                  />
-                </div>
-              </div>
+          <div
+            style={{
+              gridColumn: '1 / -1',
+              textAlign: 'center',
+              padding: '3rem 0',
+            }}
+          >
+            <div
+              style={{
+                background: '#fef2f2',
+                border: '1px solid #fecaca',
+                borderRadius: '8px',
+                padding: '2rem',
+                maxWidth: '400px',
+                margin: '0 auto',
+              }}
+            >
+              <h3
+                style={{
+                  color: '#991b1b',
+                  fontSize: '1.125rem',
+                  fontWeight: '600',
+                  marginBottom: '0.5rem',
+                }}
+              >
+                Unable to Load Events
+              </h3>
+              <p style={{ color: '#dc2626', marginBottom: '1rem' }}>{error}</p>
+              <a
+                href="/events"
+                style={{
+                  background: '#dc2626',
+                  color: 'white',
+                  padding: '0.5rem 1rem',
+                  borderRadius: '6px',
+                  textDecoration: 'none',
+                  display: 'inline-block',
+                  transition: 'background 0.2s',
+                }}
+              >
+                Refresh Page
+              </a>
             </div>
-          ))}
+          </div>
         </div>
-        <style jsx>{`
-          @keyframes shimmer {
-            0% {
-              background-position: -200% 0;
-            }
-            100% {
-              background-position: 200% 0;
-            }
-          }
-        `}</style>
       </section>
     );
   }
 
-  if (events.length === 0) {
+  if (initialEvents.length === 0) {
     return (
       <section className={eventsSection}>
         <div className={eventGrid}>
@@ -320,7 +234,7 @@ const EventsGrid: React.FC = () => {
         initial="hidden"
         animate={isInView ? 'visible' : 'hidden'}
       >
-        {events.map((event, index) => {
+        {initialEvents.map((event, index) => {
           const eventTypeValue = getEventTypeFromCategories(event);
           const imageUrl = getStrapiImageUrl(event.featured_image);
           const dateStr = formatEventDate(event.start_date, event.end_date);
