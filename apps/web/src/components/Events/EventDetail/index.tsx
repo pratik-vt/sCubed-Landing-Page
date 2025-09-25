@@ -5,10 +5,8 @@ import Image from 'next/image';
 import Link from 'next/link';
 import React, { memo, useCallback, useEffect, useMemo, useState } from 'react';
 import type { Components } from 'react-markdown';
-import ReactMarkdown from 'react-markdown';
-import rehypeRaw from 'rehype-raw';
-import remarkGfm from 'remark-gfm';
 
+import DynamicContentRenderer from '../../DynamicContentRenderer';
 import {
   formatEventDate,
   formatEventTime,
@@ -18,8 +16,8 @@ import {
 import { getStrapiImageUrl } from '../../../lib/strapi';
 import type { Event } from '../../../types/event';
 import BlogContactForm from '../../Blog/BlogContactForm';
-import Button from '../../Button/button';
 import * as blogTableStyles from '../../Blog/DynamicContentRenderer/table.css';
+import Button from '../../Button/button';
 
 import * as styles from './styles.css';
 
@@ -61,8 +59,8 @@ const EventDetail: React.FC<EventDetailProps> = memo(({ event }) => {
     [key: string]: any;
   };
 
-  // Custom markdown components for rich text rendering
-  const markdownComponents: Components = {
+  // Custom markdown components for EventDetail with specific styles
+  const eventMarkdownComponents: Partial<Components> = {
     h1: ({ children, ...props }: ComponentProps) => (
       <h1 className={styles.markdownH1} {...props}>
         {children}
@@ -108,7 +106,7 @@ const EventDetail: React.FC<EventDetailProps> = memo(({ event }) => {
         className={styles.markdownA}
         href={href}
         target="_blank"
-        rel="noopener noreferrer"
+        rel="noopener noreferrer nofollow"
         {...props}
       >
         {children}
@@ -290,7 +288,9 @@ const EventDetail: React.FC<EventDetailProps> = memo(({ event }) => {
                         </div>
                         <div className={styles.detailText}>
                           <div className={styles.detailLabel}>Location</div>
-                          <div className={styles.detailValue}>{eventLocation}</div>
+                          <div className={styles.detailValue}>
+                            {eventLocation}
+                          </div>
                         </div>
                       </div>
                     </div>
@@ -333,13 +333,10 @@ const EventDetail: React.FC<EventDetailProps> = memo(({ event }) => {
 
               {/* Event Description - Rendered with Markdown */}
               <div className={styles.articleContent}>
-                <ReactMarkdown
-                  components={markdownComponents}
-                  remarkPlugins={[remarkGfm]}
-                  rehypePlugins={[rehypeRaw]}
-                >
-                  {event.description || ''}
-                </ReactMarkdown>
+                <DynamicContentRenderer
+                  content={event.description || ''}
+                  components={eventMarkdownComponents}
+                />
               </div>
 
               {/* Mobile Contact Form - shown only on mobile */}

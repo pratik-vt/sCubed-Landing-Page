@@ -684,7 +684,6 @@ export const breadcrumbRow = style({
   display: 'flex',
   justifyContent: 'space-between',
   alignItems: 'center',
-  marginBottom: spacing.lg,
   gap: spacing.md,
 
   '@media': {

@@ -128,7 +128,6 @@ export const breadcrumbRow = style({
   display: 'flex',
   justifyContent: 'space-between',
   alignItems: 'center',
-  marginBottom: spacing.lg,
   gap: spacing.md,
 
   '@media': {
@@ -815,14 +814,13 @@ export const markdownP = style({
 
 export const markdownUl = style({
   marginBottom: spacing.md,
-  marginLeft: spacing.lg,
   listStyleType: 'disc',
   color: colors.neutral[700],
 });
 
 export const markdownOl = style({
   marginBottom: spacing.md,
-  marginLeft: spacing.lg,
+  marginLeft: spacing.sm,
   listStyleType: 'decimal',
   color: colors.neutral[700],
 });
@@ -968,7 +966,6 @@ export const mobileEventDetails = style({
   '@media': {
     '(max-width: 1024px)': {
       display: 'block',
-      marginBottom: spacing.xl,
     },
   },
 });

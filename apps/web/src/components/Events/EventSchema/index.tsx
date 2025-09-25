@@ -1,9 +1,8 @@
-import React from 'react';
 import Script from 'next/script';
+import React from 'react';
 
-import type { Event } from '../../../types/event';
 import { getStrapiImageUrl } from '../../../lib/strapi';
-import { getEventLocationString } from '../../../lib/events-api';
+import type { Event } from '../../../types/event';
 
 interface EventSchemaProps {
   event: Event;
@@ -13,7 +12,10 @@ interface EventSchemaProps {
 const EventSchema: React.FC<EventSchemaProps> = ({ event, url }) => {
   const imageUrl = getStrapiImageUrl(event.featured_image || event.hero_image);
   const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://scubed.io';
-  const absoluteImageUrl = imageUrl && !imageUrl.startsWith('http') ? `${baseUrl}${imageUrl}` : imageUrl;
+  const absoluteImageUrl =
+    imageUrl && !imageUrl.startsWith('http')
+      ? `${baseUrl}${imageUrl}`
+      : imageUrl;
 
   // Determine event attendance mode based on location
   const getEventAttendanceMode = () => {
@@ -26,7 +28,6 @@ const EventSchema: React.FC<EventSchemaProps> = ({ event, url }) => {
   // Get event status for Schema.org
   const getEventStatus = () => {
     const now = new Date();
-    const start = new Date(event.start_date);
     const end = new Date(event.end_date);
 
     if (now > end) {
@@ -54,8 +55,8 @@ const EventSchema: React.FC<EventSchemaProps> = ({ event, url }) => {
           url: absoluteImageUrl,
           width: event.featured_image?.width || event.hero_image?.width,
           height: event.featured_image?.height || event.hero_image?.height,
-        }
-      ]
+        },
+      ],
     }),
 
     ...(event.location && {
@@ -64,36 +65,33 @@ const EventSchema: React.FC<EventSchemaProps> = ({ event, url }) => {
         name: event.location,
         address: {
           '@type': 'PostalAddress',
-          name: event.location
-        }
-      }
+          name: event.location,
+        },
+      },
     }),
-
-
-
-
 
     ...(event.registration_url && {
       offers: {
         '@type': 'Offer',
         url: event.registration_url,
-      }
+      },
     }),
-
 
     // Additional metadata
     isAccessibleForFree: false,
 
-    ...(event.categories && event.categories.length > 0 && {
-      about: event.categories.map(cat => ({
-        '@type': 'Thing',
-        name: cat.name,
-      }))
-    }),
+    ...(event.categories &&
+      event.categories.length > 0 && {
+        about: event.categories.map((cat) => ({
+          '@type': 'Thing',
+          name: cat.name,
+        })),
+      }),
 
-    ...(event.tags && event.tags.length > 0 && {
-      keywords: event.tags.map(tag => tag.name).join(', '),
-    }),
+    ...(event.tags &&
+      event.tags.length > 0 && {
+        keywords: event.tags.map((tag) => tag.name).join(', '),
+      }),
   };
 
   return (
