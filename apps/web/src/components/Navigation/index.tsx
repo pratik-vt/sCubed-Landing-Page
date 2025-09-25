@@ -342,6 +342,24 @@ const Navigation: React.FC<NavigationProps> = ({
               )}
             </Link>
             <Link
+              href="/our-team"
+              className={`${navStyle} ${pathname === '/our-team' || pathname === '/our-team/' ? mobileActiveNavStyle : ''}`}
+              style={{
+                color:
+                  pathname === '/our-team' || pathname === '/our-team/'
+                    ? activeMenuItemColor
+                    : menuItemColor,
+              }}
+            >
+              Our Team
+              {(pathname === '/our-team' || pathname === '/our-team/') && (
+                <span
+                  className={activeLinkStyle}
+                  style={{ backgroundColor: activeLinkAccentColor }}
+                />
+              )}
+            </Link>
+            <Link
               href="/get-started"
               className={`${navStyle} ${pathname === '/get-started' || pathname === '/get-started/' ? mobileActiveNavStyle : ''}`}
               style={{
@@ -354,24 +372,6 @@ const Navigation: React.FC<NavigationProps> = ({
               Get Started
               {(pathname === '/get-started' ||
                 pathname === '/get-started/') && (
-                <span
-                  className={activeLinkStyle}
-                  style={{ backgroundColor: activeLinkAccentColor }}
-                />
-              )}
-            </Link>
-            <Link
-              href="/our-team"
-              className={`${navStyle} ${pathname === '/our-team' || pathname === '/our-team/' ? mobileActiveNavStyle : ''}`}
-              style={{
-                color:
-                  pathname === '/our-team' || pathname === '/our-team/'
-                    ? activeMenuItemColor
-                    : menuItemColor,
-              }}
-            >
-              Our Team
-              {(pathname === '/our-team' || pathname === '/our-team/') && (
                 <span
                   className={activeLinkStyle}
                   style={{ backgroundColor: activeLinkAccentColor }}
