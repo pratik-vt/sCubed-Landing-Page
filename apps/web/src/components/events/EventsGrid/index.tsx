@@ -238,7 +238,7 @@ const EventsGrid: React.FC<EventsGridProps> = ({ initialEvents, error }) => {
           const eventTypeValue = getEventTypeFromCategories(event);
           const imageUrl = getStrapiImageUrl(event.featured_image);
           const dateStr = formatEventDate(event.start_date, event.end_date);
-          const timeStr = `${formatEventTime(event.start_date)} - ${formatEventTime(event.end_date)}`;
+          const timeStr = formatEventTime(event.time);
           const location = getEventLocationString(event);
 
           return (
@@ -294,10 +294,12 @@ const EventsGrid: React.FC<EventsGridProps> = ({ initialEvents, error }) => {
                         <Calendar className={eventIcon} size={16} />
                         <span className={eventDate}>{dateStr}</span>
                       </div>
-                      <div className={eventDetailsItem}>
-                        <Clock className={eventIcon} size={16} />
-                        <span className={eventTime}>{timeStr}</span>
-                      </div>
+                      {timeStr && (
+                        <div className={eventDetailsItem}>
+                          <Clock className={eventIcon} size={16} />
+                          <span className={eventTime}>{timeStr}</span>
+                        </div>
+                      )}
                       <div className={eventDetailsItem}>
                         <MapPin className={eventIcon} size={16} />
                         <span className={eventLocation} title={location}>

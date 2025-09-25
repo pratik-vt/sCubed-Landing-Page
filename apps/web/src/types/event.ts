@@ -7,8 +7,9 @@ export interface Event {
   slug: string;
   excerpt: string;
   description: string;
-  start_date: string;
-  end_date: string;
+  start_date: string; // Date only (YYYY-MM-DD format)
+  end_date: string; // Date only (YYYY-MM-DD format)
+  time?: string; // Optional time field (HH:mm format)
   location?: string;
   featured_image?: StrapiImage;
   hero_image?: StrapiImage;

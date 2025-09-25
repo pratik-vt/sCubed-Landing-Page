@@ -640,7 +640,7 @@ export interface ApiEventEvent extends Struct.CollectionTypeSchema {
     createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
     description: Schema.Attribute.RichText & Schema.Attribute.Required;
-    end_date: Schema.Attribute.DateTime & Schema.Attribute.Required;
+    end_date: Schema.Attribute.Date & Schema.Attribute.Required;
     excerpt: Schema.Attribute.Text &
       Schema.Attribute.SetMinMaxLength<{
         maxLength: 500;
@@ -656,6 +656,13 @@ export interface ApiEventEvent extends Struct.CollectionTypeSchema {
       Schema.Attribute.SetMinMaxLength<{
         maxLength: 500;
       }>;
+    max_attendees: Schema.Attribute.Integer &
+      Schema.Attribute.SetMinMax<
+        {
+          min: 1;
+        },
+        number
+      >;
     meta_description: Schema.Attribute.Text &
       Schema.Attribute.SetMinMaxLength<{
         maxLength: 320;
@@ -664,12 +671,20 @@ export interface ApiEventEvent extends Struct.CollectionTypeSchema {
       Schema.Attribute.SetMinMaxLength<{
         maxLength: 120;
       }>;
+    price: Schema.Attribute.String;
     publishedAt: Schema.Attribute.DateTime;
+    registration_deadline: Schema.Attribute.Date;
     registration_url: Schema.Attribute.String;
     slug: Schema.Attribute.UID<'title'> & Schema.Attribute.Required;
     social_share: Schema.Attribute.Boolean & Schema.Attribute.DefaultTo<true>;
-    start_date: Schema.Attribute.DateTime & Schema.Attribute.Required;
+    start_date: Schema.Attribute.Date & Schema.Attribute.Required;
     tags: Schema.Attribute.Relation<'manyToMany', 'api::tag.tag'>;
+    time: Schema.Attribute.Time &
+      Schema.Attribute.SetPluginOptions<{
+        i18n: {
+          localized: false;
+        };
+      }>;
     title: Schema.Attribute.String &
       Schema.Attribute.Required &
       Schema.Attribute.SetMinMaxLength<{

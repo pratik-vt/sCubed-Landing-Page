@@ -225,13 +225,35 @@ export function formatEventDate(startDate: string, endDate: string): string {
   }
 }
 
-export function formatEventTime(date: string): string {
-  const eventDate = new Date(date);
+export function formatEventTime(time?: string): string {
+  if (!time) return '';
 
-  return eventDate.toLocaleTimeString('en-US', {
-    hour: 'numeric',
-    minute: '2-digit',
-  });
+  // Handle HH:mm format
+  const [hours, minutes] = time.split(':').map(num => parseInt(num, 10));
+
+  if (isNaN(hours) || isNaN(minutes)) return '';
+
+  // Convert to 12-hour format with AM/PM
+  const period = hours >= 12 ? 'PM' : 'AM';
+  const displayHours = hours % 12 || 12; // Convert 0 to 12 for midnight
+
+  return `${displayHours}:${minutes.toString().padStart(2, '0')} ${period}`;
+}
+
+export function getEventTimeRange(event: Event): string {
+  if (!event.time) return '';
+
+  const startTime = formatEventTime(event.time);
+  if (!startTime) return '';
+
+  // For single-day events or when no end time is specified, just show start time
+  if (event.start_date === event.end_date) {
+    return startTime;
+  }
+
+  // For multi-day events, we might want to show just the start time
+  // or handle it differently based on business requirements
+  return startTime;
 }
 
 export function getEventStatus(
