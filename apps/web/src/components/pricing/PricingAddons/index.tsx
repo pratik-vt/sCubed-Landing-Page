@@ -79,7 +79,9 @@ const PricingAddons: React.FC = () => {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6 }}
         >
-          <h2 className={addonsTitle}>Power Up Your Practice with Add-ons</h2>
+          <h2 className={addonsTitle}>
+            Power Up <span style={{ color: '#7a7eed' }}>Your Practice</span> with Add-ons
+          </h2>
           <p className={addonsSubtitle}>
             Enhance your S Cubed experience with specialized tools and services designed for
             therapy practices.

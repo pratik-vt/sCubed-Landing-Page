@@ -6,10 +6,13 @@ import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
 import React, { useEffect, useState } from 'react';
 
+
 import desktopLogoImg from '../../images/HeaderLogo.png';
 import mobileLogoImg from '../../images/scubed-logo-small.png';
 import { formatPhone } from '../../utils/phoneFormatter';
 
+import MobileNavDropdown from './MobileNavDropdown';
+import NavDropdown, { DropdownItem } from './NavDropdown';
 import {
   activeLinkStyle,
   bar,
@@ -103,6 +106,19 @@ const Navigation: React.FC<NavigationProps> = ({
   }, [pathname]);
 
   const toggleMenu = () => setMenuOpen(!menuOpen);
+
+  const featuresDropdownItems: DropdownItem[] = [
+    { label: 'Practice Management Features', href: '/features' },
+    { label: 'Guardian Portal Features', href: '/guardian-portal' },
+    { label: 'Schedule a Demo', href: '/get-started' },
+  ];
+
+  const resourcesDropdownItems: DropdownItem[] = [
+    { label: 'Blog', href: '/blog' },
+    { label: 'Events', href: '/events' },
+    { label: 'FAQs', href: '/faqs' },
+    { label: 'Guardian Portal Login', href: '/guardian-portal' },
+  ];
 
   return (
     <>
@@ -267,6 +283,7 @@ const Navigation: React.FC<NavigationProps> = ({
                 />
               )}
             </Link>
+
             <Link
               href="/billing"
               className={`${navStyle} ${pathname === '/billing' || pathname === '/billing/' ? mobileActiveNavStyle : ''}`}
@@ -285,62 +302,58 @@ const Navigation: React.FC<NavigationProps> = ({
                 />
               )}
             </Link>
+
+            <NavDropdown
+              label="Features"
+              items={featuresDropdownItems}
+              menuItemColor={menuItemColor}
+              activeMenuItemColor={activeMenuItemColor}
+              activeLinkAccentColor={activeLinkAccentColor}
+            />
+
+            <MobileNavDropdown
+              label="Features"
+              items={featuresDropdownItems}
+              menuItemColor={menuItemColor}
+              activeMenuItemColor={activeMenuItemColor}
+              activeLinkAccentColor={activeLinkAccentColor}
+            />
+
+            <NavDropdown
+              label="Resources"
+              items={resourcesDropdownItems}
+              menuItemColor={menuItemColor}
+              activeMenuItemColor={activeMenuItemColor}
+              activeLinkAccentColor={activeLinkAccentColor}
+            />
+
+            <MobileNavDropdown
+              label="Resources"
+              items={resourcesDropdownItems}
+              menuItemColor={menuItemColor}
+              activeMenuItemColor={activeMenuItemColor}
+              activeLinkAccentColor={activeLinkAccentColor}
+            />
+
             <Link
-              href="/features"
-              className={`${navStyle} ${pathname === '/features' || pathname === '/features/' ? mobileActiveNavStyle : ''}`}
+              href="/pricing"
+              className={`${navStyle} ${pathname === '/pricing' || pathname === '/pricing/' ? mobileActiveNavStyle : ''}`}
               style={{
                 color:
-                  pathname === '/features' || pathname === '/features/'
+                  pathname === '/pricing' || pathname === '/pricing/'
                     ? activeMenuItemColor
                     : menuItemColor,
               }}
             >
-              Features{' '}
-              {(pathname === '/features' || pathname === '/features/') && (
+              Pricing{' '}
+              {(pathname === '/pricing' || pathname === '/pricing/') && (
                 <span
                   className={activeLinkStyle}
                   style={{ backgroundColor: activeLinkAccentColor }}
                 />
               )}
             </Link>
-            <Link
-              href="/guardian-portal"
-              className={`${navStyle} ${pathname === '/guardian-portal' || pathname === '/guardian-portal/' ? mobileActiveNavStyle : ''}`}
-              style={{
-                color:
-                  pathname === '/guardian-portal' ||
-                  pathname === '/guardian-portal/'
-                    ? activeMenuItemColor
-                    : menuItemColor,
-              }}
-            >
-              Guardian Portal{' '}
-              {(pathname === '/guardian-portal' ||
-                pathname === '/guardian-portal/') && (
-                <span
-                  className={activeLinkStyle}
-                  style={{ backgroundColor: activeLinkAccentColor }}
-                />
-              )}
-            </Link>
-            <Link
-              href="/blog"
-              className={`${navStyle} ${pathname === '/blog' || pathname === '/blog/' ? mobileActiveNavStyle : ''}`}
-              style={{
-                color:
-                  pathname === '/blog' || pathname === '/blog/'
-                    ? activeMenuItemColor
-                    : menuItemColor,
-              }}
-            >
-              Blog{' '}
-              {(pathname === '/blog' || pathname === '/blog/') && (
-                <span
-                  className={activeLinkStyle}
-                  style={{ backgroundColor: activeLinkAccentColor }}
-                />
-              )}
-            </Link>
+
             <Link
               href="/our-team"
               className={`${navStyle} ${pathname === '/our-team' || pathname === '/our-team/' ? mobileActiveNavStyle : ''}`}

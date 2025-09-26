@@ -1,14 +1,19 @@
 import { style } from '@vanilla-extract/css';
 
-import { colors, radius, shadows, spacing, typography } from '../../../styles/tokens.css';
+import {
+  colors,
+  radius,
+  shadows,
+  spacing,
+  typography,
+} from '../../../styles/tokens.css';
 
 export const heroContainer = style({
-  paddingTop: '120px',
+  paddingTop: '2rem',
   paddingBottom: spacing['2xl'],
   background: `linear-gradient(135deg, ${colors.primary[50]} 0%, rgba(122, 126, 237, 0.03) 100%)`,
   '@media': {
     'screen and (max-width: 768px)': {
-      paddingTop: '100px',
       paddingBottom: spacing.xl,
     },
   },

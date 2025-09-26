@@ -22,9 +22,9 @@ const PricingHero: React.FC = () => {
         transition={{ duration: 0.6 }}
       >
         <h1 className={heroTitle}>
-          Simple, Transparent Pricing
+          Simple, <span style={{ color: '#7a7eed' }}>Transparent Pricing</span>
           <br />
-          <span>That Grows With Your Practice</span>
+          That Grows With <span style={{ color: '#7a7eed' }}>Your Practice</span>
         </h1>
         <p className={heroDescription}>
           Choose the perfect plan for your therapy practice. All plans include unlimited clients,

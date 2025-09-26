@@ -235,7 +235,9 @@ const PricingComparison: React.FC = () => {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6 }}
         >
-          <h2 className={comparisonTitle}>Complete Feature Comparison</h2>
+          <h2 className={comparisonTitle}>
+            Complete <span style={{ color: '#7a7eed' }}>Feature Comparison</span>
+          </h2>
           <p className={sectionDescription}>
             See everything included in each plan, plus available add-ons to
             customize your experience.

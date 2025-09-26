@@ -129,6 +129,7 @@ const FeaturesComprehensive: React.FC = () => {
   const additionalFeatures = [
     {
       category: 'Scheduling & Staff Management',
+      id: 'scheduling',
       icon: <Calendar />,
       color: '#3b82f6',
       items: [
@@ -148,6 +149,7 @@ const FeaturesComprehensive: React.FC = () => {
     },
     {
       category: 'Progress Tracking & Data Collection',
+      id: 'progress-tracking',
       icon: <BarChart3 />,
       color: '#10b981',
       items: [
@@ -171,6 +173,7 @@ const FeaturesComprehensive: React.FC = () => {
     },
     {
       category: 'Documentation & Notes',
+      id: 'documentation',
       icon: <FileText />,
       color: '#f59e0b',
       items: [
@@ -184,6 +187,7 @@ const FeaturesComprehensive: React.FC = () => {
     },
     {
       category: 'Billing & Financials',
+      id: 'billing',
       icon: <CreditCard />,
       color: '#ef4444',
       items: [
@@ -202,6 +206,7 @@ const FeaturesComprehensive: React.FC = () => {
     },
     {
       category: 'Compliance & Security',
+      id: 'compliance',
       icon: <Shield />,
       color: '#22c55e',
       items: [
@@ -223,6 +228,7 @@ const FeaturesComprehensive: React.FC = () => {
     },
     {
       category: 'Customization & Flexibility',
+      id: 'customization',
       icon: <Settings />,
       color: '#a855f7',
       items: [
@@ -260,7 +266,7 @@ const FeaturesComprehensive: React.FC = () => {
         </div>
 
         {/* Core Features Grid */}
-        <div className={coreFeatures}>
+        <div id="practice-management" className={coreFeatures}>
           {coreFeaturesList.map((feature, index) => (
             <div
               key={feature.title}
@@ -291,7 +297,7 @@ const FeaturesComprehensive: React.FC = () => {
 
           <div className={additionalFeaturesList}>
             {additionalFeatures.map((category, index) => (
-              <div key={category.category} className={additionalFeatureCard}>
+              <div key={category.category} id={category.id} className={additionalFeatureCard}>
                 <h3 className={additionalFeatureCategory}>
                   <span
                     className={additionalFeatureIcon}

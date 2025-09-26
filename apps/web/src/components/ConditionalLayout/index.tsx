@@ -23,6 +23,7 @@ export default function ConditionalLayout({ children }: Readonly<ConditionalLayo
                          pathname === '/billing' ||
                          pathname === '/features' ||
                          pathname === '/guardian-portal' ||
+                         pathname === '/pricing' ||
                          pathname === '/events' ||
                          pathname.startsWith('/events/');
 
@@ -31,6 +32,7 @@ export default function ConditionalLayout({ children }: Readonly<ConditionalLayo
                             pathname === '/billing' ||
                             pathname === '/features' ||
                             pathname === '/guardian-portal' ||
+                            pathname === '/pricing' ||
                             pathname === '/events';
   
   return (
