@@ -6,7 +6,6 @@ import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
 import React, { useEffect, useState } from 'react';
 
-
 import desktopLogoImg from '../../images/HeaderLogo.png';
 import mobileLogoImg from '../../images/scubed-logo-small.png';
 import { formatPhone } from '../../utils/phoneFormatter';
@@ -117,7 +116,6 @@ const Navigation: React.FC<NavigationProps> = ({
     { label: 'Blog', href: '/blog' },
     { label: 'Events', href: '/events' },
     { label: 'FAQs', href: '/faqs' },
-    { label: 'Guardian Portal Login', href: '/guardian-portal' },
   ];
 
   return (

@@ -102,7 +102,7 @@ const PricingAddons: React.FC = () => {
                 <div className={addonPrice}>{addon.price}</div>
                 <button
                   className={addonLearnMore}
-                  onClick={() => router.push('/contact-sales')}
+                  onClick={(e) => e.preventDefault()}
                   aria-label={`Learn more about ${addon.name}`}
                 >
                   Learn More

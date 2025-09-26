@@ -10,8 +10,12 @@ import {
   billingToggle,
   billingToggleActive,
   billingToggleOption,
+  discountedAmount,
+  discountedPrice,
+  discountPercentage,
   featuresGrid,
   featuresTitle,
+  originalPrice,
   planCard,
   planCardPopular,
   planCTA,
@@ -29,6 +33,7 @@ import {
   plansWrapper,
   popularBadge,
   savingBadge,
+  yearlyLabel,
 } from './styles.css';
 
 interface PlanFeature {
@@ -52,7 +57,7 @@ const plans: PricingPlan[] = [
   {
     name: 'Starter',
     description: 'Perfect for small practices just getting started',
-    monthlyPrice: 295,
+    monthlyPrice: 29,
     yearlyPrice: 295,
     staffCount: '5 Staff',
     savings: '15% off',
@@ -76,7 +81,7 @@ const plans: PricingPlan[] = [
   {
     name: 'Essential',
     description: 'Most popular for growing therapy practices',
-    monthlyPrice: 499,
+    monthlyPrice: 49,
     yearlyPrice: 499,
     staffCount: '10 Staff',
     savings: '15% off',
@@ -101,7 +106,7 @@ const plans: PricingPlan[] = [
   {
     name: 'Growth',
     description: 'Complete solution for multi-location practices',
-    monthlyPrice: 899,
+    monthlyPrice: 89,
     yearlyPrice: 899,
     staffCount: '20+ Staff',
     savings: '16% off',
@@ -182,16 +187,24 @@ const PricingPlans: React.FC = () => {
               <p className={planDescription}>{plan.description}</p>
 
               <div className={planPriceWrapper}>
-                <div className={planPrice}>
-                  <span className={planPriceAmount}>
-                    ${billingPeriod === 'yearly' ? plan.yearlyPrice : plan.monthlyPrice}
-                  </span>
-                  <span className={planPricePeriod}>
-                    / staff / {billingPeriod === 'yearly' ? 'year' : 'month'}
-                  </span>
-                </div>
-                {billingPeriod === 'yearly' && plan.savings && (
-                  <div className={savingBadge}>{plan.savings}</div>
+                {billingPeriod === 'yearly' ? (
+                  <>
+                    <div className={originalPrice}>
+                      ${plan.monthlyPrice * 12} / staff / year
+                    </div>
+                    <div className={discountedPrice}>
+                      <span className={discountedAmount}>${plan.yearlyPrice}</span>
+                      <span className={planPricePeriod}>/ staff / year</span>
+                    </div>
+                    {plan.savings && (
+                      <div className={discountPercentage}>({plan.savings})</div>
+                    )}
+                  </>
+                ) : (
+                  <div className={planPrice}>
+                    <span className={planPriceAmount}>${plan.monthlyPrice}</span>
+                    <span className={planPricePeriod}>/ staff / month</span>
+                  </div>
                 )}
               </div>
 

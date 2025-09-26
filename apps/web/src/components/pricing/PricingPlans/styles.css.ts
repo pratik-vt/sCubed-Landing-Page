@@ -42,20 +42,23 @@ export const billingToggleOption = style({
 });
 
 export const billingToggleActive = style({
-  background: colors.white,
-  color: colors.neutral[900],
+  background: colors.primary[600],
+  color: colors.white,
+  fontWeight: typography.fontWeight.bold,
   boxShadow: shadows.sm,
 });
 
 export const savingBadge = style({
   display: 'inline-flex',
   alignItems: 'center',
-  padding: `2px ${spacing.xs}`,
-  background: colors.accent.green,
-  color: colors.white,
+  padding: `4px ${spacing.sm}`,
+  background: colors.white,
+  color: colors.primary[600],
   borderRadius: radius.full,
   fontSize: typography.fontSize.xs,
-  fontWeight: typography.fontWeight.semibold,
+  fontWeight: typography.fontWeight.bold,
+  marginLeft: spacing.xs,
+  border: `1px solid ${colors.primary[200]}`,
 });
 
 export const plansGrid = style({
@@ -171,6 +174,41 @@ export const planPriceAmount = style({
 export const planPricePeriod = style({
   fontSize: typography.fontSize.base,
   color: colors.neutral[600],
+});
+
+export const originalPrice = style({
+  fontSize: typography.fontSize['2xl'],
+  color: colors.neutral[400],
+  textDecoration: 'line-through',
+  fontWeight: typography.fontWeight.normal,
+  marginBottom: spacing.xs,
+});
+
+export const discountedPrice = style({
+  display: 'flex',
+  alignItems: 'baseline',
+  gap: spacing.xs,
+  marginTop: spacing.xs,
+});
+
+export const yearlyLabel = style({
+  fontSize: typography.fontSize.sm,
+  fontWeight: typography.fontWeight.semibold,
+  color: colors.primary[600],
+  marginRight: spacing.xs,
+});
+
+export const discountedAmount = style({
+  fontSize: typography.fontSize['5xl'],
+  fontWeight: typography.fontWeight.bold,
+  color: colors.primary[600],
+});
+
+export const discountPercentage = style({
+  fontSize: typography.fontSize.sm,
+  color: colors.accent.green,
+  fontWeight: typography.fontWeight.semibold,
+  marginLeft: spacing.xs,
 });
 
 export const planCTA = style({
