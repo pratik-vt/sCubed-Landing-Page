@@ -1,0 +1,194 @@
+import { style } from '@vanilla-extract/css';
+
+import {
+  colors,
+  radius,
+  shadows,
+  spacing,
+  typography,
+} from '../../../styles/tokens.css';
+
+export const comparisonSection = style({
+  padding: `${spacing['lg']} 0`,
+  background: colors.neutral[50],
+});
+
+export const comparisonContainer = style({
+  maxWidth: '1200px',
+  margin: '0 auto',
+  padding: `0 ${spacing.md}`,
+});
+
+export const comparisonTitle = style({
+  fontSize: typography.fontSize['4xl'],
+  fontWeight: typography.fontWeight.bold,
+  color: colors.neutral[900],
+  textAlign: 'center',
+  marginBottom: spacing.sm,
+  '@media': {
+    'screen and (max-width: 768px)': {
+      fontSize: typography.fontSize['2xl'],
+    },
+  },
+});
+
+export const sectionDescription = style({
+  fontSize: typography.fontSize.lg,
+  color: colors.neutral[600],
+  textAlign: 'center',
+  marginBottom: spacing['2xl'],
+  maxWidth: '700px',
+  margin: `0 auto ${spacing['2xl']}`,
+});
+
+export const comparisonTable = style({
+  background: colors.white,
+  borderRadius: radius.lg,
+  boxShadow: shadows.lg,
+  overflow: 'hidden',
+  '@media': {
+    'screen and (max-width: 768px)': {
+      display: 'none',
+    },
+  },
+});
+
+export const featureRow = style({
+  display: 'grid',
+  gridTemplateColumns: '2fr 1fr 1fr 1fr',
+  borderBottom: `1px solid ${colors.neutral[200]}`,
+  ':last-child': {
+    borderBottom: 'none',
+  },
+});
+
+export const headerCell = style({
+  padding: spacing.md,
+  fontSize: typography.fontSize.base,
+  fontWeight: typography.fontWeight.semibold,
+  color: colors.neutral[900],
+  background: colors.neutral[50],
+});
+
+export const planHeader = style({
+  padding: spacing.md,
+  fontSize: typography.fontSize.base,
+  fontWeight: typography.fontWeight.semibold,
+  color: colors.neutral[900],
+  background: colors.neutral[50],
+  textAlign: 'center',
+  display: 'flex',
+  flexDirection: 'column',
+  gap: '4px',
+  borderLeft: `1px solid ${colors.neutral[200]}`,
+});
+
+export const featureCategory = style({
+  borderBottom: `2px solid ${colors.neutral[200]}`,
+});
+
+export const expandButton = style({
+  width: '100%',
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'space-between',
+  padding: spacing.md,
+  background: colors.primary[50],
+  border: 'none',
+  cursor: 'pointer',
+  transition: 'background 0.2s ease',
+  ':hover': {
+    background: colors.primary[100],
+  },
+});
+
+export const featureCategoryTitle = style({
+  fontSize: typography.fontSize.base,
+  fontWeight: typography.fontWeight.semibold,
+  color: colors.primary[700],
+});
+
+export const featureName = style({
+  padding: spacing.md,
+  fontSize: typography.fontSize.sm,
+  color: colors.neutral[700],
+  display: 'flex',
+  alignItems: 'center',
+  gap: spacing.xs,
+});
+
+export const featureCell = style({
+  padding: spacing.md,
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'center',
+  borderLeft: `1px solid ${colors.neutral[200]}`,
+});
+
+export const tooltipIcon = style({
+  position: 'relative',
+  display: 'inline-flex',
+  alignItems: 'center',
+  color: colors.neutral[400],
+  cursor: 'help',
+  ':hover': {
+    color: colors.neutral[600],
+  },
+});
+
+export const tooltip = style({
+  position: 'absolute',
+  bottom: '100%',
+  left: '50%',
+  transform: 'translateX(-50%)',
+  padding: spacing.xs,
+  background: colors.neutral[900],
+  color: colors.white,
+  fontSize: typography.fontSize.xs,
+  borderRadius: radius.base,
+  whiteSpace: 'nowrap',
+  opacity: 0,
+  pointerEvents: 'none',
+  transition: 'opacity 0.2s ease',
+  ':hover': {
+    opacity: 1,
+  },
+});
+
+export const mobileCard = style({
+  display: 'none',
+  '@media': {
+    'screen and (max-width: 768px)': {
+      display: 'block',
+    },
+  },
+});
+
+export const mobileCardHeader = style({
+  background: colors.primary[600],
+  color: colors.white,
+  padding: spacing.md,
+  borderRadius: `${radius.lg} ${radius.lg} 0 0`,
+  display: 'flex',
+  justifyContent: 'space-between',
+  alignItems: 'center',
+});
+
+export const mobileFeatureList = style({
+  background: colors.white,
+  padding: spacing.md,
+  borderRadius: `0 0 ${radius.lg} ${radius.lg}`,
+  boxShadow: shadows.md,
+});
+
+export const mobileFeatureItem = style({
+  display: 'flex',
+  justifyContent: 'space-between',
+  alignItems: 'center',
+  padding: `${spacing.sm} 0`,
+  borderBottom: `1px solid ${colors.neutral[100]}`,
+  fontSize: typography.fontSize.sm,
+  ':last-child': {
+    borderBottom: 'none',
+  },
+});
