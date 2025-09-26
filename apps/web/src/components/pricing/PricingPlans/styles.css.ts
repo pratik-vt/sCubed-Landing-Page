@@ -81,6 +81,9 @@ export const planCard = style({
   borderRadius: radius.xl,
   padding: spacing.lg,
   transition: 'all 0.3s ease',
+  display: 'flex',
+  flexDirection: 'column',
+  minHeight: '600px',
   ':hover': {
     transform: 'translateY(-4px)',
     borderColor: colors.primary[300],
@@ -134,7 +137,9 @@ export const planName = style({
 });
 
 export const badge = style({
-  display: 'inline-block',
+  display: 'inline-flex',
+  alignItems: 'center',
+  alignSelf: 'flex-start',
   padding: `4px ${spacing.sm}`,
   background: colors.primary[100],
   color: colors.primary[700],
@@ -142,6 +147,7 @@ export const badge = style({
   fontSize: typography.fontSize.sm,
   fontWeight: typography.fontWeight.semibold,
   marginBottom: spacing.sm,
+  width: 'fit-content',
 });
 
 export const planDescription = style({
@@ -249,6 +255,7 @@ export const featuresGrid = style({
   display: 'flex',
   flexDirection: 'column',
   gap: spacing.sm,
+  flex: 1,
 });
 
 export const featuresTitle = style({
@@ -271,4 +278,14 @@ export const planFeatureIcon = style({
   flexShrink: 0,
   marginTop: '2px',
   color: colors.accent.green,
+});
+
+export const planFeatureHighlight = style({
+  display: 'flex',
+  alignItems: 'flex-start',
+  gap: spacing.xs,
+  fontSize: typography.fontSize.sm,
+  color: colors.primary[600],
+  fontWeight: typography.fontWeight.semibold,
+  lineHeight: typography.lineHeight.relaxed,
 });

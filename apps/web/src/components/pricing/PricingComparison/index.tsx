@@ -1,16 +1,19 @@
 'use client';
 
 import { motion } from 'framer-motion';
-import { Check, Info, Minus, Plus } from 'lucide-react';
+import { ArrowRight, Check, Info, Minus, Plus } from 'lucide-react';
 import { useState } from 'react';
 
 import { colors, spacing } from '../../../styles/tokens.css';
 
 import {
+  buyNowButton,
   comparisonContainer,
   comparisonSection,
   comparisonTable,
   comparisonTitle,
+  discountBadgeSmall,
+  discountedPriceSmall,
   expandButton,
   featureCategory,
   featureCategoryTitle,
@@ -22,7 +25,9 @@ import {
   mobileCardHeader,
   mobileFeatureItem,
   mobileFeatureList,
+  originalPriceSmall,
   planHeader,
+  priceContainer,
   sectionDescription,
   tooltip,
   tooltipIcon,
@@ -202,6 +207,10 @@ const PricingComparison: React.FC = () => {
     'Core Features',
   ]);
 
+  const handleBuyNow = (plan: string) => {
+    // Button is currently non-functional
+  };
+
   const toggleSection = (category: string) => {
     setExpandedSections((prev) =>
       prev.includes(category)
@@ -236,7 +245,8 @@ const PricingComparison: React.FC = () => {
           transition={{ duration: 0.6 }}
         >
           <h2 className={comparisonTitle}>
-            Complete <span style={{ color: '#7a7eed' }}>Feature Comparison</span>
+            Complete{' '}
+            <span style={{ color: '#7a7eed' }}>Feature Comparison</span>
           </h2>
           <p className={sectionDescription}>
             See everything included in each plan, plus available add-ons to
@@ -257,15 +267,48 @@ const PricingComparison: React.FC = () => {
               <div className={headerCell}>Features</div>
               <div className={planHeader}>
                 <strong>Starter</strong>
-                <span>$295/staff/year</span>
+                <div className={priceContainer}>
+                  <span className={originalPriceSmall}>$348/year</span>
+                  <span className={discountedPriceSmall}>$295/year</span>
+                  <span className={discountBadgeSmall}>(15% off)</span>
+                </div>
+                <button
+                  className={buyNowButton}
+                  onClick={() => handleBuyNow('Starter')}
+                >
+                  Buy Now
+                  <ArrowRight size={16} />
+                </button>
               </div>
               <div className={planHeader}>
                 <strong>Essential</strong>
-                <span>$499/staff/year</span>
+                <div className={priceContainer}>
+                  <span className={originalPriceSmall}>$588/year</span>
+                  <span className={discountedPriceSmall}>$499/year</span>
+                  <span className={discountBadgeSmall}>(15% off)</span>
+                </div>
+                <button
+                  className={buyNowButton}
+                  onClick={() => handleBuyNow('Essential')}
+                >
+                  Buy Now
+                  <ArrowRight size={16} />
+                </button>
               </div>
               <div className={planHeader}>
                 <strong>Growth</strong>
-                <span>$899/staff/year</span>
+                <div className={priceContainer}>
+                  <span className={originalPriceSmall}>$1,068/year</span>
+                  <span className={discountedPriceSmall}>$899/year</span>
+                  <span className={discountBadgeSmall}>(16% off)</span>
+                </div>
+                <button
+                  className={buyNowButton}
+                  onClick={() => handleBuyNow('Growth')}
+                >
+                  Buy Now
+                  <ArrowRight size={16} />
+                </button>
               </div>
             </div>
 
@@ -327,16 +370,37 @@ const PricingComparison: React.FC = () => {
               <div key={plan} style={{ marginBottom: spacing.lg }}>
                 <div className={mobileCardHeader}>
                   <h3>{plan}</h3>
-                  <span>
-                    $
-                    {plan === 'Starter'
-                      ? '295'
-                      : plan === 'Essential'
-                        ? '499'
-                        : '899'}
-                    /staff/year
-                  </span>
+                  <div className={priceContainer}>
+                    <span className={originalPriceSmall}>
+                      $
+                      {plan === 'Starter'
+                        ? '348'
+                        : plan === 'Essential'
+                          ? '588'
+                          : '1,068'}
+                      /year
+                    </span>
+                    <span className={discountedPriceSmall}>
+                      $
+                      {plan === 'Starter'
+                        ? '295'
+                        : plan === 'Essential'
+                          ? '499'
+                          : '899'}
+                      /year
+                    </span>
+                    <span className={discountBadgeSmall}>
+                      ({plan === 'Growth' ? '16' : '15'}% off)
+                    </span>
+                  </div>
                 </div>
+                <button
+                  className={buyNowButton}
+                  onClick={() => handleBuyNow(plan)}
+                >
+                  Buy Now
+                  <ArrowRight size={16} />
+                </button>
                 <div className={mobileFeatureList}>
                   {featureComparison.map((section) => (
                     <div key={section.category}>

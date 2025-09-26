@@ -1,8 +1,7 @@
 'use client';
 
 import { motion } from 'framer-motion';
-import { ArrowRight, Check, Star } from 'lucide-react';
-import { useRouter } from 'next/navigation';
+import { ArrowRight, Check, Minus, Star } from 'lucide-react';
 import { useState } from 'react';
 
 import {
@@ -22,6 +21,7 @@ import {
   planCTAPopular,
   planDescription,
   planFeature,
+  planFeatureHighlight,
   planFeatureIcon,
   planName,
   planPrice,
@@ -33,7 +33,6 @@ import {
   plansWrapper,
   popularBadge,
   savingBadge,
-  yearlyLabel,
 } from './styles.css';
 
 interface PlanFeature {
@@ -63,20 +62,12 @@ const plans: PricingPlan[] = [
     savings: '15% off',
     features: [
       { text: 'Unlimited Clients', included: true },
-      { text: 'Documentation & Session Notes', included: true },
       { text: 'HIPAA-Grade Security', included: true },
       { text: 'Appointment Scheduling', included: true },
-      { text: 'Custom Roles & Permissions', included: true },
-      { text: 'Messaging (Staff & Client)', included: true },
-      { text: 'Reports & Graphs', included: true },
-      { text: 'Data Collection', included: true },
-      { text: 'Behavior Tracking', included: true },
-      { text: 'Custom Templates', included: true },
-      { text: 'In-App Notifications & Email', included: true },
-      { text: 'Support & Training', included: true },
-      { text: 'Mobile App & Tablet Support', included: true },
+      { text: 'Documentation & Session Notes', included: true },
+      { text: 'Mobile App Support', included: true },
     ],
-    ctaText: 'Start Free Trial',
+    ctaText: 'Buy Now',
   },
   {
     name: 'Essential',
@@ -88,20 +79,11 @@ const plans: PricingPlan[] = [
     isPopular: true,
     features: [
       { text: 'Everything in Starter, plus:', included: true },
-      { text: 'Clock In, Clock Out', included: true },
       { text: 'Guardian Portal', included: true },
-      { text: 'Billing Portal (Clearinghouses Fees)', included: true },
-      { text: 'VB-MAPP', included: true },
-      { text: 'Advanced Reporting', included: true },
+      { text: 'Clock In, Clock Out', included: true },
       { text: 'Smart Dashboard', included: true },
-      { text: 'Customizable Forms', included: true },
-      { text: 'Electronic Signatures', included: true },
-      { text: 'Document Management', included: true },
-      { text: 'Priority Support', included: true },
-      { text: 'Team Collaboration Tools', included: true },
-      { text: 'API Access', included: true },
     ],
-    ctaText: 'Start Free Trial',
+    ctaText: 'Buy Now',
   },
   {
     name: 'Growth',
@@ -112,33 +94,21 @@ const plans: PricingPlan[] = [
     savings: '16% off',
     features: [
       { text: 'Everything in Essential, plus:', included: true },
-      { text: 'Unlimited Staff Members', included: true },
-      { text: 'Multi-Location Management', included: true },
-      { text: 'Advanced Analytics & Insights', included: true },
-      { text: 'Custom Integrations', included: true },
-      { text: 'Dedicated Account Manager', included: true },
-      { text: 'Onboarding & Training', included: true },
-      { text: 'Custom Workflows', included: true },
-      { text: 'White-Label Options', included: true },
-      { text: 'Enterprise Security Features', included: true },
-      { text: 'SLA Guarantee', included: true },
-      { text: '24/7 Phone Support', included: true },
-      { text: 'Quarterly Business Reviews', included: true },
+      { text: 'Billing Portal (Includes Clearinghouses Fees)', included: true },
+      { text: 'VB Mapp', included: true },
+      { text: 'Advanced Analytics', included: true },
     ],
-    ctaText: 'Contact Sales',
+    ctaText: 'Buy Now',
   },
 ];
 
 const PricingPlans: React.FC = () => {
-  const [billingPeriod, setBillingPeriod] = useState<'monthly' | 'yearly'>('yearly');
-  const router = useRouter();
+  const [billingPeriod, setBillingPeriod] = useState<'monthly' | 'yearly'>(
+    'monthly',
+  );
 
   const handlePlanSelect = (planName: string) => {
-    if (planName === 'Growth') {
-      router.push('/contact-sales');
-    } else {
-      router.push('/get-started');
-    }
+    // Button is currently non-functional
   };
 
   return (
@@ -193,7 +163,9 @@ const PricingPlans: React.FC = () => {
                       ${plan.monthlyPrice * 12} / staff / year
                     </div>
                     <div className={discountedPrice}>
-                      <span className={discountedAmount}>${plan.yearlyPrice}</span>
+                      <span className={discountedAmount}>
+                        ${plan.yearlyPrice}
+                      </span>
                       <span className={planPricePeriod}>/ staff / year</span>
                     </div>
                     {plan.savings && (
@@ -202,7 +174,9 @@ const PricingPlans: React.FC = () => {
                   </>
                 ) : (
                   <div className={planPrice}>
-                    <span className={planPriceAmount}>${plan.monthlyPrice}</span>
+                    <span className={planPriceAmount}>
+                      ${plan.monthlyPrice}
+                    </span>
                     <span className={planPricePeriod}>/ staff / month</span>
                   </div>
                 )}
@@ -219,8 +193,29 @@ const PricingPlans: React.FC = () => {
               <div className={featuresGrid}>
                 <h4 className={featuresTitle}>What's included:</h4>
                 {plan.features.map((feature, idx) => (
-                  <div key={idx} className={planFeature}>
-                    <Check className={planFeatureIcon} size={16} />
+                  <div
+                    key={idx}
+                    className={
+                      idx === 0 &&
+                      (feature.text.startsWith('Everything in') ||
+                        feature.text === 'Everything in Starter, plus:' ||
+                        feature.text === 'Everything in Essential, plus:')
+                        ? planFeatureHighlight
+                        : planFeature
+                    }
+                  >
+                    {feature.included ? (
+                      <Check className={planFeatureIcon} size={16} />
+                    ) : (
+                      <Minus
+                        size={16}
+                        style={{
+                          color: '#9ca3af',
+                          flexShrink: 0,
+                          marginTop: '2px',
+                        }}
+                      />
+                    )}
                     <span>{feature.text}</span>
                   </div>
                 ))}

@@ -83,6 +83,32 @@ export const planHeader = style({
   borderLeft: `1px solid ${colors.neutral[200]}`,
 });
 
+export const priceContainer = style({
+  display: 'flex',
+  flexDirection: 'column',
+  gap: '2px',
+  alignItems: 'center',
+});
+
+export const originalPriceSmall = style({
+  fontSize: typography.fontSize.sm,
+  color: colors.neutral[400],
+  textDecoration: 'line-through',
+  fontWeight: typography.fontWeight.normal,
+});
+
+export const discountedPriceSmall = style({
+  fontSize: typography.fontSize.lg,
+  fontWeight: typography.fontWeight.bold,
+  color: colors.primary[600],
+});
+
+export const discountBadgeSmall = style({
+  fontSize: typography.fontSize.xs,
+  color: colors.accent.green,
+  fontWeight: typography.fontWeight.semibold,
+});
+
 export const featureCategory = style({
   borderBottom: `2px solid ${colors.neutral[200]}`,
 });
@@ -190,5 +216,28 @@ export const mobileFeatureItem = style({
   fontSize: typography.fontSize.sm,
   ':last-child': {
     borderBottom: 'none',
+  },
+});
+
+export const buyNowButton = style({
+  width: '100%',
+  padding: `${spacing.sm} ${spacing.md}`,
+  background: colors.primary[600],
+  border: 'none',
+  borderRadius: radius.md,
+  fontSize: typography.fontSize.sm,
+  fontWeight: typography.fontWeight.semibold,
+  color: colors.white,
+  cursor: 'pointer',
+  transition: 'all 0.2s ease',
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'center',
+  gap: spacing.xs,
+  marginTop: spacing.md,
+  ':hover': {
+    background: colors.primary[700],
+    transform: 'translateY(-2px)',
+    boxShadow: shadows.md,
   },
 });
