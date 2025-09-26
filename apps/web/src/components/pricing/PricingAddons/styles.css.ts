@@ -9,8 +9,13 @@ import {
 } from '../../../styles/tokens.css';
 
 export const addonsSection = style({
-  padding: `${spacing['lg']} 0`,
+  padding: '1.5rem 0',
   background: `linear-gradient(135deg, ${colors.white} 0%, ${colors.primary[50]} 100%)`,
+  '@media': {
+    'screen and (max-width: 768px)': {
+      padding: '0',
+    },
+  },
 });
 
 export const addonsContainer = style({
@@ -80,14 +85,20 @@ export const addonIcon = style({
   display: 'flex',
   alignItems: 'center',
   justifyContent: 'center',
-  marginBottom: spacing.md,
+  flexShrink: 0,
 });
 
 export const addonName = style({
   fontSize: typography.fontSize.xl,
   fontWeight: typography.fontWeight.semibold,
   color: colors.neutral[900],
-  marginBottom: spacing.sm,
+});
+
+export const addonHeader = style({
+  display: 'flex',
+  alignItems: 'center',
+  gap: spacing.md,
+  marginBottom: spacing.md,
 });
 
 export const addonDescription = style({

@@ -28,7 +28,8 @@ export const heroContent = style({
 
 export const heroTitle = style({
   fontSize: typography.fontSize['6xl'],
-  fontWeight: typography.fontWeight.bold,
+  fontWeight: '800',
+  fontFamily: typography.fontFamily.heading,
   color: colors.neutral[900],
   lineHeight: typography.lineHeight.tight,
   marginBottom: spacing.md,
@@ -49,7 +50,9 @@ export const heroTitle = style({
 });
 
 export const heroDescription = style({
-  fontSize: typography.fontSize.lg,
+  fontSize: typography.fontSize.xl,
+  fontFamily: typography.fontFamily.body,
+  fontWeight: typography.fontWeight.normal,
   color: colors.neutral[600],
   lineHeight: typography.lineHeight.relaxed,
   marginBottom: spacing.lg,
@@ -57,7 +60,7 @@ export const heroDescription = style({
   margin: `0 auto ${spacing.lg}`,
   '@media': {
     'screen and (max-width: 768px)': {
-      fontSize: typography.fontSize.base,
+      fontSize: typography.fontSize.lg,
     },
   },
 });

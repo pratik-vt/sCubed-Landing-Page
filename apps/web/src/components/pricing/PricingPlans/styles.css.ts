@@ -3,7 +3,12 @@ import { style } from '@vanilla-extract/css';
 import { colors, radius, shadows, spacing, typography } from '../../../styles/tokens.css';
 
 export const plansWrapper = style({
-  padding: `${spacing['2xl']} 0`,
+  padding: '1.5rem 0',
+  '@media': {
+    'screen and (max-width: 768px)': {
+      padding: '2rem 0',
+    },
+  },
 });
 
 export const plansContainer = style({
@@ -22,6 +27,12 @@ export const billingToggle = style({
   borderRadius: radius.full,
   maxWidth: '400px',
   margin: `0 auto ${spacing['2xl']}`,
+  '@media': {
+    'screen and (max-width: 768px)': {
+      maxWidth: '300px',
+      padding: '3px',
+    },
+  },
 });
 
 export const billingToggleOption = style({
@@ -39,6 +50,12 @@ export const billingToggleOption = style({
   alignItems: 'center',
   justifyContent: 'center',
   gap: spacing.xs,
+  '@media': {
+    'screen and (max-width: 768px)': {
+      padding: `${spacing.xs} ${spacing.sm}`,
+      fontSize: typography.fontSize.sm,
+    },
+  },
 });
 
 export const billingToggleActive = style({
@@ -59,6 +76,13 @@ export const savingBadge = style({
   fontWeight: typography.fontWeight.bold,
   marginLeft: spacing.xs,
   border: `1px solid ${colors.primary[200]}`,
+  '@media': {
+    'screen and (max-width: 768px)': {
+      padding: '2px 6px',
+      fontSize: '9px',
+      marginLeft: '4px',
+    },
+  },
 });
 
 export const plansGrid = style({

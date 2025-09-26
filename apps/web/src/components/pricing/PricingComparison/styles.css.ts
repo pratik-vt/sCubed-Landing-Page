@@ -9,8 +9,13 @@ import {
 } from '../../../styles/tokens.css';
 
 export const comparisonSection = style({
-  padding: `${spacing['lg']} 0`,
+  padding: '1rem 0',
   background: colors.neutral[50],
+  '@media': {
+    'screen and (max-width: 768px)': {
+      padding: '1.5rem 0',
+    },
+  },
 });
 
 export const comparisonContainer = style({
@@ -46,6 +51,7 @@ export const comparisonTable = style({
   borderRadius: radius.lg,
   boxShadow: shadows.lg,
   overflow: 'hidden',
+  border: `1px solid ${colors.neutral[200]}`,
   '@media': {
     'screen and (max-width: 768px)': {
       display: 'none',
@@ -95,12 +101,22 @@ export const originalPriceSmall = style({
   color: colors.neutral[400],
   textDecoration: 'line-through',
   fontWeight: typography.fontWeight.normal,
+  '@media': {
+    'screen and (max-width: 768px)': {
+      color: colors.neutral[600],
+    },
+  },
 });
 
 export const discountedPriceSmall = style({
   fontSize: typography.fontSize.lg,
   fontWeight: typography.fontWeight.bold,
   color: colors.primary[600],
+  '@media': {
+    'screen and (max-width: 768px)': {
+      color: colors.white,
+    },
+  },
 });
 
 export const discountBadgeSmall = style({
