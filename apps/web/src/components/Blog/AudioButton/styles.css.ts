@@ -6,6 +6,26 @@ const breakpoints = {
   mobile: 'screen and (max-width: 768px)',
 };
 
+export const audioContainer = style({
+  display: 'flex',
+  flexDirection: 'column',
+  gap: '12px',
+  width: '100%',
+  maxWidth: '360px', // Increased from 300px
+  padding: '14px 12px', // Increased padding
+  backgroundColor: colors.neutral[50],
+  borderRadius: '10px', // Slightly larger radius
+  border: `1px solid ${colors.neutral[200]}`,
+  boxShadow: '0 2px 4px rgba(0, 0, 0, 0.08)',
+
+  '@media': {
+    [breakpoints.mobile]: {
+      maxWidth: '100%',
+      padding: '12px 10px',
+    },
+  },
+});
+
 export const audioButton = style({
   display: 'flex',
   alignItems: 'center',
