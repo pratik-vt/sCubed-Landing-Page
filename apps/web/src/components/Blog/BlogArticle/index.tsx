@@ -219,25 +219,25 @@ const BlogArticle: React.FC<BlogArticleProps> = ({ post }) => {
 
       {/* Content Wrapper */}
       <div className={contentWrapper}>
-        {/* Breadcrumb and Audio Button Row */}
-        <div className={breadcrumbRow}>
-          <nav className={breadcrumb}>
-            <Link href="/">Home</Link> / <Link href="/blog">Blog</Link>
-            {' '} / <span>{title}</span>
-          </nav>
-
-          {/* Audio Button - if audio version exists */}
-          {post.audio_version && (
-            <div className={audioButtonInline}>
-              <AudioButton 
-                audioFile={post.audio_version} 
-                title={title}
-              />
-            </div>
-          )}
-        </div>
-
         <div className={contentLayout}>
+          {/* Breadcrumb and Audio Button Row - spans full width */}
+          <div className={breadcrumbRow}>
+            <nav className={breadcrumb}>
+              <Link href="/">Home</Link> / <Link href="/blog">Blog</Link>
+              {' '} / <span>{title}</span>
+            </nav>
+
+            {/* Audio Button - if audio version exists */}
+            {post.audio_version && (
+              <div className={audioButtonInline}>
+                <AudioButton
+                  audioFile={post.audio_version}
+                  title={title}
+                />
+              </div>
+            )}
+          </div>
+
           {/* Main Content */}
           <main className={mainContent}>
             <article>
@@ -308,7 +308,7 @@ const BlogArticle: React.FC<BlogArticleProps> = ({ post }) => {
                             height: '100%'
                           }}
                           priority
-                          onError={(e) => {
+                          onError={() => {
                             console.error('Failed to load author avatar:', authorAvatarUrl);
                             setAvatarError(true);
                           }}
