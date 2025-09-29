@@ -127,13 +127,11 @@ const TextModule: React.FC<TextModuleProps> = ({ data, blockIndex = 0 }) => {
 
   return (
     <div className={containerClasses}>
-      <div className="prose prose-lg max-w-none">
-        <DynamicContentRenderer
-          content={content}
-          components={tableComponents}
-          blockIndex={blockIndex}
-        />
-      </div>
+      <DynamicContentRenderer
+        content={content}
+        components={tableComponents}
+        blockIndex={blockIndex}
+      />
     </div>
   );
 };
