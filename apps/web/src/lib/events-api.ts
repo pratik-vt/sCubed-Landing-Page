@@ -81,7 +81,7 @@ export async function getEvents(
     'populate[1]': 'hero_image',
     'populate[2]': 'categories',
     'populate[3]': 'tags',
-    sort: 'start_date:asc',
+    sort: 'start_date:desc',
   });
 
   // Add publishedAt filter to only get published content
@@ -185,7 +185,7 @@ export async function getRelatedEvents(
     populate: '*',
     'filters[publishedAt][$notNull]': 'true',
     'filters[slug][$ne]': event.slug,
-    sort: 'start_date:asc',
+    sort: 'start_date:desc',
   });
 
   if (categorySlug) {
