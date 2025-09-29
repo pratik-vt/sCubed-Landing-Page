@@ -4,9 +4,7 @@ import { Check, Copy, Share2 } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
 import React, { memo, useCallback, useEffect, useMemo, useState } from 'react';
-import type { Components } from 'react-markdown';
 
-import DynamicContentRenderer from '../../DynamicContentRenderer';
 import {
   formatEventDate,
   formatEventTime,
@@ -16,7 +14,7 @@ import {
 import { getStrapiImageUrl } from '../../../lib/strapi';
 import type { Event } from '../../../types/event';
 import BlogContactForm from '../../Blog/BlogContactForm';
-import * as blogTableStyles from '../../Blog/DynamicContentRenderer/table.css';
+import DynamicContentRenderer from '../../Blog/DynamicContentRenderer';
 import Button from '../../Button/button';
 
 import * as styles from './styles.css';
@@ -44,125 +42,11 @@ const EventDetail: React.FC<EventDetailProps> = memo(({ event }) => {
     () => formatEventDate(event.start_date, event.end_date),
     [event.start_date, event.end_date],
   );
-  const eventTime = useMemo(
-    () => formatEventTime(event.time),
-    [event.time],
-  );
+  const eventTime = useMemo(() => formatEventTime(event.time), [event.time]);
   const eventLocation = useMemo(() => getEventLocationString(event), [event]);
   const categories = event.categories || [];
   const eventTags = event.tags || [];
-
-  // Type for markdown component props
-  type ComponentProps = {
-    children?: React.ReactNode;
-    className?: string;
-    [key: string]: any;
-  };
-
-  // Custom markdown components for EventDetail with specific styles
-  const eventMarkdownComponents: Partial<Components> = {
-    h1: ({ children, ...props }: ComponentProps) => (
-      <h1 className={styles.markdownH1} {...props}>
-        {children}
-      </h1>
-    ),
-    h2: ({ children, ...props }: ComponentProps) => (
-      <h2 className={styles.markdownH2} {...props}>
-        {children}
-      </h2>
-    ),
-    h3: ({ children, ...props }: ComponentProps) => (
-      <h3 className={styles.markdownH3} {...props}>
-        {children}
-      </h3>
-    ),
-    h4: ({ children, ...props }: ComponentProps) => (
-      <h4 className={styles.markdownH4} {...props}>
-        {children}
-      </h4>
-    ),
-    p: ({ children, ...props }: ComponentProps) => (
-      <p className={styles.markdownP} {...props}>
-        {children}
-      </p>
-    ),
-    ul: ({ children, ...props }: ComponentProps) => (
-      <ul className={styles.markdownUl} {...props}>
-        {children}
-      </ul>
-    ),
-    ol: ({ children, ...props }: ComponentProps) => (
-      <ol className={styles.markdownOl} {...props}>
-        {children}
-      </ol>
-    ),
-    li: ({ children, ...props }: ComponentProps) => (
-      <li className={styles.markdownLi} {...props}>
-        {children}
-      </li>
-    ),
-    a: ({ children, href, ...props }: ComponentProps) => (
-      <a
-        className={styles.markdownA}
-        href={href}
-        target="_blank"
-        rel="noopener noreferrer nofollow"
-        {...props}
-      >
-        {children}
-      </a>
-    ),
-    blockquote: ({ children, ...props }: ComponentProps) => (
-      <blockquote className={styles.markdownBlockquote} {...props}>
-        {children}
-      </blockquote>
-    ),
-    strong: ({ children, ...props }: ComponentProps) => (
-      <strong className={styles.markdownStrong} {...props}>
-        {children}
-      </strong>
-    ),
-    em: ({ children, ...props }: ComponentProps) => (
-      <em className={styles.markdownEm} {...props}>
-        {children}
-      </em>
-    ),
-    hr: ({ ...props }: ComponentProps) => (
-      <hr className={styles.markdownHr} {...props} />
-    ),
-    table: ({ children, ...props }: ComponentProps) => (
-      <div className={blogTableStyles.tableWrapper}>
-        <table className={blogTableStyles.table} {...props}>
-          {children}
-        </table>
-      </div>
-    ),
-    thead: ({ children, ...props }: ComponentProps) => (
-      <thead className={blogTableStyles.tableHeader} {...props}>
-        {children}
-      </thead>
-    ),
-    th: ({ children, ...props }: ComponentProps) => (
-      <th className={blogTableStyles.headerCell} {...props}>
-        {children}
-      </th>
-    ),
-    tbody: ({ children, ...props }: ComponentProps) => (
-      <tbody className={blogTableStyles.tableBody} {...props}>
-        {children}
-      </tbody>
-    ),
-    tr: ({ children, ...props }: ComponentProps) => (
-      <tr className={blogTableStyles.bodyRow} {...props}>
-        {children}
-      </tr>
-    ),
-    td: ({ children, ...props }: ComponentProps) => (
-      <td className={blogTableStyles.bodyCell} {...props}>
-        <div className={blogTableStyles.cellContent}>{children}</div>
-      </td>
-    ),
-  };
+  const contentBlocks = event.content_blocks;
 
   // Fallback URL construction for social sharing
   const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://scubed.io';
@@ -270,7 +154,9 @@ const EventDetail: React.FC<EventDetailProps> = memo(({ event }) => {
                           </div>
                           <div className={styles.detailText}>
                             <div className={styles.detailLabel}>Time</div>
-                            <div className={styles.detailValue}>{eventTime}</div>
+                            <div className={styles.detailValue}>
+                              {eventTime}
+                            </div>
                           </div>
                         </div>
                       )}
@@ -333,12 +219,9 @@ const EventDetail: React.FC<EventDetailProps> = memo(({ event }) => {
                 </div>
               </div>
 
-              {/* Event Description - Rendered with Markdown */}
+              {/* Event Content - Dynamic Content Blocks */}
               <div className={styles.articleContent}>
-                <DynamicContentRenderer
-                  content={event.description || ''}
-                  components={eventMarkdownComponents}
-                />
+                <DynamicContentRenderer content_blocks={contentBlocks} />
               </div>
 
               {/* Mobile Contact Form - shown only on mobile */}

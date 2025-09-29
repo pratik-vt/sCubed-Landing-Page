@@ -285,7 +285,7 @@ const EventsGrid: React.FC<EventsGridProps> = ({ initialEvents, error }) => {
                 <div className={eventCardContent}>
                   <h3 className={eventTitle}>{event.title}</h3>
                   <p className={eventDescription}>
-                    {truncateDescription(event.excerpt || event.description)}
+                    {truncateDescription(event.excerpt || '')}
                   </p>
 
                   <div className={eventDetails}>

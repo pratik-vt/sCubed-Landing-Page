@@ -636,10 +636,26 @@ export interface ApiEventEvent extends Struct.CollectionTypeSchema {
       'manyToMany',
       'api::category.category'
     >;
+    content_blocks: Schema.Attribute.DynamicZone<
+      [
+        'blog.text-module',
+        'blog.module-image',
+        'blog.module-quote',
+        'blog.module-youtube',
+        'blog.module-audio',
+      ]
+    > &
+      Schema.Attribute.Required;
     createdAt: Schema.Attribute.DateTime;
     createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
-    description: Schema.Attribute.RichText & Schema.Attribute.Required;
+    description: Schema.Attribute.RichText &
+      Schema.Attribute.Private &
+      Schema.Attribute.SetPluginOptions<{
+        i18n: {
+          localized: false;
+        };
+      }>;
     end_date: Schema.Attribute.Date & Schema.Attribute.Required;
     excerpt: Schema.Attribute.Text &
       Schema.Attribute.SetMinMaxLength<{

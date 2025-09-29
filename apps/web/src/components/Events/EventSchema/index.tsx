@@ -40,7 +40,7 @@ const EventSchema: React.FC<EventSchemaProps> = ({ event, url }) => {
     '@context': 'https://schema.org',
     '@type': 'Event',
     name: event.title,
-    description: event.excerpt || event.description.substring(0, 200),
+    description: event.excerpt || '',
     startDate: event.start_date,
     endDate: event.end_date,
     eventAttendanceMode: getEventAttendanceMode(),

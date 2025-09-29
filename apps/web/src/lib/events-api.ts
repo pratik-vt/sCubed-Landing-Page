@@ -135,6 +135,9 @@ export async function getEvent(slug: string): Promise<StrapiResponse<Event[]>> {
     queryParams.set('populate[featured_image]', 'true');
     queryParams.set('populate[hero_image]', 'true');
 
+    // Deep population for content_blocks (similar to blog posts)
+    queryParams.set('populate[content_blocks][populate]', '*');
+
     return await fetchAPI(`/events?${queryParams}`);
   } catch (error) {
     console.warn(
@@ -229,7 +232,7 @@ export function formatEventTime(time?: string): string {
   if (!time) return '';
 
   // Handle HH:mm format
-  const [hours, minutes] = time.split(':').map(num => parseInt(num, 10));
+  const [hours, minutes] = time.split(':').map((num) => parseInt(num, 10));
 
   if (isNaN(hours) || isNaN(minutes)) return '';
 
