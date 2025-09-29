@@ -21,7 +21,7 @@ interface DynamicContentRendererProps {
 
 export const defaultMarkdownComponents: Components = {
   h1: ({ children, ...props }: ComponentProps) => (
-    <h1 className="text-4xl font-bold mb-6 text-gray-900" {...props}>
+    <h1 style={{ fontSize: '2.5rem', fontWeight: 'bold', marginBottom: '1.5rem', color: '#111827' }} {...props}>
       {children}
     </h1>
   ),
@@ -42,8 +42,7 @@ export const defaultMarkdownComponents: Components = {
     return (
       <h2
         id={headingId}
-        className="text-3xl font-semibold mb-5 text-gray-900"
-        style={{ scrollMarginTop: '100px' }}
+        style={{ fontSize: '2rem', fontWeight: '600', marginBottom: '1.25rem', color: '#111827', scrollMarginTop: '100px' }}
         {...props}
       >
         {children}
@@ -51,55 +50,59 @@ export const defaultMarkdownComponents: Components = {
     );
   },
   h3: ({ children, ...props }: ComponentProps) => (
-    <h3 className="text-2xl font-semibold mb-4 text-gray-900" {...props}>
+    <h3 style={{ fontSize: '1.5rem', fontWeight: '600', marginBottom: '1rem', color: '#111827' }} {...props}>
       {children}
     </h3>
   ),
   h4: ({ children, ...props }: ComponentProps) => (
-    <h4 className="text-xl font-semibold mb-3 text-gray-900" {...props}>
+    <h4 style={{ fontSize: '1.25rem', fontWeight: '600', marginBottom: '0.75rem', color: '#111827' }} {...props}>
       {children}
     </h4>
   ),
   h5: ({ children, ...props }: ComponentProps) => (
-    <h5 className="text-lg font-semibold mb-2 text-gray-900" {...props}>
+    <h5 style={{ fontSize: '1.125rem', fontWeight: '600', marginBottom: '0.5rem', color: '#111827' }} {...props}>
       {children}
     </h5>
   ),
   h6: ({ children, ...props }: ComponentProps) => (
-    <h6 className="text-base font-semibold mb-2 text-gray-900" {...props}>
+    <h6 style={{ fontSize: '1rem', fontWeight: '600', marginBottom: '0.5rem', color: '#111827' }} {...props}>
       {children}
     </h6>
   ),
   p: ({ children, ...props }: ComponentProps) => (
-    <p className="mb-4 text-gray-700 leading-relaxed" {...props}>
+    <p style={{ marginBottom: '1rem', color: '#374151', lineHeight: 1.75 }} {...props}>
       {children}
     </p>
   ),
   ul: ({ children, ...props }: ComponentProps) => (
-    <ul className="mb-4 ml-6 space-y-2 list-disc text-gray-700" {...props}>
+    <ul style={{ marginBottom: '1rem', marginLeft: '1.5rem', listStyleType: 'disc', color: '#374151' }} {...props}>
       {children}
     </ul>
   ),
   ol: ({ children, ...props }: ComponentProps) => (
-    <ol className="mb-4 ml-6 space-y-2 list-decimal text-gray-700" {...props}>
+    <ol style={{ marginBottom: '1rem', marginLeft: '1.5rem', listStyleType: 'decimal', color: '#374151' }} {...props}>
       {children}
     </ol>
   ),
   li: ({ children, ...props }: ComponentProps) => (
-    <li className="leading-relaxed" {...props}>
+    <li style={{ lineHeight: 1.75 }} {...props}>
       {children}
     </li>
   ),
   a: ({ children, ...props }: ComponentProps) => (
     <a
-      className="text-primary-600 hover:text-primary-700 transition-colors duration-200"
+      style={{
+        color: '#2563EB',
+        textDecoration: 'underline',
+        fontWeight: 'normal'
+      }}
       {...props}
     >
       {children}
     </a>
   ),
   blockquote: ({ children, ...props }: ComponentProps) => (
-    <blockquote className="border-l-4 border-primary-500 bg-primary-50 p-4 my-6 italic" {...props}>
+    <blockquote style={{ borderLeft: '4px solid #3B82F6', backgroundColor: '#EFF6FF', padding: '1rem', margin: '1.5rem 0', fontStyle: 'italic' }} {...props}>
       {children}
     </blockquote>
   ),
@@ -107,49 +110,49 @@ export const defaultMarkdownComponents: Components = {
     const isInline = !className;
     if (isInline) {
       return (
-        <code className="bg-gray-100 text-gray-800 px-2 py-1 rounded text-sm font-mono" {...props}>
+        <code style={{ backgroundColor: '#F3F4F6', color: '#1F2937', padding: '0.125rem 0.25rem', borderRadius: '0.25rem', fontSize: '0.875rem', fontFamily: 'monospace' }} {...props}>
           {children}
         </code>
       );
     }
     return (
-      <code className="block bg-gray-900 text-gray-100 p-4 rounded-lg overflow-x-auto font-mono" {...props}>
+      <code style={{ display: 'block', backgroundColor: '#111827', color: '#F9FAFB', padding: '1rem', borderRadius: '0.5rem', overflowX: 'auto', fontFamily: 'monospace' }} {...props}>
         {children}
       </code>
     );
   },
   pre: ({ children, ...props }: ComponentProps) => (
-    <pre className="bg-gray-900 text-gray-100 p-4 rounded-lg overflow-x-auto my-4 font-mono text-sm" {...props}>
+    <pre style={{ backgroundColor: '#111827', color: '#F9FAFB', padding: '1rem', borderRadius: '0.5rem', overflowX: 'auto', margin: '1rem 0', fontFamily: 'monospace', fontSize: '0.875rem' }} {...props}>
       {children}
     </pre>
   ),
   del: ({ children, ...props }: ComponentProps) => (
-    <del className="text-gray-500 line-through" {...props}>
+    <del style={{ color: '#6B7280', textDecoration: 'line-through' }} {...props}>
       {children}
     </del>
   ),
   u: ({ children, ...props }: ComponentProps) => (
-    <u className="underline decoration-2 decoration-primary-500" {...props}>
+    <u style={{ textDecoration: 'underline', textDecorationThickness: '2px', textDecorationColor: '#3B82F6' }} {...props}>
       {children}
     </u>
   ),
   strong: ({ children, ...props }: ComponentProps) => (
-    <strong className="font-semibold text-gray-900" {...props}>
+    <strong style={{ fontWeight: '600', color: '#111827' }} {...props}>
       {children}
     </strong>
   ),
   em: ({ children, ...props }: ComponentProps) => (
-    <em className="italic text-gray-800" {...props}>
+    <em style={{ fontStyle: 'italic', color: '#1F2937' }} {...props}>
       {children}
     </em>
   ),
   mark: ({ children, ...props }: ComponentProps) => (
-    <mark className="bg-yellow-200 px-1 rounded" {...props}>
+    <mark style={{ backgroundColor: '#FEF3C7', padding: '0.125rem 0.25rem', borderRadius: '0.25rem' }} {...props}>
       {children}
     </mark>
   ),
   hr: ({ ...props }: ComponentProps) => (
-    <hr className="my-8 border-t border-gray-300" {...props} />
+    <hr style={{ margin: '2rem 0', borderTop: '1px solid #E5E7EB' }} {...props} />
   ),
 };
 
@@ -164,6 +167,13 @@ const DynamicContentRenderer: React.FC<DynamicContentRendererProps> = ({
   if (!content) {
     return null;
   }
+
+  // Preprocess content to remove bold markdown around links
+  // This converts **[text](url)** to just [text](url)
+  const preprocessedContent = content
+    .replace(/\*\*\[([^\]]+)\]\(([^)]+)\)\*\*/g, '[$1]($2)')
+    // Also handle cases where bold tags wrap HTML anchors
+    .replace(/\*\*<a([^>]*)>([^<]*)<\/a>\*\*/g, '<a$1>$2</a>');
 
   const mergedComponents: Components = {
     ...defaultMarkdownComponents,
@@ -181,7 +191,7 @@ const DynamicContentRenderer: React.FC<DynamicContentRendererProps> = ({
         remarkPlugins={remarkPlugins}
         rehypePlugins={rehypePlugins}
       >
-        {content}
+        {preprocessedContent}
       </ReactMarkdown>
     </div>
   );
