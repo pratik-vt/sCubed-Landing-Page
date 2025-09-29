@@ -158,6 +158,10 @@ export const breadcrumb = style({
   alignItems: 'center',
   gap: '0.5rem',
   flexWrap: 'wrap',
+  minWidth: 0, // Allow proper flex shrinking
+  flex: 1, // Take available space but allow shrinking
+  overflow: 'hidden', // Prevent text overflow
+  textOverflow: 'ellipsis', // Add ellipsis for long text
 });
 
 export const categoryTag = style({
@@ -654,28 +658,33 @@ export const facebookButton = style([
 ]);
 
 export const contentLayout = style({
-  display: 'flex',
+  display: 'grid',
+  gridTemplateColumns: '1fr 300px',
   gap: spacing.xl,
 
   '@media': {
     '(max-width: 1024px)': {
-      flexDirection: 'column',
+      gridTemplateColumns: '1fr',
       gap: spacing.lg,
     },
   },
 });
 
 export const mainContent = style({
-  flex: '1',
   minWidth: '0',
+  marginTop: `-${spacing['4xl']}`,
+  '@media': {
+    '(max-width: 1024px)': {
+      width: '100%',
+      marginTop: `-${spacing['xl']}`,
+    },
+  },
 });
 
 export const sidebar = style({
-  flex: '0 0 300px',
-
   '@media': {
     '(max-width: 1024px)': {
-      flex: 'none',
+      width: '100%',
     },
   },
 });
@@ -683,26 +692,34 @@ export const sidebar = style({
 export const breadcrumbRow = style({
   display: 'flex',
   justifyContent: 'space-between',
-  alignItems: 'center',
+  alignItems: 'flex-start',
   gap: spacing.md,
+  flexWrap: 'wrap',
+  gridColumn: '1 / -1',
+  marginBottom: 0,
+  minWidth: 0, // Allow flex items to shrink properly
 
   '@media': {
-    '(max-width: 768px)': {
+    '(max-width: 1024px)': {
       flexDirection: 'column',
-      alignItems: 'flex-start',
       gap: spacing.sm,
+      marginBottom: spacing.md,
     },
   },
 });
 
 export const audioButtonInline = style({
   flexShrink: 0,
-
+  marginLeft: 'auto',
+  minWidth: 0, // Prevent overflow
+  maxWidth: '300px', // Keep at 300px as requested
+  width: '100%',
+  marginTop: '-20px',
   '@media': {
-    '(max-width: 768px)': {
-      alignSelf: 'stretch',
-      display: 'flex',
-      justifyContent: 'center',
+    '(max-width: 1024px)': {
+      maxWidth: '100%',
+      marginLeft: 0,
+      marginTop: '0px',
     },
   },
 });
