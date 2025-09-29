@@ -20,9 +20,6 @@ interface ModuleImageProps {
 }
 
 const ModuleImage: React.FC<ModuleImageProps> = ({ data }) => {
-  // Keep minimal debug logging to verify the fix
-  console.log('ModuleImage - Image present:', !!data.image, 'Clickable:', data.clickable, 'Link URL:', data.link_url);
-
   const {
     image,
     caption,

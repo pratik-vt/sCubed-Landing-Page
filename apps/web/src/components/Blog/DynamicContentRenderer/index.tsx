@@ -12,10 +12,9 @@ interface DynamicContentRendererProps {
   content_blocks: ContentBlock[];
 }
 
-const DynamicContentRenderer: React.FC<DynamicContentRendererProps> = ({ 
-  content_blocks 
+const DynamicContentRenderer: React.FC<DynamicContentRendererProps> = ({
+  content_blocks
 }) => {
-  console.log('content_blocks', content_blocks);
   const renderContentBlock = (block: ContentBlock, index: number) => {
     const key = `${block.__component}-${block.id || index}`;
     // Add section ID for TOC scrolling

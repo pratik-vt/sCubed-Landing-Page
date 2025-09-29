@@ -28,7 +28,25 @@
     },
     "description": {
       "type": "richtext",
-      "required": true
+      "required": false,
+      "private": true,
+      "pluginOptions": {
+        "i18n": {
+          "localized": false
+        }
+      },
+      "description": "Deprecated - Use content_blocks instead"
+    },
+    "content_blocks": {
+      "type": "dynamiczone",
+      "required": true,
+      "components": [
+        "blog.text-module",
+        "blog.module-image",
+        "blog.module-quote",
+        "blog.module-youtube",
+        "blog.module-audio"
+      ]
     },
     "start_date": {
       "type": "date",

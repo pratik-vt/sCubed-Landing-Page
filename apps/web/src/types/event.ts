@@ -1,4 +1,4 @@
-import type { StrapiImage, Category, Tag } from '../lib/strapi';
+import type { StrapiImage, Category, Tag, ContentBlock } from '../lib/strapi';
 
 export interface Event {
   id: number;
@@ -6,7 +6,7 @@ export interface Event {
   title: string;
   slug: string;
   excerpt: string;
-  description: string;
+  content_blocks: ContentBlock[];
   start_date: string; // Date only (YYYY-MM-DD format)
   end_date: string; // Date only (YYYY-MM-DD format)
   time?: string; // Optional time field (HH:mm format)
