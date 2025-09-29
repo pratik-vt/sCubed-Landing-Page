@@ -10,7 +10,7 @@ export const audioContainer = style({
   display: 'flex',
   flexDirection: 'column',
   gap: '12px',
-  width: 'calc(100% - 24px)',
+  width: '100%',
   maxWidth: '360px', // Increased from 300px
   padding: '14px 12px', // Increased padding
   backgroundColor: colors.neutral[50],
