@@ -221,7 +221,14 @@ const EventDetail: React.FC<EventDetailProps> = memo(({ event }) => {
 
               {/* Event Content - Dynamic Content Blocks */}
               <div className={styles.articleContent}>
-                <DynamicContentRenderer content_blocks={contentBlocks} />
+                <DynamicContentRenderer
+                  content_blocks={contentBlocks}
+                  eventMetadata={{
+                    start_date: event.start_date,
+                    end_date: event.end_date,
+                    time: event.time,
+                  }}
+                />
               </div>
 
               {/* Mobile Contact Form - shown only on mobile */}
