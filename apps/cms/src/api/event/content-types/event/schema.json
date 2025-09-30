@@ -39,7 +39,7 @@
     },
     "content_blocks": {
       "type": "dynamiczone",
-      "required": true,
+      "required": false,
       "components": [
         "blog.text-module",
         "blog.module-image",
@@ -73,13 +73,17 @@
       "type": "media",
       "multiple": false,
       "required": false,
-      "allowedTypes": ["images"]
+      "allowedTypes": [
+        "images"
+      ]
     },
     "hero_image": {
       "type": "media",
       "multiple": false,
       "required": false,
-      "allowedTypes": ["images"]
+      "allowedTypes": [
+        "images"
+      ]
     },
     "registration_url": {
       "type": "string"
