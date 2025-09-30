@@ -8,23 +8,31 @@ import ModuleQuote from './ModuleQuote';
 import ModuleYoutube from './ModuleYoutube';
 import ModuleAudio from './ModuleAudio';
 
+interface EventMetadata {
+  start_date?: string;
+  end_date?: string;
+  time?: string;
+}
+
 interface DynamicContentRendererProps {
   content_blocks: ContentBlock[];
+  eventMetadata?: EventMetadata;
 }
 
 const DynamicContentRenderer: React.FC<DynamicContentRendererProps> = ({
-  content_blocks
+  content_blocks,
+  eventMetadata
 }) => {
   const renderContentBlock = (block: ContentBlock, index: number) => {
     const key = `${block.__component}-${block.id || index}`;
     // Add section ID for TOC scrolling
     const sectionId = `section-${index}`;
-    
+
     switch (block.__component) {
       case 'blog.text-module':
         return (
           <div key={key} id={sectionId}>
-            <TextModule data={block} blockIndex={index} />
+            <TextModule data={block} blockIndex={index} eventMetadata={eventMetadata} />
           </div>
         );
       case 'blog.module-image':

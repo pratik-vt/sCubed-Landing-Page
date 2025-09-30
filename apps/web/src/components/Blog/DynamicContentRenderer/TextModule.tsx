@@ -2,6 +2,7 @@ import React from 'react';
 import type { Components } from 'react-markdown';
 
 import DynamicContentRenderer from '../../DynamicContentRenderer';
+import { replaceDatePlaceholder } from '../../../lib/date-utils';
 
 import {
   bodyCell,
@@ -21,6 +22,12 @@ type ComponentProps = {
   [key: string]: any;
 };
 
+interface EventMetadata {
+  start_date?: string;
+  end_date?: string;
+  time?: string;
+}
+
 interface TextModuleData {
   content?: string;
   text_alignment?: 'left' | 'center' | 'right' | 'justify';
@@ -33,9 +40,10 @@ interface TextModuleData {
 interface TextModuleProps {
   data: TextModuleData;
   blockIndex?: number;
+  eventMetadata?: EventMetadata;
 }
 
-const TextModule: React.FC<TextModuleProps> = ({ data, blockIndex = 0 }) => {
+const TextModule: React.FC<TextModuleProps> = ({ data, blockIndex = 0, eventMetadata }) => {
   const {
     content = '',
     text_alignment = 'left',
@@ -48,6 +56,11 @@ const TextModule: React.FC<TextModuleProps> = ({ data, blockIndex = 0 }) => {
   if (!content) {
     return null;
   }
+
+  // Process date placeholders if eventMetadata is provided
+  const processedContent = eventMetadata?.start_date && eventMetadata?.end_date
+    ? replaceDatePlaceholder(content, eventMetadata.start_date, eventMetadata.end_date)
+    : content;
 
   // Spacing classes
   const spacingClasses = {
@@ -128,7 +141,7 @@ const TextModule: React.FC<TextModuleProps> = ({ data, blockIndex = 0 }) => {
   return (
     <div className={containerClasses}>
       <DynamicContentRenderer
-        content={content}
+        content={processedContent}
         components={tableComponents}
         blockIndex={blockIndex}
       />
