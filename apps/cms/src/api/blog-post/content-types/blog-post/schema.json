@@ -100,6 +100,10 @@
       "relation": "manyToMany",
       "target": "api::tag.tag",
       "inversedBy": "blog_posts"
+    },
+    "faq_schema": {
+      "type": "json",
+      "description": "FAQ schema data for this blog post. Should be an array of objects with 'question' and 'answer' properties for SEO structured data."
     }
   }
 } 

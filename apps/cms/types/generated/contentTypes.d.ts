@@ -462,6 +462,7 @@ export interface ApiBlogPostBlogPost extends Struct.CollectionTypeSchema {
       Schema.Attribute.SetMinMaxLength<{
         maxLength: 500;
       }>;
+    faq_schema: Schema.Attribute.JSON;
     featured: Schema.Attribute.Boolean & Schema.Attribute.DefaultTo<false>;
     featured_image: Schema.Attribute.Media<'images'>;
     firstPublishedAt: Schema.Attribute.DateTime;

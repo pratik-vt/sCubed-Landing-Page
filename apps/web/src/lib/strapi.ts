@@ -124,6 +124,11 @@ export interface ContentBlock {
   [key: string]: any;
 }
 
+export interface FAQItem {
+  question: string;
+  answer: string;
+}
+
 export interface BlogPost {
   id: number;
   documentId: string;
@@ -148,6 +153,7 @@ export interface BlogPost {
   table_of_contents: boolean;
   enable_comments: boolean;
   social_share: boolean;
+  faq_schema?: FAQItem[];
 }
 
 export interface StrapiResponse<T> {
