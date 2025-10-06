@@ -414,3 +414,40 @@ export const heroSliderIndicatorActive = style({
   backgroundColor: colors.white,
   transform: 'scale(1.2)',
 });
+
+export const heroSliderEventInfo = style({
+  display: 'flex',
+  flexDirection: 'column',
+  gap: spacing.sm,
+  marginBottom: spacing.lg,
+  '@media': {
+    'screen and (max-width: 768px)': {
+      gap: spacing.xs,
+      marginBottom: spacing.md,
+    },
+  },
+});
+
+export const heroSliderEventItem = style({
+  display: 'flex',
+  alignItems: 'center',
+  gap: spacing.sm,
+  fontSize: typography.fontSize.lg,
+  fontFamily: typography.fontFamily.body,
+  fontWeight: typography.fontWeight.medium,
+  color: colors.neutral[900], // Changed to black for better contrast
+  '@media': {
+    'screen and (max-width: 1024px)': {
+      fontSize: typography.fontSize.base,
+    },
+    'screen and (max-width: 768px)': {
+      fontSize: typography.fontSize.sm,
+      gap: spacing.xs,
+    },
+  },
+});
+
+export const heroSliderEventIcon = style({
+  flexShrink: 0,
+  color: colors.primary[600],
+});

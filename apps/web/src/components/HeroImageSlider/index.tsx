@@ -1,7 +1,7 @@
 'use client';
 
 import { motion, AnimatePresence } from 'framer-motion';
-import { ChevronLeft, ChevronRight, ExternalLink } from 'lucide-react';
+import { ChevronLeft, ChevronRight, ExternalLink, Calendar, MapPin } from 'lucide-react';
 import Image, { StaticImageData } from 'next/image';
 import Link from 'next/link';
 import React, { useEffect, useState, useMemo, useCallback } from 'react';
@@ -26,6 +26,9 @@ import {
   heroSliderIndicators,
   heroSliderIndicator,
   heroSliderIndicatorActive,
+  heroSliderEventInfo,
+  heroSliderEventItem,
+  heroSliderEventIcon,
 } from './styles.css';
 
 import { useFreeTrialModal } from '@/contexts/FreeTrialModalContext';
@@ -58,6 +61,9 @@ export interface HeroSliderItem {
     external?: boolean;
   };
   contentAlign?: 'left' | 'center' | 'right'; // Optional content alignment
+  contentWidth?: string; // Optional content width (e.g., '50%', '600px', '100%')
+  eventDate?: string; // Optional event date
+  eventLocation?: string; // Optional event location
 }
 
 interface HeroImageSliderProps {
@@ -310,7 +316,8 @@ const HeroImageSlider: React.FC<HeroImageSliderProps> = ({
               marginLeft: currentItem.contentAlign === 'center' ? 'auto' : 
                          currentItem.contentAlign === 'right' ? 'auto' : undefined,
               marginRight: currentItem.contentAlign === 'center' ? 'auto' : 
-                          currentItem.contentAlign === 'right' ? undefined : undefined
+                          currentItem.contentAlign === 'right' ? undefined : undefined,
+              maxWidth: currentItem.contentWidth || undefined, // Apply custom content width if specified
             }}
           >
             <motion.h1
@@ -321,6 +328,29 @@ const HeroImageSlider: React.FC<HeroImageSliderProps> = ({
             >
               {isMobile && currentItem.mobileTitle ? currentItem.mobileTitle : currentItem.title}
             </motion.h1>
+
+            {/* Event Date and Location */}
+            {(currentItem.eventDate || currentItem.eventLocation) && (
+              <motion.div
+                className={heroSliderEventInfo}
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6, delay: 0.35 }}
+              >
+                {currentItem.eventDate && (
+                  <div className={heroSliderEventItem}>
+                    <Calendar size={20} className={heroSliderEventIcon} />
+                    <span>{currentItem.eventDate}</span>
+                  </div>
+                )}
+                {currentItem.eventLocation && (
+                  <div className={heroSliderEventItem}>
+                    <MapPin size={20} className={heroSliderEventIcon} />
+                    <span>{currentItem.eventLocation}</span>
+                  </div>
+                )}
+              </motion.div>
+            )}
             
             <motion.div
               className={heroSliderDescription}
