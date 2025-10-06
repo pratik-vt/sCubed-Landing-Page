@@ -115,6 +115,25 @@ export const heroSliderTextContent = style({
   },
 });
 
+// Custom width variant for slides that need narrower content
+export const heroSliderTextContentNarrow = style({
+  maxWidth: '30% !important',
+  '@media': {
+    'screen and (max-width: 1200px)': {
+      maxWidth: '32% !important',
+    },
+    'screen and (max-width: 960px)': {
+      maxWidth: '30% !important',
+    },
+    'screen and (max-width: 768px)': {
+      maxWidth: '38% !important',
+    },
+    'screen and (max-width: 480px)': {
+      maxWidth: '36% !important',
+    },
+  },
+});
+
 export const heroSliderTitle = style({
   fontSize: typography.fontSize['6xl'],
   fontWeight: typography.fontWeight.bold,
