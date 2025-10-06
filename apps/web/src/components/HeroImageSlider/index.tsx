@@ -14,6 +14,7 @@ import {
   heroSliderImage,
   heroSliderOverlay,
   heroSliderTextContent,
+  heroSliderTextContentNarrow,
   heroSliderTitle,
   heroSliderDescription,
   heroSliderButton,
@@ -306,7 +307,7 @@ const HeroImageSlider: React.FC<HeroImageSliderProps> = ({
           </AnimatePresence>
 
           <motion.div
-            className={heroSliderTextContent}
+            className={`${heroSliderTextContent} ${currentItem.contentWidth === '30%' ? heroSliderTextContentNarrow : ''}`}
             key={`content-${currentItem.id}`}
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
@@ -317,7 +318,6 @@ const HeroImageSlider: React.FC<HeroImageSliderProps> = ({
                          currentItem.contentAlign === 'right' ? 'auto' : undefined,
               marginRight: currentItem.contentAlign === 'center' ? 'auto' : 
                           currentItem.contentAlign === 'right' ? undefined : undefined,
-              maxWidth: currentItem.contentWidth || undefined, // Apply custom content width if specified
             }}
           >
             <motion.h1
