@@ -7,6 +7,7 @@ import Container from '../components/Container';
 import Header from '../components/Header/header';
 import HeroImageSlider from '../components/HeroImageSlider';
 import OrganizationSchema from '../components/OrganizationSchema';
+import ReviewPlatforms from '../components/ReviewPlatforms';
 import { heroSliderData } from '../data/heroSliderData';
 
 // Non-critical components loaded lazily
@@ -67,6 +68,7 @@ export default function HomePage() {
     <>
       <OrganizationSchema />
       <HeroImageSlider items={heroSliderData} />
+      <ReviewPlatforms />
       <Container>
         <Header />
         <Suspense fallback={<div style={{ height: '400px' }}>Loading features...</div>}>
