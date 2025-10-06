@@ -1,6 +1,7 @@
 import USATodayMobileImage from '../../public/images/As featured in USA Today-mobile.jpg';
 import USATodayImage from '../../public/images/As featured in USA Today.jpg';
 import BannerImage from '../../public/images/Banner.jpg';
+import NYSABA2025Image from '../../public/images/NYSABA Event Banner.jpg';
 import { HeroSliderItem } from '../components/HeroImageSlider';
 
 export const heroSliderData: HeroSliderItem[] = [
@@ -27,6 +28,26 @@ export const heroSliderData: HeroSliderItem[] = [
       text: 'Get Started for Free',
     },
     contentAlign: 'center', // Example: Center this slide's content
+  },
+  {
+    id: 'nysaba-2025-the-future-of-aba',
+    title: "Join us at NYSABA 2025 - The Future of ABA",
+    description:
+      "Let's connect, collaborate, and explore smarter ways to streamline ABA practice.",
+    eventDate: "October 9-10, 2025",
+    eventLocation: "Albany Capital Center, Albany, NY",
+    image: {
+      src: NYSABA2025Image,
+      alt: 'Join us at NYSABA 2025 - The Future of ABA',
+      width: 1920,
+      height: 800,
+    },
+    link: {
+      href: '/events/the-future-of-aba-at-nysaba-2025-be-part-of-the-conversation',
+      text: "Join us at NYSABA 2025",
+      mobileText: "Join us at NYSABA 2025", // Shorter text for mobile
+    },
+    contentWidth: '30%', // Set content width to 30%
   },
   {
     id: 'from-mothers-journey',
