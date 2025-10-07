@@ -35,6 +35,7 @@ import {
 } from './styles.css';
 
 import { useFreeTrialModal } from '@/contexts/FreeTrialModalContext';
+import { formatEventDate } from '@/lib/events-api';
 
 
 export interface HeroSliderItem {
@@ -65,7 +66,9 @@ export interface HeroSliderItem {
   };
   contentAlign?: 'left' | 'center' | 'right'; // Optional content alignment
   contentWidth?: string; // Optional content width (e.g., '50%', '600px', '100%')
-  eventDate?: string; // Optional event date
+  eventDate?: string; // Optional event date (formatted string)
+  eventStartDate?: string; // Optional event start date (ISO format)
+  eventEndDate?: string; // Optional event end date (ISO format)
   eventLocation?: string; // Optional event location
 }
 
@@ -250,6 +253,13 @@ const HeroImageSlider: React.FC<HeroImageSliderProps> = ({
     [isMobile, currentItem]
   );
 
+  const formattedEventDate = useMemo(() => {
+    if (currentItem?.eventStartDate && currentItem?.eventEndDate) {
+      return formatEventDate(currentItem.eventStartDate, currentItem.eventEndDate);
+    }
+    return currentItem?.eventDate;
+  }, [currentItem?.eventDate, currentItem?.eventStartDate, currentItem?.eventEndDate]);
+
   if (!items.length) return null;
 
   return (
@@ -341,7 +351,7 @@ const HeroImageSlider: React.FC<HeroImageSliderProps> = ({
             </motion.h1>
 
             {/* Event Date and Location */}
-            {(currentItem.eventDate || currentItem.eventLocation) && (
+            {(formattedEventDate || currentItem.eventLocation) && (
               <motion.div
                 className={heroSliderEventInfo}
                 initial={{ opacity: 0, y: 20 }}
@@ -353,10 +363,10 @@ const HeroImageSlider: React.FC<HeroImageSliderProps> = ({
                   }),
                 }}
               >
-                {currentItem.eventDate && (
+                {formattedEventDate && (
                   <div className={heroSliderEventItem}>
                     <Calendar size={20} className={heroSliderEventIcon} />
-                    <span>{currentItem.eventDate}</span>
+                    <span>{formattedEventDate}</span>
                   </div>
                 )}
                 {currentItem.eventLocation && (
