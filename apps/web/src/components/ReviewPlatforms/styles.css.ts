@@ -2,15 +2,23 @@ import { keyframes, style } from '@vanilla-extract/css';
 
 import { colors, spacing, typography } from '../../styles/tokens.css';
 
-// Keyframes for truly continuous scroll animation
-// Strategy: Move exactly 50% (half the strip) since we have 2 identical sets
-// When animation completes at -50%, it looks identical to 0%, creating seamless loop
-const scrollAnimation = keyframes({
+// Alternative approach: Use two separate animations that alternate
+// This completely eliminates the jump/flicker issue
+const scrollAnimationPrimary = keyframes({
   '0%': {
     transform: 'translateX(0%)',
   },
   '100%': {
-    transform: 'translateX(-50%)',
+    transform: 'translateX(-100%)',
+  },
+});
+
+const scrollAnimationSecondary = keyframes({
+  '0%': {
+    transform: 'translateX(100%)',
+  },
+  '100%': {
+    transform: 'translateX(0%)',
   },
 });
 
@@ -164,30 +172,68 @@ export const gradientOverlay = style({
 export const logoStripWrapper = style({
   overflow: 'hidden',
   width: '100%',
+  position: 'relative',
   display: 'flex',
+  alignItems: 'center',
+  minHeight: '60px',
+  '@media': {
+    'screen and (max-width: 1024px)': {
+      minHeight: '80px',
+    },
+  },
 });
 
+// Main strip with primary animation
 export const logoStrip = style({
   display: 'flex',
   alignItems: 'center',
-  gap: spacing.sm,
+  gap: spacing.xl,
   flexWrap: 'nowrap',
-  animation: `${scrollAnimation} 8s linear infinite`,
-  willChange: 'transform',
+  position: 'absolute',
+  animation: `${scrollAnimationPrimary} 7s linear infinite`,
   width: 'max-content',
-  transform: 'translateZ(0)', // Force hardware acceleration
-  backfaceVisibility: 'hidden',
+  willChange: 'transform',
   '@media': {
     'screen and (max-width: 1024px)': {
-      animation: `${scrollAnimation} 6s linear infinite`,
-      gap: spacing.sm,
+      animation: `${scrollAnimationPrimary} 5s linear infinite`,
+      gap: spacing.lg,
+      padding: `${spacing.lg} 0`,
     },
     'screen and (max-width: 768px)': {
-      animation: `${scrollAnimation} 5s linear infinite`,
-      gap: '12px',
+      animation: `${scrollAnimationPrimary} 4s linear infinite`,
+      gap: spacing.md,
+      padding: `${spacing.lg} 0`,
     },
     '(prefers-reduced-motion: reduce)': {
       animation: 'none',
+      position: 'relative',
+    },
+  },
+});
+
+// Secondary strip with offset animation for seamless loop
+export const logoStripSecondary = style({
+  display: 'flex',
+  alignItems: 'center',
+  gap: spacing.xl,
+  flexWrap: 'nowrap',
+  position: 'absolute',
+  animation: `${scrollAnimationSecondary} 7s linear infinite`,
+  width: 'max-content',
+  willChange: 'transform',
+  '@media': {
+    'screen and (max-width: 1024px)': {
+      animation: `${scrollAnimationSecondary} 5s linear infinite`,
+      gap: spacing.lg,
+      padding: `${spacing.lg} 0`,
+    },
+    'screen and (max-width: 768px)': {
+      animation: `${scrollAnimationSecondary} 4s linear infinite`,
+      gap: spacing.md,
+      padding: `${spacing.lg} 0`,
+    },
+    '(prefers-reduced-motion: reduce)': {
+      display: 'none',
     },
   },
 });
@@ -199,17 +245,20 @@ export const logoItem = style({
   transition: 'opacity 0.3s ease, transform 0.3s ease',
   textDecoration: 'none',
   flexShrink: 0,
-  width: '220px',
+  height: '28px',
+  minWidth: '80px',
   ':hover': {
     opacity: '1 !important',
     transform: 'scale(1.05)',
   },
   '@media': {
     'screen and (max-width: 1024px)': {
-      width: '180px',
+      height: '24px',
+      minWidth: '70px',
     },
     'screen and (max-width: 768px)': {
-      width: '140px',
+      height: '22px',
+      minWidth: '60px',
     },
   },
 });
