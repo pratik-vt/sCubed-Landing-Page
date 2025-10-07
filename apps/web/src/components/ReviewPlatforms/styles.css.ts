@@ -16,10 +16,12 @@ const scrollAnimation = keyframes({
 
 export const container = style({
   width: '100%',
-  padding: `${spacing.md} ${spacing.lg}`,
+  maxWidth: '100%',
+  padding: `${spacing.md} ${spacing.md}`,
+  boxSizing: 'border-box',
   '@media': {
     'screen and (max-width: 768px)': {
-      padding: `${spacing.sm} ${spacing.md}`,
+      padding: `${spacing.sm} ${spacing.sm}`,
     },
   },
 });
@@ -37,7 +39,7 @@ export const contentWrapper = style({
       flexDirection: 'column',
       gap: 0,
       minHeight: 'auto',
-      padding: `${spacing.sm} 0`,
+      padding: `0`,
     },
   },
 });
@@ -53,12 +55,48 @@ export const leftSection = style({
   padding: `${spacing.sm} ${spacing.md}`,
   '@media': {
     'screen and (max-width: 1024px)': {
+      padding: `0`,
       width: '100%',
       justifyContent: 'center',
       zIndex: 'auto',
       background: 'transparent',
     },
   },
+});
+
+export const headingWrapper = style({
+  display: 'inline-block',
+  background: 'linear-gradient(135deg, #f8f9ff 0%, #f0f1ff 100%)',
+  padding: `${spacing.sm} ${spacing.lg}`,
+  borderRadius: '12px',
+  border: '2px solid #e8e9ff',
+  boxShadow: '0 2px 8px rgba(122, 126, 237, 0.1)',
+  marginBottom: spacing.lg,
+  '@media': {
+    'screen and (max-width: 768px)': {
+      padding: `${spacing.xs} ${spacing.md}`,
+      marginBottom: spacing.md,
+    },
+  },
+});
+
+export const heading = style({
+  textAlign: 'center',
+  margin: 0,
+  fontSize: 'clamp(20px, 1.25rem + 0.5vw, 28px)',
+  fontWeight: typography.fontWeight.bold,
+  color: '#000000',
+  fontFamily: typography.fontFamily.heading,
+  lineHeight: '1.3',
+  '@media': {
+    'screen and (max-width: 768px)': {
+      fontSize: typography.fontSize.lg,
+    },
+  },
+});
+
+export const highlight = style({
+  color: '#7a7eed',
 });
 
 export const reviewText = style({

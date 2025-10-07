@@ -11,6 +11,9 @@ import {
   container,
   contentWrapper,
   gradientOverlay,
+  heading,
+  headingWrapper,
+  highlight,
   leftSection,
   logoItem,
   logoStrip,
@@ -50,25 +53,41 @@ const reviewPlatforms: ReviewPlatform[] = [
 ];
 
 const ReviewPlatforms: React.FC = () => {
-  const totalReviews = 34; // 9 + 9 + 9 + 7 = 34
+  const totalReviews = 30;
+  const rating = 4.8;
 
   return (
     <div className={container}>
+      {/* Heading Section */}
+      <div style={{ display: 'flex', justifyContent: 'center' }}>
+        <div className={headingWrapper}>
+          <h2 className={heading}>
+            Recognized on <span className={highlight}>Top B2B Review</span> Platforms
+          </h2>
+        </div>
+      </div>
+
       <div className={contentWrapper}>
-        {/* Left Section: Review Count + Stars */}
+        {/* Left Section: Stars + Rating */}
         <div className={leftSection}>
-          <p className={reviewText}>{totalReviews}+ Reviews</p>
           <div className={starsImage}>
-            {[...Array(5)].map((_, i) => (
-              <Star
-                key={i}
-                size={18}
-                fill="#7a7eed"
-                color="#7a7eed"
-                strokeWidth={1}
-              />
-            ))}
+            {[...Array(5)].map((_, i) => {
+              const isFilled = i < Math.floor(rating);
+              const isPartial = i === Math.floor(rating) && rating % 1 !== 0;
+
+              return (
+                <Star
+                  key={i}
+                  size={18}
+                  fill={isFilled || isPartial ? "#7a7eed" : "transparent"}
+                  color="#7a7eed"
+                  strokeWidth={1}
+                  style={isPartial ? { opacity: 0.8 } : undefined}
+                />
+              );
+            })}
           </div>
+          <p className={reviewText}>Rated {rating}/5</p>
         </div>
 
         {/* Right Section: Logo Strip with Animation */}
