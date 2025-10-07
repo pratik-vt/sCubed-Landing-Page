@@ -13,7 +13,6 @@ import {
   gradientOverlay,
   leftSection,
   logoItem,
-  logoItemDuplicate,
   logoStrip,
   logoStripWrapper,
   reviewText,
@@ -75,12 +74,11 @@ const ReviewPlatforms: React.FC = () => {
         {/* Right Section: Logo Strip with Animation */}
         <div className={rightSection}>
           <div className={gradientOverlay} aria-hidden="true" />
-          <div className={logoStripWrapper}>
+          <div className={logoStripWrapper} aria-label="Review platform logos">
             <div className={logoStrip}>
-              {/* First set: Always visible */}
               {reviewPlatforms.map((platform) => (
                 <a
-                  key={`${platform.name}-main`}
+                  key={platform.name}
                   href={platform.url}
                   target="_blank"
                   rel="noopener noreferrer"
@@ -100,16 +98,15 @@ const ReviewPlatforms: React.FC = () => {
                   />
                 </a>
               ))}
-
-              {/* Second set: Hidden on mobile, visible only during desktop animation */}
+              {/* Visual duplicate for seamless scroll - hidden from screen readers */}
               {reviewPlatforms.map((platform) => (
                 <a
-                  key={`${platform.name}-duplicate`}
+                  key={`${platform.name}-visual`}
                   href={platform.url}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className={logoItemDuplicate}
-                  aria-label={`View ${platform.name} reviews`}
+                  className={logoItem}
+                  aria-hidden="true"
                   tabIndex={-1}
                 >
                   <Image

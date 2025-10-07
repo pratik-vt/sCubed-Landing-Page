@@ -35,7 +35,7 @@ export const contentWrapper = style({
   '@media': {
     'screen and (max-width: 1024px)': {
       flexDirection: 'column',
-      gap: spacing.sm,
+      gap: 0,
       minHeight: 'auto',
       padding: `${spacing.sm} 0`,
     },
@@ -62,8 +62,8 @@ export const leftSection = style({
 });
 
 export const reviewText = style({
-  fontSize: 'clamp(22px, 1.378rem + 1vw, 36px)',
-  fontWeight: typography.fontWeight.medium,
+  fontSize: 'clamp(18px, 1.125rem + 0.5vw, 28px)',
+  fontWeight: typography.fontWeight.bold,
   color: colors.primary[600],
   margin: 0,
   lineHeight: '1.2',
@@ -71,7 +71,7 @@ export const reviewText = style({
   whiteSpace: 'nowrap',
   '@media': {
     'screen and (max-width: 768px)': {
-      fontSize: typography.fontSize.xl,
+      fontSize: typography.fontSize.lg,
     },
   },
 });
@@ -80,9 +80,13 @@ export const starsImage = style({
   display: 'flex',
   gap: '3px',
   alignItems: 'center',
+  border: `2px solid ${colors.primary[600]}`,
+  borderRadius: '8px',
+  padding: '6px 10px',
   '@media': {
     'screen and (max-width: 768px)': {
       gap: '2px',
+      padding: '4px 8px',
     },
   },
 });
@@ -108,13 +112,13 @@ export const gradientOverlay = style({
   top: 0,
   bottom: 0,
   width: '200px',
-  background: `linear-gradient(to right, ${colors.neutral[50]} 0%, rgba(250, 250, 250, 0.8) 30%, transparent 100%)`,
+  background: `linear-gradient(to right, ${colors.white} 0%, rgba(255, 255, 255, 0.8) 30%, transparent 100%)`,
   zIndex: 1,
   pointerEvents: 'none',
   '@media': {
     'screen and (max-width: 1024px)': {
       width: '100px',
-      background: `linear-gradient(to right, ${colors.neutral[50]} 0%, rgba(250, 250, 250, 0.7) 20%, transparent 100%)`,
+      background: `linear-gradient(to right, ${colors.white} 0%, rgba(255, 255, 255, 0.7) 20%, transparent 100%)`,
     },
   },
 });
@@ -122,6 +126,7 @@ export const gradientOverlay = style({
 export const logoStripWrapper = style({
   overflow: 'hidden',
   width: '100%',
+  display: 'flex',
 });
 
 export const logoStrip = style({
@@ -129,16 +134,18 @@ export const logoStrip = style({
   alignItems: 'center',
   gap: spacing.sm,
   flexWrap: 'nowrap',
-  animation: `${scrollAnimation} 15s linear infinite`,
+  animation: `${scrollAnimation} 8s linear infinite`,
   willChange: 'transform',
   width: 'max-content',
+  transform: 'translateZ(0)', // Force hardware acceleration
+  backfaceVisibility: 'hidden',
   '@media': {
     'screen and (max-width: 1024px)': {
-      animation: `${scrollAnimation} 10s linear infinite`,
+      animation: `${scrollAnimation} 6s linear infinite`,
       gap: spacing.sm,
     },
     'screen and (max-width: 768px)': {
-      animation: `${scrollAnimation} 10s linear infinite`,
+      animation: `${scrollAnimation} 5s linear infinite`,
       gap: '12px',
     },
     '(prefers-reduced-motion: reduce)': {
@@ -165,31 +172,6 @@ export const logoItem = style({
     },
     'screen and (max-width: 768px)': {
       width: '140px',
-    },
-  },
-});
-
-export const logoItemDuplicate = style({
-  display: 'flex',
-  alignItems: 'center',
-  justifyContent: 'center',
-  transition: 'opacity 0.3s ease, transform 0.3s ease',
-  textDecoration: 'none',
-  flexShrink: 0,
-  width: '220px',
-  ':hover': {
-    opacity: '1 !important',
-    transform: 'scale(1.05)',
-  },
-  '@media': {
-    'screen and (max-width: 1024px)': {
-      width: '180px',
-    },
-    'screen and (max-width: 768px)': {
-      width: '140px',
-    },
-    '(prefers-reduced-motion: reduce)': {
-      display: 'none', // Hide duplicates when animation is disabled
     },
   },
 });
