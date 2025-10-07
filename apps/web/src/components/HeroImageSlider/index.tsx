@@ -13,8 +13,10 @@ import {
   heroSliderImageWrapper,
   heroSliderImage,
   heroSliderOverlay,
+  heroSliderOverlayMobile,
   heroSliderTextContent,
   heroSliderTextContentNarrow,
+  heroSliderTextContentNarrowMobile,
   heroSliderTitle,
   heroSliderDescription,
   heroSliderButton,
@@ -83,6 +85,7 @@ const HeroImageSlider: React.FC<HeroImageSliderProps> = ({
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isAutoPlaying, setIsAutoPlaying] = useState(autoPlay);
   const [isMobile, setIsMobile] = useState(false);
+  const [isSmallMobile, setIsSmallMobile] = useState(false);
   const [imagesLoaded, setImagesLoaded] = useState<Record<number, boolean>>({});
   const [isTransitioning, setIsTransitioning] = useState(false);
   const [touchStart, setTouchStart] = useState<number | null>(null);
@@ -131,6 +134,7 @@ const HeroImageSlider: React.FC<HeroImageSliderProps> = ({
       clearTimeout(timeoutId);
       timeoutId = setTimeout(() => {
         setIsMobile(window.innerWidth <= 1024); // Include iPad (1024px and below)
+        setIsSmallMobile(window.innerWidth <= 768); // Mobile phones (768px and below)
       }, 100); // Debounce resize events
     };
 
@@ -303,11 +307,15 @@ const HeroImageSlider: React.FC<HeroImageSliderProps> = ({
                 }}
               />
               <div className={heroSliderOverlay} />
+              {/* Additional mobile overlay for narrow content slides */}
+              {currentItem.contentWidth === '30%' && (
+                <div className={heroSliderOverlayMobile} />
+              )}
             </motion.div>
           </AnimatePresence>
 
           <motion.div
-            className={`${heroSliderTextContent} ${currentItem.contentWidth === '30%' ? heroSliderTextContentNarrow : ''}`}
+            className={`${heroSliderTextContent} ${currentItem.contentWidth === '30%' ? `${heroSliderTextContentNarrow} ${heroSliderTextContentNarrowMobile}` : ''}`}
             key={`content-${currentItem.id}`}
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
@@ -318,6 +326,9 @@ const HeroImageSlider: React.FC<HeroImageSliderProps> = ({
                          currentItem.contentAlign === 'right' ? 'auto' : undefined,
               marginRight: currentItem.contentAlign === 'center' ? 'auto' : 
                           currentItem.contentAlign === 'right' ? undefined : undefined,
+              ...(currentItem.contentWidth === '30%' && isSmallMobile && {
+                textAlign: 'center',
+              }),
             }}
           >
             <motion.h1
@@ -336,6 +347,11 @@ const HeroImageSlider: React.FC<HeroImageSliderProps> = ({
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.6, delay: 0.35 }}
+                style={{
+                  ...(currentItem.contentWidth === '30%' && isSmallMobile && {
+                    alignItems: 'center',
+                  }),
+                }}
               >
                 {currentItem.eventDate && (
                   <div className={heroSliderEventItem}>

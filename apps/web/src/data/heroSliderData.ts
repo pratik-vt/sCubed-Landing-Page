@@ -41,6 +41,7 @@ export const heroSliderData: HeroSliderItem[] = [
       alt: 'Join us at NYSABA 2025 - The Future of ABA',
       width: 1920,
       height: 800,
+      mobilePosition: 'center center',
     },
     link: {
       href: '/events/the-future-of-aba-at-nysaba-2025-be-part-of-the-conversation',

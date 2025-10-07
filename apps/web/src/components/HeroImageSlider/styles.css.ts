@@ -77,6 +77,23 @@ export const heroSliderOverlay = style({
   zIndex: 2,
 });
 
+// Mobile overlay for narrow content slides to improve text readability
+export const heroSliderOverlayMobile = style({
+  position: 'absolute',
+  top: 0,
+  left: 0,
+  width: '100%',
+  height: '100%',
+  backgroundColor: 'rgba(255, 255, 255, 0.6)', // White overlay for better black text contrast
+  backdropFilter: 'blur(2px)', // Subtle blur effect
+  zIndex: 2,
+  '@media': {
+    'screen and (min-width: 769px)': {
+      display: 'none', // Hide on desktop
+    },
+  },
+});
+
 export const heroSliderTextContent = style({
   position: 'relative',
   zIndex: 3,
@@ -123,16 +140,25 @@ export const heroSliderTextContentNarrow = style({
       maxWidth: '32% !important',
     },
     'screen and (max-width: 960px)': {
-      maxWidth: '30% !important',
+      maxWidth: '31% !important',
     },
     'screen and (max-width: 768px)': {
-      maxWidth: '38% !important',
+      maxWidth: '100% !important', // Full width on mobile
+      padding: `${spacing.lg} ${spacing.md} 0 !important`,
+      marginLeft: '0 !important',
+      marginRight: '0 !important',
     },
     'screen and (max-width: 480px)': {
-      maxWidth: '36% !important',
+      maxWidth: '100% !important', // Full width on small mobile
+      padding: `${spacing.md} ${spacing.sm} 0 !important`,
+      marginLeft: '0 !important',
+      marginRight: '0 !important',
     },
   },
 });
+
+// Mobile center alignment for narrow content (handled via inline styles)
+export const heroSliderTextContentNarrowMobile = style({});
 
 export const heroSliderTitle = style({
   fontSize: typography.fontSize['6xl'],
@@ -144,8 +170,8 @@ export const heroSliderTitle = style({
   '@media': {
     // Tablet devices
     'screen and (max-width: 1024px)': {
-      fontSize: '2.5rem', // Smaller for tablets
-      lineHeight: '1.2',
+      fontSize: '2rem', // Decreased from 2.5rem for tablets
+      lineHeight: '1',
       marginBottom: spacing.md,
     },
     // Mobile devices
@@ -439,13 +465,9 @@ export const heroSliderEventInfo = style({
   flexDirection: 'column',
   gap: spacing.sm,
   marginBottom: spacing.lg,
-  '@media': {
-    'screen and (max-width: 768px)': {
-      gap: spacing.xs,
-      marginBottom: spacing.md,
-    },
-  },
 });
+
+// Event info center alignment handled via inline styles
 
 export const heroSliderEventItem = style({
   display: 'flex',
