@@ -140,7 +140,7 @@ export const heroSliderTextContentNarrow = style({
       maxWidth: '32% !important',
     },
     'screen and (max-width: 960px)': {
-      maxWidth: '31% !important',
+      maxWidth: '32% !important',
     },
     'screen and (max-width: 768px)': {
       maxWidth: '100% !important', // Full width on mobile
@@ -169,10 +169,16 @@ export const heroSliderTitle = style({
   whiteSpace: 'pre-line', // This allows \n characters to create line breaks
   '@media': {
     // Tablet devices
-    'screen and (max-width: 1024px)': {
-      fontSize: '2rem', // Decreased from 2.5rem for tablets
+    'screen and (max-width: 1200px)': {
+      fontSize: '1.75rem', // Decreased from 2.5rem for tablets
       lineHeight: '1',
-      marginBottom: spacing.md,
+      marginBottom: spacing.sm,
+    },
+    // Tablet devices
+    'screen and (max-width: 1024px)': {
+      fontSize: '1.75rem', // Decreased from 2.5rem for tablets
+      lineHeight: '1',
+      marginBottom: spacing.sm,
     },
     // Mobile devices
     'screen and (max-width: 768px)': {
@@ -199,7 +205,7 @@ export const heroSliderDescription = style({
   fontSize: typography.fontSize.xl,
   fontFamily: typography.fontFamily.body,
   lineHeight: typography.lineHeight.relaxed,
-  marginBottom: spacing['2xl'],
+  marginBottom: spacing['xl'],
   opacity: 0.9,
   '@media': {
     'screen and (max-width: 767px)': {
@@ -472,7 +478,7 @@ export const heroSliderEventInfo = style({
 export const heroSliderEventItem = style({
   display: 'flex',
   alignItems: 'center',
-  gap: spacing.sm,
+  gap: spacing.xs,
   fontSize: typography.fontSize.lg,
   fontFamily: typography.fontFamily.body,
   fontWeight: typography.fontWeight.medium,

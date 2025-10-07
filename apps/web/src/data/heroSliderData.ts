@@ -34,7 +34,8 @@ export const heroSliderData: HeroSliderItem[] = [
     title: "Join us at NYSABA 2025 - The Future of ABA",
     description:
       "Let's connect, collaborate, and explore smarter ways to streamline ABA practice.",
-    eventDate: "October 9-10, 2025",
+    eventStartDate: "2025-10-10",
+    eventEndDate: "2025-10-11",
     eventLocation: "Albany Capital Center, Albany, NY",
     image: {
       src: NYSABA2025Image,
