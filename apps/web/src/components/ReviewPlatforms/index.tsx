@@ -17,7 +17,6 @@ import {
   leftSection,
   logoItem,
   logoStrip,
-  logoStripSecondary,
   logoStripWrapper,
   reviewText,
   rightSection,
@@ -29,6 +28,7 @@ interface ReviewPlatform {
   url: string;
   logo: StaticImageData;
   height?: number;
+  minWidth?: number;
 }
 
 const reviewPlatforms: ReviewPlatform[] = [
@@ -42,27 +42,27 @@ const reviewPlatforms: ReviewPlatform[] = [
     name: 'Software Advice',
     url: 'https://www.softwareadvice.com/product/529516-S-Cubed/',
     logo: softwareAdviceLogo,
-    height: 28,
+    height: 32,
+    minWidth: 140,
   },
   {
     name: 'GetApp',
     url: 'https://www.getapp.com/healthcare-pharmaceuticals-software/a/s-cubed/',
     logo: getAppLogo,
-    height: 28,
+    height: 24,
   },
   {
     name: 'G2',
     url: 'https://www.g2.com/products/s-cubed/reviews',
     logo: g2Logo,
-    height: 35,
+    height: 32,
   },
 ];
 
 const ReviewPlatforms: React.FC = () => {
-  const totalReviews = 30;
   const rating = 4.8;
 
-  const renderLogos = (isHidden: boolean = false) => {
+  const renderLogoGroup = (isHidden: boolean = false) => {
     return reviewPlatforms.map((platform) => (
       <a
         key={platform.name}
@@ -70,6 +70,9 @@ const ReviewPlatforms: React.FC = () => {
         target="_blank"
         rel="noopener noreferrer"
         className={logoItem}
+        style={
+          platform.minWidth ? { minWidth: `${platform.minWidth}px` } : undefined
+        }
         aria-label={!isHidden ? `View ${platform.name} reviews` : undefined}
         aria-hidden={isHidden || undefined}
         tabIndex={isHidden ? -1 : undefined}
@@ -81,9 +84,9 @@ const ReviewPlatforms: React.FC = () => {
           width={0}
           style={{
             width: 'auto',
-            height: `${platform.height || 28}px`,
+            height: '100%',
+            maxHeight: `${platform.height || 28}px`,
             objectFit: 'contain',
-            opacity: 0.7,
           }}
           priority={false}
         />
@@ -126,14 +129,14 @@ const ReviewPlatforms: React.FC = () => {
           <p className={reviewText}>Rated {rating}/5</p>
         </div>
 
-        {/* Right Section: Dual Logo Strips with Alternating Animation */}
+        {/* Right Section: Infinite Carousel with Two Groups */}
         <div className={rightSection}>
           <div className={gradientOverlay} aria-hidden="true" />
           <div className={logoStripWrapper} aria-label="Review platform logos">
-            {/* Primary strip */}
-            <div className={logoStrip}>{renderLogos(false)}</div>
-            {/* Secondary strip (hidden from screen readers) */}
-            <div className={logoStripSecondary}>{renderLogos(true)}</div>
+            {/* First group - visible */}
+            <div className={logoStrip}>{renderLogoGroup(false)}</div>
+            {/* Second group - duplicate for seamless loop */}
+            <div className={logoStrip}>{renderLogoGroup(true)}</div>
           </div>
         </div>
       </div>
