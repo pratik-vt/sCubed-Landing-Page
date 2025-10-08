@@ -9,7 +9,9 @@
       "apps/*",
       "packages/*"
     ],
-    "nohoist": ["**"]
+    "nohoist": [
+      "**"
+    ]
   },
   "scripts": {
     "dev": "turbo run dev",
@@ -35,6 +37,7 @@
   },
   "dependencies": {
     "motion-dom": "^12.23.12",
-    "motion-utils": "^12.23.6"
+    "motion-utils": "^12.23.6",
+    "react-slick": "^0.31.0"
   }
 }

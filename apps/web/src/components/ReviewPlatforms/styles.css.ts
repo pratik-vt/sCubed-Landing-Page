@@ -1,111 +1,94 @@
-import { globalStyle, style } from '@vanilla-extract/css';
+import { style } from '@vanilla-extract/css';
 
 import { colors, spacing, typography } from '../../styles/tokens.css';
 
+// Container
 export const container = style({
   width: '100%',
   maxWidth: '100%',
-  padding: `${spacing.md} ${spacing.md}`,
+  padding: `${spacing.lg} ${spacing.md}`,
   boxSizing: 'border-box',
   '@media': {
     'screen and (max-width: 768px)': {
-      padding: `${spacing.sm} ${spacing.sm}`,
+      padding: `${spacing.md} ${spacing.sm}`,
     },
   },
 });
 
+// Content wrapper
 export const contentWrapper = style({
   display: 'flex',
   alignItems: 'center',
-  justifyContent: 'space-between',
+  justifyContent: 'center',
   maxWidth: '1200px',
   margin: '0 auto',
-  minHeight: '91px',
   gap: spacing.lg,
   '@media': {
     'screen and (max-width: 1024px)': {
       flexDirection: 'column',
-      gap: 0,
-      minHeight: 'auto',
-      padding: `0`,
+      gap: spacing.md,
     },
   },
 });
 
-export const leftSection = style({
-  display: 'flex',
-  alignItems: 'center',
-  justifyContent: 'center',
-  gap: spacing.md,
-  flexShrink: 0,
-  position: 'relative',
-  zIndex: 2,
-  padding: `${spacing.sm} ${spacing.md}`,
-  '@media': {
-    'screen and (max-width: 1024px)': {
-      padding: `0`,
-      width: '100%',
-      justifyContent: 'center',
-      zIndex: 'auto',
-      background: 'transparent',
-    },
-  },
-});
-
+// Heading wrapper
 export const headingWrapper = style({
-  display: 'inline-block',
-  background: 'linear-gradient(135deg, #f8f9ff 0%, #f0f1ff 100%)',
-  padding: `${spacing.sm} ${spacing.lg}`,
-  borderRadius: '12px',
-  border: '2px solid #e8e9ff',
-  boxShadow: '0 2px 8px rgba(122, 126, 237, 0.1)',
+  display: 'flex',
+  justifyContent: 'center',
   marginBottom: spacing.lg,
   '@media': {
     'screen and (max-width: 768px)': {
-      padding: `${spacing.xs} ${spacing.md}`,
       marginBottom: spacing.md,
     },
   },
 });
 
+// Heading
 export const heading = style({
   textAlign: 'center',
   margin: 0,
-  fontSize: 'clamp(20px, 1.25rem + 0.5vw, 28px)',
+  fontSize: 'clamp(20px, 1.5rem + 0.5vw, 28px)',
   fontWeight: typography.fontWeight.bold,
-  color: '#000000',
+  color: colors.black,
   fontFamily: typography.fontFamily.heading,
   lineHeight: '1.3',
+  background: 'linear-gradient(135deg, #f8f9ff 0%, #f0f1ff 100%)',
+  padding: `${spacing.sm} ${spacing.lg}`,
+  borderRadius: '12px',
+  border: '2px solid #e8e9ff',
+  boxShadow: '0 2px 8px rgba(122, 126, 237, 0.1)',
   '@media': {
     'screen and (max-width: 768px)': {
       fontSize: typography.fontSize.lg,
+      padding: `${spacing.xs} ${spacing.md}`,
     },
   },
 });
 
+// Highlight text
 export const highlight = style({
-  color: '#7a7eed',
+  color: colors.primary[600],
 });
 
-export const reviewText = style({
-  fontSize: 'clamp(18px, 1.125rem + 0.5vw, 28px)',
-  fontWeight: typography.fontWeight.bold,
-  color: colors.primary[600],
-  margin: 0,
-  lineHeight: '1.2',
-  fontFamily: typography.fontFamily.heading,
-  whiteSpace: 'nowrap',
+// Left section (stars and rating)
+export const leftSection = style({
+  display: 'flex',
+  alignItems: 'center',
+  gap: spacing.md,
+  flexShrink: 0,
   '@media': {
-    'screen and (max-width: 768px)': {
-      fontSize: typography.fontSize.lg,
+    'screen and (max-width: 1024px)': {
+      justifyContent: 'center',
+      width: '100%',
     },
   },
 });
 
-export const starsImage = style({
+// Stars container
+export const starsContainer = style({
   display: 'flex',
-  gap: '3px',
   alignItems: 'center',
+  gap: '3px',
   border: `2px solid ${colors.primary[600]}`,
   borderRadius: '8px',
   padding: '6px 10px',
@@ -117,117 +100,78 @@ export const starsImage = style({
   },
 });
 
-export const rightSection = style({
-  flex: 1,
-  display: 'flex',
-  alignItems: 'center',
-  justifyContent: 'flex-start',
-  overflow: 'hidden',
-  position: 'relative',
-  paddingTop: spacing.lg,
-  paddingBottom: spacing.md,
+// Rating text
+export const ratingText = style({
+  fontSize: 'clamp(18px, 1.25rem + 0.3vw, 24px)',
+  fontWeight: typography.fontWeight.bold,
+  color: colors.primary[600],
+  margin: 0,
+  fontFamily: typography.fontFamily.heading,
+  whiteSpace: 'nowrap',
   '@media': {
-    'screen and (max-width: 1024px)': {
-      width: '100%',
-      overflow: 'hidden',
-      paddingTop: spacing.md,
-      paddingBottom: spacing.sm,
-    },
     'screen and (max-width: 768px)': {
-      paddingTop: spacing.sm,
-      paddingBottom: spacing.xs,
+      fontSize: typography.fontSize.lg,
     },
   },
 });
 
-export const gradientOverlay = style({
-  position: 'absolute',
-  left: 0,
-  top: 0,
-  bottom: 0,
-  width: '200px',
-  background: `linear-gradient(to right, ${colors.white} 0%, rgba(255, 255, 255, 0.8) 30%, transparent 100%)`,
-  zIndex: 1,
-  pointerEvents: 'none',
-  '@media': {
-    'screen and (max-width: 1024px)': {
-      width: '100px',
-      background: `linear-gradient(to right, ${colors.white} 0%, rgba(255, 255, 255, 0.7) 20%, transparent 100%)`,
-    },
-  },
-});
-
-export const gradientOverlayRight = style({
-  position: 'absolute',
-  right: 0,
-  top: 0,
-  bottom: 0,
-  width: '200px',
-  background: `linear-gradient(to left, ${colors.white} 0%, rgba(255, 255, 255, 0.8) 30%, transparent 100%)`,
-  zIndex: 1,
-  pointerEvents: 'none',
-  '@media': {
-    'screen and (max-width: 1024px)': {
-      width: '100px',
-      background: `linear-gradient(to left, ${colors.white} 0%, rgba(255, 255, 255, 0.7) 20%, transparent 100%)`,
-    },
-  },
-});
-
-// Individual logo strip - no animation, just layout
-export const logoStrip = style({
+// Logo grid - flexbox layout
+export const logoGrid = style({
   display: 'flex',
+  flexDirection: 'row',
   alignItems: 'center',
-  gap: spacing.xl,
+  justifyContent: 'center',
+  gap: spacing.lg,
   '@media': {
-    'screen and (max-width: 1024px)': {
-      gap: spacing.lg,
-      paddingRight: spacing.lg,
-    },
     'screen and (max-width: 768px)': {
+      display: 'grid',
+      gridTemplateColumns: 'repeat(2, 120px)',
+      gridTemplateRows: 'repeat(2, 40px)',
       gap: spacing.md,
-      paddingRight: spacing.md,
+      justifyContent: 'center',
     },
   },
 });
 
-globalStyle(`${logoStrip} a:last-child img`, {
-  marginLeft: '-50px',
-  '@media': {
-    'screen and (max-width: 1024px)': {
-      marginLeft: '0',
-    },
-    'screen and (max-width: 768px)': {
-      marginLeft: '0',
-    },
-  },
-});
-
-globalStyle(`${logoStrip} img`, {
-  height: '30px',
-  maxHeight: '30px',
-});
-
-export const logoItem = style({
+// Logo container - fixed dimensions
+export const logoContainer = style({
+  width: '120px',
+  height: '40px',
   display: 'flex',
   alignItems: 'center',
   justifyContent: 'center',
-  transition: 'opacity 0.3s ease, transform 0.3s ease',
-  textDecoration: 'none',
-  flexShrink: 0,
-  height: '100%',
-  minWidth: '100px',
+});
+
+// Logo button
+export const logoButton = style({
+  background: 'transparent',
+  border: 'none',
+  padding: 0,
+  cursor: 'pointer',
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'center',
+  transition: 'opacity 0.3s ease',
   opacity: 0.7,
-  marginRight: spacing.xl,
   ':hover': {
     opacity: 1,
   },
-  '@media': {
-    'screen and (max-width: 1024px)': {
-      minWidth: '120px',
-    },
-    'screen and (max-width: 768px)': {
-      minWidth: '100px',
-    },
+  ':focus': {
+    opacity: 1,
+    outline: `2px solid ${colors.primary[600]}`,
+    outlineOffset: '4px',
+    borderRadius: '4px',
   },
+  ':focus-visible': {
+    opacity: 1,
+    outline: `2px solid ${colors.primary[600]}`,
+    outlineOffset: '4px',
+  },
+});
+
+// Logo image - fixed dimensions with object-fit
+export const logoImage = style({
+  width: '100%',
+  objectFit: 'contain',
+  display: 'block',
 });

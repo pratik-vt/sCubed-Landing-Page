@@ -115,3 +115,9 @@ body:has(.react-responsive-modal-overlay) {
   box-sizing: border-box !important;
   padding: 0;
 }
+.slick-slider img {
+  object-fit: contain !important;
+  min-width: 120px !important;
+  width: auto !important;
+  height: 40px !important;
+}
