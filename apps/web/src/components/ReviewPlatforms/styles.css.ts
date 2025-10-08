@@ -1,17 +1,6 @@
-import { keyframes, style } from '@vanilla-extract/css';
+import { globalStyle, style } from '@vanilla-extract/css';
 
 import { colors, spacing, typography } from '../../styles/tokens.css';
-
-// Animation moves exactly 50% to create seamless infinite loop
-// Since we duplicate the logos exactly once, moving 50% brings us back to identical position
-const scrollAnimation = keyframes({
-  from: {
-    transform: 'translateX(0)',
-  },
-  to: {
-    transform: 'translateX(-50%)',
-  },
-});
 
 export const container = style({
   width: '100%',
@@ -135,10 +124,18 @@ export const rightSection = style({
   justifyContent: 'flex-start',
   overflow: 'hidden',
   position: 'relative',
+  paddingTop: spacing.lg,
+  paddingBottom: spacing.md,
   '@media': {
     'screen and (max-width: 1024px)': {
       width: '100%',
       overflow: 'hidden',
+      paddingTop: spacing.md,
+      paddingBottom: spacing.sm,
+    },
+    'screen and (max-width: 768px)': {
+      paddingTop: spacing.sm,
+      paddingBottom: spacing.xs,
     },
   },
 });
@@ -160,26 +157,19 @@ export const gradientOverlay = style({
   },
 });
 
-export const logoStripWrapper = style({
-  display: 'flex',
-  alignItems: 'center',
-  width: 'max-content',
-  height: '35px',
-  animation: `${scrollAnimation} 8s linear infinite`,
-  willChange: 'transform',
+export const gradientOverlayRight = style({
+  position: 'absolute',
+  right: 0,
+  top: 0,
+  bottom: 0,
+  width: '200px',
+  background: `linear-gradient(to left, ${colors.white} 0%, rgba(255, 255, 255, 0.8) 30%, transparent 100%)`,
+  zIndex: 1,
+  pointerEvents: 'none',
   '@media': {
     'screen and (max-width: 1024px)': {
-      height: '35px',
-      padding: `${spacing.md} 0`,
-      animation: `${scrollAnimation} 7s linear infinite`,
-    },
-    'screen and (max-width: 768px)': {
-      height: '32px',
-      padding: `${spacing.sm} 0`,
-      animation: `${scrollAnimation} 5s linear infinite`,
-    },
-    '(prefers-reduced-motion: reduce)': {
-      animation: 'none',
+      width: '100px',
+      background: `linear-gradient(to left, ${colors.white} 0%, rgba(255, 255, 255, 0.7) 20%, transparent 100%)`,
     },
   },
 });
@@ -189,15 +179,33 @@ export const logoStrip = style({
   display: 'flex',
   alignItems: 'center',
   gap: spacing.xl,
-  paddingRight: spacing.xl,
   '@media': {
     'screen and (max-width: 1024px)': {
       gap: spacing.lg,
+      paddingRight: spacing.lg,
     },
     'screen and (max-width: 768px)': {
       gap: spacing.md,
+      paddingRight: spacing.md,
     },
   },
+});
+
+globalStyle(`${logoStrip} a:last-child img`, {
+  marginLeft: '-50px',
+  '@media': {
+    'screen and (max-width: 1024px)': {
+      marginLeft: '0',
+    },
+    'screen and (max-width: 768px)': {
+      marginLeft: '0',
+    },
+  },
+});
+
+globalStyle(`${logoStrip} img`, {
+  height: '30px',
+  maxHeight: '30px',
 });
 
 export const logoItem = style({
@@ -210,9 +218,9 @@ export const logoItem = style({
   height: '100%',
   minWidth: '100px',
   opacity: 0.7,
+  marginRight: spacing.xl,
   ':hover': {
     opacity: 1,
-    transform: 'scale(1.05)',
   },
   '@media': {
     'screen and (max-width: 1024px)': {
