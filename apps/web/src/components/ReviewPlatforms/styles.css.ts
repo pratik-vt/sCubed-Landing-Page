@@ -158,14 +158,9 @@ export const logoButton = style({
   },
   ':focus': {
     opacity: 1,
-    outline: `2px solid ${colors.primary[600]}`,
-    outlineOffset: '4px',
-    borderRadius: '4px',
   },
   ':focus-visible': {
     opacity: 1,
-    outline: `2px solid ${colors.primary[600]}`,
-    outlineOffset: '4px',
   },
 });
 
