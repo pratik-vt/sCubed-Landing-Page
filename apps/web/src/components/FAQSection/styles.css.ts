@@ -3,7 +3,7 @@ import { style } from '@vanilla-extract/css';
 import { colors, spacing, typography } from '@/styles/tokens.css';
 
 export const container = style({
-  padding: `${spacing.md} 0`, // Reduced from lg (32px) to md (24px)
+  padding: `${spacing.xl} 0`, // Reduced from lg (32px) to md (24px)
   backgroundColor: colors.white,
 });
 
@@ -23,7 +23,8 @@ export const title = style({
   fontWeight: typography.fontWeight.bold,
   color: colors.neutral[900],
   textAlign: 'center',
-  marginBottom: spacing.lg, // Reduced from xl (48px) to lg (32px)
+  marginTop: '0px',
+  marginBottom: spacing.xl, // Reduced from xl (48px) to lg (32px)
   fontFamily: typography.fontFamily.heading,
   '@media': {
     '(max-width: 768px)': {
@@ -50,7 +51,7 @@ export const sectionTitle = style({
 
 export const faqContainer = style({
   display: 'flex',
-  gap: spacing.md, // Reduced from lg (32px) to md (24px)
+  gap: spacing.xl, // Reduced from lg (32px) to md (24px)
   alignItems: 'flex-start',
   '@media': {
     '(max-width: 768px)': {

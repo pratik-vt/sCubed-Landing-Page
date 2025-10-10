@@ -6,7 +6,7 @@ export const footerWrapper = style({
   width: '100%',
   background: `linear-gradient(135deg, ${colors.primary[50]} 0%, rgba(122, 126, 237, 0.05) 100%)`,
   borderTop: `1px solid ${colors.primary[100]}`,
-  marginTop: spacing.xl,
+  marginTop: '0px',
   overflowX: 'hidden',
 });
 
