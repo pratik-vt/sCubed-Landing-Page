@@ -109,7 +109,10 @@ const Navigation: React.FC<NavigationProps> = ({
   const featuresDropdownItems: DropdownItem[] = [
     { label: 'Practice Management Features', href: '/features' },
     { label: 'Guardian Portal Features', href: '/guardian-portal' },
-    { label: 'Data Collection', href: '/data-collection' },
+    {
+      label: 'Data Collection & Reporting',
+      href: '/data-collection-and-reporting',
+    },
   ];
 
   const resourcesDropdownItems: DropdownItem[] = [

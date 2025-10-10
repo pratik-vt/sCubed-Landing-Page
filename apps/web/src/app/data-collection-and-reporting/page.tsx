@@ -8,9 +8,9 @@ import DataCollectionCTA from '../../components/data-collection/DataCollectionCT
 import ContentSection from '../../components/data-collection/DataCollectionFeatures';
 import DataCollectionHero from '../../components/data-collection/DataCollectionHero';
 import DataCollectionTrust from '../../components/data-collection/DataCollectionTrust';
-import { getFAQCollection, transformFAQData } from '../../lib/faq-api';
 import fallbackImg from '../../images/data-collection.png';
-import goalImg from '../../images/data-collection/from-goals-to-measurable-change.png'
+import goalImg from '../../images/data-collection/from-goals-to-measurable-change.png';
+import { getFAQCollection, transformFAQData } from '../../lib/faq-api';
 
 export const metadata: Metadata = {
   title:
@@ -18,7 +18,7 @@ export const metadata: Metadata = {
   description:
     'Track goals, behaviors, and session progress in real time with S Cubed - the all-in-one data collection and reporting platform made for behavior analysis and therapy practices.',
   alternates: {
-    canonical: '/data-collection',
+    canonical: '/data-collection-and-reporting',
   },
 };
 
@@ -86,10 +86,10 @@ export default async function DataCollectionPage() {
       <BreadcrumbSchema
         items={[
           { name: 'Home', item: '/' },
-          { name: 'Data Collection', item: '/data-collection' },
+          { name: 'Data Collection & Reporting', item: '/data-collection-and-reporting' },
         ]}
       />
-      <FAQSchema faqs={allFAQs} pageSlug="data-collection" />
+      <FAQSchema faqs={allFAQs} pageSlug="data-collection-and-reporting" />
       <Container>
         <DataCollectionHero />
 
