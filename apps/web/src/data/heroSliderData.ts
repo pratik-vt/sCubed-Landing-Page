@@ -31,23 +31,23 @@ export const heroSliderData: HeroSliderItem[] = [
   },
   {
     id: 'nysaba-2025-the-future-of-aba',
-    title: "Join us at NYSABA 2025 - The Future of ABA",
+    title: "Join us at BABAT 2025",
     description:
       "Let's connect, collaborate, and explore smarter ways to streamline ABA practice.",
-    eventStartDate: "2025-10-10",
-    eventEndDate: "2025-10-11",
-    eventLocation: "Albany Capital Center, Albany, NY",
+    eventStartDate: "2025-10-15",
+    eventEndDate: "2025-10-17",
+    eventLocation: "50 Foster Street, Worcester, MA 01608, USA",
     image: {
       src: NYSABA2025Image,
-      alt: 'Join us at NYSABA 2025 - The Future of ABA',
+      alt: 'Join us at BABAT 2025',
       width: 1920,
       height: 800,
       mobilePosition: 'center center',
     },
     link: {
-      href: '/events/the-future-of-aba-at-nysaba-2025-be-part-of-the-conversation',
-      text: "Join us at NYSABA 2025",
-      mobileText: "Join us at NYSABA 2025", // Shorter text for mobile
+      href: '/events/technology-that-serves-care-s-cubed-joins-babat-2025',
+      text: "Join us at BABAT 2025",
+      mobileText: "Join us at BABAT 2025", // Shorter text for mobile
     },
     contentWidth: '30%', // Set content width to 30%
   },
