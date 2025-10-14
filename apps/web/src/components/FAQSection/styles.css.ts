@@ -166,6 +166,7 @@ export const answerContent = style({
   lineHeight: typography.lineHeight.relaxed,
   color: colors.neutral[600],
   fontFamily: typography.fontFamily.body,
+  whiteSpace: 'pre-line',
   // Add will-change for better animation performance
   willChange: 'auto',
   '@media': {

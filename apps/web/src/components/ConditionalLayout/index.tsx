@@ -26,7 +26,8 @@ export default function ConditionalLayout({ children }: Readonly<ConditionalLayo
                          pathname === '/data-collection-and-reporting' ||
                          pathname === '/pricing' ||
                          pathname === '/events' ||
-                         pathname.startsWith('/events/');
+                         pathname.startsWith('/events/') ||
+                         pathname === '/scheduling-and-appointments';
 
   // Determine if the page should use full width layout
   const shouldUseFullWidth = pathname === '/get-started' ||
@@ -35,7 +36,8 @@ export default function ConditionalLayout({ children }: Readonly<ConditionalLayo
                             pathname === '/guardian-portal' ||
                             pathname === '/data-collection-and-reporting' ||
                             pathname === '/pricing' ||
-                            pathname === '/events';
+                            pathname === '/events' ||
+                            pathname === '/scheduling-and-appointments';
   
   return (
     <FreeTrialModalProvider>

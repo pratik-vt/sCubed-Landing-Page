@@ -4,8 +4,6 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 import Image, { StaticImageData } from 'next/image';
 import React, { useState, useEffect, useCallback } from 'react';
-import CalendlyButton from '../../billing/CalendlyButton';
-import { primaryButton } from '../../billing/CalendlyButton/styles.css';
 
 import visualReportImg from '../../../images/data-collection/visual-reports.png';
 import attendanceManagementImg from '../../../images/data-collection/attendence-management.png';
@@ -24,9 +22,6 @@ import {
   slideContent,
   slideImageWrapper,
   slideImage,
-  slideTextContent,
-  slideTitle,
-  slideDescription,
   navigationControls,
   navButton,
   dotsContainer,
@@ -34,14 +29,10 @@ import {
   activeDot,
   progressBar,
   progressFill,
-  closingText,
-  ctaButtonWrapper,
 } from './styles.css';
 
 interface CarouselSlide {
-  id: number;
-  title: string;
-  description: string;
+  id: number;  
   image: StaticImageData;
   accentColor: string;
 }
@@ -54,49 +45,31 @@ const FeaturesCarousel: React.FC = () => {
   const slides: CarouselSlide[] = [
     {
       id: 0,
-      title: 'Real-Time Session Logging',
-      description:
-        'Capture every moment as it happens. Log behaviors, goals, and notes instantly during sessions without interrupting the flow of therapy.',
-      image: realTimeSessionLoggingImg,
+      image: secureMultiDeviceAccessImg,
       accentColor: '#7a7eed',
     },
     {
       id: 1,
-      title: 'Goal & Behavior Tracking',
-      description:
-        'Track skill acquisition and behavior reduction with precision. Visualize progress over time with intuitive graphs and data points.',
-      image: goalBehaviorTrackingImg,
+      image: secureMultiDeviceAccessImg,
       accentColor: '#22d3ee',
     },
     {
       id: 2,
-      title: 'Attendance Management',
-      description:
-        'Never miss a session detail. Track attendance, cancellations, and make-ups automatically with smart scheduling integration.',
-      image: attendanceManagementImg,
+      image: secureMultiDeviceAccessImg,
       accentColor: '#34d399',
     },
     {
       id: 3,
-      title: 'Customizable Templates',
-      description:
-        'Build once, use forever. Create custom templates for assessments, treatment plans, and session notes that fit your practice perfectly.',
-      image: customizedTemplatesImg,
+      image: secureMultiDeviceAccessImg,
       accentColor: '#fb7185',
     },
     {
       id: 4,
-      title: 'Visual Reports & Dashboards',
-      description:
-        'Turn data into insights instantly. Beautiful, shareable reports that make progress clear to families, teams, and stakeholders.',
-      image: visualReportImg,
+      image: secureMultiDeviceAccessImg,
       accentColor: '#a78bfa',
     },
     {
       id: 5,
-      title: 'Secure Multi-Device Access',
-      description:
-        'Work from anywhere, on any device. Your data syncs in real-time across all platforms with bank-level security and HIPAA compliance.',
       image: secureMultiDeviceAccessImg,
       accentColor: '#fbbf24',
     },
@@ -218,11 +191,11 @@ const FeaturesCarousel: React.FC = () => {
                 >
                   <Image
                     src={slide.image}
-                    alt={slide.title}
+                    alt="Scheduling and Appointments"
                     className={slideImage}
                     quality={100}
                     placeholder="blur"
-                    sizes="(max-width: 768px) 100vw"
+                    sizes="(max-width: 768px) 100vw, 100%"
                     style={{
                       width: '100%',
                       height: 'auto',
@@ -236,22 +209,7 @@ const FeaturesCarousel: React.FC = () => {
                       pointerEvents: 'none',
                     }}
                   />
-                </motion.div>
-
-                <motion.div
-                  className={slideTextContent}
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: 0.3, duration: 0.5 }}
-                >
-                  <h4
-                    className={slideTitle}
-                    style={{ color: slide.accentColor }}
-                  >
-                    {slide.title}
-                  </h4>
-                  <p className={slideDescription}>{slide.description}</p>
-                </motion.div>
+                </motion.div>                
               </div>
             </motion.div>
           </AnimatePresence>
@@ -301,30 +259,6 @@ const FeaturesCarousel: React.FC = () => {
             ))}
           </div>
         </div>
-
-        <motion.p
-          className={closingText}
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6, delay: 0.4 }}
-        >
-          Capture session data, track progress, and share insights, all in one
-          platform designed for <strong>real-world therapy</strong>.
-        </motion.p>
-
-        <motion.div
-          className={ctaButtonWrapper}
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6, delay: 0.6 }}
-        >
-          <CalendlyButton
-            buttonText="See It in Action →"
-            className={primaryButton}
-          />
-        </motion.div>
       </div>
     </section>
   );

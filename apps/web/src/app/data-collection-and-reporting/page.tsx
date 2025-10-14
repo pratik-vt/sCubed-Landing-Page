@@ -8,9 +8,11 @@ import DataCollectionCTA from '../../components/data-collection/DataCollectionCT
 import ContentSection from '../../components/data-collection/DataCollectionFeatures';
 import DataCollectionHero from '../../components/data-collection/DataCollectionHero';
 import DataCollectionTrust from '../../components/data-collection/DataCollectionTrust';
-import fallbackImg from '../../images/data-collection.png';
 import goalImg from '../../images/data-collection/from-goals-to-measurable-change.png';
 import { getFAQCollection, transformFAQData } from '../../lib/faq-api';
+
+import BuildSmarterTemplatesGetClearerReports from '../../images/data-collection/build-smarter-templates-get-clearer-reports.png';
+import RecordDataAsYouWork from '../../images/data-collection/record-data-as-you-work.png';
 
 export const metadata: Metadata = {
   title:
@@ -98,7 +100,7 @@ export default async function DataCollectionPage() {
           descriptionText="<strong>S Cubed</strong> helps you stay focused during every session. With our <strong>ABA data collection software</strong>, you can record behaviors, goals, and notes in <strong>real time</strong>, without interrupting the flow of therapy. Built for applied behavior analysis, it keeps your data organized, accurate, and ready whenever you need it."
           backgroundColor="#ffffff"
           imagePosition="left"
-          imageSrc={fallbackImg}
+          imageSrc={RecordDataAsYouWork}
           imageAlt="ABA data collection during therapy session"
         />
 
@@ -116,7 +118,7 @@ export default async function DataCollectionPage() {
           descriptionText="Save time with <strong>templates that think ahead</strong>. S Cubed's ABA software and reporting tools automatically turn session notes into <strong>insights you can share</strong>. Create consistent assessments and plans once - then reuse them for every client. Accurate, simple, and designed for therapy teams that need reliable, fast results."
           backgroundColor="#ffffff"
           imagePosition="left"
-          imageSrc={fallbackImg}
+          imageSrc={BuildSmarterTemplatesGetClearerReports}
           imageAlt="Document and template management in ABA software"
         />
 

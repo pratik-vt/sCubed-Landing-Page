@@ -5,10 +5,10 @@ import Image from 'next/image';
 import React from 'react';
 
 import billingImg from '../../../images/Billing.jpg';
-import DataCollectionBanner from '../../../images/data-collection/data-collection-banner.png';
+import dataCollectionImg from '../../../images/data-collection.png';
 import CalendlyButton from '../../billing/CalendlyButton';
 import { primaryButton } from '../../billing/CalendlyButton/styles.css';
-import FeaturesCarousel from '../FeaturesCarousel';
+import FeaturesCarousel from '../Carousel/index';
 
 import {
   backgroundImage,
@@ -56,18 +56,14 @@ const DataCollectionHero: React.FC = () => {
               transition={{ duration: 0.8, ease: 'easeOut' }}
             >
               <h1 className={heroTitle}>
-                The Next-Gen{' '}
+              Smart Therapy{' '}
                 <span className={heroTitleHighlight}>
-                  ABA Data Collection Software
+                  Scheduling 
                 </span>{' '}
-                Built for Real Therapy Work
+                Software
               </h1>
               <p className={heroDescription}>
-                Track goals, behaviors, and session progress in real time with{' '}
-                <strong>S Cubed</strong> - the all-in-one data collection and
-                reporting platform made for behavior analysis and therapy
-                practices. From session logging to visual reports, everything
-                you need happens in one secure, easy-to-use place.
+              Our therapy appointment software is built to handle the complexities of therapy work like shifting availability, recurring sessions, and urgent changes. Scheduling you can rely on because care can't afford delays.
               </p>
               <div className={ctaSection}>
                 <div>
@@ -87,7 +83,7 @@ const DataCollectionHero: React.FC = () => {
             >
               <Image
                 alt="ABA data collection software interface"
-                src={DataCollectionBanner}
+                src={dataCollectionImg}
                 quality={100}
                 placeholder="blur"
                 width={2400}
@@ -106,7 +102,7 @@ const DataCollectionHero: React.FC = () => {
         </div>
       </section>
 
-      <FeaturesCarousel />
+      
     </>
   );
 };
