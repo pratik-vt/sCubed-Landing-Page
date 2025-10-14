@@ -11,6 +11,7 @@ import {
   formatEventTime,
   getEventLocationString,
 } from '../../../lib/events-api';
+import { replaceDatePlaceholder } from '../../../lib/date-utils';
 import { getStrapiImageUrl } from '../../../lib/strapi';
 import type { Event } from '../../../types/event';
 
@@ -285,7 +286,13 @@ const EventsGrid: React.FC<EventsGridProps> = ({ initialEvents, error }) => {
                 <div className={eventCardContent}>
                   <h3 className={eventTitle}>{event.title}</h3>
                   <p className={eventDescription}>
-                    {truncateDescription(event.excerpt || '')}
+                    {truncateDescription(
+                      replaceDatePlaceholder(
+                        event.excerpt || '',
+                        event.start_date,
+                        event.end_date
+                      )
+                    )}
                   </p>
 
                   <div className={eventDetails}>
