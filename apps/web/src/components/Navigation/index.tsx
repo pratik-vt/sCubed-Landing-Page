@@ -113,6 +113,10 @@ const Navigation: React.FC<NavigationProps> = ({
       label: 'Data Collection & Reporting',
       href: '/data-collection-and-reporting',
     },
+    {
+      label: 'Scheduling & Appointments',
+      href: '/scheduling-and-appointments',
+    },
   ];
 
   const resourcesDropdownItems: DropdownItem[] = [
