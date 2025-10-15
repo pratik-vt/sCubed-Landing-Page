@@ -89,7 +89,7 @@ export const starsContainer = style({
   display: 'flex',
   alignItems: 'center',
   gap: '3px',
-  border: `2px solid ${colors.primary[600]}`,
+  border: '2px solid #ff8c00',
   borderRadius: '8px',
   padding: '6px 10px',
   '@media': {
@@ -102,15 +102,17 @@ export const starsContainer = style({
 
 // Rating text
 export const ratingText = style({
-  fontSize: 'clamp(18px, 1.25rem + 0.3vw, 24px)',
-  fontWeight: typography.fontWeight.bold,
-  color: colors.primary[600],
+  fontSize: 'clamp(16px, 1.125rem + 0.3vw, 20px)',
+  fontWeight: typography.fontWeight.semibold,
+  color: '#ff8c00',
   margin: 0,
   fontFamily: typography.fontFamily.heading,
   whiteSpace: 'nowrap',
+  lineHeight: '1.2',
+  letterSpacing: '0.3px',
   '@media': {
     'screen and (max-width: 768px)': {
-      fontSize: typography.fontSize.lg,
+      fontSize: typography.fontSize.base,
     },
   },
 });
@@ -152,6 +154,7 @@ export const logoButton = style({
   justifyContent: 'center',
   transition: 'opacity 0.3s ease',
   opacity: 0.9,
+  textDecoration: 'none',
   ':hover': {
     opacity: 1,
   },

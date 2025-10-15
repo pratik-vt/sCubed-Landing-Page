@@ -66,10 +66,6 @@ const reviewPlatforms: ReviewPlatform[] = [
 const ReviewPlatforms: React.FC = () => {
   const rating = 4.8;
 
-  const handleLogoClick = (url: string) => {
-    window.open(url, '_blank', 'noopener,noreferrer');
-  };
-
   return (
     <div className={container}>
       {/* Heading Section */}
@@ -92,8 +88,8 @@ const ReviewPlatforms: React.FC = () => {
                 <Star
                   key={`star-${i}`}
                   size={18}
-                  fill={isFilled || isPartial ? '#7a7eed' : 'transparent'}
-                  color="#7a7eed"
+                  fill={isFilled || isPartial ? '#ff8c00' : 'transparent'}
+                  color="#ff8c00"
                   strokeWidth={1.5}
                   style={isPartial ? { opacity: 0.8 } : undefined}
                   aria-hidden="true"
@@ -101,18 +97,21 @@ const ReviewPlatforms: React.FC = () => {
               );
             })}
           </div>
-          <p className={ratingText}>Rated {rating}/5</p>
+          <p className={ratingText}>
+            <span style={{ fontSize: '1.4em', fontWeight: 800 }}>{rating}</span>/5 Stars
+          </p>
         </div>
 
         {/* Right Section: Logo Grid */}
         <div className={logoGrid}>
           {reviewPlatforms.map((platform) => (
             <div key={platform.name} className={logoContainer}>
-              <button
+              <a
+                href={platform.url}
+                target="_blank"
+                rel="nofollow noopener noreferrer"
                 className={logoButton}
-                onClick={() => handleLogoClick(platform.url)}
                 aria-label={`View ${platform.name} reviews`}
-                type="button"
               >
                 <Image
                   src={platform.logo}
@@ -120,7 +119,7 @@ const ReviewPlatforms: React.FC = () => {
                   height={50}
                   className={logoImage}
                 />
-              </button>
+              </a>
             </div>
           ))}
         </div>

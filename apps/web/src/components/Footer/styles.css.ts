@@ -327,3 +327,68 @@ export const hipaaLogo = style({
     },
   },
 });
+
+// Review Platforms Section
+export const reviewPlatformsSection = style({
+  marginTop: spacing.md,
+  paddingTop: 0,
+  borderTop: `1px solid ${colors.neutral[200]}`,
+  textAlign: 'center',
+  '@media': {
+    'screen and (max-width: 768px)': {
+      marginTop: spacing.sm,
+      paddingTop: spacing.sm,
+    },
+  },
+});
+
+export const reviewPlatformsSectionTitle = style({
+  fontSize: typography.fontSize.lg,
+  fontWeight: typography.fontWeight.semibold,
+  color: colors.neutral[700],
+  marginBottom: spacing.sm,
+  '@media': {
+    'screen and (max-width: 768px)': {
+      fontSize: typography.fontSize.base,
+      marginBottom: spacing.xs,
+    },
+  },
+});
+
+export const reviewPlatformsGrid = style({
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'center',
+  gap: spacing.lg,
+  flexWrap: 'wrap',
+  '@media': {
+    'screen and (max-width: 768px)': {
+      gap: spacing.md,
+    },
+  },
+});
+
+export const reviewPlatformLink = style({
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'center',
+  textDecoration: 'none',
+  opacity: 0.8,
+  transition: 'all 0.3s ease',
+  padding: spacing.xs,
+  ':hover': {
+    opacity: 1,
+    transform: 'translateY(-3px)',
+  },
+});
+
+export const reviewPlatformLogo = style({
+  height: '45px',
+  width: 'auto',
+  objectFit: 'contain',
+  '@media': {
+    'screen and (max-width: 768px)': {
+      height: '40px',
+    },
+  },
+});

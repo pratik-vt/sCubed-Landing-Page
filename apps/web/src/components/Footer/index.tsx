@@ -7,8 +7,12 @@ import { useRouter } from 'next/navigation';
 import React from 'react';
 
 import bacbaImage from '../../images/BACBA.jpg';
+import capterraLogo from '../../images/Capterra.png';
+import g2Logo from '../../images/G2.png';
+import getAppLogo from '../../images/GetApp.png';
 import logoImage from '../../images/HeaderLogo.png';
 import hipaaImage from '../../images/HIPAA.png';
+import softwareAdviceLogo from '../../images/SoftwareAdvice.png';
 import { formatPhone } from '../../utils/phoneFormatter';
 import NewsletterForm from '../NewsletterForm';
 
@@ -34,8 +38,47 @@ import {
   logosRow,
   logoWrapper,
   newsletterRow,
+  reviewPlatformLink,
+  reviewPlatformLogo,
+  reviewPlatformsGrid,
+  reviewPlatformsSection,
+  reviewPlatformsSectionTitle,
   rightColumn,
 } from './styles.css';
+
+interface ReviewPlatform {
+  name: string;
+  url: string;
+  logo: any;
+  height: number;
+}
+
+const reviewPlatforms: ReviewPlatform[] = [
+  {
+    name: 'Capterra',
+    url: 'https://www.capterra.com/p/10030734/S-Cubed/#reviews',
+    logo: capterraLogo,
+    height: 45,
+  },
+  {
+    name: 'Software Advice',
+    url: 'https://www.softwareadvice.com/product/529516-S-Cubed/',
+    logo: softwareAdviceLogo,
+    height: 45,
+  },
+  {
+    name: 'GetApp',
+    url: 'https://www.getapp.com/healthcare-pharmaceuticals-software/a/s-cubed/',
+    logo: getAppLogo,
+    height: 45,
+  },
+  {
+    name: 'G2',
+    url: 'https://www.g2.com/products/s-cubed/reviews',
+    logo: g2Logo,
+    height: 45,
+  },
+];
 
 const Footer: React.FC = () => {
   const currentYear = new Date().getFullYear();
@@ -60,25 +103,25 @@ const Footer: React.FC = () => {
           <div className={brandSection}>
             <div className={logosRow}>
               <div className={logoWrapper} onClick={handleLogoClick}>
-                <Image 
-                  src={logoImage} 
-                  alt="S Cubed" 
-                  placeholder="blur" 
-                  quality={100} 
+                <Image
+                  src={logoImage}
+                  alt="S Cubed"
+                  placeholder="blur"
+                  quality={100}
                   style={{ width: 'auto', height: '70px' }}
                 />
               </div>
-              <Image 
-                src={hipaaImage} 
-                alt="HIPAA Compliant" 
+              <Image
+                src={hipaaImage}
+                alt="HIPAA Compliant"
                 className={hipaaLogo}
                 quality={100}
               />
-              <Image 
-                src={bacbaImage} 
-                alt="BACBA Certification" 
+              <Image
+                src={bacbaImage}
+                alt="BACBA Certification"
                 className={certificationImage}
-                placeholder="blur" 
+                placeholder="blur"
                 quality={100}
               />
             </div>
@@ -158,6 +201,32 @@ const Footer: React.FC = () => {
                 </div>
               </div>
             </div>
+          </div>
+        </div>
+
+        {/* Review Platforms Section */}
+        <div className={reviewPlatformsSection}>
+          <h3 className={reviewPlatformsSectionTitle}>
+            Recognized On Top Review Platforms
+          </h3>
+          <div className={reviewPlatformsGrid}>
+            {reviewPlatforms.map((platform) => (
+              <a
+                key={platform.name}
+                href={platform.url}
+                target="_blank"
+                rel="nofollow noopener noreferrer"
+                className={reviewPlatformLink}
+                aria-label={`View ${platform.name} reviews`}
+              >
+                <Image
+                  src={platform.logo}
+                  alt={`${platform.name} logo`}
+                  height={platform.height}
+                  className={reviewPlatformLogo}
+                />
+              </a>
+            ))}
           </div>
         </div>
 
