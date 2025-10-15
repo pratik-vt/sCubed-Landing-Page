@@ -135,7 +135,6 @@ export const logoGrid = style({
 
 // Logo container - fixed dimensions
 export const logoContainer = style({
-  width: '120px',
   height: '40px',
   display: 'flex',
   alignItems: 'center',
@@ -152,14 +151,8 @@ export const logoButton = style({
   alignItems: 'center',
   justifyContent: 'center',
   transition: 'opacity 0.3s ease',
-  opacity: 0.7,
+  opacity: 0.9,
   ':hover': {
-    opacity: 1,
-  },
-  ':focus': {
-    opacity: 1,
-  },
-  ':focus-visible': {
     opacity: 1,
   },
 });

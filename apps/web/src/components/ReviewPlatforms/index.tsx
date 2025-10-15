@@ -117,8 +117,7 @@ const ReviewPlatforms: React.FC = () => {
                 <Image
                   src={platform.logo}
                   alt={`${platform.name} logo`}
-                  height={40}
-                  width={120}
+                  height={50}
                   className={logoImage}
                 />
               </button>
