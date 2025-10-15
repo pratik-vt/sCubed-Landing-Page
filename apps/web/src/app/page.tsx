@@ -9,6 +9,7 @@ import HeroImageSlider from '../components/HeroImageSlider';
 import OrganizationSchema from '../components/OrganizationSchema';
 import ReviewPlatforms from '../components/ReviewPlatforms';
 import { heroSliderData } from '../data/heroSliderData';
+import Testimonials from '@/components/Testimonials';
 
 // Non-critical components loaded lazily
 const Features = dynamic(() => import('../components/Features/features'), {
@@ -83,6 +84,11 @@ export default function HomePage() {
         <Suspense fallback={<div style={{ height: '400px' }}>Loading standout...</div>}>
           <Stand />
         </Suspense>
+
+        <Suspense fallback={<div style={{ height: '400px' }}>Loading testimonials...</div>}>
+          <Testimonials />
+        </Suspense>
+
         <Suspense fallback={<div style={{ height: '300px' }}>Loading hero...</div>}>
           <Hero />
         </Suspense>
