@@ -1,6 +1,7 @@
 import type { Metadata, Viewport } from 'next';
 
 import ConditionalLayout from '../components/ConditionalLayout';
+import ProductReviewSchema from '../components/ProductReviewSchema';
 import '../components/Container/fonts.css';
 import '../components/Container/style.css';
 import '../styles/global.css';
@@ -119,6 +120,9 @@ window.addEventListener('load', function() {
         <link rel="icon" href="/favicon.ico" sizes="any" />
         <link rel="icon" href="/icon.png" type="image/png" />
         <link rel="apple-touch-icon" href="/apple-icon.png" />
+
+        {/* Product Review Schema for SEO */}
+        <ProductReviewSchema />
 
       </head>
       <body>

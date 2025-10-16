@@ -195,7 +195,7 @@ export const sectionTitle = style({
 });
 
 export const sectionDescription = style({
-  fontSize: '24px',
+  fontSize: '18px',
   fontWeight: 500,
   color: '#333',
   lineHeight: 'normal',
