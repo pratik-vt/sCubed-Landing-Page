@@ -61,6 +61,11 @@ export const arrowButton = style({
     outline: `3px solid ${colors.primary[400]}`,
     outlineOffset: '4px',
   },
+  '@media': {
+    'screen and (max-width: 1024px)': {
+      opacity: 1,
+    },
+  },
 });
 
 export const arrowPrev = style({
@@ -135,6 +140,13 @@ export const authorSection = style({
   alignItems: 'flex-end',
   marginTop: 'auto',
   gap: '10px',
+  '@media': {
+    'screen and (max-width: 413px)': {
+      flexDirection: 'column',
+      alignItems: 'flex-start',
+      marginTop: '20px',
+    },
+  },
 });
 
 export const authorInfo = style({
@@ -148,6 +160,9 @@ export const authorHeading = style({
   fontWeight: 700,
   lineHeight: 'normal',
   margin: '0 0 5px',
+  whiteSpace: 'nowrap',
+  overflow: 'hidden',
+  textOverflow: 'ellipsis',
 });
 
 

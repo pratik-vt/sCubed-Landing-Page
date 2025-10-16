@@ -98,7 +98,7 @@ const testimonials: Testimonial[] = [
     verifiedByAlt: 'Verified on softwareadvice',
   },
   {
-    title: 'Reliable Software That Keeps Our Team and Clients',
+    title: 'Reliable Software That Keeps Our Team and Clients Connected',
     subtitle:
       'Our overall experience with S Cubed has been very positive. One of the biggest benefits is that everything related to a client is stored in one secure place, making it easy for multiple therapists across different disciplines to stay updated on a client’s progress. The platform has really streamlined how we operate day-to-day, helping us work more efficiently and keeping our focus on client care. It’s user-friendly, and once you get familiar with the layout, navigation feels smooth. On the administrative side, S Cubed has made accounting and billing processes much simpler to manage.',
     author: 'Ayman',
