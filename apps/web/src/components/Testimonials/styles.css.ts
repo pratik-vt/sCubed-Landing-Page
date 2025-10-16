@@ -1,4 +1,8 @@
 import { globalStyle, style } from '@vanilla-extract/css';
+import {
+  colors,
+  radius,
+} from '../../styles/tokens.css';
 
 export const sliderWrapper = style({
   maxWidth: '1400px',
@@ -6,12 +10,73 @@ export const sliderWrapper = style({
   padding: '0 10px',
 });
 
+export const carouselViewport = style({
+  overflow: 'hidden',
+  position: 'relative',
+  width: '100%',
+  borderRadius: '10px',
+});
+
+
+
+export const carouselTrack = style({
+  display: 'flex',
+  willChange: 'transform',
+  borderRadius: '10px',
+});
+
+export const slide = style({
+  flex: '0 0 auto',
+  boxSizing: 'border-box',
+});
+
+export const arrowButton = style({
+  opacity: 0,
+  position: 'absolute',
+  top: '50%',
+  transform: 'translateY(-50%)',
+  width: '48px',
+  height: '48px',
+  borderRadius: radius.full,
+  background: 'rgba(255, 255, 255, 0.95)',
+  border: '2px solid rgba(122, 126, 237, 0.2)',
+  color: colors.primary[600],
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'center',
+  cursor: 'pointer',
+  boxShadow: '0 2px 8px rgba(0,0,0,0.08)',
+  zIndex: 1,
+  transition: 'opacity 150ms ease, background 150ms ease, color 150ms ease, box-shadow 150ms ease',
+  selectors: {
+    [`${carouselViewport}:hover &`]: { opacity: 1 },
+    [`${carouselViewport}:focus-within &`]: { opacity: 1 },
+  },
+  ':hover': {
+    background: colors.primary[600],
+    color: colors.white,
+    boxShadow: '0 8px 24px rgba(122, 126, 237, 0.3)',
+  },
+  ':focus-visible': {
+    outline: `3px solid ${colors.primary[400]}`,
+    outlineOffset: '4px',
+  },
+});
+
+export const arrowPrev = style({
+  left: '0px',
+});
+
+export const arrowNext = style({
+  right: '0px',
+});
+
 export const testimonialBox = style({
   background: 'linear-gradient(135deg, #f8f9ff 0%, #e8e6ff 100%)',
   borderRadius: '10px',
   padding: '40px',
   height: '470px',
-  maxWidth: '616px',
+  maxWidth: '100%',
   margin: '0 10px',
   display: 'flex',
   flexDirection: 'column',
@@ -104,87 +169,6 @@ export const clutchSection = style({
   gap: '10px',
   flexShrink: 0,
   marginBottom: '4px',
-});
-
-
-// Minimal slick styles scoped to this wrapper
-globalStyle(`${sliderWrapper} .slick-slider`, {
-  position: 'relative',
-  display: 'block',
-  boxSizing: 'border-box',
-});
-globalStyle(`${sliderWrapper} .slick-list`, {
-  position: 'relative',
-  display: 'block',
-  overflow: 'hidden',
-  margin: 0,
-  padding: 0,
-});
-globalStyle(`${sliderWrapper} .slick-track`, {
-  position: 'relative',
-  top: 0,
-  left: 0,
-  display: 'block',
-});
-globalStyle(`${sliderWrapper} .slick-slide`, {
-  display: 'none',
-  float: 'left',
-  height: '100%',
-  minHeight: '1px',
-  outline: 'none',
-});
-globalStyle(`${sliderWrapper} .slick-initialized .slick-slide`, {
-  display: 'block',
-});
-globalStyle(`${sliderWrapper} .slick-dots`, {
-  position: 'absolute',
-  bottom: '-30px',
-  display: 'block',
-  width: '100%',
-  padding: 0,
-  margin: 0,
-  listStyle: 'none',
-  textAlign: 'center',
-});
-globalStyle(`${sliderWrapper} .slick-dots li`, {
-  position: 'relative',
-  display: 'inline-block',
-  width: '20px',
-  height: '20px',
-  margin: '0 4px',
-  padding: 0,
-  cursor: 'pointer',
-});
-globalStyle(`${sliderWrapper} .slick-dots li button`, {
-  fontSize: 0,
-  lineHeight: 0,
-  display: 'block',
-  width: '20px',
-  height: '20px',
-  padding: 0,
-  cursor: 'pointer',
-  color: 'transparent',
-  border: 0,
-  outline: 'none',
-  background: 'transparent',
-});
-globalStyle(`${sliderWrapper} .slick-dots li button:before`, {
-  fontFamily: 'slick',
-  fontSize: '30px',
-  lineHeight: '20px',
-  position: 'absolute',
-  top: 0,
-  left: 0,
-  width: '20px',
-  height: '20px',
-  content: '•',
-  textAlign: 'center',
-  color: '#7a7eed',
-  opacity: 0.5,
-});
-globalStyle(`${sliderWrapper} .slick-dots li.slick-active button:before`, {
-  color: '#7a7eed',
-  opacity: 1,
 });
 
 export const sectionTitle = style({

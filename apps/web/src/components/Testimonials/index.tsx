@@ -1,8 +1,7 @@
 'use client';
 
-import React from 'react';
-// @ts-expect-error - react-slick types are not installed in this workspace
-import Slider from 'react-slick';
+import { useEffect, useMemo, useRef, useState } from 'react';
+import { ChevronLeft, ChevronRight } from 'lucide-react';
 
 import capterraLogo from '../../images/testimonial-logo/capterra.png';
 import g2Logo from '../../images/testimonial-logo/g2.png';
@@ -24,6 +23,12 @@ import {
   sectionTitle,
   sectionDescription,
   sectionHeader,
+  carouselViewport,
+  carouselTrack,
+  slide,
+  arrowButton,
+  arrowPrev,
+  arrowNext,
 } from './styles.css';
 import { StaticImageData } from 'next/image';
 
@@ -103,74 +108,149 @@ const testimonials: Testimonial[] = [
   },
 ];
 
-const sliderSettings = {
-  dots: false,
-  arrows: false,
-  infinite: true,
-  speed: 600,
-  slidesToShow: 2,
-  slidesToScroll: 1,
-  autoplay: true,
-  autoplaySpeed: 3000,
-  adaptiveHeight: true,
-  responsive: [
-    {
-      breakpoint: 1024,
-      settings: { slidesToShow: 2, slidesToScroll: 1 },
-    },
-    {
-      breakpoint: 768,
-      settings: { slidesToShow: 1, slidesToScroll: 1 },
-    },
-  ],
-};
+const AUTOPLAY_INTERVAL_MS = 3000;
+const TRANSITION_MS = 600;
 
-const Testimonials: React.FC = () => {
+const Testimonials = (): JSX.Element => {
+  const [slidesToShow, setSlidesToShow] = useState<number>(2);
+  const [currentIndex, setCurrentIndex] = useState<number>(2);
+  const [isTransitioning, setIsTransitioning] = useState<boolean>(true);
+  const hoverRef = useRef<boolean>(false);
+  const intervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
+
+  const extendedSlides = useMemo(() => {
+    const first = testimonials.slice(0, slidesToShow);
+    const last = testimonials.slice(-slidesToShow);
+    return [...last, ...testimonials, ...first];
+  }, [slidesToShow]);
+
+  useEffect(() => {
+    const updateSlidesToShow = () => {
+      const next = window.innerWidth < 768 ? 1 : 2;
+      setSlidesToShow(next);
+    };
+    updateSlidesToShow();
+    window.addEventListener('resize', updateSlidesToShow);
+    return () => window.removeEventListener('resize', updateSlidesToShow);
+  }, []);
+
+  useEffect(() => {
+    setIsTransitioning(false);
+    setCurrentIndex(slidesToShow);
+  }, [slidesToShow]);
+
+  const goToNext = () => {
+    setIsTransitioning(true);
+    setCurrentIndex((prev) => prev + 1);
+  };
+
+  const goToPrev = () => {
+    setIsTransitioning(true);
+    setCurrentIndex((prev) => prev - 1);
+  };
+
+  // autoplay
+  useEffect(() => {
+    if (intervalRef.current) clearInterval(intervalRef.current);
+    intervalRef.current = setInterval(() => {
+      if (!hoverRef.current) {
+        goToNext();
+      }
+    }, AUTOPLAY_INTERVAL_MS);
+
+    return () => {
+      if (intervalRef.current) clearInterval(intervalRef.current);
+    };
+  }, [slidesToShow]);
+
+  const handleTransitionEnd = () => {
+    const totalReal = testimonials.length;
+    if (currentIndex >= totalReal + slidesToShow) {
+      setIsTransitioning(false);
+      setCurrentIndex(slidesToShow);
+    } else if (currentIndex <= slidesToShow - 1) {
+      setIsTransitioning(false);
+      setCurrentIndex(totalReal + slidesToShow - 1);
+    }
+  };
+
+  const trackStyle = {
+    transform: `translateX(-${currentIndex * (100 / slidesToShow)}%)`,
+    transition: isTransitioning ? `transform ${TRANSITION_MS}ms ease` : 'none',
+  } as const;
+
+  const slideStyle = {
+    width: `${100 / slidesToShow}%`,
+  } as const;
+
   return (
     <div className={sliderWrapper}>
-        <div className={sectionHeader}>
-            <h2 className={sectionTitle}>Testimonials</h2>
-            <p className={sectionDescription}>We Made It Happen…</p>
-        </div>
-      <Slider {...sliderSettings}>
-        {testimonials.map((t, idx) => (
-          <div key={idx}>
-            <div className={testimonialBox}>
-              <div className={contentSection}>
-                <div className={quoteImage}>
-                  <img
-                    decoding="async"
-                    src={quote.src}
-                    alt="quote"
-                  />
+      <div className={sectionHeader}>
+        <h2 className={sectionTitle}>Testimonials</h2>
+        <p className={sectionDescription}>We Made It Happen…</p>
+      </div>
+      <div
+        className={carouselViewport}
+        onMouseEnter={() => {
+          hoverRef.current = true;
+        }}
+        onMouseLeave={() => {
+          hoverRef.current = false;
+        }}
+      >
+        <div
+          className={carouselTrack}
+          style={trackStyle}
+          onTransitionEnd={handleTransitionEnd}
+        >
+          {extendedSlides.map((t, idx) => (
+            <div key={idx} className={slide} style={slideStyle}>
+              <div className={testimonialBox}>
+                <div className={contentSection}>
+                  <div className={quoteImage}>
+                    <img decoding="async" src={quote.src} alt="quote" />
+                  </div>
+                  <div className={heading}>{t.title}</div>
+                  <div className={paragraphContent}>{t.subtitle}</div>
                 </div>
-                <div className={heading}>{t.title}</div>
-                <div className={paragraphContent}>
-                  {t.subtitle}
-                </div>
-              </div>
-              <div className={authorSection}>
-                <div className={authorInfo}>
-                  <div className={authorHeading}>{t.author}</div>
-                  <p className={authorParagraph}>{t.designation}</p>
-                </div>
-                <div className={clutchSection}>
-                  <img
-                    height="35"
-                    decoding="async"
-                    src={typeof t.verifiedByLogo === 'string' ? t.verifiedByLogo : t.verifiedByLogo.src}
-                    alt={t.verifiedByAlt}
-                  />
+                <div className={authorSection}>
+                  <div className={authorInfo}>
+                    <div className={authorHeading}>{t.author}</div>
+                    <p className={authorParagraph}>{t.designation}</p>
+                  </div>
+                  <div className={clutchSection}>
+                    <img
+                      height="35"
+                      decoding="async"
+                      src={typeof t.verifiedByLogo === 'string' ? t.verifiedByLogo : t.verifiedByLogo.src}
+                      alt={t.verifiedByAlt}
+                    />
+                  </div>
                 </div>
               </div>
             </div>
-          </div>
-        ))}
-      </Slider>
+          ))}
+        </div>
+        <button
+          type="button"
+          aria-label="Previous"
+          className={`${arrowButton} ${arrowPrev}`}
+          onClick={goToPrev}
+        >
+          <ChevronLeft size={24} />
+        </button>
+        <button
+          type="button"
+          aria-label="Next"
+          className={`${arrowButton} ${arrowNext}`}
+          onClick={goToNext}
+        >
+          <ChevronRight size={24} />
+        </button>
+      </div>
     </div>
   );
 };
 
 export default Testimonials;
-
 
