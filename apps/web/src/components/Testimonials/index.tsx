@@ -2,6 +2,7 @@
 
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
+import { StaticImageData } from 'next/image';
 
 import capterraLogo from '../../images/testimonial-logo/capterra.png';
 import g2Logo from '../../images/testimonial-logo/g2.png';
@@ -30,7 +31,6 @@ import {
   arrowPrev,
   arrowNext,
 } from './styles.css';
-import { StaticImageData } from 'next/image';
 
 type Testimonial = Readonly<{
   title: string;
@@ -186,8 +186,8 @@ const Testimonials = (): JSX.Element => {
   return (
     <div className={sliderWrapper}>
       <div className={sectionHeader}>
-        <h2 className={sectionTitle}>Testimonials</h2>
-        <p className={sectionDescription}>We Made It Happen…</p>
+        <h2 className={sectionTitle}>Trusted by Practices Like Yours</h2>
+        <p className={sectionDescription}>See how clinics are transforming their workflows and focusing more on client care with our all-in-one ABA practice management solution.</p>
       </div>
       <div
         className={carouselViewport}
