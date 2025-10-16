@@ -9,6 +9,8 @@ import '../styles/global.css';
 const appEnv = process.env.NEXT_PUBLIC_APP_ENV || 'dev';
 const shouldBlockIndexing = appEnv === 'stage' || appEnv === 'dev';
 const isProduction = appEnv === 'prod';
+const gtmId = process.env.NEXT_PUBLIC_GTM_ID; // GTM container ID (e.g., GTM-WFFCJJSB or GTM-NL5G2SKT)
+const shouldLoadGTM = !!gtmId; // Load GTM if container ID is provided
 
 export const viewport: Viewport = {
   width: 'device-width',
@@ -65,8 +67,8 @@ export default function RootLayout({
   return (
     <html lang="en">
       <head>
-        {/* Only load tracking scripts in production with performance optimizations */}
-        {isProduction && (
+        {/* Google Tag Manager - Controlled by NEXT_PUBLIC_GTM_ID */}
+        {shouldLoadGTM && (
           <>
             {/* Preconnect to Google domains for faster loading */}
             <link rel="preconnect" href="https://www.googletagmanager.com" />
@@ -78,7 +80,7 @@ export default function RootLayout({
             <link rel="dns-prefetch" href="https://www.google.com" />
             <link rel="dns-prefetch" href="https://www.gstatic.com" />
             
-            {/* Google Tag Manager - Optimized with defer */}
+            {/* Google Tag Manager */}
             <script
               defer
               dangerouslySetInnerHTML={{
@@ -86,7 +88,7 @@ export default function RootLayout({
 new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
 j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.defer=true;j.src=
 'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
-})(window,document,'script','dataLayer','GTM-WFFCJJSB');`,
+})(window,document,'script','dataLayer','${gtmId}');`,
               }}
             />
             {/* End Google Tag Manager */}
@@ -120,11 +122,11 @@ window.addEventListener('load', function() {
 
       </head>
       <body>
-        {/* Google Tag Manager (noscript) - Only in production */}
-        {isProduction && (
+        {/* Google Tag Manager (noscript) - Controlled by NEXT_PUBLIC_GTM_ID */}
+        {shouldLoadGTM && (
           <noscript>
             <iframe
-              src="https://www.googletagmanager.com/ns.html?id=GTM-WFFCJJSB"
+              src={`https://www.googletagmanager.com/ns.html?id=${gtmId}`}
               height="0"
               width="0"
               style={{ display: 'none', visibility: 'hidden' }}
