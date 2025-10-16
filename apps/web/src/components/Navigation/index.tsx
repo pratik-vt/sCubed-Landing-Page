@@ -110,8 +110,8 @@ const Navigation: React.FC<NavigationProps> = ({
     { label: 'Practice Management Features', href: '/features' },
     { label: 'Guardian Portal Features', href: '/guardian-portal' },
     {
-      label: 'Data Collection & Reporting',
-      href: '/data-collection-and-reporting',
+      label: 'Data Collection',
+      href: '/data-collection',
     },
     {
       label: 'Scheduling & Appointments',

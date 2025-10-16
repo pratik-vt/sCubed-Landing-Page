@@ -109,10 +109,10 @@ export default async function DataCollectionPage() {
       <BreadcrumbSchema
         items={[
           { name: 'Home', item: '/' },
-          { name: 'Data Collection & Reporting', item: '/data-collection-and-reporting' },
+          { name: 'Data Collection', item: '/data-collection' },
         ]}
       />
-      <FAQSchema faqs={allFAQs} pageSlug="data-collection-and-reporting" />
+      <FAQSchema faqs={allFAQs} pageSlug="data-collection" />
       <Container>
 
 

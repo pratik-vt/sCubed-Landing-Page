@@ -25,23 +25,23 @@ const DataCollectionTrust: React.FC = () => {
       icon: <Award size={28} />,
       title: 'Built for Real ABA Workflows',
       description:
-        'S Cubed is developed by behavior analysts and therapists who understand what data collection looks like in <strong>real sessions</strong>, not just in theory.',
+        'Built by behavior analysts and therapists, S Cubed fits the rhythm of <strong>real sessions</strong>, not just textbook theory.',
       accentColor: '#7a7eed',
       bgColor: 'linear-gradient(135deg, #ffffff 0%, #f5f3ff 100%)',
     },
     {
       icon: <CheckCircle2 size={28} />,
-      title: 'Accuracy You Can Count On',
+      title: 'Protected Every Step of the Way',
       description:
-        'Every goal, behavior, and note is stored securely and synced in <strong>real time</strong>, giving your team reliable, audit-ready data at any moment.',
+        'Your clients’ data stays safe with S Cubed’s end-to-end encryption and full HIPAA compliance, so privacy is never a worry.',
       accentColor: '#22d3ee',
       bgColor: 'linear-gradient(135deg, #ffffff 0%, #ecfeff 100%)',
     },
     {
       icon: <BarChart3 size={28} />,
-      title: 'Clarity in Every Report',
+      title: 'Accuracy You Can Count On',
       description:
-        'Visual summaries turn progress into something you can actually see and explain, no extra formatting or manual graphing required.',
+        'Every goal, note, and behavior update syncs instantly, giving your team dependable, audit-ready data whenever you need it.',
       accentColor: '#34d399',
       bgColor: 'linear-gradient(135deg, #ffffff 0%, #ecfdf5 100%)',
     },
@@ -49,7 +49,7 @@ const DataCollectionTrust: React.FC = () => {
       icon: <HeadphonesIcon size={28} />,
       title: 'Support That Understands ABA',
       description:
-        'Get help from experts who speak the language of applied behavior analysis - not just tech support.',
+        'Get help from people who know ABA inside out, not just tech support, but therapy-minded experts who speak your language.',
       accentColor: '#fb7185',
       bgColor: 'linear-gradient(135deg, #ffffff 0%, #fef2f2 100%)',
     },

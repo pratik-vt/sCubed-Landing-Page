@@ -7,7 +7,6 @@ import React, { useState, useEffect, useCallback } from 'react';
 import CalendlyButton from '../../billing/CalendlyButton';
 import { primaryButton } from '../../billing/CalendlyButton/styles.css';
 
-import visualReportImg from '../../../images/data-collection/visual-reports.png';
 import attendanceManagementImg from '../../../images/data-collection/attendence-management.png';
 import customizedTemplatesImg from '../../../images/data-collection/customizable-templates.png';
 import secureMultiDeviceAccessImg from '../../../images/data-collection/secure-multi-device-access.png';
@@ -86,14 +85,6 @@ const FeaturesCarousel: React.FC = () => {
     },
     {
       id: 4,
-      title: 'Visual Reports & Dashboards',
-      description:
-        'Turn data into insights instantly. Beautiful, shareable reports that make progress clear to families, teams, and stakeholders.',
-      image: visualReportImg,
-      accentColor: '#a78bfa',
-    },
-    {
-      id: 5,
       title: 'Secure Multi-Device Access',
       description:
         'Work from anywhere, on any device. Your data syncs in real-time across all platforms with bank-level security and HIPAA compliance.',
@@ -102,7 +93,7 @@ const FeaturesCarousel: React.FC = () => {
     },
   ];
 
-  const AUTOPLAY_INTERVAL = 8000; // 8 seconds per slide
+  const AUTOPLAY_INTERVAL = 4000; // 4 seconds per slide
 
   const nextSlide = useCallback(() => {
     setDirection(1);
@@ -309,8 +300,8 @@ const FeaturesCarousel: React.FC = () => {
           viewport={{ once: true }}
           transition={{ duration: 0.6, delay: 0.4 }}
         >
-          Capture session data, track progress, and share insights, all in one
-          platform designed for <strong>real-world therapy</strong>.
+          Capture session data, track progress, and share insights, all in one platform designed for <strong>real-world therapy</strong>.
+
         </motion.p>
 
         <motion.div

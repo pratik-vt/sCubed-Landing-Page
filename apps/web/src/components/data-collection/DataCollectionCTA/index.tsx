@@ -35,14 +35,10 @@ const DataCollectionCTA: React.FC = () => {
           animate={isInView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.6, delay: 0.2 }}
         >
-          Stop struggling with scattered spreadsheets or outdated tools. S Cubed
-          brings together powerful ABA data collection tools with simple
-          reporting and goal tracking, giving your team{' '}
-          <strong>
-            one place to capture, measure, and understand progress
-          </strong>
-          . Built to scale with your practice, it supports every clinician,
-          every session, every time.
+          Stop struggling with scattered spreadsheets or outdated tools.
+          <strong>S Cubed</strong> brings together powerful ABA data collection tools like multi-device access and goal tracking, giving your team one place to capture, measure, and understand progress. Built to scale with your practice, it supports every clinician, every session, every time.
+          <br /><br />
+          Request a demo and discover how simple and powerful data collection can be.
         </motion.p>
         <motion.div
           className={ctaButtonWrapper}

@@ -20,7 +20,7 @@ export const metadata: Metadata = {
   description:
     'Track goals, behaviors, and session progress in real time with S Cubed - the all-in-one data collection and reporting platform made for behavior analysis and therapy practices.',
   alternates: {
-    canonical: '/data-collection-and-reporting',
+    canonical: '/data-collection',
   },
 };
 
@@ -50,16 +50,10 @@ const fallbackFAQData = {
         },
         {
           question:
-            'How do visual reports and dashboards enhance ABA therapy monitoring?',
-          answer:
-            'Visual reports simplify complex data. Instead of reading long logs, therapists can see progress and behavior trends in graphs and dashboards that update in real time. These visual summaries make it easier to explain results to families, track long-term outcomes, and identify where a treatment plan may need adjustment.',
-        },
-        {
-          question:
             'What features make the top ABA data collection tools stand out?',
           answer:
             'The best ABA data collection systems are intuitive, accurate, and built for real clinical work. They include smart templates, quick data entry, customizable dashboards, and secure cloud storage. Tools that integrate ABA graphing software and progress tracking give teams a full picture of growth without hours of manual reporting.',
-        },
+        },        
       ],
     },
   ],
@@ -88,16 +82,16 @@ export default async function DataCollectionPage() {
       <BreadcrumbSchema
         items={[
           { name: 'Home', item: '/' },
-          { name: 'Data Collection & Reporting', item: '/data-collection-and-reporting' },
+          { name: 'Data Collection', item: '/data-collection' },
         ]}
       />
-      <FAQSchema faqs={allFAQs} pageSlug="data-collection-and-reporting" />
+      <FAQSchema faqs={allFAQs} pageSlug="data-collection" />
       <Container>
         <DataCollectionHero />
 
         <ContentSection
           titleText="Record Data as You Work"
-          descriptionText="<strong>S Cubed</strong> helps you stay focused during every session. With our <strong>ABA data collection software</strong>, you can record behaviors, goals, and notes in <strong>real time</strong>, without interrupting the flow of therapy. Built for applied behavior analysis, it keeps your data organized, accurate, and ready whenever you need it."
+          descriptionText="<strong>S Cubed</strong> helps you stay focused during every session. With our ABA data collection software, you can record behaviors, goals, and notes in real time, without interrupting the flow of therapy. Built for applied behavior analysis it keeps your data organized, accurate, and ready whenever you need it."
           backgroundColor="#ffffff"
           imagePosition="left"
           imageSrc={RecordDataAsYouWork}
@@ -105,8 +99,8 @@ export default async function DataCollectionPage() {
         />
 
         <ContentSection
-          titleText="From Goals to Measurable Change"
-          descriptionText="S Cubed's data collection & reporting for therapy practices helps you define goals, visualize trends, and make <strong>informed, confident decisions</strong>. Whether you're tracking skill acquisition or behavior reduction, our <strong>visual reports</strong> make progress easy to see - and easier to explain."
+          titleText="One Platform For All Data Collection Method"
+          descriptionText="No two sessions look the same and your data shouldn’t have to fit into one box. S Cubed adapts to your preferred method of data collection in ABA, from discrete trial training to natural environment teaching. Collect frequency, duration, interval, or task analysis data seamlessly, all from one intuitive interface."
           backgroundColor="#f9fafb"
           imagePosition="right"
           imageSrc={goalImg}
@@ -114,8 +108,8 @@ export default async function DataCollectionPage() {
         />
 
         <ContentSection
-          titleText="Build Smarter Templates, Get Clearer Reports"
-          descriptionText="Save time with <strong>templates that think ahead</strong>. S Cubed's ABA software and reporting tools automatically turn session notes into <strong>insights you can share</strong>. Create consistent assessments and plans once - then reuse them for every client. Accurate, simple, and designed for therapy teams that need reliable, fast results."
+          titleText="Automation That Understands ABA"
+          descriptionText="<strong>S Cubed</strong> takes care of the details you shouldn’t have to. It times sessions, calculates behavior rates, and organizes your notes instantly. Designed with ABA workflows in mind, it keeps data precise while freeing therapists to stay engaged in real behavior change."
           backgroundColor="#ffffff"
           imagePosition="left"
           imageSrc={BuildSmarterTemplatesGetClearerReports}
