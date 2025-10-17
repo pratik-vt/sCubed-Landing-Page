@@ -1,3 +1,4 @@
+import Script from 'next/script';
 import React from 'react';
 
 /**
@@ -25,9 +26,13 @@ const ProductReviewSchema: React.FC = () => {
   };
 
   return (
-    <script
+    <Script
+      id="product-review-schema"
       type="application/ld+json"
-      dangerouslySetInnerHTML={{ __html: JSON.stringify(schemaData) }}
+      strategy="beforeInteractive"
+      dangerouslySetInnerHTML={{
+        __html: JSON.stringify(schemaData, null, 2),
+      }}
     />
   );
 };
