@@ -113,10 +113,6 @@ const Navigation: React.FC<NavigationProps> = ({
       label: 'Data Collection',
       href: '/data-collection',
     },
-    {
-      label: 'Scheduling & Appointments',
-      href: '/scheduling-and-appointments',
-    },
   ];
 
   const resourcesDropdownItems: DropdownItem[] = [
@@ -339,25 +335,6 @@ const Navigation: React.FC<NavigationProps> = ({
               activeMenuItemColor={activeMenuItemColor}
               activeLinkAccentColor={activeLinkAccentColor}
             />
-
-            <Link
-              href="/pricing"
-              className={`${navStyle} ${pathname === '/pricing' || pathname === '/pricing/' ? mobileActiveNavStyle : ''}`}
-              style={{
-                color:
-                  pathname === '/pricing' || pathname === '/pricing/'
-                    ? activeMenuItemColor
-                    : menuItemColor,
-              }}
-            >
-              Pricing{' '}
-              {(pathname === '/pricing' || pathname === '/pricing/') && (
-                <span
-                  className={activeLinkStyle}
-                  style={{ backgroundColor: activeLinkAccentColor }}
-                />
-              )}
-            </Link>
 
             <Link
               href="/our-team"
