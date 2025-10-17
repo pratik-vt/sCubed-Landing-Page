@@ -43,6 +43,7 @@ export default async function SitemapPage() {
           links: [
             { url: '/', label: 'Home' },
             { url: '/billing', label: 'Billing' },
+            { url: '/data-collection', label: 'Data Collection' },
             { url: '/features', label: 'Features' },
             { url: '/guardian-portal', label: 'Guardian Portal' },
             { url: '/get-started', label: 'Get Started' },
@@ -61,7 +62,6 @@ export default async function SitemapPage() {
             { url: '/privacy-policy', label: 'Privacy Policy' },
             { url: '/blog', label: 'Blog' },
             { url: '/events', label: 'Events & News' },
-            { url: '/guardian-portal', label: 'Guardian Portal Login' },
           ],
         },
       ],
