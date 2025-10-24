@@ -78,7 +78,6 @@ export const heroImageContent = style({
   width: '100%',
   maxWidth: '600px',  
   margin: '0 auto',
-  boxShadow: '0 0 10px 0 rgba(0, 0, 0, 0.1)',
   borderRadius: '16px',
   overflow: 'hidden',
   '@media': {

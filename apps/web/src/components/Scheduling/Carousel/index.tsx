@@ -5,12 +5,11 @@ import { ChevronLeft, ChevronRight } from 'lucide-react';
 import Image, { StaticImageData } from 'next/image';
 import React, { useState, useEffect, useCallback } from 'react';
 
-import visualReportImg from '../../../images/data-collection/visual-reports.png';
-import attendanceManagementImg from '../../../images/data-collection/attendence-management.png';
-import customizedTemplatesImg from '../../../images/data-collection/customizable-templates.png';
-import secureMultiDeviceAccessImg from '../../../images/data-collection/secure-multi-device-access.png';
-import realTimeSessionLoggingImg from '../../../images/data-collection/real-time-session-logging.png';
-import goalBehaviorTrackingImg from '../../../images/data-collection/goal-and-behavior-tracking.png';
+import schedulingImg1 from '../../../images/scheduling/advanced-calendar-views.png';
+import schedulingImg2 from '../../../images/scheduling/dynamic-color-coded-calendar.png';
+import schedulingImg3 from '../../../images/scheduling/guardian-access-portal.png';
+import schedulingImg4 from '../../../images/scheduling/intelligent-appointment-management.png';
+import schedulingImg5 from '../../../images/scheduling/recurring-session-scheduling.png';
 
 
 import {
@@ -45,33 +44,28 @@ const FeaturesCarousel: React.FC = () => {
   const slides: CarouselSlide[] = [
     {
       id: 0,
-      image: secureMultiDeviceAccessImg,
+      image: schedulingImg1,
       accentColor: '#7a7eed',
     },
     {
       id: 1,
-      image: secureMultiDeviceAccessImg,
+      image: schedulingImg2,
       accentColor: '#22d3ee',
     },
     {
       id: 2,
-      image: secureMultiDeviceAccessImg,
+      image: schedulingImg3,
       accentColor: '#34d399',
     },
     {
       id: 3,
-      image: secureMultiDeviceAccessImg,
+      image: schedulingImg4,
       accentColor: '#fb7185',
     },
     {
       id: 4,
-      image: secureMultiDeviceAccessImg,
+      image: schedulingImg5,
       accentColor: '#a78bfa',
-    },
-    {
-      id: 5,
-      image: secureMultiDeviceAccessImg,
-      accentColor: '#fbbf24',
     },
   ];
 

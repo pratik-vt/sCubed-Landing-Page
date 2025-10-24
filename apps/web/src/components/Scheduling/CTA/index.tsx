@@ -34,7 +34,7 @@ const SchedulingCTA: React.FC = () => {
             animate={isInView ? { opacity: 1, y: 0 } : {}}
             transition={{ duration: 0.6, ease: 'easeOut' }}
           >
-            Your Direct Link to Your Child&apos;s Care Team
+            Plan, Book, and Track with Ease
           </motion.h2>
           <motion.p
             className={ctaDescription}
@@ -42,8 +42,7 @@ const SchedulingCTA: React.FC = () => {
             animate={isInView ? { opacity: 1, y: 0 } : {}}
             transition={{ duration: 0.6, delay: 0.2, ease: 'easeOut' }}
           >
-            From the first appointment to the biggest milestones, the Guardian Portal 
-            keeps you connected, informed, and empowered.
+            Coordinate your client's care with flexible scheduling options, instant appointment updates, and a calendar that works with your busy life.
           </motion.p>
           <motion.div
             className={ctaButtonWrapper}

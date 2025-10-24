@@ -12,6 +12,7 @@ import {
   ClipboardClock,
   BellRing,
   CalendarDays,
+  Timer
 } from 'lucide-react';
 import React, { cloneElement } from 'react';
 
@@ -76,10 +77,10 @@ const FeaturesTherapy: React.FC = () => {
         'Analyze, manage and filter complex appointments with precision and clarity',
     },
     {
-      icon: <Settings />,
-      title: 'Lorem ipsum',
+      icon: <Timer />,
+      title: 'Real-Time Availability Tracking',
       description:
-        "Whether you're in private practice, a school-based clinic, or a multidisciplinary environment, S Cubed adapts to your workflow - supporting your goals with unmatched flexibility.",
+        "Easily view therapist availability in real time to schedule sessions faster and avoid conflicts.",
     },
   ];
 
