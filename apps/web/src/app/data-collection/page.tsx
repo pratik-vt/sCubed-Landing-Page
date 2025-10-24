@@ -12,7 +12,7 @@ import goalImg from '../../images/data-collection/from-goals-to-measurable-chang
 import { getFAQCollection, transformFAQData } from '../../lib/faq-api';
 
 import BuildSmarterTemplatesGetClearerReports from '../../images/data-collection/build-smarter-templates-get-clearer-reports.png';
-import RecordDataAsYouWork from '../../images/data-collection/record-data-as-you-work.png';
+import RecordDataAsYouWork from '../../images/data-collection/record-data.png';
 
 export const metadata: Metadata = {
   title:
