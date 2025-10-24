@@ -60,7 +60,7 @@ const DataCollectionHero: React.FC = () => {
                 <span className={heroTitleHighlight}>
                 ABA Data Collection Software
                 </span>{' '}
-                Built for Real Therapy Work.
+                Built for Real Therapy Work
               </h1>
               <p className={heroDescription}>
               Track goals, behaviors, and session progress in real time with <strong>S Cubed</strong> - the all-in-one data collection platform made for behavior analysis and therapy practices. From session logging to visual reports, everything you need happens in one secure, easy-to-use place.
