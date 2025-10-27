@@ -195,8 +195,9 @@ export const navStyle = style({
       padding: '10px 25px',
     },
     'screen and (max-height: 700px)': {
-      padding: '8px 20px',
+      padding: '8px 12px',
       fontSize: '15px',
+      marginRight: '10px',
     },
   },
 });
@@ -436,9 +437,9 @@ export const loginButton = style({
       display: 'block',
     },
     'screen and (max-height: 700px)': {
-      padding: '8px 30px',
+      padding: '8px 12px',
       fontSize: '14px',
-      width: '160px',
+      width: '70px',
       textAlign: 'center',
       display: 'block',
     },
@@ -502,9 +503,9 @@ export const tryForFreeButton = style({
       display: 'block',
     },
     'screen and (max-height: 700px)': {
-      padding: '10px 30px',
+      padding: '10px',
       fontSize: '14px',
-      width: '160px',
+      width: '140px',
       marginBottom: '15px',
       textAlign: 'center',
       display: 'block',

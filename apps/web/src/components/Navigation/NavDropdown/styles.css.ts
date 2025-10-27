@@ -30,7 +30,11 @@ export const dropdownTrigger = style({
       fontSize: '16px',
       marginRight: '30px',
     },
+    'screen and (max-height: 700px)': {
+      marginRight: '10px',  
+    }
   },
+  
 });
 
 export const dropdownTriggerActive = style({
