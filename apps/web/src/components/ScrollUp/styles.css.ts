@@ -2,8 +2,8 @@ import { style } from '@vanilla-extract/css';
 
 export const btnScrollToTop = style({
   position: 'fixed',
-  right: '20px',
-  bottom: '30px',
+  right: '96px',
+  bottom: '24px',
   width: '50px',
   border: 'none',
   zIndex: 99,
