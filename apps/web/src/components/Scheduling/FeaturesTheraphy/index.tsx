@@ -54,7 +54,7 @@ const FeaturesTherapy: React.FC = () => {
     },
     {
       icon: <BarChart3 />,
-      title: 'Guardian Access Portal',
+      title: 'Guardian Portal Access',
       description:
         'The Guardians can access their Kids progress in the Guardian portal.',
     },
