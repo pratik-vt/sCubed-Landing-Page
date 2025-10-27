@@ -1,0 +1,5 @@
+{
+  "content-manager.containers.Edit.publish-date": "Publish Date",
+  "content-manager.containers.Edit.clear-publish-date": "Clear publish date", 
+  "content-manager.containers.Edit.publish-date-hint": "Set a custom publication date for this content. Leave empty to use the default publish behavior."
+}

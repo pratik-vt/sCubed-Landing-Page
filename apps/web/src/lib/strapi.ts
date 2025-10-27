@@ -145,6 +145,7 @@ export interface BlogPost {
   meta_description?: string;
   publishedAt: string;
   firstPublishedAt?: string; // Original publish date (optional, may not exist for older posts)
+  publish_date?: string; // Custom publication date (YYYY-MM-DD format) that overrides publishedAt for display
   createdAt: string;
   updatedAt: string;
   author?: Author | null;
@@ -295,9 +296,9 @@ export function getStrapiImageUrl(
   return url.startsWith('http') ? url : `${STRAPI_URL}${url}`;
 }
 
-// Helper function to get the original publish date (firstPublishedAt if available, otherwise publishedAt)
+// Helper function to get the display publish date (publish_date if available, otherwise firstPublishedAt, otherwise publishedAt)
 export function getPublishDate(post: BlogPost): string {
-  return post.firstPublishedAt || post.publishedAt;
+  return post.publish_date || post.firstPublishedAt || post.publishedAt;
 }
 
 // Helper function to format date

@@ -481,6 +481,7 @@ export interface ApiBlogPostBlogPost extends Struct.CollectionTypeSchema {
       Schema.Attribute.SetMinMaxLength<{
         maxLength: 120;
       }>;
+    publish_date: Schema.Attribute.Date;
     publishedAt: Schema.Attribute.DateTime;
     slug: Schema.Attribute.UID<'title'> & Schema.Attribute.Required;
     social_share: Schema.Attribute.Boolean & Schema.Attribute.DefaultTo<true>;

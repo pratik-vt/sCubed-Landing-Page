@@ -1,0 +1,7 @@
+{
+  "name": "content-manager-extension",
+  "displayName": "Enhanced Content Manager",
+  "description": "Content Manager extension to enable publishedAt field editing",
+  "version": "1.0.0",
+  "kind": "plugin"
+}

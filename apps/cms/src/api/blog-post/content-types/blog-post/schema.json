@@ -26,6 +26,10 @@
       "type": "text",
       "maxLength": 500
     },
+    "publish_date": {
+      "type": "date",
+      "description": "Custom publication date that overrides the default publishedAt for display purposes"
+    },
     "content_blocks": {
       "type": "dynamiczone",
       "components": [
