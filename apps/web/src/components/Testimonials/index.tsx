@@ -1,8 +1,8 @@
 'use client';
 
-import { useEffect, useMemo, useRef, useState } from 'react';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 import { StaticImageData } from 'next/image';
+import { useEffect, useMemo, useRef, useState } from 'react';
 
 import capterraLogo from '../../images/testimonial-logo/capterra.png';
 import g2Logo from '../../images/testimonial-logo/g2.png';
@@ -10,26 +10,26 @@ import softwareAdviceLogo from '../../images/testimonial-logo/softwareadvice.png
 import quote from '../../images/testimonial-logo/testimonialQuote.svg';
 
 import {
-  sliderWrapper,
-  testimonialBox,
+  arrowButton,
+  arrowNext,
+  arrowPrev,
+  authorHeading,
+  authorInfo,
+  authorParagraph,
+  authorSection,
+  carouselTrack,
+  carouselViewport,
+  clutchSection,
   contentSection,
-  quoteImage,
   heading,
   paragraphContent,
-  authorSection,
-  authorInfo,
-  authorHeading,
-  authorParagraph,
-  clutchSection,
-  sectionTitle,
+  quoteImage,
   sectionDescription,
   sectionHeader,
-  carouselViewport,
-  carouselTrack,
+  sectionTitle,
   slide,
-  arrowButton,
-  arrowPrev,
-  arrowNext,
+  sliderWrapper,
+  testimonialBox,
 } from './styles.css';
 
 type Testimonial = Readonly<{
@@ -108,7 +108,7 @@ const testimonials: Testimonial[] = [
   },
 ];
 
-const AUTOPLAY_INTERVAL_MS = 3000;
+const AUTOPLAY_INTERVAL_MS = 8000;
 const TRANSITION_MS = 600;
 
 const Testimonials = (): JSX.Element => {
@@ -187,7 +187,10 @@ const Testimonials = (): JSX.Element => {
     <div className={sliderWrapper}>
       <div className={sectionHeader}>
         <h2 className={sectionTitle}>Trusted by Practices Like Yours</h2>
-        <p className={sectionDescription}>See how clinics are transforming their workflows and focusing more on client care with our all-in-one ABA practice management solution.</p>
+        <p className={sectionDescription}>
+          See how clinics are transforming their workflows and focusing more on
+          client care with our all-in-one ABA practice management solution.
+        </p>
       </div>
       <div
         className={carouselViewport}
@@ -222,7 +225,11 @@ const Testimonials = (): JSX.Element => {
                     <img
                       height="35"
                       decoding="async"
-                      src={typeof t.verifiedByLogo === 'string' ? t.verifiedByLogo : t.verifiedByLogo.src}
+                      src={
+                        typeof t.verifiedByLogo === 'string'
+                          ? t.verifiedByLogo
+                          : t.verifiedByLogo.src
+                      }
                       alt={t.verifiedByAlt}
                     />
                   </div>
@@ -253,4 +260,3 @@ const Testimonials = (): JSX.Element => {
 };
 
 export default Testimonials;
-
