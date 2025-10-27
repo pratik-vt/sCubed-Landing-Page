@@ -9,6 +9,7 @@ import HeroImageSlider from '../components/HeroImageSlider';
 import OrganizationSchema from '../components/OrganizationSchema';
 import ReviewPlatforms from '../components/ReviewPlatforms';
 import { heroSliderData } from '../data/heroSliderData';
+
 import Testimonials from '@/components/Testimonials';
 
 // Non-critical components loaded lazily
