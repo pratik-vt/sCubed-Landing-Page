@@ -42,7 +42,7 @@ const DataCollectionHero: React.FC = () => {
             }}
             placeholder="blur"
             priority
-            quality={100}
+            quality={75}
           />
           <div className={backgroundOverlay} />
         </div>
@@ -86,7 +86,7 @@ const DataCollectionHero: React.FC = () => {
               <Image
                 alt="ABA data collection software interface"
                 src={DataCollectionBanner}
-                quality={100}
+                quality={75}
                 placeholder="blur"
                 width={2400}
                 height={2000}

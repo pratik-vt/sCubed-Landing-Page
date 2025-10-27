@@ -21,7 +21,7 @@ const Disciplines: React.FC = () => (
         className={disciplineImg}
         src={discipline}
         alt="Disciplines"
-        quality={100}
+        quality={75}
         placeholder="blur"
         sizes="(max-width: 480px) 100vw, (max-width: 768px) 100vw, (max-width: 1024px) 100vw, (max-width: 1400px) 100vw, 1400px"
         style={{ objectFit: 'contain' }}

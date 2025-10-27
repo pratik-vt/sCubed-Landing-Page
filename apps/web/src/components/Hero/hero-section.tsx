@@ -22,7 +22,7 @@ const Hero: React.FC = () => {
         alt="banner"
         placeholder="blur"
         priority
-        quality={100}
+        quality={75}
       />
       <div className={InnerContainerStyle}>
         <div className={textBlockStyles}>

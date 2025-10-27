@@ -109,14 +109,14 @@ const BillingHero: React.FC = () => {
             }}
             placeholder="blur"
             priority
-            quality={100}
+            quality={75}
           />
           <div className={backgroundOverlay} />
         </div>
 
         <div className={heroContainer}>
           <div className={heroContent}>
-            <motion.div 
+            <motion.div
               className={heroTextContent}
               initial={{ opacity: 0, x: -50 }}
               animate={{ opacity: 1, x: 0 }}
@@ -145,7 +145,7 @@ const BillingHero: React.FC = () => {
               </div>
             </motion.div>
 
-            <motion.div 
+            <motion.div
               className={heroImageContent}
               initial={{ opacity: 0, x: 50 }}
               animate={{ opacity: 1, x: 0 }}
@@ -154,7 +154,7 @@ const BillingHero: React.FC = () => {
               <Image
                 alt="Professional billing and financial management for healthcare practices"
                 src={billingBannerImg}
-                quality={100}
+                quality={75}
                 placeholder="blur"
                 width={2400}
                 height={2000}

@@ -258,7 +258,7 @@ const Navigation: React.FC<NavigationProps> = ({
               <Image
                 alt="S Cubed"
                 src={desktopLogoImg}
-                quality={100}
+                quality={75}
                 placeholder="blur"
               />
             </div>
@@ -266,7 +266,7 @@ const Navigation: React.FC<NavigationProps> = ({
               <Image
                 alt="S Cubed"
                 src={mobileLogoImg}
-                quality={100}
+                quality={75}
                 placeholder="blur"
                 style={{ height: '100%', width: 'auto', objectFit: 'contain' }}
               />

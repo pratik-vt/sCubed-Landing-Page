@@ -65,7 +65,7 @@ const GuardianHero: React.FC = () => {
             <Image
               alt="Guardian Portal Dashboard Interface"
               src={guardianPortalImg}
-              quality={100}
+              quality={75}
               placeholder="blur"
               width={2400}
               height={1600}

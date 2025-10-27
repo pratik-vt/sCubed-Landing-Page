@@ -37,7 +37,7 @@ const Partners: React.FC = () => {
             width={567}
             src={partnerImg}
             alt="S Cubed Platform"
-            quality={100}
+            quality={75}
           />
           <div className={panelContent}>
             <div className={listItemContent}>
