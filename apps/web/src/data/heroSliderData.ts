@@ -1,7 +1,7 @@
 import USATodayMobileImage from '../../public/images/As featured in USA Today-mobile.jpg';
 import USATodayImage from '../../public/images/As featured in USA Today.jpg';
 import BannerImage from '../../public/images/Banner.jpg';
-import NYSABA2025Image from '../../public/images/NYSABA Event Banner.jpg';
+// import NYSABA2025Image from '../../public/images/NYSABA Event Banner.jpg';
 import { HeroSliderItem } from '../components/HeroImageSlider';
 
 export const heroSliderData: HeroSliderItem[] = [
@@ -25,28 +25,28 @@ export const heroSliderData: HeroSliderItem[] = [
     },
     contentAlign: 'center', // Example: Center this slide's content
   },
-  {
-    id: 'nysaba-2025-the-future-of-aba',
-    title: "Join us at BABAT 2025",
-    description:
-      "Let's connect, collaborate, and explore smarter ways to streamline ABA practice.",
-    eventStartDate: "2025-10-15",
-    eventEndDate: "2025-10-17",
-    eventLocation: "50 Foster Street, Worcester, MA 01608, USA",
-    image: {
-      src: NYSABA2025Image,
-      alt: 'Join us at BABAT 2025',
-      width: 1920,
-      height: 800,
-      mobilePosition: 'center center',
-    },
-    link: {
-      href: '/events/technology-that-serves-care-s-cubed-joins-babat-2025',
-      text: "Join us at BABAT 2025",
-      mobileText: "Join us at BABAT 2025", // Shorter text for mobile
-    },
-    contentWidth: '30%', // Set content width to 30%
-  },
+  // {
+  //   id: 'nysaba-2025-the-future-of-aba',
+  //   title: "Join us at BABAT 2025",
+  //   description:
+  //     "Let's connect, collaborate, and explore smarter ways to streamline ABA practice.",
+  //   eventStartDate: "2025-10-15",
+  //   eventEndDate: "2025-10-17",
+  //   eventLocation: "50 Foster Street, Worcester, MA 01608, USA",
+  //   image: {
+  //     src: NYSABA2025Image,
+  //     alt: 'Join us at BABAT 2025',
+  //     width: 1920,
+  //     height: 800,
+  //     mobilePosition: 'center center',
+  //   },
+  //   link: {
+  //     href: '/events/technology-that-serves-care-s-cubed-joins-babat-2025',
+  //     text: "Join us at BABAT 2025",
+  //     mobileText: "Join us at BABAT 2025", // Shorter text for mobile
+  //   },
+  //   contentWidth: '30%', // Set content width to 30%
+  // },
   {
     id: 'from-mothers-journey',
     title: "From a Mother's Journey Became a Lifeline for Families",
