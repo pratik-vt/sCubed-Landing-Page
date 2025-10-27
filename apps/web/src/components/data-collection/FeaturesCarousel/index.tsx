@@ -213,7 +213,7 @@ const FeaturesCarousel: React.FC = () => {
                     src={slide.image}
                     alt={slide.title}
                     className={slideImage}
-                    quality={100}
+                    quality={75}
                     placeholder="blur"
                     sizes="(max-width: 768px) 100vw"
                     style={{

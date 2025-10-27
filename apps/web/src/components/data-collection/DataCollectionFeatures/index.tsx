@@ -59,7 +59,7 @@ const ContentSection: React.FC<Readonly<ContentSectionProps>> = ({
                 className={imageEl}
                 placeholder="blur"
                 sizes="(max-width: 768px) 100vw, 600px"
-                quality={90}
+                quality={75}
                 priority={false}
               />
             </motion.div>
@@ -104,7 +104,7 @@ const ContentSection: React.FC<Readonly<ContentSectionProps>> = ({
                 className={imageEl}
                 placeholder="blur"
                 sizes="(max-width: 768px) 100vw, 600px"
-                quality={90}
+                quality={75}
                 priority={false}
               />
             </motion.div>

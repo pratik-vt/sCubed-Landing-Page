@@ -107,7 +107,7 @@ const Footer: React.FC = () => {
                   src={logoImage}
                   alt="S Cubed"
                   placeholder="blur"
-                  quality={100}
+                  quality={75}
                   style={{ width: 'auto', height: '70px' }}
                 />
               </div>
@@ -115,14 +115,14 @@ const Footer: React.FC = () => {
                 src={hipaaImage}
                 alt="HIPAA Compliant"
                 className={hipaaLogo}
-                quality={100}
+                quality={75}
               />
               <Image
                 src={bacbaImage}
                 alt="BACBA Certification"
                 className={certificationImage}
                 placeholder="blur"
-                quality={100}
+                quality={75}
               />
             </div>
             <p className={brandDescription}>

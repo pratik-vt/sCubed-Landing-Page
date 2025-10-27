@@ -70,7 +70,7 @@ const Header: React.FC<HeaderProps> = ({
         className={bannerImg}
         placeholder="blur"
         priority
-        quality={100}
+        quality={75}
       />
       <div className={textBlockStyle}>
         <h1 className={headingStyle}>
