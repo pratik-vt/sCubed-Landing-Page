@@ -5,7 +5,7 @@ import Image from 'next/image';
 import React from 'react';
 
 import billingImg from '../../../images/Billing.jpg';
-import dataCollectionImg from '../../../images/scheduling/hero.png';
+import dataCollectionImg from '../../../images/scheduling/hero.jpg';
 import CalendlyButton from '../../billing/CalendlyButton';
 import { primaryButton } from '../../billing/CalendlyButton/styles.css';
 import FeaturesCarousel from '../Carousel/index';
