@@ -1,40 +1,39 @@
 'use client';
 
-import { motion, AnimatePresence } from 'framer-motion';
+import { AnimatePresence, motion } from 'framer-motion';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 import Image, { StaticImageData } from 'next/image';
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import CalendlyButton from '../../billing/CalendlyButton';
 import { primaryButton } from '../../billing/CalendlyButton/styles.css';
 
 import attendanceManagementImg from '../../../images/data-collection/attendence-management.png';
 import customizedTemplatesImg from '../../../images/data-collection/customizable-templates.png';
-import secureMultiDeviceAccessImg from '../../../images/data-collection/secure-multi-device-access.png';
-import realTimeSessionLoggingImg from '../../../images/data-collection/real-time-session-logging.png';
 import goalBehaviorTrackingImg from '../../../images/data-collection/goal-and-behavior-tracking.png';
-
+import realTimeSessionLoggingImg from '../../../images/data-collection/real-time-session-logging.png';
+import secureMultiDeviceAccessImg from '../../../images/data-collection/secure-multi-device-access.png';
 
 import {
-  carouselSection,
-  carouselContainer,
-  sectionTitle,
-  carouselWrapper,
-  slideContainer,
-  slideContent,
-  slideImageWrapper,
-  slideImage,
-  slideTextContent,
-  slideTitle,
-  slideDescription,
-  navigationControls,
-  navButton,
-  dotsContainer,
-  dot,
   activeDot,
-  progressBar,
-  progressFill,
+  carouselContainer,
+  carouselSection,
+  carouselWrapper,
   closingText,
   ctaButtonWrapper,
+  dot,
+  dotsContainer,
+  navButton,
+  navigationControls,
+  progressBar,
+  progressFill,
+  sectionTitle,
+  slideContainer,
+  slideContent,
+  slideDescription,
+  slideImage,
+  slideImageWrapper,
+  slideTextContent,
+  slideTitle,
 } from './styles.css';
 
 interface CarouselSlide {
@@ -93,7 +92,7 @@ const FeaturesCarousel: React.FC = () => {
     },
   ];
 
-  const AUTOPLAY_INTERVAL = 4000; // 4 seconds per slide
+  const AUTOPLAY_INTERVAL = 8000; // 8 seconds per slide
 
   const nextSlide = useCallback(() => {
     setDirection(1);
@@ -107,11 +106,14 @@ const FeaturesCarousel: React.FC = () => {
     setProgress(0);
   }, [slides.length]);
 
-  const goToSlide = useCallback((index: number) => {
-    setDirection(index > currentSlide ? 1 : -1);
-    setCurrentSlide(index);
-    setProgress(0);
-  }, [currentSlide]);
+  const goToSlide = useCallback(
+    (index: number) => {
+      setDirection(index > currentSlide ? 1 : -1);
+      setCurrentSlide(index);
+      setProgress(0);
+    },
+    [currentSlide],
+  );
 
   // Auto-play functionality
   useEffect(() => {
@@ -120,7 +122,7 @@ const FeaturesCarousel: React.FC = () => {
         if (prev >= 100) {
           return 0;
         }
-        return prev + (100 / (AUTOPLAY_INTERVAL / 50));
+        return prev + 100 / (AUTOPLAY_INTERVAL / 50);
       });
     }, 50);
 
@@ -300,8 +302,8 @@ const FeaturesCarousel: React.FC = () => {
           viewport={{ once: true }}
           transition={{ duration: 0.6, delay: 0.4 }}
         >
-          Capture session data, track progress, and share insights, all in one platform designed for <strong>real-world therapy</strong>.
-
+          Capture session data, track progress, and share insights, all in one
+          platform designed for <strong>real-world therapy</strong>.
         </motion.p>
 
         <motion.div
