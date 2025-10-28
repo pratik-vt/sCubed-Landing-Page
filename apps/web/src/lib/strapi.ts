@@ -145,7 +145,7 @@ export interface BlogPost {
   meta_description?: string;
   publishedAt: string;
   firstPublishedAt?: string; // Original publish date (optional, may not exist for older posts)
-  publish_date?: string; // Custom publication date (YYYY-MM-DD format) that overrides publishedAt for display
+  publish_date: string; // Custom publication date (YYYY-MM-DD format) that overrides publishedAt for display
   createdAt: string;
   updatedAt: string;
   author?: Author | null;
@@ -191,11 +191,18 @@ export async function getBlogPosts(
     'populate[3]': 'featured_image',
     'populate[4]': 'hero_image',
     'populate[5]': 'audio_version',
-    sort: 'firstPublishedAt:desc',
+    // Sort by publish_date (descending) - now required field so no fallback needed
+    sort: 'publish_date:desc',
   });
 
   // Add publishedAt filter to only get published content
   queryParams.set('filters[publishedAt][$notNull]', 'true');
+  
+  // Filter out future-dated posts (scheduled publishing)
+  // Only show posts where publish_date is null OR publish_date <= today
+  const today = new Date().toISOString().split('T')[0]; // YYYY-MM-DD format
+  queryParams.set('filters[$or][0][publish_date][$null]', 'true');
+  queryParams.set('filters[$or][1][publish_date][$lte]', today);
 
   // Add featured filter if specified
   if (featured !== undefined) {
@@ -231,6 +238,12 @@ export async function getBlogPost(
     // Filters
     queryParams.set('filters[slug][$eq]', slug);
     queryParams.set('filters[publishedAt][$notNull]', 'true');
+    
+    // Filter out future-dated posts (scheduled publishing)
+    // Only show posts where publish_date is null OR publish_date <= today
+    const today = new Date().toISOString().split('T')[0]; // YYYY-MM-DD format
+    queryParams.set('filters[$or][0][publish_date][$null]', 'true');
+    queryParams.set('filters[$or][1][publish_date][$lte]', today);
 
     // Basic population with explicit author avatar
     queryParams.set('populate[author][populate][avatar]', 'true');
@@ -259,6 +272,59 @@ export async function getBlogPost(
 
     return await fetchAPI(`/blog-posts?${fallbackParams}`);
   }
+}
+
+// Admin function to get all blog posts including future-dated ones (for preview/management)
+export async function getAllBlogPostsAdmin(
+  params: {
+    page?: number;
+    pageSize?: number;
+    featured?: boolean;
+    category?: string;
+    tag?: string;
+    search?: string;
+  } = {},
+): Promise<StrapiResponse<BlogPost[]>> {
+  const { page = 1, pageSize = 10, featured, category, tag, search } = params;
+
+  const queryParams = new URLSearchParams({
+    'pagination[page]': page.toString(),
+    'pagination[pageSize]': pageSize.toString(),
+    'populate[0]': 'author',
+    'populate[1]': 'categories',
+    'populate[2]': 'tags',
+    'populate[3]': 'featured_image',
+    'populate[4]': 'hero_image',
+    'populate[5]': 'audio_version',
+    // Sort by publish_date (descending) - now required field so no fallback needed
+    sort: 'publish_date:desc',
+  });
+
+  // Add publishedAt filter to only get published content (but include future dates)
+  queryParams.set('filters[publishedAt][$notNull]', 'true');
+
+  // Add featured filter if specified
+  if (featured !== undefined) {
+    queryParams.set('filters[featured][$eq]', featured.toString());
+  }
+
+  // Add category filter if specified
+  if (category) {
+    queryParams.set('filters[categories][slug][$eq]', category);
+  }
+
+  // Add tag filter if specified
+  if (tag) {
+    queryParams.set('filters[tags][slug][$eq]', tag);
+  }
+
+  // Add search filter if specified
+  if (search) {
+    queryParams.set('filters[$or][0][title][$containsi]', search);
+    queryParams.set('filters[$or][1][excerpt][$containsi]', search);
+  }
+
+  return fetchAPI(`/blog-posts?${queryParams}`);
 }
 
 export async function getCategories(): Promise<StrapiResponse<Category[]>> {
@@ -296,7 +362,7 @@ export function getStrapiImageUrl(
   return url.startsWith('http') ? url : `${STRAPI_URL}${url}`;
 }
 
-// Helper function to get the display publish date (publish_date if available, otherwise firstPublishedAt, otherwise publishedAt)
+// Helper function to get the display publish date (publish_date is required but we keep fallbacks for robustness)
 export function getPublishDate(post: BlogPost): string {
   return post.publish_date || post.firstPublishedAt || post.publishedAt;
 }

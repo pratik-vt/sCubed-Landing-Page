@@ -28,6 +28,7 @@
     },
     "publish_date": {
       "type": "date",
+      "required": true,
       "description": "Custom publication date that overrides the default publishedAt for display purposes"
     },
     "content_blocks": {

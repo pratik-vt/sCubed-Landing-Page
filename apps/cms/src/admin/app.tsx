@@ -70,6 +70,14 @@ export default {
           ],
         },
       },
+      listView: {
+        'api::blog-post.blog-post': {
+          // Sort by custom publish_date in admin list view
+          sort: {
+            defaultSort: 'publish_date:desc',
+          },
+        },
+      },
     },
   },
   bootstrap(app: StrapiApp) {

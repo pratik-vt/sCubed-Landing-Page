@@ -48,9 +48,9 @@ const EditViewRightLinks = () => {
         paddingRight={4}
         marginBottom={3}
       >
-        <Field name="publish_date">
+        <Field name="publish_date" required>
           <FieldLabel>
-            Publish Date
+            Publish Date *
           </FieldLabel>
           
           <DatePicker
@@ -64,7 +64,7 @@ const EditViewRightLinks = () => {
           />
           
           <FieldHint>
-            Custom publication date for display
+            Required: Set the publication date for this blog post
           </FieldHint>
           
           <FieldError />
