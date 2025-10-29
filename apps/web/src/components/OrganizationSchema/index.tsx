@@ -19,13 +19,6 @@ const OrganizationSchema: React.FC = () => {
       postalCode: '76543',
       addressCountry: 'US',
     },
-    aggregateRating: {
-      '@type': 'AggregateRating',
-      ratingValue: '5',
-      bestRating: '5',
-      worstRating: '5',
-      ratingCount: '10',
-    },
     contactPoint: {
       '@type': 'ContactPoint',
       telephone: '+1-254-434-4959',
