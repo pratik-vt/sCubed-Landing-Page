@@ -117,6 +117,7 @@ const Navigation: React.FC<NavigationProps> = ({
       href: '/data-collection',
     },
     { label: 'Guardian Portal Features', href: '/guardian-portal' },
+    { label: 'Authorization', href: '/authorization' },
   ];
 
   const resourcesDropdownItems: DropdownItem[] = [

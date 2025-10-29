@@ -27,7 +27,8 @@ export default function ConditionalLayout({ children }: Readonly<ConditionalLayo
                          pathname === '/pricing' ||
                          pathname === '/events' ||
                          pathname.startsWith('/events/') ||
-                         pathname === '/scheduling-and-appointments';
+                         pathname === '/scheduling-and-appointments' ||
+                         pathname === '/authorization';
 
   // Determine if the page should use full width layout
   const shouldUseFullWidth = pathname === '/get-started' ||
@@ -37,7 +38,8 @@ export default function ConditionalLayout({ children }: Readonly<ConditionalLayo
                             pathname === '/data-collection' ||
                             pathname === '/pricing' ||
                             pathname === '/events' ||
-                            pathname === '/scheduling-and-appointments';
+                            pathname === '/scheduling-and-appointments' ||
+                            pathname === '/authorization';
   
   return (
     <FreeTrialModalProvider>
