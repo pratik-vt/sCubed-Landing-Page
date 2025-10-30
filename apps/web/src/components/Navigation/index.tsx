@@ -341,25 +341,6 @@ const Navigation: React.FC<NavigationProps> = ({
             />
 
             <Link
-              href="/pricing"
-              className={`${navStyle} ${pathname === '/pricing' || pathname === '/pricing/' ? mobileActiveNavStyle : ''}`}
-              style={{
-                color:
-                  pathname === '/pricing' || pathname === '/pricing/'
-                    ? activeMenuItemColor
-                    : menuItemColor,
-              }}
-            >
-              Pricing{' '}
-              {(pathname === '/pricing' || pathname === '/pricing/') && (
-                <span
-                  className={activeLinkStyle}
-                  style={{ backgroundColor: activeLinkAccentColor }}
-                />
-              )}
-            </Link>
-
-            <Link
               href="/our-team"
               className={`${navStyle} ${pathname === '/our-team' || pathname === '/our-team/' ? mobileActiveNavStyle : ''}`}
               style={{
