@@ -3,7 +3,7 @@
 import { ChevronDown } from 'lucide-react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 
 import {
@@ -38,6 +38,10 @@ const NavDropdown: React.FC<NavDropdownProps> = ({
 }) => {
   const [isOpen, setIsOpen] = useState(false);
   const pathname = usePathname();
+
+  useEffect(() => {
+    setIsOpen(false);
+  }, [pathname]);
 
   const isActive = items.some((item) => {
     const itemPath = item.href.split('#')[0];
@@ -83,7 +87,12 @@ const NavDropdown: React.FC<NavDropdownProps> = ({
             transition={{ duration: 0.2 }}
           >
             {items.map((item) => (
-              <Link key={item.href} href={item.href} className={dropdownMenuItem}>
+              <Link
+                key={item.href}
+                href={item.href}
+                className={dropdownMenuItem}
+                onClick={() => setIsOpen(false)}
+              >
                 {item.label}
               </Link>
             ))}

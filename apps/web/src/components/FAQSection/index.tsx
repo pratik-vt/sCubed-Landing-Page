@@ -222,7 +222,38 @@ const FAQSection: React.FC<FAQSectionProps> = ({
                   exit={{ x: -10, opacity: 0 }}
                   transition={{ delay: 0.15, duration: 0.5, ease: [0.4, 0.0, 0.2, 1] }}
                 >
-                  <p>{faq.answer}</p>
+                  {(() => {
+                    const lines = faq.answer.split('\n');
+                    const isBullet = (line: string) => /^\s*[-•*]\s+/.test(line);
+                    const firstBulletIndex = lines.findIndex(isBullet);
+                    const lastBulletIndex = lines.map((l, i) => ({ l, i })).reverse().find(({ l }) => isBullet(l))?.i ?? -1;
+
+                    if (firstBulletIndex === -1 || lastBulletIndex === -1) {
+                      return <p>{faq.answer}</p>;
+                    }
+
+                    const pre = lines.slice(0, firstBulletIndex).join(' ').trim();
+                    const bullets = lines
+                      .slice(firstBulletIndex, lastBulletIndex + 1)
+                      .filter(isBullet)
+                      .map((line) => line.replace(/^\s*[-•*]\s+/, '').trim())
+                      .filter(Boolean);
+                    const post = lines.slice(lastBulletIndex + 1).join(' ').trim();
+
+                    return (
+                      <>
+                        {pre && <p>{pre}</p>}
+                        {bullets.length > 0 && (
+                          <ul>
+                            {bullets.map((item, idx) => (
+                              <li key={idx}>{item}</li>
+                            ))}
+                          </ul>
+                        )}
+                        {post && <p>{post}</p>}
+                      </>
+                    );
+                  })()}
                 </motion.div>
               </motion.div>
             )}

@@ -139,9 +139,10 @@ export const navigationControls = style({
   justifyContent: 'space-between',
   pointerEvents: 'none',
   padding: `0 ${spacing.md}`,
+  zIndex: 1,
   '@media': {
     'screen and (max-width: 768px)': {
-      display: 'none',
+      padding: '0 5px',
     },
   },
 });
@@ -172,6 +173,12 @@ export const navButton = style({
   ':focus-visible': {
     outline: `3px solid ${colors.primary[400]}`,
     outlineOffset: '4px',
+  },
+  '@media': {
+    'screen and (max-width: 768px)': {
+      width: '36px',
+      height: '36px',
+    },
   },
 });
 

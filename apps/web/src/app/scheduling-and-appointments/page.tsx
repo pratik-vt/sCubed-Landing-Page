@@ -63,7 +63,7 @@ const fallbackFAQData = {
         },
         {
           question: 'What are the key features of S Cubed\'s ABA practice management software?',
-          answer: 'S Cubed was built to handle the real-world complexity of running an ABA practice without overwhelming you. Some of the key features include:\n\nSmart scheduling that supports staff-client matching and school-based setups.\nProgress notes and data collection that are simple but flexible.\nBilling and claims tools that don\'t require a manual to understand.\nSecure, cloud-based access that\'s fully HIPAA-compliant.\nAnd automated appointment reminders to keep everyone in the loop.\n\nIt\'s everything your team needs, all in one platform.\n',
+          answer: 'S Cubed was built to handle the real-world complexity of running an ABA practice without overwhelming you. Some of the key features include:\n\n- Smart scheduling that supports staff-client matching and school-based setups\n- Progress notes and data collection that are simple but flexible\n- Billing and claims tools that don\'t require a manual to understand\n- Secure, cloud-based access that\'s fully HIPAA-compliant\n- And automated appointment reminders to keep everyone in the loop\n\nIt\'s everything your team needs, all in one platform.\n',
         },
         {
           question: 'What is an ABA scheduler?',
