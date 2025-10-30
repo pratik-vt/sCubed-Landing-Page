@@ -123,25 +123,25 @@
                     <div class="feature-icon">
                         <img src="./images/hipaa-compliant-icon.png" alt="HIPAA Compliant" width="38" height="40">
                     </div>
-                    <h3>HIPAA<br>Compliant</h3>
+                    <h3>HIPAA<br> Compliant</h3>
                 </div>
                 <div class="feature-icon-card">
                     <div class="feature-icon">
                         <img src="./images/secure-platform-icon.png" alt="Secure Platform" width="34" height="40">
                     </div>
-                    <h3>Secure<br>Platform</h3>
+                    <h3>Secure<br> Platform</h3>
                 </div>
                 <div class="feature-icon-card">
                     <div class="feature-icon">
                         <img src="./images/cloud-based-access-icon.png" alt="Cloud Based Access" width="39" height="41">
                     </div>
-                    <h3>Cloud Based<br>Access</h3>
+                    <h3>Cloud Based<br> Access</h3>
                 </div>
                 <div class="feature-icon-card">
                     <div class="feature-icon">
                         <img src="./images/User-friendly-icon.png" alt="User Friendly Interface" width="40" height="40">
                     </div>
-                    <h3>User-friendly<br>Interface</h3>
+                    <h3>User-friendly<br> Interface</h3>
                 </div>
             </div>
         </div>
@@ -404,17 +404,16 @@
 
                             <div class="testimonial-card">
                                 <div class="testimonial-title">"Keeps My Workday Organized and Less Stressful"</div>
-                                <p class="testimonial-text">My overall experience has been positive. Personally, it
-                                    helps me stay on top of documentation and daily tasks without adding to my workload.
-                                    A few more advanced features would make it even better.</p>
+                                <p class="testimonial-text">My overall experience has been positive. Personally, it helps me stay on top of documentation and daily tasks without adding to my workload. A few more advanced features would make it even better.</p>
                                 <div class="testimonial-header">
                                     <div class="testimonial-author">
-                                        <div class="testimonial-name">Adam P.</div>
-                                        <div class="testimonial-role">Chief Medical Officer Medical Practice</div>
+                                        <div class="testimonial-name">Adam</div>
+                                        <div class="testimonial-role">Medical Practice</div>
                                     </div>
                                     <div class="testimonial-rating">
                                         <div class="testimonial-source">
-                                            <img src="./images/getapp-logo-testimonial.png" alt="GetApp" width="116" height="24">
+                                            <img src="./images/software-advice-logo-testimonial.png"
+                                                alt="Software Advice" width="150" height="29">
                                         </div>
                                         <div class="testimonial-stars">&#9733;&#9733;&#9733;&#9733;&#9733;<span
                                                 class="testimonial-stars-number">5</span></div>
@@ -491,7 +490,7 @@
                             </div>
 
                             <div class="testimonial-card">
-                                <div class="testimonial-title">Streamlined and Reliable for Healthcare Needs</div>
+                                <div class="testimonial-title">"Streamlined and Reliable for Healthcare Needs"</div>
                                 <p class="testimonial-text">All things considered, S Cubed has been a valuable addition
                                     to our business. In my opinion, it keeps us organized, productive, and better able
                                     to assist the organizations and healthcare professionals we collaborate with. It has
@@ -735,16 +734,30 @@
                             <h3>Subscribe to our Newsletter</h3>
                             <p>Stay informed with industry insights and updates</p>
                         </div>
-                        <form class="newsletter-form">
+                        <!-- <form class="newsletter-form">
                             <div class="newsletter-input-wrapper">
                                 <label for="newsletter-email" class="visually-hidden">Email address</label>
                                 <input type="email" id="newsletter-email" placeholder="Enter your email address"
                                     class="newsletter-input">
                                 <span class="error-message">Invalid email address</span>
-                                <!-- <span class="success-message">Successfully subscribed!</span> -->
+                                <span class="success-message">Successfully subscribed!</span>
                             </div>
                             <button type="submit" class="newsletter-btn">Subscribe</button>
-                        </form>
+                        </form> -->
+
+                        <form id="newsletterForm" class="newsletter-form" novalidate>
+                            <div class="newsletter-input-wrapper">
+                                <input type="email" name="email" placeholder="Enter your email address" autocomplete="email" aria-label="Email address for newsletter" class="newsletter-input" />
+                                <div class="error-message"><span class="message"></span></div>
+                                <div class="success-message"><span class="message"></span></div>
+                            </div>
+                            <button type="submit" id="newsletterSubmit" class="newsletter-btn">
+                              <span class="newsletter-submit-text">Subscribe</span>
+                            </button>
+                          </form>
+                          
+                          
+                          
                     </div>
 
                     <div class="footer-columns-wrapper">
@@ -834,13 +847,10 @@
 
     <!-- Scroll to Top Button -->
     <button id="scrollTopBtn" class="scroll-to-top" aria-label="Scroll to top">
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"
-            aria-hidden="true">
-            <path d="M12 5l7 7-1.4 1.4L13 10.8V19h-2v-8.2l-4.6 2.6L5 12l7-7z" fill="#FFFFFF" />
-        </svg>
+        <div class="arrow-up"></div>
     </button>
 
-    <script src="script.js"></script>
+    <script src="script.js" defer></script>
 </body>
 
 </html>

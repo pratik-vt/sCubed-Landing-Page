@@ -173,3 +173,180 @@ document.addEventListener('DOMContentLoaded', () => {
         resizeRaf = requestAnimationFrame(evaluate);
     });
 });
+
+
+(function () {
+  'use strict';
+
+  var EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  var successHideTimer = null;
+
+  function findForms() {
+    // Prefer forms that contain an email input
+    var all = Array.prototype.slice.call(document.querySelectorAll('form'));
+    return all.filter(function (f) {
+      return !!f.querySelector('input[type="email"], input[name="email"]');
+    });
+  }
+
+  function findNearby(rootEl, selector) {
+    // Look within root, then climb up 3 ancestors to find the first match
+    var cur = rootEl;
+    for (var depth = 0; depth < 4 && cur; depth++) {
+      var found = cur.querySelector(selector);
+      if (found) return found;
+      cur = cur.parentElement;
+    }
+    return document.querySelector(selector);
+  }
+
+  function pickMessageTarget(box) {
+    if (!box) return null;
+    return box.querySelector('.message') || box;
+  }
+
+  function clearMessages(successBox, errorBox, successMsgEl, errorMsgEl) {
+    if (successHideTimer) {
+      clearTimeout(successHideTimer);
+      successHideTimer = null;
+    }
+    if (successMsgEl) successMsgEl.textContent = '';
+    if (errorMsgEl) errorMsgEl.textContent = '';
+    hide(successBox);
+    hide(errorBox);
+  }
+
+  function show(el) {
+    if (!el) return;
+    el.removeAttribute('hidden');
+    el.setAttribute('aria-hidden', 'false');
+    el.style.display = '';
+  }
+
+  function hide(el) {
+    if (!el) return;
+    el.setAttribute('aria-hidden', 'true');
+    el.style.display = 'none';
+  }
+
+  function setLoading(btn, emailInput, isLoading) {
+    if (btn) {
+      var hasSwapSpans =
+        !!btn.querySelector('.newsletter-submit-text') &&
+        !!btn.querySelector('.newsletter-loading');
+      if (hasSwapSpans) {
+        if (isLoading) btn.classList.add('is-loading');
+        else btn.classList.remove('is-loading');
+      } else {
+        var original = btn.getAttribute('data-original-text');
+        if (!original) {
+          btn.setAttribute('data-original-text', btn.textContent || '');
+          original = btn.getAttribute('data-original-text');
+        }
+        btn.textContent = isLoading ? 'Subscribing…' : (original || 'Subscribe');
+      }
+      btn.disabled = !!isLoading;
+    }
+    if (emailInput) emailInput.disabled = !!isLoading;
+  }
+
+  function isValidEmail(value) {
+    var v = String(value || '').trim();
+    if (!v) return false;
+    // Use native validity if available, fallback to regex
+    var probe = document.createElement('input');
+    probe.type = 'email';
+    probe.value = v;
+    return (probe.validity && probe.validity.valid) || EMAIL_REGEX.test(v);
+  }
+
+  function attach(form) {
+    var emailInput = form.querySelector('input[name="email"]') || form.querySelector('input[type="email"]');
+    var submitBtn =
+      form.querySelector('#newsletterSubmit') ||
+      form.querySelector('button[type="submit"]') ||
+      form.querySelector('input[type="submit"]');
+
+    // Use your existing UI blocks
+    var successBox =
+      findNearby(form, '.success-message') || findNearby(form, '.newsletter-success');
+    var errorBox =
+      findNearby(form, '.error-message') || findNearby(form, '.newsletter-error');
+
+    var successMsgEl = pickMessageTarget(successBox);
+    var errorMsgEl = pickMessageTarget(errorBox);
+
+    if (!emailInput || !submitBtn || !successBox || !errorBox) return;
+
+    form.setAttribute('novalidate', 'novalidate');
+
+    form.addEventListener('submit', function (e) {
+      e.preventDefault();
+
+      clearMessages(successBox, errorBox, successMsgEl, errorMsgEl);
+
+      var email = (emailInput.value || '').trim();
+      console.log("asfasfhasf", email)
+      if (!email) {
+        if (errorMsgEl) errorMsgEl.textContent = 'Email is required';
+        show(errorBox);
+        return;
+      }
+      if (!isValidEmail(email)) {
+        if (errorMsgEl) errorMsgEl.textContent = 'Please enter a valid email address';
+        show(errorBox);
+        return;
+      }
+
+      setLoading(submitBtn, emailInput, true);
+
+      fetch('/api/newsletter', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email: email })
+      })
+        .then(function (resp) {
+          return Promise.all([resp.ok, resp.json().catch(function () { return {}; })]);
+        })
+        .then(function (res) {
+          var ok = res[0];
+          var data = res[1] || {};
+          if (ok) {
+            if (successMsgEl) {
+              successMsgEl.textContent = data.message || 'Thank you for subscribing to our newsletter!';
+            }
+            show(successBox);
+            emailInput.value = '';
+            successHideTimer = setTimeout(function () {
+              hide(successBox);
+              if (successMsgEl) successMsgEl.textContent = '';
+            }, 5000);
+          } else {
+            var msg =
+              (Array.isArray(data.errors) && data.errors[0] && data.errors[0].message) ||
+              'Failed to subscribe. Please try again later.';
+            if (errorMsgEl) errorMsgEl.textContent = msg;
+            show(errorBox);
+          }
+        })
+        .catch(function () {
+          if (errorMsgEl) errorMsgEl.textContent = 'Network error. Please check your connection and try again.';
+          show(errorBox);
+        })
+        .finally(function () {
+          setLoading(submitBtn, emailInput, false);
+        });
+    });
+  }
+
+  function init() {
+    var forms = findForms();
+    for (var i = 0; i < forms.length; i++) attach(forms[i]);
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', init);
+  } else {
+    init();
+  }
+})();
