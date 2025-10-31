@@ -7,7 +7,7 @@ import {
 } from '../../../styles/tokens.css';
 
 export const ctaSection = style({
-  padding: `0 0 ${spacing['xl']} 0`,
+  padding: `${spacing['xl']} 0 ${spacing['xl']} 0`,
   backgroundColor: colors.white,
   '@media': {
     'screen and (max-width: 768px)': {

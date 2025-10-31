@@ -1,17 +1,6 @@
 'use client';
 
 import {
-  BarChart3,
-  Calendar,
-  Clock,
-  CreditCard,
-  FileText,
-  MessageSquare,
-  Settings,
-  Target,
-  ClipboardClock,
-  BellRing,
-  CalendarDays,
   Timer,
   View,
   Siren
@@ -27,7 +16,6 @@ import {
   featuresContainer,
   featuresSection,
   sectionBackground,
-  sectionDescription,
   sectionHeader,
   sectionTitle,
 } from './style.css';

@@ -8,11 +8,12 @@ import CTA from '../../components/authorization/CTA';
 import ContentSection from '../../components/authorization/Features';
 import Hero from '../../components/authorization/Hero';
 import Trust from '../../components/authorization/Trust';
-import goalImg from '../../images/authorization/from-goals-to-measurable-change.png';
+
 import { getFAQCollection, transformFAQData } from '../../lib/faq-api';
 
-import BuildSmarterTemplatesGetClearerReports from '../../images/authorization/build-smarter-templates-get-clearer-reports.png';
-import RecordDataAsYouWork from '../../images/authorization/record-data.png';
+import AllYourAuthorizationsFinallyInOnePlace from '../../images/authorization/all-your-authorizations-finally-in-one-place.png';
+import LinkedAutomaticallySoNoAssumptions from '../../images/authorization/linked-automatically-so-no-assumptions.png';
+import NeverLoseTrackOfExpirationsAgain from '../../images/authorization/never-lose-track-of-expirations-again.png';
 
 export const metadata: Metadata = {
   title:
@@ -138,7 +139,7 @@ export default async function DataCollectionPage() {
           "
           backgroundColor="#ffffff"
           imagePosition="left"
-          imageSrc={RecordDataAsYouWork}
+          imageSrc={AllYourAuthorizationsFinallyInOnePlace}
           imageAlt="ABA data collection during therapy session"
         />
 
@@ -155,7 +156,7 @@ export default async function DataCollectionPage() {
           "
           backgroundColor="#f9fafb"
           imagePosition="right"
-          imageSrc={goalImg}
+          imageSrc={LinkedAutomaticallySoNoAssumptions}
           imageAlt="Graphing and reporting for ABA goals"
         />
 
@@ -171,19 +172,19 @@ export default async function DataCollectionPage() {
           "
           backgroundColor="#ffffff"
           imagePosition="left"
-          imageSrc={BuildSmarterTemplatesGetClearerReports}
+          imageSrc={NeverLoseTrackOfExpirationsAgain}
           imageAlt="Document and template management in ABA software"
         />
 
         <Trust features={features.slice(1)} heading={features[0].featureMainTitle || ''} />
 
-        {faqData.sections.map((section, index) => (
+        {/* {faqData.sections.map((section, index) => (
           <FAQSection
             key={section.items[0].question}
             title={index === 0 ? faqData.title : ''}
             faqs={section.items}
           />
-        ))}
+        ))} */}
 
         <CTA title="Authorization Management Shouldn’t Be A Full-time Job" description="We know the struggle of tracking expirations, renewing on time, and keeping billing compliant. S Cubed takes the complexity out of authorization management with smart automation and built-in alerts. Our prior authorization software gives your team time back to focus on what really matters." buttonText="Schedule a Demo →" />
       </Container>

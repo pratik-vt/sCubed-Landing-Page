@@ -5,10 +5,10 @@ import Image from 'next/image';
 import React from 'react';
 
 import billingImg from '../../../images/Billing.jpg';
-import Banner from '../../../images/authorization/authorization-banner.jpg';
+import Banner from '../../../images/authorization/authorization-banner.png';
 import CalendlyButton from '../../billing/CalendlyButton';
 import { primaryButton } from '../../billing/CalendlyButton/styles.css';
-import Carousel from '../Carousel';
+
 
 import {
   backgroundImage,
@@ -104,8 +104,6 @@ Meet S Cubed, your prior authorization software with heart.
       </section>
 
       <Workflow />
-
-      {/* <Carousel /> */}
     </>
   );
 };
