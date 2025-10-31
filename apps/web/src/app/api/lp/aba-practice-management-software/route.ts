@@ -9,6 +9,9 @@ export async function GET(request: NextRequest) {
     const htmlPath = join(process.cwd(), 'public', 'lp', 'index.html');
     let htmlContent = await readFile(htmlPath, 'utf-8');
     
+    // Get reCAPTCHA site key from environment variables
+    const recaptchaSiteKey = process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY_V3;
+    
     // Fix relative image paths to point to /lp/images/
     htmlContent = htmlContent.replace(/src="\.\/images\//g, 'src="/lp/images/');
     htmlContent = htmlContent.replace(/href="\.\/images\//g, 'href="/lp/images/');
@@ -16,6 +19,22 @@ export async function GET(request: NextRequest) {
     // Fix any other relative asset paths
     htmlContent = htmlContent.replace(/src="\.\/([^"]*\.(css|js))"/g, 'src="/lp/$1"');
     htmlContent = htmlContent.replace(/href="\.\/([^"]*\.css)"/g, 'href="/lp/$1"');
+    
+    // Inject reCAPTCHA configuration if available
+    // This allows server-side management of reCAPTCHA keys via environment variables
+    if (recaptchaSiteKey) {
+      // Enable reCAPTCHA script by uncommenting it
+      htmlContent = htmlContent.replace(
+        /<!-- <script src="https:\/\/www\.google\.com\/recaptcha\/api\.js\?render=explicit" async defer><\/script> -->/g,
+        `<script src="https://www.google.com/recaptcha/api.js?render=explicit" async defer></script>`
+      );
+      
+      // Inject reCAPTCHA site key into JavaScript configuration
+      htmlContent = htmlContent.replace(
+        /window\.RECAPTCHA_SITE_KEY = null;/g,
+        `window.RECAPTCHA_SITE_KEY = '${recaptchaSiteKey}';`
+      );
+    }
     
     // Add noindex meta tag to head if not present
     if (!htmlContent.includes('robots')) {

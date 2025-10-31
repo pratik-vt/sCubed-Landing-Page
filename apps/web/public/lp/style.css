@@ -1060,25 +1060,43 @@
     .newsletter-input-wrapper {
         flex: 1;
         position: relative;
+        margin-bottom: 30px; /* Space for error/success messages */
     }
 
     .error-message,
     .success-message {
         position: absolute;
-        bottom: -20px;
+        bottom: -30px;
         left: 0;
         font-size: var(--font-size-sm);
         line-height: normal;
         margin: 0;
-        padding: 0;
+        padding: 4px 8px;
+        border-radius: 4px;
+        display: none !important;
+        opacity: 0 !important;
+        transition: opacity 0.3s ease;
+        z-index: 10;
+        visibility: hidden;
+    }
+
+    .error-message[aria-hidden="false"],
+    .success-message[aria-hidden="false"] {
+        display: block !important;
+        opacity: 1 !important;
+        visibility: visible !important;
     }
 
     .error-message {
-        color: #ff0000;
+        color: #dc2626;
+        background-color: #fef2f2;
+        border: 1px solid #fecaca;
     }
 
     .success-message {
-        color: #008000;
+        color: #16a34a;
+        background-color: #f0fdf4;
+        border: 1px solid #bbf7d0;
     }
 
     .newsletter-input-wrapper input {

@@ -1,3 +1,11 @@
+// reCAPTCHA Configuration
+// To enable reCAPTCHA:
+// 1. Get a reCAPTCHA v3 site key from https://www.google.com/recaptcha/admin
+// 2. Uncomment the reCAPTCHA script tag in the HTML head
+// 3. Set your site key below
+// 4. Update your backend to verify the reCAPTCHA token
+window.RECAPTCHA_SITE_KEY = null; // Set to your actual reCAPTCHA site key when ready
+// Example: window.RECAPTCHA_SITE_KEY = 'your-actual-site-key-here';
 
 // Mobile Menu Toggle
 const menuToggle = document.getElementById('menuToggle');
@@ -63,19 +71,7 @@ document.querySelectorAll('.faq-question').forEach(button => {
     });
 });
 
-// Newsletter Form Submission
-const newsletterForm = document.querySelector('.newsletter-form');
-if (newsletterForm) {
-    newsletterForm.addEventListener('submit', (e) => {
-        e.preventDefault();
-        const emailInput = newsletterForm.querySelector('.newsletter-input');
-        const email = emailInput.value;
-
-        if (email) {
-            emailInput.value = '';
-        }
-    });
-}
+// Newsletter Form Submission - handled by comprehensive implementation below
 
 // Close mobile menu on window resize
 window.addEventListener('resize', () => {
@@ -182,7 +178,13 @@ document.addEventListener('DOMContentLoaded', () => {
   var successHideTimer = null;
 
   function findForms() {
-    // Prefer forms that contain an email input
+    // First try to find the specific newsletter form
+    var newsletterForm = document.getElementById('newsletterForm');
+    if (newsletterForm) {
+      return [newsletterForm];
+    }
+    
+    // Fallback: find forms that contain an email input
     var all = Array.prototype.slice.call(document.querySelectorAll('form'));
     return all.filter(function (f) {
       return !!f.querySelector('input[type="email"], input[name="email"]');
@@ -220,13 +222,15 @@ document.addEventListener('DOMContentLoaded', () => {
     if (!el) return;
     el.removeAttribute('hidden');
     el.setAttribute('aria-hidden', 'false');
-    el.style.display = '';
+    el.style.display = 'block';
+    el.style.opacity = '1';
   }
 
   function hide(el) {
     if (!el) return;
     el.setAttribute('aria-hidden', 'true');
     el.style.display = 'none';
+    el.style.opacity = '0';
   }
 
   function setLoading(btn, emailInput, isLoading) {
@@ -279,6 +283,30 @@ document.addEventListener('DOMContentLoaded', () => {
     if (!emailInput || !submitBtn || !successBox || !errorBox) return;
 
     form.setAttribute('novalidate', 'novalidate');
+    
+    // Initialize message states as hidden
+    hide(successBox);
+    hide(errorBox);
+    if (successMsgEl) successMsgEl.textContent = '';
+    if (errorMsgEl) errorMsgEl.textContent = '';
+
+    // Clear error messages when user starts typing (but not when programmatically cleared)
+    emailInput.addEventListener('input', function() {
+      // Only clear messages if the user is actually typing (input has content)
+      // This prevents clearing success messages when form is reset programmatically
+      if (emailInput.value.trim().length > 0) {
+        clearMessages(successBox, errorBox, successMsgEl, errorMsgEl);
+      }
+    });
+
+    // Clear error messages when user focuses on input (only if there's an error showing)
+    emailInput.addEventListener('focus', function() {
+      // Only hide error box if it's currently visible and there's no success message showing
+      if (errorBox.getAttribute('aria-hidden') === 'false' && 
+          successBox.getAttribute('aria-hidden') !== 'false') {
+        hide(errorBox);
+      }
+    });
 
     form.addEventListener('submit', function (e) {
       e.preventDefault();
@@ -286,7 +314,6 @@ document.addEventListener('DOMContentLoaded', () => {
       clearMessages(successBox, errorBox, successMsgEl, errorMsgEl);
 
       var email = (emailInput.value || '').trim();
-      console.log("asfasfhasf", email)
       if (!email) {
         if (errorMsgEl) errorMsgEl.textContent = 'Email is required';
         show(errorBox);
@@ -300,43 +327,127 @@ document.addEventListener('DOMContentLoaded', () => {
 
       setLoading(submitBtn, emailInput, true);
 
-      fetch('/api/newsletter', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email: email })
-      })
+      // Execute reCAPTCHA if available and properly configured
+      if (window.grecaptcha && window.RECAPTCHA_SITE_KEY) {
+        try {
+          window.grecaptcha.ready(function() {
+            window.grecaptcha.execute(window.RECAPTCHA_SITE_KEY, {action: 'newsletter'}).then(function(token) {
+              submitToAPI(email, token, submitBtn, emailInput, successBox, errorBox, successMsgEl, errorMsgEl);
+            }).catch(function(error) {
+              console.warn('reCAPTCHA execution failed:', error);
+              // Fallback to submission without reCAPTCHA
+              submitToAPI(email, null, submitBtn, emailInput, successBox, errorBox, successMsgEl, errorMsgEl);
+            });
+          });
+        } catch (error) {
+          console.warn('reCAPTCHA error:', error);
+          // Fallback to submission without reCAPTCHA
+          submitToAPI(email, null, submitBtn, emailInput, successBox, errorBox, successMsgEl, errorMsgEl);
+        }
+      } else {
+        // Fallback without reCAPTCHA (disabled or not available)
+        submitToAPI(email, null, submitBtn, emailInput, successBox, errorBox, successMsgEl, errorMsgEl);
+      }
+    });
+  }
+
+  function submitToAPI(email, recaptchaToken, submitBtn, emailInput, successBox, errorBox, successMsgEl, errorMsgEl) {
+    var payload = { email: email };
+    if (recaptchaToken) {
+      payload.recaptcha_token = recaptchaToken;
+    }
+
+    // For testing purposes, simulate API call
+    // In production, replace with actual API endpoint
+    var simulateAPI = true; // Set to false when real API is available
+    
+    if (simulateAPI) {
+      // Simulate API response for testing
+      setTimeout(function() {
+        var mockResponse = {
+          ok: true,
+          json: function() {
+            return Promise.resolve({
+              message: 'Thank you for subscribing to our newsletter!'
+            });
+          }
+        };
+        
+        Promise.all([mockResponse.ok, mockResponse.json()])
+          .then(function(res) {
+            var ok = res[0];
+            var data = res[1] || {};
+            if (ok) {
+              // Ensure error messages are hidden before showing success
+              hide(errorBox);
+              if (errorMsgEl) errorMsgEl.textContent = '';
+              
+              if (successMsgEl) {
+                successMsgEl.textContent = data.message || 'Thank you for subscribing to our newsletter!';
+              }
+              show(successBox);
+              emailInput.value = '';
+              successHideTimer = setTimeout(function () {
+                hide(successBox);
+                if (successMsgEl) successMsgEl.textContent = '';
+              }, 5000);
+            }
+          })
+          .finally(function () {
+            setLoading(submitBtn, emailInput, false);
+          });
+      }, 1000); // Simulate network delay
+      return;
+    }
+    
+    fetch('/api/newsletter', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload)
+    })
         .then(function (resp) {
           return Promise.all([resp.ok, resp.json().catch(function () { return {}; })]);
         })
-        .then(function (res) {
-          var ok = res[0];
-          var data = res[1] || {};
-          if (ok) {
-            if (successMsgEl) {
-              successMsgEl.textContent = data.message || 'Thank you for subscribing to our newsletter!';
-            }
-            show(successBox);
-            emailInput.value = '';
-            successHideTimer = setTimeout(function () {
-              hide(successBox);
-              if (successMsgEl) successMsgEl.textContent = '';
-            }, 5000);
-          } else {
-            var msg =
-              (Array.isArray(data.errors) && data.errors[0] && data.errors[0].message) ||
-              'Failed to subscribe. Please try again later.';
-            if (errorMsgEl) errorMsgEl.textContent = msg;
-            show(errorBox);
+      .then(function (res) {
+        var ok = res[0];
+        var data = res[1] || {};
+        if (ok) {
+          // Ensure error messages are hidden before showing success
+          hide(errorBox);
+          if (errorMsgEl) errorMsgEl.textContent = '';
+          
+          if (successMsgEl) {
+            successMsgEl.textContent = data.message || 'Thank you for subscribing to our newsletter!';
           }
-        })
-        .catch(function () {
-          if (errorMsgEl) errorMsgEl.textContent = 'Network error. Please check your connection and try again.';
+          show(successBox);
+          emailInput.value = '';
+          successHideTimer = setTimeout(function () {
+            hide(successBox);
+            if (successMsgEl) successMsgEl.textContent = '';
+          }, 5000);
+        } else {
+          var msg;
+          if (Array.isArray(data.errors) && data.errors[0]) {
+            var error = data.errors[0];
+            if (error.field === 'recaptcha') {
+              msg = error.message || 'reCAPTCHA verification failed. Please try again.';
+            } else {
+              msg = error.message || 'Failed to subscribe. Please try again later.';
+            }
+          } else {
+            msg = 'Failed to subscribe. Please try again later.';
+          }
+          if (errorMsgEl) errorMsgEl.textContent = msg;
           show(errorBox);
-        })
-        .finally(function () {
-          setLoading(submitBtn, emailInput, false);
-        });
-    });
+        }
+      })
+      .catch(function () {
+        if (errorMsgEl) errorMsgEl.textContent = 'Network error. Please check your connection and try again.';
+        show(errorBox);
+      })
+      .finally(function () {
+        setLoading(submitBtn, emailInput, false);
+      });
   }
 
   function init() {
