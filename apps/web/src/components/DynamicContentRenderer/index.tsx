@@ -1,8 +1,15 @@
 import React from 'react';
-import ReactMarkdown from 'react-markdown';
 import type { Components } from 'react-markdown';
-import remarkGfm from 'remark-gfm';
+import ReactMarkdown from 'react-markdown';
 import rehypeRaw from 'rehype-raw';
+import remarkGfm from 'remark-gfm';
+
+import {
+  extractYouTubeVideoId,
+  getYouTubeEmbedUrl,
+  isYouTubeUrl,
+} from '../../lib/youtube-utils';
+import { videoContainer, videoIframe, videoWrapper } from './video-embed.css';
 
 type ComponentProps = {
   children?: React.ReactNode;
@@ -21,15 +28,25 @@ interface DynamicContentRendererProps {
 
 export const defaultMarkdownComponents: Components = {
   h1: ({ children, ...props }: ComponentProps) => (
-    <h1 style={{ fontSize: '2.5rem', fontWeight: 'bold', marginBottom: '1.5rem', color: '#111827' }} {...props}>
+    <h1
+      style={{
+        fontSize: '2.5rem',
+        fontWeight: 'bold',
+        marginBottom: '1.5rem',
+        color: '#111827',
+      }}
+      {...props}
+    >
       {children}
     </h1>
   ),
   h2: ({ children, ...props }: ComponentProps) => {
-    const headingText = typeof children === 'string' ? children :
-      React.Children.toArray(children)
-        .map(child => typeof child === 'string' ? child : '')
-        .join('');
+    const headingText =
+      typeof children === 'string'
+        ? children
+        : React.Children.toArray(children)
+            .map((child) => (typeof child === 'string' ? child : ''))
+            .join('');
     const baseId = headingText
       .toLowerCase()
       .replace(/[^\w\s-]/g, '')
@@ -42,7 +59,13 @@ export const defaultMarkdownComponents: Components = {
     return (
       <h2
         id={headingId}
-        style={{ fontSize: '2rem', fontWeight: '600', marginBottom: '1.25rem', color: '#111827', scrollMarginTop: '100px' }}
+        style={{
+          fontSize: '2rem',
+          fontWeight: '600',
+          marginBottom: '1.25rem',
+          color: '#111827',
+          scrollMarginTop: '100px',
+        }}
         {...props}
       >
         {children}
@@ -50,37 +73,88 @@ export const defaultMarkdownComponents: Components = {
     );
   },
   h3: ({ children, ...props }: ComponentProps) => (
-    <h3 style={{ fontSize: '1.5rem', fontWeight: '600', marginBottom: '1rem', color: '#111827' }} {...props}>
+    <h3
+      style={{
+        fontSize: '1.5rem',
+        fontWeight: '600',
+        marginBottom: '1rem',
+        color: '#111827',
+      }}
+      {...props}
+    >
       {children}
     </h3>
   ),
   h4: ({ children, ...props }: ComponentProps) => (
-    <h4 style={{ fontSize: '1.25rem', fontWeight: '600', marginBottom: '0.75rem', color: '#111827' }} {...props}>
+    <h4
+      style={{
+        fontSize: '1.25rem',
+        fontWeight: '600',
+        marginBottom: '0.75rem',
+        color: '#111827',
+      }}
+      {...props}
+    >
       {children}
     </h4>
   ),
   h5: ({ children, ...props }: ComponentProps) => (
-    <h5 style={{ fontSize: '1.125rem', fontWeight: '600', marginBottom: '0.5rem', color: '#111827' }} {...props}>
+    <h5
+      style={{
+        fontSize: '1.125rem',
+        fontWeight: '600',
+        marginBottom: '0.5rem',
+        color: '#111827',
+      }}
+      {...props}
+    >
       {children}
     </h5>
   ),
   h6: ({ children, ...props }: ComponentProps) => (
-    <h6 style={{ fontSize: '1rem', fontWeight: '600', marginBottom: '0.5rem', color: '#111827' }} {...props}>
+    <h6
+      style={{
+        fontSize: '1rem',
+        fontWeight: '600',
+        marginBottom: '0.5rem',
+        color: '#111827',
+      }}
+      {...props}
+    >
       {children}
     </h6>
   ),
   p: ({ children, ...props }: ComponentProps) => (
-    <p style={{ marginBottom: '1rem', color: '#374151', lineHeight: 1.75 }} {...props}>
+    <p
+      style={{ marginBottom: '1rem', color: '#374151', lineHeight: 1.75 }}
+      {...props}
+    >
       {children}
     </p>
   ),
   ul: ({ children, ...props }: ComponentProps) => (
-    <ul style={{ marginBottom: '1rem', marginLeft: '1.5rem', listStyleType: 'disc', color: '#374151' }} {...props}>
+    <ul
+      style={{
+        marginBottom: '1rem',
+        marginLeft: '1.5rem',
+        listStyleType: 'disc',
+        color: '#374151',
+      }}
+      {...props}
+    >
       {children}
     </ul>
   ),
   ol: ({ children, ...props }: ComponentProps) => (
-    <ol style={{ marginBottom: '1rem', marginLeft: '1.5rem', listStyleType: 'decimal', color: '#374151' }} {...props}>
+    <ol
+      style={{
+        marginBottom: '1rem',
+        marginLeft: '1.5rem',
+        listStyleType: 'decimal',
+        color: '#374151',
+      }}
+      {...props}
+    >
       {children}
     </ol>
   ),
@@ -89,20 +163,62 @@ export const defaultMarkdownComponents: Components = {
       {children}
     </li>
   ),
-  a: ({ children, ...props }: ComponentProps) => (
-    <a
+  a: ({ children, href, ...props }: ComponentProps) => {
+    // Check if the link is a YouTube URL
+    if (href && isYouTubeUrl(href)) {
+      const videoId = extractYouTubeVideoId(href);
+
+      if (videoId) {
+        const embedUrl = getYouTubeEmbedUrl(videoId, {
+          privacyMode: true,
+          showControls: true,
+        });
+
+        return (
+          <div className={videoWrapper}>
+            <div className={videoContainer}>
+              <iframe
+                className={videoIframe}
+                src={embedUrl}
+                title={
+                  typeof children === 'string' ? children : 'YouTube video'
+                }
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                allowFullScreen
+                loading="lazy"
+              />
+            </div>
+          </div>
+        );
+      }
+    }
+
+    // Default link rendering
+    return (
+      <a
+        href={href}
+        style={{
+          color: '#2563EB',
+          textDecoration: 'underline',
+          fontWeight: 'normal',
+        }}
+        {...props}
+      >
+        {children}
+      </a>
+    );
+  },
+  blockquote: ({ children, ...props }: ComponentProps) => (
+    <blockquote
       style={{
-        color: '#2563EB',
-        textDecoration: 'underline',
-        fontWeight: 'normal'
+        borderLeft: '4px solid #3B82F6',
+        backgroundColor: '#EFF6FF',
+        padding: '1rem',
+        margin: '1.5rem 0',
+        fontStyle: 'italic',
       }}
       {...props}
     >
-      {children}
-    </a>
-  ),
-  blockquote: ({ children, ...props }: ComponentProps) => (
-    <blockquote style={{ borderLeft: '4px solid #3B82F6', backgroundColor: '#EFF6FF', padding: '1rem', margin: '1.5rem 0', fontStyle: 'italic' }} {...props}>
       {children}
     </blockquote>
   ),
@@ -110,29 +226,72 @@ export const defaultMarkdownComponents: Components = {
     const isInline = !className;
     if (isInline) {
       return (
-        <code style={{ backgroundColor: '#F3F4F6', color: '#1F2937', padding: '0.125rem 0.25rem', borderRadius: '0.25rem', fontSize: '0.875rem', fontFamily: 'monospace' }} {...props}>
+        <code
+          style={{
+            backgroundColor: '#F3F4F6',
+            color: '#1F2937',
+            padding: '0.125rem 0.25rem',
+            borderRadius: '0.25rem',
+            fontSize: '0.875rem',
+            fontFamily: 'monospace',
+          }}
+          {...props}
+        >
           {children}
         </code>
       );
     }
     return (
-      <code style={{ display: 'block', backgroundColor: '#111827', color: '#F9FAFB', padding: '1rem', borderRadius: '0.5rem', overflowX: 'auto', fontFamily: 'monospace' }} {...props}>
+      <code
+        style={{
+          display: 'block',
+          backgroundColor: '#111827',
+          color: '#F9FAFB',
+          padding: '1rem',
+          borderRadius: '0.5rem',
+          overflowX: 'auto',
+          fontFamily: 'monospace',
+        }}
+        {...props}
+      >
         {children}
       </code>
     );
   },
   pre: ({ children, ...props }: ComponentProps) => (
-    <pre style={{ backgroundColor: '#111827', color: '#F9FAFB', padding: '1rem', borderRadius: '0.5rem', overflowX: 'auto', margin: '1rem 0', fontFamily: 'monospace', fontSize: '0.875rem' }} {...props}>
+    <pre
+      style={{
+        backgroundColor: '#111827',
+        color: '#F9FAFB',
+        padding: '1rem',
+        borderRadius: '0.5rem',
+        overflowX: 'auto',
+        margin: '1rem 0',
+        fontFamily: 'monospace',
+        fontSize: '0.875rem',
+      }}
+      {...props}
+    >
       {children}
     </pre>
   ),
   del: ({ children, ...props }: ComponentProps) => (
-    <del style={{ color: '#6B7280', textDecoration: 'line-through' }} {...props}>
+    <del
+      style={{ color: '#6B7280', textDecoration: 'line-through' }}
+      {...props}
+    >
       {children}
     </del>
   ),
   u: ({ children, ...props }: ComponentProps) => (
-    <u style={{ textDecoration: 'underline', textDecorationThickness: '2px', textDecorationColor: '#3B82F6' }} {...props}>
+    <u
+      style={{
+        textDecoration: 'underline',
+        textDecorationThickness: '2px',
+        textDecorationColor: '#3B82F6',
+      }}
+      {...props}
+    >
       {children}
     </u>
   ),
@@ -147,12 +306,22 @@ export const defaultMarkdownComponents: Components = {
     </em>
   ),
   mark: ({ children, ...props }: ComponentProps) => (
-    <mark style={{ backgroundColor: '#FEF3C7', padding: '0.125rem 0.25rem', borderRadius: '0.25rem' }} {...props}>
+    <mark
+      style={{
+        backgroundColor: '#FEF3C7',
+        padding: '0.125rem 0.25rem',
+        borderRadius: '0.25rem',
+      }}
+      {...props}
+    >
       {children}
     </mark>
   ),
   hr: ({ ...props }: ComponentProps) => (
-    <hr style={{ margin: '2rem 0', borderTop: '1px solid #E5E7EB' }} {...props} />
+    <hr
+      style={{ margin: '2rem 0', borderTop: '1px solid #E5E7EB' }}
+      {...props}
+    />
   ),
 };
 
@@ -178,10 +347,17 @@ const DynamicContentRenderer: React.FC<DynamicContentRendererProps> = ({
   const mergedComponents: Components = {
     ...defaultMarkdownComponents,
     ...components,
-    h2: components?.h2 || (({ children, ...props }: ComponentProps) => {
-      const H2Component = defaultMarkdownComponents.h2 as React.FC<ComponentProps>;
-      return <H2Component {...props} blockIndex={blockIndex}>{children}</H2Component>;
-    }),
+    h2:
+      components?.h2 ||
+      (({ children, ...props }: ComponentProps) => {
+        const H2Component =
+          defaultMarkdownComponents.h2 as React.FC<ComponentProps>;
+        return (
+          <H2Component {...props} blockIndex={blockIndex}>
+            {children}
+          </H2Component>
+        );
+      }),
   };
 
   return (
