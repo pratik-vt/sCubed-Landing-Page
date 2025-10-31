@@ -1,6 +1,7 @@
 import { style } from '@vanilla-extract/css';
 
 export const primaryButton = style({
+  display: 'inline-block',
   padding: '20px 40px',
   background: 'linear-gradient(135deg, #7a7eed 0%, #6c6ee5 100%)',
   color: '#ffffff',
@@ -9,6 +10,7 @@ export const primaryButton = style({
   fontSize: '16px',
   fontWeight: '600',
   cursor: 'pointer',
+  textDecoration: 'none',
   transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
   boxShadow: '0 8px 20px rgba(122, 126, 237, 0.35), 0 2px 8px rgba(122, 126, 237, 0.25)',
   fontFamily:

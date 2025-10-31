@@ -2,11 +2,11 @@
 
 import { motion } from 'framer-motion';
 import Image from 'next/image';
+import Link from 'next/link';
 import React from 'react';
 
 import billingImg from '../../../images/Billing.jpg';
 import DataCollectionBanner from '../../../images/data-collection/data-collection-banner.jpg';
-import CalendlyButton from '../../billing/CalendlyButton';
 import { primaryButton } from '../../billing/CalendlyButton/styles.css';
 import FeaturesCarousel from '../FeaturesCarousel';
 
@@ -69,10 +69,9 @@ const DataCollectionHero: React.FC = () => {
               </p>
               <div className={ctaSection}>
                 <div>
-                  <CalendlyButton
-                    buttonText="Start Your Free Trial →"
-                    className={primaryButton}
-                  />
+                  <Link href="/get-started" className={primaryButton}>
+                    Start Your Free Trial →
+                  </Link>
                 </div>
               </div>
             </motion.div>
