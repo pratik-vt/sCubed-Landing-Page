@@ -659,7 +659,7 @@ export const facebookButton = style([
 
 export const contentLayout = style({
   display: 'grid',
-  gridTemplateColumns: '1fr 300px',
+  gridTemplateColumns: '1fr 354px',
   gap: spacing.xl,
 
   '@media': {
