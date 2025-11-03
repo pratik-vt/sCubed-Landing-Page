@@ -72,8 +72,8 @@ const BlogArticle: React.FC<BlogArticleProps> = ({ post }) => {
 
   // Get post data
   const title = post.title;
-  const heroImageUrl = (post.hero_image || post.featured_image) 
-    ? getStrapiImageUrl(post.hero_image || post.featured_image) 
+  const heroImageUrl = (post.hero_image) 
+    ? getStrapiImageUrl(post.hero_image) 
     : '';
   const authorName = post.author?.name || 'S Cubed Team';
   const authorAvatarImage = post.author?.avatar;
