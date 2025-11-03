@@ -1,11 +1,4 @@
-// reCAPTCHA Configuration
-// To enable reCAPTCHA:
-// 1. Get a reCAPTCHA v3 site key from https://www.google.com/recaptcha/admin
-// 2. Uncomment the reCAPTCHA script tag in the HTML head
-// 3. Set your site key below
-// 4. Update your backend to verify the reCAPTCHA token
-window.RECAPTCHA_SITE_KEY = null; // Set to your actual reCAPTCHA site key when ready
-// Example: window.RECAPTCHA_SITE_KEY = 'your-actual-site-key-here';
+// reCAPTCHA Configuration is now handled inline in HTML for server-side injection
 
 // Mobile Menu Toggle
 const menuToggle = document.getElementById('menuToggle');
@@ -327,20 +320,38 @@ document.addEventListener('DOMContentLoaded', () => {
 
       setLoading(submitBtn, emailInput, true);
 
-      // Execute reCAPTCHA if available and properly configured
+      // Execute reCAPTCHA if available and properly configured (matching React component approach)
       if (window.grecaptcha && window.RECAPTCHA_SITE_KEY) {
         try {
           window.grecaptcha.ready(function() {
+            // Use the same approach as React component - direct execute with site key and action
             window.grecaptcha.execute(window.RECAPTCHA_SITE_KEY, {action: 'newsletter'}).then(function(token) {
-              submitToAPI(email, token, submitBtn, emailInput, successBox, errorBox, successMsgEl, errorMsgEl);
+              if (token) {
+                submitToAPI(email, token, submitBtn, emailInput, successBox, errorBox, successMsgEl, errorMsgEl);
+              } else {
+                // Fallback to submission without reCAPTCHA
+                submitToAPI(email, null, submitBtn, emailInput, successBox, errorBox, successMsgEl, errorMsgEl);
+              }
             }).catch(function(error) {
               console.warn('reCAPTCHA execution failed:', error);
+              
+              // Show user-friendly message about reCAPTCHA issue
+              if (errorMsgEl) {
+                errorMsgEl.textContent = 'Security verification unavailable. Proceeding without verification.';
+                show(errorBox);
+                setTimeout(function() {
+                  hide(errorBox);
+                }, 3000);
+              }
+              
               // Fallback to submission without reCAPTCHA
-              submitToAPI(email, null, submitBtn, emailInput, successBox, errorBox, successMsgEl, errorMsgEl);
+              setTimeout(function() {
+                submitToAPI(email, null, submitBtn, emailInput, successBox, errorBox, successMsgEl, errorMsgEl);
+              }, 1000);
             });
           });
         } catch (error) {
-          console.warn('reCAPTCHA error:', error);
+          console.warn('reCAPTCHA initialization error:', error);
           // Fallback to submission without reCAPTCHA
           submitToAPI(email, null, submitBtn, emailInput, successBox, errorBox, successMsgEl, errorMsgEl);
         }
@@ -357,49 +368,6 @@ document.addEventListener('DOMContentLoaded', () => {
       payload.recaptcha_token = recaptchaToken;
     }
 
-    // For testing purposes, simulate API call
-    // In production, replace with actual API endpoint
-    var simulateAPI = true; // Set to false when real API is available
-    
-    if (simulateAPI) {
-      // Simulate API response for testing
-      setTimeout(function() {
-        var mockResponse = {
-          ok: true,
-          json: function() {
-            return Promise.resolve({
-              message: 'Thank you for subscribing to our newsletter!'
-            });
-          }
-        };
-        
-        Promise.all([mockResponse.ok, mockResponse.json()])
-          .then(function(res) {
-            var ok = res[0];
-            var data = res[1] || {};
-            if (ok) {
-              // Ensure error messages are hidden before showing success
-              hide(errorBox);
-              if (errorMsgEl) errorMsgEl.textContent = '';
-              
-              if (successMsgEl) {
-                successMsgEl.textContent = data.message || 'Thank you for subscribing to our newsletter!';
-              }
-              show(successBox);
-              emailInput.value = '';
-              successHideTimer = setTimeout(function () {
-                hide(successBox);
-                if (successMsgEl) successMsgEl.textContent = '';
-              }, 5000);
-            }
-          })
-          .finally(function () {
-            setLoading(submitBtn, emailInput, false);
-          });
-      }, 1000); // Simulate network delay
-      return;
-    }
-    
     fetch('/api/newsletter', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },

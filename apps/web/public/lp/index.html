@@ -26,9 +26,14 @@
         href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap"
         rel="stylesheet">
     <!-- reCAPTCHA v3 for newsletter form spam protection -->
-    <!-- Uncomment when you have a valid reCAPTCHA site key -->
+    <!-- Server will inject the script with site key when configured -->
     <!-- <script src="https://www.google.com/recaptcha/api.js?render=explicit" async defer></script> -->
     <meta name="robots" content="noindex, nofollow">
+    
+    <!-- reCAPTCHA Configuration - Injected by server -->
+    <script>
+        window.RECAPTCHA_SITE_KEY = null;
+    </script>
 </head>
 
 <body>

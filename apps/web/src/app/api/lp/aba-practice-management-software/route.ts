@@ -11,6 +11,7 @@ export async function GET(request: NextRequest) {
     
     // Get reCAPTCHA site key from environment variables
     const recaptchaSiteKey = process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY_V3;
+    const disableRecaptcha = process.env.DISABLE_RECAPTCHA === 'true';
     
     // Fix relative image paths to point to /lp/images/
     htmlContent = htmlContent.replace(/src="\.\/images\//g, 'src="/lp/images/');
@@ -20,16 +21,16 @@ export async function GET(request: NextRequest) {
     htmlContent = htmlContent.replace(/src="\.\/([^"]*\.(css|js))"/g, 'src="/lp/$1"');
     htmlContent = htmlContent.replace(/href="\.\/([^"]*\.css)"/g, 'href="/lp/$1"');
     
-    // Inject reCAPTCHA configuration if available
+    // Inject reCAPTCHA configuration if available and not disabled
     // This allows server-side management of reCAPTCHA keys via environment variables
-    if (recaptchaSiteKey) {
-      // Enable reCAPTCHA script by uncommenting it
+    if (recaptchaSiteKey && !disableRecaptcha) {
+      // Enable reCAPTCHA script by uncommenting it (using render with site key like React component)
       htmlContent = htmlContent.replace(
         /<!-- <script src="https:\/\/www\.google\.com\/recaptcha\/api\.js\?render=explicit" async defer><\/script> -->/g,
-        `<script src="https://www.google.com/recaptcha/api.js?render=explicit" async defer></script>`
+        `<script src="https://www.google.com/recaptcha/api.js?render=${recaptchaSiteKey}" async defer></script>`
       );
       
-      // Inject reCAPTCHA site key into JavaScript configuration
+      // Inject reCAPTCHA site key into inline JavaScript configuration
       htmlContent = htmlContent.replace(
         /window\.RECAPTCHA_SITE_KEY = null;/g,
         `window.RECAPTCHA_SITE_KEY = '${recaptchaSiteKey}';`
