@@ -1,6 +1,8 @@
 import USATodayMobileImage from '../../public/images/As featured in USA Today-mobile.jpg';
 import USATodayImage from '../../public/images/As featured in USA Today.jpg';
 import BannerImage from '../../public/images/Banner.jpg';
+import MSNHomepageBanner from '../../public/images/MSN Homepage Banner.jpg';
+import MSNHomepageBannerMobile from '../../public/images/MSN - Mobile Homepage Banner.jpg';
 // import NYSABA2025Image from '../../public/images/NYSABA Event Banner.jpg';
 import { HeroSliderItem } from '../components/HeroImageSlider';
 
@@ -65,6 +67,27 @@ export const heroSliderData: HeroSliderItem[] = [
       href: 'https://www.usatoday.com/story/special/contributor-content/2025/08/28/from-playing-school-to-building-trevors-place-how-one-mothers-journey-became-a-lifeline-for-families/85873205007/',
       text: "As featured in 'USA Today'",
       mobileText: "As in 'USA Today'", // Shorter text for mobile
+      external: true,
+    },
+  },
+  {
+    id: 'from-mothers-journey',
+    title: "MSN’s Top 10 Trailblazing Entrepreneurs to Follow in 2025",
+    description:
+      'Congratulations to our founder, Stephanie Emmons, for being recognized for her innovation in care.',
+    image: {
+      src: MSNHomepageBanner,
+      alt: 'As featured in USA Today',
+      width: 1920,
+      height: 800,
+      mobileSrc: MSNHomepageBannerMobile, // Optional mobile image
+      // position: 'center right', // Keep person visible on desktop
+      mobilePosition: 'right center', // Center the person on mobile
+    },
+    link: {
+      href: 'https://www.msn.com/en-us/money/smallbusiness/top-10-trailblazing-entrepreneurs-to-follow-in-2025/ar-AA1Pi9Yi',
+      text: "Read the MSN feature",
+      mobileText: "MSN feature", // Shorter text for mobile
       external: true,
     },
   },
