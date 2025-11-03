@@ -1859,3 +1859,7 @@
     .testimonials-container:focus-within .testimonials-scroll {
         animation-play-state: paused;
     }
+
+    .grecaptcha-badge { 
+        visibility: hidden !important;
+    }
