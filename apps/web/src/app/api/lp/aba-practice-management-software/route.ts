@@ -16,6 +16,7 @@ export async function GET(request: NextRequest) {
     // Fix relative image paths to point to /lp/images/
     htmlContent = htmlContent.replace(/src="\.\/images\//g, 'src="/lp/images/');
     htmlContent = htmlContent.replace(/href="\.\/images\//g, 'href="/lp/images/');
+    htmlContent = htmlContent.replace(/srcset="\.\/images\//g, 'srcset="/lp/images/');
     
     // Fix any other relative asset paths
     htmlContent = htmlContent.replace(/src="\.\/([^"]*\.(css|js))"/g, 'src="/lp/$1"');
