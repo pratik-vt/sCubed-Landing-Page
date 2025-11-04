@@ -1693,22 +1693,6 @@
             row-gap: var(--spacing-10xl);
         }
 
-        /* .testimonials-container {
-            height: 320px;
-        }
-       
-        .testimonials-grid {
-            grid-template-columns: 1fr;
-            gap: 0;
-            align-items: flex-start;
-        }
-
-        .testimonials-column:nth-child(1) .testimonials-scroll,
-        .testimonials-column:nth-child(2) .testimonials-scroll,
-        .testimonials-column:nth-child(3) .testimonials-scroll {
-            animation: scroll-up 8s linear infinite;
-        } */
-
 
         .testimonials-container {
             height: 450px;
