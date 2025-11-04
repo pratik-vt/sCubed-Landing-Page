@@ -2,6 +2,7 @@ import type { Metadata, Viewport } from 'next';
 
 import ConditionalLayout from '../components/ConditionalLayout';
 import ProductReviewSchema from '../components/ProductReviewSchema';
+import { ToastProvider } from '../providers/ToastProvider';
 import '../components/Container/fonts.css';
 import '../components/Container/style.css';
 import '../styles/global.css';
@@ -138,10 +139,13 @@ window.addEventListener('load', function() {
           </noscript>
         )}
         {/* End Google Tag Manager (noscript) */}
-        
+
         <ConditionalLayout>
           {children}
         </ConditionalLayout>
+
+        {/* Global Toast Notifications */}
+        <ToastProvider />
       </body>
     </html>
   );

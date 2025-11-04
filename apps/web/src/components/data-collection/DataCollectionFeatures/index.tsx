@@ -4,6 +4,8 @@ import { motion, useInView } from 'framer-motion';
 import Image, { StaticImageData } from 'next/image';
 import React, { useRef } from 'react';
 
+import fallbackImg from '../../../images/data-collection.png';
+
 import {
   contentSection,
   gridContainer,
@@ -16,7 +18,6 @@ import {
 } from './styles.css';
 
 // Fallback image (replace later as needed)
-import fallbackImg from '../../../images/data-collection.png';
 
 interface ContentSectionProps {
   titleText: string;

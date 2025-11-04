@@ -4,9 +4,9 @@ import { AnimatePresence, motion } from 'framer-motion';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 import Image, { StaticImageData } from 'next/image';
 import React, { useCallback, useEffect, useState } from 'react';
+
 import CalendlyButton from '../../billing/CalendlyButton';
 import { primaryButton } from '../../billing/CalendlyButton/styles.css';
-
 import attendanceManagementImg from '../../../images/data-collection/attendence-management.png';
 import customizedTemplatesImg from '../../../images/data-collection/customizable-templates.png';
 import goalBehaviorTrackingImg from '../../../images/data-collection/goal-and-behavior-tracking.png';

@@ -10,7 +10,6 @@ import DataCollectionHero from '../../components/data-collection/DataCollectionH
 import DataCollectionTrust from '../../components/data-collection/DataCollectionTrust';
 import goalImg from '../../images/data-collection/from-goals-to-measurable-change.png';
 import { getFAQCollection, transformFAQData } from '../../lib/faq-api';
-
 import BuildSmarterTemplatesGetClearerReports from '../../images/data-collection/build-smarter-templates-get-clearer-reports.png';
 import RecordDataAsYouWork from '../../images/data-collection/record-data.png';
 

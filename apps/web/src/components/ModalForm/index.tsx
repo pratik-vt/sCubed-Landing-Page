@@ -26,6 +26,13 @@ import {
   checkboxLabelStyle,
 } from './styles.css';
 
+import { fetchApi } from '@/lib/api-client';
+import { getFieldErrors, showSuccessToast } from '@/lib/errors';
+import { isApiError } from '@/types/api';
+import { SUCCESS_MESSAGES } from '@/constants/messages';
+
+
+
 type Props = {
   buttonColor: string;
   buttonBackground: string;
@@ -46,19 +53,6 @@ type Inputs = {
   comments?: string;
 };
 
-type FieldError = {
-  field: string;
-  message: string;
-};
-
-type ApiErrorResponse = {
-  errors: FieldError[];
-  status_code: number;
-};
-
-const defaultErrorMessage =
-  'An unexpected error has occurred. Please try again later.';
-
 const ModalForm: FC<Props> = ({
   buttonColor,
   buttonBackground,
@@ -66,10 +60,7 @@ const ModalForm: FC<Props> = ({
 }) => {
   const [open, setOpen] = useState(false);
   const [isSubmitting, setSubmitting] = useState(false);
-  const [response, setResponse] = useState<{
-    success?: boolean;
-    message?: string;
-  }>();
+  const [submitSuccess, setSubmitSuccess] = useState(false);
   const [apiErrors, setApiErrors] = useState<Record<string, string>>({});
 
   const {
@@ -86,80 +77,44 @@ const ModalForm: FC<Props> = ({
   const onCloseModal = () => {
     setOpen(false);
     reset();
-    setResponse({});
+    setSubmitSuccess(false);
     setSubmitting(false);
     setApiErrors({});
   };
 
-  const onSubmit: SubmitHandler<Inputs> = (data) => {
-    setResponse({});
+  const onSubmit: SubmitHandler<Inputs> = async (data) => {
     setApiErrors({});
     setSubmitting(true);
-    
-    // Use Strapi endpoint if available, fallback to legacy endpoint
-    const apiUrl = process.env.NEXT_PUBLIC_STRAPI_URL 
-      ? `${process.env.NEXT_PUBLIC_STRAPI_URL}/api/contact-submissions`
-      : `${process.env.NEXT_PUBLIC_ADMIN_APP_API_URL}pages/contact-us`;
-    
-    fetch(apiUrl, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(process.env.NEXT_PUBLIC_STRAPI_URL ? { data } : data),
-    })
-      .then(async (res) => {
-        setSubmitting(false);
-        if (res.ok || res.status === 200) {
-          reset();
-          setApiErrors({});
-          setResponse({
-            success: true,
-            message:
-              'Thank you for your interest in our services! Our team will be in touch shortly.',
-          });
-        } else {
-          if (res.status === 422) {
-            const json: ApiErrorResponse = await res.json();
-            if (json?.errors && Array.isArray(json.errors)) {
-              // Set field-specific errors
-              const fieldErrors: Record<string, string> = {};
-              json.errors.forEach((error) => {
-                if (error.field && error.message) {
-                  fieldErrors[error.field] = error.message;
-                }
-              });
-              setApiErrors(fieldErrors);
 
-              // Also set a general message if there are errors
-              const generalErrors = json.errors.filter((err) => !err.field);
-              if (generalErrors.length > 0) {
-                setResponse({
-                  success: false,
-                  message: generalErrors.map((err) => err.message).join('\n'),
-                });
-              }
-            } else {
-              setResponse({
-                success: false,
-                message: 'Validation failed. Please check your inputs.',
-              });
-            }
-          } else {
-            setResponse({
-              success: false,
-              message: defaultErrorMessage,
-            });
-          }
-        }
-      })
-      .catch(() => {
-        setSubmitting(false);
-        setResponse({
-          success: false,
-          message: defaultErrorMessage,
-        });
+    try {
+      // Use Strapi endpoint if available, fallback to legacy endpoint
+      const endpoint = process.env.NEXT_PUBLIC_STRAPI_URL
+        ? `${process.env.NEXT_PUBLIC_STRAPI_URL}/api/contact-submissions`
+        : 'pages/contact-us';
+
+      const payload = process.env.NEXT_PUBLIC_STRAPI_URL ? { data } : data;
+
+      await fetchApi(endpoint, {
+        method: 'POST',
+        body: payload,
+        baseUrl: process.env.NEXT_PUBLIC_STRAPI_URL ? undefined : process.env.NEXT_PUBLIC_ADMIN_APP_API_URL,
       });
+
+      // Success!
+      reset();
+      setApiErrors({});
+      setSubmitSuccess(true);
+      showSuccessToast(SUCCESS_MESSAGES.CONTACT_SUBMITTED);
+    } catch (error) {
+      // Extract field errors for inline display
+      if (isApiError(error)) {
+        const extractedFieldErrors = getFieldErrors(error);
+        setApiErrors(extractedFieldErrors);
+      }
+      // General errors are automatically shown as toasts by fetchApi
+    } finally {
+      setSubmitting(false);
+    }
   };
 
   const track: Track = ({
@@ -206,8 +161,10 @@ const ModalForm: FC<Props> = ({
           onSubmit={handleSubmit(onSubmit)}
           autoComplete="off"
         >
-          {response?.success ? (
-            <div className={successMessageStyle}>{response?.message}</div>
+          {submitSuccess ? (
+            <div className={successMessageStyle}>
+              {SUCCESS_MESSAGES.CONTACT_SUBMITTED}
+            </div>
           ) : (
             <>
               <h3 className={heading}>Request a Demo</h3>
@@ -461,12 +418,6 @@ const ModalForm: FC<Props> = ({
                 {apiErrors.comments && (
                   <div className={errorMessageStyle}>{apiErrors.comments}</div>
                 )}
-              </div>
-              <div
-                className={errorMessageStyle}
-                style={{ whiteSpace: 'pre-line' }}
-              >
-                {response?.message}
               </div>
               <button
                 className={submitButtonStyle}

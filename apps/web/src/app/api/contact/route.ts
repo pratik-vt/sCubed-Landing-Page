@@ -1,5 +1,8 @@
 import { NextRequest, NextResponse } from 'next/server';
 
+import { fetchApi } from '@/lib/api-client';
+import { isApiError } from '@/types/api';
+
 interface ContactFormData {
   first_name: string;
   last_name: string;
@@ -136,32 +139,34 @@ export async function POST(request: NextRequest) {
     // Remove recaptcha_token before forwarding to admin API
     const { recaptcha_token, ...bodyForApi } = body;
 
-    // Forward the request to the admin API
-    const response = await fetch(`${adminApiUrl}pages/contact-us`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        // Add any additional headers if needed
-      },
-      body: JSON.stringify(bodyForApi),
-    });
+    try {
+      // Forward the request to the admin API using centralized API client
+      const data = await fetchApi('pages/contact-us', {
+        method: 'POST',
+        body: bodyForApi,
+      });
 
-    if (response.ok) {
-      const data = await response.json();
       return NextResponse.json(data, { status: 200 });
-    } else {
+    } catch (error) {
       // Handle API errors
-      let errorData: ApiErrorResponse;
-      try {
-        errorData = await response.json();
-      } catch {
-        errorData = {
-          errors: [{ field: 'general', message: 'An unexpected error occurred' }],
-          status_code: response.status,
-        };
+      if (isApiError(error)) {
+        return NextResponse.json(
+          {
+            errors: error.errors,
+            status_code: error.statusCode,
+          },
+          { status: error.statusCode }
+        );
       }
 
-      return NextResponse.json(errorData, { status: response.status });
+      // Handle unexpected errors
+      return NextResponse.json(
+        {
+          errors: [{ field: 'general', message: 'An unexpected error occurred' }],
+          status_code: 500,
+        },
+        { status: 500 }
+      );
     }
   } catch (error) {
     console.error('Contact form API error:', error);

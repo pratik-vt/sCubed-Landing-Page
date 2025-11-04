@@ -2,6 +2,7 @@
 
 import { motion } from 'framer-motion';
 import { ArrowRight, Check, Minus, Star } from 'lucide-react';
+import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 
 import {
@@ -103,12 +104,19 @@ const plans: PricingPlan[] = [
 ];
 
 const PricingPlans: React.FC = () => {
+  const router = useRouter();
   const [billingPeriod, setBillingPeriod] = useState<'monthly' | 'yearly'>(
     'monthly',
   );
 
   const handlePlanSelect = (planName: string) => {
-    // Button is currently non-functional
+    // Navigate to subscribe page with plan and billing cycle as URL params
+    const params = new URLSearchParams({
+      plan: planName.toLowerCase(),
+      billing: billingPeriod,
+    });
+
+    router.push(`/subscribe?${params.toString()}`);
   };
 
   return (

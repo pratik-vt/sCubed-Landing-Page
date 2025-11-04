@@ -29,6 +29,8 @@ export default function ConditionalLayout({ children }: Readonly<ConditionalLayo
                          pathname.startsWith('/events/') ||
                          pathname === '/scheduling-and-appointments' ||
                          pathname === '/authorization';
+                         pathname === '/subscribe' ||
+                         pathname.startsWith('/subscribe/');
 
   // Determine if the page should use full width layout
   const shouldUseFullWidth = pathname === '/get-started' ||

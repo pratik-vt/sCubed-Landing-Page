@@ -1,15 +1,16 @@
 import type { Metadata } from 'next';
+import { data, q } from 'framer-motion/client';
 
 import BreadcrumbSchema from '../../components/BreadcrumbSchema';
 import Container from '../../components/Container';
 import FAQSchema from '../../components/FAQSchema';
 import FAQSection from '../../components/FAQSection';
 import SchedulingHero from '../../components/Scheduling/Hero/index';
-import SchedulingCTA from '@/components/Scheduling/CTA';
 import { getFAQCollection, transformFAQData } from '../../lib/faq-api';
+
+import SchedulingCTA from '@/components/Scheduling/CTA';
 import FeaturesTherapy from '@/components/Scheduling/FeaturesTheraphy';
 import FeaturesCarousel from '@/components/Scheduling/Carousel';
-import { data, q } from 'framer-motion/client';
 
 export const metadata: Metadata = {
   title:

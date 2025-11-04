@@ -13,6 +13,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import isEmail from 'validator/lib/isEmail';
 
+
 import { colors } from '../../styles/tokens.css';
 import CalendlyButton from '../billing/CalendlyButton';
 import { primaryButton } from '../billing/CalendlyButton/styles.css';
@@ -58,6 +59,10 @@ import {
   titleGradient,
   twoColumnGrid
 } from './styles.css';
+
+import { showSuccessToast } from '@/lib/errors';
+import { fetchApi } from '@/lib/api-client';
+import { SUCCESS_MESSAGES } from '@/constants/messages';
 
 interface FormData {
   firstName: string;
@@ -140,44 +145,27 @@ const GetStartedForm: React.FC = () => {
   useEffect(() => {
     window.scrollTo(0, 0);
 
-    // Fetch states from API
-    const fetchStates = async () => {
+    // Fetch states from API using centralized API client
+    const loadStates = async () => {
       try {
         setStatesLoading(true);
         setStatesError(null);
 
-        const response = await fetch(
-          `${process.env.NEXT_PUBLIC_ADMIN_APP_API_URL}states`,
-          {
-            method: 'GET',
-            headers: {
-              'Content-Type': 'application/json',
-            },
-          },
-        );
+        const result = await fetchApi<{ rows: StateData[] }>('states');
 
-        if (!response.ok) {
-          throw new Error('Failed to fetch states');
-        }
-
-        const result: StatesApiResponse = await response.json();
-
-        if (result.status_code === 200 && result.data?.rows) {
-          setStates(result.data.rows);
-        } else {
-          throw new Error('Invalid response format');
+        if (result?.rows) {
+          setStates(result.rows);
         }
       } catch (error) {
         console.error('Error fetching states:', error);
-        setStatesError(
-          error instanceof Error ? error.message : 'Failed to load states',
-        );
+        setStatesError('Failed to load states');
+        // Error toast is automatically shown by fetchApi
       } finally {
         setStatesLoading(false);
       }
     };
 
-    fetchStates();
+    loadStates();
   }, []);
 
   // Map API field names back to form field names
@@ -264,6 +252,7 @@ const GetStartedForm: React.FC = () => {
         setRecaptchaError(null);
         recaptchaRef.current?.reset();
         reset();
+        showSuccessToast(SUCCESS_MESSAGES.CONTACT_SUBMITTED);
         window.scrollTo({ top: 0, behavior: 'smooth' });
       } else {
         const errorData: ApiErrorResponse = await response.json().catch(() => ({

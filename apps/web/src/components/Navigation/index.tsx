@@ -407,7 +407,10 @@ const Navigation: React.FC<NavigationProps> = ({
             >
               Login
             </button>
-            <button className={tryForFreeButton} onClick={openModal}>
+            <button
+              className={tryForFreeButton}
+              onClick={() => router.push('/subscribe?plan=free')}
+            >
               Try for Free
             </button>
           </nav>

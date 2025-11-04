@@ -1,5 +1,8 @@
 import { NextRequest, NextResponse } from 'next/server';
 
+import { fetchApi } from '@/lib/api-client';
+import { isApiError } from '@/types/api';
+
 interface FreeTrialFormData {
   clinic_name: string;
   tax_id: string;
@@ -212,63 +215,55 @@ export async function POST(request: NextRequest) {
       phone_number: body.phone_number,
     };
 
-    // Forward the request to the admin API
-    const response = await fetch(
-      `${adminApiUrl}pages/free-trial-registration`,
-      {
+    try {
+      // Forward the request to the admin API using centralized API client
+      const data = await fetchApi('pages/free-trial-registration', {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(apiPayload),
-      },
-    );
+        body: apiPayload as unknown as Record<string, unknown>,
+      });
 
-    if (response.ok) {
-      const data = await response.json();
       return NextResponse.json(data, { status: 200 });
-    } else {
+    } catch (error) {
       // Handle API errors
-      let errorData: ApiErrorResponse;
-      try {
-        errorData = await response.json();
-      } catch {
-        errorData = {
-          errors: [
-            { field: 'general', message: 'An unexpected error occurred' },
-          ],
-          status_code: response.status,
+      if (isApiError(error)) {
+        // Map API field names back to frontend field names
+        const fieldMapping: Record<string, string> = {
+          clinic_name: 'clinic_name',
+          tax_id: 'tax_id',
+          street_address_line_1: 'address_line_1',
+          street_address_line_2: 'address_line_2',
+          state_id: 'state',
+          city_id: 'city',
+          zipcode: 'zip_code',
+          npi: 'npi',
+          first_name: 'full_name',
+          last_name: 'full_name',
+          email: 'email',
+          phone_number: 'phone_number',
         };
+
+        const mappedErrors = error.errors.map((err) => ({
+          ...err,
+          field: err.field ? fieldMapping[err.field] || err.field : err.field,
+        }));
+
+        return NextResponse.json(
+          {
+            errors: mappedErrors,
+            status_code: error.statusCode,
+          },
+          { status: error.statusCode }
+        );
       }
 
-      console.log('errorData', errorData);
-
-      // Map API field names back to frontend field names
-      if (errorData.errors) {
-        errorData.errors = errorData.errors.map((error) => {
-          const fieldMapping: Record<string, string> = {
-            clinic_name: 'clinic_name',
-            tax_id: 'tax_id',
-            street_address_line_1: 'address_line_1',
-            street_address_line_2: 'address_line_2',
-            state_id: 'state',
-            city_id: 'city',
-            zipcode: 'zip_code',
-            npi: 'npi',
-            first_name: 'full_name',
-            last_name: 'full_name',
-            email: 'email',
-            phone_number: 'phone_number',
-          };
-
-          return {
-            ...error,
-            field: fieldMapping[error.field] || error.field,
-          };
-        });
-      }
-
-      return NextResponse.json(errorData, { status: response.status });
+      // Handle unexpected errors
+      return NextResponse.json(
+        {
+          errors: [{ field: 'general', message: 'An unexpected error occurred' }],
+          status_code: 500,
+        },
+        { status: 500 }
+      );
     }
   } catch (error) {
     console.error('Free trial API error:', error);
