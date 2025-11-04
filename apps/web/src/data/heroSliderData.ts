@@ -71,17 +71,17 @@ export const heroSliderData: HeroSliderItem[] = [
     },
   },
   {
-    id: 'from-mothers-journey',
-    title: "MSN’s Top 10 Trailblazing Entrepreneurs to Follow in 2025",
+    id: 'msn-top-entrepreneurs',
+    title: "MSN's Top 10 Trailblazing Entrepreneurs to Follow in 2025",
     description:
       'Congratulations to our founder, Stephanie Emmons, for being recognized for her innovation in care.',
     image: {
       src: MSNHomepageBanner,
-      alt: 'As featured in USA Today',
+      alt: 'MSN Top 10 Trailblazing Entrepreneurs feature',
       width: 1920,
       height: 800,
       mobileSrc: MSNHomepageBannerMobile, // Optional mobile image
-      // position: 'center right', // Keep person visible on desktop
+      position: '100% 12%', // Keep person visible on desktop
       mobilePosition: 'right center', // Center the person on mobile
     },
     link: {
@@ -91,4 +91,5 @@ export const heroSliderData: HeroSliderItem[] = [
       external: true,
     },
   },
+
 ];
