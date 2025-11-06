@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import { Suspense } from 'react';
 
 import SubscriptionSuccess from '@/components/SubscriptionSuccess';
 
@@ -18,5 +19,9 @@ export const metadata: Metadata = {
  * 2. Paid plan payment completion (via Stripe webhook redirect)
  */
 export default function SubscribeSuccessPage() {
-  return <SubscriptionSuccess />;
+  return (
+    <Suspense fallback={<div style={{ textAlign: 'center', padding: '3rem' }}>Loading...</div>}>
+      <SubscriptionSuccess />
+    </Suspense>
+  );
 }

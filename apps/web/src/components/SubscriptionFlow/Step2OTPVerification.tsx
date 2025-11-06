@@ -1,8 +1,14 @@
 'use client';
 
-import { useState, useEffect, useRef } from 'react';
+import {
+  AlertCircle,
+  Check,
+  ChevronLeft,
+  ChevronRight,
+  Mail,
+} from 'lucide-react';
+import { useEffect, useRef, useState } from 'react';
 import { useForm } from 'react-hook-form';
-import { ChevronLeft, ChevronRight, AlertCircle, Mail, Check } from 'lucide-react';
 
 import OTPCodeInput from './OTPCodeInput';
 import * as styles from './styles.css';
@@ -89,7 +95,9 @@ export default function Step2OTPVerification({
 
       // Show success message
       setResendSuccess(true);
-      showSuccessToast('Verification code sent successfully. Please check your email.');
+      showSuccessToast(
+        'Verification code sent successfully. Please check your email.',
+      );
 
       // Start cooldown timer (60 seconds)
       startCooldown(60);
@@ -101,9 +109,14 @@ export default function Step2OTPVerification({
     } catch (error) {
       console.error('Failed to resend OTP:', error);
       if (isApiError(error)) {
-        setApiError(error.message || 'Failed to send verification code. Please try again.');
+        setApiError(
+          error.message ||
+            'Failed to send verification code. Please try again.',
+        );
       } else {
-        setApiError('Network error. Please check your connection and try again.');
+        setApiError(
+          'Network error. Please check your connection and try again.',
+        );
       }
     } finally {
       setResendingOtp(false);
@@ -136,7 +149,7 @@ export default function Step2OTPVerification({
 
     try {
       const response = await fetch(
-        `${process.env.NEXT_PUBLIC_ADMIN_APP_API_URL}/subscriptions/onboarding/verify-email/confirm`,
+        `${process.env.NEXT_PUBLIC_ADMIN_APP_API_URL}subscriptions/onboarding/verify-email/confirm`,
         {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
@@ -170,24 +183,25 @@ export default function Step2OTPVerification({
         (response.ok && result.data) ||
         // 3. Message indicates success (even if status is error)
         // These phrases indicate the email was verified (even if API returns error status)
-        (message && (
-          lowerMessage.includes('verified successfully') ||
-          lowerMessage.includes('email verified') ||
-          lowerMessage.includes('email has been verified') ||
-          lowerMessage.includes('verification successful') ||
-          lowerMessage.includes('successfully verified') ||
-          // "Please complete your registration" is a clear success indicator
-          lowerMessage.includes('please complete') ||
-          lowerMessage.includes('complete your registration') ||
-          lowerMessage.includes('complete registration') ||
-          // Other success indicators
-          lowerMessage.includes('pending') ||
-          lowerMessage.includes('submitted successfully') ||
-          lowerMessage.includes('submission successful')
-        ));
+        (message &&
+          (lowerMessage.includes('verified successfully') ||
+            lowerMessage.includes('email verified') ||
+            lowerMessage.includes('email has been verified') ||
+            lowerMessage.includes('verification successful') ||
+            lowerMessage.includes('successfully verified') ||
+            // "Please complete your registration" is a clear success indicator
+            lowerMessage.includes('please complete') ||
+            lowerMessage.includes('complete your registration') ||
+            lowerMessage.includes('complete registration') ||
+            // Other success indicators
+            lowerMessage.includes('pending') ||
+            lowerMessage.includes('submitted successfully') ||
+            lowerMessage.includes('submission successful')));
 
       if (isSuccessfulVerification) {
-        console.log('✅ Email verification successful - redirecting to next step');
+        console.log(
+          '✅ Email verification successful - redirecting to next step',
+        );
 
         // Clear any previous errors
         setApiError(null);
@@ -196,7 +210,7 @@ export default function Step2OTPVerification({
         showSuccessToast('Email verified successfully!');
 
         // Wait a brief moment to ensure state updates
-        await new Promise(resolve => setTimeout(resolve, 100));
+        await new Promise((resolve) => setTimeout(resolve, 100));
 
         // Immediately transition to next step
         onVerified(result.data || {});
@@ -204,7 +218,8 @@ export default function Step2OTPVerification({
         // This is a genuine error - invalid OTP, expired OTP, etc.
         console.error('❌ Email verification failed:', message);
 
-        const errorMessage = message || 'Invalid verification code. Please try again.';
+        const errorMessage =
+          message || 'Invalid verification code. Please try again.';
         setApiError(errorMessage);
       }
     } catch (error) {
@@ -230,7 +245,9 @@ export default function Step2OTPVerification({
       {resendSuccess && (
         <div className={`${styles.alertContainer} ${styles.alertSuccess}`}>
           <Check size={20} />
-          <span>Verification code sent successfully! Please check your email.</span>
+          <span>
+            Verification code sent successfully! Please check your email.
+          </span>
         </div>
       )}
 

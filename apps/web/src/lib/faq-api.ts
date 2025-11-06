@@ -32,20 +32,20 @@ export interface FAQResponse {
 export async function getFAQCollection(slug: string): Promise<FAQResponse | null> {
   try {
     const url = `${API_URL}/v1/faqs/pages/slug/${slug}/complete`;
-    
+
     const response = await fetch(url, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
       },
-      cache: 'no-cache',
+      next: { revalidate: 3600 }, // Revalidate every hour
     });
-    
+
     if (!response.ok) {
       console.error(`FAQ API error: ${response.status} ${response.statusText}`);
       return null;
     }
-    
+
     const data = await response.json();
     return data;
   } catch (error) {
