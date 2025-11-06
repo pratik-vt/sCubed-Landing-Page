@@ -510,7 +510,8 @@ export default function Step1ClinicDetails({
           error={
             shouldShowError('email') ? getErrorMessage('email') : undefined
           }
-          helpText="This will be your login email"
+          helpText="This email has been verified"
+          disabled
         />
 
         <div className={styles.formGrid}>

@@ -24,7 +24,7 @@ export default function Step3FreeSuccess({ formData }: Step3FreeProps) {
   return (
     <div className={styles.successContainer}>
       <div className={styles.successIcon}>
-        <CheckCircle2 size={48} />
+        <CheckCircle2 size={64} strokeWidth={2.5} />
       </div>
 
       <h1 className={styles.successTitle}>Trial Request Submitted Successfully!</h1>
@@ -34,7 +34,7 @@ export default function Step3FreeSuccess({ formData }: Step3FreeProps) {
         An admin will review and approve your request soon.
       </p>
 
-      <div className={`${styles.alertContainer} ${styles.alertInfo}`}>
+      <div className={`${styles.alertContainer} ${styles.alertInfo} ${styles.fadeInUpAnimation}`} style={{ animationDelay: '0.4s' }}>
         <AlertCircle size={20} />
         <div>
           <strong>What happens next?</strong>
@@ -72,10 +72,11 @@ export default function Step3FreeSuccess({ formData }: Step3FreeProps) {
         </div>
       </div>
 
-      <div className={styles.buttonGroup} style={{ justifyContent: 'center' }}>
+      <div className={styles.buttonGroup} style={{ justifyContent: 'center', marginTop: '2rem' }}>
         <button
           onClick={() => router.push('/')}
-          className={`${styles.button} ${styles.buttonPrimary}`}
+          className={`${styles.button} ${styles.buttonLarge} ${styles.buttonGradient} ${styles.fadeInUpAnimation}`}
+          style={{ animationDelay: '0.6s' }}
         >
           <Home size={20} />
           Return to Homepage

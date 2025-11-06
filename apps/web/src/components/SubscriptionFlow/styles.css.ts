@@ -1,6 +1,12 @@
-import { style, keyframes } from '@vanilla-extract/css';
+import { keyframes, style } from '@vanilla-extract/css';
 
-import { colors, typography, spacing, shadows, radius } from '@/styles/tokens.css';
+import {
+  colors,
+  radius,
+  shadows,
+  spacing,
+  typography,
+} from '@/styles/tokens.css';
 
 // ============================================================================
 // ANIMATIONS
@@ -85,9 +91,12 @@ export const gradients = {
 export const enhancedShadows = {
   layered: '0 2px 4px rgba(0,0,0,0.05), 0 8px 16px rgba(0,0,0,0.1)',
   elevated: '0 4px 6px rgba(0,0,0,0.07), 0 12px 24px rgba(0,0,0,0.12)',
-  purpleGlow: '0 0 0 3px rgba(124, 82, 255, 0.1), 0 10px 30px -10px rgba(124, 82, 255, 0.4)',
-  greenGlow: '0 0 0 3px rgba(16, 185, 129, 0.1), 0 10px 30px -10px rgba(16, 185, 129, 0.4)',
-  blueGlow: '0 0 0 3px rgba(59, 130, 246, 0.1), 0 10px 30px -10px rgba(59, 130, 246, 0.4)',
+  purpleGlow:
+    '0 0 0 3px rgba(124, 82, 255, 0.1), 0 10px 30px -10px rgba(124, 82, 255, 0.4)',
+  greenGlow:
+    '0 0 0 3px rgba(16, 185, 129, 0.1), 0 10px 30px -10px rgba(16, 185, 129, 0.4)',
+  blueGlow:
+    '0 0 0 3px rgba(59, 130, 246, 0.1), 0 10px 30px -10px rgba(59, 130, 246, 0.4)',
 };
 
 // ============================================================================
@@ -125,7 +134,8 @@ export const container = style({
     right: 0,
     bottom: 0,
     borderRadius: '20px',
-    backgroundImage: 'radial-gradient(circle at 10% 20%, rgba(124, 82, 255, 0.08) 0%, transparent 40%), radial-gradient(circle at 90% 80%, rgba(124, 82, 255, 0.06) 0%, transparent 40%)',
+    backgroundImage:
+      'radial-gradient(circle at 10% 20%, rgba(124, 82, 255, 0.08) 0%, transparent 40%), radial-gradient(circle at 90% 80%, rgba(124, 82, 255, 0.06) 0%, transparent 40%)',
     pointerEvents: 'none',
     zIndex: 0,
   },
@@ -135,8 +145,10 @@ export const container = style({
     inset: '-1px',
     borderRadius: '20px',
     padding: '1px',
-    background: 'linear-gradient(135deg, rgba(124, 82, 255, 0.2) 0%, transparent 50%, rgba(124, 82, 255, 0.1) 100%)',
-    WebkitMask: 'linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0)',
+    background:
+      'linear-gradient(135deg, rgba(124, 82, 255, 0.2) 0%, transparent 50%, rgba(124, 82, 255, 0.1) 100%)',
+    WebkitMask:
+      'linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0)',
     WebkitMaskComposite: 'xor',
     maskComposite: 'exclude',
     pointerEvents: 'none',
@@ -198,41 +210,65 @@ export const stepItem = style({
 });
 
 export const stepCircle = style({
-  width: '48px',
-  height: '48px',
+  width: '60px',
+  height: '60px',
   borderRadius: '50%',
   display: 'flex',
   alignItems: 'center',
   justifyContent: 'center',
-  fontSize: typography.fontSize.lg,
-  fontWeight: typography.fontWeight.semibold,
-  transition: 'all 0.3s ease',
+  fontSize: typography.fontSize.xl,
+  fontWeight: typography.fontWeight.bold,
+  transition: 'all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55)',
   zIndex: 2,
+  position: 'relative',
   '@media': {
     'screen and (max-width: 600px)': {
-      width: '40px',
-      height: '40px',
+      width: '44px',
+      height: '44px',
       fontSize: typography.fontSize.base,
     },
   },
 });
 
 export const stepCircleCompleted = style({
-  backgroundColor: colors.primary[600],
+  background: gradients.success,
   color: '#ffffff',
-  boxShadow: shadows.purple,
+  boxShadow: enhancedShadows.greenGlow,
+  transform: 'scale(1)',
+  '::before': {
+    content: '',
+    position: 'absolute',
+    inset: '-3px',
+    borderRadius: '50%',
+    background:
+      'linear-gradient(135deg, rgba(16, 185, 129, 0.3) 0%, rgba(5, 150, 105, 0.1) 100%)',
+    zIndex: -1,
+  },
 });
 
 export const stepCircleCurrent = style({
-  backgroundColor: colors.primary[600],
+  background: gradients.primary,
   color: '#ffffff',
-  boxShadow: shadows.purple,
+  boxShadow: enhancedShadows.purpleGlow,
+  transform: 'scale(1.1)',
+  animation: `${pulse} 2s ease-in-out infinite`,
+  '::before': {
+    content: '',
+    position: 'absolute',
+    inset: '-3px',
+    borderRadius: '50%',
+    background:
+      'linear-gradient(135deg, rgba(124, 82, 255, 0.3) 0%, rgba(124, 82, 255, 0.1) 100%)',
+    zIndex: -1,
+    animation: `${pulse} 2s ease-in-out infinite`,
+  },
 });
 
 export const stepCircleInactive = style({
-  backgroundColor: '#e5e7eb',
+  backgroundColor: '#f3f4f6',
   color: '#9ca3af',
-  border: '2px solid #d1d5db',
+  border: '2px solid #e5e7eb',
+  transform: 'scale(0.9)',
 });
 
 export const stepNumber = style({
@@ -240,16 +276,18 @@ export const stepNumber = style({
 });
 
 export const stepCheckIcon = style({
-  width: '24px',
-  height: '24px',
+  width: '28px',
+  height: '28px',
+  strokeWidth: 2.5,
+  animation: `${drawCheckmark} 0.5s ease-out`,
 });
 
 export const stepLabel = style({
-  marginTop: spacing.xs,
+  marginTop: spacing.sm,
   fontSize: typography.fontSize.sm,
-  fontWeight: typography.fontWeight.semibold,
+  fontWeight: typography.fontWeight.bold,
   textAlign: 'center',
-  transition: 'color 0.3s ease',
+  transition: 'all 0.3s ease',
   '@media': {
     'screen and (max-width: 600px)': {
       fontSize: typography.fontSize.xs,
@@ -259,31 +297,36 @@ export const stepLabel = style({
 
 export const stepLabelCurrent = style({
   color: colors.primary[600],
+  transform: 'scale(1.05)',
 });
 
 export const stepLabelInactive = style({
   color: '#9ca3af',
+  transform: 'scale(0.95)',
 });
 
 export const stepConnector = style({
   position: 'absolute',
-  top: '24px',
+  top: '30px',
   left: '50%',
   width: '100%',
-  height: '3px',
+  height: '4px',
   transform: 'translateY(-50%)',
-  transition: 'background-color 0.3s ease',
+  transition: 'all 0.5s ease',
   zIndex: 1,
+  borderRadius: '2px',
   '@media': {
     'screen and (max-width: 600px)': {
-      top: '20px',
-      height: '2px',
+      top: '22px',
+      height: '3px',
     },
   },
 });
 
 export const stepConnectorCompleted = style({
-  backgroundColor: colors.primary[600],
+  background:
+    'linear-gradient(90deg, rgba(16, 185, 129, 1) 0%, rgba(124, 82, 255, 1) 100%)',
+  boxShadow: '0 1px 3px rgba(16, 185, 129, 0.3)',
 });
 
 export const stepConnectorInactive = style({
@@ -556,19 +599,32 @@ export const loadingSpinner = style({
 export const successContainer = style({
   textAlign: 'center',
   padding: spacing.xl,
+  position: 'relative',
 });
 
 export const successIcon = style({
-  width: '80px',
-  height: '80px',
+  width: '120px',
+  height: '120px',
   margin: '0 auto',
-  marginBottom: spacing.lg,
-  color: colors.accent.green,
-  backgroundColor: '#d1fae5',
+  marginBottom: spacing.xl,
+  color: '#ffffff',
+  background: gradients.success,
   borderRadius: '50%',
   display: 'flex',
   alignItems: 'center',
   justifyContent: 'center',
+  boxShadow: enhancedShadows.greenGlow,
+  animation: `${scaleIn} 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55)`,
+  position: 'relative',
+  '::before': {
+    content: '',
+    position: 'absolute',
+    inset: '-4px',
+    borderRadius: '50%',
+    background:
+      'linear-gradient(135deg, rgba(16, 185, 129, 0.2) 0%, rgba(5, 150, 105, 0.2) 100%)',
+    animation: `${pulse} 2s ease-in-out infinite`,
+  },
 });
 
 export const successTitle = style({
@@ -576,13 +632,15 @@ export const successTitle = style({
   fontWeight: typography.fontWeight.bold,
   color: '#111827',
   marginBottom: spacing.md,
+  animation: `${fadeInUp} 0.6s ease-out 0.2s both`,
 });
 
 export const successMessage = style({
   fontSize: typography.fontSize.lg,
   color: '#6b7280',
-  marginBottom: spacing.lg,
+  marginBottom: spacing.xl,
   lineHeight: 1.6,
+  animation: `${fadeInUp} 0.6s ease-out 0.3s both`,
 });
 
 export const alertContainer = style({
@@ -699,54 +757,82 @@ export const resendButton = style({
 // ============================================================================
 
 export const loadingIconWrapper = style({
-  width: '80px',
-  height: '80px',
+  width: '120px',
+  height: '120px',
   margin: '0 auto',
-  marginBottom: spacing.lg,
+  marginBottom: spacing.xl,
   display: 'flex',
   alignItems: 'center',
   justifyContent: 'center',
+  position: 'relative',
+  animation: `${scaleIn} 0.6s ease-out`,
+  '::before': {
+    content: '',
+    position: 'absolute',
+    inset: '-4px',
+    borderRadius: '50%',
+    background:
+      'linear-gradient(135deg, rgba(124, 82, 255, 0.2) 0%, rgba(124, 82, 255, 0.05) 100%)',
+    animation: `${pulse} 2s ease-in-out infinite`,
+  },
 });
 
 export const loadingSpinnerLarge = style({
   display: 'inline-block',
-  width: '48px',
-  height: '48px',
-  border: '4px solid #e5e7eb',
+  width: '64px',
+  height: '64px',
+  border: '5px solid #e5e7eb',
   borderTopColor: colors.primary[600],
+  borderRightColor: colors.primary[600],
   borderRadius: '50%',
   animation: `${spin} 1s linear infinite`,
 });
 
 export const errorIconWrapper = style({
-  width: '80px',
-  height: '80px',
+  width: '120px',
+  height: '120px',
   margin: '0 auto',
-  marginBottom: spacing.lg,
-  color: '#ef4444',
-  backgroundColor: '#fee2e2',
+  marginBottom: spacing.xl,
+  color: '#ffffff',
+  background: gradients.error,
   borderRadius: '50%',
   display: 'flex',
   alignItems: 'center',
   justifyContent: 'center',
+  boxShadow:
+    '0 0 0 3px rgba(239, 68, 68, 0.1), 0 10px 30px -10px rgba(239, 68, 68, 0.4)',
+  animation: `${shake} 0.5s ease-in-out, ${scaleIn} 0.6s ease-out`,
 });
 
 export const errorIconLarge = style({
-  width: '48px',
-  height: '48px',
+  width: '64px',
+  height: '64px',
 });
 
 export const paymentIconWrapper = style({
-  width: '80px',
-  height: '80px',
+  width: '120px',
+  height: '120px',
   margin: '0 auto',
-  marginBottom: spacing.lg,
-  color: colors.primary[600],
-  backgroundColor: `${colors.primary[600]}20`,
+  marginBottom: spacing.xl,
+  color: '#ffffff',
+  background: gradients.info,
   borderRadius: '50%',
   display: 'flex',
   alignItems: 'center',
   justifyContent: 'center',
+  boxShadow:
+    '0 0 0 3px rgba(59, 130, 246, 0.1), 0 10px 30px -10px rgba(59, 130, 246, 0.4)',
+  animation: `${scaleIn} 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55)`,
+  position: 'relative',
+  '::before': {
+    content: '',
+    position: 'absolute',
+    inset: '-4px',
+    borderRadius: '50%',
+    background:
+      'linear-gradient(135deg, rgba(59, 130, 246, 0.2) 0%, rgba(59, 130, 246, 0.05) 100%)',
+    animation: `${pulse} 2s ease-in-out infinite`,
+  },
 });
 
 // ============================================================================
@@ -762,11 +848,29 @@ export const successList = style({
 });
 
 export const successDetails = style({
-  backgroundColor: '#f9fafb',
-  borderRadius: radius.md,
-  padding: spacing.lg,
-  marginTop: spacing.lg,
-  marginBottom: spacing.lg,
+  backgroundColor: '#ffffff',
+  borderRadius: radius.lg,
+  padding: spacing.xl,
+  marginTop: spacing.xl,
+  marginBottom: spacing.xl,
+  border: '2px solid transparent',
+  position: 'relative',
+  boxShadow: enhancedShadows.layered,
+  animation: `${fadeInUp} 0.6s ease-out 0.5s both`,
+  '::before': {
+    content: '',
+    position: 'absolute',
+    inset: 0,
+    borderRadius: radius.lg,
+    padding: '2px',
+    background:
+      'linear-gradient(135deg, rgba(16, 185, 129, 0.3) 0%, rgba(124, 82, 255, 0.3) 100%)',
+    WebkitMask:
+      'linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0)',
+    WebkitMaskComposite: 'xor',
+    maskComposite: 'exclude',
+    pointerEvents: 'none',
+  },
 });
 
 export const successDetailsTitle = style({
@@ -837,21 +941,25 @@ export const billingCycleOption = style({
   position: 'relative',
   padding: spacing.lg,
   border: '2px solid #e5e7eb',
-  borderRadius: radius.md,
+  borderRadius: radius.lg,
   cursor: 'pointer',
-  transition: 'all 0.2s ease',
+  transition: 'all 0.3s ease',
+  backgroundColor: '#ffffff',
+  boxShadow: '0 1px 3px rgba(0,0,0,0.05)',
   selectors: {
     '&:hover': {
       borderColor: colors.primary[600],
-      boxShadow: `0 0 0 3px ${colors.primary[600]}20`,
+      boxShadow: enhancedShadows.layered,
+      transform: 'translateY(-1px)',
     },
   },
 });
 
 export const billingCycleOptionSelected = style({
   borderColor: colors.primary[600],
-  backgroundColor: `${colors.primary[600]}08`,
-  boxShadow: `0 0 0 3px ${colors.primary[600]}20`,
+  backgroundColor: `${colors.primary[600]}10`,
+  boxShadow: enhancedShadows.purpleGlow,
+  transform: 'scale(1.02)',
 });
 
 export const billingCycleRadio = style({
@@ -880,14 +988,26 @@ export const billingCyclePrice = style({
 
 export const billingCycleSavings = style({
   fontSize: typography.fontSize.sm,
-  color: colors.accent.green,
-  fontWeight: typography.fontWeight.semibold,
+  color: '#ffffff',
+  fontWeight: typography.fontWeight.bold,
+  backgroundColor: colors.accent.green,
+  padding: '4px 10px',
+  borderRadius: radius.md,
+  display: 'inline-block',
+  marginTop: spacing.xs,
+  boxShadow: '0 2px 4px rgba(16, 185, 129, 0.3)',
 });
 
 export const addonsGrid = style({
   display: 'grid',
-  gridTemplateColumns: '1fr',
-  gap: spacing.md,
+  gridTemplateColumns: 'repeat(2, 1fr)',
+  gap: spacing.lg,
+  gridAutoRows: 'minmax(auto, max-content)',
+  '@media': {
+    'screen and (max-width: 768px)': {
+      gridTemplateColumns: '1fr',
+    },
+  },
 });
 
 export const addonCard = style({
@@ -1048,9 +1168,31 @@ export const orderSummaryColumn = style({
 
 export const planCard = style({
   backgroundColor: '#ffffff',
-  border: '2px solid #e5e7eb',
+  border: '2px solid transparent',
   borderRadius: radius.lg,
   padding: spacing.lg,
+  position: 'relative',
+  boxShadow: enhancedShadows.layered,
+  transition: 'all 0.3s ease',
+  animation: `${fadeInUp} 0.6s ease-out`,
+  '::before': {
+    content: '',
+    position: 'absolute',
+    inset: 0,
+    borderRadius: radius.lg,
+    padding: '2px',
+    background:
+      'linear-gradient(135deg, rgba(124, 82, 255, 0.4) 0%, rgba(124, 82, 255, 0.1) 100%)',
+    WebkitMask:
+      'linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0)',
+    WebkitMaskComposite: 'xor',
+    maskComposite: 'exclude',
+    pointerEvents: 'none',
+  },
+  ':hover': {
+    boxShadow: enhancedShadows.purpleGlow,
+    transform: 'translateY(-2px)',
+  },
 });
 
 export const sectionBadge = style({
@@ -1096,22 +1238,28 @@ export const counterControls = style({
 });
 
 export const counterButton = style({
-  width: '36px',
-  height: '36px',
+  width: '44px',
+  height: '44px',
   display: 'flex',
   alignItems: 'center',
   justifyContent: 'center',
   backgroundColor: '#ffffff',
-  border: '2px solid #d1d5db',
-  borderRadius: radius.md,
+  border: '2px solid #e5e7eb',
+  borderRadius: '50%',
   cursor: 'pointer',
   color: '#374151',
-  transition: 'all 0.2s ease',
+  transition: 'all 0.3s ease',
+  boxShadow: '0 2px 4px rgba(0,0,0,0.05)',
   selectors: {
     '&:hover:not(:disabled)': {
-      borderColor: colors.primary[600],
-      color: colors.primary[600],
-      backgroundColor: `${colors.primary[600]}08`,
+      border: 'none',
+      background: gradients.primary,
+      color: '#ffffff',
+      transform: 'scale(1.1)',
+      boxShadow: enhancedShadows.purpleGlow,
+    },
+    '&:active:not(:disabled)': {
+      transform: 'scale(0.95)',
     },
     '&:disabled': {
       opacity: 0.4,
@@ -1124,8 +1272,9 @@ export const counterValue = style({
   fontSize: typography.fontSize['2xl'],
   fontWeight: typography.fontWeight.semibold,
   color: '#111827',
-  minWidth: '40px',
+  minWidth: '50px',
   textAlign: 'center',
+  transition: 'transform 0.3s ease',
 });
 
 export const staffLabel = style({
@@ -1148,11 +1297,35 @@ export const totalPrice = style({
 
 export const addonItemCard = style({
   backgroundColor: '#ffffff',
-  border: '2px solid #e5e7eb',
+  border: '2px solid transparent',
   borderRadius: radius.lg,
-  padding: spacing.lg,
-  marginBottom: spacing.md,
+  padding: spacing.md,
   position: 'relative',
+  boxShadow: enhancedShadows.layered,
+  transition: 'all 0.3s ease',
+  animation: `${fadeInUp} 0.6s ease-out`,
+  display: 'flex',
+  flexDirection: 'column',
+  gap: spacing.sm,
+  height: '100%',
+  '::before': {
+    content: '',
+    position: 'absolute',
+    inset: 0,
+    borderRadius: radius.lg,
+    padding: '2px',
+    background:
+      'linear-gradient(135deg, rgba(16, 185, 129, 0.4) 0%, rgba(16, 185, 129, 0.1) 100%)',
+    WebkitMask:
+      'linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0)',
+    WebkitMaskComposite: 'xor',
+    maskComposite: 'exclude',
+    pointerEvents: 'none',
+  },
+  ':hover': {
+    boxShadow: enhancedShadows.greenGlow,
+    transform: 'translateY(-2px)',
+  },
 });
 
 export const addonItemHeader = style({
@@ -1163,10 +1336,11 @@ export const addonItemHeader = style({
 });
 
 export const addonItemTitle = style({
-  fontSize: typography.fontSize.lg,
+  fontSize: typography.fontSize.base,
   fontWeight: typography.fontWeight.semibold,
   color: '#111827',
   flex: 1,
+  lineHeight: 1.4,
 });
 
 export const removeAddonButton = style({
@@ -1180,13 +1354,14 @@ export const removeAddonButton = style({
   display: 'flex',
   alignItems: 'center',
   justifyContent: 'center',
+  flexShrink: 0,
   ':hover': {
     backgroundColor: '#fee2e2',
   },
 });
 
 export const addonItemPrice = style({
-  fontSize: typography.fontSize.base,
+  fontSize: typography.fontSize.sm,
   color: '#6b7280',
   marginTop: spacing.xs,
 });
@@ -1195,11 +1370,19 @@ export const recommendedAddonCard = style({
   backgroundColor: '#ffffff',
   border: '2px solid #e5e7eb',
   borderRadius: radius.lg,
-  padding: spacing.lg,
-  marginBottom: spacing.md,
+  padding: spacing.md,
   display: 'flex',
   flexDirection: 'column',
-  gap: spacing.md,
+  gap: spacing.sm,
+  boxShadow: '0 1px 3px rgba(0,0,0,0.05)',
+  transition: 'all 0.3s ease',
+  animation: `${fadeInUp} 0.6s ease-out`,
+  height: '100%',
+  ':hover': {
+    borderColor: colors.primary[600],
+    boxShadow: enhancedShadows.layered,
+    transform: 'translateY(-2px)',
+  },
 });
 
 export const recommendedAddonHeader = style({
@@ -1209,13 +1392,14 @@ export const recommendedAddonHeader = style({
 });
 
 export const recommendedAddonTitle = style({
-  fontSize: typography.fontSize.lg,
+  fontSize: typography.fontSize.base,
   fontWeight: typography.fontWeight.semibold,
   color: '#111827',
+  lineHeight: 1.4,
 });
 
 export const recommendedAddonPrice = style({
-  fontSize: typography.fontSize.base,
+  fontSize: typography.fontSize.sm,
   color: '#6b7280',
 });
 
@@ -1243,12 +1427,29 @@ export const addToSubscriptionButton = style({
 
 export const orderSummaryCard = style({
   backgroundColor: '#ffffff',
-  border: '2px solid #e5e7eb',
+  border: '2px solid transparent',
   borderRadius: radius.lg,
-  padding: spacing.lg,
+  padding: spacing.xl,
   display: 'flex',
   flexDirection: 'column',
   gap: spacing.md,
+  position: 'relative',
+  boxShadow: enhancedShadows.elevated,
+  animation: `${fadeInUp} 0.6s ease-out`,
+  '::before': {
+    content: '',
+    position: 'absolute',
+    inset: 0,
+    borderRadius: radius.lg,
+    padding: '2px',
+    background:
+      'linear-gradient(135deg, rgba(59, 130, 246, 0.4) 0%, rgba(124, 82, 255, 0.4) 100%)',
+    WebkitMask:
+      'linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0)',
+    WebkitMaskComposite: 'xor',
+    maskComposite: 'exclude',
+    pointerEvents: 'none',
+  },
 });
 
 export const orderSummaryHeader = style({
@@ -1323,24 +1524,51 @@ export const nextChargeNote = style({
 
 export const proceedButton = style({
   width: '100%',
-  padding: '16px 32px',
+  height: '60px',
+  padding: '0 24px',
   fontSize: typography.fontSize.base,
   fontWeight: typography.fontWeight.bold,
   textTransform: 'uppercase',
   letterSpacing: '0.05em',
-  backgroundColor: colors.primary[600],
+  background: gradients.primary,
   color: '#ffffff',
   border: 'none',
-  borderRadius: radius.md,
+  borderRadius: radius.lg,
   cursor: 'pointer',
-  transition: 'all 0.2s ease',
-  marginTop: spacing.md,
-  boxShadow: shadows.purple,
+  transition: 'all 0.3s ease',
+  marginTop: spacing.lg,
+  boxShadow: enhancedShadows.purpleGlow,
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'center',
+  gap: spacing.sm,
+  position: 'relative',
+  overflow: 'hidden',
+  whiteSpace: 'nowrap',
+  '::before': {
+    content: '',
+    position: 'absolute',
+    inset: 0,
+    background:
+      'linear-gradient(135deg, rgba(255, 255, 255, 0.2) 0%, transparent 100%)',
+    opacity: 0,
+    transition: 'opacity 0.3s ease',
+  },
+  '@media': {
+    'screen and (max-width: 600px)': {
+      fontSize: typography.fontSize.sm,
+      padding: '0 16px',
+      letterSpacing: '0.03em',
+    },
+  },
   selectors: {
     '&:hover:not(:disabled)': {
-      backgroundColor: colors.primary[700],
-      transform: 'translateY(-1px)',
-      boxShadow: '0 12px 40px -10px rgba(124, 82, 255, 0.5)',
+      background: gradients.primaryHover,
+      transform: 'translateY(-2px)',
+      boxShadow: '0 20px 60px -10px rgba(124, 82, 255, 0.6)',
+    },
+    '&:hover:not(:disabled)::before': {
+      opacity: 1,
     },
     '&:active:not(:disabled)': {
       transform: 'translateY(0)',
@@ -1355,26 +1583,39 @@ export const proceedButton = style({
 export const footerLinks = style({
   display: 'flex',
   alignItems: 'center',
-  gap: spacing.sm,
+  justifyContent: 'center',
+  gap: spacing.md,
   marginTop: spacing.xl,
-  fontSize: typography.fontSize.sm,
+  padding: spacing.md,
+  fontSize: typography.fontSize.lg,
   color: '#6b7280',
+  backgroundColor: '#f9fafb',
+  borderRadius: radius.md,
+  border: '1px solid #e5e7eb',
 });
 
 export const footerLink = style({
-  color: '#ef4444',
+  color: colors.primary[600],
   textDecoration: 'none',
   cursor: 'pointer',
-  transition: 'color 0.2s ease',
+  fontWeight: typography.fontWeight.semibold,
+  transition: 'all 0.2s ease',
+  padding: '4px 8px',
+  borderRadius: radius.sm,
+  background: 'none',
+  border: 'none',
   ':hover': {
-    color: '#dc2626',
-    textDecoration: 'underline',
+    color: colors.primary[700],
+    backgroundColor: `${colors.primary[600]}10`,
+    textDecoration: 'none',
   },
 });
 
 export const footerLinkDisabled = style({
-  color: '#9ca3af',
+  color: '#ef4444',
   cursor: 'not-allowed',
+  fontWeight: typography.fontWeight.medium,
+  padding: '4px 8px',
   ':hover': {
     textDecoration: 'none',
   },
@@ -1385,7 +1626,20 @@ export const sectionHeader = style({
   fontWeight: typography.fontWeight.bold,
   color: '#111827',
   marginBottom: spacing.md,
-  marginTop: spacing.lg,
+  marginTop: spacing.xl,
+  animation: `${fadeInUp} 0.6s ease-out`,
+});
+
+export const recommendedAddonsGrid = style({
+  display: 'grid',
+  gridTemplateColumns: 'repeat(2, 1fr)',
+  gap: spacing.lg,
+  gridAutoRows: 'minmax(auto, max-content)',
+  '@media': {
+    'screen and (max-width: 768px)': {
+      gridTemplateColumns: '1fr',
+    },
+  },
 });
 
 // ============================================================================
@@ -1809,7 +2063,8 @@ export const buttonGradient = style({
     '&:hover:not(:disabled)': {
       background: gradients.primaryHover,
       transform: 'translateY(-3px)',
-      boxShadow: '0 0 0 4px rgba(124, 82, 255, 0.15), 0 12px 40px -10px rgba(124, 82, 255, 0.6)',
+      boxShadow:
+        '0 0 0 4px rgba(124, 82, 255, 0.15), 0 12px 40px -10px rgba(124, 82, 255, 0.6)',
     },
     '&:active:not(:disabled)': {
       transform: 'translateY(-1px)',
@@ -1910,7 +2165,8 @@ export const iconContainerSuccess = style({
 export const iconContainerError = style({
   backgroundColor: '#ef4444',
   color: '#ffffff',
-  boxShadow: '0 0 0 3px rgba(239, 68, 68, 0.1), 0 10px 30px -10px rgba(239, 68, 68, 0.4)',
+  boxShadow:
+    '0 0 0 3px rgba(239, 68, 68, 0.1), 0 10px 30px -10px rgba(239, 68, 68, 0.4)',
 });
 
 export const iconContainerInfo = style({
@@ -1960,7 +2216,8 @@ export const cardGradientBorder = style({
     borderRadius: radius.lg,
     padding: '2px',
     background: gradients.primary,
-    WebkitMask: 'linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0)',
+    WebkitMask:
+      'linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0)',
     WebkitMaskComposite: 'xor',
     maskComposite: 'exclude',
   },

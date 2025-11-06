@@ -1,17 +1,23 @@
 'use client';
 
-import { useState, useEffect } from 'react';
-import { useForm, Controller } from 'react-hook-form';
-import { ChevronLeft, ChevronRight, ShoppingCart, Check, DollarSign, AlertCircle, Plus, Minus, Trash2 } from 'lucide-react';
+import {
+  AlertCircle,
+  ChevronLeft,
+  ChevronRight,
+  Minus,
+  Plus,
+  Trash2,
+} from 'lucide-react';
+import { useEffect, useState } from 'react';
+import { Controller, useForm } from 'react-hook-form';
 
-import { TextInput } from './FormComponents';
 import * as styles from './styles.css';
 
+import { SUCCESS_MESSAGES } from '@/constants/messages';
 import { fetchApi } from '@/lib/api-client';
 import { showSuccessToast } from '@/lib/errors';
 import { isApiError } from '@/types/api';
-import { SUCCESS_MESSAGES } from '@/constants/messages';
-import type { Step3PaidProps, AddonFeature } from '@/types/subscription';
+import type { Step3PaidProps } from '@/types/subscription';
 
 interface CartFormData {
   staff_count: number;
@@ -51,7 +57,12 @@ interface AddonData {
  * Allows staff count adjustment, billing cycle selection, and add-on selection
  * Calls /register API on submission and returns payment URL
  */
-export default function Step3PaidCart({ formData, onNext, onBack, clinic_onboarding_request_id }: Step3PaidProps) {
+export default function Step3PaidCart({
+  formData,
+  onNext,
+  onBack,
+  clinic_onboarding_request_id,
+}: Step3PaidProps) {
   const [plans, setPlans] = useState<PlanData[]>([]);
   const [addons, setAddons] = useState<AddonData[]>([]);
   const [loadingData, setLoadingData] = useState(true);
@@ -88,7 +99,7 @@ export default function Step3PaidCart({ formData, onNext, onBack, clinic_onboard
         'subscriptions/onboarding/plans-and-addons',
         {
           method: 'GET',
-        }
+        },
       );
 
       setPlans(result.plans || []);
@@ -102,7 +113,9 @@ export default function Step3PaidCart({ formData, onNext, onBack, clinic_onboard
 
   const toggleAddon = (addonId: number) => {
     setSelectedAddons((prev) =>
-      prev.includes(addonId) ? prev.filter((id) => id !== addonId) : [...prev, addonId]
+      prev.includes(addonId)
+        ? prev.filter((id) => id !== addonId)
+        : [...prev, addonId],
     );
   };
 
@@ -122,17 +135,17 @@ export default function Step3PaidCart({ formData, onNext, onBack, clinic_onboard
   const calculateNextChargeDate = (cycle: 'monthly' | 'yearly'): string => {
     const now = new Date();
     const nextDate = new Date(now);
-    
+
     if (cycle === 'yearly') {
       nextDate.setFullYear(now.getFullYear() + 1);
     } else {
       nextDate.setMonth(now.getMonth() + 1);
     }
-    
-    return nextDate.toLocaleDateString('en-US', { 
-      month: 'long', 
-      day: 'numeric', 
-      year: 'numeric' 
+
+    return nextDate.toLocaleDateString('en-US', {
+      month: 'long',
+      day: 'numeric',
+      year: 'numeric',
     });
   };
 
@@ -151,9 +164,10 @@ export default function Step3PaidCart({ formData, onNext, onBack, clinic_onboard
     if (!currentPlan) return 0;
 
     // Base plan price per staff * staff count
-    const pricePerStaff = billingCycle === 'monthly'
-      ? parseFloat(currentPlan.monthly_price_per_staff)
-      : parseFloat(currentPlan.yearly_price_per_staff);
+    const pricePerStaff =
+      billingCycle === 'monthly'
+        ? Number.parseFloat(currentPlan.monthly_price_per_staff)
+        : Number.parseFloat(currentPlan.yearly_price_per_staff);
 
     const basePrice = pricePerStaff * Number(staffCount);
 
@@ -161,9 +175,10 @@ export default function Step3PaidCart({ formData, onNext, onBack, clinic_onboard
     const addonsTotal = selectedAddons.reduce((total, addonId) => {
       const addon = addons.find((a) => a.id === addonId);
       if (addon) {
-        const addonPrice = billingCycle === 'monthly'
-          ? parseFloat(addon.monthly_price)
-          : parseFloat(addon.yearly_price);
+        const addonPrice =
+          billingCycle === 'monthly'
+            ? Number.parseFloat(addon.monthly_price)
+            : Number.parseFloat(addon.yearly_price);
         return total + addonPrice;
       }
       return total;
@@ -182,13 +197,16 @@ export default function Step3PaidCart({ formData, onNext, onBack, clinic_onboard
       const stateId = formData.state?.id;
 
       if (!cityId || !stateId) {
-        setApiError('Missing city or state information. Please go back and complete the form.');
+        setApiError(
+          'Missing city or state information. Please go back and complete the form.',
+        );
         setIsSubmitting(false);
         return;
       }
 
       // Construct URLs for Stripe redirect
-      const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || window.location.origin;
+      const baseUrl =
+        process.env.NEXT_PUBLIC_SITE_URL || window.location.origin;
       const success_url = `${baseUrl}/subscribe/success`;
       const cancel_url = `${baseUrl}/subscribe`;
 
@@ -222,13 +240,13 @@ export default function Step3PaidCart({ formData, onNext, onBack, clinic_onboard
       };
 
       // Call /register API
-      const result = await fetchApi<{ payment_url: string; payment_required: boolean }>(
-        'subscriptions/onboarding/register',
-        {
-          method: 'POST',
-          body: registrationPayload,
-        },
-      );
+      const result = await fetchApi<{
+        payment_url: string;
+        payment_required: boolean;
+      }>('subscriptions/onboarding/register', {
+        method: 'POST',
+        body: registrationPayload,
+      });
 
       // Success! Show toast
       showSuccessToast(
@@ -246,9 +264,13 @@ export default function Step3PaidCart({ formData, onNext, onBack, clinic_onboard
     } catch (error) {
       console.error('Registration failed:', error);
       if (isApiError(error)) {
-        setApiError(error.message || 'Failed to complete registration. Please try again.');
+        setApiError(
+          error.message || 'Failed to complete registration. Please try again.',
+        );
       } else {
-        setApiError('Network error. Please check your connection and try again.');
+        setApiError(
+          'Network error. Please check your connection and try again.',
+        );
       }
     } finally {
       setIsSubmitting(false);
@@ -261,8 +283,9 @@ export default function Step3PaidCart({ formData, onNext, onBack, clinic_onboard
   // Calculate savings percentage for yearly billing
   const getSavingsPercentage = (): string => {
     if (!currentPlan) return '';
-    const monthlyTotal = parseFloat(currentPlan.monthly_price_per_staff) * 12;
-    const yearlyTotal = parseFloat(currentPlan.yearly_price_per_staff);
+    const monthlyTotal =
+      Number.parseFloat(currentPlan.monthly_price_per_staff) * 12;
+    const yearlyTotal = Number.parseFloat(currentPlan.yearly_price_per_staff);
     if (monthlyTotal > 0 && yearlyTotal > 0) {
       const savings = ((monthlyTotal - yearlyTotal) / monthlyTotal) * 100;
       return `Save ${Math.round(savings)}%`;
@@ -270,16 +293,26 @@ export default function Step3PaidCart({ formData, onNext, onBack, clinic_onboard
     return '';
   };
 
-  const yearlyDiscount = billingCycle === 'yearly' ? getSavingsPercentage() : '';
-
   // Get selected and recommended addons
-  const selectedAddonsList = addons.filter((addon) => selectedAddons.includes(addon.id));
-  const recommendedAddonsList = addons.filter((addon) => !selectedAddons.includes(addon.id));
+  const selectedAddonsList = addons.filter((addon) =>
+    selectedAddons.includes(addon.id),
+  );
+  const recommendedAddonsList = addons.filter(
+    (addon) => !selectedAddons.includes(addon.id),
+  );
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
       <div className={styles.cartHeader}>
-        <h1 className={styles.formTitle}>Plan Details</h1>
+        <h1 className={`${styles.formTitle} ${styles.fadeInUpAnimation}`}>
+          Customize Your Plan
+        </h1>
+        <p
+          className={`${styles.formSubtitle} ${styles.fadeInUpAnimation}`}
+          style={{ animationDelay: '0.1s' }}
+        >
+          Select your billing cycle and add-ons to complete your subscription
+        </p>
       </div>
 
       {apiError && (
@@ -289,29 +322,35 @@ export default function Step3PaidCart({ formData, onNext, onBack, clinic_onboard
         </div>
       )}
 
-      {loadingData ? (
+      {loadingData && (
         <div className={styles.loadingMessage}>Loading plan details...</div>
-      ) : !currentPlan ? (
+      )}
+
+      {!loadingData && !currentPlan && (
         <div className={`${styles.alertContainer} ${styles.alertError}`}>
           <AlertCircle size={20} />
           <span>Unable to load plan details. Please try again.</span>
         </div>
-      ) : (
+      )}
+
+      {!loadingData && currentPlan && (
         <div className={styles.cartGrid}>
           {/* Left Column: Plan Details */}
           <div className={styles.planDetailsColumn}>
             {/* Plan Card */}
-            <div className={styles.planCard}>
+            <div className={styles.planCard} style={{ animationDelay: '0.2s' }}>
               <span className={styles.sectionBadge}>PLAN</span>
               <div className={styles.planHeader}>
                 <h2 className={styles.planName}>
-                  {currentPlan.name} - {billingCycle === 'monthly' ? 'Monthly' : 'Yearly'}
+                  {currentPlan.name} -{' '}
+                  {billingCycle === 'monthly' ? 'Monthly' : 'Yearly'}
                 </h2>
               </div>
 
               <div className={styles.planPriceRow}>
                 <span>
-                  ${billingCycle === 'monthly'
+                  $
+                  {billingCycle === 'monthly'
                     ? currentPlan.monthly_price_per_staff
                     : currentPlan.yearly_price_per_staff}
                 </span>
@@ -339,10 +378,12 @@ export default function Step3PaidCart({ formData, onNext, onBack, clinic_onboard
                 </div>
                 <span className={styles.priceEquals}>=</span>
                 <span className={styles.totalPrice}>
-                  ${(
+                  $
+                  {(
                     (billingCycle === 'monthly'
-                      ? parseFloat(currentPlan.monthly_price_per_staff)
-                      : parseFloat(currentPlan.yearly_price_per_staff)) * Number(staffCount)
+                      ? Number.parseFloat(currentPlan.monthly_price_per_staff)
+                      : Number.parseFloat(currentPlan.yearly_price_per_staff)) *
+                    Number(staffCount)
                   ).toFixed(0)}
                 </span>
               </div>
@@ -354,10 +395,15 @@ export default function Step3PaidCart({ formData, onNext, onBack, clinic_onboard
               name="billing_cycle"
               control={control}
               render={({ field }) => (
-                <div className={styles.billingCycleGrid}>
+                <div
+                  className={`${styles.billingCycleGrid} ${styles.fadeInUpAnimation}`}
+                  style={{ animationDelay: '0.3s' }}
+                >
                   <label
                     className={`${styles.billingCycleOption} ${
-                      field.value === 'monthly' ? styles.billingCycleOptionSelected : ''
+                      field.value === 'monthly'
+                        ? styles.billingCycleOptionSelected
+                        : ''
                     }`}
                   >
                     <input
@@ -377,7 +423,9 @@ export default function Step3PaidCart({ formData, onNext, onBack, clinic_onboard
 
                   <label
                     className={`${styles.billingCycleOption} ${
-                      field.value === 'yearly' ? styles.billingCycleOptionSelected : ''
+                      field.value === 'yearly'
+                        ? styles.billingCycleOptionSelected
+                        : ''
                     }`}
                   >
                     <input
@@ -393,7 +441,9 @@ export default function Step3PaidCart({ formData, onNext, onBack, clinic_onboard
                         ${currentPlan.yearly_price_per_staff}/year per staff
                       </span>
                       {getSavingsPercentage() && (
-                        <span className={styles.billingCycleSavings}>{getSavingsPercentage()}</span>
+                        <span className={styles.billingCycleSavings}>
+                          {getSavingsPercentage()}
+                        </span>
                       )}
                     </div>
                   </label>
@@ -404,65 +454,99 @@ export default function Step3PaidCart({ formData, onNext, onBack, clinic_onboard
             {/* Selected Addons */}
             {selectedAddonsList.length > 0 && (
               <>
-                <h3 className={styles.sectionHeader}>Selected Add-ons</h3>
-                {selectedAddonsList.map((addon) => {
-                  const price =
-                    billingCycle === 'monthly'
-                      ? parseFloat(addon.monthly_price)
-                      : parseFloat(addon.yearly_price);
-                  const total = billingCycle === 'monthly' ? price * 12 : price;
+                <h3
+                  className={styles.sectionHeader}
+                  style={{ animationDelay: '0.4s' }}
+                >
+                  Selected Add-ons
+                </h3>
+                <div className={styles.addonsGrid}>
+                  {selectedAddonsList.map((addon, index) => {
+                    const price =
+                      billingCycle === 'monthly'
+                        ? Number.parseFloat(addon.monthly_price)
+                        : Number.parseFloat(addon.yearly_price);
+                    const total =
+                      billingCycle === 'monthly' ? price * 12 : price;
 
-                  return (
-                    <div key={addon.id} className={styles.addonItemCard}>
-                      <span className={styles.sectionBadge}>ADDON</span>
-                      <div className={styles.addonItemHeader}>
-                        <h4 className={styles.addonItemTitle}>{addon.feature_name}</h4>
-                        <button
-                          type="button"
-                          onClick={() => toggleAddon(addon.id)}
-                          className={styles.removeAddonButton}
-                          aria-label={`Remove ${addon.feature_name}`}
-                        >
-                          <Trash2 size={20} />
-                        </button>
+                    return (
+                      <div
+                        key={addon.id}
+                        className={styles.addonItemCard}
+                        style={{ animationDelay: `${0.5 + index * 0.1}s` }}
+                      >
+                        <span className={styles.sectionBadge}>ADDON</span>
+                        <div className={styles.addonItemHeader}>
+                          <h4 className={styles.addonItemTitle}>
+                            {addon.feature_name}
+                          </h4>
+                          <button
+                            type="button"
+                            onClick={() => toggleAddon(addon.id)}
+                            className={styles.removeAddonButton}
+                            aria-label={`Remove ${addon.feature_name}`}
+                          >
+                            <Trash2 size={18} />
+                          </button>
+                        </div>
+                        <div className={styles.addonItemPrice}>
+                          ${price.toFixed(0)} ×{' '}
+                          {billingCycle === 'monthly' ? '12 mo' : '12 mo'} = $
+                          {total.toFixed(0)}
+                        </div>
                       </div>
-                      <div className={styles.addonItemPrice}>
-                        ${price.toFixed(0)} × {billingCycle === 'monthly' ? '12 months' : '12 months'} = ${total.toFixed(0)}
-                      </div>
-                    </div>
-                  );
-                })}
+                    );
+                  })}
+                </div>
               </>
             )}
 
             {/* Recommended Addons */}
             {recommendedAddonsList.length > 0 && (
               <>
-                <h3 className={styles.sectionHeader}>Recommended Addons</h3>
-                {recommendedAddonsList.map((addon) => {
-                  const price =
-                    billingCycle === 'monthly'
-                      ? parseFloat(addon.monthly_price)
-                      : parseFloat(addon.yearly_price);
+                <h3
+                  className={styles.sectionHeader}
+                  style={{ animationDelay: '0.6s' }}
+                >
+                  Recommended Addons
+                </h3>
+                <div className={styles.recommendedAddonsGrid}>
+                  {recommendedAddonsList.map((addon, index) => {
+                    const price =
+                      billingCycle === 'monthly'
+                        ? Number.parseFloat(addon.monthly_price)
+                        : Number.parseFloat(addon.yearly_price);
 
-                  return (
-                    <div key={addon.id} className={styles.recommendedAddonCard}>
-                      <div className={styles.recommendedAddonHeader}>
-                        <h4 className={styles.recommendedAddonTitle}>{addon.feature_name}</h4>
-                        <div className={styles.recommendedAddonPrice}>
-                          ${price.toFixed(0)} × {billingCycle === 'monthly' ? '12 months' : '12 months'} = ${(billingCycle === 'monthly' ? price * 12 : price).toFixed(0)}
-                        </div>
-                      </div>
-                      <button
-                        type="button"
-                        onClick={() => toggleAddon(addon.id)}
-                        className={styles.addToSubscriptionButton}
+                    return (
+                      <div
+                        key={addon.id}
+                        className={styles.recommendedAddonCard}
+                        style={{ animationDelay: `${0.7 + index * 0.1}s` }}
                       >
-                        Add to Subscription
-                      </button>
-                    </div>
-                  );
-                })}
+                        <div className={styles.recommendedAddonHeader}>
+                          <h4 className={styles.recommendedAddonTitle}>
+                            {addon.feature_name}
+                          </h4>
+                          <div className={styles.recommendedAddonPrice}>
+                            ${price.toFixed(0)} ×{' '}
+                            {billingCycle === 'monthly' ? '12 mo' : '12 mo'} = $
+                            {(billingCycle === 'monthly'
+                              ? price * 12
+                              : price
+                            ).toFixed(0)}
+                          </div>
+                        </div>
+                        <button
+                          type="button"
+                          onClick={() => toggleAddon(addon.id)}
+                          className={styles.addToSubscriptionButton}
+                        >
+                          Add
+                        </button>
+                      </div>
+                    );
+                  })}
+                </div>
               </>
             )}
 
@@ -476,32 +560,47 @@ export default function Step3PaidCart({ formData, onNext, onBack, clinic_onboard
                 Change Subscription
               </button>
               <span>|</span>
-              <span className={styles.footerLinkDisabled}>Cancel Subscription</span>
+              <button
+                type="button"
+                onClick={onBack}
+                className={styles.footerLinkDisabled}
+              >
+                Cancel Subscription
+              </button>
             </div>
           </div>
 
           {/* Right Column: Order Summary */}
           <div className={styles.orderSummaryColumn}>
-            <div className={styles.orderSummaryCard}>
+            <div
+              className={styles.orderSummaryCard}
+              style={{ animationDelay: '0.4s' }}
+            >
               <h2 className={styles.orderSummaryHeader}>Order Summary</h2>
 
               {/* Plan Line Item */}
               <div className={styles.summaryLineItem}>
                 <div className={styles.summaryLineItemContent}>
                   <div className={styles.summaryLineItemTitle}>
-                    {currentPlan.name} - {billingCycle === 'monthly' ? 'Monthly' : 'Yearly'}
+                    {currentPlan.name} -{' '}
+                    {billingCycle === 'monthly' ? 'Monthly' : 'Yearly'}
                   </div>
                   <div className={styles.summarySubtext}>
-                    ${billingCycle === 'monthly'
+                    $
+                    {billingCycle === 'monthly'
                       ? currentPlan.monthly_price_per_staff
-                      : currentPlan.yearly_price_per_staff} × {staffCount}/{billingCycle === 'monthly' ? 'month' : 'year'}
+                      : currentPlan.yearly_price_per_staff}{' '}
+                    × {staffCount}/
+                    {billingCycle === 'monthly' ? 'month' : 'year'}
                   </div>
                 </div>
                 <div className={styles.summaryLineItemPrice}>
-                  ${(
+                  $
+                  {(
                     (billingCycle === 'monthly'
-                      ? parseFloat(currentPlan.monthly_price_per_staff)
-                      : parseFloat(currentPlan.yearly_price_per_staff)) * Number(staffCount)
+                      ? Number.parseFloat(currentPlan.monthly_price_per_staff)
+                      : Number.parseFloat(currentPlan.yearly_price_per_staff)) *
+                    Number(staffCount)
                   ).toFixed(0)}
                 </div>
               </div>
@@ -510,21 +609,24 @@ export default function Step3PaidCart({ formData, onNext, onBack, clinic_onboard
               {selectedAddonsList.map((addon) => {
                 const price =
                   billingCycle === 'monthly'
-                    ? parseFloat(addon.monthly_price)
-                    : parseFloat(addon.yearly_price);
+                    ? Number.parseFloat(addon.monthly_price)
+                    : Number.parseFloat(addon.yearly_price);
                 const total = billingCycle === 'monthly' ? price * 12 : price;
 
                 return (
                   <div key={addon.id} className={styles.summaryLineItem}>
                     <div className={styles.summaryLineItemContent}>
                       <div className={styles.summaryLineItemTitle}>
-                        {addon.feature_name} - {billingCycle === 'monthly' ? 'Monthly' : 'Yearly'}
+                        {addon.feature_name} -{' '}
+                        {billingCycle === 'monthly' ? 'Monthly' : 'Yearly'}
                       </div>
                       <div className={styles.summarySubtext}>
                         ${price.toFixed(0)} × 12 months
                       </div>
                     </div>
-                    <div className={styles.summaryLineItemPrice}>${total.toFixed(0)}</div>
+                    <div className={styles.summaryLineItemPrice}>
+                      ${total.toFixed(0)}
+                    </div>
                   </div>
                 );
               })}

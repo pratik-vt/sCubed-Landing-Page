@@ -112,8 +112,10 @@ export default function Step4PaymentProcessing({ formData, paymentUrl, onBack }:
         <div className={styles.loadingIconWrapper}>
           <span className={styles.loadingSpinnerLarge} />
         </div>
-        <h2 className={styles.successTitle}>Processing Your Order...</h2>
-        <p className={styles.successMessage}>
+        <h2 className={`${styles.successTitle} ${styles.fadeInUpAnimation}`} style={{ animationDelay: '0.2s' }}>
+          Processing Your Order...
+        </h2>
+        <p className={`${styles.successMessage} ${styles.fadeInUpAnimation}`} style={{ animationDelay: '0.3s' }}>
           Please wait while we securely process your payment details. This will only take a moment.
         </p>
       </div>
@@ -124,12 +126,16 @@ export default function Step4PaymentProcessing({ formData, paymentUrl, onBack }:
     return (
       <div className={styles.successContainer}>
         <div className={styles.errorIconWrapper}>
-          <AlertCircle className={styles.errorIconLarge} />
+          <AlertCircle className={styles.errorIconLarge} strokeWidth={2.5} />
         </div>
-        <h2 className={styles.successTitle}>Payment Initialization Failed</h2>
-        <p className={styles.successMessage}>{apiError}</p>
+        <h2 className={`${styles.successTitle} ${styles.fadeInUpAnimation}`} style={{ animationDelay: '0.2s' }}>
+          Payment Initialization Failed
+        </h2>
+        <p className={`${styles.successMessage} ${styles.fadeInUpAnimation}`} style={{ animationDelay: '0.3s' }}>
+          {apiError}
+        </p>
 
-        <div className={`${styles.alertContainer} ${styles.alertWarning}`}>
+        <div className={`${styles.alertContainer} ${styles.alertWarning} ${styles.fadeInUpAnimation}`} style={{ animationDelay: '0.4s' }}>
           <AlertCircle size={20} />
           <span>
             Your subscription data has been saved. Please try again or contact support if the
@@ -137,11 +143,11 @@ export default function Step4PaymentProcessing({ formData, paymentUrl, onBack }:
           </span>
         </div>
 
-        <div className={styles.buttonGroup}>
+        <div className={`${styles.buttonGroup} ${styles.fadeInUpAnimation}`} style={{ animationDelay: '0.5s' }}>
           {onBack && (
             <button
               onClick={onBack}
-              className={`${styles.button} ${styles.buttonSecondary}`}
+              className={`${styles.button} ${styles.buttonLarge} ${styles.buttonSecondary}`}
             >
               <ChevronLeft size={20} />
               Back
@@ -149,7 +155,7 @@ export default function Step4PaymentProcessing({ formData, paymentUrl, onBack }:
           )}
           <button
             onClick={() => window.location.reload()}
-            className={`${styles.button} ${styles.buttonPrimary}`}
+            className={`${styles.button} ${styles.buttonLarge} ${styles.buttonGradient}`}
           >
             Try Again
           </button>
@@ -162,16 +168,18 @@ export default function Step4PaymentProcessing({ formData, paymentUrl, onBack }:
     return (
       <div className={styles.successContainer}>
         <div className={styles.paymentIconWrapper}>
-          <CreditCard size={48} />
+          <CreditCard size={64} strokeWidth={2.5} />
         </div>
 
-        <h2 className={styles.successTitle}>Redirecting to Secure Payment...</h2>
+        <h2 className={`${styles.successTitle} ${styles.fadeInUpAnimation}`} style={{ animationDelay: '0.2s' }}>
+          Redirecting to Secure Payment...
+        </h2>
 
-        <p className={styles.successMessage}>
+        <p className={`${styles.successMessage} ${styles.fadeInUpAnimation}`} style={{ animationDelay: '0.3s' }}>
           You will be automatically redirected to our secure payment page in a moment. After completing your payment, you'll be brought back to see your subscription confirmation.
         </p>
 
-        <div className={`${styles.alertContainer} ${styles.alertInfo}`}>
+        <div className={`${styles.alertContainer} ${styles.alertInfo} ${styles.fadeInUpAnimation}`} style={{ animationDelay: '0.4s' }}>
           <AlertCircle size={20} />
           <div>
             <strong>What happens next:</strong>
@@ -183,11 +191,11 @@ export default function Step4PaymentProcessing({ formData, paymentUrl, onBack }:
           </div>
         </div>
 
-        <div className={styles.buttonGroup}>
+        <div className={`${styles.buttonGroup} ${styles.fadeInUpAnimation}`} style={{ animationDelay: '0.5s' }}>
           {onBack && (
             <button
               onClick={onBack}
-              className={`${styles.button} ${styles.buttonSecondary}`}
+              className={`${styles.button} ${styles.buttonLarge} ${styles.buttonSecondary}`}
             >
               <ChevronLeft size={20} />
               Back
@@ -195,7 +203,7 @@ export default function Step4PaymentProcessing({ formData, paymentUrl, onBack }:
           )}
           <button
             onClick={() => window.location.href = stripeUrl}
-            className={`${styles.button} ${styles.buttonPrimary}`}
+            className={`${styles.button} ${styles.buttonLarge} ${styles.buttonGradient}`}
           >
             Proceed to Payment Now
             <ExternalLink size={20} />
