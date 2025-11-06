@@ -41,7 +41,7 @@ export default function ConditionalLayout({ children }: Readonly<ConditionalLayo
                             pathname === '/pricing' ||
                             pathname === '/events' ||
                             pathname === '/scheduling-and-appointments' ||
-                            pathname === '/authorization';
+                            pathname === '/aba-authorization-software';
   
   return (
     <FreeTrialModalProvider>

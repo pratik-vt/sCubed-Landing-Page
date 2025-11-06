@@ -21,7 +21,7 @@ export const metadata: Metadata = {
   description:
     'Manage every approval in one place, track, renew, and connect what matters. No more denials, fewer scheduling surprises, and more time back for your team. Meet S Cubed, your prior authorization software with heart.',
   alternates: {
-    canonical: '/authorization',
+    canonical: '/aba-authorization-software',
   },
 };
 
