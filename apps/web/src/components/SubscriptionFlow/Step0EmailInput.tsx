@@ -103,24 +103,26 @@ export default function Step0EmailInput({ onNext, initialEmail }: Readonly<Step0
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
       <div className={styles.otpContainer}>
-        <div className={styles.otpIconWrapper}>
-          <Mail size={48} className={styles.otpIcon} />
+        <div className={`${styles.iconContainerLarge} ${styles.iconContainerPrimary}`}>
+          <Mail size={48} />
         </div>
 
-        <h1 className={styles.formTitle}>Get Started with S Cubed</h1>
-        <p className={styles.formSubtitle}>
+        <h1 className={`${styles.formTitle} ${styles.fadeInUpAnimation}`}>
+          Get Started with S Cubed
+        </h1>
+        <p className={`${styles.formSubtitle} ${styles.fadeInUpAnimation}`} style={{ animationDelay: '0.1s' }}>
           Enter your email address to begin your subscription journey
         </p>
       </div>
 
-      <div className={`${styles.alertContainer} ${styles.alertInfo}`}>
+      <div className={`${styles.alertContainer} ${styles.alertInfo} ${styles.alertWithAnimation} ${styles.alertWithBorder}`} style={{ animationDelay: '0.2s' }}>
         <AlertCircle size={20} />
         <span>
           We'll send you a verification code to confirm your email address
         </span>
       </div>
 
-      <div className={styles.formSection}>
+      <div className={styles.formSection} style={{ marginTop: '2rem' }}>
         <TextInput
           label="Email Address"
           type="email"
@@ -139,11 +141,11 @@ export default function Step0EmailInput({ onNext, initialEmail }: Readonly<Step0
       </div>
 
       {/* Form Actions */}
-      <div className={styles.buttonGroup}>
+      <div className={styles.buttonGroup} style={{ marginTop: '2rem' }}>
         <div />
         <button
           type="submit"
-          className={`${styles.button} ${styles.buttonPrimary}`}
+          className={`${styles.button} ${styles.buttonLarge} ${styles.buttonGradient}`}
           disabled={isSubmitting}
         >
           {isSubmitting ? (
@@ -154,11 +156,17 @@ export default function Step0EmailInput({ onNext, initialEmail }: Readonly<Step0
           ) : (
             <>
               Continue
-              <ChevronRight size={20} />
+              <ChevronRight size={20} style={{ transition: 'transform 0.2s ease' }} />
             </>
           )}
         </button>
       </div>
+
+      <style jsx>{`
+        button:not(:disabled):hover svg {
+          transform: translateX(4px);
+        }
+      `}</style>
     </form>
   );
 }

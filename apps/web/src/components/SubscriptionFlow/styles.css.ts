@@ -11,10 +11,84 @@ const fadeIn = keyframes({
   '100%': { opacity: 1, transform: 'translateY(0)' },
 });
 
+const fadeInUp = keyframes({
+  '0%': { opacity: 0, transform: 'translateY(20px)' },
+  '100%': { opacity: 1, transform: 'translateY(0)' },
+});
+
+const scaleIn = keyframes({
+  '0%': { opacity: 0, transform: 'scale(0.9)' },
+  '100%': { opacity: 1, transform: 'scale(1)' },
+});
+
+const shake = keyframes({
+  '0%, 100%': { transform: 'translateX(0)' },
+  '10%, 30%, 50%, 70%, 90%': { transform: 'translateX(-4px)' },
+  '20%, 40%, 60%, 80%': { transform: 'translateX(4px)' },
+});
+
+const pulse = keyframes({
+  '0%, 100%': { opacity: 1, transform: 'scale(1)' },
+  '50%': { opacity: 0.8, transform: 'scale(1.05)' },
+});
+
 const spin = keyframes({
   '0%': { transform: 'rotate(0deg)' },
   '100%': { transform: 'rotate(360deg)' },
 });
+
+const drawCheckmark = keyframes({
+  '0%': { strokeDashoffset: 100 },
+  '100%': { strokeDashoffset: 0 },
+});
+
+const slideInRight = keyframes({
+  '0%': { opacity: 0, transform: 'translateX(20px)' },
+  '100%': { opacity: 1, transform: 'translateX(0)' },
+});
+
+const slideInLeft = keyframes({
+  '0%': { opacity: 0, transform: 'translateX(-20px)' },
+  '100%': { opacity: 1, transform: 'translateX(0)' },
+});
+
+const bounceIn = keyframes({
+  '0%': { opacity: 0, transform: 'scale(0.3)' },
+  '50%': { opacity: 1, transform: 'scale(1.05)' },
+  '70%': { transform: 'scale(0.9)' },
+  '100%': { transform: 'scale(1)' },
+});
+
+const rotate = keyframes({
+  '0%': { transform: 'rotate(0deg)' },
+  '100%': { transform: 'rotate(360deg)' },
+});
+
+// ============================================================================
+// DESIGN SYSTEM - GRADIENTS
+// ============================================================================
+
+export const gradients = {
+  primary: 'linear-gradient(135deg, #7C52FF 0%, #9370FF 100%)',
+  primaryHover: 'linear-gradient(135deg, #6B42EF 0%, #8260EF 100%)',
+  success: 'linear-gradient(135deg, #10B981 0%, #059669 100%)',
+  error: 'linear-gradient(135deg, #EF4444 0%, #DC2626 100%)',
+  info: 'linear-gradient(135deg, #3B82F6 0%, #2563EB 100%)',
+  warning: 'linear-gradient(135deg, #F59E0B 0%, #D97706 100%)',
+  subtle: 'linear-gradient(135deg, #F9FAFB 0%, #F3F4F6 100%)',
+};
+
+// ============================================================================
+// DESIGN SYSTEM - ENHANCED SHADOWS
+// ============================================================================
+
+export const enhancedShadows = {
+  layered: '0 2px 4px rgba(0,0,0,0.05), 0 8px 16px rgba(0,0,0,0.1)',
+  elevated: '0 4px 6px rgba(0,0,0,0.07), 0 12px 24px rgba(0,0,0,0.12)',
+  purpleGlow: '0 0 0 3px rgba(124, 82, 255, 0.1), 0 10px 30px -10px rgba(124, 82, 255, 0.4)',
+  greenGlow: '0 0 0 3px rgba(16, 185, 129, 0.1), 0 10px 30px -10px rgba(16, 185, 129, 0.4)',
+  blueGlow: '0 0 0 3px rgba(59, 130, 246, 0.1), 0 10px 30px -10px rgba(59, 130, 246, 0.4)',
+};
 
 // ============================================================================
 // PAGE LAYOUT
@@ -24,32 +98,69 @@ export const pageWrapper = style({
   fontFamily: typography.fontFamily.body,
   minHeight: 'calc(100vh - 200px)',
   backgroundColor: '#f9fafb',
-  padding: `${spacing.xl} 0`,
+  padding: `${spacing.lg} 0`,
   animation: `${fadeIn} 0.6s ease-out`,
   '@media': {
     'screen and (max-width: 768px)': {
-      padding: `${spacing.lg} 0`,
+      padding: `${spacing.md} 0`,
     },
   },
 });
 
 export const container = style({
-  maxWidth: '1200px',
+  maxWidth: '1000px',
   margin: '0 auto',
-  backgroundColor: '#ffffff',
-  borderRadius: radius.lg,
-  boxShadow: shadows.base,
-  padding: spacing.xl,
+  background: 'linear-gradient(135deg, #ffffff 0%, #fdfbff 50%, #f9f7ff 100%)',
+  borderRadius: '20px',
+  boxShadow: enhancedShadows.elevated,
+  padding: `${spacing.xl} ${spacing.xl}`,
+  position: 'relative',
+  zIndex: 1,
+  border: '1px solid rgba(124, 82, 255, 0.15)',
+  '::before': {
+    content: '""',
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
+    borderRadius: '20px',
+    backgroundImage: 'radial-gradient(circle at 10% 20%, rgba(124, 82, 255, 0.08) 0%, transparent 40%), radial-gradient(circle at 90% 80%, rgba(124, 82, 255, 0.06) 0%, transparent 40%)',
+    pointerEvents: 'none',
+    zIndex: 0,
+  },
+  '::after': {
+    content: '""',
+    position: 'absolute',
+    inset: '-1px',
+    borderRadius: '20px',
+    padding: '1px',
+    background: 'linear-gradient(135deg, rgba(124, 82, 255, 0.2) 0%, transparent 50%, rgba(124, 82, 255, 0.1) 100%)',
+    WebkitMask: 'linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0)',
+    WebkitMaskComposite: 'xor',
+    maskComposite: 'exclude',
+    pointerEvents: 'none',
+    zIndex: -1,
+  },
   '@media': {
     'screen and (max-width: 768px)': {
-      padding: spacing.md,
-      borderRadius: radius.md,
+      padding: spacing.lg,
+      borderRadius: radius.lg,
+      margin: `0 ${spacing.md}`,
+      '::before': {
+        borderRadius: radius.lg,
+      },
+      '::after': {
+        borderRadius: radius.lg,
+      },
     },
   },
 });
 
 export const stepContent = style({
-  marginTop: spacing.xl,
+  marginTop: spacing.lg,
+  position: 'relative',
+  zIndex: 1,
 });
 
 // ============================================================================
@@ -58,7 +169,10 @@ export const stepContent = style({
 
 export const stepIndicatorWrapper = style({
   width: '100%',
-  padding: `${spacing.md} 0`,
+  padding: `${spacing.lg} 0`,
+  marginBottom: spacing.md,
+  position: 'relative',
+  zIndex: 1,
 });
 
 export const stepIndicatorContainer = style({
@@ -206,7 +320,7 @@ export const formSubtitle = style({
 });
 
 export const formSection = style({
-  marginBottom: spacing.xl,
+  marginBottom: spacing.lg,
 });
 
 export const sectionTitle = style({
@@ -230,7 +344,7 @@ export const formGrid = style({
 });
 
 export const formField = style({
-  marginBottom: spacing.md,
+  marginBottom: spacing.lg,
 });
 
 export const label = style({
@@ -363,10 +477,13 @@ export const buttonGroup = style({
   display: 'flex',
   justifyContent: 'space-between',
   gap: spacing.md,
-  marginTop: spacing.xl,
+  marginTop: spacing.lg,
+  paddingTop: spacing.lg,
+  borderTop: '1px solid #f3f4f6',
   '@media': {
     'screen and (max-width: 600px)': {
       flexDirection: 'column-reverse',
+      gap: spacing.sm,
     },
   },
 });
@@ -474,8 +591,9 @@ export const alertContainer = style({
   gap: spacing.md,
   padding: spacing.md,
   borderRadius: radius.md,
-  marginBottom: spacing.md,
+  marginBottom: spacing.lg,
   fontSize: typography.fontSize.sm,
+  boxShadow: shadows.sm,
 });
 
 export const alertError = style({
@@ -507,9 +625,16 @@ export const alertSuccess = style({
 // ============================================================================
 
 export const otpContainer = style({
-  maxWidth: '400px',
+  maxWidth: '500px',
   margin: '0 auto',
   textAlign: 'center',
+  width: '100%',
+  '@media': {
+    'screen and (max-width: 600px)': {
+      maxWidth: '100%',
+      padding: '0 8px',
+    },
+  },
 });
 
 export const otpIconWrapper = style({
@@ -1272,11 +1397,15 @@ export const planBadgeContainer = style({
   flexDirection: 'column',
   alignItems: 'center',
   gap: spacing.xs,
-  padding: `${spacing.sm} ${spacing.lg}`,
+  padding: `${spacing.md} ${spacing.xl}`,
   borderRadius: radius.lg,
   border: '2px solid',
-  marginBottom: spacing.lg,
-  boxShadow: shadows.sm,
+  boxShadow: enhancedShadows.layered,
+  transition: 'all 0.3s ease',
+  ':hover': {
+    boxShadow: enhancedShadows.elevated,
+    transform: 'translateY(-1px)',
+  },
 });
 
 export const planBadgeContent = style({
@@ -1314,9 +1443,10 @@ export const planBadgeWrapper = style({
   display: 'flex',
   alignItems: 'center',
   justifyContent: 'center',
-  gap: spacing.sm,
-  marginBottom: spacing.md,
+  gap: spacing.md,
+  marginBottom: spacing.lg,
   position: 'relative',
+  zIndex: 1,
 });
 
 export const editPlanButton = style({
@@ -1324,24 +1454,27 @@ export const editPlanButton = style({
   alignItems: 'center',
   justifyContent: 'center',
   color: colors.primary[600],
-  background: 'transparent',
-  border: 'none',
+  background: '#ffffff',
+  border: `2px solid ${colors.primary[600]}`,
   cursor: 'pointer',
-  padding: spacing.xs,
+  padding: spacing.sm,
   borderRadius: '50%',
-  transition: 'all 0.2s ease',
-  width: '36px',
-  height: '36px',
+  transition: 'all 0.3s ease',
+  width: '52px',
+  height: '52px',
   flexShrink: 0,
+  boxShadow: shadows.sm,
   ':hover': {
-    backgroundColor: colors.primary[50],
-    transform: 'scale(1.1)',
+    backgroundColor: colors.primary[600],
+    color: '#ffffff',
+    transform: 'scale(1.1) rotate(15deg)',
+    boxShadow: enhancedShadows.purpleGlow,
   },
   ':active': {
-    transform: 'scale(0.95)',
+    transform: 'scale(0.95) rotate(15deg)',
   },
   ':focus': {
-    outline: `2px solid ${colors.primary[600]}`,
+    outline: `3px solid ${colors.primary[600]}40`,
     outlineOffset: '2px',
   },
 });
@@ -1537,7 +1670,15 @@ export const otpInputContainer = style({
   display: 'flex',
   justifyContent: 'center',
   gap: '12px',
-  flexWrap: 'wrap',
+  flexWrap: 'nowrap',
+  '@media': {
+    'screen and (max-width: 600px)': {
+      gap: '6px',
+    },
+    'screen and (max-width: 400px)': {
+      gap: '4px',
+    },
+  },
 });
 
 export const otpInput = style({
@@ -1546,3 +1687,483 @@ export const otpInput = style({
   textAlign: 'center',
   fontSize: '24px',
 });
+
+// ============================================================================
+// ENHANCED UTILITY STYLES
+// ============================================================================
+
+export const fadeInUpAnimation = style({
+  animation: `${fadeInUp} 0.6s ease-out`,
+});
+
+export const scaleInAnimation = style({
+  animation: `${scaleIn} 0.4s cubic-bezier(0.34, 1.56, 0.64, 1)`,
+});
+
+export const shakeAnimation = style({
+  animation: `${shake} 0.4s ease-in-out`,
+});
+
+export const pulseAnimation = style({
+  animation: `${pulse} 2s cubic-bezier(0.4, 0, 0.6, 1) infinite`,
+});
+
+export const bounceInAnimation = style({
+  animation: `${bounceIn} 0.6s cubic-bezier(0.34, 1.56, 0.64, 1)`,
+});
+
+export const slideInRightAnimation = style({
+  animation: `${slideInRight} 0.4s ease-out`,
+});
+
+export const slideInLeftAnimation = style({
+  animation: `${slideInLeft} 0.4s ease-out`,
+});
+
+// ============================================================================
+// ENHANCED INPUT STYLES
+// ============================================================================
+
+export const inputLarge = style({
+  padding: '16px 20px',
+  fontSize: typography.fontSize.lg,
+  height: '56px',
+});
+
+export const inputWithIcon = style({
+  paddingLeft: '48px',
+});
+
+export const inputIconWrapper = style({
+  position: 'absolute',
+  left: '16px',
+  top: '50%',
+  transform: 'translateY(-50%)',
+  color: '#9ca3af',
+  pointerEvents: 'none',
+});
+
+export const inputSuccess = style({
+  borderColor: colors.accent.green,
+  ':focus': {
+    borderColor: colors.accent.green,
+    boxShadow: '0 0 0 3px rgba(16, 185, 129, 0.2)',
+  },
+});
+
+export const inputSuccessIcon = style({
+  position: 'absolute',
+  right: '16px',
+  top: '50%',
+  transform: 'translateY(-50%)',
+  color: colors.accent.green,
+  pointerEvents: 'none',
+  animation: `${scaleIn} 0.3s ease-out`,
+});
+
+export const floatingLabelContainer = style({
+  position: 'relative',
+});
+
+export const floatingLabel = style({
+  position: 'absolute',
+  left: '16px',
+  top: '50%',
+  transform: 'translateY(-50%)',
+  fontSize: typography.fontSize.base,
+  color: '#9ca3af',
+  pointerEvents: 'none',
+  transition: 'all 0.2s ease',
+  backgroundColor: '#ffffff',
+  padding: '0 4px',
+});
+
+export const floatingLabelActive = style({
+  top: '0',
+  transform: 'translateY(-50%)',
+  fontSize: typography.fontSize.sm,
+  color: colors.primary[600],
+});
+
+// ============================================================================
+// ENHANCED BUTTON STYLES
+// ============================================================================
+
+export const buttonLarge = style({
+  padding: '16px 40px',
+  fontSize: typography.fontSize.lg,
+  height: '56px',
+});
+
+export const buttonExtraLarge = style({
+  padding: '20px 48px',
+  fontSize: typography.fontSize.lg,
+  height: '60px',
+});
+
+export const buttonGradient = style({
+  background: gradients.primary,
+  color: '#ffffff',
+  boxShadow: enhancedShadows.purpleGlow,
+  selectors: {
+    '&:hover:not(:disabled)': {
+      background: gradients.primaryHover,
+      transform: 'translateY(-3px)',
+      boxShadow: '0 0 0 4px rgba(124, 82, 255, 0.15), 0 12px 40px -10px rgba(124, 82, 255, 0.6)',
+    },
+    '&:active:not(:disabled)': {
+      transform: 'translateY(-1px)',
+    },
+    '&:disabled': {
+      opacity: 0.6,
+      cursor: 'not-allowed',
+    },
+  },
+});
+
+export const buttonWithPulse = style({
+  animation: `${pulse} 3s ease-in-out infinite`,
+});
+
+// ============================================================================
+// ENHANCED OTP STYLES
+// ============================================================================
+
+export const otpBoxLarge = style({
+  width: '64px',
+  height: '64px',
+  fontSize: '32px',
+  fontWeight: typography.fontWeight.semibold,
+  textAlign: 'center',
+  border: '2px solid #d1d5db',
+  borderRadius: radius.md,
+  backgroundColor: '#ffffff',
+  color: '#111827',
+  transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
+  ':focus': {
+    outline: 'none',
+    borderColor: colors.primary[600],
+    boxShadow: enhancedShadows.purpleGlow,
+    transform: 'scale(1.05)',
+  },
+  selectors: {
+    '&[data-filled="true"]': {
+      backgroundColor: `${colors.primary[600]}05`,
+      borderColor: colors.primary[600],
+    },
+  },
+  '@media': {
+    'screen and (max-width: 600px)': {
+      width: '42px',
+      height: '42px',
+      fontSize: '20px',
+      border: '1.5px solid #d1d5db',
+    },
+    'screen and (max-width: 400px)': {
+      width: '38px',
+      height: '38px',
+      fontSize: '18px',
+    },
+  },
+});
+
+export const otpBoxError = style({
+  borderColor: '#ef4444',
+  animation: `${shake} 0.4s ease-in-out`,
+  boxShadow: '0 0 0 3px rgba(239, 68, 68, 0.1)',
+});
+
+export const otpBoxSuccess = style({
+  borderColor: colors.accent.green,
+  backgroundColor: `${colors.accent.green}05`,
+});
+
+// ============================================================================
+// ENHANCED ICON CONTAINERS
+// ============================================================================
+
+export const iconContainerLarge = style({
+  width: '96px',
+  height: '96px',
+  margin: '0 auto',
+  marginBottom: spacing.lg,
+  borderRadius: '50%',
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'center',
+  animation: `${bounceIn} 0.6s cubic-bezier(0.34, 1.56, 0.64, 1)`,
+});
+
+export const iconContainerPrimary = style({
+  backgroundColor: colors.primary[600],
+  color: '#ffffff',
+  boxShadow: enhancedShadows.purpleGlow,
+  animation: `${pulse} 2s ease-in-out infinite`,
+});
+
+export const iconContainerSuccess = style({
+  backgroundColor: colors.accent.green,
+  color: '#ffffff',
+  boxShadow: enhancedShadows.greenGlow,
+});
+
+export const iconContainerError = style({
+  backgroundColor: '#ef4444',
+  color: '#ffffff',
+  boxShadow: '0 0 0 3px rgba(239, 68, 68, 0.1), 0 10px 30px -10px rgba(239, 68, 68, 0.4)',
+});
+
+export const iconContainerInfo = style({
+  backgroundColor: '#3b82f6',
+  color: '#ffffff',
+  boxShadow: enhancedShadows.blueGlow,
+});
+
+// ============================================================================
+// ENHANCED ALERT STYLES
+// ============================================================================
+
+export const alertWithAnimation = style({
+  animation: `${slideInRight} 0.4s ease-out`,
+});
+
+export const alertWithBorder = style({
+  borderLeft: '4px solid currentColor',
+  paddingLeft: spacing.lg,
+});
+
+// ============================================================================
+// ENHANCED CARD STYLES
+// ============================================================================
+
+export const cardElevated = style({
+  backgroundColor: '#ffffff',
+  borderRadius: radius.lg,
+  boxShadow: enhancedShadows.layered,
+  padding: spacing.xl,
+  transition: 'all 0.3s ease',
+  ':hover': {
+    boxShadow: enhancedShadows.elevated,
+    transform: 'translateY(-2px)',
+  },
+});
+
+export const cardGradientBorder = style({
+  position: 'relative',
+  background: '#ffffff',
+  borderRadius: radius.lg,
+  padding: spacing.xl,
+  '::before': {
+    content: '""',
+    position: 'absolute',
+    inset: 0,
+    borderRadius: radius.lg,
+    padding: '2px',
+    background: gradients.primary,
+    WebkitMask: 'linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0)',
+    WebkitMaskComposite: 'xor',
+    maskComposite: 'exclude',
+  },
+});
+
+// ============================================================================
+// ENHANCED STEP INDICATOR STYLES
+// ============================================================================
+
+export const stepCircleLarge = style({
+  width: '60px',
+  height: '60px',
+  fontSize: typography.fontSize.xl,
+  '@media': {
+    'screen and (max-width: 600px)': {
+      width: '48px',
+      height: '48px',
+      fontSize: typography.fontSize.lg,
+    },
+  },
+});
+
+export const stepCircleWithPulse = style({
+  animation: `${pulse} 2s ease-in-out infinite`,
+});
+
+export const stepConnectorAnimated = style({
+  position: 'relative',
+  overflow: 'hidden',
+  '::after': {
+    content: '""',
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    width: '100%',
+    height: '100%',
+    background: gradients.primary,
+    transform: 'translateX(-100%)',
+    transition: 'transform 0.5s ease-out',
+  },
+});
+
+export const stepConnectorAnimatedComplete = style({
+  '::after': {
+    transform: 'translateX(0)',
+  },
+});
+
+// ============================================================================
+// CONFETTI & CELEBRATION STYLES
+// ============================================================================
+
+export const confettiContainer = style({
+  position: 'fixed',
+  top: 0,
+  left: 0,
+  width: '100%',
+  height: '100%',
+  pointerEvents: 'none',
+  zIndex: 9999,
+});
+
+// ============================================================================
+// COUNTDOWN TIMER STYLES
+// ============================================================================
+
+export const countdownTimer = style({
+  display: 'inline-flex',
+  alignItems: 'center',
+  justifyContent: 'center',
+  width: '80px',
+  height: '80px',
+  borderRadius: '50%',
+  border: '4px solid #e5e7eb',
+  position: 'relative',
+  margin: '0 auto',
+  marginBottom: spacing.lg,
+});
+
+export const countdownText = style({
+  fontSize: typography.fontSize['3xl'],
+  fontWeight: typography.fontWeight.bold,
+  color: colors.primary[600],
+});
+
+export const countdownCircle = style({
+  position: 'absolute',
+  top: 0,
+  left: 0,
+  width: '100%',
+  height: '100%',
+});
+
+// ============================================================================
+// PROGRESS INDICATOR STYLES
+// ============================================================================
+
+export const formProgressBar = style({
+  width: '100%',
+  height: '8px',
+  backgroundColor: '#e5e7eb',
+  borderRadius: '999px',
+  overflow: 'hidden',
+  marginBottom: spacing.lg,
+});
+
+export const formProgressFill = style({
+  height: '100%',
+  background: gradients.primary,
+  borderRadius: '999px',
+  transition: 'width 0.5s ease-out, background 0.3s ease',
+  boxShadow: '0 0 10px rgba(124, 82, 255, 0.3)',
+});
+
+export const formProgressComplete = style({
+  background: gradients.success,
+  boxShadow: '0 0 10px rgba(16, 185, 129, 0.3)',
+});
+
+// ============================================================================
+// GRADIENT TEXT STYLES
+// ============================================================================
+
+export const textGradientPrimary = style({
+  background: gradients.primary,
+  WebkitBackgroundClip: 'text',
+  WebkitTextFillColor: 'transparent',
+  backgroundClip: 'text',
+});
+
+export const textGradientSuccess = style({
+  background: gradients.success,
+  WebkitBackgroundClip: 'text',
+  WebkitTextFillColor: 'transparent',
+  backgroundClip: 'text',
+});
+
+// ============================================================================
+// SECTION CARD STYLES (for clinic details form)
+// ============================================================================
+
+export const sectionCard = style({
+  backgroundColor: '#ffffff',
+  border: '2px solid #e5e7eb',
+  borderRadius: radius.lg,
+  padding: spacing.xl,
+  marginBottom: spacing.lg,
+  animation: `${fadeInUp} 0.6s ease-out`,
+  transition: 'all 0.3s ease',
+  ':hover': {
+    boxShadow: enhancedShadows.layered,
+  },
+});
+
+export const sectionCardHeader = style({
+  display: 'flex',
+  alignItems: 'center',
+  gap: spacing.md,
+  marginBottom: spacing.lg,
+  paddingBottom: spacing.md,
+  borderBottom: '2px solid #e5e7eb',
+});
+
+export const sectionNumber = style({
+  width: '40px',
+  height: '40px',
+  borderRadius: '50%',
+  backgroundColor: colors.primary[600],
+  color: '#ffffff',
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'center',
+  fontSize: typography.fontSize.lg,
+  fontWeight: typography.fontWeight.bold,
+  flexShrink: 0,
+});
+
+export const sectionHeaderContent = style({
+  display: 'flex',
+  alignItems: 'center',
+  gap: spacing.sm,
+  flex: 1,
+});
+
+export const sectionIcon = style({
+  color: colors.primary[600],
+  flexShrink: 0,
+});
+
+// ============================================================================
+// EXPORT ANIMATION KEYFRAMES (for use in components)
+// ============================================================================
+
+export const animations = {
+  fadeIn,
+  fadeInUp,
+  scaleIn,
+  shake,
+  pulse,
+  spin,
+  drawCheckmark,
+  slideInRight,
+  slideInLeft,
+  bounceIn,
+  rotate,
+};

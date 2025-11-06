@@ -40,7 +40,7 @@ export const TextInput = ({
       </label>
       <input
         type={type}
-        className={`${styles.input} ${error ? styles.inputError : ''}`}
+        className={`${styles.input} ${styles.inputLarge} ${error ? `${styles.inputError} ${styles.shakeAnimation}` : ''}`}
         placeholder={placeholder}
         disabled={disabled}
         maxLength={maxLength}
@@ -51,7 +51,7 @@ export const TextInput = ({
       />
       {helpText && !error && <div className={styles.helpText}>{helpText}</div>}
       {error && (
-        <div className={styles.errorMessage} id={`${registration.name}-error`}>
+        <div className={`${styles.errorMessage} ${styles.fadeInUpAnimation}`} id={`${registration.name}-error`}>
           <AlertCircle size={16} />
           <span>{error.message}</span>
         </div>
@@ -98,7 +98,7 @@ export const Select = ({
         {required && <span className={styles.requiredIndicator}>*</span>}
       </label>
       <select
-        className={`${styles.select} ${error ? styles.inputError : ''}`}
+        className={`${styles.select} ${styles.inputLarge} ${error ? `${styles.inputError} ${styles.shakeAnimation}` : ''}`}
         disabled={disabled}
         aria-required={required}
         aria-invalid={!!error}
@@ -114,7 +114,7 @@ export const Select = ({
       </select>
       {helpText && !error && <div className={styles.helpText}>{helpText}</div>}
       {error && (
-        <div className={styles.errorMessage} id={`${registration.name}-error`}>
+        <div className={`${styles.errorMessage} ${styles.fadeInUpAnimation}`} id={`${registration.name}-error`}>
           <AlertCircle size={16} />
           <span>{error.message}</span>
         </div>
@@ -169,7 +169,7 @@ export const PhoneInput = ({
       <input
         type="tel"
         name={name}
-        className={`${styles.input} ${error ? styles.inputError : ''}`}
+        className={`${styles.input} ${styles.inputLarge} ${error ? `${styles.inputError} ${styles.shakeAnimation}` : ''}`}
         placeholder={placeholder || '(555) 123-4567'}
         disabled={disabled}
         aria-required={required}
@@ -180,7 +180,7 @@ export const PhoneInput = ({
       />
       {helpText && !error && <div className={styles.helpText}>{helpText}</div>}
       {error && (
-        <div className={styles.errorMessage} id={`${name}-error`}>
+        <div className={`${styles.errorMessage} ${styles.fadeInUpAnimation}`} id={`${name}-error`}>
           <AlertCircle size={16} />
           <span>{error.message}</span>
         </div>

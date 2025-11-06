@@ -10,6 +10,7 @@ interface OTPCodeInputProps {
   disabled?: boolean;
   onChange?: (value: string) => void;
   value?: string;
+  hasError?: boolean;
 }
 
 export default function OTPCodeInput({
@@ -19,6 +20,7 @@ export default function OTPCodeInput({
   disabled = false,
   onChange,
   value = '',
+  hasError = false,
 }: Readonly<OTPCodeInputProps>) {
   const inputRefs = useRef<(HTMLInputElement | null)[]>([]);
 
@@ -126,8 +128,12 @@ export default function OTPCodeInput({
   };
 
   return (
-    <div className={styles.formField}>
-      {label ? <label className={styles.label}>{label}</label> : null}
+    <div className={styles.formField} style={{ marginTop: '1.5rem', marginBottom: '1.5rem' }}>
+      {label ? (
+        <label className={styles.label} style={{ textAlign: 'center', fontSize: '14px' }}>
+          {label}
+        </label>
+      ) : null}
       <div className={styles.otpInputContainer}>
         {currentDigits.map((digit, idx) => (
           <input
@@ -135,7 +141,7 @@ export default function OTPCodeInput({
             ref={(el) => {
               inputRefs.current[idx] = el;
             }}
-            className={`${styles.input} ${styles.otpInput}`}
+            className={`${styles.otpBoxLarge} ${hasError ? styles.otpBoxError : ''}`}
             maxLength={1}
             type="text"
             inputMode="numeric"
@@ -147,10 +153,18 @@ export default function OTPCodeInput({
             onPaste={handlePaste}
             aria-label={`Digit ${idx + 1}`}
             autoComplete="off"
+            data-filled={digit ? 'true' : 'false'}
+            style={{
+              animationDelay: `${idx * 0.05}s`
+            }}
           />
         ))}
       </div>
-      {helpText ? <p className={styles.helpText}>{helpText}</p> : null}
+      {helpText ? (
+        <p className={styles.helpText} style={{ textAlign: 'center', marginTop: '1rem' }}>
+          {helpText}
+        </p>
+      ) : null}
     </div>
   );
 }

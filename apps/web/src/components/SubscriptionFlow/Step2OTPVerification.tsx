@@ -232,18 +232,20 @@ export default function Step2OTPVerification({
 
   return (
     <div>
-      <h1 className={styles.formTitle}>Verify Your Email</h1>
-      <p className={styles.formSubtitle}>
+      <h1 className={`${styles.formTitle} ${styles.fadeInUpAnimation}`}>
+        Verify Your Email
+      </h1>
+      <p className={`${styles.formSubtitle} ${styles.fadeInUpAnimation}`} style={{ animationDelay: '0.1s' }}>
         We've sent a verification code to <strong>{email}</strong>
       </p>
 
-      <div className={`${styles.alertContainer} ${styles.alertInfo}`}>
+      <div className={`${styles.alertContainer} ${styles.alertInfo} ${styles.alertWithAnimation} ${styles.alertWithBorder}`} style={{ animationDelay: '0.2s' }}>
         <Mail size={20} />
         <span>Please check your email for the 6-digit verification code.</span>
       </div>
 
       {resendSuccess && (
-        <div className={`${styles.alertContainer} ${styles.alertSuccess}`}>
+        <div className={`${styles.alertContainer} ${styles.alertSuccess} ${styles.alertWithAnimation}`}>
           <Check size={20} />
           <span>
             Verification code sent successfully! Please check your email.
@@ -252,16 +254,16 @@ export default function Step2OTPVerification({
       )}
 
       {apiError && (
-        <div className={`${styles.alertContainer} ${styles.alertError}`}>
+        <div className={`${styles.alertContainer} ${styles.alertError} ${styles.alertWithAnimation}`}>
           <AlertCircle size={20} />
           <span>{apiError}</span>
         </div>
       )}
 
       <form onSubmit={handleSubmit(onSubmit)}>
-        <div className={styles.otpContainer}>
-          <div className={styles.otpIconWrapper}>
-            <Mail className={styles.otpIcon} />
+        <div className={styles.otpContainer} style={{ marginTop: '2rem' }}>
+          <div className={`${styles.iconContainerLarge} ${styles.iconContainerPrimary}`}>
+            <Mail size={48} />
           </div>
 
           <OTPCodeInput
@@ -270,43 +272,76 @@ export default function Step2OTPVerification({
             value={otpValue}
             onChange={handleOtpChange}
             disabled={verifying}
+            hasError={!!apiError}
           />
           <input type="hidden" {...register('otp_code')} />
 
           <div className={styles.resendContainer}>
             <p className={styles.resendText}>Didn't receive the code?</p>
             {resendCooldown > 0 ? (
-              <p className={styles.resendCooldown}>
-                Resend available in {resendCooldown} seconds
-              </p>
+              <div className={styles.resendCooldown} style={{
+                display: 'flex',
+                alignItems: 'center',
+                gap: '8px',
+                justifyContent: 'center'
+              }}>
+                <span style={{
+                  display: 'inline-flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  width: '24px',
+                  height: '24px',
+                  borderRadius: '50%',
+                  backgroundColor: '#e5e7eb',
+                  fontSize: '12px',
+                  fontWeight: '600',
+                  color: '#6b7280'
+                }}>
+                  {resendCooldown}
+                </span>
+                <span>Resend available in {resendCooldown} seconds</span>
+              </div>
             ) : (
               <button
                 type="button"
                 onClick={sendOTP}
                 disabled={resendingOtp}
                 className={styles.resendButton}
+                style={{
+                  fontSize: '14px',
+                  padding: '8px 16px',
+                  borderRadius: '6px',
+                  transition: 'all 0.2s ease'
+                }}
               >
-                {resendingOtp ? 'Sending...' : 'Resend Code'}
+                {resendingOtp ? (
+                  <>
+                    <span className={styles.loadingSpinner} />
+                    Sending...
+                  </>
+                ) : (
+                  'Resend Code'
+                )}
               </button>
             )}
           </div>
         </div>
 
         {/* Form Actions */}
-        <div className={styles.buttonGroup}>
+        <div className={styles.buttonGroup} style={{ marginTop: '2rem' }}>
           <button
             type="button"
             onClick={onBack}
-            className={`${styles.button} ${styles.buttonSecondary}`}
+            className={`${styles.button} ${styles.buttonLarge} ${styles.buttonSecondary}`}
             disabled={verifying}
           >
-            <ChevronLeft size={20} />
+            <ChevronLeft size={20} style={{ transition: 'transform 0.2s ease' }} />
             Back
           </button>
 
           <button
             type="submit"
-            className={`${styles.button} ${styles.buttonPrimary}`}
+            className={`${styles.button} ${styles.buttonLarge} ${styles.buttonGradient}`}
             disabled={verifying}
           >
             {verifying ? (
@@ -317,11 +352,20 @@ export default function Step2OTPVerification({
             ) : (
               <>
                 Verify & Continue
-                <ChevronRight size={20} />
+                <ChevronRight size={20} style={{ transition: 'transform 0.2s ease' }} />
               </>
             )}
           </button>
         </div>
+
+        <style jsx>{`
+          button:not(:disabled):hover svg {
+            transform: translateX(4px);
+          }
+          button:not(:disabled):hover svg:first-child {
+            transform: translateX(-4px);
+          }
+        `}</style>
       </form>
     </div>
   );

@@ -248,7 +248,7 @@ export default function SubscriptionFlow() {
               aria-label="Change plan"
               title="Change plan"
             >
-              <Pencil size={18} />
+              <Pencil size={24} />
             </button>
           </div>
         )}

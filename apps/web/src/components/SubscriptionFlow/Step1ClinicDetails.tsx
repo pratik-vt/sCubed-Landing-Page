@@ -1,7 +1,7 @@
 'use client';
 
-import { AlertCircle, ChevronLeft, ChevronRight } from 'lucide-react';
-import { useEffect, useState } from 'react';
+import { AlertCircle, Building2, ChevronLeft, ChevronRight, MapPin, UserCog } from 'lucide-react';
+import { useEffect, useMemo, useState } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import isEmail from 'validator/lib/isEmail';
 import isMobilePhone from 'validator/lib/isMobilePhone';
@@ -50,6 +50,7 @@ export default function Step1ClinicDetails({
     control,
     watch,
     reset,
+    setValue,
     formState: { errors, isSubmitting },
   } = useForm<InternalFormData>({
     mode: 'onBlur',
@@ -103,13 +104,37 @@ export default function Step1ClinicDetails({
     initialData,
     initialData?.subscription_plan_id,
     initialData?.staff_count,
-    selectedPlan?.id,
     reset,
   ]);
 
+  // Update only subscription_plan_id when plan changes (without resetting the form)
+  useEffect(() => {
+    if (selectedPlan?.id && !initialData) {
+      setValue('subscription_plan_id', selectedPlan.id);
+    }
+  }, [selectedPlan?.id, initialData, setValue]);
+
   const selectedState = watch('state');
+  const selectedCity = watch('city');
   const { states, cities, loadingStates, loadingCities, apiError } =
     useLocationData(selectedState);
+
+  // Restore city selection after cities are loaded (handles back navigation from cart)
+  useEffect(() => {
+    // Only restore if:
+    // 1. Cities have finished loading
+    // 2. We have cities available
+    // 3. We have initialData with a city ID
+    // 4. The current selected city doesn't match the initial city
+    if (
+      !loadingCities &&
+      cities.length > 0 &&
+      initialData?.city?.id &&
+      selectedCity !== initialData.city.id.toString()
+    ) {
+      setValue('city', initialData.city.id.toString());
+    }
+  }, [loadingCities, cities, initialData?.city?.id, selectedCity, setValue]);
 
   // Get timezone from selected state
   const getSelectedStateTimezone = (): number | null => {
@@ -233,23 +258,62 @@ export default function Step1ClinicDetails({
     );
   };
 
+  // Calculate form completion progress
+  const formValues = watch();
+  const formProgress = useMemo(() => {
+    const requiredFields = [
+      'clinic_name', 'tax_id', 'street_address_line_1', 'state', 'city',
+      'zip_code', 'email', 'first_name', 'last_name', 'phone'
+    ];
+    const filledFields = requiredFields.filter(field => {
+      const value = formValues[field as keyof typeof formValues];
+      return value && value.toString().trim() !== '';
+    });
+    return Math.round((filledFields.length / requiredFields.length) * 100);
+  }, [formValues]);
+
   return (
     <form onSubmit={handleSubmit(onSubmit, onError)}>
-      <h1 className={styles.formTitle}>Let's Get Started</h1>
-      <p className={styles.formSubtitle}>
+      <h1 className={`${styles.formTitle} ${styles.fadeInUpAnimation}`}>Let's Get Started</h1>
+      <p className={`${styles.formSubtitle} ${styles.fadeInUpAnimation}`} style={{ animationDelay: '0.1s' }}>
         Tell us about your practice to create your S Cubed account
       </p>
 
+      {/* Form Progress Bar */}
+      <div className={styles.formProgressBar} style={{ animationDelay: '0.2s' }}>
+        <div
+          className={`${styles.formProgressFill} ${formProgress === 100 ? styles.formProgressComplete : ''}`}
+          style={{ width: `${formProgress}%` }}
+        />
+      </div>
+      <p style={{
+        textAlign: 'center',
+        fontSize: '14px',
+        color: '#6b7280',
+        marginBottom: '2rem',
+        animation: `${styles.animations.fadeInUp} 0.6s ease-out`,
+        animationDelay: '0.3s',
+        animationFillMode: 'both'
+      }}>
+        {formProgress}% Complete
+      </p>
+
       {apiError && (
-        <div className={`${styles.alertContainer} ${styles.alertError}`}>
+        <div className={`${styles.alertContainer} ${styles.alertError} ${styles.alertWithAnimation}`}>
           <AlertCircle size={20} />
           <span>{apiError}</span>
         </div>
       )}
 
       {/* Clinic Information */}
-      <div className={styles.formSection}>
-        <h2 className={styles.sectionTitle}>Clinic Information</h2>
+      <div className={`${styles.sectionCard} ${styles.fadeInUpAnimation}`} style={{ animationDelay: '0.4s' }}>
+        <div className={styles.sectionCardHeader}>
+          <div className={styles.sectionNumber}>1</div>
+          <div className={styles.sectionHeaderContent}>
+            <Building2 size={24} className={styles.sectionIcon} />
+            <h2 className={styles.sectionTitle}>Clinic Information</h2>
+          </div>
+        </div>
 
         <TextInput
           label="Clinic Name"
@@ -303,8 +367,14 @@ export default function Step1ClinicDetails({
       </div>
 
       {/* Location Information */}
-      <div className={styles.formSection}>
-        <h2 className={styles.sectionTitle}>Location</h2>
+      <div className={`${styles.sectionCard} ${styles.fadeInUpAnimation}`} style={{ animationDelay: '0.5s' }}>
+        <div className={styles.sectionCardHeader}>
+          <div className={styles.sectionNumber}>2</div>
+          <div className={styles.sectionHeaderContent}>
+            <MapPin size={24} className={styles.sectionIcon} />
+            <h2 className={styles.sectionTitle}>Location</h2>
+          </div>
+        </div>
 
         <TextInput
           label="Street Address"
@@ -344,7 +414,7 @@ export default function Step1ClinicDetails({
               State <span className={styles.requiredIndicator}>*</span>
             </label>
             <select
-              className={`${styles.select} ${errors.state ? styles.inputError : ''}`}
+              className={`${styles.select} ${styles.inputLarge} ${errors.state ? `${styles.inputError} ${styles.shakeAnimation}` : ''}`}
               disabled={loadingStates}
               {...register('state', { required: 'State is required' })}
             >
@@ -370,7 +440,7 @@ export default function Step1ClinicDetails({
               City <span className={styles.requiredIndicator}>*</span>
             </label>
             <select
-              className={`${styles.select} ${errors.city ? styles.inputError : ''}`}
+              className={`${styles.select} ${styles.inputLarge} ${errors.city ? `${styles.inputError} ${styles.shakeAnimation}` : ''}`}
               disabled={!selectedState || loadingCities}
               {...register('city', { required: 'City is required' })}
             >
@@ -418,8 +488,14 @@ export default function Step1ClinicDetails({
       </div>
 
       {/* Admin Information */}
-      <div className={styles.formSection}>
-        <h2 className={styles.sectionTitle}>Admin Account</h2>
+      <div className={`${styles.sectionCard} ${styles.fadeInUpAnimation}`} style={{ animationDelay: '0.6s' }}>
+        <div className={styles.sectionCardHeader}>
+          <div className={styles.sectionNumber}>3</div>
+          <div className={styles.sectionHeaderContent}>
+            <UserCog size={24} className={styles.sectionIcon} />
+            <h2 className={styles.sectionTitle}>Admin Account</h2>
+          </div>
+        </div>
 
         <TextInput
           label="Email Address"
@@ -503,17 +579,17 @@ export default function Step1ClinicDetails({
           <button
             type="button"
             onClick={onBack}
-            className={`${styles.button} ${styles.buttonSecondary}`}
+            className={`${styles.button} ${styles.buttonLarge} ${styles.buttonSecondary}`}
             disabled={isSubmitting}
           >
-            <ChevronLeft size={20} />
+            <ChevronLeft size={20} style={{ transition: 'transform 0.2s ease' }} />
             Back
           </button>
         )}
         {!onBack && <div />}
         <button
           type="submit"
-          className={`${styles.button} ${styles.buttonPrimary}`}
+          className={`${styles.button} ${styles.buttonLarge} ${styles.buttonGradient}`}
           disabled={isSubmitting || loadingStates}
         >
           {isSubmitting ? (
@@ -523,11 +599,20 @@ export default function Step1ClinicDetails({
           ) : (
             <>
               Continue to Verification
-              <ChevronRight size={20} />
+              <ChevronRight size={20} style={{ transition: 'transform 0.2s ease' }} />
             </>
           )}
         </button>
       </div>
+
+      <style jsx>{`
+        button:not(:disabled):hover svg {
+          transform: translateX(4px);
+        }
+        button:not(:disabled):hover svg:first-child {
+          transform: translateX(-4px);
+        }
+      `}</style>
     </form>
   );
 }

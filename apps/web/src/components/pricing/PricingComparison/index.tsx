@@ -2,6 +2,7 @@
 
 import { motion } from 'framer-motion';
 import { ArrowRight, Check, Info, Minus, Plus } from 'lucide-react';
+import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 
 import { colors, spacing } from '../../../styles/tokens.css';
@@ -203,12 +204,19 @@ const featureComparison: FeatureSection[] = [
 ];
 
 const PricingComparison: React.FC = () => {
+  const router = useRouter();
   const [expandedSections, setExpandedSections] = useState<string[]>([
     'Core Features',
   ]);
 
   const handleBuyNow = (plan: string) => {
-    // Button is currently non-functional
+    // Navigate to subscribe page with plan and billing cycle (defaulting to yearly as shown in table)
+    const params = new URLSearchParams({
+      plan: plan.toLowerCase(),
+      billing: 'yearly',
+    });
+
+    router.push(`/subscribe?${params.toString()}`);
   };
 
   const toggleSection = (category: string) => {
