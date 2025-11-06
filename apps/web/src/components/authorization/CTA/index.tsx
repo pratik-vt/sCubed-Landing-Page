@@ -26,15 +26,18 @@ const CTA: React.FC<{ title: string; description: string; buttonText: string }> 
   return (
     <section className={ctaSection} ref={sectionRef}>
       <div className={ctaContainer}>
-        <div className={ctaContent}>
-          <div className={backgroundPattern} />
+        <div className={ctaContent}>          
           <motion.h2
             className={ctaTitle}
             initial={{ opacity: 0, y: 30 }}
             animate={isInView ? { opacity: 1, y: 0 } : {}}
             transition={{ duration: 0.6, ease: 'easeOut' }}
           >
-            {title}
+            
+            <div
+                
+                dangerouslySetInnerHTML={{ __html: title }}
+              />
           </motion.h2>
           <motion.p
             className={ctaDescription}

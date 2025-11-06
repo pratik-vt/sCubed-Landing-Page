@@ -7,11 +7,16 @@ import {
 } from '../../../styles/tokens.css';
 
 export const ctaSection = style({
-  padding: `${spacing['xl']} 0 ${spacing['xl']} 0`,
-  backgroundColor: colors.white,
+  padding: `${spacing['xl']} 0`,
+  background: `
+    linear-gradient(135deg, ${colors.primary[50]} 0%, ${colors.white} 50%, ${colors.primary[50]} 100%),
+    radial-gradient(ellipse at top, rgba(122, 126, 237, 0.1) 0%, transparent 60%)
+  `,
+  position: 'relative',
+  overflow: 'hidden',
   '@media': {
     'screen and (max-width: 768px)': {
-      padding: `${spacing.md} 0 ${spacing['2xl']} 0`,
+      padding: `${spacing['2xl']} 0`,
     },
   },
 });
@@ -31,9 +36,6 @@ export const ctaContent = style({
   textAlign: 'center',
   margin: '0 auto',
   padding: '40px 40px',
-  background: 'linear-gradient(135deg, #f8f9ff 0%, #e8e6ff 100%)',
-  borderRadius: '32px',
-  boxShadow: '0 20px 40px rgba(122, 126, 237, 0.08)',
   position: 'relative',
   overflow: 'hidden',
   ':before': {
@@ -43,9 +45,6 @@ export const ctaContent = style({
     right: '-25%',
     width: '600px',
     height: '600px',
-    background:
-      'radial-gradient(circle, rgba(122, 126, 237, 0.05) 0%, transparent 70%)',
-    borderRadius: '50%',
   },
   '@media': {
     'screen and (min-width: 768px)': {
@@ -58,6 +57,7 @@ export const ctaTitle = style({
   fontSize: '36px',
   fontWeight: '700',
   color: '#111827',
+  marginTop: '0px',
   marginBottom: '24px',
   lineHeight: 1.3,
   textAlign: 'center',

@@ -29,34 +29,59 @@ import { BaggageClaim, Timer, CalendarClock, FileClock } from 'lucide-react';
 
 // Fallback FAQ data
 const fallbackFAQData = {
-  title: 'Data Collection & Reporting for Therapy Practices',
+  title: 'Frequently Asked Questions',
   sections: [
     {
       items: [
         {
           question:
-            'What is the best ABA data collection software for therapists?',
+            'What is prior authorization management software and how does it work?',
           answer:
-            'The best ABA data collection software is the one that keeps therapy simple and accurate. It must have features like real-time goal tracking, recording behaviors, and monitoring progress without any session interruptions. Choose systems that are a perfect combination of reliability, flexibility and clear visual reporting. The software must have features that support therapists to concentrate on care and less on paperwork.',
+            'Prior authorization management software streamlines the process of securing insurance approval for ABA services. It automates submissions, tracks real-time request statuses, and ensures all required clinical documentation and service codes like CPT 97151 or 97153 are included. For ABA providers, this means faster authorizations, fewer administrative burdens, and uninterrupted care delivery.',
         },
         {
           question:
-            'How do ABA data collection tools improve therapy outcomes?',
+            'How does prior authorization software help reduce claim denials in ABA therapy?',
           answer:
-            'Good ABA data tools turn information into action. By collecting and organizing data instantly, therapists can spot patterns, adjust treatment plans faster, and make data-driven decisions that support consistent progress. When information is accurate and easy to read, clients benefit from faster, more personalized intervention.',
+            'Effective prior authorization tools are designed to proactively address common denial triggers in ABA therapy such as incorrect code pairings or missing documentation. Using predictive analytics and payer-specific rules, the software alerts staff to potential issues before submission. This reduces avoidable denials, lowers rework, and accelerates reimbursement.',
         },
         {
           question:
-            'What types of data collection methods are supported in ABA software?',
+            'What features should a good prior authorization software have?',
           answer:
-            'Most of the applied behavior analysis data collection systems offer many types of data collection methods like duration, interval, frequency and task analysis recording. Some of them also have customizable templates and automated tracking for maximum accuracy. The best platforms let therapists switch between methods easily, according to the client goals and session needs.',
+            'Key features should include Real-time insurance eligibility and benefits verification, ABA-specific CPT and diagnosis code mapping, Automated workflows for initial and renewal authorizations, seamless integration with ABA billing, EMR, and practice management systems. Look for platforms that automate not just the request, but the entire lifecycle of an authorization.',
         },
         {
           question:
-            'What features make the top ABA data collection tools stand out?',
+            'How does S Cubed help with tracking authorizations and renewals?',
           answer:
-            'The best ABA data collection systems are intuitive, accurate, and built for real clinical work. They include smart templates, quick data entry, customizable dashboards, and secure cloud storage. Tools that integrate ABA graphing software and progress tracking give teams a full picture of growth without hours of manual reporting.',
-        },        
+            'S Cubed consolidates all authorization statuses and renewal timelines into a single, intuitive dashboard. It sends automated alerts before authorizations expire and provides advanced tools to manage reauthorizations ensuring continuity of care and uninterrupted billing cycles for your ABA clients.',
+        },
+
+        {
+          question:
+            'What are predictive alerts, and how do they improve ABA prior authorization management?',
+          answer:
+            'Predictive alerts leverage historical denial data and payer trends to flag authorization requests that are likely to be rejected. For ABA practices, this means identifying issues like code mismatches or missing treatment plans before submission, saving time, improving approval rates, and supporting cleaner claims downstream.',
+        },
+        {
+          question:
+            'Why are CPT and diagnosis code mappings crucial in ABA therapy authorization?',
+          answer:
+            'ABA services must use proper combinations of CPT (e.g. 97155, 97156) and ICD-10 (e.g. F84.0) codes based on payer rules. Proper code mapping ensures compliance, reduces payer pushback, and speeds up approvals. Software that includes intelligent code-mapping tools reduces human error while boosting performance metrics.',
+        },
+        {
+          question:
+            'Can ABA prior authorization software integrate with billing and EMR systems?',
+          answer:
+            'Yes. A strong authorization system integrates natively with your ABA practice management, billing, and EMR systems, enabling seamless data flow. This eliminates manual data entry, reduces administrative overhead, and supports end-to-end revenue cycle optimization.',
+        },
+        {
+          question:
+            'How does real-time visibility of authorization statuses reduce scheduling conflicts in ABA practices?',
+          answer:
+            'With real-time visibility, staff is immediately aware of whether a session is authorized before scheduling or at the point of service. This prevents last-minute cancellations, improves patient and family satisfaction, and helps clinicians focus on delivering care, not chasing approvals.',
+        },
       ],
     },
   ],
@@ -119,7 +144,7 @@ export default async function DataCollectionPage() {
       <BreadcrumbSchema
         items={[
           { name: 'Home', item: '/' },
-          { name: 'Authorization', item: '/authorization' },
+          { name: 'ABA Authorization Software', item: '/aba-authorization-software' },
         ]}
       />
       <FAQSchema faqs={allFAQs} pageSlug="authorization" />
@@ -178,15 +203,15 @@ export default async function DataCollectionPage() {
 
         <Trust features={features.slice(1)} heading={features[0].featureMainTitle || ''} />
 
-        {/* {faqData.sections.map((section, index) => (
+        {faqData.sections.map((section, index) => (
           <FAQSection
             key={section.items[0].question}
             title={index === 0 ? faqData.title : ''}
             faqs={section.items}
           />
-        ))} */}
+        ))}
 
-        <CTA title="Authorization Management Shouldn’t Be A Full-time Job" description="We know the struggle of tracking expirations, renewing on time, and keeping billing compliant. S Cubed takes the complexity out of authorization management with smart automation and built-in alerts. Our prior authorization software gives your team time back to focus on what really matters." buttonText="Schedule a Demo →" />
+        <CTA title="Authorization Management <br/>Shouldn’t Be A Full-time Job" description="We know the struggle of tracking expirations, renewing on time, and keeping billing compliant. S Cubed takes the complexity out of authorization management with smart automation and built-in alerts. Our prior authorization software gives your team time back to focus on what really matters." buttonText="Schedule a Demo →" />
       </Container>
     </>
   );
