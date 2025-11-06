@@ -28,7 +28,7 @@ export default function ConditionalLayout({ children }: Readonly<ConditionalLayo
                          pathname === '/events' ||
                          pathname.startsWith('/events/') ||
                          pathname === '/scheduling-and-appointments' ||
-                         pathname === '/authorization' ||
+                         pathname === '/aba-authorization-software' ||
                          pathname === '/subscribe' ||
                          pathname.startsWith('/subscribe/');
 
