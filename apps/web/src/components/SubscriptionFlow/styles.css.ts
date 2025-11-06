@@ -598,7 +598,7 @@ export const loadingSpinner = style({
 
 export const successContainer = style({
   textAlign: 'center',
-  padding: spacing.xl,
+  padding: `0 ${spacing.xl}`,
   position: 'relative',
 });
 
@@ -645,37 +645,96 @@ export const successMessage = style({
 
 export const alertContainer = style({
   display: 'flex',
-  alignItems: 'center',
-  gap: spacing.md,
-  padding: spacing.md,
-  borderRadius: radius.md,
-  marginBottom: spacing.lg,
-  fontSize: typography.fontSize.sm,
-  boxShadow: shadows.sm,
+  alignItems: 'flex-start',
+  gap: spacing.lg,
+  padding: spacing.lg,
+  borderRadius: radius.lg,
+  marginBottom: spacing.xl,
+  fontSize: typography.fontSize.base,
+  boxShadow: '0 4px 12px rgba(0, 0, 0, 0.08)',
+  animation: `${fadeInUp} 0.6s ease-out 0.4s both`,
+  position: 'relative',
+  overflow: 'hidden',
+  '::before': {
+    content: '""',
+    position: 'absolute',
+    left: 0,
+    top: 0,
+    bottom: 0,
+    width: '4px',
+  },
+  '@media': {
+    'screen and (max-width: 768px)': {
+      flexDirection: 'column',
+      gap: spacing.md,
+      padding: spacing.md,
+    },
+  },
 });
 
 export const alertError = style({
-  backgroundColor: '#fee2e2',
+  background: 'linear-gradient(135deg, rgba(254, 226, 226, 0.9) 0%, rgba(252, 165, 165, 0.4) 100%)',
   color: '#991b1b',
-  border: '1px solid #fca5a5',
+  border: '1px solid rgba(239, 68, 68, 0.3)',
+  selectors: {
+    '&::before': {
+      background: 'linear-gradient(180deg, #ef4444 0%, #dc2626 100%)',
+    },
+  },
 });
 
 export const alertWarning = style({
-  backgroundColor: '#fef3c7',
+  background: 'linear-gradient(135deg, rgba(254, 243, 199, 0.9) 0%, rgba(252, 211, 77, 0.4) 100%)',
   color: '#92400e',
-  border: '1px solid #fcd34d',
+  border: '1px solid rgba(245, 158, 11, 0.3)',
+  selectors: {
+    '&::before': {
+      background: 'linear-gradient(180deg, #f59e0b 0%, #d97706 100%)',
+    },
+  },
 });
 
 export const alertInfo = style({
-  backgroundColor: '#dbeafe',
+  background: 'linear-gradient(135deg, rgba(219, 234, 254, 0.9) 0%, rgba(191, 219, 254, 0.4) 100%)',
   color: '#1e40af',
-  border: '1px solid #93c5fd',
+  border: '1px solid rgba(59, 130, 246, 0.3)',
+  selectors: {
+    '&::before': {
+      background: 'linear-gradient(180deg, #3b82f6 0%, #2563eb 100%)',
+    },
+  },
 });
 
 export const alertSuccess = style({
-  backgroundColor: '#d1fae5',
+  background: 'linear-gradient(135deg, rgba(209, 250, 229, 0.9) 0%, rgba(110, 231, 183, 0.4) 100%)',
   color: '#065f46',
-  border: '1px solid #6ee7b7',
+  border: '1px solid rgba(16, 185, 129, 0.3)',
+  selectors: {
+    '&::before': {
+      background: 'linear-gradient(180deg, #10b981 0%, #059669 100%)',
+    },
+  },
+});
+
+export const alertIconWrapper = style({
+  flexShrink: 0,
+  width: '24px',
+  height: '24px',
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'center',
+  marginTop: '2px',
+});
+
+export const alertContent = style({
+  flex: 1,
+});
+
+export const alertTitle = style({
+  fontWeight: typography.fontWeight.bold,
+  fontSize: typography.fontSize.base,
+  marginBottom: spacing.xs,
+  display: 'block',
 });
 
 // ============================================================================
@@ -840,11 +899,32 @@ export const paymentIconWrapper = style({
 // ============================================================================
 
 export const successList = style({
-  listStyle: 'disc',
-  paddingLeft: spacing.lg,
-  marginTop: spacing.sm,
+  listStyle: 'none',
+  paddingLeft: 0,
+  marginTop: spacing.md,
   textAlign: 'left',
-  lineHeight: 1.6,
+  lineHeight: 1.8,
+});
+
+export const successListItem = style({
+  position: 'relative',
+  paddingLeft: spacing.xl,
+  marginBottom: spacing.sm,
+  fontSize: typography.fontSize.base,
+  fontWeight: typography.fontWeight.normal,
+  '::before': {
+    content: '"✓"',
+    position: 'absolute',
+    left: spacing.sm,
+    top: 0,
+    fontWeight: typography.fontWeight.bold,
+    fontSize: typography.fontSize.lg,
+    color: 'currentColor',
+    opacity: 0.8,
+  },
+  ':last-child': {
+    marginBottom: 0,
+  },
 });
 
 export const successDetails = style({

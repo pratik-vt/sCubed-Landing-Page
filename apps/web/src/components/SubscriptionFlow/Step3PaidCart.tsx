@@ -55,7 +55,7 @@ interface AddonData {
 /**
  * Step 3 (Paid Plan): Cart/Checkout (Now Step 4 in new flow)
  * Allows staff count adjustment, billing cycle selection, and add-on selection
- * Calls /register API on submission and returns payment URL
+ * Calls PUT /register API with draft_mode: false (final submission with subscription details)
  */
 export default function Step3PaidCart({
   formData,
@@ -205,14 +205,26 @@ export default function Step3PaidCart({
       }
 
       // Construct URLs for Stripe redirect
+      // Include {CHECKOUT_SESSION_ID} placeholder that Stripe will replace with actual session ID
       const baseUrl =
         process.env.NEXT_PUBLIC_SITE_URL || window.location.origin;
-      const success_url = `${baseUrl}/subscribe/success`;
+      const success_url = `${baseUrl}/subscribe/success?session_id={CHECKOUT_SESSION_ID}`;
       const cancel_url = `${baseUrl}/subscribe`;
 
-      // Combine clinic details from previous step with cart data
+      // Final submission with subscription details (draft_mode: false)
       const registrationPayload = {
-        // Clinic details
+        // Onboarding request ID
+        clinic_onboarding_request_id,
+        draft_mode: false,
+        // Subscription details (required for final submission)
+        subscription_plan_id: formData.subscription_plan_id,
+        staff_count: Number(data.staff_count),
+        billing_cycle: data.billing_cycle,
+        addons: selectedAddons,
+        // Stripe redirect URLs
+        success_url,
+        cancel_url,
+        // Clinic details (optional - included in case user edited them)
         clinic_name: formData.clinic_name,
         tax_id: formData.tax_id,
         npi: formData.npi || undefined,
@@ -222,29 +234,19 @@ export default function Step3PaidCart({
         state_id: stateId,
         zip_code: formData.zip_code,
         timezone_id: formData.timezone_id,
-        // Admin details
+        // Admin details (optional - included in case user edited them)
         email: formData.email,
         first_name: formData.first_name,
         last_name: formData.last_name,
         phone: formData.phone,
-        // Subscription details
-        subscription_plan_id: formData.subscription_plan_id,
-        staff_count: Number(data.staff_count),
-        billing_cycle: data.billing_cycle,
-        addons: selectedAddons,
-        // Onboarding request ID
-        clinic_onboarding_request_id,
-        // Stripe redirect URLs
-        success_url,
-        cancel_url,
       };
 
-      // Call /register API
+      // Call /register API with PUT method
       const result = await fetchApi<{
         payment_url: string;
         payment_required: boolean;
       }>('subscriptions/onboarding/register', {
-        method: 'POST',
+        method: 'PUT',
         body: registrationPayload,
       });
 

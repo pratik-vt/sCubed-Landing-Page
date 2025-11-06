@@ -2,7 +2,7 @@
 
 import { useEffect } from 'react';
 import { useRouter } from 'next/navigation';
-import { CheckCircle2, AlertCircle, Home } from 'lucide-react';
+import { AlertCircle, Home } from 'lucide-react';
 
 import * as styles from './styles.css';
 
@@ -23,10 +23,6 @@ export default function Step3FreeSuccess({ formData }: Step3FreeProps) {
 
   return (
     <div className={styles.successContainer}>
-      <div className={styles.successIcon}>
-        <CheckCircle2 size={64} strokeWidth={2.5} />
-      </div>
-
       <h1 className={styles.successTitle}>Trial Request Submitted Successfully!</h1>
 
       <p className={styles.successMessage}>
@@ -34,18 +30,20 @@ export default function Step3FreeSuccess({ formData }: Step3FreeProps) {
         An admin will review and approve your request soon.
       </p>
 
-      <div className={`${styles.alertContainer} ${styles.alertInfo} ${styles.fadeInUpAnimation}`} style={{ animationDelay: '0.4s' }}>
-        <AlertCircle size={20} />
-        <div>
-          <strong>What happens next?</strong>
+      <div className={`${styles.alertContainer} ${styles.alertInfo}`}>
+        <div className={styles.alertIconWrapper}>
+          <AlertCircle size={24} />
+        </div>
+        <div className={styles.alertContent}>
+          <span className={styles.alertTitle}>What happens next?</span>
           <ul className={styles.successList}>
-            <li>Our team will review your trial request within 1-2 business days</li>
-            <li>
+            <li className={styles.successListItem}>Our team will review your trial request within 1-2 business days</li>
+            <li className={styles.successListItem}>
               You'll receive an email at <strong>{formData.email}</strong> with login credentials once
               your trial is approved
             </li>
-            <li>After approval, you can log in and start exploring S Cubed with full access</li>
-            <li>If you have any questions, feel free to contact our support team</li>
+            <li className={styles.successListItem}>After approval, you can log in and start exploring S Cubed with full access</li>
+            <li className={styles.successListItem}>If you have any questions, feel free to contact our support team</li>
           </ul>
         </div>
       </div>

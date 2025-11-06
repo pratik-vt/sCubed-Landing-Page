@@ -84,19 +84,19 @@ export default function Step2OTPVerification({
     setResendSuccess(false);
 
     try {
-      // Resend OTP via API
+      // Resend OTP via new API endpoint
       await fetchApi<{ clinic_onboarding_request_id: number; message: string }>(
-        'subscriptions/onboarding/verify-email/request',
+        'subscriptions/onboarding/verify-email/resend',
         {
           method: 'POST',
-          body: { email },
+          body: { clinic_onboarding_request_id },
         },
       );
 
       // Show success message
       setResendSuccess(true);
       showSuccessToast(
-        'Verification code sent successfully. Please check your email.',
+        'Verification code resent successfully. Please check your email.',
       );
 
       // Start cooldown timer (60 seconds)
@@ -111,7 +111,7 @@ export default function Step2OTPVerification({
       if (isApiError(error)) {
         setApiError(
           error.message ||
-            'Failed to send verification code. Please try again.',
+            'Failed to resend verification code. Please try again.',
         );
       } else {
         setApiError(
@@ -248,7 +248,7 @@ export default function Step2OTPVerification({
         <div className={`${styles.alertContainer} ${styles.alertSuccess} ${styles.alertWithAnimation}`}>
           <Check size={20} />
           <span>
-            Verification code sent successfully! Please check your email.
+            Verification code resent successfully! Please check your email.
           </span>
         </div>
       )}

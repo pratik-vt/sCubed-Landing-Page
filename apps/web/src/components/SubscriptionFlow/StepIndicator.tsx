@@ -51,8 +51,12 @@ export default function StepIndicator({ currentStep, totalSteps, isPaidPlan }: S
       <div className={styles.stepIndicatorContainer}>
         {Array.from({ length: totalSteps }, (_, index) => {
           const stepNumber = index + 1;
-          const isCompleted = stepNumber < currentStep + 1;
-          const isCurrent = stepNumber === currentStep + 1;
+          // Mark step as completed if it's before current step
+          // OR if it's the final step and we're on the final step (success page)
+          const isCompleted =
+            stepNumber < currentStep + 1 ||
+            (stepNumber === totalSteps && currentStep + 1 === totalSteps);
+          const isCurrent = stepNumber === currentStep + 1 && stepNumber !== totalSteps;
 
           return (
             <div key={stepNumber} className={styles.stepItem}>

@@ -1,6 +1,13 @@
 'use client';
 
-import { AlertCircle, Building2, ChevronLeft, ChevronRight, MapPin, UserCog } from 'lucide-react';
+import {
+  AlertCircle,
+  Building2,
+  ChevronLeft,
+  ChevronRight,
+  MapPin,
+  UserCog,
+} from 'lucide-react';
 import { useEffect, useMemo, useState } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import isEmail from 'validator/lib/isEmail';
@@ -31,8 +38,8 @@ interface InternalFormData extends Omit<Step1FormData, 'state' | 'city'> {
 /**
  * Step 1: Clinic and Admin Details Form (Now Step 2 in new flow)
  * Collects all information except payment details
- * For FREE plans: Calls /register API immediately
- * For PAID plans: Skips API call and passes data to cart
+ * For FREE plans: Calls PUT /register API with complete data (old flow)
+ * For PAID plans: Calls PUT /register API with draft_mode: true (clinic/admin/address only)
  */
 export default function Step1ClinicDetails({
   onNext,
@@ -188,16 +195,44 @@ export default function Step1ClinicDetails({
         timezone_id: timezoneId || 1,
       };
 
-      // For PAID plans: Skip API call, just pass data to cart
+      // For PAID plans: Call API with draft_mode: true (clinic/admin/address only)
       if (isPaidPlan) {
-        // No API call needed - cart will handle registration
+        const draftPayload: Record<string, unknown> = {
+          clinic_onboarding_request_id,
+          draft_mode: true,
+          clinic_name: data.clinic_name,
+          tax_id: data.tax_id,
+          npi: data.npi || undefined,
+          street_address_line_1: data.street_address_line_1,
+          street_address_line_2: data.street_address_line_2 || undefined,
+          city_id: Number.parseInt(data.city),
+          state_id: Number.parseInt(data.state),
+          zip_code: data.zip_code,
+          timezone_id: timezoneId || 1,
+          email: data.email,
+          first_name: data.first_name,
+          last_name: data.last_name,
+          phone: data.phone,
+        };
+
+        // Call API in draft mode
+        await fetchApi<RegistrationResponseData>(
+          'subscriptions/onboarding/register',
+          {
+            method: 'PUT',
+            body: draftPayload,
+          },
+        );
+
+        // Success! Pass data to cart for final submission
         onNext(formData);
         return;
       }
 
-      // For FREE plans: Call /register API immediately
+      // For FREE plans: Call /register API with complete data (old flow)
       // Construct URLs for potential redirects
-      const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || window.location.origin;
+      const baseUrl =
+        process.env.NEXT_PUBLIC_SITE_URL || window.location.origin;
       const success_url = `${baseUrl}/subscribe/success`;
       const cancel_url = `${baseUrl}/subscribe`;
 
@@ -223,12 +258,12 @@ export default function Step1ClinicDetails({
         cancel_url,
       };
 
-      // Use the centralized API client
+      // Use the centralized API client (changed to PUT method)
       // Note: fetchApi automatically unwraps the .data field from the response
       const result = await fetchApi<RegistrationResponseData>(
         'subscriptions/onboarding/register',
         {
-          method: 'POST',
+          method: 'PUT',
           body: apiPayload,
         },
       );
@@ -262,10 +297,18 @@ export default function Step1ClinicDetails({
   const formValues = watch();
   const formProgress = useMemo(() => {
     const requiredFields = [
-      'clinic_name', 'tax_id', 'street_address_line_1', 'state', 'city',
-      'zip_code', 'email', 'first_name', 'last_name', 'phone'
+      'clinic_name',
+      'tax_id',
+      'street_address_line_1',
+      'state',
+      'city',
+      'zip_code',
+      'email',
+      'first_name',
+      'last_name',
+      'phone',
     ];
-    const filledFields = requiredFields.filter(field => {
+    const filledFields = requiredFields.filter((field) => {
       const value = formValues[field as keyof typeof formValues];
       return value && value.toString().trim() !== '';
     });
@@ -274,39 +317,54 @@ export default function Step1ClinicDetails({
 
   return (
     <form onSubmit={handleSubmit(onSubmit, onError)}>
-      <h1 className={`${styles.formTitle} ${styles.fadeInUpAnimation}`}>Let's Get Started</h1>
-      <p className={`${styles.formSubtitle} ${styles.fadeInUpAnimation}`} style={{ animationDelay: '0.1s' }}>
+      <h1 className={`${styles.formTitle} ${styles.fadeInUpAnimation}`}>
+        Let's Get Started
+      </h1>
+      <p
+        className={`${styles.formSubtitle} ${styles.fadeInUpAnimation}`}
+        style={{ animationDelay: '0.1s' }}
+      >
         Tell us about your practice to create your S Cubed account
       </p>
 
       {/* Form Progress Bar */}
-      <div className={styles.formProgressBar} style={{ animationDelay: '0.2s' }}>
+      <div
+        className={styles.formProgressBar}
+        style={{ animationDelay: '0.2s' }}
+      >
         <div
           className={`${styles.formProgressFill} ${formProgress === 100 ? styles.formProgressComplete : ''}`}
           style={{ width: `${formProgress}%` }}
         />
       </div>
-      <p style={{
-        textAlign: 'center',
-        fontSize: '14px',
-        color: '#6b7280',
-        marginBottom: '2rem',
-        animation: `${styles.animations.fadeInUp} 0.6s ease-out`,
-        animationDelay: '0.3s',
-        animationFillMode: 'both'
-      }}>
+      <p
+        style={{
+          textAlign: 'center',
+          fontSize: '14px',
+          color: '#6b7280',
+          marginBottom: '2rem',
+          animation: `${styles.animations.fadeInUp} 0.6s ease-out`,
+          animationDelay: '0.3s',
+          animationFillMode: 'both',
+        }}
+      >
         {formProgress}% Complete
       </p>
 
       {apiError && (
-        <div className={`${styles.alertContainer} ${styles.alertError} ${styles.alertWithAnimation}`}>
+        <div
+          className={`${styles.alertContainer} ${styles.alertError} ${styles.alertWithAnimation}`}
+        >
           <AlertCircle size={20} />
           <span>{apiError}</span>
         </div>
       )}
 
       {/* Clinic Information */}
-      <div className={`${styles.sectionCard} ${styles.fadeInUpAnimation}`} style={{ animationDelay: '0.4s' }}>
+      <div
+        className={`${styles.sectionCard} ${styles.fadeInUpAnimation}`}
+        style={{ animationDelay: '0.4s' }}
+      >
         <div className={styles.sectionCardHeader}>
           <div className={styles.sectionNumber}>1</div>
           <div className={styles.sectionHeaderContent}>
@@ -367,7 +425,10 @@ export default function Step1ClinicDetails({
       </div>
 
       {/* Location Information */}
-      <div className={`${styles.sectionCard} ${styles.fadeInUpAnimation}`} style={{ animationDelay: '0.5s' }}>
+      <div
+        className={`${styles.sectionCard} ${styles.fadeInUpAnimation}`}
+        style={{ animationDelay: '0.5s' }}
+      >
         <div className={styles.sectionCardHeader}>
           <div className={styles.sectionNumber}>2</div>
           <div className={styles.sectionHeaderContent}>
@@ -488,7 +549,10 @@ export default function Step1ClinicDetails({
       </div>
 
       {/* Admin Information */}
-      <div className={`${styles.sectionCard} ${styles.fadeInUpAnimation}`} style={{ animationDelay: '0.6s' }}>
+      <div
+        className={`${styles.sectionCard} ${styles.fadeInUpAnimation}`}
+        style={{ animationDelay: '0.6s' }}
+      >
         <div className={styles.sectionCardHeader}>
           <div className={styles.sectionNumber}>3</div>
           <div className={styles.sectionHeaderContent}>
@@ -583,7 +647,10 @@ export default function Step1ClinicDetails({
             className={`${styles.button} ${styles.buttonLarge} ${styles.buttonSecondary}`}
             disabled={isSubmitting}
           >
-            <ChevronLeft size={20} style={{ transition: 'transform 0.2s ease' }} />
+            <ChevronLeft
+              size={20}
+              style={{ transition: 'transform 0.2s ease' }}
+            />
             Back
           </button>
         )}
@@ -600,7 +667,10 @@ export default function Step1ClinicDetails({
           ) : (
             <>
               Continue to Verification
-              <ChevronRight size={20} style={{ transition: 'transform 0.2s ease' }} />
+              <ChevronRight
+                size={20}
+                style={{ transition: 'transform 0.2s ease' }}
+              />
             </>
           )}
         </button>
