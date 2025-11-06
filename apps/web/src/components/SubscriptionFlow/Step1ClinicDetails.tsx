@@ -171,6 +171,11 @@ export default function Step1ClinicDetails({
       }
 
       // For FREE plans: Call /register API immediately
+      // Construct URLs for potential redirects
+      const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || window.location.origin;
+      const success_url = `${baseUrl}/subscribe/success`;
+      const cancel_url = `${baseUrl}/subscribe`;
+
       const apiPayload: Record<string, unknown> = {
         clinic_name: data.clinic_name,
         tax_id: data.tax_id,
@@ -188,6 +193,9 @@ export default function Step1ClinicDetails({
         subscription_plan_id: data.subscription_plan_id,
         staff_count: data.staff_count,
         clinic_onboarding_request_id,
+        // Stripe redirect URLs
+        success_url,
+        cancel_url,
       };
 
       // Use the centralized API client

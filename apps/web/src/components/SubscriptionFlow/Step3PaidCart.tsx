@@ -187,6 +187,11 @@ export default function Step3PaidCart({ formData, onNext, onBack, clinic_onboard
         return;
       }
 
+      // Construct URLs for Stripe redirect
+      const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || window.location.origin;
+      const success_url = `${baseUrl}/subscribe/success`;
+      const cancel_url = `${baseUrl}/subscribe`;
+
       // Combine clinic details from previous step with cart data
       const registrationPayload = {
         // Clinic details
@@ -211,6 +216,9 @@ export default function Step3PaidCart({ formData, onNext, onBack, clinic_onboard
         addons: selectedAddons,
         // Onboarding request ID
         clinic_onboarding_request_id,
+        // Stripe redirect URLs
+        success_url,
+        cancel_url,
       };
 
       // Call /register API
