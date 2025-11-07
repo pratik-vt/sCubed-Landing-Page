@@ -81,6 +81,22 @@ export default withVanillaExtract({
     ];
   },
   
+  // Redirects for renamed routes
+  async redirects() {
+    return [
+      {
+        source: '/features',
+        destination: '/practice-management',
+        permanent: true,
+      },
+      {
+        source: '/authorization',
+        destination: '/aba-authorization-software',
+        permanent: true,
+      },
+    ];
+  },
+  
   eslint: {
     ignoreDuringBuilds: true,
   },

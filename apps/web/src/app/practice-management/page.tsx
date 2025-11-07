@@ -11,7 +11,7 @@ export const metadata: Metadata = {
   description:
     'Streamline your clinic or school-based practice with S Cubed - an all-in-one software built by BCBAs for ABA, Speech, OT/PT, and counseling. Smart scheduling, billing, progress tracking, secure communication, and more in one powerful platform.',
   alternates: {
-    canonical: '/features',
+    canonical: '/practice-management',
   },
 };
 
@@ -21,7 +21,7 @@ export default function FeaturesPage() {
       <BreadcrumbSchema 
         items={[
           { name: 'Home', item: '/' },
-          { name: 'Features', item: '/features' }
+          { name: 'Practice Management', item: '/practice-management' }
         ]} 
       />
       <Container>

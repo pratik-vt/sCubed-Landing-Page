@@ -152,9 +152,10 @@ const Footer: React.FC = () => {
                 <Link href="/billing" className={footerLink}>
                   Billing
                 </Link>
-                <Link href="/features" className={footerLink}>
-                  Features
+                <Link href="/practice-management" className={footerLink}>
+                Practice Management
                 </Link>
+                
                 <Link href="/guardian-portal" className={footerLink}>
                   Guardian Portal
                 </Link>
