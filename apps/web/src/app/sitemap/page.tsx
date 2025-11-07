@@ -44,7 +44,7 @@ export default async function SitemapPage() {
             { url: '/', label: 'Home' },
             { url: '/billing', label: 'Billing' },
             { url: '/data-collection', label: 'Data Collection' },
-            { url: '/features', label: 'Features' },
+            { url: '/practice-management', label: 'Practice Management' },
             { url: '/guardian-portal', label: 'Guardian Portal' },
             { url: '/get-started', label: 'Get Started' },
             { url: '/our-team', label: 'Our Team' },

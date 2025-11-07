@@ -25,7 +25,7 @@ export default function ConditionalLayout({
     pathname === '/terms-conditions' ||
     pathname === '/get-started' ||
     pathname === '/billing' ||
-    pathname === '/features' ||
+    pathname === '/practice-management' ||
     pathname === '/guardian-portal' ||
     pathname === '/data-collection' ||
     pathname === '/pricing' ||
@@ -40,7 +40,7 @@ export default function ConditionalLayout({
   const shouldUseFullWidth =
     pathname === '/get-started' ||
     pathname === '/billing' ||
-    pathname === '/features' ||
+    pathname === '/practice-management' ||
     pathname === '/guardian-portal' ||
     pathname === '/data-collection' ||
     pathname === '/pricing' ||

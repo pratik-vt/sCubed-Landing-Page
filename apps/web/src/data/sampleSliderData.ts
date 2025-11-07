@@ -12,7 +12,7 @@ export const featuredSliderData: SliderItem[] = [
       height: 240,
     },
     link: {
-      href: '/features',
+      href: '/practice-management',
       text: 'Explore Features',
     },
   },
@@ -42,7 +42,7 @@ export const featuredSliderData: SliderItem[] = [
       height: 240,
     },
     link: {
-      href: '/features',
+      href: '/data-collection',
       text: 'View Analytics',
     },
   },
@@ -72,7 +72,7 @@ export const featuredSliderData: SliderItem[] = [
       height: 240,
     },
     link: {
-      href: '/features',
+      href: '/scheduling-and-appointments',
       text: 'Schedule Demo',
     },
   },
@@ -120,7 +120,7 @@ export const testimonialsSliderData: SliderItem[] = [
       height: 240,
     },
     link: {
-      href: '/features',
+      href: '/practice-management',
       text: 'Learn More',
     },
   },
