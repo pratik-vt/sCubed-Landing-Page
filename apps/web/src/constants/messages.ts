@@ -56,6 +56,11 @@ export const SUCCESS_MESSAGES = {
   REGISTRATION_SUCCESS: 'Registration successful! Check your email for verification code.',
   SUBSCRIPTION_SUCCESS: 'Subscription successful!',
 
+  // Subscription Flow
+  SUBSCRIPTION: {
+    PROCEED_TO_PAYMENT: 'Proceeding to checkout. Please complete your payment.',
+  },
+
   // Email & Newsletter
   EMAIL_VERIFIED: 'Email verified successfully!',
   NEWSLETTER_SUBSCRIBED: 'Thank you for subscribing to our newsletter!',

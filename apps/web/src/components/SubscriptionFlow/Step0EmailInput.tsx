@@ -1,17 +1,17 @@
 'use client';
 
+import { AlertCircle, ChevronRight, Mail } from 'lucide-react';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
-import { ChevronRight, AlertCircle, Mail } from 'lucide-react';
 import isEmail from 'validator/lib/isEmail';
 
 import { TextInput } from './FormComponents';
 import * as styles from './styles.css';
 
+import { SUCCESS_MESSAGES } from '@/constants/messages';
 import { fetchApi } from '@/lib/api-client';
 import { getFieldErrors, showSuccessToast } from '@/lib/errors';
 import { isApiError } from '@/types/api';
-import { SUCCESS_MESSAGES } from '@/constants/messages';
 
 interface EmailFormData {
   email: string;
@@ -32,7 +32,10 @@ interface Step0Props {
  * Step 0: Email Input
  * Collects user email and initiates email verification process
  */
-export default function Step0EmailInput({ onNext, initialEmail }: Readonly<Step0Props>) {
+export default function Step0EmailInput({
+  onNext,
+  initialEmail,
+}: Readonly<Step0Props>) {
   const [fieldErrors, setFieldErrors] = useState<Record<string, string>>({});
 
   const {
@@ -103,21 +106,29 @@ export default function Step0EmailInput({ onNext, initialEmail }: Readonly<Step0
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
       <div className={styles.otpContainer}>
-        <div className={`${styles.iconContainerLarge} ${styles.iconContainerPrimary}`}>
-          <Mail size={48} />
+        <div
+          className={`${styles.iconContainerLarge} ${styles.iconContainerPrimary}`}
+        >
+          <Mail size={30} />
         </div>
 
         <h1 className={`${styles.formTitle} ${styles.fadeInUpAnimation}`}>
           Get Started with S Cubed
         </h1>
-        <p className={`${styles.formSubtitle} ${styles.fadeInUpAnimation}`} style={{ animationDelay: '0.1s' }}>
+        <p
+          className={`${styles.formSubtitle} ${styles.fadeInUpAnimation}`}
+          style={{ animationDelay: '0.1s' }}
+        >
           Enter your email address to begin your subscription journey
         </p>
       </div>
 
-      <div className={`${styles.alertContainer} ${styles.alertInfo} ${styles.alertWithAnimation} ${styles.alertWithBorder}`} style={{ animationDelay: '0.2s' }}>
+      <div
+        className={`${styles.alertContainer} ${styles.alertInfo} ${styles.alertWithAnimation} ${styles.alertWithBorder}`}
+        style={{ animationDelay: '0.2s' }}
+      >
         <AlertCircle size={20} />
-        <span>
+        <span className={styles.alertText}>
           We'll send you a verification code to confirm your email address
         </span>
       </div>
@@ -156,7 +167,10 @@ export default function Step0EmailInput({ onNext, initialEmail }: Readonly<Step0
           ) : (
             <>
               Continue
-              <ChevronRight size={20} style={{ transition: 'transform 0.2s ease' }} />
+              <ChevronRight
+                size={20}
+                style={{ transition: 'transform 0.2s ease' }}
+              />
             </>
           )}
         </button>

@@ -1,6 +1,6 @@
-import { style, keyframes } from '@vanilla-extract/css';
+import { keyframes, style } from '@vanilla-extract/css';
 
-import { colors, typography, spacing, shadows, radius } from '@/styles/tokens.css';
+import { colors, radius, spacing, typography } from '@/styles/tokens.css';
 
 // ============================================================================
 // ANIMATIONS
@@ -100,7 +100,8 @@ export const successIcon = style({
   display: 'flex',
   alignItems: 'center',
   justifyContent: 'center',
-  boxShadow: '0 0 0 8px rgba(16, 185, 129, 0.1), 0 10px 30px -10px rgba(16, 185, 129, 0.4)',
+  boxShadow:
+    '0 0 0 8px rgba(16, 185, 129, 0.1), 0 10px 30px -10px rgba(16, 185, 129, 0.4)',
   animation: `${bounceIn} 0.8s ease-out`,
   position: 'relative',
   '::before': {
@@ -159,7 +160,8 @@ export const loadingIconWrapper = style({
   display: 'flex',
   alignItems: 'center',
   justifyContent: 'center',
-  background: 'linear-gradient(135deg, rgba(124, 82, 255, 0.1) 0%, rgba(147, 112, 255, 0.1) 100%)',
+  background:
+    'linear-gradient(135deg, rgba(124, 82, 255, 0.1) 0%, rgba(147, 112, 255, 0.1) 100%)',
   borderRadius: '50%',
   boxShadow: '0 0 0 8px rgba(124, 82, 255, 0.05)',
   animation: `${bounceIn} 0.8s ease-out`,
@@ -186,7 +188,8 @@ export const errorIconWrapper = style({
   display: 'flex',
   alignItems: 'center',
   justifyContent: 'center',
-  boxShadow: '0 0 0 8px rgba(239, 68, 68, 0.1), 0 10px 30px -10px rgba(239, 68, 68, 0.4)',
+  boxShadow:
+    '0 0 0 8px rgba(239, 68, 68, 0.1), 0 10px 30px -10px rgba(239, 68, 68, 0.4)',
   animation: `${bounceIn} 0.8s ease-out`,
   position: 'relative',
   '::before': {
@@ -226,12 +229,14 @@ export const alertContainer = style({
 });
 
 export const alertInfo = style({
-  background: 'linear-gradient(135deg, rgba(219, 234, 254, 0.8) 0%, rgba(191, 219, 254, 0.6) 100%)',
+  background:
+    'linear-gradient(135deg, rgba(219, 234, 254, 0.8) 0%, rgba(191, 219, 254, 0.6) 100%)',
   color: '#1e40af',
 });
 
 export const alertWarning = style({
-  background: 'linear-gradient(135deg, rgba(254, 243, 199, 0.8) 0%, rgba(252, 211, 77, 0.6) 100%)',
+  background:
+    'linear-gradient(135deg, rgba(254, 243, 199, 0.8) 0%, rgba(252, 211, 77, 0.6) 100%)',
   color: '#92400e',
   border: '1px solid rgba(245, 158, 11, 0.3)',
 });
@@ -264,7 +269,8 @@ export const successListItem = style({
 // ============================================================================
 
 export const successDetails = style({
-  background: 'linear-gradient(135deg, rgba(249, 250, 251, 0.8) 0%, rgba(243, 244, 246, 0.6) 100%)',
+  background:
+    'linear-gradient(135deg, rgba(249, 250, 251, 0.8) 0%, rgba(243, 244, 246, 0.6) 100%)',
   borderRadius: radius.lg,
   padding: spacing.xl,
   marginTop: spacing.xl,
@@ -389,10 +395,12 @@ export const button = style({
 export const buttonPrimary = style({
   background: gradients.primary,
   color: '#ffffff',
-  boxShadow: '0 0 0 3px rgba(124, 82, 255, 0.1), 0 10px 30px -10px rgba(124, 82, 255, 0.4)',
+  boxShadow:
+    '0 0 0 3px rgba(124, 82, 255, 0.1), 0 10px 30px -10px rgba(124, 82, 255, 0.4)',
   ':hover': {
     transform: 'translateY(-2px)',
-    boxShadow: '0 0 0 4px rgba(124, 82, 255, 0.15), 0 15px 40px -10px rgba(124, 82, 255, 0.5)',
+    boxShadow:
+      '0 0 0 4px rgba(124, 82, 255, 0.15), 0 15px 40px -10px rgba(124, 82, 255, 0.5)',
   },
   ':active': {
     transform: 'translateY(0)',

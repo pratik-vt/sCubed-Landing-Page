@@ -13,7 +13,7 @@
 export interface ClinicInfo {
   clinic_name: string;
   tax_id: string; // 9 digits, required
-  npi?: string; // 10 digits, optional
+  npi: string; // 10 digits, required
 }
 
 /**

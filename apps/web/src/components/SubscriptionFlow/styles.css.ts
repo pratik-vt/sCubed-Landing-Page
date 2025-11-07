@@ -116,6 +116,12 @@ export const pageWrapper = style({
   },
 });
 
+export const containerWrapper = style({
+  backgroundColor: '#f9fafb',
+  padding: `${spacing.lg} 0`,
+  animation: `${fadeIn} 0.6s ease-out`,
+});
+
 export const container = style({
   maxWidth: '1000px',
   margin: '0 auto',
@@ -181,7 +187,7 @@ export const stepContent = style({
 
 export const stepIndicatorWrapper = style({
   width: '100%',
-  padding: `${spacing.lg} 0`,
+  padding: `0`,
   marginBottom: spacing.md,
   position: 'relative',
   zIndex: 1,
@@ -370,9 +376,8 @@ export const sectionTitle = style({
   fontSize: typography.fontSize.xl,
   fontWeight: typography.fontWeight.semibold,
   color: '#111827',
-  marginBottom: spacing.md,
-  paddingBottom: spacing.sm,
-  borderBottom: '2px solid #e5e7eb',
+  margin: '0',
+  padding: '0',
 });
 
 export const formGrid = style({
@@ -520,8 +525,6 @@ export const buttonGroup = style({
   display: 'flex',
   justifyContent: 'space-between',
   gap: spacing.md,
-  marginTop: spacing.lg,
-  paddingTop: spacing.lg,
   borderTop: '1px solid #f3f4f6',
   '@media': {
     'screen and (max-width: 600px)': {
@@ -646,7 +649,7 @@ export const successMessage = style({
 export const alertContainer = style({
   display: 'flex',
   alignItems: 'flex-start',
-  gap: spacing.lg,
+  gap: spacing.md,
   padding: spacing.lg,
   borderRadius: radius.lg,
   marginBottom: spacing.xl,
@@ -663,9 +666,36 @@ export const alertContainer = style({
     bottom: 0,
     width: '4px',
   },
+});
+
+export const alertText = style({
+  width: 'calc(100% - 24px)',
+});
+
+export const alertContainerCentered = style({
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'center',
+  gap: spacing.lg,
+  padding: spacing.lg,
+  borderRadius: radius.lg,
+  marginBottom: spacing.md,
+  fontSize: typography.fontSize.base,
+  boxShadow: '0 4px 12px rgba(0, 0, 0, 0.08)',
+  animation: `${fadeInUp} 0.6s ease-out 0.4s both`,
+  position: 'relative',
+  overflow: 'hidden',
+  '::before': {
+    content: '""',
+    position: 'absolute',
+    left: 0,
+    top: 0,
+    bottom: 0,
+    width: '4px',
+  },
   '@media': {
     'screen and (max-width: 768px)': {
-      flexDirection: 'column',
+      flexDirection: 'row',
       gap: spacing.md,
       padding: spacing.md,
     },
@@ -673,7 +703,8 @@ export const alertContainer = style({
 });
 
 export const alertError = style({
-  background: 'linear-gradient(135deg, rgba(254, 226, 226, 0.9) 0%, rgba(252, 165, 165, 0.4) 100%)',
+  background:
+    'linear-gradient(135deg, rgba(254, 226, 226, 0.9) 0%, rgba(252, 165, 165, 0.4) 100%)',
   color: '#991b1b',
   border: '1px solid rgba(239, 68, 68, 0.3)',
   selectors: {
@@ -684,7 +715,8 @@ export const alertError = style({
 });
 
 export const alertWarning = style({
-  background: 'linear-gradient(135deg, rgba(254, 243, 199, 0.9) 0%, rgba(252, 211, 77, 0.4) 100%)',
+  background:
+    'linear-gradient(135deg, rgba(254, 243, 199, 0.9) 0%, rgba(252, 211, 77, 0.4) 100%)',
   color: '#92400e',
   border: '1px solid rgba(245, 158, 11, 0.3)',
   selectors: {
@@ -695,7 +727,8 @@ export const alertWarning = style({
 });
 
 export const alertInfo = style({
-  background: 'linear-gradient(135deg, rgba(219, 234, 254, 0.9) 0%, rgba(191, 219, 254, 0.4) 100%)',
+  background:
+    'linear-gradient(135deg, rgba(219, 234, 254, 0.9) 0%, rgba(191, 219, 254, 0.4) 100%)',
   color: '#1e40af',
   border: '1px solid rgba(59, 130, 246, 0.3)',
   selectors: {
@@ -706,7 +739,8 @@ export const alertInfo = style({
 });
 
 export const alertSuccess = style({
-  background: 'linear-gradient(135deg, rgba(209, 250, 229, 0.9) 0%, rgba(110, 231, 183, 0.4) 100%)',
+  background:
+    'linear-gradient(135deg, rgba(209, 250, 229, 0.9) 0%, rgba(110, 231, 183, 0.4) 100%)',
   color: '#065f46',
   border: '1px solid rgba(16, 185, 129, 0.3)',
   selectors: {
@@ -869,8 +903,8 @@ export const errorIconLarge = style({
 });
 
 export const paymentIconWrapper = style({
-  width: '120px',
-  height: '120px',
+  width: '60px',
+  height: '60px',
   margin: '0 auto',
   marginBottom: spacing.xl,
   color: '#ffffff',
@@ -1076,12 +1110,16 @@ export const billingCycleSavings = style({
   display: 'inline-block',
   marginTop: spacing.xs,
   boxShadow: '0 2px 4px rgba(16, 185, 129, 0.3)',
+  position: 'absolute',
+  right: '10px',
+  top: '0',
+  zIndex: '100',
 });
 
 export const addonsGrid = style({
   display: 'grid',
   gridTemplateColumns: 'repeat(2, 1fr)',
-  gap: spacing.lg,
+  gap: spacing.md,
   gridAutoRows: 'minmax(auto, max-content)',
   '@media': {
     'screen and (max-width: 768px)': {
@@ -1092,12 +1130,14 @@ export const addonsGrid = style({
 
 export const addonCard = style({
   display: 'flex',
-  gap: spacing.md,
-  padding: spacing.lg,
+  flexDirection: 'column',
+  gap: '0px',
+  padding: spacing.md,
   border: '2px solid #e5e7eb',
   borderRadius: radius.md,
   cursor: 'pointer',
   transition: 'all 0.2s ease',
+  minHeight: 'auto',
   selectors: {
     '&:hover': {
       borderColor: colors.primary[600],
@@ -1139,14 +1179,16 @@ export const addonTitle = style({
   fontSize: typography.fontSize.base,
   fontWeight: typography.fontWeight.semibold,
   color: '#111827',
-  marginBottom: spacing.xs,
+  marginTop: '0px',
+  marginBottom: '0',
+  lineHeight: 1.3,
 });
 
 export const addonDescription = style({
   fontSize: typography.fontSize.sm,
   color: '#6b7280',
-  marginBottom: spacing.sm,
-  lineHeight: 1.5,
+  marginBottom: spacing.xs,
+  lineHeight: 1.4,
 });
 
 export const addonPrice = style({
@@ -1189,8 +1231,6 @@ export const orderSummaryDivider = style({
 });
 
 export const orderSummaryTotal = style({
-  display: 'flex',
-  justifyContent: 'space-between',
   alignItems: 'center',
   fontSize: typography.fontSize.xl,
   fontWeight: typography.fontWeight.bold,
@@ -1217,13 +1257,20 @@ export const loadingMessage = style({
 
 export const cartGrid = style({
   display: 'grid',
-  gridTemplateColumns: '1fr 400px',
-  gap: spacing.xl,
+  gridTemplateColumns: '1fr 380px',
+  gap: spacing.lg,
   alignItems: 'start',
   '@media': {
+    'screen and (max-width: 1200px)': {
+      gridTemplateColumns: '1fr',
+    },
     'screen and (max-width: 1024px)': {
       gridTemplateColumns: '1fr',
-      gap: spacing.lg,
+      gap: '0px',
+    },
+    'screen and (max-width: 767px)': {
+      display: 'block',
+      gap: '0px',
     },
   },
 });
@@ -1239,9 +1286,6 @@ export const orderSummaryColumn = style({
     'screen and (min-width: 1025px)': {
       position: 'sticky',
       top: spacing.lg,
-    },
-    'screen and (max-width: 1024px)': {
-      order: -1, // Show summary first on mobile
     },
   },
 });
@@ -1305,21 +1349,22 @@ export const planName = style({
 export const planPriceRow = style({
   display: 'flex',
   alignItems: 'center',
-  gap: spacing.md,
+  gap: '10px',
   fontSize: typography.fontSize.xl,
   color: '#111827',
+  flexWrap: 'wrap',
   marginTop: spacing.sm,
 });
 
 export const counterControls = style({
   display: 'flex',
   alignItems: 'center',
-  gap: spacing.sm,
+  gap: '5px',
 });
 
 export const counterButton = style({
-  width: '44px',
-  height: '44px',
+  width: '35px',
+  height: '35px',
   display: 'flex',
   alignItems: 'center',
   justifyContent: 'center',
@@ -1361,6 +1406,79 @@ export const staffLabel = style({
   fontSize: typography.fontSize.base,
   color: '#6b7280',
   fontWeight: typography.fontWeight.medium,
+  marginBottom: '20px',
+  marginTop: '10px',
+});
+
+export const staffLabelHint = style({
+  fontSize: typography.fontSize.sm,
+  color: '#6b7280',
+  marginLeft: spacing.sm,
+  fontWeight: typography.fontWeight.normal,
+});
+
+// Cart and order summary related styles
+export const cartSection = style({
+  flex: 1,
+});
+
+export const cartItemHeader = style({
+  marginBottom: spacing.lg,
+});
+
+export const planStaffControl = style({
+  marginTop: spacing.lg,
+});
+
+export const pricePerStaff = style({
+  fontSize: typography.fontSize.lg,
+  fontWeight: typography.fontWeight.medium,
+});
+
+export const addonHeaderRow = style({
+  display: 'flex',
+  justifyContent: 'space-between',
+  alignItems: 'flex-start',
+  marginBottom: '0',
+  marginTop: '0',
+});
+
+export const addonPriceRow = style({
+  marginTop: spacing.xs,
+  display: 'flex',
+  flexDirection: 'column',
+  gap: '2px',
+});
+
+export const addonBilledInfo = style({
+  fontSize: typography.fontSize.xs,
+  color: '#9ca3af',
+});
+
+export const addonAddText = style({
+  fontSize: typography.fontSize.sm,
+  color: colors.primary[600],
+  fontWeight: typography.fontWeight.medium,
+  marginTop: spacing.sm,
+});
+
+export const orderSummaryContent = style({
+  // Remove padding since it's now inside sectionCard
+});
+
+export const summaryTotalAmount = style({
+  fontSize: typography.fontSize.xl,
+  fontWeight: typography.fontWeight.bold,
+  color: colors.primary[600],
+  marginLeft: '10px',
+});
+
+export const summaryNextBilling = style({
+  fontSize: typography.fontSize.sm,
+  color: '#6b7280',
+  marginTop: spacing.sm,
+  paddingTop: spacing.sm,
+  borderTop: '1px solid #e5e7eb',
 });
 
 export const priceEquals = style({
@@ -1424,7 +1542,7 @@ export const addonItemTitle = style({
 });
 
 export const removeAddonButton = style({
-  padding: spacing.xs,
+  padding: '0px',
   backgroundColor: 'transparent',
   border: 'none',
   cursor: 'pointer',
@@ -1585,7 +1703,7 @@ export const summaryTotalRow = style({
   fontSize: typography.fontSize.xl,
   fontWeight: typography.fontWeight.bold,
   color: '#111827',
-  paddingTop: spacing.sm,
+  paddingTop: '0px',
 });
 
 export const nextChargeText = style({
@@ -1604,7 +1722,7 @@ export const nextChargeNote = style({
 
 export const proceedButton = style({
   width: '100%',
-  height: '60px',
+  height: '52px',
   padding: '0 24px',
   fontSize: typography.fontSize.base,
   fontWeight: typography.fontWeight.bold,
@@ -1616,8 +1734,8 @@ export const proceedButton = style({
   borderRadius: radius.lg,
   cursor: 'pointer',
   transition: 'all 0.3s ease',
-  marginTop: spacing.lg,
-  boxShadow: enhancedShadows.purpleGlow,
+  marginTop: spacing.md,
+  boxShadow: shadows.purple,
   display: 'flex',
   alignItems: 'center',
   justifyContent: 'center',
@@ -1702,18 +1820,18 @@ export const footerLinkDisabled = style({
 });
 
 export const sectionHeader = style({
-  fontSize: typography.fontSize.xl,
+  fontSize: typography.fontSize.lg,
   fontWeight: typography.fontWeight.bold,
   color: '#111827',
   marginBottom: spacing.md,
-  marginTop: spacing.xl,
+  marginTop: spacing.lg,
   animation: `${fadeInUp} 0.6s ease-out`,
 });
 
 export const recommendedAddonsGrid = style({
   display: 'grid',
   gridTemplateColumns: 'repeat(2, 1fr)',
-  gap: spacing.lg,
+  gap: spacing.md,
   gridAutoRows: 'minmax(auto, max-content)',
   '@media': {
     'screen and (max-width: 768px)': {
@@ -1778,6 +1896,7 @@ export const planBadgeWrapper = style({
   alignItems: 'center',
   justifyContent: 'center',
   gap: spacing.md,
+  flexWrap: 'wrap',
   marginBottom: spacing.lg,
   position: 'relative',
   zIndex: 1,
@@ -2218,8 +2337,8 @@ export const otpBoxSuccess = style({
 // ============================================================================
 
 export const iconContainerLarge = style({
-  width: '96px',
-  height: '96px',
+  width: '60px',
+  height: '60px',
   margin: '0 auto',
   marginBottom: spacing.lg,
   borderRadius: '50%',
@@ -2443,7 +2562,7 @@ export const sectionCard = style({
   backgroundColor: '#ffffff',
   border: '2px solid #e5e7eb',
   borderRadius: radius.lg,
-  padding: spacing.xl,
+  padding: spacing.lg,
   marginBottom: spacing.lg,
   animation: `${fadeInUp} 0.6s ease-out`,
   transition: 'all 0.3s ease',
@@ -2490,6 +2609,32 @@ export const sectionIcon = style({
 // ============================================================================
 // EXPORT ANIMATION KEYFRAMES (for use in components)
 // ============================================================================
+
+// Loading and Error States
+export const loadingContainer = style({
+  display: 'flex',
+  flexDirection: 'column',
+  alignItems: 'center',
+  justifyContent: 'center',
+  minHeight: '400px',
+  gap: spacing.lg,
+  color: '#6b7280',
+  fontSize: typography.fontSize.lg,
+  fontWeight: typography.fontWeight.medium,
+});
+
+export const errorContainer = style({
+  display: 'flex',
+  flexDirection: 'column',
+  alignItems: 'center',
+  justifyContent: 'center',
+  minHeight: '400px',
+  gap: spacing.lg,
+  color: '#dc2626',
+  fontSize: typography.fontSize.lg,
+  padding: spacing.xl,
+  textAlign: 'center',
+});
 
 export const animations = {
   fadeIn,

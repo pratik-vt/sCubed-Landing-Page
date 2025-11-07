@@ -1,19 +1,11 @@
 'use client';
 
-import {
-  AlertCircle,
-  ChevronLeft,
-  ChevronRight,
-  Minus,
-  Plus,
-  Trash2,
-} from 'lucide-react';
-import { useEffect, useState } from 'react';
-import { Controller, useForm } from 'react-hook-form';
+import { AlertCircle, ChevronLeft, Minus, Plus, Trash2 } from 'lucide-react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
+import { Controller, useForm, useWatch } from 'react-hook-form';
 
 import * as styles from './styles.css';
 
-import { SUCCESS_MESSAGES } from '@/constants/messages';
 import { fetchApi } from '@/lib/api-client';
 import { showSuccessToast } from '@/lib/errors';
 import { isApiError } from '@/types/api';
@@ -52,10 +44,40 @@ interface AddonData {
   display_order: number;
 }
 
+// Helper function to safely parse prices
+const parsePrice = (value: string | undefined): number => {
+  if (!value) return 0;
+  const parsed = Number.parseFloat(value);
+  return Number.isNaN(parsed) ? 0 : parsed;
+};
+
+// Helper function to calculate next charge date
+const calculateNextChargeDate = (cycle: 'monthly' | 'yearly'): string => {
+  const now = new Date();
+  const nextDate = new Date(now);
+
+  if (cycle === 'yearly') {
+    nextDate.setFullYear(now.getFullYear() + 1);
+  } else {
+    // Handle edge cases like Jan 31 + 1 month
+    const targetMonth = now.getMonth() + 1;
+    nextDate.setMonth(targetMonth);
+    // If the day has changed (e.g., Jan 31 -> Mar 3), set to last day of target month
+    if (nextDate.getMonth() !== targetMonth % 12) {
+      nextDate.setDate(0); // Sets to last day of previous month
+    }
+  }
+
+  return nextDate.toLocaleDateString('en-US', {
+    month: 'long',
+    day: 'numeric',
+    year: 'numeric',
+  });
+};
+
 /**
  * Step 3 (Paid Plan): Cart/Checkout (Now Step 4 in new flow)
- * Allows staff count adjustment, billing cycle selection, and add-on selection
- * Calls PUT /register API with draft_mode: false (final submission with subscription details)
+ * Optimized component with proper React hooks usage and performance improvements
  */
 export default function Step3PaidCart({
   formData,
@@ -66,17 +88,14 @@ export default function Step3PaidCart({
   const [plans, setPlans] = useState<PlanData[]>([]);
   const [addons, setAddons] = useState<AddonData[]>([]);
   const [loadingData, setLoadingData] = useState(true);
-  const [selectedAddons, setSelectedAddons] = useState<number[]>([]);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [apiError, setApiError] = useState<string | null>(null);
 
   const {
-    register,
     handleSubmit,
-    watch,
     control,
     setValue,
-    formState: { errors, touchedFields },
+    formState: { errors },
   } = useForm<CartFormData>({
     defaultValues: {
       staff_count: formData.staff_count || 1,
@@ -85,15 +104,81 @@ export default function Step3PaidCart({
     },
   });
 
-  const billingCycle = watch('billing_cycle');
-  const staffCount = watch('staff_count');
+  // Use useWatch for better performance
+  const billingCycle = useWatch({ control, name: 'billing_cycle' });
+  const staffCount = useWatch({ control, name: 'staff_count' });
+  const selectedAddons = useWatch({ control, name: 'addons' });
 
-  useEffect(() => {
-    fetchPlansAndAddons();
-  }, []);
+  // Memoized current plan calculation
+  const currentPlan = useMemo((): PlanData | null => {
+    if (!formData.subscription_plan_id || plans.length === 0) return null;
+    return plans.find((p) => p.id === formData.subscription_plan_id) || null;
+  }, [formData.subscription_plan_id, plans]);
 
-  const fetchPlansAndAddons = async () => {
+  // Memoized total calculation - THIS FIXES THE MAIN BUG
+  const total = useMemo(() => {
+    if (!currentPlan) return 0;
+
+    const pricePerStaff = parsePrice(
+      billingCycle === 'monthly'
+        ? currentPlan.monthly_price_per_staff
+        : currentPlan.yearly_price_per_staff,
+    );
+
+    const basePrice = pricePerStaff * staffCount;
+
+    const addonsTotal = selectedAddons.reduce((sum, addonId) => {
+      const addon = addons.find((a) => a.id === addonId);
+      if (addon) {
+        const addonPrice = parsePrice(
+          billingCycle === 'monthly' ? addon.monthly_price : addon.yearly_price,
+        );
+        return sum + addonPrice;
+      }
+      return sum;
+    }, 0);
+
+    return basePrice + addonsTotal;
+  }, [currentPlan, billingCycle, staffCount, selectedAddons, addons]);
+
+  // Memoized savings percentage calculation
+  const savingsPercentage = useMemo((): string => {
+    if (!currentPlan) return '';
+
+    const monthlyTotal = parsePrice(currentPlan.monthly_price_per_staff) * 12;
+    const yearlyTotal = parsePrice(currentPlan.yearly_price_per_staff);
+
+    if (monthlyTotal > 0 && yearlyTotal > 0) {
+      const savings = ((monthlyTotal - yearlyTotal) / monthlyTotal) * 100;
+      if (savings > 0) {
+        return `Save ${Math.round(savings)}%`;
+      }
+    }
+    return '';
+  }, [currentPlan]);
+
+  // Memoized addon lists
+  const selectedAddonsList = useMemo(
+    () => addons.filter((addon) => selectedAddons.includes(addon.id)),
+    [addons, selectedAddons],
+  );
+
+  const recommendedAddonsList = useMemo(
+    () => addons.filter((addon) => !selectedAddons.includes(addon.id)),
+    [addons, selectedAddons],
+  );
+
+  // Memoized next charge date
+  const nextChargeDate = useMemo(
+    () => calculateNextChargeDate(billingCycle),
+    [billingCycle],
+  );
+
+  // Fetch plans and addons with proper error handling
+  const fetchPlansAndAddons = useCallback(async () => {
     setLoadingData(true);
+    setApiError(null);
+
     try {
       const result = await fetchApi<{ plans: PlanData[]; addons: AddonData[] }>(
         'subscriptions/onboarding/plans-and-addons',
@@ -104,204 +189,173 @@ export default function Step3PaidCart({
 
       setPlans(result.plans || []);
       setAddons(result.addons || []);
+
+      // Pre-select staff count based on the selected plan's max_staff
+      if (formData.subscription_plan_id && result.plans) {
+        const selectedPlan = result.plans.find(
+          (p) => p.id === formData.subscription_plan_id,
+        );
+        if (selectedPlan && selectedPlan.max_staff > 0) {
+          if (!formData.staff_count || formData.staff_count === 1) {
+            setValue('staff_count', selectedPlan.max_staff);
+          }
+        }
+      }
     } catch (error) {
       console.error('Failed to load plans and add-ons:', error);
+      setApiError(
+        'Failed to load pricing information. Please refresh the page.',
+      );
     } finally {
       setLoadingData(false);
     }
-  };
+  }, [formData.subscription_plan_id, formData.staff_count, setValue]);
 
-  const toggleAddon = (addonId: number) => {
-    setSelectedAddons((prev) =>
-      prev.includes(addonId)
-        ? prev.filter((id) => id !== addonId)
-        : [...prev, addonId],
-    );
-  };
+  useEffect(() => {
+    fetchPlansAndAddons();
+  }, [fetchPlansAndAddons]);
 
-  const incrementStaff = () => {
-    const currentPlan = getCurrentPlan();
-    if (currentPlan && Number(staffCount) < currentPlan.max_staff) {
-      setValue('staff_count', Number(staffCount) + 1);
-    }
-  };
-
-  const decrementStaff = () => {
-    if (Number(staffCount) > 1) {
-      setValue('staff_count', Number(staffCount) - 1);
-    }
-  };
-
-  const calculateNextChargeDate = (cycle: 'monthly' | 'yearly'): string => {
-    const now = new Date();
-    const nextDate = new Date(now);
-
-    if (cycle === 'yearly') {
-      nextDate.setFullYear(now.getFullYear() + 1);
-    } else {
-      nextDate.setMonth(now.getMonth() + 1);
-    }
-
-    return nextDate.toLocaleDateString('en-US', {
-      month: 'long',
-      day: 'numeric',
-      year: 'numeric',
-    });
-  };
-
-  const getItemCount = (): number => {
-    return 1 + selectedAddons.length; // 1 for plan + number of addons
-  };
-
-  // Get current plan data
-  const getCurrentPlan = (): PlanData | null => {
-    if (!formData.subscription_plan_id || plans.length === 0) return null;
-    return plans.find((p) => p.id === formData.subscription_plan_id) || null;
-  };
-
-  const calculateTotal = () => {
-    const currentPlan = getCurrentPlan();
-    if (!currentPlan) return 0;
-
-    // Base plan price per staff * staff count
-    const pricePerStaff =
-      billingCycle === 'monthly'
-        ? Number.parseFloat(currentPlan.monthly_price_per_staff)
-        : Number.parseFloat(currentPlan.yearly_price_per_staff);
-
-    const basePrice = pricePerStaff * Number(staffCount);
-
-    // Calculate add-ons total
-    const addonsTotal = selectedAddons.reduce((total, addonId) => {
-      const addon = addons.find((a) => a.id === addonId);
-      if (addon) {
-        const addonPrice =
-          billingCycle === 'monthly'
-            ? Number.parseFloat(addon.monthly_price)
-            : Number.parseFloat(addon.yearly_price);
-        return total + addonPrice;
-      }
-      return total;
-    }, 0);
-
-    return basePrice + addonsTotal;
-  };
-
-  const onSubmit = async (data: CartFormData) => {
-    setIsSubmitting(true);
-    setApiError(null);
-
-    try {
-      // Extract city_id and state_id from formData objects
-      const cityId = formData.city?.id;
-      const stateId = formData.state?.id;
-
-      if (!cityId || !stateId) {
-        setApiError(
-          'Missing city or state information. Please go back and complete the form.',
-        );
-        setIsSubmitting(false);
-        return;
-      }
-
-      // Construct URLs for Stripe redirect
-      // Include {CHECKOUT_SESSION_ID} placeholder that Stripe will replace with actual session ID
-      const baseUrl =
-        process.env.NEXT_PUBLIC_SITE_URL || window.location.origin;
-      const success_url = `${baseUrl}/subscribe/success?session_id={CHECKOUT_SESSION_ID}`;
-      const cancel_url = `${baseUrl}/subscribe`;
-
-      // Final submission with subscription details (draft_mode: false)
-      const registrationPayload = {
-        // Onboarding request ID
-        clinic_onboarding_request_id,
-        draft_mode: false,
-        // Subscription details (required for final submission)
-        subscription_plan_id: formData.subscription_plan_id,
-        staff_count: Number(data.staff_count),
-        billing_cycle: data.billing_cycle,
-        addons: selectedAddons,
-        // Stripe redirect URLs
-        success_url,
-        cancel_url,
-        // Clinic details (optional - included in case user edited them)
-        clinic_name: formData.clinic_name,
-        tax_id: formData.tax_id,
-        npi: formData.npi || undefined,
-        street_address_line_1: formData.street_address_line_1,
-        street_address_line_2: formData.street_address_line_2 || undefined,
-        city_id: cityId,
-        state_id: stateId,
-        zip_code: formData.zip_code,
-        timezone_id: formData.timezone_id,
-        // Admin details (optional - included in case user edited them)
-        email: formData.email,
-        first_name: formData.first_name,
-        last_name: formData.last_name,
-        phone: formData.phone,
-      };
-
-      // Call /register API with PUT method
-      const result = await fetchApi<{
-        payment_url: string;
-        payment_required: boolean;
-      }>('subscriptions/onboarding/register', {
-        method: 'PUT',
-        body: registrationPayload,
-      });
-
-      // Success! Show toast
-      showSuccessToast(
-        SUCCESS_MESSAGES.REGISTRATION_SUCCESS ||
-          'Registration successful! Redirecting to payment...',
+  // Optimized event handlers with useCallback
+  const toggleAddon = useCallback(
+    (addonId: number) => {
+      setValue(
+        'addons',
+        selectedAddons.includes(addonId)
+          ? selectedAddons.filter((id) => id !== addonId)
+          : [...selectedAddons, addonId],
       );
+    },
+    [selectedAddons, setValue],
+  );
 
-      // Pass data including payment URL to next step
-      onNext({
-        staff_count: Number(data.staff_count),
-        addons: selectedAddons,
-        billing_cycle: data.billing_cycle,
-        payment_url: result.payment_url,
-      });
-    } catch (error) {
-      console.error('Registration failed:', error);
-      if (isApiError(error)) {
-        setApiError(
-          error.message || 'Failed to complete registration. Please try again.',
-        );
-      } else {
-        setApiError(
-          'Network error. Please check your connection and try again.',
-        );
+  const incrementStaff = useCallback(() => {
+    if (currentPlan && staffCount < currentPlan.max_staff) {
+      setValue('staff_count', staffCount + 1);
+    }
+  }, [currentPlan, staffCount, setValue]);
+
+  const decrementStaff = useCallback(() => {
+    if (staffCount > 1) {
+      setValue('staff_count', staffCount - 1);
+    }
+  }, [staffCount, setValue]);
+
+  const onSubmit = useCallback(
+    async (data: CartFormData) => {
+      setIsSubmitting(true);
+      setApiError(null);
+
+      try {
+        // Validate required data
+        const cityId = formData.city?.id;
+        const stateId = formData.state?.id;
+
+        if (!cityId || !stateId) {
+          setApiError(
+            'Missing city or state information. Please go back and complete the form.',
+          );
+          return;
+        }
+
+        if (!clinic_onboarding_request_id) {
+          setApiError(
+            'Missing registration ID. Please restart the registration process.',
+          );
+          return;
+        }
+
+        // Construct URLs for Stripe redirect
+        const baseUrl =
+          process.env.NEXT_PUBLIC_SITE_URL || globalThis.location?.origin || '';
+        const success_url = `${baseUrl}/subscribe/success?session_id={CHECKOUT_SESSION_ID}`;
+        const cancel_url = `${baseUrl}/subscribe`;
+
+        // Final submission with subscription details
+        const registrationPayload = {
+          clinic_onboarding_request_id,
+          draft_mode: false,
+          subscription_plan_id: formData.subscription_plan_id,
+          staff_count: data.staff_count,
+          billing_cycle: data.billing_cycle,
+          addons: data.addons,
+          success_url,
+          cancel_url,
+          // Include clinic details
+          clinic_name: formData.clinic_name,
+          tax_id: formData.tax_id,
+          npi: formData.npi || undefined,
+          street_address_line_1: formData.street_address_line_1,
+          street_address_line_2: formData.street_address_line_2 || undefined,
+          city_id: cityId,
+          state_id: stateId,
+          zip_code: formData.zip_code,
+          timezone_id: formData.timezone_id,
+          // Include admin details
+          email: formData.email,
+          first_name: formData.first_name,
+          last_name: formData.last_name,
+          phone: formData.phone,
+        };
+
+        // Call /register API
+        const result = await fetchApi<{
+          payment_url: string;
+          payment_required: boolean;
+        }>('subscriptions/onboarding/register', {
+          method: 'PUT',
+          body: registrationPayload,
+        });
+
+        if (result.payment_required && result.payment_url) {
+          showSuccessToast(
+            'Proceeding to checkout. Please complete your payment.',
+          );
+          // Pass payment data to parent component
+          onNext({
+            staff_count: data.staff_count,
+            addons: data.addons,
+            billing_cycle: data.billing_cycle,
+            payment_url: result.payment_url,
+          });
+        } else {
+          setApiError('Payment URL not provided. Please contact support.');
+        }
+      } catch (error) {
+        console.error('Registration failed:', error);
+        if (isApiError(error)) {
+          setApiError(
+            error.message || 'Registration failed. Please try again.',
+          );
+        } else {
+          setApiError('An unexpected error occurred. Please try again.');
+        }
+      } finally {
+        setIsSubmitting(false);
       }
-    } finally {
-      setIsSubmitting(false);
-    }
-  };
-
-  const total = calculateTotal();
-  const currentPlan = getCurrentPlan();
-
-  // Calculate savings percentage for yearly billing
-  const getSavingsPercentage = (): string => {
-    if (!currentPlan) return '';
-    const monthlyTotal =
-      Number.parseFloat(currentPlan.monthly_price_per_staff) * 12;
-    const yearlyTotal = Number.parseFloat(currentPlan.yearly_price_per_staff);
-    if (monthlyTotal > 0 && yearlyTotal > 0) {
-      const savings = ((monthlyTotal - yearlyTotal) / monthlyTotal) * 100;
-      return `Save ${Math.round(savings)}%`;
-    }
-    return '';
-  };
-
-  // Get selected and recommended addons
-  const selectedAddonsList = addons.filter((addon) =>
-    selectedAddons.includes(addon.id),
+    },
+    [formData, clinic_onboarding_request_id, onNext],
   );
-  const recommendedAddonsList = addons.filter(
-    (addon) => !selectedAddons.includes(addon.id),
-  );
+
+  if (loadingData) {
+    return (
+      <div className={styles.loadingContainer}>
+        <div className={styles.loadingSpinner} />
+        <p>Loading pricing information...</p>
+      </div>
+    );
+  }
+
+  if (!currentPlan) {
+    return (
+      <div className={styles.errorContainer}>
+        <AlertCircle size={48} />
+        <p>Unable to load plan information. Please refresh the page.</p>
+        <button onClick={fetchPlansAndAddons} className={styles.button}>
+          Retry
+        </button>
+      </div>
+    );
+  }
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
@@ -324,31 +378,18 @@ export default function Step3PaidCart({
         </div>
       )}
 
-      {loadingData && (
-        <div className={styles.loadingMessage}>Loading plan details...</div>
-      )}
-
-      {!loadingData && !currentPlan && (
-        <div className={`${styles.alertContainer} ${styles.alertError}`}>
-          <AlertCircle size={20} />
-          <span>Unable to load plan details. Please try again.</span>
-        </div>
-      )}
-
-      {!loadingData && currentPlan && (
+      {currentPlan && (
         <div className={styles.cartGrid}>
-          {/* Left Column: Plan Details */}
+          {/* Main Cart Section */}
           <div className={styles.planDetailsColumn}>
-            {/* Plan Card */}
-            <div className={styles.planCard} style={{ animationDelay: '0.2s' }}>
-              <span className={styles.sectionBadge}>PLAN</span>
-              <div className={styles.planHeader}>
-                <h2 className={styles.planName}>
-                  {currentPlan.name} -{' '}
-                  {billingCycle === 'monthly' ? 'Monthly' : 'Yearly'}
-                </h2>
+            {/* Plan Section */}
+            <div
+              className={`${styles.sectionCard} ${styles.fadeInUpAnimation}`}
+              style={{ animationDelay: '0.2s' }}
+            >
+              <div className={styles.sectionCardHeader}>
+                <h2 className={styles.sectionTitle}>{currentPlan.name} Plan</h2>
               </div>
-
               <div className={styles.planPriceRow}>
                 <span>
                   $
@@ -361,7 +402,7 @@ export default function Step3PaidCart({
                   <button
                     type="button"
                     onClick={decrementStaff}
-                    disabled={Number(staffCount) <= 1}
+                    disabled={staffCount <= 1}
                     className={styles.counterButton}
                     aria-label="Decrease staff count"
                   >
@@ -371,7 +412,9 @@ export default function Step3PaidCart({
                   <button
                     type="button"
                     onClick={incrementStaff}
-                    disabled={Number(staffCount) >= currentPlan.max_staff}
+                    disabled={
+                      !currentPlan || staffCount >= currentPlan.max_staff
+                    }
                     className={styles.counterButton}
                     aria-label="Increase staff count"
                   >
@@ -382,274 +425,263 @@ export default function Step3PaidCart({
                 <span className={styles.totalPrice}>
                   $
                   {(
-                    (billingCycle === 'monthly'
-                      ? Number.parseFloat(currentPlan.monthly_price_per_staff)
-                      : Number.parseFloat(currentPlan.yearly_price_per_staff)) *
-                    Number(staffCount)
+                    parsePrice(
+                      billingCycle === 'monthly'
+                        ? currentPlan.monthly_price_per_staff
+                        : currentPlan.yearly_price_per_staff,
+                    ) * staffCount
                   ).toFixed(0)}
                 </span>
               </div>
-              <div className={styles.staffLabel}>Staff Member</div>
-            </div>
+              <div className={styles.staffLabel}>
+                Staff Member
+                {currentPlan.max_staff > 0 && (
+                  <span className={styles.staffLabelHint}>
+                    (Plan includes up to {currentPlan.max_staff} staff)
+                  </span>
+                )}
+              </div>
 
-            {/* Billing Cycle Selection */}
-            <Controller
-              name="billing_cycle"
-              control={control}
-              render={({ field }) => (
-                <div
-                  className={`${styles.billingCycleGrid} ${styles.fadeInUpAnimation}`}
-                  style={{ animationDelay: '0.3s' }}
-                >
-                  <label
-                    className={`${styles.billingCycleOption} ${
-                      field.value === 'monthly'
-                        ? styles.billingCycleOptionSelected
-                        : ''
-                    }`}
+              {/* Billing Cycle Selection */}
+              <Controller
+                name="billing_cycle"
+                control={control}
+                render={({ field }) => (
+                  <div
+                    className={`${styles.billingCycleGrid} ${styles.fadeInUpAnimation}`}
+                    style={{ animationDelay: '0.3s' }}
                   >
-                    <input
-                      type="radio"
-                      value="monthly"
-                      checked={field.value === 'monthly'}
-                      onChange={(e) => field.onChange(e.target.value)}
-                      className={styles.billingCycleRadio}
-                    />
-                    <div className={styles.billingCycleContent}>
-                      <span className={styles.billingCycleTitle}>Monthly</span>
-                      <span className={styles.billingCyclePrice}>
-                        ${currentPlan.monthly_price_per_staff}/month per staff
-                      </span>
-                    </div>
-                  </label>
-
-                  <label
-                    className={`${styles.billingCycleOption} ${
-                      field.value === 'yearly'
-                        ? styles.billingCycleOptionSelected
-                        : ''
-                    }`}
-                  >
-                    <input
-                      type="radio"
-                      value="yearly"
-                      checked={field.value === 'yearly'}
-                      onChange={(e) => field.onChange(e.target.value)}
-                      className={styles.billingCycleRadio}
-                    />
-                    <div className={styles.billingCycleContent}>
-                      <span className={styles.billingCycleTitle}>Yearly</span>
-                      <span className={styles.billingCyclePrice}>
-                        ${currentPlan.yearly_price_per_staff}/year per staff
-                      </span>
-                      {getSavingsPercentage() && (
-                        <span className={styles.billingCycleSavings}>
-                          {getSavingsPercentage()}
+                    <label
+                      className={`${styles.billingCycleOption} ${
+                        field.value === 'monthly'
+                          ? styles.billingCycleOptionSelected
+                          : ''
+                      }`}
+                    >
+                      <input
+                        type="radio"
+                        value="monthly"
+                        checked={field.value === 'monthly'}
+                        onChange={(e) => field.onChange(e.target.value)}
+                        className={styles.billingCycleRadio}
+                        aria-label="Monthly billing"
+                      />
+                      <div className={styles.billingCycleContent}>
+                        <span className={styles.billingCycleTitle}>
+                          Monthly
                         </span>
-                      )}
-                    </div>
-                  </label>
-                </div>
-              )}
-            />
-
-            {/* Selected Addons */}
-            {selectedAddonsList.length > 0 && (
-              <>
-                <h3
-                  className={styles.sectionHeader}
-                  style={{ animationDelay: '0.4s' }}
-                >
-                  Selected Add-ons
-                </h3>
-                <div className={styles.addonsGrid}>
-                  {selectedAddonsList.map((addon, index) => {
-                    const price =
-                      billingCycle === 'monthly'
-                        ? Number.parseFloat(addon.monthly_price)
-                        : Number.parseFloat(addon.yearly_price);
-                    const total =
-                      billingCycle === 'monthly' ? price * 12 : price;
-
-                    return (
-                      <div
-                        key={addon.id}
-                        className={styles.addonItemCard}
-                        style={{ animationDelay: `${0.5 + index * 0.1}s` }}
-                      >
-                        <span className={styles.sectionBadge}>ADDON</span>
-                        <div className={styles.addonItemHeader}>
-                          <h4 className={styles.addonItemTitle}>
-                            {addon.feature_name}
-                          </h4>
-                          <button
-                            type="button"
-                            onClick={() => toggleAddon(addon.id)}
-                            className={styles.removeAddonButton}
-                            aria-label={`Remove ${addon.feature_name}`}
-                          >
-                            <Trash2 size={18} />
-                          </button>
-                        </div>
-                        <div className={styles.addonItemPrice}>
-                          ${price.toFixed(0)} ×{' '}
-                          {billingCycle === 'monthly' ? '12 mo' : '12 mo'} = $
-                          {total.toFixed(0)}
-                        </div>
+                        <span className={styles.billingCyclePrice}>
+                          ${currentPlan.monthly_price_per_staff}/month per staff
+                        </span>
                       </div>
-                    );
-                  })}
-                </div>
-              </>
-            )}
+                    </label>
 
-            {/* Recommended Addons */}
-            {recommendedAddonsList.length > 0 && (
-              <>
-                <h3
-                  className={styles.sectionHeader}
-                  style={{ animationDelay: '0.6s' }}
-                >
-                  Recommended Addons
-                </h3>
-                <div className={styles.recommendedAddonsGrid}>
-                  {recommendedAddonsList.map((addon, index) => {
-                    const price =
-                      billingCycle === 'monthly'
-                        ? Number.parseFloat(addon.monthly_price)
-                        : Number.parseFloat(addon.yearly_price);
+                    <label
+                      className={`${styles.billingCycleOption} ${
+                        field.value === 'yearly'
+                          ? styles.billingCycleOptionSelected
+                          : ''
+                      }`}
+                    >
+                      <input
+                        type="radio"
+                        value="yearly"
+                        checked={field.value === 'yearly'}
+                        onChange={(e) => field.onChange(e.target.value)}
+                        className={styles.billingCycleRadio}
+                        aria-label="Yearly billing"
+                      />
+                      <div className={styles.billingCycleContent}>
+                        <span className={styles.billingCycleTitle}>Yearly</span>
+                        <span className={styles.billingCyclePrice}>
+                          ${currentPlan.yearly_price_per_staff}/year per staff
+                        </span>
+                        {savingsPercentage && (
+                          <span className={styles.billingCycleSavings}>
+                            {savingsPercentage}
+                          </span>
+                        )}
+                      </div>
+                    </label>
+                  </div>
+                )}
+              />
 
-                    return (
-                      <div
-                        key={addon.id}
-                        className={styles.recommendedAddonCard}
-                        style={{ animationDelay: `${0.7 + index * 0.1}s` }}
-                      >
-                        <div className={styles.recommendedAddonHeader}>
-                          <h4 className={styles.recommendedAddonTitle}>
-                            {addon.feature_name}
-                          </h4>
-                          <div className={styles.recommendedAddonPrice}>
-                            ${price.toFixed(0)} ×{' '}
-                            {billingCycle === 'monthly' ? '12 mo' : '12 mo'} = $
-                            {(billingCycle === 'monthly'
-                              ? price * 12
-                              : price
-                            ).toFixed(0)}
+              {/* Selected Addons */}
+              {selectedAddonsList.length > 0 && (
+                <>
+                  <h3
+                    className={styles.sectionHeader}
+                    style={{ animationDelay: '0.4s' }}
+                  >
+                    Selected Add-ons
+                  </h3>
+                  <div className={styles.addonsGrid}>
+                    {selectedAddonsList.map((addon, index) => {
+                      const price = parsePrice(
+                        billingCycle === 'monthly'
+                          ? addon.monthly_price
+                          : addon.yearly_price,
+                      );
+
+                      return (
+                        <div
+                          key={addon.id}
+                          className={`${styles.addonCard} ${styles.addonCardSelected} ${styles.fadeInUpAnimation}`}
+                          style={{ animationDelay: `${0.4 + index * 0.05}s` }}
+                        >
+                          <div className={styles.addonHeaderRow}>
+                            <h4 className={styles.addonTitle}>
+                              {addon.feature_name}
+                            </h4>
+                            <button
+                              type="button"
+                              onClick={() => toggleAddon(addon.id)}
+                              className={styles.removeAddonButton}
+                              aria-label={`Remove ${addon.feature_name}`}
+                            >
+                              <Trash2 size={16} />
+                            </button>
+                          </div>
+                          <p className={styles.addonDescription}>
+                            {addon.description}
+                          </p>
+                          <div className={styles.addonPriceRow}>
+                            <span className={styles.addonPrice}>
+                              ${price}/
+                              {billingCycle === 'monthly' ? 'mo' : 'yr'}
+                            </span>
+                            <span className={styles.addonBilledInfo}>
+                              ${price} billed{' '}
+                              {billingCycle === 'monthly'
+                                ? 'monthly'
+                                : 'annually'}
+                            </span>
                           </div>
                         </div>
-                        <button
-                          type="button"
-                          onClick={() => toggleAddon(addon.id)}
-                          className={styles.addToSubscriptionButton}
-                        >
-                          Add
-                        </button>
-                      </div>
-                    );
-                  })}
-                </div>
-              </>
-            )}
+                      );
+                    })}
+                  </div>
+                </>
+              )}
 
-            {/* Footer Links */}
-            <div className={styles.footerLinks}>
-              <button
-                type="button"
-                onClick={onBack}
-                className={styles.footerLink}
-              >
-                Change Subscription
-              </button>
-              <span>|</span>
-              <button
-                type="button"
-                onClick={onBack}
-                className={styles.footerLinkDisabled}
-              >
-                Cancel Subscription
-              </button>
+              {/* Recommended Addons */}
+              {recommendedAddonsList.length > 0 && (
+                <>
+                  <h3
+                    className={styles.sectionHeader}
+                    style={{ animationDelay: '0.5s' }}
+                  >
+                    Available Add-ons
+                  </h3>
+                  <div className={styles.addonsGrid}>
+                    {recommendedAddonsList.map((addon, index) => {
+                      const price = parsePrice(
+                        billingCycle === 'monthly'
+                          ? addon.monthly_price
+                          : addon.yearly_price,
+                      );
+
+                      return (
+                        <div
+                          key={addon.id}
+                          className={`${styles.addonCard} ${styles.fadeInUpAnimation}`}
+                          style={{ animationDelay: `${0.5 + index * 0.05}s` }}
+                          onClick={() => toggleAddon(addon.id)}
+                          role="button"
+                          tabIndex={0}
+                          onKeyDown={(e) => {
+                            if (e.key === 'Enter' || e.key === ' ') {
+                              e.preventDefault();
+                              toggleAddon(addon.id);
+                            }
+                          }}
+                          aria-label={`Add ${addon.feature_name}`}
+                        >
+                          <h4 className={styles.addonTitle}>
+                            {addon.feature_name}
+                          </h4>
+                          <p className={styles.addonDescription}>
+                            {addon.description}
+                          </p>
+                          <div className={styles.addonPriceRow}>
+                            <span className={styles.addonPrice}>
+                              ${price}/
+                              {billingCycle === 'monthly' ? 'mo' : 'yr'}
+                            </span>
+                            <span className={styles.addonBilledInfo}>
+                              ${price} billed{' '}
+                              {billingCycle === 'monthly'
+                                ? 'monthly'
+                                : 'annually'}
+                            </span>
+                          </div>
+                          <span className={styles.addonAddText}>
+                            + Add to cart
+                          </span>
+                        </div>
+                      );
+                    })}
+                  </div>
+                </>
+              )}
             </div>
           </div>
 
-          {/* Right Column: Order Summary */}
+          {/* Order Summary Section */}
           <div className={styles.orderSummaryColumn}>
             <div
-              className={styles.orderSummaryCard}
-              style={{ animationDelay: '0.4s' }}
+              className={`${styles.sectionCard} ${styles.fadeInUpAnimation}`}
+              style={{ animationDelay: '0.2s' }}
             >
-              <h2 className={styles.orderSummaryHeader}>Order Summary</h2>
+              <div className={styles.sectionCardHeader}>
+                <h2 className={styles.sectionTitle}>Order Summary</h2>
+              </div>
 
-              {/* Plan Line Item */}
-              <div className={styles.summaryLineItem}>
-                <div className={styles.summaryLineItemContent}>
-                  <div className={styles.summaryLineItemTitle}>
-                    {currentPlan.name} -{' '}
-                    {billingCycle === 'monthly' ? 'Monthly' : 'Yearly'}
-                  </div>
-                  <div className={styles.summarySubtext}>
+              <div className={styles.orderSummaryContent}>
+                <div className={styles.orderSummaryItem}>
+                  <span>Plan ({staffCount} staff)</span>
+                  <span>
                     $
-                    {billingCycle === 'monthly'
-                      ? currentPlan.monthly_price_per_staff
-                      : currentPlan.yearly_price_per_staff}{' '}
-                    × {staffCount}/
-                    {billingCycle === 'monthly' ? 'month' : 'year'}
+                    {(
+                      parsePrice(
+                        billingCycle === 'monthly'
+                          ? currentPlan.monthly_price_per_staff
+                          : currentPlan.yearly_price_per_staff,
+                      ) * staffCount
+                    ).toFixed(2)}
+                  </span>
+                </div>
+
+                {selectedAddonsList.map((addon) => (
+                  <div key={addon.id} className={styles.orderSummaryItem}>
+                    <span>{addon.feature_name}</span>
+                    <span>
+                      $
+                      {parsePrice(
+                        billingCycle === 'monthly'
+                          ? addon.monthly_price
+                          : addon.yearly_price,
+                      ).toFixed(2)}
+                    </span>
+                  </div>
+                ))}
+
+                <div className={styles.orderSummaryDivider} />
+
+                <div className={styles.orderSummaryTotal}>
+                  <div className={styles.summaryTotalRow}>
+                    <span>Total ({selectedAddons.length + 1} items)</span>
+                    <span className={styles.summaryTotalAmount}>
+                      ${total.toFixed(2)}
+                    </span>
                   </div>
                 </div>
-                <div className={styles.summaryLineItemPrice}>
-                  $
-                  {(
-                    (billingCycle === 'monthly'
-                      ? Number.parseFloat(currentPlan.monthly_price_per_staff)
-                      : Number.parseFloat(currentPlan.yearly_price_per_staff)) *
-                    Number(staffCount)
-                  ).toFixed(0)}
+                <div className={styles.summaryNextBilling}>
+                  Next charge on {nextChargeDate}
                 </div>
               </div>
 
-              {/* Addon Line Items */}
-              {selectedAddonsList.map((addon) => {
-                const price =
-                  billingCycle === 'monthly'
-                    ? Number.parseFloat(addon.monthly_price)
-                    : Number.parseFloat(addon.yearly_price);
-                const total = billingCycle === 'monthly' ? price * 12 : price;
-
-                return (
-                  <div key={addon.id} className={styles.summaryLineItem}>
-                    <div className={styles.summaryLineItemContent}>
-                      <div className={styles.summaryLineItemTitle}>
-                        {addon.feature_name} -{' '}
-                        {billingCycle === 'monthly' ? 'Monthly' : 'Yearly'}
-                      </div>
-                      <div className={styles.summarySubtext}>
-                        ${price.toFixed(0)} × 12 months
-                      </div>
-                    </div>
-                    <div className={styles.summaryLineItemPrice}>
-                      ${total.toFixed(0)}
-                    </div>
-                  </div>
-                );
-              })}
-
-              <div className={styles.summaryDivider} />
-
-              {/* Total */}
-              <div className={styles.summaryTotalRow}>
-                <span>Total ({getItemCount()} items)</span>
-                <span>${total.toFixed(0)}</span>
-              </div>
-
-              {/* Next Charge Date */}
-              <div className={styles.nextChargeText}>
-                Next Charge on {calculateNextChargeDate(billingCycle)}
-                <div className={styles.nextChargeNote}>
-                  (Amount subject to change based on the selected plan)
-                </div>
-              </div>
-
-              {/* Checkout Button */}
               <button
                 type="submit"
                 className={styles.proceedButton}
@@ -670,37 +702,17 @@ export default function Step3PaidCart({
       )}
 
       {/* Form Actions */}
-      {!loadingData && currentPlan && (
-        <div className={styles.buttonGroup}>
-          <button
-            type="button"
-            onClick={onBack}
-            className={`${styles.button} ${styles.buttonSecondary}`}
-            disabled={isSubmitting}
-          >
-            <ChevronLeft size={20} />
-            Back
-          </button>
-
-          <button
-            type="submit"
-            className={`${styles.button} ${styles.buttonPrimary}`}
-            disabled={isSubmitting}
-          >
-            {isSubmitting ? (
-              <>
-                <span className={styles.loadingSpinner} />
-                Processing...
-              </>
-            ) : (
-              <>
-                Proceed to Checkout
-                <ChevronRight size={20} />
-              </>
-            )}
-          </button>
-        </div>
-      )}
+      <div className={`${styles.buttonGroup} ${styles.fadeInUpAnimation}`}>
+        <button
+          type="button"
+          onClick={onBack}
+          className={`${styles.button} ${styles.buttonSecondary}`}
+          disabled={isSubmitting}
+        >
+          <ChevronLeft size={20} />
+          Back
+        </button>
+      </div>
     </form>
   );
 }

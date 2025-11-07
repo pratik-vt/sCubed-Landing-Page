@@ -409,10 +409,12 @@ export default function Step1ClinicDetails({
           />
 
           <TextInput
-            label="NPI (Optional)"
+            label="NPI"
+            required
             placeholder="1234567890"
             maxLength={10}
             registration={register('npi', {
+              required: 'NPI is required',
               pattern: {
                 value: /^\d{10}$/,
                 message: 'NPI must be exactly 10 digits',
@@ -666,7 +668,7 @@ export default function Step1ClinicDetails({
             </>
           ) : (
             <>
-              Continue to Verification
+              Continue to Review
               <ChevronRight
                 size={20}
                 style={{ transition: 'transform 0.2s ease' }}

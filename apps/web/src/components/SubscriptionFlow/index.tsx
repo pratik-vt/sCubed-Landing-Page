@@ -119,7 +119,7 @@ export default function SubscriptionFlow() {
   };
 
   // Step 1: Handle OTP verification (was Step 2)
-  const handleOTPVerified = (responseData: OTPVerificationResponse) => {
+  const handleOTPVerified = (_responseData: OTPVerificationResponse) => {
     setFormState((prev) => ({
       ...prev,
       otpVerified: true,
@@ -130,7 +130,7 @@ export default function SubscriptionFlow() {
   // Step 2: Handle clinic details submission (was Step 1)
   const handleStep2Complete = (
     data: Step1FormData,
-    apiResponse?: RegistrationResponseData,
+    _apiResponse?: RegistrationResponseData,
   ) => {
     setFormState((prev) => ({
       ...prev,
@@ -192,7 +192,10 @@ export default function SubscriptionFlow() {
   };
 
   // Handle plan change from modal
-  const handlePlanChange = (planId: number, billingCycle: 'monthly' | 'yearly') => {
+  const handlePlanChange = (
+    planId: number,
+    billingCycle: 'monthly' | 'yearly',
+  ) => {
     setFormState((prev) => ({
       ...prev,
       step1Data: {
@@ -219,12 +222,10 @@ export default function SubscriptionFlow() {
   // Show loading state while restoring session
   if (isRestoringSession) {
     return (
-      <div className={styles.pageWrapper}>
-        <div className={styles.container}>
-          <div className={styles.stepContent}>
-            <div style={{ textAlign: 'center', padding: '3rem' }}>
-              <p>Loading...</p>
-            </div>
+      <div className={styles.container}>
+        <div className={styles.stepContent}>
+          <div style={{ textAlign: 'center', padding: '3rem' }}>
+            <p>Loading...</p>
           </div>
         </div>
       </div>
@@ -235,23 +236,24 @@ export default function SubscriptionFlow() {
     <div className={styles.pageWrapper}>
       <div className={styles.container}>
         {/* Plan Badge - Shows selected plan with edit option */}
-        {formState.step1Data.subscription_plan_id && (
-          <div className={styles.planBadgeWrapper}>
-            <PlanBadge
-              planId={formState.step1Data.subscription_plan_id}
-              billingCycle={formState.billingCycle}
-            />
-            <button
-              onClick={() => setShowPlanSelector(true)}
-              className={styles.editPlanButton}
-              type="button"
-              aria-label="Change plan"
-              title="Change plan"
-            >
-              <Pencil size={24} />
-            </button>
-          </div>
-        )}
+        {formState.step1Data.subscription_plan_id &&
+          formState.currentStep < 3 && (
+            <div className={styles.planBadgeWrapper}>
+              <PlanBadge
+                planId={formState.step1Data.subscription_plan_id}
+                billingCycle={formState.billingCycle}
+              />
+              <button
+                onClick={() => setShowPlanSelector(true)}
+                className={styles.editPlanButton}
+                type="button"
+                aria-label="Change plan"
+                title="Change plan"
+              >
+                <Pencil size={24} />
+              </button>
+            </div>
+          )}
 
         {/* Step Indicator */}
         <StepIndicator
@@ -292,7 +294,9 @@ export default function SubscriptionFlow() {
               initialData={formState.step1Data}
               selectedPlan={formState.selectedPlan}
               billingCycle={formState.billingCycle}
-              clinic_onboarding_request_id={formState.clinic_onboarding_request_id}
+              clinic_onboarding_request_id={
+                formState.clinic_onboarding_request_id
+              }
             />
           )}
 
@@ -303,6 +307,7 @@ export default function SubscriptionFlow() {
                 ...formState.step1Data,
                 clinic_name: formState.step1Data.clinic_name || '',
                 tax_id: formState.step1Data.tax_id || '',
+                npi: formState.step1Data.npi || '',
                 street_address_line_1:
                   formState.step1Data.street_address_line_1 || '',
                 city_id: formState.step1Data.city?.id || 0,
@@ -326,7 +331,9 @@ export default function SubscriptionFlow() {
               formData={formState.step1Data}
               onNext={handlePaidCartComplete}
               onBack={handleBackToStep2}
-              clinic_onboarding_request_id={formState.clinic_onboarding_request_id}
+              clinic_onboarding_request_id={
+                formState.clinic_onboarding_request_id
+              }
             />
           )}
 
@@ -337,6 +344,7 @@ export default function SubscriptionFlow() {
                 ...formState.step1Data,
                 clinic_name: formState.step1Data.clinic_name || '',
                 tax_id: formState.step1Data.tax_id || '',
+                npi: formState.step1Data.npi || '',
                 street_address_line_1:
                   formState.step1Data.street_address_line_1 || '',
                 city_id: formState.step1Data.city?.id || 0,
