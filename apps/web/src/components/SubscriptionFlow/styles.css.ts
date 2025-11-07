@@ -1100,6 +1100,26 @@ export const billingCyclePrice = style({
   color: '#6b7280',
 });
 
+export const billingCyclePriceWrapper = style({
+  display: 'flex',
+  alignItems: 'center',
+  gap: spacing.xs,
+  flexWrap: 'wrap',
+});
+
+export const billingCycleOriginalPrice = style({
+  fontSize: typography.fontSize.base,
+  color: '#9ca3af',
+  textDecoration: 'line-through',
+  fontWeight: typography.fontWeight.normal,
+});
+
+export const billingCycleDiscountedPrice = style({
+  fontSize: typography.fontSize.base,
+  color: '#059669',
+  fontWeight: typography.fontWeight.semibold,
+});
+
 export const billingCycleSavings = style({
   fontSize: typography.fontSize.sm,
   color: '#ffffff',
@@ -1471,6 +1491,25 @@ export const summaryTotalAmount = style({
   fontWeight: typography.fontWeight.bold,
   color: colors.primary[600],
   marginLeft: '10px',
+});
+
+export const summaryPriceWrapper = style({
+  display: 'flex',
+  alignItems: 'center',
+  gap: spacing.xs,
+});
+
+export const summaryOriginalPrice = style({
+  fontSize: typography.fontSize.lg,
+  color: '#9ca3af',
+  textDecoration: 'line-through',
+  fontWeight: typography.fontWeight.normal,
+});
+
+export const summaryDiscountedPrice = style({
+  fontSize: typography.fontSize.xl,
+  color: '#059669',
+  fontWeight: typography.fontWeight.bold,
 });
 
 export const summaryNextBilling = style({

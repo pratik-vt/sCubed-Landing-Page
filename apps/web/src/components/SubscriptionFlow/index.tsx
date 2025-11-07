@@ -16,6 +16,8 @@ import StepIndicator from './StepIndicator';
 import * as styles from './styles.css';
 
 import { getPlanIdByName } from '@/constants/plans';
+import { fetchApi } from '@/lib/api-client';
+import { showSuccessToast } from '@/lib/errors';
 import {
   clearSession,
   loadSession,
@@ -55,6 +57,8 @@ export default function SubscriptionFlow() {
 
   // State for plan selector modal
   const [showPlanSelector, setShowPlanSelector] = useState(false);
+  // State for loading registration data after OTP
+  const [loadingRegistrationData, setLoadingRegistrationData] = useState(false);
 
   // Load plan selection from URL params and restore session with validation
   useEffect(() => {
@@ -119,12 +123,98 @@ export default function SubscriptionFlow() {
   };
 
   // Step 1: Handle OTP verification (was Step 2)
-  const handleOTPVerified = (_responseData: OTPVerificationResponse) => {
-    setFormState((prev) => ({
-      ...prev,
-      otpVerified: true,
-      currentStep: 2,
-    }));
+  const handleOTPVerified = async (_responseData: OTPVerificationResponse) => {
+    // After OTP verification, fetch existing registration data if available
+    if (formState.clinic_onboarding_request_id) {
+      setLoadingRegistrationData(true);
+      try {
+        const registrationData = await fetchApi<{
+          clinic_onboarding_request_id: number;
+          email: string;
+          status: string;
+          clinic_name?: string;
+          tax_id?: string;
+          npi?: string;
+          street_address_line_1?: string;
+          street_address_line_2?: string;
+          city_id?: number;
+          state_id?: number;
+          zip_code?: string;
+          timezone_id?: number;
+          first_name?: string;
+          last_name?: string;
+          phone?: string;
+          subscription_plan_id?: number;
+          staff_count?: number;
+        }>(
+          `subscriptions/onboarding/registration-data/${formState.clinic_onboarding_request_id}`,
+          {
+            method: 'GET',
+            skipErrorToast: true, // Don't show error if no data exists
+          },
+        );
+
+        // If we have registration data, prefill the form
+        if (registrationData && (registrationData.clinic_name || registrationData.first_name)) {
+          // Show success message
+          showSuccessToast('Your saved information has been loaded successfully!');
+
+          setFormState((prev) => ({
+            ...prev,
+            otpVerified: true,
+            currentStep: 2,
+            step1Data: {
+              ...prev.step1Data,
+              clinic_name: registrationData.clinic_name || prev.step1Data.clinic_name || '',
+              tax_id: registrationData.tax_id || prev.step1Data.tax_id || '',
+              npi: registrationData.npi || prev.step1Data.npi || '',
+              street_address_line_1: registrationData.street_address_line_1 || prev.step1Data.street_address_line_1 || '',
+              street_address_line_2: registrationData.street_address_line_2 || prev.step1Data.street_address_line_2 || '',
+              zip_code: registrationData.zip_code || prev.step1Data.zip_code || '',
+              email: registrationData.email || prev.step1Data.email || '',
+              first_name: registrationData.first_name || prev.step1Data.first_name || '',
+              last_name: registrationData.last_name || prev.step1Data.last_name || '',
+              phone: registrationData.phone || prev.step1Data.phone || '',
+              subscription_plan_id: registrationData.subscription_plan_id || prev.step1Data.subscription_plan_id,
+              staff_count: registrationData.staff_count || prev.step1Data.staff_count || 1,
+              // Handle state and city objects - we'll need to fetch these separately
+              // Keep state and city as IDs for now, will be resolved by the form component
+              state: registrationData.state_id
+                ? ({ id: registrationData.state_id, name: '', code: '', timezones: [] } as any)
+                : prev.step1Data.state,
+              city: registrationData.city_id
+                ? ({ id: registrationData.city_id, name: '', state_id: registrationData.state_id || 0 } as any)
+                : prev.step1Data.city,
+              timezone_id: registrationData.timezone_id,
+            },
+          }));
+        } else {
+          // No registration data found, proceed normally
+          setFormState((prev) => ({
+            ...prev,
+            otpVerified: true,
+            currentStep: 2,
+          }));
+        }
+      } catch (error) {
+        // If error fetching registration data, proceed normally
+        console.log('No existing registration data found or error fetching:', error);
+        setFormState((prev) => ({
+          ...prev,
+          otpVerified: true,
+          currentStep: 2,
+        }));
+      } finally {
+        setLoadingRegistrationData(false);
+      }
+    } else {
+      // No request ID, proceed normally
+      setFormState((prev) => ({
+        ...prev,
+        otpVerified: true,
+        currentStep: 2,
+      }));
+    }
   };
 
   // Step 2: Handle clinic details submission (was Step 1)
@@ -288,16 +378,25 @@ export default function SubscriptionFlow() {
 
           {/* Step 2: Clinic Details */}
           {formState.currentStep === 2 && (
-            <Step1ClinicDetails
-              onNext={handleStep2Complete}
-              onBack={handleBackToStep1}
-              initialData={formState.step1Data}
-              selectedPlan={formState.selectedPlan}
-              billingCycle={formState.billingCycle}
-              clinic_onboarding_request_id={
-                formState.clinic_onboarding_request_id
-              }
-            />
+            <>
+              {loadingRegistrationData ? (
+                <div style={{ textAlign: 'center', padding: '3rem' }}>
+                  <div className={styles.loadingSpinner} />
+                  <p style={{ marginTop: '1rem' }}>Loading your saved information...</p>
+                </div>
+              ) : (
+                <Step1ClinicDetails
+                  onNext={handleStep2Complete}
+                  onBack={handleBackToStep1}
+                  initialData={formState.step1Data}
+                  selectedPlan={formState.selectedPlan}
+                  billingCycle={formState.billingCycle}
+                  clinic_onboarding_request_id={
+                    formState.clinic_onboarding_request_id
+                  }
+                />
+              )}
+            </>
           )}
 
           {/* Step 3: Free Plan Success */}

@@ -76,6 +76,7 @@ export default function Step1ClinicDetails({
       subscription_plan_id:
         initialData?.subscription_plan_id || selectedPlan?.id || 1,
       staff_count: initialData?.staff_count || 1,
+      // Handle both object and ID formats for state/city (for prefilling from API)
       state: initialData?.state?.id?.toString() || '',
       city: initialData?.city?.id?.toString() || '',
     },

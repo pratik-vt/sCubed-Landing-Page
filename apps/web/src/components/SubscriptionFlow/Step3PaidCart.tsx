@@ -391,12 +391,20 @@ export default function Step3PaidCart({
                 <h2 className={styles.sectionTitle}>{currentPlan.name} Plan</h2>
               </div>
               <div className={styles.planPriceRow}>
-                <span>
-                  $
-                  {billingCycle === 'monthly'
-                    ? currentPlan.monthly_price_per_staff
-                    : currentPlan.yearly_price_per_staff}
-                </span>
+                {billingCycle === 'yearly' ? (
+                  <>
+                    <span className={styles.billingCycleOriginalPrice}>
+                      ${(parsePrice(currentPlan.monthly_price_per_staff) * 12).toFixed(0)}
+                    </span>
+                    <span className={styles.billingCycleDiscountedPrice}>
+                      ${currentPlan.yearly_price_per_staff}
+                    </span>
+                  </>
+                ) : (
+                  <span>
+                    ${currentPlan.monthly_price_per_staff}
+                  </span>
+                )}
                 <span className={styles.priceEquals}>×</span>
                 <div className={styles.counterControls}>
                   <button
@@ -422,16 +430,20 @@ export default function Step3PaidCart({
                   </button>
                 </div>
                 <span className={styles.priceEquals}>=</span>
-                <span className={styles.totalPrice}>
-                  $
-                  {(
-                    parsePrice(
-                      billingCycle === 'monthly'
-                        ? currentPlan.monthly_price_per_staff
-                        : currentPlan.yearly_price_per_staff,
-                    ) * staffCount
-                  ).toFixed(0)}
-                </span>
+                {billingCycle === 'yearly' ? (
+                  <div className={styles.billingCyclePriceWrapper}>
+                    <span className={styles.billingCycleOriginalPrice}>
+                      ${(parsePrice(currentPlan.monthly_price_per_staff) * 12 * staffCount).toFixed(0)}
+                    </span>
+                    <span className={styles.totalPrice}>
+                      ${(parsePrice(currentPlan.yearly_price_per_staff) * staffCount).toFixed(0)}
+                    </span>
+                  </div>
+                ) : (
+                  <span className={styles.totalPrice}>
+                    ${(parsePrice(currentPlan.monthly_price_per_staff) * staffCount).toFixed(0)}
+                  </span>
+                )}
               </div>
               <div className={styles.staffLabel}>
                 Staff Member
@@ -493,9 +505,14 @@ export default function Step3PaidCart({
                       />
                       <div className={styles.billingCycleContent}>
                         <span className={styles.billingCycleTitle}>Yearly</span>
-                        <span className={styles.billingCyclePrice}>
-                          ${currentPlan.yearly_price_per_staff}/year per staff
-                        </span>
+                        <div className={styles.billingCyclePriceWrapper}>
+                          <span className={styles.billingCycleOriginalPrice}>
+                            ${(parsePrice(currentPlan.monthly_price_per_staff) * 12).toFixed(0)}/year
+                          </span>
+                          <span className={styles.billingCycleDiscountedPrice}>
+                            ${currentPlan.yearly_price_per_staff}/year per staff
+                          </span>
+                        </div>
                         {savingsPercentage && (
                           <span className={styles.billingCycleSavings}>
                             {savingsPercentage}
@@ -641,16 +658,20 @@ export default function Step3PaidCart({
               <div className={styles.orderSummaryContent}>
                 <div className={styles.orderSummaryItem}>
                   <span>Plan ({staffCount} staff)</span>
-                  <span>
-                    $
-                    {(
-                      parsePrice(
-                        billingCycle === 'monthly'
-                          ? currentPlan.monthly_price_per_staff
-                          : currentPlan.yearly_price_per_staff,
-                      ) * staffCount
-                    ).toFixed(2)}
-                  </span>
+                  {billingCycle === 'yearly' ? (
+                    <div className={styles.summaryPriceWrapper}>
+                      <span className={styles.summaryOriginalPrice}>
+                        ${(parsePrice(currentPlan.monthly_price_per_staff) * 12 * staffCount).toFixed(2)}
+                      </span>
+                      <span className={styles.summaryDiscountedPrice}>
+                        ${(parsePrice(currentPlan.yearly_price_per_staff) * staffCount).toFixed(2)}
+                      </span>
+                    </div>
+                  ) : (
+                    <span>
+                      ${(parsePrice(currentPlan.monthly_price_per_staff) * staffCount).toFixed(2)}
+                    </span>
+                  )}
                 </div>
 
                 {selectedAddonsList.map((addon) => (
@@ -672,9 +693,26 @@ export default function Step3PaidCart({
                 <div className={styles.orderSummaryTotal}>
                   <div className={styles.summaryTotalRow}>
                     <span>Total ({selectedAddons.length + 1} items)</span>
-                    <span className={styles.summaryTotalAmount}>
-                      ${total.toFixed(2)}
-                    </span>
+                    {billingCycle === 'yearly' ? (
+                      <div className={styles.summaryPriceWrapper}>
+                        <span className={styles.summaryOriginalPrice}>
+                          ${(
+                            (parsePrice(currentPlan.monthly_price_per_staff) * 12 * staffCount) +
+                            selectedAddonsList.reduce((sum, addon) => {
+                              // For add-ons, use yearly price directly (no discount)
+                              return sum + parsePrice(addon.yearly_price);
+                            }, 0)
+                          ).toFixed(2)}
+                        </span>
+                        <span className={styles.summaryDiscountedPrice}>
+                          ${total.toFixed(2)}
+                        </span>
+                      </div>
+                    ) : (
+                      <span className={styles.summaryTotalAmount}>
+                        ${total.toFixed(2)}
+                      </span>
+                    )}
                   </div>
                 </div>
                 <div className={styles.summaryNextBilling}>
