@@ -107,7 +107,7 @@ const Navigation: React.FC<NavigationProps> = ({
   const toggleMenu = () => setMenuOpen(!menuOpen);
 
   const featuresDropdownItems: DropdownItem[] = [
-    { label: 'Practice Management Features', href: '/practice-management' },
+    { label: 'Practice Management', href: '/practice-management' },
     {
       label: 'Scheduling & Appointments',
       href: '/scheduling-and-appointments',
@@ -116,7 +116,7 @@ const Navigation: React.FC<NavigationProps> = ({
       label: 'Data Collection',
       href: '/data-collection',
     },
-    { label: 'Guardian Portal Features', href: '/guardian-portal' },
+    { label: 'Guardian Portal', href: '/guardian-portal' },
     { label: 'ABA Authorization Software', href: '/aba-authorization-software' },
   ];
 
