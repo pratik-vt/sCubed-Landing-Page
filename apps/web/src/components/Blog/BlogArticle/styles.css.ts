@@ -712,7 +712,7 @@ export const audioButtonInline = style({
   flexShrink: 0,
   marginLeft: 'auto',
   minWidth: 0, // Prevent overflow
-  maxWidth: '300px', // Keep at 300px as requested
+  maxWidth: '354px', // Keep at 300px as requested
   width: '100%',
   marginTop: '-20px',
   '@media': {
