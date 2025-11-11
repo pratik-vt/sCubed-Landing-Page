@@ -9,6 +9,7 @@ import { TextInput } from './FormComponents';
 import * as styles from './styles.css';
 
 import { SUCCESS_MESSAGES } from '@/constants/messages';
+import { API_ENDPOINTS } from '@/constants/api';
 import { fetchApi } from '@/lib/api-client';
 import { getFieldErrors, showSuccessToast } from '@/lib/errors';
 import { isApiError } from '@/types/api';
@@ -41,7 +42,7 @@ export default function Step0EmailInput({
   const {
     register,
     handleSubmit,
-    formState: { errors, touchedFields, isSubmitting },
+    formState: { errors, isSubmitting },
   } = useForm<EmailFormData>({
     mode: 'onBlur',
     shouldFocusError: true,
@@ -78,7 +79,7 @@ export default function Step0EmailInput({
     try {
       // Call the verify-email/request endpoint
       const result = await fetchApi<EmailVerificationResponse>(
-        'subscriptions/onboarding/verify-email/request',
+        API_ENDPOINTS.SUBSCRIPTION.VERIFY_EMAIL_REQUEST,
         {
           method: 'POST',
           body: { email: data.email },
@@ -124,11 +125,11 @@ export default function Step0EmailInput({
       </div>
 
       <div
-        className={`${styles.alertContainer} ${styles.alertInfo} ${styles.alertWithAnimation} ${styles.alertWithBorder}`}
+        className={`${styles.alertContainerCentered} ${styles.alertInfo} ${styles.alertWithAnimation} ${styles.alertWithBorder}`}
         style={{ animationDelay: '0.2s' }}
       >
         <AlertCircle size={20} />
-        <span className={styles.alertText}>
+        <span className={styles.alertTextCentered}>
           We'll send you a verification code to confirm your email address
         </span>
       </div>

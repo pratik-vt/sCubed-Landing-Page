@@ -48,9 +48,9 @@ const fallbackFAQData = {
         },
         {
           question:
-            'Can I send appointment reminders with your HIPAA-compliant scheduling software for therapists?',
+            'Can I send appointment reminders with your HIPAA-Compliant scheduling software for therapists?',
           answer:
-            'Yes, absolutely. S Cubed lets you send automated reminders via text or email and everything is fully HIPAA-compliant. It\'s simple to set up, and it saves everyone a lot of back-and-forth.',
+            'Yes, absolutely. S Cubed lets you send automated reminders via text or email and everything is fully HIPAA-Compliant. It\'s simple to set up, and it saves everyone a lot of back-and-forth.',
         },
         {
           question:
@@ -64,7 +64,7 @@ const fallbackFAQData = {
         },
         {
           question: 'What are the key features of S Cubed\'s ABA practice management software?',
-          answer: 'S Cubed was built to handle the real-world complexity of running an ABA practice without overwhelming you. Some of the key features include:\n\n- Smart scheduling that supports staff-client matching and school-based setups\n- Progress notes and data collection that are simple but flexible\n- Billing and claims tools that don\'t require a manual to understand\n- Secure, cloud-based access that\'s fully HIPAA-compliant\n- And automated appointment reminders to keep everyone in the loop\n\nIt\'s everything your team needs, all in one platform.\n',
+          answer: 'S Cubed was built to handle the real-world complexity of running an ABA practice without overwhelming you. Some of the key features include:\n\n- Smart scheduling that supports staff-client matching and school-based setups\n- Progress notes and data collection that are simple but flexible\n- Billing and claims tools that don\'t require a manual to understand\n- Secure, cloud-based access that\'s fully HIPAA-Compliant\n- And automated appointment reminders to keep everyone in the loop\n\nIt\'s everything your team needs, all in one platform.\n',
         },
         {
           question: 'What is an ABA scheduler?',

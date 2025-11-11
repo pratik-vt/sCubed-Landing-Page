@@ -30,7 +30,7 @@ export default function Step3FreeSuccess({ formData }: Step3FreeProps) {
         An admin will review and approve your request soon.
       </p>
 
-      <div className={`${styles.alertContainer} ${styles.alertInfo}`}>
+      <div className={`${styles.alertContainerCentered} ${styles.alertInfo}`}>
         <div className={styles.alertIconWrapper}>
           <AlertCircle size={24} />
         </div>

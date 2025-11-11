@@ -1,7 +1,7 @@
 'use client';
 
 import { motion } from 'framer-motion';
-import { ArrowRight, Check, Info, Minus, Plus } from 'lucide-react';
+import { ArrowRight, Check, Minus, Plus } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 
@@ -30,9 +30,9 @@ import {
   planHeader,
   priceContainer,
   sectionDescription,
-  tooltip,
-  tooltipIcon,
 } from './styles.css';
+
+import Tooltip from '@/components/common/Tooltip';
 
 interface Feature {
   name: string;
@@ -64,7 +64,7 @@ const featureComparison: FeatureSection[] = [
         growth: true,
       },
       {
-        name: 'Security (HIPAA-grade)',
+        name: 'Security (HIPAA-Grade)',
         starter: true,
         essential: true,
         growth: true,
@@ -129,8 +129,10 @@ const featureComparison: FeatureSection[] = [
       },
       {
         name: 'VB-MAPP',
-        starter: 'Add-on $15/year',
-        essential: 'Add-on $15/year',
+        description:
+          'Comprehensive assessment tool for tracking language and social skills development in children with autism',
+        starter: 'Add-on $15/year per client',
+        essential: 'Add-on $15/year per client',
         growth: true,
       },
     ],
@@ -169,32 +171,40 @@ const featureComparison: FeatureSection[] = [
     features: [
       {
         name: 'Clock In, Clock Out',
+        description:
+          'Track staff hours with GPS verification, automatic timesheets, and payroll-ready reports',
         starter: 'Add-on $9/month',
         essential: true,
         growth: true,
       },
       {
         name: 'Guardian Portal',
+        description:
+          'Secure family portal for viewing progress reports, session notes, and direct communication with therapists',
         starter: 'Add-on $19/month',
         essential: true,
         growth: true,
       },
       {
         name: 'Billing Portal (Includes Clearinghouses Fees)',
+        description:
+          'Electronic claims submission to insurance companies with automated eligibility checks and clearinghouse integration',
         starter: 'Add-on $49/month',
         essential: 'Add-on $49/month',
         growth: true,
       },
       {
-        name: 'Telehealth/Hipaa Compliant Meetings',
-        description: 'HIPAA-compliant video sessions',
+        name: 'Telehealth/HIPAA Compliant Meetings',
+        description:
+          'Secure video conferencing with screen sharing, session recording, and waiting room features for remote therapy sessions',
         starter: 'Add-on $99/month',
         essential: 'Add-on $99/month',
         growth: 'Add-on $99/month',
       },
       {
         name: 'Full Revenue Cycle Management',
-        description: 'Complete billing service with claims management',
+        description:
+          'End-to-end billing service including claims submission, denial management, payment posting, and revenue optimization',
         starter: 'Add-on $499/month',
         essential: 'Add-on $499/month',
         growth: 'Add-on $499/month',
@@ -347,12 +357,7 @@ const PricingComparison: React.FC = () => {
                         <div className={featureName}>
                           {feature.name}
                           {feature.description && (
-                            <div className={tooltipIcon}>
-                              <Info size={14} />
-                              <div className={tooltip}>
-                                {feature.description}
-                              </div>
-                            </div>
+                            <Tooltip content={feature.description} />
                           )}
                         </div>
                         <div className={featureCell}>
@@ -415,7 +420,18 @@ const PricingComparison: React.FC = () => {
                       <h4>{section.category}</h4>
                       {section.features.map((feature) => (
                         <div key={feature.name} className={mobileFeatureItem}>
-                          <span>{feature.name}</span>
+                          <span
+                            style={{
+                              display: 'flex',
+                              alignItems: 'center',
+                              gap: '0.5rem',
+                            }}
+                          >
+                            {feature.name}
+                            {feature.description && (
+                              <Tooltip content={feature.description} />
+                            )}
+                          </span>
                           <span>
                             {renderFeatureValue(
                               feature[plan.toLowerCase() as keyof Feature],

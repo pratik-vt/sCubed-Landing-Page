@@ -55,7 +55,7 @@ export const faqData: FAQData = {
       items: [
         {
           question: 'Does the clinic have a secure way to communicate?',
-          answer: 'Yes. The platform includes a HIPAA-compliant secure messaging system for staff-to-staff and staff-to-client communication.'
+          answer: 'Yes. The platform includes a HIPAA-Compliant secure messaging system for staff-to-staff and staff-to-client communication.'
         }
       ]
     },
@@ -72,7 +72,7 @@ export const faqData: FAQData = {
         },
         {
           question: 'Can therapists view other therapists\' client details?',
-          answer: 'No. Therapists can only view details of clients assigned to them, ensuring HIPAA compliance and privacy.'
+          answer: 'No. Therapists can only view details of clients assigned to them, ensuring HIPAA Compliance and privacy.'
         }
       ]
     },
@@ -94,7 +94,7 @@ export const faqData: FAQData = {
       items: [
         {
           question: 'Is clinic data safe on S Cubed?',
-          answer: 'Yes. S Cubed is HIPAA-compliant, with secure authentication, role-based access, and system monitoring to protect clinic data.'
+          answer: 'Yes. S Cubed is HIPAA-Compliant, with secure authentication, role-based access, and system monitoring to protect clinic data.'
         },
         {
           question: 'What size clinics can use S Cubed?',

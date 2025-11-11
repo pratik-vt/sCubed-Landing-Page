@@ -12,7 +12,7 @@ export const plansWrapper = style({
 });
 
 export const plansContainer = style({
-  maxWidth: '1200px',
+  maxWidth: '1320px',
   margin: '0 auto',
   padding: `0 ${spacing.md}`,
 });
@@ -154,7 +154,7 @@ export const popularBadge = style({
 });
 
 export const planName = style({
-  fontSize: typography.fontSize['2xl'],
+  fontSize: typography.fontSize['3xl'],
   fontWeight: typography.fontWeight.bold,
   color: colors.neutral[900],
   marginBottom: spacing.xs,
@@ -164,18 +164,18 @@ export const badge = style({
   display: 'inline-flex',
   alignItems: 'center',
   alignSelf: 'flex-start',
-  padding: `4px ${spacing.sm}`,
+  padding: `6px ${spacing.md}`,
   background: colors.primary[100],
   color: colors.primary[700],
   borderRadius: radius.base,
-  fontSize: typography.fontSize.sm,
+  fontSize: typography.fontSize.base,
   fontWeight: typography.fontWeight.semibold,
   marginBottom: spacing.sm,
   width: 'fit-content',
 });
 
 export const planDescription = style({
-  fontSize: typography.fontSize.base,
+  fontSize: typography.fontSize.lg,
   color: colors.neutral[600],
   lineHeight: typography.lineHeight.relaxed,
   marginBottom: spacing.md,
@@ -196,19 +196,19 @@ export const planPrice = style({
 });
 
 export const planPriceAmount = style({
-  fontSize: typography.fontSize['4xl'],
+  fontSize: typography.fontSize['5xl'],
   fontWeight: typography.fontWeight.bold,
   color: colors.neutral[900],
 });
 
 export const planPricePeriod = style({
-  fontSize: typography.fontSize.base,
+  fontSize: typography.fontSize.lg,
   color: colors.neutral[600],
 });
 
 export const originalPrice = style({
-  fontSize: typography.fontSize['2xl'],
-  color: colors.neutral[400],
+  fontSize: typography.fontSize['3xl'],
+  color: colors.neutral[600],
   textDecoration: 'line-through',
   fontWeight: typography.fontWeight.normal,
   marginBottom: spacing.xs,
@@ -229,26 +229,26 @@ export const yearlyLabel = style({
 });
 
 export const discountedAmount = style({
-  fontSize: typography.fontSize['5xl'],
+  fontSize: typography.fontSize['6xl'],
   fontWeight: typography.fontWeight.bold,
   color: colors.primary[600],
 });
 
 export const discountPercentage = style({
-  fontSize: typography.fontSize.sm,
+  fontSize: typography.fontSize.base,
   color: colors.accent.green,
-  fontWeight: typography.fontWeight.semibold,
+  fontWeight: typography.fontWeight.bold,
   marginLeft: spacing.xs,
 });
 
 export const planCTA = style({
   width: '100%',
-  padding: `${spacing.sm} ${spacing.lg}`,
+  padding: `${spacing.md} ${spacing.lg}`,
   background: colors.white,
   border: `2px solid ${colors.primary[600]}`,
   borderRadius: radius.md,
-  fontSize: typography.fontSize.base,
-  fontWeight: typography.fontWeight.semibold,
+  fontSize: typography.fontSize.lg,
+  fontWeight: typography.fontWeight.bold,
   color: colors.primary[600],
   cursor: 'pointer',
   transition: 'all 0.2s ease',
@@ -269,6 +269,8 @@ export const planCTAPopular = style([
   {
     background: colors.primary[600],
     color: colors.white,
+    fontSize: typography.fontSize.lg,
+    fontWeight: typography.fontWeight.bold,
     ':hover': {
       background: colors.primary[700],
     },
@@ -283,8 +285,8 @@ export const featuresGrid = style({
 });
 
 export const featuresTitle = style({
-  fontSize: typography.fontSize.sm,
-  fontWeight: typography.fontWeight.semibold,
+  fontSize: typography.fontSize.base,
+  fontWeight: typography.fontWeight.bold,
   color: colors.neutral[700],
   marginBottom: spacing.xs,
 });
@@ -293,7 +295,7 @@ export const planFeature = style({
   display: 'flex',
   alignItems: 'flex-start',
   gap: spacing.xs,
-  fontSize: typography.fontSize.sm,
+  fontSize: typography.fontSize.base,
   color: colors.neutral[600],
   lineHeight: typography.lineHeight.relaxed,
 });
@@ -308,8 +310,8 @@ export const planFeatureHighlight = style({
   display: 'flex',
   alignItems: 'flex-start',
   gap: spacing.xs,
-  fontSize: typography.fontSize.sm,
+  fontSize: typography.fontSize.base,
   color: colors.primary[600],
-  fontWeight: typography.fontWeight.semibold,
+  fontWeight: typography.fontWeight.bold,
   lineHeight: typography.lineHeight.relaxed,
 });

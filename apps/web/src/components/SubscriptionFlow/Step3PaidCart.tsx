@@ -10,10 +10,13 @@ import { fetchApi } from '@/lib/api-client';
 import { showSuccessToast } from '@/lib/errors';
 import { isApiError } from '@/types/api';
 import type { Step3PaidProps } from '@/types/subscription';
+import { BILLING_CYCLES, type BillingCycle } from '@/constants/billing';
+import { API_ENDPOINTS } from '@/constants/api';
+import { FORM_FIELDS } from '@/constants/formFields';
 
 interface CartFormData {
   staff_count: number;
-  billing_cycle: 'monthly' | 'yearly';
+  billing_cycle: BillingCycle;
   addons: number[];
 }
 
@@ -52,11 +55,11 @@ const parsePrice = (value: string | undefined): number => {
 };
 
 // Helper function to calculate next charge date
-const calculateNextChargeDate = (cycle: 'monthly' | 'yearly'): string => {
+const calculateNextChargeDate = (cycle: BillingCycle): string => {
   const now = new Date();
   const nextDate = new Date(now);
 
-  if (cycle === 'yearly') {
+  if (cycle === BILLING_CYCLES.YEARLY) {
     nextDate.setFullYear(now.getFullYear() + 1);
   } else {
     // Handle edge cases like Jan 31 + 1 month
@@ -91,15 +94,10 @@ export default function Step3PaidCart({
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [apiError, setApiError] = useState<string | null>(null);
 
-  const {
-    handleSubmit,
-    control,
-    setValue,
-    formState: { errors },
-  } = useForm<CartFormData>({
+  const { handleSubmit, control, setValue } = useForm<CartFormData>({
     defaultValues: {
       staff_count: formData.staff_count || 1,
-      billing_cycle: 'monthly',
+      billing_cycle: BILLING_CYCLES.MONTHLY,
       addons: [],
     },
   });
@@ -120,7 +118,7 @@ export default function Step3PaidCart({
     if (!currentPlan) return 0;
 
     const pricePerStaff = parsePrice(
-      billingCycle === 'monthly'
+      billingCycle === BILLING_CYCLES.MONTHLY
         ? currentPlan.monthly_price_per_staff
         : currentPlan.yearly_price_per_staff,
     );
@@ -131,7 +129,7 @@ export default function Step3PaidCart({
       const addon = addons.find((a) => a.id === addonId);
       if (addon) {
         const addonPrice = parsePrice(
-          billingCycle === 'monthly' ? addon.monthly_price : addon.yearly_price,
+          billingCycle === BILLING_CYCLES.MONTHLY ? addon.monthly_price : addon.yearly_price,
         );
         return sum + addonPrice;
       }
@@ -181,7 +179,7 @@ export default function Step3PaidCart({
 
     try {
       const result = await fetchApi<{ plans: PlanData[]; addons: AddonData[] }>(
-        'subscriptions/onboarding/plans-and-addons',
+        API_ENDPOINTS.SUBSCRIPTION.PLANS_AND_ADDONS,
         {
           method: 'GET',
         },
@@ -229,16 +227,20 @@ export default function Step3PaidCart({
   );
 
   const incrementStaff = useCallback(() => {
-    if (currentPlan && staffCount < currentPlan.max_staff) {
+    // Users can add more staff beyond the plan's minimum requirement
+    // Set a reasonable maximum of 100 staff to prevent accidental excessive clicks
+    const MAX_STAFF_LIMIT = 100;
+    if (staffCount < MAX_STAFF_LIMIT) {
       setValue('staff_count', staffCount + 1);
     }
-  }, [currentPlan, staffCount, setValue]);
+  }, [staffCount, setValue]);
 
   const decrementStaff = useCallback(() => {
-    if (staffCount > 1) {
+    const minStaffCount = currentPlan?.max_staff || 1;
+    if (staffCount > minStaffCount) {
       setValue('staff_count', staffCount - 1);
     }
-  }, [staffCount, setValue]);
+  }, [currentPlan, staffCount, setValue]);
 
   const onSubmit = useCallback(
     async (data: CartFormData) => {
@@ -301,7 +303,7 @@ export default function Step3PaidCart({
         const result = await fetchApi<{
           payment_url: string;
           payment_required: boolean;
-        }>('subscriptions/onboarding/register', {
+        }>(API_ENDPOINTS.SUBSCRIPTION.REGISTER, {
           method: 'PUT',
           body: registrationPayload,
         });
@@ -372,9 +374,11 @@ export default function Step3PaidCart({
       </div>
 
       {apiError && (
-        <div className={`${styles.alertContainer} ${styles.alertError}`}>
+        <div
+          className={`${styles.alertContainerCentered} ${styles.alertError}`}
+        >
           <AlertCircle size={20} />
-          <span>{apiError}</span>
+          <span className={styles.alertTextCentered}>{apiError}</span>
         </div>
       )}
 
@@ -391,26 +395,29 @@ export default function Step3PaidCart({
                 <h2 className={styles.sectionTitle}>{currentPlan.name} Plan</h2>
               </div>
               <div className={styles.planPriceRow}>
-                {billingCycle === 'yearly' ? (
+                {billingCycle === BILLING_CYCLES.YEARLY ? (
                   <>
                     <span className={styles.billingCycleOriginalPrice}>
-                      ${(parsePrice(currentPlan.monthly_price_per_staff) * 12).toFixed(0)}
+                      $
+                      {(
+                        parsePrice(currentPlan.monthly_price_per_staff) * 12
+                      ).toFixed(0)}
                     </span>
                     <span className={styles.billingCycleDiscountedPrice}>
                       ${currentPlan.yearly_price_per_staff}
                     </span>
                   </>
                 ) : (
-                  <span>
-                    ${currentPlan.monthly_price_per_staff}
-                  </span>
+                  <span>${currentPlan.monthly_price_per_staff}</span>
                 )}
                 <span className={styles.priceEquals}>×</span>
                 <div className={styles.counterControls}>
                   <button
                     type="button"
                     onClick={decrementStaff}
-                    disabled={staffCount <= 1}
+                    disabled={
+                      !currentPlan || staffCount <= (currentPlan.max_staff || 1)
+                    }
                     className={styles.counterButton}
                     aria-label="Decrease staff count"
                   >
@@ -420,9 +427,7 @@ export default function Step3PaidCart({
                   <button
                     type="button"
                     onClick={incrementStaff}
-                    disabled={
-                      !currentPlan || staffCount >= currentPlan.max_staff
-                    }
+                    disabled={staffCount >= 100}
                     className={styles.counterButton}
                     aria-label="Increase staff count"
                   >
@@ -430,18 +435,31 @@ export default function Step3PaidCart({
                   </button>
                 </div>
                 <span className={styles.priceEquals}>=</span>
-                {billingCycle === 'yearly' ? (
+                {billingCycle === BILLING_CYCLES.YEARLY ? (
                   <div className={styles.billingCyclePriceWrapper}>
                     <span className={styles.billingCycleOriginalPrice}>
-                      ${(parsePrice(currentPlan.monthly_price_per_staff) * 12 * staffCount).toFixed(0)}
+                      $
+                      {(
+                        parsePrice(currentPlan.monthly_price_per_staff) *
+                        12 *
+                        staffCount
+                      ).toFixed(0)}
                     </span>
                     <span className={styles.totalPrice}>
-                      ${(parsePrice(currentPlan.yearly_price_per_staff) * staffCount).toFixed(0)}
+                      $
+                      {(
+                        parsePrice(currentPlan.yearly_price_per_staff) *
+                        staffCount
+                      ).toFixed(0)}
                     </span>
                   </div>
                 ) : (
                   <span className={styles.totalPrice}>
-                    ${(parsePrice(currentPlan.monthly_price_per_staff) * staffCount).toFixed(0)}
+                    $
+                    {(
+                      parsePrice(currentPlan.monthly_price_per_staff) *
+                      staffCount
+                    ).toFixed(0)}
                   </span>
                 )}
               </div>
@@ -449,7 +467,8 @@ export default function Step3PaidCart({
                 Staff Member
                 {currentPlan.max_staff > 0 && (
                   <span className={styles.staffLabelHint}>
-                    (Plan includes up to {currentPlan.max_staff} staff)
+                    (Plan requires minimum {currentPlan.max_staff} staff, can
+                    add more)
                   </span>
                 )}
               </div>
@@ -465,15 +484,15 @@ export default function Step3PaidCart({
                   >
                     <label
                       className={`${styles.billingCycleOption} ${
-                        field.value === 'monthly'
+                        field.value === BILLING_CYCLES.MONTHLY
                           ? styles.billingCycleOptionSelected
                           : ''
                       }`}
                     >
                       <input
                         type="radio"
-                        value="monthly"
-                        checked={field.value === 'monthly'}
+                        value={BILLING_CYCLES.MONTHLY}
+                        checked={field.value === BILLING_CYCLES.MONTHLY}
                         onChange={(e) => field.onChange(e.target.value)}
                         className={styles.billingCycleRadio}
                         aria-label="Monthly billing"
@@ -490,15 +509,15 @@ export default function Step3PaidCart({
 
                     <label
                       className={`${styles.billingCycleOption} ${
-                        field.value === 'yearly'
+                        field.value === BILLING_CYCLES.YEARLY
                           ? styles.billingCycleOptionSelected
                           : ''
                       }`}
                     >
                       <input
                         type="radio"
-                        value="yearly"
-                        checked={field.value === 'yearly'}
+                        value={BILLING_CYCLES.YEARLY}
+                        checked={field.value === BILLING_CYCLES.YEARLY}
                         onChange={(e) => field.onChange(e.target.value)}
                         className={styles.billingCycleRadio}
                         aria-label="Yearly billing"
@@ -507,7 +526,12 @@ export default function Step3PaidCart({
                         <span className={styles.billingCycleTitle}>Yearly</span>
                         <div className={styles.billingCyclePriceWrapper}>
                           <span className={styles.billingCycleOriginalPrice}>
-                            ${(parsePrice(currentPlan.monthly_price_per_staff) * 12).toFixed(0)}/year
+                            $
+                            {(
+                              parsePrice(currentPlan.monthly_price_per_staff) *
+                              12
+                            ).toFixed(0)}
+                            /year
                           </span>
                           <span className={styles.billingCycleDiscountedPrice}>
                             ${currentPlan.yearly_price_per_staff}/year per staff
@@ -557,7 +581,7 @@ export default function Step3PaidCart({
                               className={styles.removeAddonButton}
                               aria-label={`Remove ${addon.feature_name}`}
                             >
-                              <Trash2 size={16} />
+                              <Trash2 size={20} />
                             </button>
                           </div>
                           <p className={styles.addonDescription}>
@@ -566,7 +590,7 @@ export default function Step3PaidCart({
                           <div className={styles.addonPriceRow}>
                             <span className={styles.addonPrice}>
                               ${price}/
-                              {billingCycle === 'monthly' ? 'mo' : 'yr'}
+                              {billingCycle === 'monthly' ? 'month' : 'year'}
                             </span>
                             <span className={styles.addonBilledInfo}>
                               ${price} billed{' '}
@@ -624,7 +648,7 @@ export default function Step3PaidCart({
                           <div className={styles.addonPriceRow}>
                             <span className={styles.addonPrice}>
                               ${price}/
-                              {billingCycle === 'monthly' ? 'mo' : 'yr'}
+                              {billingCycle === 'monthly' ? 'month' : 'year'}
                             </span>
                             <span className={styles.addonBilledInfo}>
                               ${price} billed{' '}
@@ -658,18 +682,31 @@ export default function Step3PaidCart({
               <div className={styles.orderSummaryContent}>
                 <div className={styles.orderSummaryItem}>
                   <span>Plan ({staffCount} staff)</span>
-                  {billingCycle === 'yearly' ? (
+                  {billingCycle === BILLING_CYCLES.YEARLY ? (
                     <div className={styles.summaryPriceWrapper}>
                       <span className={styles.summaryOriginalPrice}>
-                        ${(parsePrice(currentPlan.monthly_price_per_staff) * 12 * staffCount).toFixed(2)}
+                        $
+                        {(
+                          parsePrice(currentPlan.monthly_price_per_staff) *
+                          12 *
+                          staffCount
+                        ).toFixed(2)}
                       </span>
                       <span className={styles.summaryDiscountedPrice}>
-                        ${(parsePrice(currentPlan.yearly_price_per_staff) * staffCount).toFixed(2)}
+                        $
+                        {(
+                          parsePrice(currentPlan.yearly_price_per_staff) *
+                          staffCount
+                        ).toFixed(2)}
                       </span>
                     </div>
                   ) : (
                     <span>
-                      ${(parsePrice(currentPlan.monthly_price_per_staff) * staffCount).toFixed(2)}
+                      $
+                      {(
+                        parsePrice(currentPlan.monthly_price_per_staff) *
+                        staffCount
+                      ).toFixed(2)}
                     </span>
                   )}
                 </div>
@@ -693,11 +730,14 @@ export default function Step3PaidCart({
                 <div className={styles.orderSummaryTotal}>
                   <div className={styles.summaryTotalRow}>
                     <span>Total ({selectedAddons.length + 1} items)</span>
-                    {billingCycle === 'yearly' ? (
+                    {billingCycle === BILLING_CYCLES.YEARLY ? (
                       <div className={styles.summaryPriceWrapper}>
                         <span className={styles.summaryOriginalPrice}>
-                          ${(
-                            (parsePrice(currentPlan.monthly_price_per_staff) * 12 * staffCount) +
+                          $
+                          {(
+                            parsePrice(currentPlan.monthly_price_per_staff) *
+                              12 *
+                              staffCount +
                             selectedAddonsList.reduce((sum, addon) => {
                               // For add-ons, use yearly price directly (no discount)
                               return sum + parsePrice(addon.yearly_price);

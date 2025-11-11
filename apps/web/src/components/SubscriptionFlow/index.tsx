@@ -15,7 +15,10 @@ import Step4PaymentProcessing from './Step4PaymentProcessing';
 import StepIndicator from './StepIndicator';
 import * as styles from './styles.css';
 
-import { getPlanIdByName } from '@/constants/plans';
+import { getPlanIdByName, PLAN_TYPES } from '@/constants/plans';
+import { BILLING_CYCLES, type BillingCycle } from '@/constants/billing';
+import { API_ENDPOINTS, getRegistrationDataEndpoint } from '@/constants/api';
+import { SUBSCRIPTION_STEPS } from '@/constants/steps';
 import { fetchApi } from '@/lib/api-client';
 import { showSuccessToast } from '@/lib/errors';
 import {
@@ -25,6 +28,7 @@ import {
 } from '@/lib/subscriptionSessionManager';
 import type {
   OTPVerificationResponse,
+  RegistrationDataResponse,
   RegistrationResponseData,
   Step1FormData,
   SubscriptionFormState,
@@ -43,12 +47,12 @@ export default function SubscriptionFlow() {
 
   // Initialize state from URL params (plan selection from pricing page)
   const [formState, setFormState] = useState<SubscriptionFormState>({
-    currentStep: 0,
+    currentStep: SUBSCRIPTION_STEPS.EMAIL,
     step1Data: {},
     otpVerified: false,
     selectedPlan: null,
     selectedAddons: [],
-    billingCycle: 'monthly',
+    billingCycle: BILLING_CYCLES.MONTHLY,
     isSubmitting: false,
     submitError: null,
     paymentUrl: null,
@@ -68,7 +72,7 @@ export default function SubscriptionFlow() {
     if (planParam) {
       // Fresh start with plan from URL params (from pricing page)
       const planId = getPlanIdByName(planParam);
-      const billing = (billingParam as 'monthly' | 'yearly') || 'monthly';
+      const billing = (billingParam as BillingCycle) || BILLING_CYCLES.MONTHLY;
 
       setFormState((prev) => ({
         ...prev,
@@ -118,7 +122,7 @@ export default function SubscriptionFlow() {
         ...prev.step1Data,
         email,
       },
-      currentStep: 1,
+      currentStep: SUBSCRIPTION_STEPS.VERIFY,
     }));
   };
 
@@ -128,26 +132,8 @@ export default function SubscriptionFlow() {
     if (formState.clinic_onboarding_request_id) {
       setLoadingRegistrationData(true);
       try {
-        const registrationData = await fetchApi<{
-          clinic_onboarding_request_id: number;
-          email: string;
-          status: string;
-          clinic_name?: string;
-          tax_id?: string;
-          npi?: string;
-          street_address_line_1?: string;
-          street_address_line_2?: string;
-          city_id?: number;
-          state_id?: number;
-          zip_code?: string;
-          timezone_id?: number;
-          first_name?: string;
-          last_name?: string;
-          phone?: string;
-          subscription_plan_id?: number;
-          staff_count?: number;
-        }>(
-          `subscriptions/onboarding/registration-data/${formState.clinic_onboarding_request_id}`,
+        const registrationData = await fetchApi<RegistrationDataResponse>(
+          getRegistrationDataEndpoint(formState.clinic_onboarding_request_id),
           {
             method: 'GET',
             skipErrorToast: true, // Don't show error if no data exists
@@ -162,7 +148,7 @@ export default function SubscriptionFlow() {
           setFormState((prev) => ({
             ...prev,
             otpVerified: true,
-            currentStep: 2,
+            currentStep: SUBSCRIPTION_STEPS.DETAILS,
             step1Data: {
               ...prev.step1Data,
               clinic_name: registrationData.clinic_name || prev.step1Data.clinic_name || '',
@@ -177,8 +163,7 @@ export default function SubscriptionFlow() {
               phone: registrationData.phone || prev.step1Data.phone || '',
               subscription_plan_id: registrationData.subscription_plan_id || prev.step1Data.subscription_plan_id,
               staff_count: registrationData.staff_count || prev.step1Data.staff_count || 1,
-              // Handle state and city objects - we'll need to fetch these separately
-              // Keep state and city as IDs for now, will be resolved by the form component
+              // Handle state and city as IDs - the form component will resolve them
               state: registrationData.state_id
                 ? ({ id: registrationData.state_id, name: '', code: '', timezones: [] } as any)
                 : prev.step1Data.state,
@@ -187,22 +172,24 @@ export default function SubscriptionFlow() {
                 : prev.step1Data.city,
               timezone_id: registrationData.timezone_id,
             },
+            // Also update billing cycle and addons if they exist
+            billingCycle: registrationData.billing_cycle || prev.billingCycle,
+            selectedAddons: registrationData.addons || prev.selectedAddons,
           }));
         } else {
           // No registration data found, proceed normally
           setFormState((prev) => ({
             ...prev,
             otpVerified: true,
-            currentStep: 2,
+            currentStep: SUBSCRIPTION_STEPS.DETAILS,
           }));
         }
       } catch (error) {
         // If error fetching registration data, proceed normally
-        console.log('No existing registration data found or error fetching:', error);
         setFormState((prev) => ({
           ...prev,
           otpVerified: true,
-          currentStep: 2,
+          currentStep: SUBSCRIPTION_STEPS.DETAILS,
         }));
       } finally {
         setLoadingRegistrationData(false);
@@ -212,7 +199,7 @@ export default function SubscriptionFlow() {
       setFormState((prev) => ({
         ...prev,
         otpVerified: true,
-        currentStep: 2,
+        currentStep: SUBSCRIPTION_STEPS.DETAILS,
       }));
     }
   };
@@ -225,7 +212,7 @@ export default function SubscriptionFlow() {
     setFormState((prev) => ({
       ...prev,
       step1Data: data,
-      currentStep: 3,
+      currentStep: SUBSCRIPTION_STEPS.CHECKOUT,
     }));
   };
 
@@ -233,7 +220,7 @@ export default function SubscriptionFlow() {
   const handleBackToStep0 = () => {
     setFormState((prev) => ({
       ...prev,
-      currentStep: 0,
+      currentStep: SUBSCRIPTION_STEPS.EMAIL,
     }));
   };
 
@@ -241,7 +228,7 @@ export default function SubscriptionFlow() {
   const handleBackToStep1 = () => {
     setFormState((prev) => ({
       ...prev,
-      currentStep: 1,
+      currentStep: SUBSCRIPTION_STEPS.VERIFY,
     }));
   };
 
@@ -249,7 +236,7 @@ export default function SubscriptionFlow() {
   const handlePaidCartComplete = (data: {
     staff_count: number;
     addons: number[];
-    billing_cycle: 'monthly' | 'yearly';
+    billing_cycle: BillingCycle;
     payment_url?: string;
   }) => {
     setFormState((prev) => ({
@@ -261,7 +248,7 @@ export default function SubscriptionFlow() {
       selectedAddons: data.addons,
       billingCycle: data.billing_cycle,
       paymentUrl: data.payment_url || null,
-      currentStep: 4,
+      currentStep: SUBSCRIPTION_STEPS.PAYMENT,
     }));
   };
 
@@ -269,7 +256,7 @@ export default function SubscriptionFlow() {
   const handleBackToStep2 = () => {
     setFormState((prev) => ({
       ...prev,
-      currentStep: 2,
+      currentStep: SUBSCRIPTION_STEPS.DETAILS,
     }));
   };
 
@@ -277,14 +264,14 @@ export default function SubscriptionFlow() {
   const handleBackToStep3 = () => {
     setFormState((prev) => ({
       ...prev,
-      currentStep: 3,
+      currentStep: SUBSCRIPTION_STEPS.CHECKOUT,
     }));
   };
 
   // Handle plan change from modal
   const handlePlanChange = (
     planId: number,
-    billingCycle: 'monthly' | 'yearly',
+    billingCycle: BillingCycle,
   ) => {
     setFormState((prev) => ({
       ...prev,
@@ -299,7 +286,7 @@ export default function SubscriptionFlow() {
 
   // Determine if current plan is free or paid
   const isPaidPlan = Boolean(
-    formState.selectedPlan?.type === 'paid' ||
+    formState.selectedPlan?.type === PLAN_TYPES.PAID ||
       (formState.step1Data.subscription_plan_id &&
         formState.step1Data.subscription_plan_id > 1),
   );
@@ -327,7 +314,7 @@ export default function SubscriptionFlow() {
       <div className={styles.container}>
         {/* Plan Badge - Shows selected plan with edit option */}
         {formState.step1Data.subscription_plan_id &&
-          formState.currentStep < 3 && (
+          formState.currentStep < SUBSCRIPTION_STEPS.CHECKOUT && (
             <div className={styles.planBadgeWrapper}>
               <PlanBadge
                 planId={formState.step1Data.subscription_plan_id}
@@ -355,7 +342,7 @@ export default function SubscriptionFlow() {
         {/* Step Content */}
         <div className={styles.stepContent}>
           {/* Step 0: Email Input */}
-          {formState.currentStep === 0 && (
+          {formState.currentStep === SUBSCRIPTION_STEPS.EMAIL && (
             <Step0EmailInput
               onNext={handleStep0Complete}
               initialEmail={formState.step1Data.email}
@@ -363,7 +350,7 @@ export default function SubscriptionFlow() {
           )}
 
           {/* Step 1: OTP Verification */}
-          {formState.currentStep === 1 &&
+          {formState.currentStep === SUBSCRIPTION_STEPS.VERIFY &&
             formState.step1Data.email &&
             formState.clinic_onboarding_request_id && (
               <Step2OTPVerification
@@ -377,7 +364,7 @@ export default function SubscriptionFlow() {
             )}
 
           {/* Step 2: Clinic Details */}
-          {formState.currentStep === 2 && (
+          {formState.currentStep === SUBSCRIPTION_STEPS.DETAILS && (
             <>
               {loadingRegistrationData ? (
                 <div style={{ textAlign: 'center', padding: '3rem' }}>
@@ -400,7 +387,7 @@ export default function SubscriptionFlow() {
           )}
 
           {/* Step 3: Free Plan Success */}
-          {formState.currentStep === 3 && !isPaidPlan && (
+          {formState.currentStep === SUBSCRIPTION_STEPS.CHECKOUT && !isPaidPlan && (
             <Step3FreeSuccess
               formData={{
                 ...formState.step1Data,
@@ -425,7 +412,7 @@ export default function SubscriptionFlow() {
           )}
 
           {/* Step 3: Paid Plan Cart */}
-          {formState.currentStep === 3 && isPaidPlan && (
+          {formState.currentStep === SUBSCRIPTION_STEPS.CHECKOUT && isPaidPlan && (
             <Step3PaidCart
               formData={formState.step1Data}
               onNext={handlePaidCartComplete}
@@ -437,7 +424,7 @@ export default function SubscriptionFlow() {
           )}
 
           {/* Step 4: Paid Plan Payment Processing */}
-          {formState.currentStep === 4 && isPaidPlan && (
+          {formState.currentStep === SUBSCRIPTION_STEPS.PAYMENT && isPaidPlan && (
             <Step4PaymentProcessing
               formData={{
                 ...formState.step1Data,

@@ -86,7 +86,7 @@ const FeaturesCarousel: React.FC = () => {
       id: 4,
       title: 'Secure Multi-Device Access',
       description:
-        'Work from anywhere, on any device. Your data syncs in real-time across all platforms with bank-level security and HIPAA compliance.',
+        'Work from anywhere, on any device. Your data syncs in real-time across all platforms with bank-level security and HIPAA Compliance.',
       image: secureMultiDeviceAccessImg,
       accentColor: '#fbbf24',
     },

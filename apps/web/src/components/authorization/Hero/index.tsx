@@ -8,7 +8,7 @@ import billingImg from '../../../images/Billing.jpg';
 import Banner from '../../../images/authorization/authorization-banner.png';
 import CalendlyButton from '../../billing/CalendlyButton';
 import { primaryButton } from '../../billing/CalendlyButton/styles.css';
-
+import Workflow from '../Workflow';
 
 import {
   backgroundImage,
@@ -24,7 +24,6 @@ import {
   heroTitle,
   heroTitleHighlight,
 } from './styles.css';
-import Workflow from '../Workflow';
 
 const Hero: React.FC = () => {
   return (

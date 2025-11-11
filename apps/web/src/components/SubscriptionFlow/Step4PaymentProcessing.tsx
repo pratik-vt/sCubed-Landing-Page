@@ -10,6 +10,7 @@ import { useEffect, useState } from 'react';
 
 import * as styles from './styles.css';
 
+import { API_ENDPOINTS } from '@/constants/api';
 import type { Step4Props } from '@/types/subscription';
 
 /**
@@ -58,7 +59,7 @@ export default function Step4PaymentProcessing({
 
       // Step 1: Submit subscription data to backend
       const subscriptionResponse = await fetch(
-        `${process.env.NEXT_PUBLIC_ADMIN_APP_API_URL}subscriptions/paid-plan`,
+        `${process.env.NEXT_PUBLIC_ADMIN_APP_API_URL}${API_ENDPOINTS.SUBSCRIPTION.PAID_PLAN}`,
         {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
@@ -167,11 +168,11 @@ export default function Step4PaymentProcessing({
         </p>
 
         <div
-          className={`${styles.alertContainer} ${styles.alertWarning} ${styles.fadeInUpAnimation}`}
+          className={`${styles.alertContainerCentered} ${styles.alertWarning} ${styles.fadeInUpAnimation}`}
           style={{ animationDelay: '0.4s' }}
         >
           <AlertCircle size={20} />
-          <span>
+          <span className={styles.alertTextCentered}>
             Your subscription data has been saved. Please try again or contact
             support if the problem persists.
           </span>
@@ -205,7 +206,7 @@ export default function Step4PaymentProcessing({
     return (
       <div className={styles.successContainer}>
         <div className={styles.paymentIconWrapper}>
-          <CreditCard size={30} strokeWidth={2.5} />
+          <CreditCard size={48} strokeWidth={2.5} />
         </div>
 
         <h2
@@ -231,12 +232,16 @@ export default function Step4PaymentProcessing({
           <AlertCircle size={20} />
           <div>
             <strong>What happens next:</strong>
-            <ul style={{ margin: '8px 0 0 0', paddingLeft: '20px' }}>
-              <li>Complete your payment on the secure Stripe checkout page</li>
-              <li>
+            <ul className={styles.successList}>
+              <li className={styles.successListItem}>
+                Complete your payment on the secure Stripe checkout page
+              </li>
+              <li className={styles.successListItem}>
                 You'll be automatically redirected back to your success page
               </li>
-              <li>Your subscription will be activated immediately</li>
+              <li className={styles.successListItem}>
+                Your subscription will be activated immediately
+              </li>
             </ul>
           </div>
         </div>

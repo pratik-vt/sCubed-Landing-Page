@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import { BaggageClaim, Timer, CalendarClock, FileClock } from 'lucide-react';
 
 import BreadcrumbSchema from '../../components/BreadcrumbSchema';
 import Container from '../../components/Container';
@@ -8,9 +9,7 @@ import CTA from '../../components/authorization/CTA';
 import ContentSection from '../../components/authorization/Features';
 import Hero from '../../components/authorization/Hero';
 import Trust from '../../components/authorization/Trust';
-
 import { getFAQCollection, transformFAQData } from '../../lib/faq-api';
-
 import AllYourAuthorizationsFinallyInOnePlace from '../../images/authorization/all-your-authorizations-finally-in-one-place.png';
 import LinkedAutomaticallySoNoAssumptions from '../../images/authorization/linked-automatically-so-no-assumptions.png';
 import NeverLoseTrackOfExpirationsAgain from '../../images/authorization/never-lose-track-of-expirations-again.png';
@@ -24,8 +23,6 @@ export const metadata: Metadata = {
     canonical: '/aba-authorization-software',
   },
 };
-
-import { BaggageClaim, Timer, CalendarClock, FileClock } from 'lucide-react';
 
 // Fallback FAQ data
 const fallbackFAQData = {

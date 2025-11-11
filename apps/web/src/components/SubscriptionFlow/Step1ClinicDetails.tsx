@@ -13,6 +13,11 @@ import { Controller, useForm } from 'react-hook-form';
 import isEmail from 'validator/lib/isEmail';
 import isMobilePhone from 'validator/lib/isMobilePhone';
 
+import { SUCCESS_MESSAGES } from '../../constants/messages';
+import { fetchApi } from '../../lib/api-client';
+import { getFieldErrors, showSuccessToast } from '../../lib/errors';
+import { isApiError } from '../../types/api';
+
 import { PhoneInput, TextInput } from './FormComponents';
 import * as styles from './styles.css';
 
@@ -22,10 +27,6 @@ import type {
   Step1FormData,
   Step1Props,
 } from '@/types/subscription';
-import { SUCCESS_MESSAGES } from '../../constants/messages';
-import { fetchApi } from '../../lib/api-client';
-import { getFieldErrors, showSuccessToast } from '../../lib/errors';
-import { isApiError } from '../../types/api';
 
 /**
  * Internal form data type - uses string IDs for state/city (like FreeTrialModal)
@@ -354,10 +355,10 @@ export default function Step1ClinicDetails({
 
       {apiError && (
         <div
-          className={`${styles.alertContainer} ${styles.alertError} ${styles.alertWithAnimation}`}
+          className={`${styles.alertContainerCentered} ${styles.alertError} ${styles.alertWithAnimation}`}
         >
           <AlertCircle size={20} />
-          <span>{apiError}</span>
+          <span className={styles.alertTextCentered}>{apiError}</span>
         </div>
       )}
 

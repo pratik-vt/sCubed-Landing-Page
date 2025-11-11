@@ -200,6 +200,40 @@ export interface FieldError {
   message: string;
 }
 
+/**
+ * Registration Data API Response
+ * Response from GET /subscriptions/onboarding/registration-data/{request_id}
+ */
+export interface RegistrationDataResponse {
+  clinic_onboarding_request_id: number;
+  email: string;
+  status: string;
+  clinic_name?: string;
+  tax_id?: string;
+  npi?: string;
+  street_address_line_1?: string;
+  street_address_line_2?: string | null;
+  city_id?: number;
+  state_id?: number;
+  zip_code?: string;
+  timezone_id?: number;
+  first_name?: string;
+  last_name?: string;
+  phone?: string;
+  subscription_plan_id?: number;
+  staff_count?: number;
+  billing_cycle?: 'monthly' | 'yearly';
+  addons?: number[];
+  success_url?: string;
+  cancel_url?: string;
+  subscription_plan?: {
+    id: number;
+    name: string;
+    plan_type: string;
+    trial_days: number;
+  };
+}
+
 // ============================================================================
 // FORM STATE TYPES
 // ============================================================================
@@ -320,15 +354,15 @@ export interface Step3FreeProps {
  * Props for Step 3 (Paid Plan Cart) Component (Now Step 4 in new flow)
  */
 export interface Step3PaidProps {
-  formData: Partial<Step1FormData>;
-  onNext: (data: {
+  readonly formData: Partial<Step1FormData>;
+  readonly onNext: (data: {
     staff_count: number;
     addons: number[];
     billing_cycle: 'monthly' | 'yearly';
     payment_url?: string;
   }) => void;
-  onBack: () => void;
-  clinic_onboarding_request_id?: number;
+  readonly onBack: () => void;
+  readonly clinic_onboarding_request_id?: number;
 }
 
 /**

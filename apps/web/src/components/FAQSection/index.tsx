@@ -23,8 +23,8 @@ const mockFAQData: FAQItem[] = [
     answer: 'S Cubed is a comprehensive practice management platform designed specifically for therapy practices. It streamlines administrative tasks, appointment scheduling, billing, and client management, allowing you to focus more on patient care and less on paperwork.',
   },
   {
-    question: 'Is S Cubed HIPAA compliant?',
-    answer: 'Yes, S Cubed is fully HIPAA compliant. We use industry-standard encryption, secure data centers, and strict access controls to ensure your practice and patient data remains protected at all times. We also provide Business Associate Agreements (BAAs) for all our customers.',
+    question: 'Is S Cubed HIPAA Compliant?',
+    answer: 'Yes, S Cubed is fully HIPAA-Compliant. We use industry-standard encryption, secure data centers, and strict access controls to ensure your practice and patient data remains protected at all times. We also provide Business Associate Agreements (BAAs) for all our customers.',
   },
   {
     question: 'How long does it take to set up S Cubed for my practice?',

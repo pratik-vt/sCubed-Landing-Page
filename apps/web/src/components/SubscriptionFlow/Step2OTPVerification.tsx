@@ -13,6 +13,7 @@ import { useForm } from 'react-hook-form';
 import OTPCodeInput from './OTPCodeInput';
 import * as styles from './styles.css';
 
+import { API_ENDPOINTS } from '@/constants/api';
 import { fetchApi } from '@/lib/api-client';
 import { showSuccessToast } from '@/lib/errors';
 import { isApiError } from '@/types/api';
@@ -86,7 +87,7 @@ export default function Step2OTPVerification({
     try {
       // Resend OTP via new API endpoint
       await fetchApi<{ clinic_onboarding_request_id: number; message: string }>(
-        'subscriptions/onboarding/verify-email/resend',
+        API_ENDPOINTS.SUBSCRIPTION.VERIFY_EMAIL_RESEND,
         {
           method: 'POST',
           body: { clinic_onboarding_request_id },
@@ -149,7 +150,7 @@ export default function Step2OTPVerification({
 
     try {
       const response = await fetch(
-        `${process.env.NEXT_PUBLIC_ADMIN_APP_API_URL}subscriptions/onboarding/verify-email/confirm`,
+        `${process.env.NEXT_PUBLIC_ADMIN_APP_API_URL}${API_ENDPOINTS.SUBSCRIPTION.VERIFY_EMAIL_CONFIRM}`,
         {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
@@ -247,17 +248,17 @@ export default function Step2OTPVerification({
         style={{ animationDelay: '0.2s' }}
       >
         <Mail size={20} />
-        <span className={styles.alertText}>
+        <span className={styles.alertTextCentered}>
           Please check your email for the 6-digit verification code.
         </span>
       </div>
 
       {resendSuccess && (
         <div
-          className={`${styles.alertContainer} ${styles.alertSuccess} ${styles.alertWithAnimation}`}
+          className={`${styles.alertContainerCentered} ${styles.alertSuccess} ${styles.alertWithAnimation}`}
         >
           <Check size={20} />
-          <span>
+          <span className={styles.alertTextCentered}>
             Verification code resent successfully! Please check your email.
           </span>
         </div>
@@ -265,10 +266,10 @@ export default function Step2OTPVerification({
 
       {apiError && (
         <div
-          className={`${styles.alertContainer} ${styles.alertError} ${styles.alertWithAnimation}`}
+          className={`${styles.alertContainerCentered} ${styles.alertError} ${styles.alertWithAnimation}`}
         >
           <AlertCircle size={20} />
-          <span>{apiError}</span>
+          <span className={styles.alertTextCentered}>{apiError}</span>
         </div>
       )}
 

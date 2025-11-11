@@ -4,9 +4,10 @@ import { AlertCircle, CheckCircle2, Clock, Home, Mail } from 'lucide-react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { useEffect, useState } from 'react';
 
+import * as styles from './styles.css';
+
 import { fetchApi } from '@/lib/api-client';
 import { isApiError } from '@/types/api';
-import * as styles from './styles.css';
 
 /**
  * SubscriptionSuccess Component

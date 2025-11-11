@@ -4,11 +4,16 @@ import { Star } from 'lucide-react';
 
 import * as styles from './styles.css';
 
-import { getPlanColorsById, getPlanNameById } from '@/constants/plans';
+import {
+  getPlanColorsById,
+  getPlanNameById,
+  getPlanPricingById,
+  PLAN_IDS,
+} from '@/constants/plans';
 
 interface PlanBadgeProps {
-  planId: number;
-  billingCycle?: 'monthly' | 'yearly';
+  readonly planId: number;
+  readonly billingCycle?: 'monthly' | 'yearly';
 }
 
 /**
@@ -18,7 +23,8 @@ interface PlanBadgeProps {
 export default function PlanBadge({ planId, billingCycle }: PlanBadgeProps) {
   const planName = getPlanNameById(planId);
   const colors = getPlanColorsById(planId);
-  const isFree = planId === 1;
+  const pricing = getPlanPricingById(planId);
+  const isFree = planId === PLAN_IDS.FREE;
 
   return (
     <div
@@ -38,9 +44,26 @@ export default function PlanBadge({ planId, billingCycle }: PlanBadgeProps) {
           </span>
         )}
       </div>
-      {!isFree && (
-        <div className={styles.planBadgeSubtext}>Selected Plan</div>
-      )}
+      {!isFree && billingCycle ? (
+        <>
+          {billingCycle === 'yearly' ? (
+            <div className={styles.planBadgePriceContainer}>
+              <span className={styles.planBadgePriceStrike}>
+                ${pricing.monthly * 12}/year
+              </span>
+              <span className={styles.planBadgePrice}>
+                ${pricing.yearly}/year
+              </span>
+            </div>
+          ) : (
+            <div className={styles.planBadgePriceSingle}>
+              ${pricing.monthly}/month
+            </div>
+          )}
+        </>
+      ) : isFree ? (
+        <div className={styles.planBadgeSubtext}>Free Trial</div>
+      ) : null}
     </div>
   );
 }

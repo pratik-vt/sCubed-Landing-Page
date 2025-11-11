@@ -2,6 +2,8 @@ import { Check } from 'lucide-react';
 
 import * as styles from './styles.css';
 
+import { getStepLabel } from '@/constants/steps';
+
 interface StepIndicatorProps {
   currentStep: number;
   totalSteps: number;
@@ -12,39 +14,6 @@ interface StepIndicatorProps {
  * StepIndicator - Visual progress indicator for multi-step form
  */
 export default function StepIndicator({ currentStep, totalSteps, isPaidPlan }: StepIndicatorProps) {
-  const getStepLabel = (step: number): string => {
-    if (!isPaidPlan) {
-      // Free plan: 4 steps (Email → OTP → Details → Success)
-      switch (step) {
-        case 1:
-          return 'Email';
-        case 2:
-          return 'Verify';
-        case 3:
-          return 'Details';
-        case 4:
-          return 'Complete';
-        default:
-          return '';
-      }
-    } else {
-      // Paid plan: 5 steps (Email → OTP → Details → Cart → Payment)
-      switch (step) {
-        case 1:
-          return 'Email';
-        case 2:
-          return 'Verify';
-        case 3:
-          return 'Details';
-        case 4:
-          return 'Checkout';
-        case 5:
-          return 'Payment';
-        default:
-          return '';
-      }
-    }
-  };
 
   return (
     <div className={styles.stepIndicatorWrapper}>
@@ -83,7 +52,7 @@ export default function StepIndicator({ currentStep, totalSteps, isPaidPlan }: S
                   isCurrent ? styles.stepLabelCurrent : styles.stepLabelInactive
                 }`}
               >
-                {getStepLabel(stepNumber)}
+                {getStepLabel(stepNumber - 1, isPaidPlan)}
               </div>
 
               {/* Connector Line (not for last step) */}

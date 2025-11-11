@@ -1,6 +1,7 @@
 'use client';
 
 import { useRef, useEffect, KeyboardEvent, ClipboardEvent, ChangeEvent } from 'react';
+
 import * as styles from './styles.css';
 
 interface OTPCodeInputProps {

@@ -33,7 +33,7 @@ const DataCollectionTrust: React.FC = () => {
       icon: <CheckCircle2 size={28} />,
       title: 'Protected Every Step of the Way',
       description:
-        'Your clients’ data stays safe with S Cubed’s end-to-end encryption and full HIPAA compliance, so privacy is never a worry.',
+        'Your clients\' data stays safe with S Cubed\'s end-to-end encryption and full HIPAA Compliance, so privacy is never a worry.',
       accentColor: '#22d3ee',
       bgColor: 'linear-gradient(135deg, #ffffff 0%, #ecfeff 100%)',
     },

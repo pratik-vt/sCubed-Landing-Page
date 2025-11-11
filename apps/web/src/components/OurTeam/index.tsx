@@ -159,7 +159,7 @@ const OurTeam = () => {
       icon: Lock,
       title: 'Truly HIPAA-Compliant',
       content:
-        'S Cubed is built with HIPAA compliance which means you are care-free about your data and we make sure your data is encrypted, it has role-based access and secure cloud hosting.',
+        'S Cubed is built with HIPAA Compliance which means you are care-free about your data and we make sure your data is encrypted, it has role-based access and secure cloud hosting.',
     },
     {
       icon: Users,

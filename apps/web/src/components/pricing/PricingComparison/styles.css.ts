@@ -19,7 +19,7 @@ export const comparisonSection = style({
 });
 
 export const comparisonContainer = style({
-  maxWidth: '1200px',
+  maxWidth: '1320px',
   margin: '0 auto',
   padding: `0 ${spacing.md}`,
 });
@@ -70,16 +70,16 @@ export const featureRow = style({
 
 export const headerCell = style({
   padding: spacing.md,
-  fontSize: typography.fontSize.base,
-  fontWeight: typography.fontWeight.semibold,
+  fontSize: typography.fontSize.lg,
+  fontWeight: typography.fontWeight.bold,
   color: colors.neutral[900],
   background: colors.neutral[50],
 });
 
 export const planHeader = style({
   padding: spacing.md,
-  fontSize: typography.fontSize.base,
-  fontWeight: typography.fontWeight.semibold,
+  fontSize: typography.fontSize.lg,
+  fontWeight: typography.fontWeight.bold,
   color: colors.neutral[900],
   background: colors.neutral[50],
   textAlign: 'center',
@@ -98,14 +98,9 @@ export const priceContainer = style({
 
 export const originalPriceSmall = style({
   fontSize: typography.fontSize.sm,
-  color: colors.neutral[400],
+  color: colors.neutral[600],
   textDecoration: 'line-through',
   fontWeight: typography.fontWeight.normal,
-  '@media': {
-    'screen and (max-width: 768px)': {
-      color: colors.neutral[600],
-    },
-  },
 });
 
 export const discountedPriceSmall = style({
@@ -145,14 +140,14 @@ export const expandButton = style({
 });
 
 export const featureCategoryTitle = style({
-  fontSize: typography.fontSize.base,
-  fontWeight: typography.fontWeight.semibold,
+  fontSize: typography.fontSize.lg,
+  fontWeight: typography.fontWeight.bold,
   color: colors.primary[700],
 });
 
 export const featureName = style({
   padding: spacing.md,
-  fontSize: typography.fontSize.sm,
+  fontSize: typography.fontSize.base,
   color: colors.neutral[700],
   display: 'flex',
   alignItems: 'center',
@@ -161,40 +156,11 @@ export const featureName = style({
 
 export const featureCell = style({
   padding: spacing.md,
+  fontSize: typography.fontSize.base,
   display: 'flex',
   alignItems: 'center',
   justifyContent: 'center',
   borderLeft: `1px solid ${colors.neutral[200]}`,
-});
-
-export const tooltipIcon = style({
-  position: 'relative',
-  display: 'inline-flex',
-  alignItems: 'center',
-  color: colors.neutral[400],
-  cursor: 'help',
-  ':hover': {
-    color: colors.neutral[600],
-  },
-});
-
-export const tooltip = style({
-  position: 'absolute',
-  bottom: '100%',
-  left: '50%',
-  transform: 'translateX(-50%)',
-  padding: spacing.xs,
-  background: colors.neutral[900],
-  color: colors.white,
-  fontSize: typography.fontSize.xs,
-  borderRadius: radius.base,
-  whiteSpace: 'nowrap',
-  opacity: 0,
-  pointerEvents: 'none',
-  transition: 'opacity 0.2s ease',
-  ':hover': {
-    opacity: 1,
-  },
 });
 
 export const mobileCard = style({

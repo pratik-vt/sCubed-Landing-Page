@@ -1,5 +1,6 @@
-import { spacing } from '@/styles/tokens.css';
 import { style } from '@vanilla-extract/css';
+
+import { spacing } from '@/styles/tokens.css';
 
 // Main section styles
 export const featuresSection = style({

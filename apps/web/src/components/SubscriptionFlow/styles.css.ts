@@ -123,7 +123,7 @@ export const containerWrapper = style({
 });
 
 export const container = style({
-  maxWidth: '1000px',
+  maxWidth: '1200px',
   margin: '0 auto',
   background: 'linear-gradient(135deg, #ffffff 0%, #fdfbff 50%, #f9f7ff 100%)',
   borderRadius: '20px',
@@ -672,11 +672,16 @@ export const alertText = style({
   width: 'calc(100% - 24px)',
 });
 
+export const alertTextCentered = style({
+  textAlign: 'center',
+});
+
 export const alertContainerCentered = style({
   display: 'flex',
+  flexDirection: 'row',
   alignItems: 'center',
   justifyContent: 'center',
-  gap: spacing.lg,
+  gap: spacing.sm,
   padding: spacing.lg,
   borderRadius: radius.lg,
   marginBottom: spacing.md,
@@ -685,6 +690,7 @@ export const alertContainerCentered = style({
   animation: `${fadeInUp} 0.6s ease-out 0.4s both`,
   position: 'relative',
   overflow: 'hidden',
+  textAlign: 'center',
   '::before': {
     content: '""',
     position: 'absolute',
@@ -696,7 +702,7 @@ export const alertContainerCentered = style({
   '@media': {
     'screen and (max-width: 768px)': {
       flexDirection: 'row',
-      gap: spacing.md,
+      gap: spacing.sm,
       padding: spacing.md,
     },
   },
@@ -1109,7 +1115,7 @@ export const billingCyclePriceWrapper = style({
 
 export const billingCycleOriginalPrice = style({
   fontSize: typography.fontSize.base,
-  color: '#9ca3af',
+  color: '#6b7280',
   textDecoration: 'line-through',
   fontWeight: typography.fontWeight.normal,
 });
@@ -1501,7 +1507,7 @@ export const summaryPriceWrapper = style({
 
 export const summaryOriginalPrice = style({
   fontSize: typography.fontSize.lg,
-  color: '#9ca3af',
+  color: '#6b7280',
   textDecoration: 'line-through',
   fontWeight: typography.fontWeight.normal,
 });
@@ -1581,7 +1587,9 @@ export const addonItemTitle = style({
 });
 
 export const removeAddonButton = style({
-  padding: '0px',
+  padding: '12px',
+  minWidth: '44px',
+  minHeight: '44px',
   backgroundColor: 'transparent',
   border: 'none',
   cursor: 'pointer',
@@ -1928,6 +1936,30 @@ export const planBadgeSubtext = style({
   opacity: 0.7,
   textTransform: 'uppercase',
   letterSpacing: '0.05em',
+});
+
+export const planBadgePriceContainer = style({
+  display: 'flex',
+  alignItems: 'center',
+  gap: spacing.sm,
+  marginTop: spacing.xs,
+});
+
+export const planBadgePrice = style({
+  fontSize: '1.25rem',
+  fontWeight: typography.fontWeight.bold,
+});
+
+export const planBadgePriceStrike = style({
+  fontSize: typography.fontSize.base,
+  textDecoration: 'line-through',
+  color: colors.neutral[600],
+});
+
+export const planBadgePriceSingle = style({
+  fontSize: '1.25rem',
+  fontWeight: typography.fontWeight.bold,
+  marginTop: spacing.xs,
 });
 
 export const planBadgeWrapper = style({

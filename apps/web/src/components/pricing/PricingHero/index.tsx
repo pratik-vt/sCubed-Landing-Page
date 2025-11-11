@@ -28,7 +28,7 @@ const PricingHero: React.FC = () => {
         </h1>
         <p className={heroDescription}>
           Choose the perfect plan for your therapy practice. All plans include unlimited clients,
-          HIPAA-grade security, and dedicated support. No hidden fees, no surprises.
+          HIPAA-Grade security, and dedicated support. No hidden fees, no surprises.
         </p>
 
         <div className={trustBadges}>

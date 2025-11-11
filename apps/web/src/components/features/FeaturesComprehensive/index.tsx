@@ -116,7 +116,7 @@ const FeaturesComprehensive: React.FC = () => {
       icon: <MessageSquare />,
       title: 'Secure Communication & Collaboration',
       description:
-        'HIPAA-compliant messaging, shared document storage, and task assignment features keep your team aligned and your data protected.',
+        'HIPAA-Compliant messaging, shared document storage, and task assignment features keep your team aligned and your data protected.',
     },
     {
       icon: <Settings />,

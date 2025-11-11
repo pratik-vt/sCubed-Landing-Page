@@ -90,7 +90,7 @@ const fallbackFAQData = {
       name: 'Security & Permissions',
       items: [
         {
-          question: 'Is the Guardian Portal secure and HIPAA compliant?',
+          question: 'Is the Guardian Portal secure and HIPAA-Compliant?',
           answer: 'Yes. The Guardian Portal uses encryption and follows HIPAA guidelines to ensure all personal and health information is protected.'
         },
         {

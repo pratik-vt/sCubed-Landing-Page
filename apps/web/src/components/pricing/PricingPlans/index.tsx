@@ -231,6 +231,83 @@ const PricingPlans: React.FC = () => {
             </motion.div>
           ))}
         </div>
+
+        {/* Free Trial CTA Section */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, delay: 0.4 }}
+          style={{
+            textAlign: 'center',
+            marginTop: '2.5rem',
+            padding: '2rem 1.5rem',
+            background: 'linear-gradient(135deg, #f9fafb 0%, #f3f4f6 100%)',
+            borderRadius: '12px',
+            border: '2px dashed #d1d5db',
+          }}
+        >
+          <h3
+            style={{
+              fontSize: '1.5rem',
+              fontWeight: '700',
+              color: '#111827',
+              marginBottom: '0.75rem',
+            }}
+          >
+            Not Ready to Commit?
+          </h3>
+          <p
+            style={{
+              fontSize: '1rem',
+              color: '#6b7280',
+              marginBottom: '1.5rem',
+              maxWidth: '550px',
+              margin: '0 auto 1.5rem',
+              lineHeight: '1.6',
+            }}
+          >
+            Start with our 30-day free trial and explore all features with no credit card required. 
+            Experience the full power of S Cubed risk-free.
+          </p>
+          <button
+            onClick={() => router.push('/subscribe?plan=free')}
+            style={{
+              display: 'inline-flex',
+              alignItems: 'center',
+              gap: '0.5rem',
+              padding: '0.875rem 2rem',
+              fontSize: '1rem',
+              fontWeight: '600',
+              color: '#ffffff',
+              background: 'linear-gradient(135deg, #7C52FF 0%, #9370FF 100%)',
+              border: 'none',
+              borderRadius: '10px',
+              cursor: 'pointer',
+              transition: 'all 0.3s ease',
+              boxShadow: '0 8px 24px -8px rgba(124, 82, 255, 0.4)',
+            }}
+            onMouseEnter={(e) => {
+              e.currentTarget.style.transform = 'translateY(-2px)';
+              e.currentTarget.style.boxShadow = '0 15px 40px -10px rgba(124, 82, 255, 0.5)';
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.transform = 'translateY(0)';
+              e.currentTarget.style.boxShadow = '0 10px 30px -10px rgba(124, 82, 255, 0.4)';
+            }}
+          >
+            Start Free Trial
+            <ArrowRight size={20} />
+          </button>
+          <p
+            style={{
+              fontSize: '0.875rem',
+              color: '#9ca3af',
+              marginTop: '1rem',
+            }}
+          >
+            No credit card required • Full access • Cancel anytime
+          </p>
+        </motion.div>
       </div>
     </section>
   );
