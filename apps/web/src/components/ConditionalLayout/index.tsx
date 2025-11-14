@@ -32,7 +32,8 @@ export default function ConditionalLayout({ children }: Readonly<ConditionalLayo
     pathname === '/scheduling-and-appointments' ||
     pathname === '/aba-authorization-software' ||
     pathname === '/subscribe' ||
-    pathname.startsWith('/subscribe/');
+    pathname.startsWith('/subscribe/') ||
+    pathname === '/telehealth-platform';
 
   // Determine if the page should use full width layout
   const shouldUseFullWidth =
@@ -40,6 +41,7 @@ export default function ConditionalLayout({ children }: Readonly<ConditionalLayo
     pathname === '/billing' ||
     pathname === '/practice-management' ||
     pathname === '/guardian-portal' ||
+    pathname === '/telehealth-platform' ||
     pathname === '/data-collection' ||
     pathname === '/pricing' ||
     pathname === '/events' ||

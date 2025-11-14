@@ -46,6 +46,7 @@ export default async function SitemapPage() {
             { url: '/data-collection', label: 'Data Collection' },
             { url: '/practice-management', label: 'Practice Management' },
             { url: '/guardian-portal', label: 'Guardian Portal' },
+            { url: '/telehealth-platform', label: 'Telehealth Platform' },
             { url: '/get-started', label: 'Get Started' },
             { url: '/our-team', label: 'Our Team' },
           ],
