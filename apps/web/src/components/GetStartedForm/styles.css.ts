@@ -85,7 +85,7 @@ export const pageWrapper = style({
 
 export const backgroundContainer = style({
   position: 'relative',
-  minHeight: '100vh',
+  // minHeight: '100vh',
   paddingBottom: '2rem',
   background: `linear-gradient(135deg, ${colors.primary[50]} 0%, ${colors.white} 25%, ${colors.primary[100]} 50%, ${colors.white} 75%, ${colors.primary[50]} 100%)`,
   overflow: 'hidden',
@@ -163,7 +163,7 @@ export const gridContainer = style({
     // Large screens (1025px+) - Desktop: Use grid for 2-column layout
     '(min-width: 1025px)': {
       display: 'grid',
-      gridTemplateColumns: '1fr 2fr',
+      gridTemplateColumns: '1fr 1fr',
       gap: '2.5rem',
       alignItems: 'start',
     },
@@ -250,6 +250,7 @@ export const formTitle = style({
   lineHeight: '1.2',
   marginBottom: '0.75rem',
   letterSpacing: '-0.02em',
+  marginTop: '0',
   '@media': {
     // Large screens (1025px+) - Desktop
     '(min-width: 1025px)': {
@@ -279,7 +280,7 @@ export const formTitle = style({
 });
 
 export const titleGradient = style({
-  display: 'block',
+  display: 'inline-block',
   color: colors.neutral[900],
   fontWeight: '700',
 });
@@ -510,7 +511,7 @@ export const cardContainer = style({
   background: `rgba(255, 255, 255, 0.98)`,
   backdropFilter: 'blur(20px)',
   borderRadius: '2rem',
-  marginTop: '2.5rem',
+  marginTop: '0',
   boxShadow: `0 32px 64px -12px rgba(0, 0, 0, 0.12), 0 16px 32px -8px rgba(0, 0, 0, 0.08)`,
   border: `1px solid ${colors.neutral[200]}50`,
   overflow: 'hidden',
@@ -522,22 +523,18 @@ export const cardContainer = style({
     // Large screens (1025px+) - Desktop
     '(min-width: 1025px)': {
       borderRadius: '2.25rem',
-      marginTop: '3rem',
     },
     // Medium-Large screens (769px-1024px) - Small laptops/large tablets
     '(max-width: 1024px) and (min-width: 769px)': {
       borderRadius: '2rem',
-      marginTop: '2.25rem',
     },
     // Medium screens (481px-768px) - Tablets
     '(max-width: 768px) and (min-width: 481px)': {
       borderRadius: '1.75rem',
-      marginTop: '1.5rem',
     },
     // Small screens (320px-480px) - Phones
     '(max-width: 480px)': {
       borderRadius: '1.5rem',
-      marginTop: '1rem',
     },
   },
 });
@@ -560,11 +557,11 @@ export const cardHeader = style({
   '@media': {
     // Large screens (1025px+) - Desktop
     '(min-width: 1025px)': {
-      padding: '1.25rem',
+      padding: '2.25rem',
     },
     // Medium-Large screens (769px-1024px) - Small laptops/large tablets
     '(max-width: 1024px) and (min-width: 769px)': {
-      padding: '1.125rem',
+      padding: '2.125rem',
     },
     // Medium screens (481px-768px) - Tablets
     '(max-width: 768px) and (min-width: 481px)': {
@@ -575,6 +572,25 @@ export const cardHeader = style({
       padding: '0.75rem',
     },
   },
+});
+
+export const cardHeaderInner = style({
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'center',
+  gap: '1rem',
+  padding: '1rem 1rem',
+  background: 'linear-gradient(to right, rgb(250, 245, 255), rgb(243, 232, 255))',
+  borderRadius: '0.5rem',
+  border: '1px solid rgb(233, 213, 255)',
+  flexDirection: 'column',
+});
+
+export const headerHelperText = style({
+  fontSize: '0.875rem',
+  color: '#6b7280',
+  paddingLeft: '0.5rem',
+  marginLeft: '0.25rem',
 });
 
 export const cardContent = style({
@@ -685,6 +701,13 @@ export const formGroup = style({
 });
 
 // Grid layout styles for form sections
+export const oneColumnGrid = style({
+  display: 'grid',
+  gridTemplateColumns: '1fr',
+  gap: '1rem',
+  alignItems: 'start',  
+});
+
 export const twoColumnGrid = style({
   display: 'grid',
   gridTemplateColumns: '1fr',
@@ -901,7 +924,6 @@ export const checkboxContainer = style({
 
 export const submitButton = style({
   width: '100%',
-  height: '3rem',
   display: 'flex',
   alignItems: 'center',
   justifyContent: 'center',
@@ -917,6 +939,7 @@ export const submitButton = style({
   boxShadow: '0 4px 6px -1px rgba(122, 126, 237, 0.4)',
   letterSpacing: '0.01em',
   boxSizing: 'border-box',
+  height: '41px',
   ':hover': {
     background: 'linear-gradient(135deg, #6c6ee5 0%, #9171e8 100%)',
     boxShadow: '0 6px 8px -1px rgba(122, 126, 237, 0.5)',
@@ -933,24 +956,20 @@ export const submitButton = style({
   },
   '@media': {
     // Large screens (1025px+) - Desktop
-    '(min-width: 1025px)': {
-      height: '3.25rem',
+    '(min-width: 1025px)': {      
       fontSize: '1.0625rem',
       borderRadius: '0.625rem',
     },
     // Medium-Large screens (769px-1024px) - Small laptops/large tablets
     '(max-width: 1024px) and (min-width: 769px)': {
-      height: '3rem',
       fontSize: '1rem',
     },
     // Medium screens (481px-768px) - Tablets
     '(max-width: 768px) and (min-width: 481px)': {
-      height: '2.875rem',
       fontSize: '0.9375rem',
     },
     // Small screens (320px-480px) - Phones
     '(max-width: 480px)': {
-      height: '2.75rem',
       fontSize: '0.875rem',
       gap: '0.375rem',
     },
@@ -1065,6 +1084,7 @@ export const bottomHelperText = style({
   borderRadius: '0.75rem',
   border: `1px solid ${colors.neutral[200]}`,
   backdropFilter: 'blur(4px)',
+  marginBottom: '0',
 });
 
 // Progress indicator
@@ -1084,6 +1104,118 @@ export const progressIndicator = style({
     },
   },
 });
+
+const bounceIn = keyframes({
+  '0%': { opacity: 0, transform: 'scale(0.3)' },
+  '50%': { opacity: 1, transform: 'scale(1.05)' },
+  '70%': { transform: 'scale(0.9)' },
+  '100%': { transform: 'scale(1)' },
+});
+
+const pulse = keyframes({
+  '0%, 100%': { opacity: 1, transform: 'scale(1)' },
+  '50%': { opacity: 0.8, transform: 'scale(1.05)' },
+});
+
+export const iconContainerLarge = style({
+  width: '40px',
+  height: '40px',
+  margin: '0 auto',
+  borderRadius: '50%',
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'center',
+  animation: `${bounceIn} 0.6s cubic-bezier(0.34, 1.56, 0.64, 1)`,
+});
+
+export const iconContainerPrimary = style({
+  backgroundColor: colors.primary[600],
+  color: '#ffffff',
+  animation: `${pulse} 2s ease-in-out infinite`,
+});
+
+// Stepper styles
+export const stepperContainer = style({
+  display: 'flex',
+  alignItems: 'center',
+  gap: '1rem',
+  marginBottom: '1.5rem',
+});
+
+export const stepItem = style({
+  display: 'flex',
+  flexDirection: 'column',
+  alignItems: 'center',
+  minWidth: '64px',
+});
+
+export const stepCircle = style({
+  width: '48px',
+  height: '48px',
+  borderRadius: '9999px',
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'center',
+  background: '#f3f4f6',
+  color: '#6b7280',
+  border: '2px solid #e5e7eb',
+});
+
+export const stepCircleActive = style({
+  background: colors.primary[500],
+  border: `2px solid ${colors.primary[500]}`,
+  color: '#ffffff',
+  boxShadow: '0 0 0 4px rgba(168, 85, 247, 0.15)',
+});
+
+export const stepLabel = style({
+  marginTop: '0.5rem',
+  fontSize: '0.875rem',
+  color: '#6b7280',
+});
+
+export const stepLabelActive = style({
+  color: colors.primary[700],
+});
+
+export const stepConnector = style({
+  flex: 1,
+  height: '2px',
+  background: '#e5e7eb',
+});
+
+export const stepConnectorActive = style({
+  background: colors.primary[500],
+});
+
+export const stepNumberText = style({
+  fontWeight: 700,
+});
+
+// Actions row and buttons
+export const actionsRow = style({
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'space-between',
+  gap: '1rem',
+});
+
+export const secondaryButton = style({
+  padding: '0.75rem 1rem',
+  borderRadius: '0.5rem',
+  border: '1px solid #e5e7eb',
+  background: '#ffffff',
+  color: '#374151',
+  fontWeight: 600,
+  cursor: 'pointer',
+});
+
+export const submitContainer = style({
+  display: 'flex',
+  flexDirection: 'column',
+  width: '100%',
+});
+
 
 // Legacy compatibility styles (hidden)
 export const contactPanel = style({ display: 'none' });
