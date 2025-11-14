@@ -117,7 +117,9 @@ const Navigation: React.FC<NavigationProps> = ({
       href: '/data-collection',
     },
     { label: 'Guardian Portal', href: '/guardian-portal' },
+
     { label: 'ABA Authorization Software', href: '/aba-authorization-software' },
+    { label: 'Telehealth', href: '/telehealth-platform' },
   ];
 
   const resourcesDropdownItems: DropdownItem[] = [

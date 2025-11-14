@@ -76,6 +76,21 @@ export const featuredSliderData: SliderItem[] = [
       text: 'Schedule Demo',
     },
   },
+  {
+    id: 'telehealth-platform',
+    title: 'Telehealth Platform',
+    description: 'Keep families engaged with easy access to progress reports and communication tools.',
+    image: {
+      src: '/images/Telehealth Platform.png',
+      alt: 'Telehealth Platform Interface',
+      width: 360,
+      height: 240,
+    },
+    link: {
+      href: '/telehealth-platform',
+      text: 'Discover Portal',
+    },
+  },
 ];
 
 export const testimonialsSliderData: SliderItem[] = [
