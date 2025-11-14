@@ -35,11 +35,24 @@ import {
   contactCardHeader,
   contactItem,
   contactSection,
+  cardHeaderInner,
   errorMessage,
   formContainer,
   formGroup,
   formTitle,
   gridContainer,
+  iconContainerLarge,
+  iconContainerPrimary,
+  headerHelperText,
+  stepperContainer,
+  stepItem,
+  stepCircle,
+  stepCircleActive,
+  stepLabel,
+  stepLabelActive,
+  stepConnector,
+  stepConnectorActive,
+  stepNumberText,
   infoBox,
   infoBoxText,
   inputStyle,
@@ -50,36 +63,37 @@ import {
   pageWrapper,
   requiredMark,
   rightPanel,
+  actionsRow,
   selectStyle,
+  secondaryButton,
+  submitContainer,
   submitButton,
   successMessage,
   successText,
   successTitle,
   textareaStyle,
   titleGradient,
-  twoColumnGrid
+  twoColumnGrid,
+  oneColumnGrid
 } from './styles.css';
 
 import { showSuccessToast } from '@/lib/errors';
 import { fetchApi } from '@/lib/api-client';
 import { SUCCESS_MESSAGES } from '@/constants/messages';
+import Testimonials from '../Testimonials';
 
 interface FormData {
-  firstName: string;
-  lastName: string;
+  name: string;
   email: string;
   companyName: string;
   phoneNumber: string;
   state: string;
-  hasExperience: boolean;
-  previousSoftware?: string;
   comments: string;
 }
 
 // Max length constants based on backend DTO
 const MAX_LENGTHS = {
-  firstName: 255,
-  lastName: 255,
+  name: 255,
   companyName: 255,
   state: 255,
   softwareName: 255,
@@ -130,16 +144,35 @@ const GetStartedForm: React.FC = () => {
   const [states, setStates] = useState<StateData[]>([]);
   const [statesLoading, setStatesLoading] = useState(true);
   const [statesError, setStatesError] = useState<string | null>(null);
+  const [currentStep, setCurrentStep] = useState<1 | 2 | 3>(1);
 
   const {
     register,
     handleSubmit,
     formState: { errors },
     reset,
-    watch,
+    trigger,
   } = useForm<FormData>();
-
-  const hasExperience = watch('hasExperience');
+  const stepLabels = ['Email', 'Contact', 'Details'] as const;
+  const stepFields: Record<1 | 2 | 3, (keyof FormData)[]> = {
+    1: ['email'],
+    2: ['name', 'phoneNumber'],
+    3: ['state'],
+  };
+  const goNext = async () => {
+    const fieldsToValidate = stepFields[currentStep];
+    const isValid = await trigger(fieldsToValidate as (keyof FormData)[], {
+      shouldFocus: true,
+    });
+    if (isValid && currentStep < 3) {
+      setCurrentStep((s) => (s + 1) as 1 | 2 | 3);
+    }
+  };
+  const goBack = () => {
+    if (currentStep > 1) {
+      setCurrentStep((s) => (s - 1) as 1 | 2 | 3);
+    }
+  };
 
   // Scroll to top on component mount and fetch states
   useEffect(() => {
@@ -171,8 +204,7 @@ const GetStartedForm: React.FC = () => {
   // Map API field names back to form field names
   const mapApiFieldToFormField = (apiField: string): string => {
     const fieldMap: Record<string, string> = {
-      first_name: 'firstName',
-      last_name: 'lastName',
+      name: 'name',
       company_name: 'companyName',
       phone_number: 'phoneNumber',
       email_id: 'email',
@@ -205,6 +237,15 @@ const GetStartedForm: React.FC = () => {
     setRecaptchaToken(null);
   };
 
+  const splitFullName = (fullName: string): { first: string; last: string } => {
+    const parts = (fullName || '').trim().split(/\s+/).filter(Boolean);
+    if (parts.length === 0) return { first: '', last: '' };
+    if (parts.length === 1) return { first: parts[0], last: '' };
+    const first = parts[0];
+    const last = parts.slice(1).join(' ');
+    return { first, last };
+  };
+
   const onSubmit: SubmitHandler<FormData> = async (data) => {
     setIsSubmitting(true);
     setSubmitError(null);
@@ -220,16 +261,11 @@ const GetStartedForm: React.FC = () => {
 
     // Transform camelCase to snake_case for API
     const transformedData = {
-      first_name: data.firstName,
-      last_name: data.lastName,
+      name: data.name,
       company_name: data.companyName || '',
       phone_number: data.phoneNumber,
       email_id: data.email,
       state: data.state,
-      specialities: '',
-      staff: 0,
-      other_software_experience: data.hasExperience,
-      software_name: data.previousSoftware || '',
       comments: data.comments || '',
       recaptcha_token: recaptchaToken,
     };
@@ -373,7 +409,6 @@ const GetStartedForm: React.FC = () => {
     <div className={pageWrapper}>
       <div className={backgroundContainer}>
         <div className={backgroundDecorative} />
-
         <div className={mainContainer}>
           <div className={gridContainer}>
             {/* Left Panel - Contact Info & Branding */}
@@ -649,103 +684,65 @@ const GetStartedForm: React.FC = () => {
               <div className={cardContainer}>
                 {/* Card Header */}
                 <div className={cardHeader}>
-                  <div
-                    style={{
-                      display: 'flex',
-                      alignItems: 'center',
-                      justifyContent: 'center',
-                      gap: '0.5rem',
-                      padding: '0.75rem 1rem',
-                      background:
-                        'linear-gradient(to right, rgb(250, 245, 255), rgb(243, 232, 255))',
-                      borderRadius: '0.5rem',
-                      border: '1px solid rgb(233, 213, 255)',
-                    }}
-                  >
+                  <div className={cardHeaderInner}>
                     <h2
                       style={{
-                        fontSize: '1.25rem',
+                        fontSize: '1.5rem',
                         fontWeight: '600',
                         color: colors.primary[700],
                         margin: 0,
                       }}
                     >
-                      Let&apos;s Connect
+                      Start for Free
                     </h2>
-                    <Mail
-                      style={{
-                        width: '1.125rem',
-                        height: '1.125rem',
-                        color: colors.primary[700],
-                      }}
-                    />
-                    <span
-                      style={{
-                        fontSize: '0.875rem',
-                        color: '#6b7280',
-                        borderLeft: '1px solid rgb(233, 213, 255)',
-                        paddingLeft: '0.5rem',
-                        marginLeft: '0.25rem',
-                      }}
-                    >
-                      We&apos;ll respond within 24 hours
+                    <div className={`${iconContainerLarge} ${iconContainerPrimary}`}>
+                      <Mail />
+                    </div>
+                    <span className={headerHelperText}>
+                    Your free 30-day trial awaits, no credit card required
                     </span>
                   </div>
                 </div>
 
                 <div className={cardContent}>
+                {/* Stepper */}
+                <div className={stepperContainer}>
+                  {[1, 2, 3].map((step) => (
+                    <React.Fragment key={step}>
+                      <div className={stepItem}>
+                        <div
+                          className={`${stepCircle} ${
+                            step <= currentStep ? stepCircleActive : ''
+                          }`}
+                        >
+                          <span className={stepNumberText}>{step}</span>
+                        </div>
+                        <span
+                          className={`${stepLabel} ${
+                            step === currentStep ? stepLabelActive : ''
+                          }`}
+                        >
+                          {stepLabels[step - 1]}
+                        </span>
+                      </div>
+                      {step < 3 && (
+                        <div
+                          className={`${stepConnector} ${
+                            step < currentStep ? stepConnectorActive : ''
+                          }`}
+                        />
+                      )}
+                    </React.Fragment>
+                  ))}
+                </div>
                   <form
                     onSubmit={handleSubmit(onSubmit)}
                     className={formContainer}
                     noValidate
                   >
-                    {/* First Name and Last Name */}
-                    <div className={twoColumnGrid}>
-                      <div className={formGroup}>
-                        <label className={labelStyle}>
-                          First Name <span className={requiredMark}>*</span>
-                        </label>
-                        <input
-                          type="text"
-                          className={inputStyle}
-                          placeholder="Enter your first name"
-                          autoComplete="given-name"
-                          aria-required="true"
-                          {...register('firstName', {
-                            required: 'First name is required',
-                            maxLength: {
-                              value: MAX_LENGTHS.firstName,
-                              message: `First name must not exceed ${MAX_LENGTHS.firstName} characters`,
-                            },
-                          })}
-                        />
-                        {renderFieldError(errors.firstName, 'firstName')}
-                      </div>
-
-                      <div className={formGroup}>
-                        <label className={labelStyle}>
-                          Last Name <span className={requiredMark}>*</span>
-                        </label>
-                        <input
-                          type="text"
-                          className={inputStyle}
-                          placeholder="Enter your last name"
-                          autoComplete="family-name"
-                          aria-required="true"
-                          {...register('lastName', {
-                            required: 'Last name is required',
-                            maxLength: {
-                              value: MAX_LENGTHS.lastName,
-                              message: `Last name must not exceed ${MAX_LENGTHS.lastName} characters`,
-                            },
-                          })}
-                        />
-                        {renderFieldError(errors.lastName, 'lastName')}
-                      </div>
-                    </div>
-
-                    {/* Email and Phone */}
-                    <div className={twoColumnGrid}>
+                  {/* Step 1: Email */}
+                  {currentStep === 1 && (
+                    <div className={oneColumnGrid}>
                       <div className={formGroup}>
                         <label className={labelStyle}>
                           Email Address <span className={requiredMark}>*</span>
@@ -765,247 +762,251 @@ const GetStartedForm: React.FC = () => {
                         />
                         {renderFieldError(errors.email, 'email')}
                       </div>
-
-                      <div className={formGroup}>
-                        <label className={labelStyle}>
-                          Phone Number <span className={requiredMark}>*</span>
-                        </label>
-                        <InputMask
-                          mask="(___) ___-____"
-                          replacement={{ _: /\d/ }}
-                          type="tel"
-                          className={inputStyle}
-                          placeholder="(XXX) XXX-XXXX"
-                          autoComplete="tel"
-                          aria-required="true"
-                          {...register('phoneNumber', {
-                            required: 'Phone number is required',
-                            pattern: {
-                              value: /^\([0-9]{3}\) [0-9]{3}-[0-9]{4}$/,
-                              message: 'Please enter a valid US phone number',
-                            },
-                          })}
-                        />
-                        {renderFieldError(errors.phoneNumber, 'phoneNumber')}
-                      </div>
                     </div>
+                  )}
 
-                    {/* Company Name and State */}
-                    <div className={twoColumnGrid}>
-                      <div className={formGroup}>
-                        <label className={labelStyle}>Company Name</label>
-                        <input
-                          type="text"
-                          className={inputStyle}
-                          placeholder="Your practice name"
-                          autoComplete="organization"
-                          {...register('companyName', {
-                            maxLength: {
-                              value: MAX_LENGTHS.companyName,
-                              message: `Company name must not exceed ${MAX_LENGTHS.companyName} characters`,
-                            },
-                          })}
-                        />
-                        {renderFieldError(errors.companyName, 'companyName')}
-                      </div>
+                  {/* Step 2: Name and Phone */}
+                  {currentStep === 2 && (
+                    <>
+                      <div className={twoColumnGrid}>
+                        <div className={formGroup}>
+                          <label className={labelStyle}>
+                            Name <span className={requiredMark}>*</span>
+                          </label>
+                          <input
+                            type="text"
+                            className={inputStyle}
+                            placeholder="Enter your full name"
+                            autoComplete="name"
+                            aria-required="true"
+                            {...register('name', {
+                              required: 'Name is required',
+                              maxLength: {
+                                value: MAX_LENGTHS.name,
+                                message: `Name must not exceed ${MAX_LENGTHS.name} characters`,
+                              },
+                            })}
+                          />
+                          {renderFieldError(errors.name, 'name')}
+                        </div>
+                        <div className={formGroup}>
+                          <label className={labelStyle}>
+                            Phone Number <span className={requiredMark}>*</span>
+                          </label>
+                          <InputMask
+                            mask="(___) ___-____"
+                            replacement={{ _: /\d/ }}
+                            type="tel"
+                            className={inputStyle}
+                            placeholder="(XXX) XXX-XXXX"
+                            autoComplete="tel"
+                            aria-required="true"
+                            {...register('phoneNumber', {
+                              required: 'Phone number is required',
+                              pattern: {
+                                value: /^\([0-9]{3}\) [0-9]{3}-[0-9]{4}$/,
+                                message: 'Please enter a valid US phone number',
+                              },
+                            })}
+                          />
+                          {renderFieldError(
+                            errors.phoneNumber,
+                            'phoneNumber',
+                          )}
+                        </div>
+                      </div>                     
+                    </>
+                  )}
 
-                      <div className={formGroup}>
-                        <label className={labelStyle}>
-                          State <span className={requiredMark}>*</span>
-                        </label>
-                        <select
-                          className={selectStyle}
-                          autoComplete="address-level1"
-                          aria-required="true"
-                          {...register('state', {
-                            required: 'State is required',
-                          })}
-                          disabled={statesLoading}
-                        >
-                          <option value="" style={{ color: '#9ca3af' }}>
-                            {statesLoading
-                              ? 'Loading states...'
-                              : statesError
-                                ? 'Error loading states'
-                                : 'Select State'}
-                          </option>
-                          {!statesLoading &&
-                            !statesError &&
-                            states.map((state) => (
-                              <option key={state.code} value={state.code}>
-                                {state.name} ({state.code})
-                              </option>
-                            ))}
-                        </select>
-                        {statesError && (
-                          <div
-                            className={errorMessage}
-                            style={{
-                              fontSize: '0.75rem',
-                              marginTop: '0.25rem',
-                            }}
+                  {/* Step 3: Company, State, Comments */}
+                  {currentStep === 3 && (
+                    <>
+                      <div className={twoColumnGrid}>
+                        <div className={formGroup}>
+                          <label className={labelStyle}>Company Name</label>
+                          <input
+                            type="text"
+                            className={inputStyle}
+                            placeholder="Your practice name"
+                            autoComplete="organization"
+                            {...register('companyName', {
+                              maxLength: {
+                                value: MAX_LENGTHS.companyName,
+                                message: `Company name must not exceed ${MAX_LENGTHS.companyName} characters`,
+                              },
+                            })}
+                          />
+                          {renderFieldError(
+                            errors.companyName,
+                            'companyName',
+                          )}
+                        </div>
+
+                        <div className={formGroup}>
+                          <label className={labelStyle}>
+                            State <span className={requiredMark}>*</span>
+                          </label>
+                          <select
+                            className={selectStyle}
+                            autoComplete="address-level1"
+                            aria-required="true"
+                            {...register('state', {
+                              required: 'State is required',
+                            })}
+                            disabled={statesLoading}
                           >
-                            <AlertCircle size={12} />
-                            {statesError}
-                          </div>
-                        )}
-                        {renderFieldError(errors.state, 'state')}
-                      </div>
-                    </div>
-
-
-                    {/* Software Experience and Comments */}
-                    <div className={twoColumnGrid}>
-                      <div className={formGroup}>
-                        <label className={labelStyle}>
-                          Software Experience
-                        </label>
-                        <div
-                          style={{
-                            display: 'flex',
-                            flexDirection: 'column',
-                            gap: '1rem',
-                          }}
-                        >
-                          <div className={checkboxSection}>
-                            <div className={checkboxRow}>
-                              <input
-                                type="checkbox"
-                                id="hasExperience"
-                                className={checkboxInput}
-                                aria-describedby="hasExperience-help"
-                                {...register('hasExperience')}
-                              />
-                              <label
-                                htmlFor="hasExperience"
-                                className={checkboxLabel}
-                              >
-                                I have experience with other practice management
-                                software
-                              </label>
-                            </div>
-                          </div>
-
-                          {hasExperience && (
+                            <option value="" style={{ color: '#9ca3af' }}>
+                              {statesLoading
+                                ? 'Loading states...'
+                                : statesError
+                                  ? 'Error loading states'
+                                  : 'Select State'}
+                            </option>
+                            {!statesLoading &&
+                              !statesError &&
+                              states.map((state) => (
+                                <option key={state.code} value={state.code}>
+                                  {state.name} ({state.code})
+                                </option>
+                              ))}
+                          </select>
+                          {statesError && (
                             <div
+                              className={errorMessage}
                               style={{
-                                marginLeft: '0.5rem',
-                                paddingLeft: '1rem',
-                                borderLeft: '2px solid rgb(233, 213, 255)',
+                                fontSize: '0.75rem',
+                                marginTop: '0.25rem',
                               }}
                             >
-                              <div className={formGroup}>
-                                <label className={labelStyle}>
-                                  Which practice management software?
-                                </label>
-                                <input
-                                  type="text"
-                                  className={inputStyle}
-                                  placeholder="e.g., Therabill, WebPT"
-                                  {...register('previousSoftware', {
-                                    required: hasExperience
-                                      ? 'Software name is required when you have software experience'
-                                      : false,
-                                    maxLength: {
-                                      value: MAX_LENGTHS.softwareName,
-                                      message: `Software name must not exceed ${MAX_LENGTHS.softwareName} characters`,
-                                    },
-                                  })}
-                                />
-                                {renderFieldError(
-                                  errors.previousSoftware,
-                                  'previousSoftware',
-                                )}
-                              </div>
+                              <AlertCircle size={12} />
+                              {statesError}
                             </div>
                           )}
+                          {renderFieldError(errors.state, 'state')}
                         </div>
                       </div>
 
-                      <div className={formGroup}>
-                        <label className={labelStyle}>
-                          Comments (Tell us about your needs and challenges)
-                        </label>
-                        <textarea
-                          className={textareaStyle}
-                          placeholder="Tell us about your needs and goals..."
-                          rows={3}
-                          {...register('comments', {
-                            maxLength: {
-                              value: MAX_LENGTHS.comments,
-                              message: `Comments must not exceed ${MAX_LENGTHS.comments} characters`,
-                            },
-                          })}
-                        />
-                        {renderFieldError(errors.comments, 'comments')}
+                      <div className={oneColumnGrid}>
+                        <div className={formGroup}>
+                          <label className={labelStyle}>
+                            Comments (Tell us about your needs and challenges)
+                          </label>
+                          <textarea
+                            className={textareaStyle}
+                            placeholder="Tell us about your needs and goals..."
+                            rows={3}
+                            {...register('comments', {
+                              maxLength: {
+                                value: MAX_LENGTHS.comments,
+                                message: `Comments must not exceed ${MAX_LENGTHS.comments} characters`,
+                              },
+                            })}
+                          />
+                          {renderFieldError(errors.comments, 'comments')}
+                        </div>
                       </div>
-                    </div>
 
-                    {submitError && (
-                      <div
-                        className={errorMessage}
-                        style={{
-                          textAlign: 'center',
-                          marginTop: '20px',
-                          padding: '1rem',
-                          background: '#fef2f2',
-                          borderRadius: '0.75rem',
-                          border: '1px solid #fecaca',
-                        }}
+                      {submitError && (
+                        <div
+                          className={errorMessage}
+                          style={{
+                            textAlign: 'center',
+                            marginTop: '20px',
+                            padding: '1rem',
+                            background: '#fef2f2',
+                            borderRadius: '0.75rem',
+                            border: '1px solid #fecaca',
+                          }}
+                        >
+                          <AlertCircle size={20} />
+                          {submitError}
+                        </div>
+                      )}
+
+                      {/* reCAPTCHA */}
+                      <div className="pt-4">
+                        <ReCaptcha
+                          ref={recaptchaRef}
+                          onVerify={handleRecaptchaChange}
+                          onError={handleRecaptchaError}
+                          onExpired={handleRecaptchaExpired}
+                          error={recaptchaError}
+                        />
+                      </div>                     
+                    </>
+                  )}
+
+  <p id="submit-help" className={bottomHelperText}>
+  🔒 Your information is secure and will only be used to
+  provide you with a personalized consultation.
+  <br />
+  We&apos;ll respond within 24 hours with next steps.
+  </p>
+
+                  {/* Navigation / Submit */}
+                  <div className={`pt-4 ${actionsRow}`}>
+                    {currentStep > 1 ? (
+                      <button
+                        type="button"
+                        onClick={goBack}
+                        disabled={isSubmitting}
+                        aria-label="Go to previous step"
+                        className={secondaryButton}
                       >
-                        <AlertCircle size={20} />
-                        {submitError}
-                      </div>
+                        Back
+                      </button>
+                    ) : (
+                      null
                     )}
 
-                    {/* reCAPTCHA */}
-                    <div className="pt-4">
-                      <ReCaptcha
-                        ref={recaptchaRef}
-                        onVerify={handleRecaptchaChange}
-                        onError={handleRecaptchaError}
-                        onExpired={handleRecaptchaExpired}
-                        error={recaptchaError}
-                      />
-                    </div>
-
-                    {/* Submit Button */}
-                    <div className="pt-4">
+                    {currentStep < 3 ? (
                       <button
-                        type="submit"
+                        type="button"
+                        onClick={goNext}
                         disabled={isSubmitting}
                         className={submitButton}
-                        aria-describedby="submit-help"
+                        aria-label="Go to next step"
                       >
-                        {isSubmitting ? (
-                          <>
-                            <span
-                              className={loadingSpinner}
-                              aria-hidden="true"
-                            ></span>
-                            Sending Request...
-                          </>
-                        ) : (
-                          <>
-                            <Mail className="w-5 h-5 mr-2" aria-hidden="true" />
-                            Send My Request
-                          </>
-                        )}
+                        Next
                       </button>
-                      <p id="submit-help" className={bottomHelperText}>
-                        🔒 Your information is secure and will only be used to
-                        provide you with a personalized consultation.
-                        <br />
-                        We&apos;ll respond within 24 hours with next steps.
-                      </p>
-                    </div>
+                    ) : (
+                      <div className={submitContainer}>
+                        <button
+                          type="submit"
+                          disabled={isSubmitting}
+                          className={submitButton}
+                          aria-describedby="submit-help"
+                        >
+                          {isSubmitting ? (
+                            <>
+                              <span
+                                className={loadingSpinner}
+                                aria-hidden="true"
+                              ></span>
+                              Sending Request...
+                            </>
+                          ) : (
+                            <>
+                              <Mail
+                                className="w-5 h-5 mr-2"
+                                aria-hidden="true"
+                              />
+                              Send My Request
+                            </>
+                          )}
+                        </button>
+                        
+                      </div>
+                    )}
+                  </div>
                   </form>
                 </div>
               </div>
             </div>
-          </div>
+          </div>          
         </div>
       </div>
+      <Testimonials />
     </div>
   );
 };
