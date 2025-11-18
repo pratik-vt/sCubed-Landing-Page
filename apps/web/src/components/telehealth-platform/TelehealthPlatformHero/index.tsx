@@ -5,7 +5,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import React from 'react';
 
-import guardianPortalImg from '../../../images/guardian-portal.png';
+import telehealthBannerImg from '../../../images/telehealth-banner-banner.gif';
 import { primaryButton } from '../../billing/CalendlyButton/styles.css';
 
 import {
@@ -68,19 +68,15 @@ const TelehealthPlatformHero: React.FC = () => {
             transition={{ duration: 0.8, delay: 0.2, ease: 'easeOut' }}
           >
             <Image
-              alt="Guardian Portal Dashboard Interface"
-              src={guardianPortalImg}
-              quality={75}
-              placeholder="blur"
-              width={2400}
-              height={1600}
-              priority
-              sizes="(max-width: 480px) 100vw, (max-width: 968px) 800px, 1200px"
+              alt="Telehealth Platform Banner"
+              src={telehealthBannerImg}                            
+              width={600}
+              height={490}
+              priority              
               style={{
                 width: '100%',
                 height: 'auto',
                 objectFit: 'contain',
-                transform: 'scale(1.15)',
                 transformOrigin: 'top center',
               }}
             />
