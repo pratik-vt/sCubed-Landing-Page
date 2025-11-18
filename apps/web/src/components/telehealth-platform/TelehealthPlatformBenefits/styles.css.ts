@@ -82,20 +82,22 @@ export const benefitItem = style({
   lineHeight: '1.6',
   color: colors.neutral[600],
   fontFamily: typography.fontFamily.body,
-  '::before': {
-    content: '""',
-    position: 'absolute',
-    left: 0,
-    top: '8px',
-    width: '6px',
-    height: '6px',
-    borderRadius: '50%',
-    backgroundColor: colors.primary[600],
-  },
-  ':first-child': {
-    paddingLeft: 0,
+  selectors: {
     '&::before': {
-      display: 'none',
+      content: '""',
+      position: 'absolute',
+      left: 0,
+      top: '8px',
+      width: '6px',
+      height: '6px',
+      borderRadius: '50%',
+      backgroundColor: colors.primary[600],
     },
+    '&:first-child': {
+      paddingLeft: 0,
+    },
+    '&:first-child::before': {
+      display: 'none',
+    }
   }
 });

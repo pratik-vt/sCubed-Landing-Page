@@ -7,7 +7,6 @@ import FAQSection from '../../components/FAQSection';
 import TelehealthPlatformBenefits from '../../components/telehealth-platform/TelehealthPlatformBenefits';
 import TelehealthPlatformCTA from '../../components/telehealth-platform/TelehealthPlatformCTA';
 import TelehealthPlatformHero from '../../components/telehealth-platform/TelehealthPlatformHero';
-import TelehealthPlatformIntroduction from '../../components/telehealth-platform/TelehealthPlatformIntroduction';
 import TelehealthPlatformWhyChoose from '../../components/telehealth-platform/TelehealthPlatformWhyChoose';
 import { getFAQCollection, transformFAQData } from '../../lib/faq-api';
 import TelehealthPlatformHIPPACompliance from '@/components/telehealth-platform/TelehealthPlatformHIPPACompliance';
@@ -89,10 +88,10 @@ export default async function TelehealthPlatformPage() {
         
         {faqData.sections.map((section, index) => (
               <FAQSection 
-                key={section.name}
-                title={index === 0 ? faqData.title : ""}
-                sectionTitle={section.name}
-                faqs={section.items}
+              key={section.items[0].question}
+              title={index === 0 ? faqData.title : ""}
+              sectionTitle={""}
+              faqs={section.items}
               />
             ))}
         
