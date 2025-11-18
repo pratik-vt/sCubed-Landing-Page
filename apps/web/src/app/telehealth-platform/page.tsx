@@ -12,9 +12,9 @@ import { getFAQCollection, transformFAQData } from '../../lib/faq-api';
 import TelehealthPlatformHIPPACompliance from '@/components/telehealth-platform/TelehealthPlatformHIPPACompliance';
 
 export const metadata: Metadata = {
-  title: 'Guardian & Parent Portal for Therapy Practices | Secure & HIPAA Compliant',
+  title: 'HIPAA-Compliant Telehealth Platform for ABA Therapy Clinics & BCBAs',
   description:
-    'A secure, HIPAA compliant guardian and parent portal for therapy practices. Access child\'s progress, updates, treatment plans, care team communications, and appointments in one place.',
+    'HIPAA-compliant telehealth for ABA therapy clinics and BCBAs. Secure calls, easy scheduling, and a stress-free 30-day free trial.',
   alternates: {
     canonical: '/telehealth-platform',
   },

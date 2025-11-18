@@ -39,10 +39,9 @@ const TelehealthPlatformHero: React.FC = () => {
             Redefining Connection with HIPAA-Compliant <span className={heroTitleHighlight}>Telehealth Platforms
             </span>
             </h1>
-            <div className={heroBanner}>
-              Bring your sessions online with secure video calls that feel personal and easy.
-              <br/>
-              <span className={actionWord}>S Cubed</span> Telehealth keeps care simple, private, and seamless - from scheduling to the session itself.
+            <div className={heroBanner}>            
+            
+              Bring your sessions online with secure video calls that feel personal and easy. <span className={actionWord}>S Cubed</span> Telehealth keeps care simple, private, and seamless - from scheduling to the session itself.
             </div>
             <p className={heroSubheadline}>
             You shouldn’t need three different tools to care for your clients.
@@ -53,10 +52,10 @@ const TelehealthPlatformHero: React.FC = () => {
             </p>
             <div className={ctaSection}>
               <Link 
-                href={process.env.NEXT_PUBLIC_GUARDIAN_APP_URL + `auth/login`}
+                href="/get-started"
                 className={`${primaryButton} ${mobileButton}`}
               >
-                See how S Cubed works in practice  →
+                Start 30 Days Free Trial Today  →
               </Link>
             </div>
           </motion.div>
