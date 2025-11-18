@@ -5,6 +5,7 @@ import React, { useRef } from 'react';
 
 import {
   benefitCard,
+  benefitHeader,
   benefitIcon,
   benefitItem,
   benefitList,
@@ -140,7 +141,7 @@ const TelehealthPlatformBenefits: React.FC = () => {
               whileHover="hover"
               custom={index}
             >
-                <div style={{ display: 'flex', alignItems: 'center', gap: '16px', marginBottom: '20px' }}>
+                <div className={benefitHeader}>
                   <div className={benefitIcon}>{benefit.icon}</div>
                   <h3 className={benefitTitle}>{benefit.title}</h3>
                 </div>

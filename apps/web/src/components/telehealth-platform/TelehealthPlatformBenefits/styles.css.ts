@@ -29,6 +29,24 @@ export const benefitsGrid = style({
       gridTemplateColumns: '1fr',
       gap: '50px',
     },
+    'screen and (min-width: 769px) and (max-width: 1199px)': {
+      gridTemplateColumns: 'repeat(2, 1fr)',
+      gap: '30px'
+    }
+  },
+});
+
+export const benefitHeader = style({
+  display: 'flex',
+  alignItems: 'center',
+  gap: '16px',
+  marginBottom: '20px',
+  '@media': {
+    'screen and (min-width: 769px) and (max-width: 1199px)': {
+      flexDirection: 'column',
+      alignItems: 'flex-start',
+      gap: '10px',
+    },
   },
 });
 
