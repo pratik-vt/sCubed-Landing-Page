@@ -1,22 +1,34 @@
 import { NextRequest, NextResponse } from 'next/server';
 
-interface ContactFormData {
-  first_name: string;
-  last_name: string;
+import { fetchApi } from '@/lib/api-client';
+import { isApiError } from '@/types/api';
+
+interface ContactFormStepData {
+  step: 1 | 2 | 3;
+  form_session_id?: string;
+
+  // Step 1 fields
+  email_id?: string;
+
+  // Step 2 fields
+  first_name?: string;
+  last_name?: string;
+  phone_number?: string;
+
+  // Step 3 fields
   company_name?: string;
-  phone_number: string;
-  email_id: string;
   state?: string;
+  comments?: string;
   specialities?: string;
   staff?: number;
   other_software_experience?: boolean;
   software_name?: string;
-  comments?: string;
+
+  // reCAPTCHA (only for step 3)
   recaptcha_token?: string;
 }
 
 interface ApiError {
-  field: string;
   message: string;
 }
 
@@ -25,10 +37,21 @@ interface ApiErrorResponse {
   status_code: number;
 }
 
+interface StepSuccessResponse {
+  success: boolean;
+  message: string;
+  data: {
+    form_session_id: string;
+    current_step: number;
+    next_step: number | null;
+    completion_status: 'incomplete' | 'completed';
+  };
+}
+
 // Function to verify reCAPTCHA token
 async function verifyRecaptcha(token: string): Promise<boolean> {
   const secretKey = process.env.RECAPTCHA_SECRET_KEY;
-  
+
   if (!secretKey) {
     console.error('RECAPTCHA_SECRET_KEY environment variable is not set');
     return false;
@@ -44,7 +67,7 @@ async function verifyRecaptcha(token: string): Promise<boolean> {
     const params = new URLSearchParams();
     params.append('secret', secretKey);
     params.append('response', token);
-    
+
     const response = await fetch('https://www.google.com/recaptcha/api/siteverify', {
       method: 'POST',
       headers: {
@@ -54,11 +77,11 @@ async function verifyRecaptcha(token: string): Promise<boolean> {
     });
 
     const data = await response.json();
-    
+
     if (!data.success && data['error-codes']) {
       console.error('reCAPTCHA API Error Codes:', data['error-codes']);
     }
-    
+
     return data.success === true;
   } catch (error) {
     console.error('reCAPTCHA verification error:', error);
@@ -69,64 +92,106 @@ async function verifyRecaptcha(token: string): Promise<boolean> {
 export async function POST(request: NextRequest) {
   try {
     // Parse the request body
-    const body: ContactFormData = await request.json();
+    const body: ContactFormStepData = await request.json();
 
-    // Basic server-side validation
-    if (!body.first_name || !body.email_id) {
+    // Validate step parameter
+    if (!body.step || ![1, 2, 3].includes(body.step)) {
       return NextResponse.json(
         {
-          errors: [
-            ...(body.first_name ? [] : [{ field: 'first_name', message: 'First name is required' }]),
-            ...(body.email_id ? [] : [{ field: 'email_id', message: 'Email is required' }]),
-          ],
+          errors: [{ message: 'Invalid step parameter' }],
           status_code: 400,
         },
         { status: 400 }
       );
     }
 
-    // Verify reCAPTCHA token
-    if (!body.recaptcha_token) {
-      return NextResponse.json(
-        {
-          errors: [{ field: 'recaptcha', message: 'Please complete the reCAPTCHA verification' }],
-          status_code: 400,
-        },
-        { status: 400 }
-      );
-    }
+    // Step-specific validation
+    if (body.step === 1) {
+      // Step 1: Email validation
+      if (!body.email_id) {
+        return NextResponse.json(
+          {
+            errors: [{ message: 'Email is required for step 1' }],
+            status_code: 422,
+          },
+          { status: 422 }
+        );
+      }
 
-    const isRecaptchaValid = await verifyRecaptcha(body.recaptcha_token);
-    if (!isRecaptchaValid) {
-      return NextResponse.json(
-        {
-          errors: [{ field: 'recaptcha', message: 'reCAPTCHA verification failed. Please try again.' }],
-          status_code: 400,
-        },
-        { status: 400 }
-      );
-    }
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      if (!emailRegex.test(body.email_id)) {
+        return NextResponse.json(
+          {
+            errors: [{ message: 'Please enter a valid email address' }],
+            status_code: 422,
+          },
+          { status: 422 }
+        );
+      }
+    } else if (body.step === 2) {
+      // Step 2: Name validation
+      if (!body.form_session_id) {
+        return NextResponse.json(
+          {
+            errors: [{ message: 'form_session_id is required for step 2' }],
+            status_code: 422,
+          },
+          { status: 422 }
+        );
+      }
 
-    // Email validation regex
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (!emailRegex.test(body.email_id)) {
-      return NextResponse.json(
-        {
-          errors: [{ field: 'email_id', message: 'Please enter a valid email address' }],
-          status_code: 400,
-        },
-        { status: 400 }
-      );
+      if (!body.first_name) {
+        return NextResponse.json(
+          {
+            errors: [{ message: 'First name is required for step 2' }],
+            status_code: 422,
+          },
+          { status: 422 }
+        );
+      }
+    } else if (body.step === 3) {
+      // Step 3: Session ID and reCAPTCHA validation
+      if (!body.form_session_id) {
+        return NextResponse.json(
+          {
+            errors: [{ message: 'form_session_id is required for step 3' }],
+            status_code: 422,
+          },
+          { status: 422 }
+        );
+      }
+
+      // Verify reCAPTCHA token
+      if (!body.recaptcha_token) {
+        return NextResponse.json(
+          {
+            errors: [{ message: 'Please complete the reCAPTCHA verification' }],
+            status_code: 422,
+          },
+          { status: 422 }
+        );
+      }
+
+      const isRecaptchaValid = await verifyRecaptcha(body.recaptcha_token);
+      if (!isRecaptchaValid) {
+        return NextResponse.json(
+          {
+            errors: [{ message: 'reCAPTCHA verification failed. Please try again.' }],
+            status_code: 422,
+          },
+          { status: 422 }
+        );
+      }
     }
 
     // Get the admin API URL from environment variables
     const adminApiUrl = process.env.NEXT_PUBLIC_ADMIN_APP_API_URL;
-    
+
     if (!adminApiUrl) {
       console.error('NEXT_PUBLIC_ADMIN_APP_API_URL environment variable is not set');
       return NextResponse.json(
         {
-          errors: [{ field: 'general', message: 'Service configuration error' }],
+          errors: [{ message: 'Service configuration error' }],
           status_code: 500,
         },
         { status: 500 }
@@ -136,38 +201,40 @@ export async function POST(request: NextRequest) {
     // Remove recaptcha_token before forwarding to admin API
     const { recaptcha_token, ...bodyForApi } = body;
 
-    // Forward the request to the admin API
-    const response = await fetch(`${adminApiUrl}pages/contact-us`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        // Add any additional headers if needed
-      },
-      body: JSON.stringify(bodyForApi),
-    });
+    try {
+      // Forward the request to the admin API using the new endpoint
+      const data = await fetchApi<StepSuccessResponse>('pages/contact-us/submit-step', {
+        method: 'POST',
+        body: bodyForApi,
+      });
 
-    if (response.ok) {
-      const data = await response.json();
       return NextResponse.json(data, { status: 200 });
-    } else {
+    } catch (error) {
       // Handle API errors
-      let errorData: ApiErrorResponse;
-      try {
-        errorData = await response.json();
-      } catch {
-        errorData = {
-          errors: [{ field: 'general', message: 'An unexpected error occurred' }],
-          status_code: response.status,
-        };
+      if (isApiError(error)) {
+        return NextResponse.json(
+          {
+            errors: error.errors,
+            status_code: error.statusCode,
+          },
+          { status: error.statusCode }
+        );
       }
 
-      return NextResponse.json(errorData, { status: response.status });
+      // Handle unexpected errors
+      return NextResponse.json(
+        {
+          errors: [{ message: 'An unexpected error occurred' }],
+          status_code: 500,
+        },
+        { status: 500 }
+      );
     }
   } catch (error) {
     console.error('Contact form API error:', error);
     return NextResponse.json(
       {
-        errors: [{ field: 'general', message: 'An unexpected error occurred. Please try again later.' }],
+        errors: [{ message: 'An unexpected error occurred. Please try again later.' }],
         status_code: 500,
       },
       { status: 500 }
