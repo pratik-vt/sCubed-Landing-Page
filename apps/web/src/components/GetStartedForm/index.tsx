@@ -18,6 +18,8 @@ import { colors } from '../../styles/tokens.css';
 import CalendlyButton from '../billing/CalendlyButton';
 import { primaryButton } from '../billing/CalendlyButton/styles.css';
 import ReCaptcha, { ReCaptchaRef } from '../ReCaptcha';
+import ResumeDialog from '../ResumeDialog';
+import Testimonials from '../Testimonials';
 
 import {
   backgroundContainer,
@@ -77,10 +79,10 @@ import {
   oneColumnGrid
 } from './styles.css';
 
+import { useResumeForm } from '@/hooks/useResumeForm';
+import { saveSession, clearSession } from '@/utils/contactFormStorage';
 import { showSuccessToast } from '@/lib/errors';
-import { fetchApi } from '@/lib/api-client';
 import { SUCCESS_MESSAGES } from '@/constants/messages';
-import Testimonials from '../Testimonials';
 
 interface FormData {
   name: string;
@@ -121,13 +123,19 @@ interface StatesApiResponse {
 }
 
 interface ApiError {
-  field: string;
   message: string;
 }
 
 interface ApiErrorResponse {
   errors: ApiError[];
   status_code: number;
+}
+
+interface StepSuccessResponse {
+  form_session_id: string;
+  current_step: number;
+  next_step: number | null;
+  completion_status: 'incomplete' | 'completed';
 }
 
 
@@ -145,6 +153,7 @@ const GetStartedForm: React.FC = () => {
   const [statesLoading, setStatesLoading] = useState(true);
   const [statesError, setStatesError] = useState<string | null>(null);
   const [currentStep, setCurrentStep] = useState<1 | 2 | 3>(1);
+  const [formSessionId, setFormSessionId] = useState<string | null>(null);
 
   const {
     register,
@@ -152,7 +161,22 @@ const GetStartedForm: React.FC = () => {
     formState: { errors },
     reset,
     trigger,
+    getValues,
+    setValue,
   } = useForm<FormData>();
+
+  // Resume form functionality
+  const {
+    showDialog: showResumeDialog,
+    isLoading: isResumeLoading,
+    error: resumeError,
+    resumeData,
+    currentStep: resumeStep,
+    sessionId: resumeSessionId,
+    handleContinue: handleResumeContinue,
+    handleStartNew: handleResumeStartNew,
+    closeDialog: closeResumeDialog,
+  } = useResumeForm();
   const stepLabels = ['Email', 'Contact', 'Details'] as const;
   const stepFields: Record<1 | 2 | 3, (keyof FormData)[]> = {
     1: ['email'],
@@ -164,8 +188,18 @@ const GetStartedForm: React.FC = () => {
     const isValid = await trigger(fieldsToValidate as (keyof FormData)[], {
       shouldFocus: true,
     });
+
     if (isValid && currentStep < 3) {
-      setCurrentStep((s) => (s + 1) as 1 | 2 | 3);
+      // Get current form values
+      const formData = getValues();
+
+      // Submit current step to API
+      const success = await submitStep(currentStep, formData);
+
+      if (success) {
+        // Move to next step only if API call succeeded
+        setCurrentStep((s) => (s + 1) as 1 | 2 | 3);
+      }
     }
   };
   const goBack = () => {
@@ -174,25 +208,67 @@ const GetStartedForm: React.FC = () => {
     }
   };
 
+  // Handle resume data pre-filling
+  useEffect(() => {
+    if (resumeData) {
+      // Pre-fill form with resumed data
+      if (resumeData.email_id) {
+        setValue('email', resumeData.email_id);
+      }
+      if (resumeData.first_name) {
+        const fullName = resumeData.last_name
+          ? `${resumeData.first_name} ${resumeData.last_name}`
+          : resumeData.first_name;
+        setValue('name', fullName);
+      }
+      if (resumeData.phone_number) {
+        setValue('phoneNumber', resumeData.phone_number);
+      }
+      if (resumeData.company_name) {
+        setValue('companyName', resumeData.company_name);
+      }
+      if (resumeData.state) {
+        setValue('state', resumeData.state);
+      }
+      if (resumeData.comments) {
+        setValue('comments', resumeData.comments);
+      }
+    }
+  }, [resumeData, setValue]);
+
+  // Handle resume step and session updates
+  useEffect(() => {
+    if (resumeSessionId) {
+      setFormSessionId(resumeSessionId);
+    }
+    if (resumeStep && resumeStep >= 1 && resumeStep <= 3) {
+      setCurrentStep(resumeStep as 1 | 2 | 3);
+    }
+  }, [resumeSessionId, resumeStep]);
+
   // Scroll to top on component mount and fetch states
   useEffect(() => {
     window.scrollTo(0, 0);
 
-    // Fetch states from API using centralized API client
+    // Fetch states from proxy API
     const loadStates = async () => {
       try {
         setStatesLoading(true);
         setStatesError(null);
 
-        const result = await fetchApi<{ rows: StateData[] }>('states');
+        const response = await fetch('/api/states');
 
-        if (result?.rows) {
-          setStates(result.rows);
+        if (response.ok) {
+          const result = await response.json();
+          if (result?.rows) {
+            setStates(result.rows);
+          }
+        } else {
+          throw new Error('Failed to fetch states');
         }
       } catch (error) {
         console.error('Error fetching states:', error);
         setStatesError('Failed to load states');
-        // Error toast is automatically shown by fetchApi
       } finally {
         setStatesLoading(false);
       }
@@ -201,20 +277,6 @@ const GetStartedForm: React.FC = () => {
     loadStates();
   }, []);
 
-  // Map API field names back to form field names
-  const mapApiFieldToFormField = (apiField: string): string => {
-    const fieldMap: Record<string, string> = {
-      name: 'name',
-      company_name: 'companyName',
-      phone_number: 'phoneNumber',
-      email_id: 'email',
-      state: 'state',
-      other_software_experience: 'previousSoftware',
-      software_name: 'previousSoftware',
-      comments: 'comments',
-    };
-    return fieldMap[apiField] || apiField;
-  };
 
   // reCAPTCHA handlers
   const handleRecaptchaChange = (token: string | null) => {
@@ -246,84 +308,134 @@ const GetStartedForm: React.FC = () => {
     return { first, last };
   };
 
-  const onSubmit: SubmitHandler<FormData> = async (data) => {
+  // Submit step data to API
+  const submitStep = async (step: 1 | 2 | 3, formData: FormData): Promise<boolean> => {
     setIsSubmitting(true);
     setSubmitError(null);
     setApiFieldErrors({});
-    setRecaptchaError(null);
-
-    // Check if reCAPTCHA is completed
-    if (!recaptchaToken) {
-      setRecaptchaError('Please complete the reCAPTCHA verification');
-      setIsSubmitting(false);
-      return;
-    }
-
-    // Transform camelCase to snake_case for API
-    const transformedData = {
-      name: data.name,
-      company_name: data.companyName || '',
-      phone_number: data.phoneNumber,
-      email_id: data.email,
-      state: data.state,
-      comments: data.comments || '',
-      recaptcha_token: recaptchaToken,
-    };
 
     try {
-      const apiUrl = '/api/contact';
+      let requestBody: any = {
+        step,
+      };
 
+      // Add form_session_id for steps 2 and 3
+      if (step > 1) {
+        // Try to get session ID from state first, then localStorage as fallback
+        const sessionId = formSessionId || localStorage.getItem('contactFormSession');
+
+        if (!sessionId) {
+          setSubmitError('Session expired. Please start again from step 1.');
+          setCurrentStep(1);
+          setIsSubmitting(false);
+          return false;
+        }
+
+        requestBody.form_session_id = sessionId;
+
+        // Update state if it was retrieved from localStorage
+        if (!formSessionId && sessionId) {
+          setFormSessionId(sessionId);
+        }
+      }
+
+      // Step 1: Email
+      if (step === 1) {
+        requestBody.email_id = formData.email;
+      }
+
+      // Step 2: Name and Phone
+      if (step === 2) {
+        const { first, last } = splitFullName(formData.name);
+        requestBody.first_name = first;
+        if (last) requestBody.last_name = last;
+        if (formData.phoneNumber) requestBody.phone_number = formData.phoneNumber;
+      }
+
+      // Step 3: Company, State, Comments + reCAPTCHA
+      if (step === 3) {
+        if (formData.companyName) requestBody.company_name = formData.companyName;
+        if (formData.state) requestBody.state = formData.state;
+        if (formData.comments) requestBody.comments = formData.comments;
+
+        // Check if reCAPTCHA is completed for step 3
+        if (!recaptchaToken) {
+          setRecaptchaError('Please complete the reCAPTCHA verification');
+          setIsSubmitting(false);
+          return false;
+        }
+        requestBody.recaptcha_token = recaptchaToken;
+      }
+
+      const apiUrl = '/api/contact';
       const response = await fetch(apiUrl, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify(transformedData),
+        body: JSON.stringify(requestBody),
       });
 
       if (response.ok) {
-        setSubmitSuccess(true);
-        setApiFieldErrors({});
-        setRecaptchaToken(null);
-        setRecaptchaError(null);
-        recaptchaRef.current?.reset();
-        reset();
-        showSuccessToast(SUCCESS_MESSAGES.CONTACT_SUBMITTED);
-        window.scrollTo({ top: 0, behavior: 'smooth' });
+        const result: StepSuccessResponse = await response.json();
+
+        // Save session ID from step 1 response
+        if (step === 1) {
+          if (result.form_session_id) {
+            setFormSessionId(result.form_session_id);
+            saveSession(result.form_session_id, 1);
+          } else {
+            setSubmitError('Server error: Missing session ID. Please try again.');
+            setIsSubmitting(false);
+            return false;
+          }
+        }
+
+        // Update localStorage for steps 2 and 3
+        if (step > 1 && formSessionId) {
+          saveSession(formSessionId, step);
+        }
+
+        // If step 3 is completed, clear localStorage and show success
+        if (step === 3 && result.completion_status === 'completed') {
+          clearSession();
+          setFormSessionId(null);
+          setSubmitSuccess(true);
+          setRecaptchaToken(null);
+          setRecaptchaError(null);
+          recaptchaRef.current?.reset();
+          reset();
+          showSuccessToast(SUCCESS_MESSAGES.CONTACT_SUBMITTED);
+          window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        setIsSubmitting(false);
+        return true;
       } else {
         const errorData: ApiErrorResponse = await response.json().catch(() => ({
           errors: [],
           status_code: response.status,
         }));
 
-        if (
-          errorData.errors &&
-          Array.isArray(errorData.errors) &&
-          errorData.errors.length > 0
-        ) {
-          // Handle field-specific errors
-          const fieldErrors: Record<string, string> = {};
-          errorData.errors.forEach((error: ApiError) => {
-            if (error.field === 'recaptcha') {
-              setRecaptchaError(error.message);
-              setRecaptchaToken(null);
-              recaptchaRef.current?.reset();
-            } else {
-              const formFieldName = mapApiFieldToFormField(error.field);
-              fieldErrors[formFieldName] = error.message;
-            }
-          });
-          setApiFieldErrors(fieldErrors);
-
-          // Set a general error message
-          setSubmitError('Please correct the errors below and try again.');
+        // Handle specific error codes
+        if (errorData.status_code === 404) {
+          // Session not found - clear localStorage and restart
+          clearSession();
+          setFormSessionId(null);
+          setCurrentStep(1);
+          setSubmitError('Session expired. Please start again.');
+        } else if (errorData.status_code === 409) {
+          // Form already completed
+          setSubmitError('This form has already been completed.');
+        } else if (errorData.errors && errorData.errors.length > 0) {
+          // Display first error message
+          setSubmitError(errorData.errors[0].message);
         } else {
-          // Handle general errors
-          throw new Error(
-            errorData.errors?.[0]?.message ||
-              'Something went wrong. Please try again.',
-          );
+          setSubmitError('Something went wrong. Please try again.');
         }
+
+        setIsSubmitting(false);
+        return false;
       }
     } catch (error) {
       setSubmitError(
@@ -331,8 +443,15 @@ const GetStartedForm: React.FC = () => {
           ? error.message
           : 'An unexpected error occurred. Please try again later.',
       );
-    } finally {
       setIsSubmitting(false);
+      return false;
+    }
+  };
+
+  const onSubmit: SubmitHandler<FormData> = async (data) => {
+    // Only submit on step 3 (final step)
+    if (currentStep === 3) {
+      await submitStep(3, data);
     }
   };
 
@@ -394,6 +513,9 @@ const GetStartedForm: React.FC = () => {
                 setSubmitSuccess(false);
                 setSubmitError(null);
                 setApiFieldErrors({});
+                setCurrentStep(1);
+                setFormSessionId(null);
+                clearSession();
               }}
               style={{ maxWidth: '300px', margin: '0 auto' }}
             >
@@ -407,6 +529,17 @@ const GetStartedForm: React.FC = () => {
 
   return (
     <div className={pageWrapper}>
+      {/* Resume Dialog */}
+      <ResumeDialog
+        open={showResumeDialog}
+        currentStep={resumeStep}
+        isLoading={isResumeLoading}
+        error={resumeError}
+        onContinue={handleResumeContinue}
+        onStartNew={handleResumeStartNew}
+        onClose={closeResumeDialog}
+      />
+
       <div className={backgroundContainer}>
         <div className={backgroundDecorative} />
         <div className={mainContainer}>
