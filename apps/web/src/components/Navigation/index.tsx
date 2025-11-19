@@ -114,7 +114,7 @@ const Navigation: React.FC<NavigationProps> = ({
     },
     {
       label: 'Data Collection',
-      href: '/data-collection',
+      href: '/aba-data-collection-software',
     },
     { label: 'Guardian Portal', href: '/guardian-portal' },
 

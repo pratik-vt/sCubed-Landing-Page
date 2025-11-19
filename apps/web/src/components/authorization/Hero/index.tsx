@@ -83,7 +83,7 @@ Meet S Cubed, your prior authorization software with heart.
               transition={{ duration: 0.8, delay: 0.2, ease: 'easeOut' }}
             >
               <Image
-                alt="ABA data collection software interface"
+                alt="ABA authorization software interface"
                 src={Banner}
                 quality={75}
                 placeholder="blur"

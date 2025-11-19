@@ -16,11 +16,11 @@ import RecordDataAsYouWork from '../../images/data-collection/record-data.png';
 
 export const metadata: Metadata = {
   title:
-    'ABA Data Collection Software | Real-Time Therapy Tracking & Reporting',
+    'ABA Data Collection Software for Therapists ',
   description:
-    'Track goals, behaviors, and session progress in real time with S Cubed - the all-in-one data collection and reporting platform made for behavior analysis and therapy practices.',
+    'S Cubed simplifies ABA data collection with real-time logging, goal tracking, visual reports, and HIPAA-secure access for ABA therapy clinics and BCBAs',
   alternates: {
-    canonical: '/data-collection',
+    canonical: '/aba-data-collection-software',
   },
 };
 
@@ -82,16 +82,16 @@ export default async function DataCollectionPage() {
       <BreadcrumbSchema
         items={[
           { name: 'Home', item: '/' },
-          { name: 'Data Collection', item: '/data-collection' },
+          { name: 'Data Collection', item: '/aba-data-collection-software' },
         ]}
       />
-      <FAQSchema faqs={allFAQs} pageSlug="data-collection" />
+      <FAQSchema faqs={allFAQs} pageSlug="aba-data-collection-software" />
       <Container>
         <DataCollectionHero />
 
         <ContentSection
           titleText="Record Data as You Work"
-          descriptionText="<strong>S Cubed</strong> helps you stay focused during every session. With our ABA data collection software, you can record behaviors, goals, and notes in real time, without interrupting the flow of therapy. Built for applied behavior analysis it keeps your data organized, accurate, and ready whenever you need it."
+          descriptionText="<strong>S Cubed</strong> helps you stay focused during every session. With our ABA data collection systems, you can record behaviors, goals, and notes in real time, without interrupting the flow of therapy. Built for applied behavior analysis it keeps your data organized, accurate, and ready whenever you need it."
           backgroundColor="#ffffff"
           imagePosition="left"
           imageSrc={RecordDataAsYouWork}

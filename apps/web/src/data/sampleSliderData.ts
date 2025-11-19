@@ -32,7 +32,7 @@ export const featuredSliderData: SliderItem[] = [
     },
   },
   {
-    id: 'data-collection',
+    id: 'aba-data-collection-software',
     title: 'Advanced Data Collection',
     description: 'Comprehensive reporting and analytics to track client progress and outcomes.',
     image: {
@@ -42,7 +42,7 @@ export const featuredSliderData: SliderItem[] = [
       height: 240,
     },
     link: {
-      href: '/data-collection',
+      href: '/aba-data-collection-software',
       text: 'View Analytics',
     },
   },

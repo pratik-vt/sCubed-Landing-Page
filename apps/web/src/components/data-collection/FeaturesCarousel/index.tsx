@@ -176,15 +176,15 @@ const FeaturesCarousel: React.FC = () => {
   return (
     <section className={carouselSection}>
       <div className={carouselContainer}>
-        <motion.h3
+        <motion.h2
           className={sectionTitle}
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.6 }}
         >
-          Simplify Every Step of Data Collection
-        </motion.h3>
+          Simplify the Data Collection Process Across Every Step of ABA Therapy
+        </motion.h2>
 
         <div className={carouselWrapper}>
           <AnimatePresence initial={false} custom={direction} mode="wait">

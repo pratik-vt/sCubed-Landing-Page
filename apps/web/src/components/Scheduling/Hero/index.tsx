@@ -56,7 +56,7 @@ const DataCollectionHero: React.FC = () => {
               transition={{ duration: 0.8, ease: 'easeOut' }}
             >
               <h1 className={heroTitle}>
-              Smart Therapy{' '}
+              Smart ABA Therapy{' '}
                 <span className={heroTitleHighlight}>
                   Scheduling 
                 </span>{' '}
@@ -66,11 +66,11 @@ const DataCollectionHero: React.FC = () => {
               Our therapy appointment software is built to handle the complexities of therapy work like shifting availability, recurring sessions, and urgent changes. Scheduling you can rely on because care can't afford delays.
               </p>
               <div className={ctaSection}>
-                <div>
-                  <Link href="/get-started" className={primaryButton}>
-                    Start Your Free Trial →
-                  </Link>
-                </div>
+                
+                <Link href="/get-started" className={primaryButton}>
+                  Get Your 30 Days Free Trial →
+                </Link>                
+                
               </div>
             </motion.div>
 
