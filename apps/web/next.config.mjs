@@ -94,6 +94,11 @@ export default withVanillaExtract({
         destination: '/aba-authorization-software',
         permanent: true,
       },
+      {
+        source: '/data-collection',
+        destination: '/aba-data-collection-software',
+        permanent: true,
+      }
     ];
   },
   

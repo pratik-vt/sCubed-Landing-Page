@@ -157,7 +157,7 @@ const FeaturesCarousel: React.FC = () => {
           viewport={{ once: true }}
           transition={{ duration: 0.6 }}
         >
-          Simplify Every Step of Data Collection
+          Simplify Every Step of Scheduling an ABA Appointment
         </motion.h3>
 
         <div className={carouselWrapper}>

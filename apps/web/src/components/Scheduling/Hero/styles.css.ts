@@ -139,7 +139,8 @@ export const heroDescription = style({
 
 export const ctaSection = style({
   display: 'flex',
-  gap: spacing.md,
+  gap: spacing.md,  
+  flexWrap: 'wrap',
   '@media': {
     'screen and (max-width: 968px)': {
       justifyContent: 'center',

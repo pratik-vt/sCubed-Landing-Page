@@ -84,7 +84,7 @@ const DataCollectionTrust: React.FC = () => {
           animate={isInView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.6 }}
         >
-          Why Do ABA Teams Trust S Cubed with Their Data?
+          Why Do ABA Therapists Trust “S Cubed” with Their Data Collection?
         </motion.h2>
         <motion.div
           className={featuresGrid}

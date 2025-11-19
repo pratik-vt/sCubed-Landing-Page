@@ -162,7 +162,7 @@ export default async function DataCollectionPage() {
           backgroundColor="#ffffff"
           imagePosition="left"
           imageSrc={AllYourAuthorizationsFinallyInOnePlace}
-          imageAlt="ABA data collection during therapy session"
+          imageAlt="ABA authorization during therapy session"
         />
 
         <ContentSection
@@ -195,7 +195,7 @@ export default async function DataCollectionPage() {
           backgroundColor="#ffffff"
           imagePosition="left"
           imageSrc={NeverLoseTrackOfExpirationsAgain}
-          imageAlt="Document and template management in ABA software"
+          imageAlt="Document and template management in ABA authorization software"
         />
 
         <Trust features={features.slice(1)} heading={features[0].featureMainTitle || ''} />

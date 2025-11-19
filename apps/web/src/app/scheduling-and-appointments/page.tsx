@@ -11,12 +11,14 @@ import { getFAQCollection, transformFAQData } from '../../lib/faq-api';
 import SchedulingCTA from '@/components/Scheduling/CTA';
 import FeaturesTherapy from '@/components/Scheduling/FeaturesTheraphy';
 import FeaturesCarousel from '@/components/Scheduling/Carousel';
+import Testimonials from '@/components/Testimonials';
+import ReviewPlatforms from '@/components/ReviewPlatforms';
 
 export const metadata: Metadata = {
   title:
-    'Smart Therapy Scheduling Software',
+    'ABA Scheduling Software | Simplify Therapy Appointments with S Cubed',
   description:
-    'Our therapy appointment software is built to handle the complexities of therapy work like shifting availability, recurring sessions, and urgent changes. Scheduling you can rely on because care can’t afford delays.',
+    'Discover how S Cubed makes ABA scheduling simple, flexible, and secure. Manage recurring sessions, availability, and reminders with all-in-one HIPAA-compliant aba software',
   alternates: {
     canonical: '/scheduling-and-appointments',
   },
@@ -110,14 +112,16 @@ export default async function DataCollectionPage() {
       <BreadcrumbSchema
         items={[
           { name: 'Home', item: '/' },
-          { name: 'Data Collection', item: '/data-collection' },
+          { name: 'Data Collection', item: '/aba-data-collection-software' },
         ]}
       />
-      <FAQSchema faqs={allFAQs} pageSlug="data-collection" />
+      <FAQSchema faqs={allFAQs} pageSlug="aba-data-collection-software" />
       <Container>
 
 
         <SchedulingHero />
+
+        <ReviewPlatforms />
 
         <FeaturesTherapy />
 
@@ -133,6 +137,9 @@ export default async function DataCollectionPage() {
         ))}
 
         <SchedulingCTA />
+
+        <Testimonials />
+
       </Container>
     </>
   );
