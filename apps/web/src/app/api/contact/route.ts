@@ -29,6 +29,7 @@ interface ContactFormStepData {
 }
 
 interface ApiError {
+  field?: string;
   message: string;
 }
 
