@@ -123,6 +123,7 @@ interface StatesApiResponse {
 }
 
 interface ApiError {
+  field?: string;
   message: string;
 }
 
@@ -428,8 +429,36 @@ const GetStartedForm: React.FC = () => {
           // Form already completed
           setSubmitError('This form has already been completed.');
         } else if (errorData.errors && errorData.errors.length > 0) {
-          // Display first error message
-          setSubmitError(errorData.errors[0].message);
+          // Map backend field names to form field names
+          const fieldMap: Record<string, string> = {
+            email_id: 'email',
+            first_name: 'name',
+            last_name: 'name',
+            phone_number: 'phoneNumber',
+            company_name: 'companyName',
+            state: 'state',
+            comments: 'comments',
+          };
+
+          // Handle field-specific errors
+          const fieldErrors: Record<string, string> = {};
+          let hasFieldErrors = false;
+
+          errorData.errors.forEach((error) => {
+            if (error.field) {
+              const formFieldName = fieldMap[error.field] || error.field;
+              fieldErrors[formFieldName] = error.message;
+              hasFieldErrors = true;
+            }
+          });
+
+          if (hasFieldErrors) {
+            setApiFieldErrors(fieldErrors);
+            setSubmitError('Please correct the errors below and try again.');
+          } else {
+            // No field-specific errors, show general message
+            setSubmitError(errorData.errors[0].message);
+          }
         } else {
           setSubmitError('Something went wrong. Please try again.');
         }
@@ -998,7 +1027,7 @@ const GetStartedForm: React.FC = () => {
                             {!statesLoading &&
                               !statesError &&
                               states.map((state) => (
-                                <option key={state.code} value={state.code}>
+                                <option key={state.code} value={state.name}>
                                   {state.name} ({state.code})
                                 </option>
                               ))}
