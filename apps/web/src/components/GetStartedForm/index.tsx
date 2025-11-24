@@ -76,7 +76,8 @@ import {
   textareaStyle,
   titleGradient,
   twoColumnGrid,
-  oneColumnGrid
+  oneColumnGrid,
+  successWrapper
 } from './styles.css';
 
 import { useResumeForm } from '@/hooks/useResumeForm';
@@ -510,8 +511,9 @@ const GetStartedForm: React.FC = () => {
 
   if (submitSuccess) {
     return (
-      <div className={pageWrapper}>
+      
         <div className={backgroundContainer}>
+          <div className={successWrapper}>
           <div className={backgroundDecorative} />
           <div className={successMessage}>
             <div

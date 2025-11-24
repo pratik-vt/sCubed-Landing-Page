@@ -1216,6 +1216,15 @@ export const submitContainer = style({
   width: '100%',
 });
 
+export const successWrapper = style({
+  padding: '100px 0',
+  '@media': {
+    '(max-width: 768px)': {
+      padding: '50px 0',
+    },
+  },
+});
+
 
 // Legacy compatibility styles (hidden)
 export const contactPanel = style({ display: 'none' });

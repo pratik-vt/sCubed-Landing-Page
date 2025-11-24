@@ -52,7 +52,6 @@ globalStyle(`${recaptchaContainer} > div`, {
     'screen and (max-width: 480px)': {
       // For compact size on mobile, no scaling needed
       transform: 'none',
-      maxWidth: '164px', // Compact reCAPTCHA width
     },
   },
 });
