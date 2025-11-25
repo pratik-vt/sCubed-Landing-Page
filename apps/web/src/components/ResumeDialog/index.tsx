@@ -47,9 +47,9 @@ const ResumeDialog: React.FC<ResumeDialogProps> = ({
     >
       <h2 className={dialogTitle}>Welcome Back!</h2>
       <p className={dialogDescription}>
-        You have an incomplete form at Step {currentStep} of 3.
+        You have completed Step {currentStep} of 3.
         <br />
-        Would you like to continue where you left off?
+        Would you like to continue to Step {currentStep + 1}?
       </p>
 
       {error && <p className={errorText}>{error}</p>}
