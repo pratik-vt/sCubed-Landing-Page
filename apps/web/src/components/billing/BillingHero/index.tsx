@@ -123,10 +123,10 @@ const BillingHero: React.FC = () => {
               transition={{ duration: 0.8, ease: 'easeOut' }}
             >
               <h1 className={heroTitle}>
-                Smarter Billing Services for{' '}
-                <span className={heroTitleHighlight}>ABA, OT, Speech</span>, and{' '}
+              Smarter ABA Billing Services for{' '}
+                <span className={heroTitleHighlight}>ABA, OT, Speech,</span>, and{' '}
                 <span className={heroTitleHighlight}>
-                  School-Based Therapy Providers
+                School-Based Therapy Providers
                 </span>
               </h1>
               <p className={heroDescription}>
@@ -185,8 +185,7 @@ const BillingHero: React.FC = () => {
               animate={isBulletSectionInView ? { opacity: 1, y: 0 } : {}}
               transition={{ duration: 0.6, delay: 0.2 }}
             >
-              Our experienced billing team understands the unique challenges of
-              allied health and behavioral therapy services, including:
+              Our experienced billing team understands the unique challenges of allied health and behavioral therapy billing services, including:
             </motion.h3>
 
             <motion.div

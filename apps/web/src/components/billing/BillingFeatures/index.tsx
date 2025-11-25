@@ -49,7 +49,7 @@ const BillingFeatures: React.FC = () => {
     <section className={featuresSection}>
       <div className={featuresContainer}>
         <h2 className={sectionTitle}>
-          Why Choose S Cubed as Your Billing Software?
+        Why Choose S Cubed as Your ABA Billing Software?
         </h2>
         <div className={featuresGrid}>
           {features.map((feature, index) => (
