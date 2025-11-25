@@ -117,7 +117,7 @@ const BillingKeyFeatures: React.FC = () => {
   return (
     <section className={keyFeaturesSection}>
       <div className={keyFeaturesContainer}>
-        <h2 className={sectionTitle}>Key Features That Power Your Practice</h2>
+        <h2 className={sectionTitle}>Key Features That Power Your ABA Billing Practice</h2>
         <p className={sectionDescription}>
           Everything you need for comprehensive revenue cycle management
         </p>

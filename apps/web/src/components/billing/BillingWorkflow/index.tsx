@@ -175,7 +175,7 @@ const BillingWorkflow: React.FC = () => {
           animate={isInView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.6 }}
         >
-          Streamlined Billing Workflow
+          Streamlined ABA Medical Billing Workflow
         </motion.h2>
         <motion.p
           className={sectionSubtitle}
