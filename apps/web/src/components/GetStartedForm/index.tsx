@@ -857,13 +857,13 @@ const GetStartedForm: React.FC = () => {
                         margin: 0,
                       }}
                     >
-                      Start for Free
+                      Let's Get Started
                     </h2>
                     <div className={`${iconContainerLarge} ${iconContainerPrimary}`}>
                       <Mail />
                     </div>
                     <span className={headerHelperText}>
-                    Your free 30-day trial awaits, no credit card required
+                    Tell us about your practice and we'll be in touch
                     </span>
                   </div>
                 </div>

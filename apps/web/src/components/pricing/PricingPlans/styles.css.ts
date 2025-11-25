@@ -257,10 +257,12 @@ export const planCTA = style({
   justifyContent: 'center',
   gap: spacing.xs,
   marginBottom: spacing.lg,
+  textDecoration: 'none',
   ':hover': {
     background: colors.primary[50],
     transform: 'translateY(-2px)',
     boxShadow: shadows.md,
+    textDecoration: 'none',
   },
 });
 

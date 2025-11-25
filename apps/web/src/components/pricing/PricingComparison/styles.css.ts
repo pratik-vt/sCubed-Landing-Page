@@ -251,9 +251,11 @@ export const buyNowButton = style({
   justifyContent: 'center',
   gap: spacing.xs,
   marginTop: spacing.md,
+  textDecoration: 'none',
   ':hover': {
     background: colors.primary[700],
     transform: 'translateY(-2px)',
     boxShadow: shadows.md,
+    textDecoration: 'none',
   },
 });

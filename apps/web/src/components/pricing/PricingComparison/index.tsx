@@ -2,6 +2,7 @@
 
 import { motion } from 'framer-motion';
 import { ArrowRight, Check, Info, Minus, Plus } from 'lucide-react';
+import Link from 'next/link';
 import { useState } from 'react';
 
 import { colors, spacing } from '../../../styles/tokens.css';
@@ -207,9 +208,6 @@ const PricingComparison: React.FC = () => {
     'Core Features',
   ]);
 
-  const handleBuyNow = (plan: string) => {
-    // Button is currently non-functional
-  };
 
   const toggleSection = (category: string) => {
     setExpandedSections((prev) =>
@@ -272,13 +270,13 @@ const PricingComparison: React.FC = () => {
                   <span className={discountedPriceSmall}>$295/year</span>
                   <span className={discountBadgeSmall}>(15% off)</span>
                 </div>
-                <button
+                <Link
+                  href="/get-started"
                   className={buyNowButton}
-                  onClick={() => handleBuyNow('Starter')}
                 >
-                  Buy Now
+                  Get Started
                   <ArrowRight size={16} />
-                </button>
+                </Link>
               </div>
               <div className={planHeader}>
                 <strong>Essential</strong>
@@ -287,13 +285,13 @@ const PricingComparison: React.FC = () => {
                   <span className={discountedPriceSmall}>$499/year</span>
                   <span className={discountBadgeSmall}>(15% off)</span>
                 </div>
-                <button
+                <Link
+                  href="/get-started"
                   className={buyNowButton}
-                  onClick={() => handleBuyNow('Essential')}
                 >
-                  Buy Now
+                  Get Started
                   <ArrowRight size={16} />
-                </button>
+                </Link>
               </div>
               <div className={planHeader}>
                 <strong>Growth</strong>
@@ -302,13 +300,13 @@ const PricingComparison: React.FC = () => {
                   <span className={discountedPriceSmall}>$899/year</span>
                   <span className={discountBadgeSmall}>(16% off)</span>
                 </div>
-                <button
+                <Link
+                  href="/get-started"
                   className={buyNowButton}
-                  onClick={() => handleBuyNow('Growth')}
                 >
-                  Buy Now
+                  Get Started
                   <ArrowRight size={16} />
-                </button>
+                </Link>
               </div>
             </div>
 
@@ -394,13 +392,13 @@ const PricingComparison: React.FC = () => {
                     </span>
                   </div>
                 </div>
-                <button
+                <Link
+                  href="/get-started"
                   className={buyNowButton}
-                  onClick={() => handleBuyNow(plan)}
                 >
-                  Buy Now
+                  Get Started
                   <ArrowRight size={16} />
-                </button>
+                </Link>
                 <div className={mobileFeatureList}>
                   {featureComparison.map((section) => (
                     <div key={section.category}>

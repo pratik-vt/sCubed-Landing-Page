@@ -2,6 +2,7 @@
 
 import { motion } from 'framer-motion';
 import { ArrowRight, Check, Minus, Star } from 'lucide-react';
+import Link from 'next/link';
 import { useState } from 'react';
 
 import {
@@ -67,7 +68,7 @@ const plans: PricingPlan[] = [
       { text: 'Documentation & Session Notes', included: true },
       { text: 'Mobile App Support', included: true },
     ],
-    ctaText: 'Buy Now',
+    ctaText: 'Get Started',
   },
   {
     name: 'Essential',
@@ -83,7 +84,7 @@ const plans: PricingPlan[] = [
       { text: 'Clock In, Clock Out', included: true },
       { text: 'Smart Dashboard', included: true },
     ],
-    ctaText: 'Buy Now',
+    ctaText: 'Get Started',
   },
   {
     name: 'Growth',
@@ -98,7 +99,7 @@ const plans: PricingPlan[] = [
       { text: 'VB Mapp', included: true },
       { text: 'Advanced Analytics', included: true },
     ],
-    ctaText: 'Buy Now',
+    ctaText: 'Get Started',
   },
 ];
 
@@ -106,10 +107,6 @@ const PricingPlans: React.FC = () => {
   const [billingPeriod, setBillingPeriod] = useState<'monthly' | 'yearly'>(
     'monthly',
   );
-
-  const handlePlanSelect = (planName: string) => {
-    // Button is currently non-functional
-  };
 
   return (
     <section className={plansWrapper}>
@@ -130,7 +127,7 @@ const PricingPlans: React.FC = () => {
             }`}
             onClick={() => setBillingPeriod('yearly')}
           >
-            Yearly
+            Yearly{' '}
             <span className={savingBadge}>Save up to 16%</span>
           </button>
         </div>
@@ -182,13 +179,13 @@ const PricingPlans: React.FC = () => {
                 )}
               </div>
 
-              <button
+              <Link
+                href="/get-started"
                 className={plan.isPopular ? planCTAPopular : planCTA}
-                onClick={() => handlePlanSelect(plan.name)}
               >
                 {plan.ctaText}
                 <ArrowRight size={18} />
-              </button>
+              </Link>
 
               <div className={featuresGrid}>
                 <h4 className={featuresTitle}>What's included:</h4>
