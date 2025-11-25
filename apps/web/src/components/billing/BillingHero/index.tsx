@@ -124,7 +124,7 @@ const BillingHero: React.FC = () => {
             >
               <h1 className={heroTitle}>
               Smarter ABA Billing Services for{' '}
-                <span className={heroTitleHighlight}>ABA, OT, Speech,</span>, and{' '}
+                <span className={heroTitleHighlight}>ABA, OT, Speech,</span> and{' '}
                 <span className={heroTitleHighlight}>
                 School-Based Therapy Providers
                 </span>
