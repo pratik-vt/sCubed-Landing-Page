@@ -28,11 +28,11 @@ const fallbackFAQData = {
       items: [
         {
           question: 'How do I set up and start using a HIPAA-compliant telehealth platform?',
-          answer: 'Once you choose a platform that provides a BAA, setup is straightforward: create your account, add your clients, and schedule your first session. The system will generate a secure link you can send out. It helps to run one quick test call first so you know everything works before you’re live with a client.'
+          answer: 'Pick a trusted telehealth or secure video platform that’s built for healthcare, then create your account and add your clients. Schedule your first session and the system will give you a secure link you can send by email or text. Before you see a real client, do a quick test call so you can check your camera, mic, and internet and fix any issues in advance.'
         },
         {
           question: 'What are the privacy and security rules I need to follow for telehealth sessions?',
-          answer: 'You need to use encrypted video on a platform that offers a BAA, meet with clients in a private space, and store any recordings or files in a secure system, not on your personal computer or phone.'
+          answer: 'Always use an encrypted video platform designed to protect patient information, instead of any basic social video apps. Take calls in a private, quiet space so no one else can overhear or see what’s on your screen. Store notes, recordings, and files in your practice’s secure system or encrypted storage, and avoid keeping them on your personal laptop, phone, or regular email.'
         },
         {
           question: 'How do I handle billing and insurance for telehealth sessions?',
