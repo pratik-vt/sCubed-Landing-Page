@@ -9,11 +9,18 @@ export function middleware(request: NextRequest) {
     );
   }
   
+  if (request.nextUrl.pathname === '/lp/practice-management-software') {
+    return NextResponse.rewrite(
+      new URL('/api/lp/practice-management-software', request.url)
+    );
+  }
+  
   return NextResponse.next();
 }
 
 export const config = {
   matcher: [
     '/lp/aba-practice-management-software',
+    '/lp/practice-management-software',
   ],
 };
