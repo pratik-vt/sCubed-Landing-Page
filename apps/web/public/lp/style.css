@@ -2133,8 +2133,8 @@
 
     
 
-    .contact-form-select option {
-        color: #3f3f46;
+    .contact-form-select {
+        color: #55555e;
     }
 
     .contact-form-select option:first-of-type,
@@ -2437,4 +2437,5 @@
 #contactFormRecaptcha {
     display: flex;
     justify-content: center;
+    margin-bottom: 1.75rem;
 }
