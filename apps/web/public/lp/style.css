@@ -2283,7 +2283,7 @@
         }
         .contact-form-row {
             grid-template-columns: 1fr;
-            gap: var(--spacing-base);
+            gap: 0;
         }
 
         .contact-form-stepper {
@@ -2352,3 +2352,8 @@
             order: 1;
         }
     }
+
+#contactFormRecaptcha {
+    display: flex;
+    justify-content: center;
+}
