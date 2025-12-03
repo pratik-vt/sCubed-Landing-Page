@@ -147,8 +147,8 @@ export const mainContainer = style({
       maxWidth: '100%',
     },
     // Small screens (320px-480px) - Phones
-    '(max-width: 480px)': {
-      padding: '1rem 1rem 0.5rem 1rem',
+    '(max-width: 1024px)': {
+      padding: '1rem 1rem 0 1rem',
       maxWidth: '100%',
     },
   },
@@ -176,8 +176,10 @@ export const gridContainer = style({
       display: 'block',
     },
     // Small screens (320px-480px) - Phones: block layout
-    '(max-width: 480px)': {
-      display: 'block',
+    '(max-width: 1024px)': {
+      display: 'flex',
+      flexWrap: 'wrap',
+      gap: '1.5rem',
     },
   },
 });
@@ -207,9 +209,8 @@ export const leftPanel = style({
       marginBottom: '2rem', // Add spacing when stacked
     },
     // Small screens (320px-480px) - Phones
-    '(max-width: 480px)': {
-      gap: '1rem',
-      marginBottom: '1.5rem', // Add spacing when stacked
+    '(max-width: 1024px)': {  
+      order: 2
     },
   },
 });
@@ -339,8 +340,8 @@ export const contactCardHeader = style({
       fontSize: '1.125rem',
     },
     // Small screens (320px-480px) - Phones
-    '(max-width: 480px)': {
-      padding: '0.5rem 0.5rem 0.25rem 0.5rem',
+    '(max-width: 1024px)': {
+      padding: '1.5rem 0.5rem 0.25rem 0.5rem',
       fontSize: '1rem',
     },
   },
@@ -503,6 +504,7 @@ export const rightPanel = style({
     '(max-width: 1024px)': {
       width: '100%',
       maxWidth: '100%',
+      order: 1
     },
   },
 });

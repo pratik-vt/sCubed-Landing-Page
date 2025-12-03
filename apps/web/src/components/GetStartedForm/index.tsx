@@ -625,6 +625,7 @@ const GetStartedForm: React.FC = () => {
                       style={{
                         width: '2.5rem',
                         height: '2.5rem',
+                        minWidth: '2.5rem',
                         background: 'rgba(255, 255, 255, 0.1)',
                         borderRadius: '50%',
                         display: 'flex',
@@ -677,6 +678,7 @@ const GetStartedForm: React.FC = () => {
                       style={{
                         width: '2.5rem',
                         height: '2.5rem',
+                        minWidth: '2.5rem',
                         background: 'rgba(255, 255, 255, 0.1)',
                         borderRadius: '50%',
                         display: 'flex',
@@ -731,6 +733,7 @@ const GetStartedForm: React.FC = () => {
                       style={{
                         width: '2.5rem',
                         height: '2.5rem',
+                        minWidth: '2.5rem',
                         background: 'rgba(255, 255, 255, 0.1)',
                         borderRadius: '50%',
                         display: 'flex',
@@ -780,18 +783,20 @@ const GetStartedForm: React.FC = () => {
                     target="_blank"
                     rel="noopener noreferrer"
                     className={contactItem}
-                    style={{ textDecoration: 'none' }}
+                    style={{ textDecoration: 'none', overflow: 'hidden' }}
                   >
                     <div
                       style={{
                         width: '2.5rem',
                         height: '2.5rem',
+                        minWidth: '2.5rem',
                         background: 'rgba(255, 255, 255, 0.1)',
                         borderRadius: '50%',
                         display: 'flex',
                         alignItems: 'center',
                         justifyContent: 'center',
                         transition: 'background-color 0.3s ease',
+                        flexShrink: 0,
                       }}
                     >
                       <Linkedin
@@ -807,6 +812,8 @@ const GetStartedForm: React.FC = () => {
                         display: 'flex',
                         alignItems: 'center',
                         gap: '0.25rem',
+                        overflow: 'hidden',
+                        minWidth: 0,
                       }}
                     >
                       <span
@@ -814,6 +821,7 @@ const GetStartedForm: React.FC = () => {
                           fontSize: '0.9rem',
                           color: '#6b7280',
                           fontWeight: '600',
+                          flexShrink: 0,
                         }}
                       >
                         LinkedIn:
@@ -826,7 +834,6 @@ const GetStartedForm: React.FC = () => {
                           overflow: 'hidden',
                           whiteSpace: 'nowrap',
                           textOverflow: 'ellipsis',
-                          maxWidth: '100%',
                         }}
                         title="www.linkedin.com/company/spectrum-solutions-software"
                       >
