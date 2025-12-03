@@ -10,6 +10,8 @@ import {
   heroSliderSection,
   heroSliderContainer,
   heroSliderContent,
+  heroSliderContentSplit,
+  heroSliderContentGradient,
   heroSliderImageWrapper,
   heroSliderImage,
   heroSliderOverlay,
@@ -17,8 +19,11 @@ import {
   heroSliderTextContent,
   heroSliderTextContentNarrow,
   heroSliderTextContentNarrowMobile,
+  heroSliderTextContentSplit,
+  heroSliderTextContentGradient,
   heroSliderTitle,
   heroSliderDescription,
+  heroSliderDescriptionVisible,
   heroSliderButton,
   heroSliderSecondaryButton,
   heroSliderButtonContainer,
@@ -32,6 +37,10 @@ import {
   heroSliderEventInfo,
   heroSliderEventItem,
   heroSliderEventIcon,
+  heroSliderSplitImageWrapper,
+  heroSliderSplitImage,
+  heroSliderGradientOverlay,
+  heroSliderBackgroundWrapper,
 } from './styles.css';
 
 import { useFreeTrialModal } from '@/contexts/FreeTrialModalContext';
@@ -43,33 +52,63 @@ export interface HeroSliderItem {
   title: string;
   mobileTitle?: string; // Optional mobile-specific title without line breaks
   description: string | React.ReactNode; // Allow JSX/HTML in description
-  image: {
+  
+  // Layout mode determines how the slide is displayed
+  layoutMode?: 'split' | 'fullBackground' | 'gradient';
+  
+  // Full background image (covers entire slide, changes per slide)
+  backgroundImage?: {
+    src: string | StaticImageData;
+    alt: string;
+    mobileSrc?: string | StaticImageData;
+    position?: string; // CSS object-position
+    mobilePosition?: string;
+  };
+  
+  // Split layout image (appears on right side in split mode)
+  splitImage?: {
     src: string | StaticImageData;
     alt: string;
     width?: number;
     height?: number;
-    mobileSrc?: string | StaticImageData; // Optional mobile image
-    position?: string; // CSS object-position for desktop (e.g., 'center right', 'left center')
-    mobilePosition?: string; // Mobile-specific image position
+    mobileSrc?: string | StaticImageData;
   };
+  
+  // Gradient background (for slides without images)
+  gradientBackground?: {
+    colors: string[]; // Array of colors for gradient (e.g., ['#1a1a2e', '#16213e', '#0f3460'])
+    direction?: string; // Gradient direction (e.g., '135deg', 'to right')
+  };
+  
+  // Legacy image support (kept for backward compatibility)
+  image?: {
+    src: string | StaticImageData;
+    alt: string;
+    width?: number;
+    height?: number;
+    mobileSrc?: string | StaticImageData;
+    position?: string;
+    mobilePosition?: string;
+  };
+  
   link?: {
     href: string;
     text: string;
-    mobileText?: string; // Optional mobile-specific link text
+    mobileText?: string;
     external?: boolean;
   };
   secondaryLink?: {
     href: string;
     text: string;
-    mobileText?: string; // Optional mobile-specific link text
+    mobileText?: string;
     external?: boolean;
   };
-  contentAlign?: 'left' | 'center' | 'right'; // Optional content alignment
+  contentAlign?: 'left' | 'center' | 'right';
   contentWidth?: string; // Optional content width (e.g., '50%', '600px', '100%')
-  eventDate?: string; // Optional event date (formatted string)
-  eventStartDate?: string; // Optional event start date (ISO format)
-  eventEndDate?: string; // Optional event end date (ISO format)
-  eventLocation?: string; // Optional event location
+  eventDate?: string;
+  eventStartDate?: string;
+  eventEndDate?: string;
+  eventLocation?: string;
 }
 
 interface HeroImageSliderProps {
@@ -161,15 +200,25 @@ const HeroImageSlider: React.FC<HeroImageSliderProps> = ({
       [nextIndex, prevIndex].forEach(index => {
         const item = items[index];
         if (!imagesLoaded[index]) {
+          // Get the image source to preload (background, split, or legacy image)
+          const imageSource = item.backgroundImage?.src || item.splitImage?.src || item.image?.src;
+          const mobileSource = item.backgroundImage?.mobileSrc || item.splitImage?.mobileSrc || item.image?.mobileSrc;
+          
+          if (!imageSource) {
+            // No image to preload (gradient only slide)
+            setImagesLoaded(prev => ({ ...prev, [index]: true }));
+            return;
+          }
+          
           // For static imports, images are already optimized by Next.js
-          if (typeof item.image.src !== 'string') {
+          if (typeof imageSource !== 'string') {
             setImagesLoaded(prev => ({ ...prev, [index]: true }));
           } else {
             // Only preload string URLs
             const img = new window.Image();
-            const imageSrc = isMobile && item.image.mobileSrc 
-              ? item.image.mobileSrc as string
-              : item.image.src as string;
+            const imageSrc = isMobile && mobileSource 
+              ? mobileSource as string
+              : imageSource as string;
             
             img.onload = () => {
               setImagesLoaded(prev => ({ ...prev, [index]: true }));
@@ -232,17 +281,75 @@ const HeroImageSlider: React.FC<HeroImageSliderProps> = ({
   // Memoize computed values to prevent unnecessary recalculations
   const currentItem = useMemo(() => items[currentIndex], [items, currentIndex]);
   
+  // Determine layout mode - default to fullBackground for backward compatibility
+  const layoutMode = useMemo(() => {
+    if (currentItem?.layoutMode) return currentItem.layoutMode;
+    if (currentItem?.splitImage) return 'split';
+    if (currentItem?.gradientBackground) return 'gradient';
+    return 'fullBackground';
+  }, [currentItem]);
+  
+  // Get background image source (for fullBackground mode or as backdrop for split mode)
+  const backgroundImageSrc = useMemo(() => {
+    if (currentItem?.backgroundImage) {
+      return isMobile && currentItem.backgroundImage.mobileSrc
+        ? currentItem.backgroundImage.mobileSrc
+        : currentItem.backgroundImage.src;
+    }
+    // Fallback to legacy image field
+    if (currentItem?.image) {
+      return isMobile && currentItem.image.mobileSrc
+        ? currentItem.image.mobileSrc
+        : currentItem.image.src;
+    }
+    return null;
+  }, [isMobile, currentItem]);
+  
+  const backgroundImagePosition = useMemo(() => {
+    if (currentItem?.backgroundImage) {
+      return isMobile && currentItem.backgroundImage.mobilePosition
+        ? currentItem.backgroundImage.mobilePosition
+        : currentItem.backgroundImage.position || 'center';
+    }
+    if (currentItem?.image) {
+      return isMobile && currentItem.image.mobilePosition
+        ? currentItem.image.mobilePosition
+        : currentItem.image.position || 'center';
+    }
+    return 'center';
+  }, [isMobile, currentItem]);
+  
+  // Get split image source (for split layout mode)
+  const splitImageSrc = useMemo(() => {
+    if (currentItem?.splitImage) {
+      return isMobile && currentItem.splitImage.mobileSrc
+        ? currentItem.splitImage.mobileSrc
+        : currentItem.splitImage.src;
+    }
+    return null;
+  }, [isMobile, currentItem]);
+  
+  // Get gradient background style
+  const gradientStyle = useMemo(() => {
+    if (currentItem?.gradientBackground) {
+      const { colors, direction = '135deg' } = currentItem.gradientBackground;
+      return `linear-gradient(${direction}, ${colors.join(', ')})`;
+    }
+    return null;
+  }, [currentItem]);
+  
+  // Legacy support
   const currentImageSrc = useMemo(() => 
-    isMobile && currentItem?.image.mobileSrc 
+    isMobile && currentItem?.image?.mobileSrc 
       ? currentItem.image.mobileSrc 
-      : currentItem?.image.src,
+      : currentItem?.image?.src,
     [isMobile, currentItem]
   );
   
   const currentImagePosition = useMemo(() => 
-    isMobile && currentItem?.image.mobilePosition 
+    isMobile && currentItem?.image?.mobilePosition 
       ? currentItem.image.mobilePosition 
-      : currentItem?.image.position || 'center',
+      : currentItem?.image?.position || 'center',
     [isMobile, currentItem]
   );
   
@@ -262,6 +369,31 @@ const HeroImageSlider: React.FC<HeroImageSliderProps> = ({
 
   if (!items.length) return null;
 
+  // Determine content class based on layout mode
+  const getContentClassName = () => {
+    let classes = heroSliderContent;
+    if (layoutMode === 'split') {
+      classes += ` ${heroSliderContentSplit}`;
+    } else if (layoutMode === 'gradient') {
+      classes += ` ${heroSliderContentGradient}`;
+    }
+    return classes;
+  };
+
+  // Determine text content class based on layout mode
+  const getTextContentClassName = () => {
+    let classes = heroSliderTextContent;
+    if (layoutMode === 'split') {
+      classes += ` ${heroSliderTextContentSplit}`;
+    } else if (layoutMode === 'gradient') {
+      classes += ` ${heroSliderTextContentGradient}`;
+    }
+    if (currentItem.contentWidth === '30%') {
+      classes += ` ${heroSliderTextContentNarrow} ${heroSliderTextContentNarrowMobile}`;
+    }
+    return classes;
+  };
+
   return (
     <header 
       className={`${heroSliderSection} ${className || ''}`}
@@ -273,68 +405,131 @@ const HeroImageSlider: React.FC<HeroImageSliderProps> = ({
     >
       <div className={heroSliderContainer}>
         <div 
-          className={heroSliderContent}
+          className={getContentClassName()}
           style={{
-            justifyContent: currentItem.contentAlign === 'center' ? 'center' : 
-                           currentItem.contentAlign === 'right' ? 'flex-end' : 'flex-start'
+            // Only apply inline justifyContent for non-split layouts on desktop
+            // Split layout handles its own justifyContent via CSS (center on mobile)
+            ...(layoutMode !== 'split' && {
+              justifyContent: layoutMode === 'gradient' ? 'center' :
+                             currentItem.contentAlign === 'center' ? 'center' : 
+                             currentItem.contentAlign === 'right' ? 'flex-end' : 'flex-start'
+            })
           }}
         >
+          {/* Background Image/Gradient Layer */}
           <AnimatePresence mode="wait">
-            <motion.div
-              key={currentItem.id}
-              className={heroSliderImageWrapper}
-              initial={{ opacity: 0 }}
-              animate={{ 
-                opacity: imagesLoaded[currentIndex] ? 1 : 0.8,
-                x: isDragging && touchStart && touchEnd ? (touchEnd - touchStart) * 0.2 : 0
-              }}
-              exit={{ opacity: 0 }}
-              transition={{ 
-                duration: isDragging ? 0 : 0.3, // Reduced from 0.5s for faster transitions
-                type: isDragging ? 'tween' : 'spring',
-                ease: 'easeOut'
-              }}
-              style={{ cursor: items.length > 1 ? 'grab' : 'default' }}
-            >
-              <Image
-                src={currentImageSrc}
-                alt={currentItem.image.alt}
-                width={currentItem.image.width || 1920}
-                height={currentItem.image.height || 800}
-                className={heroSliderImage}
-                priority={currentIndex === 0} // Prioritize first image
-                loading={currentIndex === 0 ? 'eager' : 'lazy'}
-                quality={80} // Further optimized quality
-                placeholder={typeof currentImageSrc !== 'string' ? 'blur' : 'empty'}
-                sizes="(max-width: 768px) 100vw, (max-width: 1024px) 100vw, 100vw"
-                decoding="async" // Improve loading performance
-                onLoad={() => setImagesLoaded(prev => ({ ...prev, [currentIndex]: true }))}
-                style={{ 
-                  objectPosition: currentImagePosition,
-                  filter: imagesLoaded[currentIndex] ? 'none' : 'blur(5px)',
-                  transition: 'filter 0.3s ease-in-out',
-                  objectFit: 'cover',
-                }}
+            {layoutMode === 'gradient' && gradientStyle ? (
+              <motion.div
+                key={`gradient-${currentItem.id}`}
+                className={heroSliderGradientOverlay}
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                transition={{ duration: 0.3 }}
+                style={{ background: gradientStyle }}
               />
-              <div className={heroSliderOverlay} />
-              {/* Additional mobile overlay for narrow content slides */}
-              {currentItem.contentWidth === '30%' && (
-                <div className={heroSliderOverlayMobile} />
-              )}
-            </motion.div>
+            ) : backgroundImageSrc ? (
+              <motion.div
+                key={`bg-${currentItem.id}`}
+                className={heroSliderBackgroundWrapper}
+                initial={{ opacity: 0 }}
+                animate={{ 
+                  opacity: imagesLoaded[currentIndex] ? 1 : 0.8,
+                  x: isDragging && touchStart && touchEnd ? (touchEnd - touchStart) * 0.2 : 0
+                }}
+                exit={{ opacity: 0 }}
+                transition={{ 
+                  duration: isDragging ? 0 : 0.3,
+                  type: isDragging ? 'tween' : 'spring',
+                  ease: 'easeOut'
+                }}
+                style={{ cursor: items.length > 1 ? 'grab' : 'default' }}
+              >
+                <Image
+                  src={backgroundImageSrc}
+                  alt={currentItem.backgroundImage?.alt || currentItem.image?.alt || 'Hero background'}
+                  width={1920}
+                  height={800}
+                  className={heroSliderImage}
+                  priority={currentIndex === 0}
+                  loading={currentIndex === 0 ? 'eager' : 'lazy'}
+                  quality={80}
+                  placeholder={typeof backgroundImageSrc !== 'string' ? 'blur' : 'empty'}
+                  sizes="100vw"
+                  decoding="async"
+                  onLoad={() => setImagesLoaded(prev => ({ ...prev, [currentIndex]: true }))}
+                  style={{ 
+                    objectPosition: backgroundImagePosition,
+                    filter: imagesLoaded[currentIndex] ? 'none' : 'blur(5px)',
+                    transition: 'filter 0.3s ease-in-out',
+                    objectFit: 'cover',
+                  }}
+                />
+                <div className={heroSliderOverlay} />
+                {currentItem.contentWidth === '30%' && (
+                  <div className={heroSliderOverlayMobile} />
+                )}
+              </motion.div>
+            ) : currentImageSrc ? (
+              // Legacy image support
+              <motion.div
+                key={currentItem.id}
+                className={heroSliderImageWrapper}
+                initial={{ opacity: 0 }}
+                animate={{ 
+                  opacity: imagesLoaded[currentIndex] ? 1 : 0.8,
+                  x: isDragging && touchStart && touchEnd ? (touchEnd - touchStart) * 0.2 : 0
+                }}
+                exit={{ opacity: 0 }}
+                transition={{ 
+                  duration: isDragging ? 0 : 0.3,
+                  type: isDragging ? 'tween' : 'spring',
+                  ease: 'easeOut'
+                }}
+                style={{ cursor: items.length > 1 ? 'grab' : 'default' }}
+              >
+                <Image
+                  src={currentImageSrc}
+                  alt={currentItem.image?.alt || 'Hero image'}
+                  width={currentItem.image?.width || 1920}
+                  height={currentItem.image?.height || 800}
+                  className={heroSliderImage}
+                  priority={currentIndex === 0}
+                  loading={currentIndex === 0 ? 'eager' : 'lazy'}
+                  quality={80}
+                  placeholder={typeof currentImageSrc !== 'string' ? 'blur' : 'empty'}
+                  sizes="(max-width: 768px) 100vw, (max-width: 1024px) 100vw, 100vw"
+                  decoding="async"
+                  onLoad={() => setImagesLoaded(prev => ({ ...prev, [currentIndex]: true }))}
+                  style={{ 
+                    objectPosition: currentImagePosition,
+                    filter: imagesLoaded[currentIndex] ? 'none' : 'blur(5px)',
+                    transition: 'filter 0.3s ease-in-out',
+                    objectFit: 'cover',
+                  }}
+                />
+                <div className={heroSliderOverlay} />
+                {currentItem.contentWidth === '30%' && (
+                  <div className={heroSliderOverlayMobile} />
+                )}
+              </motion.div>
+            ) : null}
           </AnimatePresence>
 
+          {/* Content Area */}
           <motion.div
-            className={`${heroSliderTextContent} ${currentItem.contentWidth === '30%' ? `${heroSliderTextContentNarrow} ${heroSliderTextContentNarrowMobile}` : ''}`}
+            className={getTextContentClassName()}
             key={`content-${currentItem.id}`}
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.2 }}
             style={{ 
-              textAlign: currentItem.contentAlign || 'left',
-              marginLeft: currentItem.contentAlign === 'center' ? 'auto' : 
+              textAlign: layoutMode === 'gradient' ? 'center' : (currentItem.contentAlign || 'left'),
+              marginLeft: layoutMode === 'gradient' ? 'auto' :
+                         currentItem.contentAlign === 'center' ? 'auto' : 
                          currentItem.contentAlign === 'right' ? 'auto' : undefined,
-              marginRight: currentItem.contentAlign === 'center' ? 'auto' : 
+              marginRight: layoutMode === 'gradient' ? 'auto' :
+                          currentItem.contentAlign === 'center' ? 'auto' : 
                           currentItem.contentAlign === 'right' ? undefined : undefined,
               ...(currentItem.contentWidth === '30%' && isSmallMobile && {
                 textAlign: 'center',
@@ -358,6 +553,10 @@ const HeroImageSlider: React.FC<HeroImageSliderProps> = ({
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.6, delay: 0.35 }}
                 style={{
+                  ...(layoutMode === 'gradient' && {
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                  }),
                   ...(currentItem.contentWidth === '30%' && isSmallMobile && {
                     alignItems: 'center',
                   }),
@@ -379,7 +578,7 @@ const HeroImageSlider: React.FC<HeroImageSliderProps> = ({
             )}
             
             <motion.div
-              className={heroSliderDescription}
+              className={`${heroSliderDescription} ${layoutMode === 'gradient' ? heroSliderDescriptionVisible : ''}`}
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: 0.4 }}
@@ -398,7 +597,7 @@ const HeroImageSlider: React.FC<HeroImageSliderProps> = ({
                 transition={{ duration: 0.6, delay: 0.5 }}
               >
                 <div className={currentItem.secondaryLink ? 
-                  (currentItem.contentAlign === 'center' ? heroSliderButtonContainerCentered : heroSliderButtonContainer) 
+                  (layoutMode === 'gradient' || currentItem.contentAlign === 'center' ? heroSliderButtonContainerCentered : heroSliderButtonContainer) 
                   : undefined}>
                   {currentItem.secondaryLink && (
                     currentItem.secondaryLink.external ? (
@@ -452,6 +651,32 @@ const HeroImageSlider: React.FC<HeroImageSliderProps> = ({
               </motion.div>
             )}
           </motion.div>
+
+          {/* Split Layout - Right Side Image */}
+          {layoutMode === 'split' && splitImageSrc && (
+            <AnimatePresence mode="wait">
+              <motion.div
+                key={`split-${currentItem.id}`}
+                className={heroSliderSplitImageWrapper}
+                initial={{ opacity: 0, x: 50 }}
+                animate={{ opacity: 1, x: 0 }}
+                exit={{ opacity: 0, x: 50 }}
+                transition={{ duration: 0.5, delay: 0.1 }}
+              >
+                <Image
+                  src={splitImageSrc}
+                  alt={currentItem.splitImage?.alt || 'Feature image'}
+                  width={currentItem.splitImage?.width || 800}
+                  height={currentItem.splitImage?.height || 600}
+                  className={heroSliderSplitImage}
+                  priority={currentIndex === 0}
+                  quality={85}
+                  placeholder={typeof splitImageSrc !== 'string' ? 'blur' : 'empty'}
+                  sizes="(max-width: 767px) 100vw, 50vw"
+                />
+              </motion.div>
+            </AnimatePresence>
+          )}
 
           {/* Navigation Arrows */}
           {items.length > 1 && (
