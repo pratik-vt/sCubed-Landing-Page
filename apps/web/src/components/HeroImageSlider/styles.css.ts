@@ -147,7 +147,7 @@ export const heroSliderTextContent = style({
     'screen and (max-width: 1200px)': {
       maxWidth: '700px',
       marginLeft: '8%', // Increase margins on medium screens
-      marginRight: '8%',
+      marginRight: '0',
     },
     'screen and (max-width: 960px)': {
       maxWidth: '600px',
@@ -613,12 +613,13 @@ export const heroSliderEventIcon = style({
 export const heroSliderSplitImageWrapper = style({
   position: 'relative',
   width: '45%',
-  height: '100%',
+  height: 'auto',
   display: 'flex',
   alignItems: 'center',
   justifyContent: 'center',
   padding: spacing.lg,
   paddingRight: spacing.xl,
+  paddingTop: '150px',
   zIndex: 3,
   '@media': {
     'screen and (max-width: 1200px)': {
@@ -645,15 +646,13 @@ export const heroSliderSplitImageWrapper = style({
 });
 
 export const heroSliderSplitImage = style({
-  maxWidth: '100%',
-  maxHeight: '90%',
   width: 'auto',
   height: 'auto',
   objectFit: 'contain',
   borderRadius: radius.xl,
   '@media': {
     'screen and (max-width: 1024px)': {
-      maxHeight: '80%',
+      maxHeight: '320px',
       borderRadius: radius.lg,
     },
     'screen and (max-width: 767px)': {

@@ -26,8 +26,6 @@ export const heroSliderData: HeroSliderItem[] = [
     splitImage: {
       src: RightImageFirstSlide,
       alt: 'Fluxx Awards 2025 Nomination Badge',
-      width: 800,
-      height: 800,
     },
     link: {
       href: 'https://scubed.io/blog/s-cubed-founder-stephanie-emmons-nominated-fluxx-awards-2025-aba-tech-wellness',
@@ -70,8 +68,6 @@ export const heroSliderData: HeroSliderItem[] = [
     splitImage: {
       src: RightImageTwoSlide,
       alt: 'Top 10 Trailblazing Entrepreneurs Badge',
-      width: 800,
-      height: 800,
     },
     link: {
       href: 'https://www.msn.com/en-us/money/smallbusiness/top-10-trailblazing-entrepreneurs-to-follow-in-2025/ar-AA1Pi9Yi',
@@ -94,8 +90,6 @@ export const heroSliderData: HeroSliderItem[] = [
     splitImage: {
       src: RightImageThreeSlide,
       alt: "Mother's Journey - Top 10 Trailblazing Entrepreneurs",
-      width: 800,
-      height: 800,
     },
     link: {
       href: 'https://www.usatoday.com/story/special/contributor-content/2025/08/28/from-playing-school-to-building-trevors-place-how-one-mothers-journey-became-a-lifeline-for-families/85873205007/',
