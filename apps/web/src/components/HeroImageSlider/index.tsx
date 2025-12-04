@@ -666,13 +666,13 @@ const HeroImageSlider: React.FC<HeroImageSliderProps> = ({
                 <Image
                   src={splitImageSrc}
                   alt={currentItem.splitImage?.alt || 'Feature image'}
-                  width={currentItem.splitImage?.width || 800}
-                  height={currentItem.splitImage?.height || 600}
+                  width={typeof splitImageSrc !== 'string' ? splitImageSrc.width : currentItem.splitImage?.width}
+                  height={typeof splitImageSrc !== 'string' ? splitImageSrc.height : currentItem.splitImage?.height}
                   className={heroSliderSplitImage}
                   priority={currentIndex === 0}
                   quality={85}
                   placeholder={typeof splitImageSrc !== 'string' ? 'blur' : 'empty'}
-                  sizes="(max-width: 767px) 100vw, 50vw"
+                  unoptimized
                 />
               </motion.div>
             </AnimatePresence>
