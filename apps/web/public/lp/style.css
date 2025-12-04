@@ -1647,6 +1647,7 @@
             align-items: center;
             width: 100%;
             gap: 0;
+            margin-bottom: 20px;
         }
 
         .nav-link {
