@@ -23,37 +23,37 @@ export default function PrivacyPage() {
       />
       <Heading>Privacy Policy</Heading>
       <Section>
-        <h3>Privacy Notice</h3> SCubed including (without limitation) our
+        <h3>Privacy Notice</h3> S Cubed including (without limitation) our
         website and other interactive properties through which the services are
-        delivered (collectively, the “Service”) are owned, operated and
+        delivered (collectively, the "Service") are owned, operated and
         distributed by Spectrum Solutions Software, LLC (referred to in this
-        Privacy Notice as “SCubed” or “we” and through similar words such as
-        “us,” “our,” etc.). This Privacy Notice outlines the personal
-        information that SCubed may collect, how SCubed uses and safeguards that
+        Privacy Notice as "S Cubed" or "we" and through similar words such as
+        "us," "our," etc.). This Privacy Notice outlines the personal
+        information that S Cubed may collect, how S Cubed uses and safeguards that
         information, and with whom we may share it.{' '}
       </Section>
       <Section>
         {' '}
         <h3>
           SERVICE IS OFFERED FROM THE UNITED STATES (“US”), IN PARTICULAR, IT IS
-          NOT INTEDED FOR USE IN THE EUROPEAN UNION (“EU”).
+          NOT INTENDED FOR USE IN THE EUROPEAN UNION (“EU”).
         </h3>{' '}
-        For individuals located outside of the US, please note that SCubed is a
+        For individuals located outside of the US, please note that S Cubed is a
         US based company. If you use the Service, all information, including
-        personal information, will be transferred to SCubed in the US and used
+        personal information, will be transferred to S Cubed in the US and used
         as described in this Notice.{' '}
       </Section>
       <Section>
         {' '}
-        SCubed encourages our customers, visitors, business associates, and
+        S Cubed encourages our customers, visitors, business associates, and
         other interested parties to read this Privacy Notice, which applies to
         all users. By using our Service or submitting personal information to
-        SCubed by any other means, you acknowledge that you understand and agree
-        to be bound by this Privacy Notice, and agree that SCubed may collect,
+        S Cubed by any other means, you acknowledge that you understand and agree
+        to be bound by this Privacy Notice, and agree that S Cubed may collect,
         process, transfer, use, and disclose your personal information as
         described in this Notice. Further, by accessing any part of the Service,
-        you are agreeing to THE TERMS AND CONDITIONS (the “Terms and
-        Conditions”). IF YOU DO NOT AGREE WITH ANY PART OF THIS PRIVACY
+        you are agreeing to THE TERMS AND CONDITIONS (the "Terms and
+        Conditions"). IF YOU DO NOT AGREE WITH ANY PART OF THIS PRIVACY
         NOTICE{' '}
       </Section>
       <h3>Note on HIPAA</h3>
@@ -68,7 +68,7 @@ export default function PrivacyPage() {
         compliance as it relates to your patients. By using the Service, you
         agree to abide by all federal and state laws, including laws that may
         apply to patient data or other personal information, including but not
-        limited to HIPAA. You agree to fully indemnify SCubed for any
+        limited to HIPAA. You agree to fully indemnify S Cubed for any
         third-party damages resulting from your violation of any federal or
         state laws. If you are a patient viewing this Privacy Notice, please
         contact your provider for information regarding your medical records
@@ -108,7 +108,7 @@ export default function PrivacyPage() {
             information because it will come directly from you.
           </li>{' '}
         </ul>{' '}
-        When providing personal information to SCubed as described in this
+        When providing personal information to S Cubed as described in this
         Notice, that personal information is collected directly from you, and
         you will know the precise personal information being collected by
         us.{' '}
@@ -118,9 +118,9 @@ export default function PrivacyPage() {
         {' '}
         We may invite you to post content on the Service, including your
         comments and any other information that you would like to be available
-        on the Service, which may become public (“User Generated Content”). If
+        on the Service, which may become public ("User Generated Content"). If
         you post User Generated Content, all of the information that you post
-        will be available to authorized personnel of SCubed and may be made
+        will be available to authorized personnel of S Cubed and may be made
         publicly available. You expressly acknowledge and agree that we may
         access in real-time, record and store archives of any User Generated
         Content on our servers to make use of them in connection with the
@@ -131,10 +131,10 @@ export default function PrivacyPage() {
         publicly on the Service. User Generated Content does not include any
         patient data and/or data regulated by HIPAA.{' '}
       </Section>
-      <h3>How does SCubed use personal information?</h3>
+      <h3>How does S Cubed use personal information?</h3>
       <Section>
         {' '}
-        Subject to the terms of this Privacy Notice, SCubed uses the
+        Subject to the terms of this Privacy Notice, S Cubed uses the
         above-described categories of personal information in several ways.
         Unless otherwise stated specifically, the above information may be used
         for any of the following purposes:{' '}
@@ -151,8 +151,8 @@ export default function PrivacyPage() {
             for billing, account maintenance, and record-keeping purposes;
           </li>{' '}
           <li>
-            to send to you SCubed solicitations, product announcements, and the
-            like that we feel may be of interest to you (you may “opt out” of
+            to send to you S Cubed solicitations, product announcements, and the
+            like that we feel may be of interest to you (you may "opt out" of
             receiving these marketing materials);
           </li>{' '}
           <li>
@@ -160,7 +160,7 @@ export default function PrivacyPage() {
             your consent is obtained, if necessary.
           </li>{' '}
         </ul>{' '}
-        SCubed does not sell, re-sell, or distribute for re-sale your personal
+        S Cubed does not sell, re-sell, or distribute for re-sale your personal
         information. Aggregated information may be used internally and by
         third-party service providers in order to improve the Service as
         described below.{' '}
@@ -168,7 +168,7 @@ export default function PrivacyPage() {
       <h3> How do we share your personal information with third parties? </h3>
       <Section>
         We may provide any of the described categories of personal information
-        to SCubed employees, consultants, affiliates or other businesses or
+        to S Cubed employees, consultants, affiliates or other businesses or
         persons for the purpose of processing such information on our behalf in
         order to provide the Service to you. In such circumstances, we require
         that these parties agree to protect the confidentiality of such
@@ -201,7 +201,7 @@ export default function PrivacyPage() {
       </Section>
       <h3>Retention of Data</h3>
       <Section>
-        SCubed will retain your personal information only for as long as is
+        S Cubed will retain your personal information only for as long as is
         necessary for the purposes set out in this Notice. We will retain and
         use personal information to the extent necessary to comply with our
         legal obligations (for example, if we are required to retain your data
@@ -209,7 +209,7 @@ export default function PrivacyPage() {
         agreements and policies.
       </Section>
       <Section>
-        SCubed will also retain usage data for internal analysis purposes as
+        S Cubed will also retain usage data for internal analysis purposes as
         described in the next section. Usage data is generally retained for a
         shorter period of time, except when this data is used to strengthen the
         security or to improve the functionality of the Service, or we are
@@ -219,7 +219,7 @@ export default function PrivacyPage() {
       <Section>
         When you use our Service, we may record unique identifiers associated
         with your device (such as the device ID and IP address), your activity
-        within the Service, and your network location. SCubed uses aggregated
+        within the Service, and your network location. S Cubed uses aggregated
         information (such as anonymous user usage information, cookies, IP
         addresses, browser type, clickstream information, etc.) to improve the
         quality and design of the Service and to create new features,
@@ -253,13 +253,13 @@ export default function PrivacyPage() {
         the portion of the Service you choose to use. A cookie is a small text
         file that is sent by a website to your computer or mobile device where
         it is stored by your web browser. A cookie contains limited information,
-        usually a unique identifier and the name of the site. Your browser has
+        usually a unique identifier and the name of the site.         Your browser has
         options to accept, reject or provide you with notice when a cookie is
         sent. Our cookies do not execute any code or virus; and they do not
-        contain any personal information. Cookies allow SCubed to serve you
+        contain any personal information. Cookies allow S Cubed to serve you
         better and more efficiently, and to personalize your experience with the
         Service. We may use cookies for many purposes, including (without
-        limitation) to save your password so you don’t have to re-enter it each
+        limitation) to save your password so you don't have to re-enter it each
         time you visit the Service, and to deliver content (which may include
         third party advertisements) specific to your interests.{' '}
       </Section>
@@ -269,7 +269,7 @@ export default function PrivacyPage() {
         customers. For example, these service providers may help us measure the
         performance of our online campaigns or analyze visitor activity on the
         Service. We may permit these service providers to use cookies and other
-        technologies to perform these services for SCubed. We do not share any
+        technologies to perform these services for S Cubed. We do not share any
         personal information about our customers with these third-party service
         providers, and these service providers do not collect such information
         on our behalf. Our third-party service providers are required to comply
@@ -278,7 +278,7 @@ export default function PrivacyPage() {
       <h3> Information Security and User Responsibility </h3>
       <Section>
         {' '}
-        SCubed employs industry-standard security measures designed to protect
+        S Cubed employs industry-standard security measures designed to protect
         the security of all information submitted through the Service. However,
         the security of information transmitted through the internet or via a
         mobile device can never be guaranteed. We are not responsible for any
@@ -298,32 +298,32 @@ export default function PrivacyPage() {
       <Section>
         The Service may contain links to other websites maintained by third
         parties. Please be aware that we exercise no control over linked sites
-        and SCubed is not responsible for the privacy practices or the content
+        and S Cubed is not responsible for the privacy practices or the content
         of such sites. Each linked site maintains its own independent privacy
         and data collection policies and procedures, and you are encouraged to
         view the privacy policies of these other sites before providing any
         personal information.
       </Section>
       <Section>
-        You hereby acknowledge and agree that SCubed is not responsible for the
+        You hereby acknowledge and agree that S Cubed is not responsible for the
         privacy practices, data collection policies and procedures, or the
-        content of such third-party sites, and you hereby release SCubed from
+        content of such third-party sites, and you hereby release S Cubed from
         any and all claims arising out of or related to the privacy practices,
         data collection policies and procedures, and/or the content of such
         third-party sites.
       </Section>
       <h3>Changes to this Privacy Notice</h3>
       <Section>
-        SCubed reserves the right to modify this Privacy Notice from time to
+        S Cubed reserves the right to modify this Privacy Notice from time to
         time in order that it accurately reflects the regulatory environment and
         our data collection principles. When material changes are made to this
-        Privacy Notice, SCubed will post the revised Notice on our website. This
+        Privacy Notice, S Cubed will post the revised Notice on our website. This
         Privacy Notice was last modified on January 31, 2024.
       </Section>
       <h3>Contact Us</h3>
       <Section>
         If you have any questions or comments about this Privacy Notice or the
-        Service provided by SCubed, please contact us at:{' '}
+        Service provided by S Cubed, please contact us at:{' '}
         <a style={{ color: '#7a7eed' }} href="mailto:info@scubed.io">
           info@scubed.io
         </a>
