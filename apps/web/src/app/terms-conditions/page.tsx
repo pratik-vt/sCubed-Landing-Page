@@ -29,11 +29,11 @@ export default function TermsPage() {
       <Heading>Terms & Conditions</Heading>
       <h3>Spectrum Solutions Software</h3>
       <Section>
-        The following Terms of Use (“TOU”) form an agreement by and between us,
-        SCubed (“Company”) (Company is referred to herein without limitation as
-        us, we, etc.), and <strong> you (the “Customer”).</strong> Company and
-        you are referred to herein individually as a <strong>“Party”</strong>
-        and collectively as the <strong>“Parties.”</strong> Your subscription to
+        The following Terms of Use ("TOU") form an agreement by and between us,
+        S Cubed ("Company") (Company is referred to herein without limitation as
+        us, we, etc.), and <strong> you (the "Customer").</strong> Company and
+        you are referred to herein individually as a <strong>"Party"</strong>
+        and collectively as the <strong>"Parties."</strong> Your subscription to
         the Software and Services or use of the same constitutes its acceptance
         and acknowledgement all the terms set forth in these TOU.
       </Section>
