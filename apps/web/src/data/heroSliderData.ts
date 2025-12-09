@@ -1,7 +1,7 @@
 import BannerImage from '../../public/images/Banner.jpg';
 // Slide 1 - Fluxx Awards
 import BackgroundFirstSlide from '../../public/images/background-image-first-slide.jpg';
-import RightImageFirstSlide from '../../public/images/right-image-first-slide.png';
+import RightImageFirstSlide from '../../public/images/right-image-first-slide-fluxx-awards-2025.png';
 // Slide 2 - MSN Top Entrepreneurs
 import BackgroundTwoSlide from '../../public/images/background-image-two-slide.png';
 import RightImageTwoSlide from '../../public/images/right-image-two-slide.png';
@@ -14,25 +14,19 @@ import { HeroSliderItem } from '../components/HeroImageSlider';
 export const heroSliderData: HeroSliderItem[] = [
   {
     id: 'fluxx-awards-2025-nominee',
-    title: "Proudly Announcing: Stephanie Emmons - Fluxx Awards 2025 Nominee",
+    title: "Proudly Announcing: Stephanie Emmons - WINNER of Fluxx Awards 2025",
     description:
-      'Honoring her vision and commitment to empowering ABA therapy teams with innovative, supportive solutions.',
+      'Awarded for technology that strengthens ABA workflows and supports every moment of therapy.',
     layoutMode: 'split', // Split layout: content left, image right
     backgroundImage: {
       src: BackgroundFirstSlide,
-      alt: 'Fluxx Awards 2025 Background',
+      alt: 'Fluxx Awards 2025',
       position: 'center center',
     },
     splitImage: {
       src: RightImageFirstSlide,
-      alt: 'Fluxx Awards 2025 Nomination Badge',
-    },
-    link: {
-      href: 'https://scubed.io/blog/s-cubed-founder-stephanie-emmons-nominated-fluxx-awards-2025-aba-tech-wellness',
-      text: "Explore the Fluxx Nomination",
-      mobileText: "Fluxx Nomination",
-      external: false,
-    },
+      alt: 'Fluxx Awards 2025',
+    },    
   },
   {
     id: 'empowering-practice',
