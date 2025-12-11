@@ -255,8 +255,8 @@ const FeaturesComprehensive: React.FC = () => {
       <div className={featuresContainer}>
         <div className={sectionHeader}>
           <h2 className={sectionTitle}>
-            Powerful Features That{' '}
-            <span style={{ color: '#7a7eed' }}>Work for You</span>
+          Powerful ABA Therapy Software Features That{' '}
+            <span style={{ color: '#7a7eed' }}>Work for Your ABA Practice</span>
           </h2>
           <p className={sectionDescription}>
             No more switching between apps or struggling with outdated systems.
@@ -287,12 +287,11 @@ const FeaturesComprehensive: React.FC = () => {
         {/* Additional Features by Category */}
         <div>
           <h2 className={moreFeaturesTitle}>
-            Discover Features That{' '}
+          Discover ABA Features That{' '}
             <span style={{ color: '#7a7eed' }}>Empower</span> You
           </h2>
           <p className={moreFeaturesSubtitle}>
-            Explore our comprehensive suite of tools designed to transform your
-            practice
+          Explore our comprehensive suite of tools designed to transform your ABA practice
           </p>
 
           <div className={additionalFeaturesList}>

@@ -23,7 +23,7 @@ export default function ConditionalLayout({ children }: Readonly<ConditionalLayo
     pathname === '/terms-conditions' ||
     pathname === '/get-started' ||
     pathname === '/billing' ||
-    pathname === '/practice-management' ||
+    pathname === '/aba-practice-management-software' ||
     pathname === '/guardian-portal' ||
     pathname === '/aba-data-collection-software' ||
     pathname === '/pricing' ||
@@ -39,7 +39,7 @@ export default function ConditionalLayout({ children }: Readonly<ConditionalLayo
   const shouldUseFullWidth =
     pathname === '/get-started' ||
     pathname === '/billing' ||
-    pathname === '/practice-management' ||
+    pathname === '/aba-practice-management-software' ||
     pathname === '/guardian-portal' ||
     pathname === '/telehealth-platform' ||
     pathname === '/aba-data-collection-software' ||

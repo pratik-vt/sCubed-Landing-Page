@@ -152,7 +152,7 @@ const Footer: React.FC = () => {
                 <Link href="/billing" className={footerLink}>
                   Billing
                 </Link>
-                <Link href="/practice-management" className={footerLink}>
+                <Link href="/aba-practice-management-software" className={footerLink}>
                 Practice Management
                 </Link>
                 

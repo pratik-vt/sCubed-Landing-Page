@@ -75,18 +75,17 @@ const HeroFeatures: React.FC = () => {
             </div>
 
             <h1 className={heroTitle}>
-              Powerful & Fully Integrated
+            Powerful & Fully Integrated
               <br />
               <span style={{ color: '#7a7eed' }}>
-                Practice Management Platform
+              ABA Practice Management Software
               </span>
               <br />
-              To Streamline Your Practice
+              To Streamline Your Clinical Practice
             </h1>
 
             <p className={heroSubtitle}>
-              All-in-One Software for Clinical, Educational, and Therapy
-              Management.
+            All-in-One ABA Therapy Software for Clinical, Educational, and Healthcare Management.
               <br />
               Everything You Need, All in One Place.
             </p>
