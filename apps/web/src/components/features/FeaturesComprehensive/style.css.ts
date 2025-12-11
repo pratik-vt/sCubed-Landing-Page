@@ -33,7 +33,7 @@ export const featuresContainer = style({
 });
 
 export const sectionHeader = style({
-  maxWidth: '900px',
+  maxWidth: '90%',
   margin: '0 auto',
   textAlign: 'center',
   marginBottom: '64px',
@@ -53,7 +53,6 @@ export const sectionTitle = style({
     },
     'screen and (min-width: 1025px)': {
       fontSize: '48px',
-      whiteSpace: 'nowrap',
     },
   },
 });

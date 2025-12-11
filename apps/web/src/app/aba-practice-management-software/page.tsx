@@ -7,11 +7,11 @@ import FeaturesComprehensive from '../../components/features/FeaturesComprehensi
 import HeroFeatures from '../../components/features/HeroFeatures';
 
 export const metadata: Metadata = {
-  title: 'All-in-One Therapy & Clinic Management Software | S Cubed',
+  title: 'ABA Therapy Practice Management Software',
   description:
-    'Streamline your clinic or school-based practice with S Cubed - an all-in-one software built by BCBAs for ABA, Speech, OT/PT, and counseling. Smart scheduling, billing, progress tracking, secure communication, and more in one powerful platform.',
+    'Streamline your ABA clinical management with S Cubed - an All-in-one ABA therapy practice management software built by BCBAs, Smart scheduling, billing, progress tracking, secure communication, and more in one powerful platform.',
   alternates: {
-    canonical: '/practice-management',
+    canonical: '/aba-practice-management-software',
   },
 };
 
@@ -21,7 +21,7 @@ export default function FeaturesPage() {
       <BreadcrumbSchema 
         items={[
           { name: 'Home', item: '/' },
-          { name: 'Practice Management', item: '/practice-management' }
+          { name: 'Practice Management', item: '/aba-practice-management-software' }
         ]} 
       />
       <Container>

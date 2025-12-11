@@ -98,6 +98,11 @@ export default withVanillaExtract({
         source: '/data-collection',
         destination: '/aba-data-collection-software',
         permanent: true,
+      },
+      {
+        source: '/practice-management',
+        destination: '/aba-practice-management-software',
+        permanent: true,
       }
     ];
   },

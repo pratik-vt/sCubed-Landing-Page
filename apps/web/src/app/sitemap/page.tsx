@@ -44,7 +44,7 @@ export default async function SitemapPage() {
             { url: '/', label: 'Home' },
             { url: '/billing', label: 'Billing' },
             { url: '/aba-data-collection-software', label: 'Data Collection' },
-            { url: '/practice-management', label: 'Practice Management' },
+            { url: '/aba-practice-management-software', label: 'Practice Management' },
             { url: '/guardian-portal', label: 'Guardian Portal' },
             { url: '/telehealth-platform', label: 'Telehealth Platform' },
             { url: '/get-started', label: 'Get Started' },

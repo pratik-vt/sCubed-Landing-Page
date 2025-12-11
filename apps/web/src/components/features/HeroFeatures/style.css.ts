@@ -87,7 +87,7 @@ export const heroSubtitle = style({
   color: '#6b7280',
   marginBottom: '48px',
   lineHeight: 1.6,
-  maxWidth: '800px',
+  maxWidth: '865px',
   margin: '0 auto 48px',
   '@media': { 'screen and (min-width: 768px)': { fontSize: '22px' } },
 });

@@ -12,7 +12,7 @@ export const featuredSliderData: SliderItem[] = [
       height: 240,
     },
     link: {
-      href: '/practice-management',
+      href: '/aba-practice-management-software',
       text: 'Explore Features',
     },
   },
@@ -135,7 +135,7 @@ export const testimonialsSliderData: SliderItem[] = [
       height: 240,
     },
     link: {
-      href: '/practice-management',
+      href: '/aba-practice-management-software',
       text: 'Learn More',
     },
   },

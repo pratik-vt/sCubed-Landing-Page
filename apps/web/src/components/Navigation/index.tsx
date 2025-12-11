@@ -107,7 +107,7 @@ const Navigation: React.FC<NavigationProps> = ({
   const toggleMenu = () => setMenuOpen(!menuOpen);
 
   const featuresDropdownItems: DropdownItem[] = [
-    { label: 'Practice Management', href: '/practice-management' },
+    { label: 'Practice Management', href: '/aba-practice-management-software' },
     {
       label: 'Scheduling & Appointments',
       href: '/scheduling-and-appointments',

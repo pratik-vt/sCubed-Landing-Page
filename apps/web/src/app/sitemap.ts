@@ -14,7 +14,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       priority: 1.0,
     },
     {
-      url: `${baseUrl}/practice-management`,
+      url: `${baseUrl}/aba-practice-management-software`,
       lastModified: new Date(),
       changeFrequency: 'monthly',
       priority: 0.9,
