@@ -13,7 +13,7 @@ import {
 } from 'lucide-react';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
-import { useRef } from 'react';
+import { useRef, useState, useCallback, useEffect } from 'react';
 
 import lizImg from '../../images/Liz.jpg';
 import maryImg from '../../images/Mary.jpg';
@@ -22,8 +22,42 @@ import taylorImg from '../../images/Taylor.jpg';
 
 import * as styles from './styles.css';
 
+const WORD_LIMIT = 40;
+
+const truncateText = (text: string, wordLimit: number): { truncated: string; isTruncated: boolean } => {
+  const words = text.trim().split(/\s+/).filter(Boolean);
+  if (words.length <= wordLimit) {
+    return { truncated: text, isTruncated: false };
+  }
+  return { truncated: words.slice(0, wordLimit).join(' ') + '...', isTruncated: true };
+};
+
+const MOBILE_BREAKPOINT = 768;
+
 const OurTeam = () => {
   const router = useRouter();
+  const [expandedBios, setExpandedBios] = useState<Record<string, boolean>>({});
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth < MOBILE_BREAKPOINT);
+    };
+    
+    // Check on mount
+    checkMobile();
+    
+    // Listen for resize events
+    window.addEventListener('resize', checkMobile);
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
+
+  const toggleBio = useCallback((memberName: string) => {
+    setExpandedBios((prev) => ({
+      ...prev,
+      [memberName]: !prev[memberName],
+    }));
+  }, []);
 
   // Refs for scroll-triggered animations
   const heroRef = useRef<HTMLDivElement>(null);
@@ -310,7 +344,29 @@ const OurTeam = () => {
                     </div>
                   </div>
                   <div className={styles.teamBio}>
-                    <p>{member.bio}</p>
+                    {(() => {
+                      if (!isMobile) {
+                        return <p>{member.bio}</p>;
+                      }
+                      
+                      const { truncated, isTruncated } = truncateText(member.bio, WORD_LIMIT);
+                      const isExpanded = expandedBios[member.name];
+                      
+                      return (
+                        <p>
+                          {isExpanded || !isTruncated ? member.bio : truncated}
+                          {isTruncated && (
+                            <button
+                              className={styles.readMoreButton}
+                              onClick={() => toggleBio(member.name)}
+                              type="button"
+                            >
+                              {isExpanded ? 'Read less' : 'Read more'}
+                            </button>
+                          )}
+                        </p>
+                      );
+                    })()}
                   </div>
                 </div>
               </motion.div>

@@ -374,17 +374,10 @@ export const teamCard = style({
   transition: 'all 0.4s cubic-bezier(0.4, 0, 0.2, 1)',
   background: 'linear-gradient(135deg, #ffffff 0%, #fafbff 100%)',
   border: '1px solid rgba(122, 126, 237, 0.08)',
-  maxHeight: '600px',
-  overflowY: 'auto',
   ':hover': {
     boxShadow: '0 20px 60px rgba(122, 126, 237, 0.2)',
     transform: 'translateY(-5px) scale(1.01)',
     borderColor: colors.primary[200],
-  },
-  '@media': {
-    'screen and (min-width: 769px) and (max-width: 1440px)': {
-      maxHeight: '500px',
-    },
   },
 });
 
@@ -472,6 +465,22 @@ export const teamBio = style({
       fontSize: typography.fontSize.xs,
       lineHeight: typography.lineHeight.normal,
     },
+  },
+});
+
+export const readMoreButton = style({
+  background: 'none',
+  border: 'none',
+  padding: 0,
+  color: colors.primary[500],
+  fontWeight: typography.fontWeight.semibold,
+  fontSize: 'inherit',
+  cursor: 'pointer',
+  marginLeft: '4px',
+  transition: 'color 0.2s ease',
+  ':hover': {
+    color: colors.primary[700],
+    textDecoration: 'underline',
   },
 });
 
