@@ -103,6 +103,11 @@ export default withVanillaExtract({
         source: '/practice-management',
         destination: '/aba-practice-management-software',
         permanent: true,
+      },
+      {
+        source: '/blog/the-role-of-data-driven-insights-in-improving-aba-therapy-outcomes',
+        destination: '/',
+        permanent: true,
       }
     ];
   },
