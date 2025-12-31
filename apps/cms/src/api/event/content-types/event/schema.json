@@ -39,7 +39,7 @@
     },
     "content_blocks": {
       "type": "dynamiczone",
-      "required": true,
+      "required": false,
       "components": [
         "blog.text-module",
         "blog.module-image",
