@@ -9,6 +9,7 @@ import HeroImageSlider from '../components/HeroImageSlider';
 import OrganizationSchema from '../components/OrganizationSchema';
 import ReviewPlatforms from '../components/ReviewPlatforms';
 import { heroSliderData } from '../data/heroSliderData';
+import AbaFeature from '../components/abaFeature';
 
 import Testimonials from '@/components/Testimonials';
 
@@ -70,6 +71,7 @@ export default function HomePage() {
     <>
       <OrganizationSchema />
       <HeroImageSlider items={heroSliderData} />
+      <AbaFeature />
       <ReviewPlatforms />
       <Container>
         <Header />
