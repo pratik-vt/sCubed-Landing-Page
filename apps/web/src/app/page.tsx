@@ -6,10 +6,10 @@ import { Suspense } from 'react';
 import Container from '../components/Container';
 import Header from '../components/Header/header';
 import HeroImageSlider from '../components/HeroImageSlider';
-import OrganizationSchema from '../components/OrganizationSchema';
 import ReviewPlatforms from '../components/ReviewPlatforms';
 import { heroSliderData } from '../data/heroSliderData';
 import AbaFeature from '../components/abaFeature';
+import LocalBusinessSchema from '../components/LocalBusinessSchema';
 
 import Testimonials from '@/components/Testimonials';
 
@@ -69,7 +69,7 @@ export const metadata: Metadata = {
 export default function HomePage() {
   return (
     <>
-      <OrganizationSchema />
+      <LocalBusinessSchema />
       <HeroImageSlider items={heroSliderData} />
       <AbaFeature />
       <ReviewPlatforms />

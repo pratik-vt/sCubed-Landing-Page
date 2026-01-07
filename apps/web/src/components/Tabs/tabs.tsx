@@ -1,6 +1,7 @@
 'use client';
 
 import Image from 'next/image';
+import Link from 'next/link';
 import React, { useState } from 'react';
 
 import useWindowDimensions from '../../hooks/useWindowDimensions';
@@ -35,8 +36,15 @@ const tabBox: React.CSSProperties = { marginTop: '80px' };
 const tabContents = [
   {
     heading: 'Therapy Appointment Scheduling, Simplified',
-    description:
-      'Optimize your practice with therapy appointment scheduling software that keeps everything organized and efficient. Our powerful calendar system functions as intuitive ABA scheduling software, helping you streamline operations across clinics and school-based settings with automated reminders that reduce no-shows and keep schedules running smoothly.',
+    description: (
+      <>
+        Optimize your practice with{' '}
+        <Link href="/scheduling-and-appointments">
+          therapy appointment scheduling software
+        </Link>{' '}
+        that keeps everything organized and efficient. Our powerful calendar system functions as intuitive ABA scheduling software, helping you streamline operations across clinics and school-based settings with automated reminders that reduce no-shows and keep schedules running smoothly.
+      </>
+    ),
     image: appointment,
     alt: 'appointment',
     panel: appointmentPanel,
@@ -51,8 +59,11 @@ const tabContents = [
   },
   {
     heading: 'ABA Data Collection Software & Reporting Made Simple',
-    description:
-      'Gather, analyze, and report critical data with ease. Our ABA data collection software and ABA data collection systems provide accurate, comprehensive insights - helping you make informed decisions that improve outcomes.',
+    description: (
+      <>
+        Gather, analyze, and report critical data with ease. Our <Link href="/aba-data-collection-software">ABA data collection software</Link> and ABA data collection systems provide accurate, comprehensive insights - helping you make informed decisions that improve outcomes.
+      </>
+    ),
     image: collection,
     alt: 'collection',
     panel: collectionPanel,
