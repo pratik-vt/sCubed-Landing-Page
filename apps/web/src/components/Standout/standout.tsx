@@ -1,5 +1,6 @@
 import Image from 'next/image';
 import React from 'react';
+import Link from 'next/link';
 
 import behavoir from '../../images/Behavior Tracking.png';
 import document from '../../images/Document Management.png';
@@ -49,8 +50,8 @@ const Stand: React.FC = () => (
                 <span style={standDesc}>
                   S Cubed offers integrated therapy billing software with
                   automated charge capture, error checking, and detailed
-                  reports. Our platform streamlines ABA therapy billing
-                  services, helping you save time, reduce errors, and get paid
+                  reports. Our platform streamlines <Link href="/billing">ABA therapy billing
+                  services</Link>, helping you save time, reduce errors, and get paid
                   faster.
                 </span>
               </div>

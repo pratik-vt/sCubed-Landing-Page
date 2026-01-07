@@ -9,6 +9,7 @@ import TelehealthPlatformCTA from '../../components/telehealth-platform/Teleheal
 import TelehealthPlatformHero from '../../components/telehealth-platform/TelehealthPlatformHero';
 import TelehealthPlatformWhyChoose from '../../components/telehealth-platform/TelehealthPlatformWhyChoose';
 import { getFAQCollection, transformFAQData } from '../../lib/faq-api';
+
 import TelehealthPlatformHIPPACompliance from '@/components/telehealth-platform/TelehealthPlatformHIPPACompliance';
 
 export const metadata: Metadata = {
