@@ -137,7 +137,7 @@ const BlogContactForm: React.FC = () => {
     };
 
     try {
-      const apiUrl = '/api/contact';
+      const apiUrl = '/api/contact-us';
 
       const response = await fetch(apiUrl, {
         method: 'POST',
