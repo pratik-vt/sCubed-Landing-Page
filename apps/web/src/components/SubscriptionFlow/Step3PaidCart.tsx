@@ -10,6 +10,7 @@ import { fetchApi } from '@/lib/api-client';
 import { showSuccessToast } from '@/lib/errors';
 import { isApiError } from '@/types/api';
 import type { Step3PaidProps } from '@/types/subscription';
+import { formatPhone } from '@/utils/phoneFormatter';
 import { BILLING_CYCLES, type BillingCycle } from '@/constants/billing';
 import { API_ENDPOINTS } from '@/constants/api';
 import { FORM_FIELDS } from '@/constants/formFields';
@@ -296,7 +297,7 @@ export default function Step3PaidCart({
           email: formData.email,
           first_name: formData.first_name,
           last_name: formData.last_name,
-          phone: formData.phone,
+          phone: formatPhone(formData.phone || ''),
         };
 
         // Call /register API

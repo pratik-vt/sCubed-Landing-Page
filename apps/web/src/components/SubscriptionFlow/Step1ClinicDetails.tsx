@@ -22,6 +22,7 @@ import { PhoneInput, TextInput } from './FormComponents';
 import * as styles from './styles.css';
 
 import { useLocationData } from '@/hooks/useLocationData';
+import { formatPhone } from '@/utils/phoneFormatter';
 import type {
   RegistrationResponseData,
   Step1FormData,
@@ -214,7 +215,7 @@ export default function Step1ClinicDetails({
           email: data.email,
           first_name: data.first_name,
           last_name: data.last_name,
-          phone: data.phone,
+          phone: formatPhone(data.phone),
         };
 
         // Call API in draft mode
@@ -251,7 +252,7 @@ export default function Step1ClinicDetails({
         email: data.email,
         first_name: data.first_name,
         last_name: data.last_name,
-        phone: data.phone,
+        phone: formatPhone(data.phone),
         subscription_plan_id: data.subscription_plan_id,
         staff_count: data.staff_count,
         clinic_onboarding_request_id,
