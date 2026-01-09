@@ -11,13 +11,38 @@ import RightImageThreeSlide from '../../public/images/right-image-three-slide.pn
 // import NYSABA2025Image from '../../public/images/NYSABA Event Banner.jpg';
 import { HeroSliderItem } from '../components/HeroImageSlider';
 
+import BackgroundAutismSlide from "../../public/images/background-image-autism.jpg";
+import RightImageAutismSlide from "../../public/images/right-image-autism.png";
+
 export const heroSliderData: HeroSliderItem[] = [
+  {
+    id: 'autism-conference-2026',
+    title: "We’re bringing real ABA conversations to Autism Conference 2026",
+    description:
+      'Join us in New York at Booth #701 to engage, exchange, and elevate ABA practices.',
+    layoutMode: 'split',
+    backgroundImage: {
+      src: BackgroundAutismSlide,
+      alt: 'Autism Conference 2026',
+      position: 'center center',
+    },
+    splitImage: {
+      src: RightImageAutismSlide,
+      alt: "Autism Conference 2026",
+    },
+    link: {
+      href: 'https://scubed.io/events/meet-s-cubed-at-the-20th-annual-autism-conference-aba-software-built-for-real-clinics',
+      text: "Discover Insights",
+      mobileText: "Discover Insights",
+      external: true,
+    },
+  },
   {
     id: 'fluxx-awards-2025-nominee',
     title: "Proudly Announcing: Stephanie Emmons - WINNER of Fluxx Awards 2025",
     description:
       'Awarded for technology that strengthens ABA workflows and supports every moment of therapy.',
-    layoutMode: 'split', // Split layout: content left, image right
+    layoutMode: 'split',
     backgroundImage: {
       src: BackgroundFirstSlide,
       alt: 'Fluxx Awards 2025',
@@ -46,14 +71,14 @@ export const heroSliderData: HeroSliderItem[] = [
       href: '/get-started',
       text: 'Start 30 Days Free Trial Today',
     },
-    contentAlign: 'center', // Example: Center this slide's content
+    contentAlign: 'center',
   },  
   {
     id: 'msn-top-entrepreneurs',
     title: "MSN's Top 10 Trailblazing Entrepreneurs to Follow in 2025",
     description:
       'Congratulations to our founder, Stephanie Emmons, for being recognized for her innovation in care.',
-    layoutMode: 'split', // Split layout: content left, image right
+    layoutMode: 'split',
     backgroundImage: {
       src: BackgroundTwoSlide,
       alt: 'MSN Top 10 Trailblazing Entrepreneurs Background',
@@ -75,7 +100,7 @@ export const heroSliderData: HeroSliderItem[] = [
     title: "From a Mother's Journey Became a Lifeline for Families",
     description:
       'How <a href="https://www.trevorsplace.net/" target="_blank" rel="noopener noreferrer">Trevor\'s Place</a> & <a href="https://scubed.io/">S Cubed</a> are transforming therapy and family communication through innovation and compassion.',
-    layoutMode: 'split', // Split layout: content left, image right
+    layoutMode: 'split',
     backgroundImage: {
       src: BackgroundThreeSlide,
       alt: 'As featured in USA Today Background',
