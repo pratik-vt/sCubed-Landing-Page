@@ -621,11 +621,13 @@ export const heroSliderSplitImageWrapper = style({
   paddingRight: spacing.xl,
   paddingTop: '150px',
   zIndex: 3,
+  marginRight: '2%',
   '@media': {
     'screen and (max-width: 1200px)': {
       width: '45%',
       padding: spacing.md,
       paddingRight: spacing.lg,
+      marginRight: '0%',
     },
     'screen and (max-width: 1024px)': {
       width: '43%',
@@ -661,7 +663,7 @@ export const heroSliderSplitImage = style({
       borderRadius: radius.lg,
     },
     'screen and (max-width: 480px)': {
-      maxWidth: '55%',
+      maxWidth: '80%',
       maxHeight: '180px',
       borderRadius: radius.md,
     },
