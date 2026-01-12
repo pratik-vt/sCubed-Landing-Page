@@ -28,6 +28,10 @@ export const abaFeatureSection = style({
       padding: '15px',
       margin: `20px 15px 0`,
     },
+    'screen and (min-width: 1025px) and (max-width:1440px)': {
+      marginRight: '20px',
+      marginLeft: '20px',
+    }
   },
 });
 
