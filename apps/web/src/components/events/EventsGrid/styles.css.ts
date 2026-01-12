@@ -184,7 +184,7 @@ export const eventDetails = style({
   marginTop: 'auto',
 
   '@media': {
-    'screen and (max-width: 1024px)': {
+    'screen and (max-width: 1480px)': {
       flexDirection: 'column',
       alignItems: 'stretch',
       gap: '1rem',
@@ -282,7 +282,7 @@ export const eventLink = style({
   },
 
   '@media': {
-    'screen and (max-width: 1024px)': {
+    'screen and (max-width: 1480px)': {
       justifyContent: 'center',
       padding: `8px 16px`,
       alignSelf: 'auto',
