@@ -102,6 +102,17 @@ export const heroMobileImage = style({
   borderRadius: radius.lg,
   display: 'block',
   margin: 0,
+
+  '@media': {
+    '(max-width: 768px)': {
+      height: 'auto',
+      minHeight: '180px',
+    },
+    '(max-width: 414px)': {
+      height: 'auto',
+      minHeight: '120px',
+    },
+  },
 });
 
 export const contentWrapper = style({
