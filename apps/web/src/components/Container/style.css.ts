@@ -384,6 +384,8 @@ export const descStyle = style({
   '@media': { 'screen and (max-width: 768px)': { color: `#000` } },
 });
 export const disciplineImg = style({
+  display: 'block',
+  margin: '0 auto',
   '@media': {
     'screen and (max-width: 768px)': {
       padding: `0 30px`,
