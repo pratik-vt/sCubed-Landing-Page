@@ -180,11 +180,13 @@ const EventDetail: React.FC<EventDetailProps> = memo(({ event }) => {
                             {eventLocation}
                           </div>
                         </div>
-                      </div>
-                    </div>
+                  </div>
+                </div>
 
-                    {/* Registration Status */}
-                    {registrationOpen && event.registration_url ? (
+                {/* Registration Status */}
+                {event.registration_url && (
+                  <>
+                    {registrationOpen ? (
                       <Button
                         onClick={() =>
                           window.open(event.registration_url, '_blank')
@@ -215,7 +217,9 @@ const EventDetail: React.FC<EventDetailProps> = memo(({ event }) => {
                         Registration is currently closed
                       </div>
                     )}
-                  </div>
+                  </>
+                )}
+              </div>
                 </div>
               </div>
 
@@ -433,36 +437,40 @@ const EventDetail: React.FC<EventDetailProps> = memo(({ event }) => {
                 </div>
 
                 {/* Registration Status */}
-                {registrationOpen && event.registration_url ? (
-                  <Button
-                    onClick={() =>
-                      window.open(event.registration_url, '_blank')
-                    }
-                    className={styles.registerButton}
-                    style={{
-                      width: '100%',
-                      height: 'auto',
-                      padding: '12px 24px',
-                      fontSize: '16px',
-                      fontWeight: 'bold',
-                    }}
-                    aria-label="Register for this event"
-                  >
-                    Register for Event
-                  </Button>
-                ) : (
-                  <div className={styles.registrationStatusClosed}>
-                    <svg
-                      className={styles.statusIcon}
-                      viewBox="0 0 24 24"
-                      fill="currentColor"
-                      width="16"
-                      height="16"
-                    >
-                      <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z" />
-                    </svg>
-                    Registration is currently closed
-                  </div>
+                {event.registration_url && (
+                  <>
+                    {registrationOpen ? (
+                      <Button
+                        onClick={() =>
+                          window.open(event.registration_url, '_blank')
+                        }
+                        className={styles.registerButton}
+                        style={{
+                          width: '100%',
+                          height: 'auto',
+                          padding: '12px 24px',
+                          fontSize: '16px',
+                          fontWeight: 'bold',
+                        }}
+                        aria-label="Register for this event"
+                      >
+                        Register for Event
+                      </Button>
+                    ) : (
+                      <div className={styles.registrationStatusClosed}>
+                        <svg
+                          className={styles.statusIcon}
+                          viewBox="0 0 24 24"
+                          fill="currentColor"
+                          width="16"
+                          height="16"
+                        >
+                          <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z" />
+                        </svg>
+                        Registration is currently closed
+                      </div>
+                    )}
+                  </>
                 )}
               </div>
             </div>
