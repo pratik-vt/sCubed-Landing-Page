@@ -31,10 +31,10 @@ export const heroSliderData: HeroSliderItem[] = [
       alt: "Autism Conference 2026",
     },
     link: {
-      href: 'https://scubed.io/events/meet-s-cubed-at-the-20th-annual-autism-conference-aba-software-built-for-real-clinics',
+      href: '/events/meet-s-cubed-at-the-20th-annual-autism-conference-aba-software-built-for-real-clinics',
       text: "Discover Insights",
       mobileText: "Discover Insights",
-      external: true,
+      external: false,
     },
   },
   {
