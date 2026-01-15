@@ -1,10 +1,4 @@
 import BannerImage from '../../public/images/Banner.jpg';
-// Slide 1 - Fluxx Awards
-import BackgroundFirstSlide from '../../public/images/background-image-first-slide.jpg';
-import RightImageFirstSlide from '../../public/images/right-image-first-slide-fluxx-awards-2025.png';
-// Slide 2 - MSN Top Entrepreneurs
-import BackgroundTwoSlide from '../../public/images/background-image-two-slide.png';
-import RightImageTwoSlide from '../../public/images/right-image-two-slide.png';
 // Slide 3 - Mother's Journey
 import BackgroundThreeSlide from '../../public/images/background-image-three-slide.png';
 import RightImageThreeSlide from '../../public/images/right-image-three-slide.png';
@@ -15,44 +9,6 @@ import BackgroundAutismSlide from "../../public/images/background-image-autism.j
 import RightImageAutismSlide from "../../public/images/right-image-autism.png";
 
 export const heroSliderData: HeroSliderItem[] = [
-  {
-    id: 'autism-conference-2026',
-    title: "We’re bringing real ABA conversations to Autism Conference 2026",
-    description:
-      'Join us in New York at Booth #701 to engage, exchange, and elevate ABA practices.',
-    layoutMode: 'split',
-    backgroundImage: {
-      src: BackgroundAutismSlide,
-      alt: 'Autism Conference 2026',
-      position: 'center center',
-    },
-    splitImage: {
-      src: RightImageAutismSlide,
-      alt: "Autism Conference 2026",
-    },
-    link: {
-      href: '/events/meet-s-cubed-at-the-20th-annual-autism-conference-aba-software-built-for-real-clinics',
-      text: "Discover Insights",
-      mobileText: "Discover Insights",
-      external: false,
-    },
-  },
-  {
-    id: 'fluxx-awards-2025-nominee',
-    title: "Proudly Announcing: Stephanie Emmons - WINNER of Fluxx Awards 2025",
-    description:
-      'Awarded for technology that strengthens ABA workflows and supports every moment of therapy.',
-    layoutMode: 'split',
-    backgroundImage: {
-      src: BackgroundFirstSlide,
-      alt: 'Fluxx Awards 2025',
-      position: 'center center',
-    },
-    splitImage: {
-      src: RightImageFirstSlide,
-      alt: 'Fluxx Awards 2025',
-    },    
-  },
   {
     id: 'empowering-practice',
     title:
@@ -72,26 +28,26 @@ export const heroSliderData: HeroSliderItem[] = [
       text: 'Start 30 Days Free Trial Today',
     },
     contentAlign: 'center',
-  },  
+  },
   {
-    id: 'msn-top-entrepreneurs',
-    title: "MSN's Top 10 Trailblazing Entrepreneurs to Follow in 2025",
+    id: 'autism-conference-2026',
+    title: "We’re bringing real ABA conversations to Autism Conference 2026",
     description:
-      'Congratulations to our founder, Stephanie Emmons, for being recognized for her innovation in care.',
+      'Join us in New York at Booth #701 to engage, exchange, and elevate ABA practices.',
     layoutMode: 'split',
     backgroundImage: {
-      src: BackgroundTwoSlide,
-      alt: 'MSN Top 10 Trailblazing Entrepreneurs Background',
+      src: BackgroundAutismSlide,
+      alt: 'Autism Conference 2026',
       position: 'center center',
     },
     splitImage: {
-      src: RightImageTwoSlide,
-      alt: 'Top 10 Trailblazing Entrepreneurs Badge',
+      src: RightImageAutismSlide,
+      alt: "Autism Conference 2026",
     },
     link: {
-      href: 'https://www.msn.com/en-us/money/smallbusiness/top-10-trailblazing-entrepreneurs-to-follow-in-2025/ar-AA1Pi9Yi',
-      text: "Read the MSN feature",
-      mobileText: "MSN feature",
+      href: 'https://scubed.io/events/meet-s-cubed-at-the-20th-annual-autism-conference-aba-software-built-for-real-clinics',
+      text: "Discover Insights",
+      mobileText: "Discover Insights",
       external: true,
     },
   },
@@ -117,5 +73,4 @@ export const heroSliderData: HeroSliderItem[] = [
       external: true,
     },
   },
-
 ];

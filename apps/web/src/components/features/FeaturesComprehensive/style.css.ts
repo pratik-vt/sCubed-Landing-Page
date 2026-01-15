@@ -1,5 +1,7 @@
 import { style } from '@vanilla-extract/css';
 
+import { typography } from '@/styles/tokens.css';
+
 // Main section styles
 export const featuresSection = style({
   position: 'relative',
@@ -45,8 +47,7 @@ export const sectionTitle = style({
   color: '#111827',
   marginBottom: '16px',
   lineHeight: 1.2,
-  fontFamily:
-    '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif',
+  fontFamily: typography.fontFamily.heading,
   '@media': {
     'screen and (min-width: 768px) and (max-width: 1024px)': {
       fontSize: '40px',
@@ -61,8 +62,7 @@ export const sectionDescription = style({
   fontSize: '20px',
   color: '#6b7280',
   lineHeight: 1.6,
-  fontFamily:
-    '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif',
+  fontFamily: typography.fontFamily.body,
 });
 
 // Core Features Grid
@@ -125,16 +125,14 @@ export const coreFeatureTitle = style({
   color: '#111827',
   marginBottom: '12px',
   lineHeight: 1.3,
-  fontFamily:
-    '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif',
+  fontFamily: typography.fontFamily.heading,
 });
 
 export const coreFeatureDescription = style({
   fontSize: '15px',
   color: '#6b7280',
   lineHeight: 1.6,
-  fontFamily:
-    '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif',
+  fontFamily: typography.fontFamily.body,
 });
 
 // Additional Features Section
@@ -145,8 +143,7 @@ export const moreFeaturesTitle = style({
   textAlign: 'center',
   marginBottom: '16px',
   lineHeight: 1.2,
-  fontFamily:
-    '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif',
+  fontFamily: typography.fontFamily.heading,
   '@media': { 'screen and (min-width: 768px)': { fontSize: '48px' } },
 });
 
@@ -157,8 +154,7 @@ export const moreFeaturesSubtitle = style({
   marginBottom: '60px',
   maxWidth: '600px',
   margin: '0 auto 60px',
-  fontFamily:
-    '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif',
+  fontFamily: typography.fontFamily.body,
 });
 
 export const additionalFeaturesList = style({
@@ -217,8 +213,7 @@ export const additionalFeatureCategory = style({
   display: 'flex',
   alignItems: 'center',
   gap: '16px',
-  fontFamily:
-    '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif',
+  fontFamily: typography.fontFamily.heading,
 });
 
 export const additionalFeatureIcon = style({
@@ -245,8 +240,7 @@ export const additionalFeatureItem = style({
   fontSize: '16px',
   lineHeight: 1.6,
   marginBottom: '16px',
-  fontFamily:
-    '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif',
+  fontFamily: typography.fontFamily.body,
   transition: 'all 0.2s ease',
   padding: '8px 0',
   borderRadius: '8px',
@@ -284,8 +278,7 @@ export const expandButton = style({
   cursor: 'pointer',
   fontSize: '15px',
   fontWeight: '600',
-  fontFamily:
-    '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif',
+  fontFamily: typography.fontFamily.body,
   display: 'flex',
   alignItems: 'center',
   gap: '8px',
@@ -324,8 +317,7 @@ export const ctaButton = style({
   cursor: 'pointer',
   transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
   boxShadow: '0 6px 24px rgba(122, 126, 237, 0.35)',
-  fontFamily:
-    '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif',
+  fontFamily: typography.fontFamily.body,
   letterSpacing: '0.02em',
   ':hover': {
     transform: 'translateY(-3px) scale(1.02)',
