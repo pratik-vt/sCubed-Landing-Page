@@ -11,6 +11,7 @@ import {
 } from '../../lib/youtube-utils';
 
 import { videoContainer, videoIframe, videoWrapper } from './video-embed.css';
+import { h2Style, h3Style } from './headings.css';
 
 type ComponentProps = {
   children?: React.ReactNode;
@@ -60,13 +61,7 @@ export const defaultMarkdownComponents: Components = {
     return (
       <h2
         id={headingId}
-        style={{
-          fontSize: '2rem',
-          fontWeight: '600',
-          marginBottom: '1.25rem',
-          color: '#111827',
-          scrollMarginTop: '100px',
-        }}
+        className={h2Style}
         {...props}
       >
         {children}
@@ -75,12 +70,7 @@ export const defaultMarkdownComponents: Components = {
   },
   h3: ({ children, ...props }: ComponentProps) => (
     <h3
-      style={{
-        fontSize: '1.5rem',
-        fontWeight: '600',
-        marginBottom: '1rem',
-        color: '#111827',
-      }}
+      className={h3Style}
       {...props}
     >
       {children}
