@@ -140,6 +140,8 @@ export const contentWrapper = style({
   borderRadius: `${radius.xl} ${radius.xl} 0 0`,
   boxShadow: '0 -4px 6px -1px rgba(0, 0, 0, 0.1)',
   zIndex: 1,
+  width: '100%',
+  boxSizing: 'border-box',
 
   '@media': {
     '(max-width: 768px)': {
@@ -659,13 +661,14 @@ export const facebookButton = style([
 
 export const contentLayout = style({
   display: 'grid',
-  gridTemplateColumns: '1fr 354px',
+  gridTemplateColumns: 'minmax(0, 1fr)',
   gap: spacing.xl,
+  width: '100%',
+  boxSizing: 'border-box',
 
   '@media': {
-    '(max-width: 1024px)': {
-      gridTemplateColumns: '1fr',
-      gap: spacing.lg,
+    '(min-width: 1025px)': {
+      gridTemplateColumns: 'minmax(0, 1fr) minmax(0, 354px)',
     },
   },
 });
