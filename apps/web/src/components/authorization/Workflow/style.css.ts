@@ -1,6 +1,6 @@
 import { style } from '@vanilla-extract/css';
 
-import { spacing } from '@/styles/tokens.css';
+import { spacing, typography } from '@/styles/tokens.css';
 
 // Main section styles
 export const featuresSection = style({
@@ -48,8 +48,7 @@ export const sectionTitle = style({
   marginTop: '0px',
   marginBottom: '16px',
   lineHeight: 1.2,
-  fontFamily:
-    '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif',
+  fontFamily: typography.fontFamily.heading,
   '@media': {
     'screen and (min-width: 768px) and (max-width: 1024px)': {
       fontSize: '40px',
@@ -64,8 +63,7 @@ export const sectionDescription = style({
   fontSize: '20px',
   color: '#6b7280',
   lineHeight: 1.6,
-  fontFamily:
-    '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif',
+  fontFamily: typography.fontFamily.body,
 });
 
 // Core Features Grid
@@ -128,14 +126,12 @@ export const coreFeatureTitle = style({
   color: '#111827',
   marginBottom: '12px',
   lineHeight: 1.3,
-  fontFamily:
-    '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif',
+  fontFamily: typography.fontFamily.heading,
 });
 
 export const coreFeatureDescription = style({
   fontSize: '15px',
   color: '#6b7280',
   lineHeight: 1.6,
-  fontFamily:
-    '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif',
+  fontFamily: typography.fontFamily.body,
 });
