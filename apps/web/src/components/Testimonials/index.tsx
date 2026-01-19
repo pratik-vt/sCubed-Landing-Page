@@ -52,30 +52,11 @@ const testimonials: Testimonial[] = [
     verifiedByAlt: 'Verified on g2',
   },
   {
-    title:
-      'Streamlined Operations and Smarter Decision-Making Across All Our Locations',
-    subtitle:
-      'I appreciate how intuitive S Cubed is. It allows us to easily manage operations across multiple outlets while maintaining a clear view of daily performance metrics. The reporting features are particularly impressive helping us identify trends, forecast demand, and make better business decisions. It’s also been great for aligning our management and in-store teams, ensuring everyone works toward the same goals.',
-    author: 'Allen K.',
-    designation: 'Mid-Market',
-    verifiedByLogo: g2Logo,
-    verifiedByAlt: 'Verified on g2',
-  },
-  {
     title: 'Outstanding Practice Management Platform',
     subtitle:
       'My overall experience has been very positive. The platform is reliable, user-friendly, and designed in a way that supports efficiency without overwhelming me with unnecessary features. It helps streamline workflows and makes day-to-day tasks much easier to manage.',
     author: 'Dr. Mitre N.',
     designation: 'Medical Practice',
-    verifiedByLogo: capterraLogo,
-    verifiedByAlt: 'Verified on capterra',
-  },
-  {
-    title: 'A Practical Tool That Improves Efficiency in Healthcare Settings',
-    subtitle:
-      'S Cubed has been an excellent addition to our operations. It reduces waiting times caused by scheduling delays, cuts down paperwork, and helps us stay consistent across teams. For any healthcare organization looking for a reliable, easy-to-use management solution, S Cubed is a smart choice.',
-    author: 'Ronnie K.',
-    designation: 'Events Services',
     verifiedByLogo: capterraLogo,
     verifiedByAlt: 'Verified on capterra',
   },
