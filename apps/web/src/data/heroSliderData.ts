@@ -24,7 +24,7 @@ export const heroSliderData: HeroSliderItem[] = [
       height: 800,
     },
     link: {
-      href: '/get-started',
+      href: '/subscribe?plan=free',
       text: 'Start 30 Days Free Trial Today',
     },
     contentAlign: 'center',
