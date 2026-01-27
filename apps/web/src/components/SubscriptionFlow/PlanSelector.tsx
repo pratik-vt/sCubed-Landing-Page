@@ -25,7 +25,8 @@ export default function PlanSelector({
   onSelectPlan,
   onClose,
 }: PlanSelectorProps) {
-  const [selectedPlanId, setSelectedPlanId] = useState(currentPlanId);
+  // Track the user's intended plan choice (what they actually want)
+  const [intendedPlanId, setIntendedPlanId] = useState(currentPlanId);
   const [selectedBillingCycle, setSelectedBillingCycle] =
     useState<BillingCycle>(currentBillingCycle);
 
@@ -35,6 +36,23 @@ export default function PlanSelector({
     { id: PLAN_IDS.ESSENTIAL, name: PLAN_NAMES[PLAN_IDS.ESSENTIAL] },
     { id: PLAN_IDS.GROWTH, name: PLAN_NAMES[PLAN_IDS.GROWTH] },
   ];
+
+  // Derive displayed plan: if intended plan is Free but billing is Yearly, show Starter
+  const selectedPlanId =
+    intendedPlanId === PLAN_IDS.FREE && selectedBillingCycle === BILLING_CYCLES.YEARLY
+      ? PLAN_IDS.STARTER
+      : intendedPlanId;
+
+  // Handle billing cycle changes
+  const handleBillingCycleChange = (newCycle: BillingCycle) => {
+    setSelectedBillingCycle(newCycle);
+    // The displayed plan will automatically update via the derived selectedPlanId
+  };
+
+  // Handle manual plan selection - update the intended plan
+  const handlePlanSelect = (planId: number) => {
+    setIntendedPlanId(planId);
+  };
 
   const handleConfirm = () => {
     onSelectPlan(selectedPlanId, selectedBillingCycle);
@@ -68,7 +86,7 @@ export default function PlanSelector({
                   ? styles.billingToggleButtonActive
                   : ''
               }`}
-              onClick={() => setSelectedBillingCycle(BILLING_CYCLES.MONTHLY)}
+              onClick={() => handleBillingCycleChange(BILLING_CYCLES.MONTHLY)}
             >
               Monthly
             </button>
@@ -78,14 +96,14 @@ export default function PlanSelector({
                   ? styles.billingToggleButtonActive
                   : ''
               }`}
-              onClick={() => setSelectedBillingCycle(BILLING_CYCLES.YEARLY)}
+              onClick={() => handleBillingCycleChange(BILLING_CYCLES.YEARLY)}
             >
               Yearly
             </button>
           </div>
 
           {/* Free Plan - Separate Section */}
-          <div style={{ marginBottom: '1.5rem' }}>
+          {selectedBillingCycle === BILLING_CYCLES.MONTHLY && <div style={{ marginBottom: '1.5rem' }}>
             <h3 style={{ fontSize: '14px', fontWeight: '600', color: '#6b7280', marginBottom: '0.75rem', textTransform: 'uppercase', letterSpacing: '0.05em' }}>
               Free Option
             </h3>
@@ -97,7 +115,7 @@ export default function PlanSelector({
                 borderColor: selectedPlanId === freePlan.id ? PLAN_COLORS[freePlan.id].border : '#e5e7eb',
                 backgroundColor: selectedPlanId === freePlan.id ? PLAN_COLORS[freePlan.id].bg : '#ffffff',
               }}
-              onClick={() => setSelectedPlanId(freePlan.id)}
+              onClick={() => handlePlanSelect(freePlan.id)}
             >
               <div className={styles.planOptionCheckbox}>
                 {selectedPlanId === freePlan.id && (
@@ -128,7 +146,7 @@ export default function PlanSelector({
                 </div>
               </div>
             </div>
-          </div>
+          </div>}
 
           {/* Paid Plans - Grid Section */}
           <div>
@@ -150,7 +168,7 @@ export default function PlanSelector({
                       borderColor: isSelected ? colors.border : '#e5e7eb',
                       backgroundColor: isSelected ? colors.bg : '#ffffff',
                     }}
-                    onClick={() => setSelectedPlanId(plan.id)}
+                    onClick={() => handlePlanSelect(plan.id)}
                   >
                     <div className={styles.planOptionCheckbox}>
                       {isSelected && (
