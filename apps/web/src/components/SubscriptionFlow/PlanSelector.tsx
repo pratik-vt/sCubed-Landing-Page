@@ -1,12 +1,22 @@
 'use client';
 
 import { X, Check, Star } from 'lucide-react';
-import { useState } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 
 import * as styles from './styles.css';
 
-import { PLAN_IDS, PLAN_NAMES, PLAN_COLORS, PLAN_PRICING } from '@/constants/plans';
+import { PLAN_IDS, PLAN_NAMES, PLAN_COLORS } from '@/constants/plans';
 import { BILLING_CYCLES, type BillingCycle } from '@/constants/billing';
+import { API_ENDPOINTS } from '@/constants/api';
+import { fetchApi } from '@/lib/api-client';
+import type { PlanApiData } from '@/types/subscription';
+
+// Helper function to safely parse prices
+const parsePrice = (value: string | undefined | null): number => {
+  if (!value) return 0;
+  const parsed = Number.parseFloat(value);
+  return Number.isNaN(parsed) ? 0 : parsed;
+};
 
 interface PlanSelectorProps {
   currentPlanId: number;
@@ -29,6 +39,33 @@ export default function PlanSelector({
   const [intendedPlanId, setIntendedPlanId] = useState(currentPlanId);
   const [selectedBillingCycle, setSelectedBillingCycle] =
     useState<BillingCycle>(currentBillingCycle);
+  const [plansData, setPlansData] = useState<PlanApiData[]>([]);
+  const [loadingPlans, setLoadingPlans] = useState(true);
+
+  // Fetch plans from API
+  const fetchPlans = useCallback(async () => {
+    setLoadingPlans(true);
+    try {
+      const result = await fetchApi<{ plans: PlanApiData[] }>(
+        API_ENDPOINTS.SUBSCRIPTION.PLANS_AND_ADDONS,
+        { method: 'GET' },
+      );
+      setPlansData(result.plans || []);
+    } catch (error) {
+      console.error('Failed to load plans:', error);
+    } finally {
+      setLoadingPlans(false);
+    }
+  }, []);
+
+  useEffect(() => {
+    fetchPlans();
+  }, [fetchPlans]);
+
+  // Helper to get plan data by ID
+  const getPlanData = (planId: number): PlanApiData | undefined => {
+    return plansData.find((p) => p.id === planId);
+  };
 
   const freePlan = { id: PLAN_IDS.FREE, name: PLAN_NAMES[PLAN_IDS.FREE] };
   const paidPlans = [
@@ -153,69 +190,76 @@ export default function PlanSelector({
             <h3 style={{ fontSize: '14px', fontWeight: '600', color: '#6b7280', marginBottom: '0.75rem', textTransform: 'uppercase', letterSpacing: '0.05em' }}>
               Paid Plans
             </h3>
-            <div className={styles.planOptionsGrid}>
-              {paidPlans.map((plan) => {
-                const isSelected = selectedPlanId === plan.id;
-                const colors = PLAN_COLORS[plan.id as keyof typeof PLAN_COLORS];
+            {loadingPlans ? (
+              <div style={{ textAlign: 'center', padding: '2rem' }}>
+                <p>Loading plans...</p>
+              </div>
+            ) : (
+              <div className={styles.planOptionsGrid}>
+                {paidPlans.map((plan) => {
+                  const isSelected = selectedPlanId === plan.id;
+                  const colors = PLAN_COLORS[plan.id as keyof typeof PLAN_COLORS];
+                  const planData = getPlanData(plan.id);
 
-                return (
-                  <div
-                    key={plan.id}
-                    className={`${styles.planOptionCard} ${
-                      isSelected ? styles.planOptionCardSelected : ''
-                    }`}
-                    style={{
-                      borderColor: isSelected ? colors.border : '#e5e7eb',
-                      backgroundColor: isSelected ? colors.bg : '#ffffff',
-                    }}
-                    onClick={() => handlePlanSelect(plan.id)}
-                  >
-                    <div className={styles.planOptionCheckbox}>
-                      {isSelected && (
-                        <Check size={16} style={{ color: colors.text }} />
-                      )}
-                    </div>
-                    <div className={styles.planOptionContent}>
-                      <div className={styles.planOptionHeader}>
-                        <Star size={16} style={{ color: colors.text }} />
-                        <span
-                          className={styles.planOptionName}
-                          style={{ color: colors.text }}
-                        >
-                          {plan.name}
-                        </span>
-                      </div>
-                      <div style={{ marginTop: '0.75rem' }}>
-                        {selectedBillingCycle === BILLING_CYCLES.YEARLY ? (
-                          <>
-                            <div style={{ fontSize: '0.875rem', color: '#6b7280', textDecoration: 'line-through' }}>
-                              ${PLAN_PRICING[plan.id as keyof typeof PLAN_PRICING].monthly * 12}/year
-                            </div>
-                            <div style={{ fontSize: '1.25rem', fontWeight: '700', color: colors.text, marginTop: '0.25rem' }}>
-                              ${PLAN_PRICING[plan.id as keyof typeof PLAN_PRICING].yearly}/year
-                            </div>
-                          </>
-                        ) : (
-                          <div style={{ fontSize: '1.25rem', fontWeight: '700', color: colors.text }}>
-                            ${PLAN_PRICING[plan.id as keyof typeof PLAN_PRICING].monthly}/month
-                          </div>
+                  return (
+                    <div
+                      key={plan.id}
+                      className={`${styles.planOptionCard} ${
+                        isSelected ? styles.planOptionCardSelected : ''
+                      }`}
+                      style={{
+                        borderColor: isSelected ? colors.border : '#e5e7eb',
+                        backgroundColor: isSelected ? colors.bg : '#ffffff',
+                      }}
+                      onClick={() => handlePlanSelect(plan.id)}
+                    >
+                      <div className={styles.planOptionCheckbox}>
+                        {isSelected && (
+                          <Check size={16} style={{ color: colors.text }} />
                         )}
                       </div>
-                      <div
-                        className={styles.planOptionBadge}
-                        style={{
-                          color: colors.text,
-                          borderColor: colors.border,
-                          backgroundColor: !isSelected ? colors.bg : '#ffffff',
-                        }}
-                      >
-                        {selectedBillingCycle === BILLING_CYCLES.YEARLY ? 'Annual' : 'Monthly'}
+                      <div className={styles.planOptionContent}>
+                        <div className={styles.planOptionHeader}>
+                          <Star size={16} style={{ color: colors.text }} />
+                          <span
+                            className={styles.planOptionName}
+                            style={{ color: colors.text }}
+                          >
+                            {plan.name}
+                          </span>
+                        </div>
+                        <div style={{ marginTop: '0.75rem' }}>
+                          {selectedBillingCycle === BILLING_CYCLES.YEARLY ? (
+                            <>
+                              <div style={{ fontSize: '0.875rem', color: '#6b7280', textDecoration: 'line-through' }}>
+                                ${planData ? parsePrice(planData.yearly_price_per_staff).toFixed(0) : '0'}/year
+                              </div>
+                              <div style={{ fontSize: '1.25rem', fontWeight: '700', color: colors.text, marginTop: '0.25rem' }}>
+                                ${planData ? parsePrice(planData.discounted_yearly_price_per_staff).toFixed(0) : '0'}/year
+                              </div>
+                            </>
+                          ) : (
+                            <div style={{ fontSize: '1.25rem', fontWeight: '700', color: colors.text }}>
+                              ${planData ? parsePrice(planData.monthly_price_per_staff).toFixed(0) : '0'}/month
+                            </div>
+                          )}
+                        </div>
+                        <div
+                          className={styles.planOptionBadge}
+                          style={{
+                            color: colors.text,
+                            borderColor: colors.border,
+                            backgroundColor: !isSelected ? colors.bg : '#ffffff',
+                          }}
+                        >
+                          {selectedBillingCycle === BILLING_CYCLES.YEARLY ? 'Annual' : 'Monthly'}
+                        </div>
                       </div>
                     </div>
-                  </div>
-                );
-              })}
-            </div>
+                  );
+                })}
+              </div>
+            )}
           </div>
         </div>
 

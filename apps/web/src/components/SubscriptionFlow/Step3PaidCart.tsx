@@ -9,11 +9,10 @@ import * as styles from './styles.css';
 import { fetchApi } from '@/lib/api-client';
 import { showSuccessToast } from '@/lib/errors';
 import { isApiError } from '@/types/api';
-import type { Step3PaidProps } from '@/types/subscription';
+import type { Step3PaidProps, PlanApiData, AddonApiData } from '@/types/subscription';
 import { formatPhone } from '@/utils/phoneFormatter';
 import { BILLING_CYCLES, type BillingCycle } from '@/constants/billing';
 import { API_ENDPOINTS } from '@/constants/api';
-import { FORM_FIELDS } from '@/constants/formFields';
 
 interface CartFormData {
   staff_count: number;
@@ -21,35 +20,12 @@ interface CartFormData {
   addons: number[];
 }
 
-interface PlanData {
-  id: number;
-  name: string;
-  slug: string;
-  plan_type: string;
-  monthly_price_per_staff: string;
-  yearly_price_per_staff: string;
-  trial_days: number;
-  max_staff: number;
-  display_order: number;
-  stripe_monthly_price_id: string | null;
-  stripe_yearly_price_id: string | null;
-}
-
-interface AddonData {
-  id: number;
-  feature_key: string;
-  feature_name: string;
-  description: string;
-  feature_type: string;
-  monthly_price: string;
-  yearly_price: string;
-  stripe_monthly_price_id: string | null;
-  stripe_yearly_price_id: string | null;
-  display_order: number;
-}
+// Use shared types with local aliases for backward compatibility
+type PlanData = PlanApiData;
+type AddonData = AddonApiData;
 
 // Helper function to safely parse prices
-const parsePrice = (value: string | undefined): number => {
+const parsePrice = (value: string | undefined | null): number => {
   if (!value) return 0;
   const parsed = Number.parseFloat(value);
   return Number.isNaN(parsed) ? 0 : parsed;
@@ -121,7 +97,7 @@ export default function Step3PaidCart({
     const pricePerStaff = parsePrice(
       billingCycle === BILLING_CYCLES.MONTHLY
         ? currentPlan.monthly_price_per_staff
-        : currentPlan.yearly_price_per_staff,
+        : currentPlan.discounted_yearly_price_per_staff,
     );
 
     const basePrice = pricePerStaff * staffCount;
@@ -144,11 +120,11 @@ export default function Step3PaidCart({
   const savingsPercentage = useMemo((): string => {
     if (!currentPlan) return '';
 
-    const monthlyTotal = parsePrice(currentPlan.monthly_price_per_staff) * 12;
-    const yearlyTotal = parsePrice(currentPlan.yearly_price_per_staff);
+    const originalYearlyTotal = parsePrice(currentPlan.yearly_price_per_staff);
+    const discountedYearlyTotal = parsePrice(currentPlan.discounted_yearly_price_per_staff);
 
-    if (monthlyTotal > 0 && yearlyTotal > 0) {
-      const savings = ((monthlyTotal - yearlyTotal) / monthlyTotal) * 100;
+    if (originalYearlyTotal > 0 && discountedYearlyTotal > 0) {
+      const savings = ((originalYearlyTotal - discountedYearlyTotal) / originalYearlyTotal) * 100;
       if (savings > 0) {
         return `Save ${Math.round(savings)}%`;
       }
@@ -399,13 +375,10 @@ export default function Step3PaidCart({
                 {billingCycle === BILLING_CYCLES.YEARLY ? (
                   <>
                     <span className={styles.billingCycleOriginalPrice}>
-                      $
-                      {(
-                        parsePrice(currentPlan.monthly_price_per_staff) * 12
-                      ).toFixed(0)}
+                      ${currentPlan.yearly_price_per_staff}
                     </span>
                     <span className={styles.billingCycleDiscountedPrice}>
-                      ${currentPlan.yearly_price_per_staff}
+                      ${currentPlan.discounted_yearly_price_per_staff}
                     </span>
                   </>
                 ) : (
@@ -441,15 +414,14 @@ export default function Step3PaidCart({
                     <span className={styles.billingCycleOriginalPrice}>
                       $
                       {(
-                        parsePrice(currentPlan.monthly_price_per_staff) *
-                        12 *
+                        parsePrice(currentPlan.yearly_price_per_staff) *
                         staffCount
                       ).toFixed(0)}
                     </span>
                     <span className={styles.totalPrice}>
                       $
                       {(
-                        parsePrice(currentPlan.yearly_price_per_staff) *
+                        parsePrice(currentPlan.discounted_yearly_price_per_staff) *
                         staffCount
                       ).toFixed(0)}
                     </span>
@@ -527,15 +499,10 @@ export default function Step3PaidCart({
                         <span className={styles.billingCycleTitle}>Yearly</span>
                         <div className={styles.billingCyclePriceWrapper}>
                           <span className={styles.billingCycleOriginalPrice}>
-                            $
-                            {(
-                              parsePrice(currentPlan.monthly_price_per_staff) *
-                              12
-                            ).toFixed(0)}
-                            /year
+                            ${currentPlan.yearly_price_per_staff}/year
                           </span>
                           <span className={styles.billingCycleDiscountedPrice}>
-                            ${currentPlan.yearly_price_per_staff}/year per staff
+                            ${currentPlan.discounted_yearly_price_per_staff}/year per staff
                           </span>
                         </div>
                         {savingsPercentage && (
@@ -688,15 +655,14 @@ export default function Step3PaidCart({
                       <span className={styles.summaryOriginalPrice}>
                         $
                         {(
-                          parsePrice(currentPlan.monthly_price_per_staff) *
-                          12 *
+                          parsePrice(currentPlan.yearly_price_per_staff) *
                           staffCount
                         ).toFixed(2)}
                       </span>
                       <span className={styles.summaryDiscountedPrice}>
                         $
                         {(
-                          parsePrice(currentPlan.yearly_price_per_staff) *
+                          parsePrice(currentPlan.discounted_yearly_price_per_staff) *
                           staffCount
                         ).toFixed(2)}
                       </span>
@@ -736,8 +702,7 @@ export default function Step3PaidCart({
                         <span className={styles.summaryOriginalPrice}>
                           $
                           {(
-                            parsePrice(currentPlan.monthly_price_per_staff) *
-                              12 *
+                            parsePrice(currentPlan.yearly_price_per_staff) *
                               staffCount +
                             selectedAddonsList.reduce((sum, addon) => {
                               // For add-ons, use yearly price directly (no discount)
