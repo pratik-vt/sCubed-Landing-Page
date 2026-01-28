@@ -167,6 +167,40 @@ export interface AddonFeature {
   };
 }
 
+/**
+ * Plan API Data - Response from plans-and-addons endpoint
+ */
+export interface PlanApiData {
+  id: number;
+  name: string;
+  slug: string;
+  plan_type: string;
+  monthly_price_per_staff: string;
+  yearly_price_per_staff: string;
+  discounted_yearly_price_per_staff: string | null;
+  trial_days: number;
+  max_staff: number;
+  display_order: number;
+  stripe_monthly_price_id?: string | null;
+  stripe_yearly_price_id?: string | null;
+}
+
+/**
+ * Addon API Data - Response from plans-and-addons endpoint
+ */
+export interface AddonApiData {
+  id: number;
+  feature_key: string;
+  feature_name: string;
+  description: string;
+  feature_type: string;
+  monthly_price: string | null;
+  yearly_price: string | null;
+  stripe_monthly_price_id?: string | null;
+  stripe_yearly_price_id?: string | null;
+  display_order: number;
+}
+
 // ============================================================================
 // API RESPONSE TYPES
 // ============================================================================

@@ -1,15 +1,25 @@
 'use client';
 
 import { Star } from 'lucide-react';
+import { useEffect, useState, useCallback } from 'react';
 
 import * as styles from './styles.css';
 
 import {
   getPlanColorsById,
   getPlanNameById,
-  getPlanPricingById,
   PLAN_IDS,
 } from '@/constants/plans';
+import { API_ENDPOINTS } from '@/constants/api';
+import { fetchApi } from '@/lib/api-client';
+import type { PlanApiData } from '@/types/subscription';
+
+// Helper function to safely parse prices
+const parsePrice = (value: string | undefined | null): number => {
+  if (!value) return 0;
+  const parsed = Number.parseFloat(value);
+  return Number.isNaN(parsed) ? 0 : parsed;
+};
 
 interface PlanBadgeProps {
   readonly planId: number;
@@ -23,8 +33,26 @@ interface PlanBadgeProps {
 export default function PlanBadge({ planId, billingCycle }: PlanBadgeProps) {
   const planName = getPlanNameById(planId);
   const colors = getPlanColorsById(planId);
-  const pricing = getPlanPricingById(planId);
   const isFree = planId === PLAN_IDS.FREE;
+  const [planData, setPlanData] = useState<PlanApiData | null>(null);
+
+  const fetchPlanData = useCallback(async () => {
+    if (isFree) return;
+    try {
+      const result = await fetchApi<{ plans: PlanApiData[] }>(
+        API_ENDPOINTS.SUBSCRIPTION.PLANS_AND_ADDONS,
+        { method: 'GET' },
+      );
+      const plan = result.plans?.find((p) => p.id === planId);
+      if (plan) setPlanData(plan);
+    } catch (error) {
+      console.error('Failed to load plan data:', error);
+    }
+  }, [planId, isFree]);
+
+  useEffect(() => {
+    fetchPlanData();
+  }, [fetchPlanData]);
 
   return (
     <div
@@ -44,20 +72,20 @@ export default function PlanBadge({ planId, billingCycle }: PlanBadgeProps) {
           </span>
         )}
       </div>
-      {!isFree && billingCycle ? (
+      {!isFree && billingCycle && planData ? (
         <>
           {billingCycle === 'yearly' ? (
             <div className={styles.planBadgePriceContainer}>
               <span className={styles.planBadgePriceStrike}>
-                ${pricing.monthly * 12}/year
+                ${parsePrice(planData.yearly_price_per_staff).toFixed(0)}/year
               </span>
               <span className={styles.planBadgePrice}>
-                ${pricing.yearly}/year
+                ${parsePrice(planData.discounted_yearly_price_per_staff).toFixed(0)}/year
               </span>
             </div>
           ) : (
             <div className={styles.planBadgePriceSingle}>
-              ${pricing.monthly}/month
+              ${parsePrice(planData.monthly_price_per_staff).toFixed(0)}/month
             </div>
           )}
         </>
