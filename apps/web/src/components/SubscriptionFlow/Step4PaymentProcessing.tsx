@@ -88,7 +88,8 @@ export default function Step4PaymentProcessing({
             staff_count: formData.staff_count,
             addons: formData.addons || [],
             customer_email: formData.email,
-            success_url: `${window.location.origin}/subscribe/payment-return?success=true&session_id={CHECKOUT_SESSION_ID}`,
+            // Note: session_id parameter is added by the backend when creating Stripe session
+            success_url: `${window.location.origin}/subscribe/payment-return?success=true`,
             cancel_url: `${window.location.origin}/subscribe/payment-return?canceled=true`,
           }),
         },
