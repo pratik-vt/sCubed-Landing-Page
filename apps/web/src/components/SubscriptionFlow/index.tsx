@@ -110,6 +110,11 @@ export default function SubscriptionFlow() {
     }
   }, [formState, isRestoringSession]);
 
+  // Scroll to top whenever the step changes
+  useEffect(() => {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }, [formState.currentStep]);
+
   // Step 0: Handle email submission
   const handleStep0Complete = (
     clinic_onboarding_request_id: number,
