@@ -13,6 +13,7 @@ import { Controller, useForm } from 'react-hook-form';
 import isEmail from 'validator/lib/isEmail';
 import isMobilePhone from 'validator/lib/isMobilePhone';
 
+import { DEFAULT_STAFF_COUNT } from '../../constants/formFields';
 import { SUCCESS_MESSAGES } from '../../constants/messages';
 import { fetchApi } from '../../lib/api-client';
 import { getFieldErrors, showSuccessToast } from '../../lib/errors';
@@ -77,7 +78,7 @@ export default function Step1ClinicDetails({
       phone: initialData?.phone || '',
       subscription_plan_id:
         initialData?.subscription_plan_id || selectedPlan?.id || 1,
-      staff_count: initialData?.staff_count || 1,
+      staff_count: initialData?.staff_count || DEFAULT_STAFF_COUNT,
       // Handle both object and ID formats for state/city (for prefilling from API)
       state: initialData?.state?.id?.toString() || '',
       city: initialData?.city?.id?.toString() || '',
@@ -103,7 +104,7 @@ export default function Step1ClinicDetails({
           phone: initialData?.phone || '',
           subscription_plan_id:
             initialData.subscription_plan_id || selectedPlan?.id || 1,
-          staff_count: initialData?.staff_count || 1,
+          staff_count: initialData?.staff_count || DEFAULT_STAFF_COUNT,
           state: initialData?.state?.id?.toString() || '',
           city: initialData?.city?.id?.toString() || '',
         },
