@@ -245,9 +245,10 @@ export default function Step3PaidCart({
         }
 
         // Construct URLs for Stripe redirect
+        // Note: session_id parameter is added by the backend when creating Stripe session
         const baseUrl =
           process.env.NEXT_PUBLIC_SITE_URL || globalThis.location?.origin || '';
-        const success_url = `${baseUrl}/subscribe/success?session_id={CHECKOUT_SESSION_ID}`;
+        const success_url = `${baseUrl}/subscribe/success`;
         const cancel_url = `${baseUrl}/subscribe`;
 
         // Final submission with subscription details
