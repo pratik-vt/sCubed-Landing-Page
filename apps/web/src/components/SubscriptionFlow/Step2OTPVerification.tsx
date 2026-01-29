@@ -303,22 +303,6 @@ export default function Step2OTPVerification({
                   justifyContent: 'center',
                 }}
               >
-                <span
-                  style={{
-                    display: 'inline-flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    width: '24px',
-                    height: '24px',
-                    borderRadius: '50%',
-                    backgroundColor: '#e5e7eb',
-                    fontSize: '12px',
-                    fontWeight: '600',
-                    color: '#6b7280',
-                  }}
-                >
-                  {resendCooldown}
-                </span>
                 <span>Resend available in {resendCooldown} seconds</span>
               </div>
             ) : (

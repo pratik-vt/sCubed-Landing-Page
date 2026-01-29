@@ -115,3 +115,10 @@ body:has(.react-responsive-modal-overlay) {
   box-sizing: border-box !important;
   padding: 0;
 }
+
+/* Close button - move to right side using Sonner's CSS variables */
+:where([data-sonner-toaster] button[data-close-button]) {
+  --toast-close-button-start: auto;
+  --toast-close-button-end: 0;
+  --toast-close-button-transform: translate(35%, -35%);
+}
