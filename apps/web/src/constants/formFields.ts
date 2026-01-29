@@ -3,6 +3,11 @@
  * Centralized form field names for consistent API communication
  */
 
+/**
+ * Default staff count used as fallback when no value is provided
+ */
+export const DEFAULT_STAFF_COUNT = 5;
+
 export const FORM_FIELDS = {
   // Clinic Information
   CLINIC: {

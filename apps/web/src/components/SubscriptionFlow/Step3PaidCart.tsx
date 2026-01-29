@@ -13,6 +13,7 @@ import type { Step3PaidProps, PlanApiData, AddonApiData } from '@/types/subscrip
 import { formatPhone } from '@/utils/phoneFormatter';
 import { BILLING_CYCLES, type BillingCycle } from '@/constants/billing';
 import { API_ENDPOINTS } from '@/constants/api';
+import { DEFAULT_STAFF_COUNT } from '@/constants/formFields';
 
 interface CartFormData {
   staff_count: number;
@@ -73,7 +74,7 @@ export default function Step3PaidCart({
 
   const { handleSubmit, control, setValue } = useForm<CartFormData>({
     defaultValues: {
-      staff_count: formData.staff_count || 1,
+      staff_count: formData.staff_count || DEFAULT_STAFF_COUNT,
       billing_cycle: BILLING_CYCLES.MONTHLY,
       addons: [],
     },

@@ -15,6 +15,7 @@ import Step4PaymentProcessing from './Step4PaymentProcessing';
 import StepIndicator from './StepIndicator';
 import * as styles from './styles.css';
 
+import { DEFAULT_STAFF_COUNT } from '@/constants/formFields';
 import { getPlanIdByName, PLAN_TYPES } from '@/constants/plans';
 import { BILLING_CYCLES, type BillingCycle } from '@/constants/billing';
 import { API_ENDPOINTS, getRegistrationDataEndpoint } from '@/constants/api';
@@ -167,7 +168,7 @@ export default function SubscriptionFlow() {
               last_name: registrationData.last_name || prev.step1Data.last_name || '',
               phone: registrationData.phone || prev.step1Data.phone || '',
               subscription_plan_id: registrationData.subscription_plan_id || prev.step1Data.subscription_plan_id,
-              staff_count: registrationData.staff_count || prev.step1Data.staff_count || 1,
+              staff_count: registrationData.staff_count || prev.step1Data.staff_count || DEFAULT_STAFF_COUNT,
               // Handle state and city as IDs - the form component will resolve them
               state: registrationData.state_id
                 ? ({ id: registrationData.state_id, name: '', code: '', timezones: [] } as any)
@@ -411,7 +412,7 @@ export default function SubscriptionFlow() {
                 phone: formState.step1Data.phone || '',
                 subscription_plan_id:
                   formState.step1Data.subscription_plan_id || 1,
-                staff_count: formState.step1Data.staff_count || 1,
+                staff_count: formState.step1Data.staff_count || DEFAULT_STAFF_COUNT,
               }}
             />
           )}
@@ -448,7 +449,7 @@ export default function SubscriptionFlow() {
                 phone: formState.step1Data.phone || '',
                 subscription_plan_id:
                   formState.step1Data.subscription_plan_id || 2,
-                staff_count: formState.step1Data.staff_count || 1,
+                staff_count: formState.step1Data.staff_count || DEFAULT_STAFF_COUNT,
                 billing_cycle: formState.billingCycle,
                 addons: formState.selectedAddons,
               }}
