@@ -22,7 +22,9 @@ import { isApiError } from '../../types/api';
 import { PhoneInput, TextInput } from './FormComponents';
 import * as styles from './styles.css';
 
+import InfiniteSelectDropdown from '@/components/InfiniteSelectDropdown';
 import { useLocationData } from '@/hooks/useLocationData';
+import { usePaginatedCities } from '@/hooks/usePaginatedCities';
 import { formatPhone } from '@/utils/phoneFormatter';
 import type {
   RegistrationResponseData,
@@ -127,8 +129,13 @@ export default function Step1ClinicDetails({
 
   const selectedState = watch('state');
   const selectedCity = watch('city');
-  const { states, cities, loadingStates, loadingCities, apiError } =
-    useLocationData(selectedState);
+
+  // Get states from useLocationData (cities handled by usePaginatedCities)
+  const { states, loadingStates, apiError } = useLocationData();
+
+  // Use paginated cities hook for infinite scroll
+  const { cities, loading: loadingCities, loadingMore, hasMore, loadMore } =
+    usePaginatedCities({ stateId: selectedState || '' });
 
   // Restore city selection after cities are loaded (handles back navigation from cart)
   useEffect(() => {
@@ -480,20 +487,22 @@ export default function Step1ClinicDetails({
             <label className={styles.label}>
               State <span className={styles.requiredIndicator}>*</span>
             </label>
-            <select
-              className={`${styles.select} ${styles.inputLarge} ${errors.state ? `${styles.inputError} ${styles.shakeAnimation}` : ''}`}
+            <InfiniteSelectDropdown
+              options={states.map((state) => ({
+                id: state.id.toString(),
+                name: `${state.name} (${state.code})`,
+              }))}
+              value={selectedState || ''}
+              onChange={(val) => setValue('state', val, { shouldValidate: true })}
+              placeholder={loadingStates ? 'Loading states...' : 'Select a state'}
               disabled={loadingStates}
+              searchable={false}
+              error={!!errors.state || !!fieldErrors.state}
+            />
+            <input
+              type="hidden"
               {...register('state', { required: 'State is required' })}
-            >
-              <option value="">
-                {loadingStates ? 'Loading states...' : 'Select a state'}
-              </option>
-              {states.map((option) => (
-                <option key={option.id} value={option.id.toString()}>
-                  {option.name} ({option.code})
-                </option>
-              ))}
-            </select>
+            />
             {shouldShowError('state') && getErrorMessage('state') && (
               <div className={styles.errorMessage}>
                 <AlertCircle size={16} />
@@ -506,24 +515,31 @@ export default function Step1ClinicDetails({
             <label className={styles.label}>
               City <span className={styles.requiredIndicator}>*</span>
             </label>
-            <select
-              className={`${styles.select} ${styles.inputLarge} ${errors.city ? `${styles.inputError} ${styles.shakeAnimation}` : ''}`}
-              disabled={!selectedState || loadingCities}
-              {...register('city', { required: 'City is required' })}
-            >
-              <option value="">
-                {!selectedState
+            <InfiniteSelectDropdown
+              options={cities.map((city) => ({
+                id: city.id.toString(),
+                name: city.name,
+              }))}
+              value={selectedCity || ''}
+              onChange={(val) => setValue('city', val, { shouldValidate: true })}
+              placeholder={
+                !selectedState
                   ? 'Select a state first'
                   : loadingCities
-                    ? 'Loading cities...'
-                    : 'Select a city'}
-              </option>
-              {cities.map((option) => (
-                <option key={option.id} value={option.id.toString()}>
-                  {option.name}
-                </option>
-              ))}
-            </select>
+                    ? 'Loading...'
+                    : 'Select a city'
+              }
+              disabled={!selectedState || loadingCities}
+              loading={loadingMore}
+              hasMore={hasMore}
+              onLoadMore={loadMore}
+              searchable={false}
+              error={!!errors.city || !!fieldErrors.city}
+            />
+            <input
+              type="hidden"
+              {...register('city', { required: 'City is required' })}
+            />
             {shouldShowError('city') && getErrorMessage('city') && (
               <div className={styles.errorMessage}>
                 <AlertCircle size={16} />
