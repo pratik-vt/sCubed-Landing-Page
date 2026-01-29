@@ -273,25 +273,27 @@ export const navMenu = style({
       // Ensure scrollbar is visible when needed
       scrollbarWidth: 'thin',
       scrollbarColor: '#7a7eed #f0f0f0',
-      // Ensure buttons at bottom are reachable
-      paddingBottom: '40px',
+      // Ensure buttons at bottom are reachable when scrolling
+      paddingBottom: '80px',
     },
     '(min-width: 769px) and (max-width:1024px)': {
       top: '103px',
+      // Fix height to match header offset
+      height: 'calc(100vh - 103px)',
     },
     // Extra small devices
     '(max-width: 640px)': {
       gap: '10px',
-      padding: '15px 20px 40px',
+      padding: '15px 20px 80px',
     },
-    // Landscape mode - ensure scrollable with enough padding
+    // Landscape mode - reduce gaps and increase bottom padding for scrollability
     '(max-height: 500px)': {
-      gap: '6px',
-      padding: '8px 20px 40px',
+      gap: '4px',
+      padding: '8px 20px 100px',
     },
     '(max-height: 700px)': {
-      gap: '8px',
-      padding: '10px 20px 40px',
+      gap: '6px',
+      padding: '10px 20px 90px',
     },
   },
 });
