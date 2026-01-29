@@ -24,7 +24,6 @@ export default function SubscriptionSuccess() {
     isPaidPlan: boolean;
     clinicName?: string;
     email?: string;
-    status?: string;
     paymentStatus?: string;
     nextStep?: string;
     paymentVerified?: boolean;
@@ -87,7 +86,6 @@ export default function SubscriptionSuccess() {
             isPaidPlan: true,
             clinicName: data.clinic_name || 'N/A',
             email: data.email || 'N/A',
-            status: data.status || 'unknown',
             paymentStatus: data.payment_status || 'unknown',
             nextStep: data.next_step || 'Your payment is being processed.',
             paymentVerified: data.payment_verified || false,
@@ -343,16 +341,6 @@ export default function SubscriptionSuccess() {
                     {subscriptionData.isPaidPlan ? 'Paid Plan' : 'Free Trial'}
                   </span>
                 </div>
-                {subscriptionData.status && (
-                  <div className={styles.successDetailsItem}>
-                    <span className={styles.label}>Status:</span>
-                    <span className={styles.value}>
-                      {subscriptionData.status
-                        .replace(/_/g, ' ')
-                        .replace(/\b\w/g, (l) => l.toUpperCase())}
-                    </span>
-                  </div>
-                )}
                 {subscriptionData.paymentStatus && (
                   <div className={styles.successDetailsItem}>
                     <span className={styles.label}>Payment Status:</span>
