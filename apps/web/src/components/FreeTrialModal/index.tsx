@@ -11,7 +11,6 @@ import isMobilePhone from 'validator/lib/isMobilePhone';
 
 import { REQUIRED_FIELDS } from './constants';
 import {
-  CityOption,
   FreeTrialInputs,
   StateOption,
   getSelectedStateTimezone,
@@ -56,7 +55,9 @@ import {
 import SuccessModal from './SuccessModal';
 import { formatNPI, formatTaxId, formatZipCode, phoneTrack } from './utils';
 
+import InfiniteSelectDropdown from '@/components/InfiniteSelectDropdown';
 import ReCaptcha, { ReCaptchaRef } from '@/components/ReCaptcha';
+import { usePaginatedCities } from '@/hooks/usePaginatedCities';
 
 type Props = {
   isOpen: boolean;
@@ -66,9 +67,7 @@ type Props = {
 const FreeTrialModal: FC<Props> = ({ isOpen, onClose }) => {
   const [isSubmitting, setSubmitting] = useState(false);
   const [states, setStates] = useState<StateOption[]>([]);
-  const [cities, setCities] = useState<CityOption[]>([]);
   const [loadingStates, setLoadingStates] = useState(false);
-  const [loadingCities, setLoadingCities] = useState(false);
   const [submitResponse, setSubmitResponse] = useState<{
     success?: boolean;
     message?: string;
@@ -91,6 +90,11 @@ const FreeTrialModal: FC<Props> = ({ isOpen, onClose }) => {
   });
 
   const selectedState = watch('state');
+
+  // Use paginated cities hook for infinite scroll
+  const { cities, loading: loadingCities, loadingMore, hasMore, loadMore } =
+    usePaginatedCities({ stateId: selectedState || '' });
+
   useEffect(() => {
     if (isOpen) {
       document.body.style.overflow = 'hidden';
@@ -108,11 +112,9 @@ const FreeTrialModal: FC<Props> = ({ isOpen, onClose }) => {
     }
   }, [isOpen]);
 
+  // Clear city when state changes
   useEffect(() => {
-    if (selectedState) {
-      fetchCities(selectedState);
-    } else {
-      setCities([]);
+    if (!selectedState) {
       setValue('city', '');
     }
   }, [selectedState, setValue]);
@@ -148,31 +150,6 @@ const FreeTrialModal: FC<Props> = ({ isOpen, onClose }) => {
     }
   };
 
-  const fetchCities = async (stateId: string) => {
-    setLoadingCities(true);
-    try {
-      const response = await fetch(
-        `${process.env.NEXT_PUBLIC_ADMIN_APP_API_URL}states/${stateId}/cities?page=1&limit=500`,
-        {
-          method: 'GET',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-        },
-      );
-
-      if (!response.ok) {
-        throw new Error('Failed to fetch cities');
-      }
-
-      const result = await response.json();
-      setCities(result.data.rows || []);
-    } catch (error) {
-      console.error('Error fetching cities:', error);
-    } finally {
-      setLoadingCities(false);
-    }
-  };
 
   const submitToAPI = async (data: FreeTrialInputs, token: string) => {
     try {
@@ -544,20 +521,25 @@ const FreeTrialModal: FC<Props> = ({ isOpen, onClose }) => {
                 <label className={labelStyle}>
                   State<span className={requiredIndicator}>*</span>
                 </label>
-                <select
-                  className={getSelectClassName('state')}
-                  {...register('state', { required: true })}
+                <InfiniteSelectDropdown
+                  options={states.map((state) => ({
+                    id: state.id.toString(),
+                    name: `${state.name} (${state.code})`,
+                  }))}
+                  value={selectedState || ''}
+                  onChange={(val) =>
+                    setValue('state', val, { shouldValidate: true })
+                  }
+                  placeholder={loadingStates ? 'Loading...' : 'Select State'}
                   disabled={loadingStates}
-                >
-                  <option value="">
-                    {loadingStates ? 'Loading...' : 'Select State'}
-                  </option>
-                  {states.map((state) => (
-                    <option key={state.id} value={state.id.toString()}>
-                      {state.name} ({state.code})
-                    </option>
-                  ))}
-                </select>
+                  searchable={false}
+                  size="compact"
+                  error={!!errors.state || !!apiErrors.state}
+                />
+                <input
+                  type="hidden"
+                  {...register('state', { required: true })}
+                />
                 {errors.state && (
                   <span className={errorMessage}>{errors.state?.message}</span>
                 )}
@@ -567,20 +549,34 @@ const FreeTrialModal: FC<Props> = ({ isOpen, onClose }) => {
                 <label className={labelStyle}>
                   City<span className={requiredIndicator}>*</span>
                 </label>
-                <select
-                  className={getSelectClassName('city')}
-                  {...register('city', { required: true })}
+                <InfiniteSelectDropdown
+                  options={cities.map((city) => ({
+                    id: city.id.toString(),
+                    name: city.name,
+                  }))}
+                  value={watch('city') || ''}
+                  onChange={(val) =>
+                    setValue('city', val, { shouldValidate: true })
+                  }
+                  placeholder={
+                    !selectedState
+                      ? 'Select a state first'
+                      : loadingCities
+                        ? 'Loading...'
+                        : 'Select City'
+                  }
                   disabled={!selectedState || loadingCities}
-                >
-                  <option value="">
-                    {loadingCities ? 'Loading...' : 'Select City'}
-                  </option>
-                  {cities.map((city) => (
-                    <option key={city.id} value={city.id}>
-                      {city.name}
-                    </option>
-                  ))}
-                </select>
+                  loading={loadingMore}
+                  hasMore={hasMore}
+                  onLoadMore={loadMore}
+                  searchable={false}
+                  size="compact"
+                  error={!!errors.city || !!apiErrors.city}
+                />
+                <input
+                  type="hidden"
+                  {...register('city', { required: true })}
+                />
                 {errors.city && (
                   <span className={errorMessage}>{errors.city?.message}</span>
                 )}
