@@ -31,11 +31,11 @@ export default function Step3FreeSuccess({ formData }: Step3FreeProps) {
       </p>
 
       <div className={`${styles.alertContainerCentered} ${styles.alertInfo}`}>
+        <span className={styles.alertTitle}>What happens next?</span>
         <div className={styles.alertIconWrapper}>
           <AlertCircle size={24} />
         </div>
         <div className={styles.alertContent}>
-          <span className={styles.alertTitle}>What happens next?</span>
           <ul className={styles.successList}>
             <li className={styles.successListItem}>Our team will review your trial request within 1-2 business days</li>
             <li className={styles.successListItem}>

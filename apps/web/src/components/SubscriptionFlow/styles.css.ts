@@ -603,6 +603,14 @@ export const successContainer = style({
   textAlign: 'center',
   padding: `0 ${spacing.xl}`,
   position: 'relative',
+  '@media': {
+    'screen and (max-width: 768px)': {
+      padding: `0 ${spacing.md}`,
+    },
+    'screen and (max-width: 480px)': {
+      padding: `0 ${spacing.sm}`,
+    },
+  },
 });
 
 export const successIcon = style({
@@ -680,7 +688,7 @@ export const alertContainerCentered = style({
   display: 'flex',
   flexDirection: 'row',
   alignItems: 'center',
-  justifyContent: 'center',
+  flexWrap: 'wrap',
   gap: spacing.sm,
   padding: spacing.lg,
   borderRadius: radius.lg,
@@ -701,9 +709,11 @@ export const alertContainerCentered = style({
   },
   '@media': {
     'screen and (max-width: 768px)': {
-      flexDirection: 'row',
-      gap: spacing.sm,
       padding: spacing.md,
+    },
+    'screen and (max-width: 480px)': {
+      padding: `${spacing.sm} ${spacing.md}`,
+      fontSize: typography.fontSize.sm,
     },
   },
 });
@@ -763,18 +773,28 @@ export const alertIconWrapper = style({
   display: 'flex',
   alignItems: 'center',
   justifyContent: 'center',
-  marginTop: '2px',
 });
 
 export const alertContent = style({
   flex: 1,
+  width: '100%',
+  maxWidth: '100%',
+  boxSizing: 'border-box',
 });
 
 export const alertTitle = style({
   fontWeight: typography.fontWeight.bold,
   fontSize: typography.fontSize.base,
-  marginBottom: spacing.xs,
+  marginBlock: spacing.xs,
   display: 'block',
+  textAlign: 'center',
+  whiteSpace: 'nowrap',
+  width: '100%',
+  '@media': {
+    'screen and (max-width: 400px)': {
+      fontSize: typography.fontSize.sm,
+    },
+  },
 });
 
 // ============================================================================
@@ -941,9 +961,18 @@ export const paymentIconWrapper = style({
 export const successList = style({
   listStyle: 'none',
   paddingLeft: 0,
+  paddingRight: spacing.sm,
   marginTop: spacing.md,
   textAlign: 'left',
   lineHeight: 1.8,
+  '@media': {
+    'screen and (max-width: 480px)': {
+      marginTop: spacing.sm,
+      lineHeight: 1.6,
+      paddingLeft: spacing.xs,
+      paddingRight: spacing.xs,
+    },
+  },
 });
 
 export const successListItem = style({
@@ -952,6 +981,8 @@ export const successListItem = style({
   marginBottom: spacing.sm,
   fontSize: typography.fontSize.base,
   fontWeight: typography.fontWeight.normal,
+  wordBreak: 'break-word',
+  overflowWrap: 'break-word',
   '::before': {
     content: '"✓"',
     position: 'absolute',
@@ -965,6 +996,17 @@ export const successListItem = style({
   ':last-child': {
     marginBottom: 0,
   },
+  '@media': {
+    'screen and (max-width: 480px)': {
+      paddingLeft: spacing.lg,
+      fontSize: typography.fontSize.sm,
+      marginBottom: spacing.xs,
+      '::before': {
+        left: 0,
+        fontSize: typography.fontSize.base,
+      },
+    },
+  },
 });
 
 export const successDetails = style({
@@ -977,6 +1019,9 @@ export const successDetails = style({
   position: 'relative',
   boxShadow: enhancedShadows.layered,
   animation: `${fadeInUp} 0.6s ease-out 0.5s both`,
+  width: '100%',
+  maxWidth: '100%',
+  boxSizing: 'border-box',
   '::before': {
     content: '',
     position: 'absolute',
@@ -990,6 +1035,21 @@ export const successDetails = style({
     WebkitMaskComposite: 'xor',
     maskComposite: 'exclude',
     pointerEvents: 'none',
+  },
+  '@media': {
+    'screen and (max-width: 768px)': {
+      padding: spacing.lg,
+      marginTop: spacing.lg,
+      marginBottom: spacing.lg,
+      marginLeft: 0,
+      marginRight: 0,
+    },
+    'screen and (max-width: 480px)': {
+      padding: spacing.md,
+      marginTop: spacing.md,
+      marginBottom: spacing.md,
+      borderRadius: radius.md,
+    },
   },
 });
 
@@ -1016,6 +1076,14 @@ export const successDetailsItem = style({
   ':last-child': {
     borderBottom: 'none',
   },
+  '@media': {
+    'screen and (max-width: 480px)': {
+      flexDirection: 'column',
+      alignItems: 'flex-start',
+      gap: spacing.xs,
+      paddingBottom: spacing.sm,
+    },
+  },
 });
 
 export const successDetailsLabel = style({
@@ -1029,6 +1097,15 @@ export const successDetailsValue = style({
   color: '#111827',
   fontWeight: typography.fontWeight.normal,
   textAlign: 'right',
+  wordBreak: 'break-word',
+  overflowWrap: 'break-word',
+  maxWidth: '100%',
+  '@media': {
+    'screen and (max-width: 480px)': {
+      textAlign: 'left',
+      fontWeight: typography.fontWeight.medium,
+    },
+  },
 });
 
 // ============================================================================
