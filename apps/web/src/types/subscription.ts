@@ -17,7 +17,8 @@ export interface ClinicInfo {
 }
 
 /**
- * Location Information (Step 1)
+ * Location Information (Step 1) - Legacy format with IDs
+ * @deprecated Use LocationInfoV2 for new implementations
  */
 export interface LocationInfo {
   street_address_line_1: string;
@@ -26,6 +27,19 @@ export interface LocationInfo {
   state_id: number; // From states dropdown
   zip_code: string; // US zip code
   timezone_id: number; // Extracted from selected state
+}
+
+/**
+ * Location Information V2 (Step 1) - New format with string names
+ * Used with Google Places API integration (SCM-4402)
+ */
+export interface LocationInfoV2 {
+  street_address_line_1: string;
+  street_address_line_2?: string; // Optional
+  city: string; // City name (auto-populated from Google Places)
+  state: string; // State name (auto-populated from Google Places)
+  zip_code: string; // US zip code (auto-populated from Google Places)
+  timezone: string; // Timezone ID string (e.g., "America/New_York")
 }
 
 /**
@@ -69,8 +83,24 @@ export interface OTPVerification {
 
 /**
  * Complete Step 1 Form Data (Clinic + Location + Admin + Subscription)
+ * Updated for Google Places API integration (SCM-4402)
  */
 export interface Step1FormData
+  extends ClinicInfo,
+    Omit<LocationInfoV2, 'city' | 'state' | 'timezone'>,
+    AdminInfo,
+    SubscriptionInfo {
+  // String values for location fields (from Google Places)
+  city: string; // City name (auto-populated)
+  state: string; // State name (auto-populated)
+  timezone: string; // Timezone ID string (e.g., "America/New_York")
+}
+
+/**
+ * Legacy Step 1 Form Data with object-based city/state
+ * @deprecated Use Step1FormData for new implementations
+ */
+export interface Step1FormDataLegacy
   extends ClinicInfo,
     Omit<LocationInfo, 'city_id' | 'state_id' | 'timezone_id'>,
     AdminInfo,
@@ -82,20 +112,41 @@ export interface Step1FormData
 }
 
 /**
- * Complete Subscription Payload - Free Plan
+ * Complete Subscription Payload - Free Plan (Legacy with IDs)
+ * @deprecated Use FreeSubscriptionPayloadV2 for new implementations
  */
-export interface FreeSubscriptionPayload
+export interface FreeSubscriptionPayloadLegacy
   extends ClinicInfo,
     LocationInfo,
     AdminInfo,
     SubscriptionInfo {}
 
 /**
- * Complete Subscription Payload - Paid Plan
+ * Complete Subscription Payload - Free Plan (V2 with string names)
+ */
+export interface FreeSubscriptionPayload
+  extends ClinicInfo,
+    LocationInfoV2,
+    AdminInfo,
+    SubscriptionInfo {}
+
+/**
+ * Complete Subscription Payload - Paid Plan (Legacy with IDs)
+ * @deprecated Use PaidSubscriptionPayloadV2 for new implementations
+ */
+export interface PaidSubscriptionPayloadLegacy
+  extends ClinicInfo,
+    LocationInfo,
+    AdminInfo,
+    SubscriptionInfo,
+    PaymentInfo {}
+
+/**
+ * Complete Subscription Payload - Paid Plan (V2 with string names)
  */
 export interface PaidSubscriptionPayload
   extends ClinicInfo,
-    LocationInfo,
+    LocationInfoV2,
     AdminInfo,
     SubscriptionInfo,
     PaymentInfo {}

@@ -8,7 +8,7 @@ import {
   MapPin,
   UserCog,
 } from 'lucide-react';
-import { useEffect, useMemo, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import isEmail from 'validator/lib/isEmail';
 import isMobilePhone from 'validator/lib/isMobilePhone';
@@ -22,9 +22,8 @@ import { isApiError } from '../../types/api';
 import { PhoneInput, TextInput } from './FormComponents';
 import * as styles from './styles.css';
 
-import InfiniteSelectDropdown from '@/components/InfiniteSelectDropdown';
-import { useLocationData } from '@/hooks/useLocationData';
-import { usePaginatedCities } from '@/hooks/usePaginatedCities';
+import { AddressAutocomplete } from '@/components/AddressAutocomplete';
+import type { AddressComponents } from '@/components/AddressAutocomplete/types';
 import { formatPhone } from '@/utils/phoneFormatter';
 import type {
   RegistrationResponseData,
@@ -33,18 +32,33 @@ import type {
 } from '@/types/subscription';
 
 /**
- * Internal form data type - uses string IDs for state/city (like FreeTrialModal)
+ * Internal form data type - uses string values for location fields
+ * Updated for Google Places API integration (SCM-4402)
  */
-interface InternalFormData extends Omit<Step1FormData, 'state' | 'city'> {
-  state: string;
-  city: string;
+interface InternalFormData {
+  clinic_name: string;
+  tax_id: string;
+  npi: string;
+  street_address_line_1: string;
+  street_address_line_2: string;
+  state: string; // State name (auto-populated from Google Places)
+  city: string; // City name (auto-populated from Google Places)
+  zip_code: string; // ZIP code (auto-populated from Google Places)
+  timezone: string; // IANA timezone ID (e.g., "America/New_York")
+  email: string;
+  first_name: string;
+  last_name: string;
+  phone: string;
+  subscription_plan_id: number;
+  staff_count: number;
 }
 
 /**
  * Step 1: Clinic and Admin Details Form (Now Step 2 in new flow)
  * Collects all information except payment details
- * For FREE plans: Calls PUT /register API with complete data (old flow)
- * For PAID plans: Calls PUT /register API with draft_mode: true (clinic/admin/address only)
+ * Uses Google Places API for address autocomplete (SCM-4402)
+ * For FREE plans: Calls PUT /register API with complete data
+ * For PAID plans: Calls PUT /register API with draft_mode: true
  */
 export default function Step1ClinicDetails({
   onNext,
@@ -63,6 +77,7 @@ export default function Step1ClinicDetails({
     watch,
     reset,
     setValue,
+    trigger,
     formState: { errors, isSubmitting },
   } = useForm<InternalFormData>({
     mode: 'onBlur',
@@ -81,16 +96,15 @@ export default function Step1ClinicDetails({
       subscription_plan_id:
         initialData?.subscription_plan_id || selectedPlan?.id || 1,
       staff_count: initialData?.staff_count || DEFAULT_STAFF_COUNT,
-      // Handle both object and ID formats for state/city (for prefilling from API)
-      state: initialData?.state?.id?.toString() || '',
-      city: initialData?.city?.id?.toString() || '',
+      // String values for location (from Google Places)
+      state: initialData?.state || '',
+      city: initialData?.city || '',
+      timezone: initialData?.timezone || '',
     },
   });
 
   // Update form when initialData changes (e.g., navigating back from cart)
-  // This ensures all fields are pre-filled with saved data
   useEffect(() => {
-    // Only reset if we have meaningful data to restore
     if (initialData && Object.keys(initialData).length > 0) {
       reset(
         {
@@ -107,10 +121,11 @@ export default function Step1ClinicDetails({
           subscription_plan_id:
             initialData.subscription_plan_id || selectedPlan?.id || 1,
           staff_count: initialData?.staff_count || DEFAULT_STAFF_COUNT,
-          state: initialData?.state?.id?.toString() || '',
-          city: initialData?.city?.id?.toString() || '',
+          state: initialData?.state || '',
+          city: initialData?.city || '',
+          timezone: initialData?.timezone || '',
         },
-        { keepDefaultValues: false },
+        { keepDefaultValues: false }
       );
     }
   }, [
@@ -118,6 +133,7 @@ export default function Step1ClinicDetails({
     initialData?.subscription_plan_id,
     initialData?.staff_count,
     reset,
+    selectedPlan?.id,
   ]);
 
   // Update only subscription_plan_id when plan changes (without resetting the form)
@@ -127,56 +143,40 @@ export default function Step1ClinicDetails({
     }
   }, [selectedPlan?.id, initialData, setValue]);
 
-  const selectedState = watch('state');
-  const selectedCity = watch('city');
+  // Handle address selection from Google Places
+  const handleAddressSelect = useCallback(
+    (address: AddressComponents) => {
+      setValue('street_address_line_1', address.streetAddress);
+      // Auto-populate address line 2 if available (apartment, suite, unit)
+      if (address.addressLine2) {
+        setValue('street_address_line_2', address.addressLine2);
+      }
+      setValue('city', address.city);
+      setValue('state', address.state);
+      // Only set zip_code if it was returned by Google Places
+      if (address.zipCode) {
+        setValue('zip_code', address.zipCode);
+      }
+      // Trigger validation for all address fields after setting values
+      trigger(['street_address_line_1', 'city', 'state', 'zip_code']);
+    },
+    [setValue, trigger]
+  );
 
-  // Get states from useLocationData (cities handled by usePaginatedCities)
-  const { states, loadingStates, apiError } = useLocationData();
+  // Handle timezone resolution from Places API (New) v1
+  const handleTimezoneResolved = useCallback(
+    (timezone: string) => {
+      setValue('timezone', timezone);
+    },
+    [setValue]
+  );
 
-  // Use paginated cities hook for infinite scroll
-  const { cities, loading: loadingCities, loadingMore, hasMore, loadMore } =
-    usePaginatedCities({ stateId: selectedState || '' });
-
-  // Restore city selection after cities are loaded (handles back navigation from cart)
-  useEffect(() => {
-    // Only restore if:
-    // 1. Cities have finished loading
-    // 2. We have cities available
-    // 3. We have initialData with a city ID
-    // 4. The current selected city doesn't match the initial city
-    if (
-      !loadingCities &&
-      cities.length > 0 &&
-      initialData?.city?.id &&
-      selectedCity !== initialData.city.id.toString()
-    ) {
-      setValue('city', initialData.city.id.toString());
-    }
-  }, [loadingCities, cities, initialData?.city?.id, selectedCity, setValue]);
-
-  // Get timezone from selected state
-  const getSelectedStateTimezone = (): number | null => {
-    if (!selectedState || !states.length) return null;
-
-    const stateData = states.find(
-      (state) => state.id.toString() === selectedState,
-    );
-    if (stateData?.timezones && stateData.timezones.length > 0) {
-      return stateData.timezones[0].timezone_id;
-    }
-
-    return null;
-  };
-
-  // Helper function to determine if error should be shown (following FreeTrialModal pattern)
+  // Helper function to determine if error should be shown
   const shouldShowError = (fieldName: keyof InternalFormData) => {
     const fieldError = errors[fieldName];
     const apiFieldError = fieldErrors[fieldName];
 
-    // Show API errors always
     if (apiFieldError) return true;
-
-    // Only hide required errors that don't have a message
     if (fieldError?.type === 'required' && !fieldError.message) return false;
     return !!fieldError;
   };
@@ -193,115 +193,95 @@ export default function Step1ClinicDetails({
     setFieldErrors({});
 
     try {
-      const timezoneId = getSelectedStateTimezone();
       const isPaidPlan = data.subscription_plan_id > 1;
 
-      const stateData = states.find((s) => s.id.toString() === data.state);
-      const cityData = cities.find((c) => c.id.toString() === data.city);
-
+      // Build form data with string-based location fields (SCM-4402)
       const formData: Step1FormData = {
-        ...data,
-        state: stateData || null,
-        city: cityData || null,
-        timezone_id: timezoneId || 1,
+        clinic_name: data.clinic_name,
+        tax_id: data.tax_id,
+        npi: data.npi,
+        street_address_line_1: data.street_address_line_1,
+        street_address_line_2: data.street_address_line_2 || undefined,
+        city: data.city,
+        state: data.state,
+        zip_code: data.zip_code,
+        timezone: data.timezone || 'America/New_York', // Default timezone if not resolved
+        email: data.email,
+        first_name: data.first_name,
+        last_name: data.last_name,
+        phone: data.phone,
+        subscription_plan_id: data.subscription_plan_id,
+        staff_count: data.staff_count,
       };
 
-      // For PAID plans: Call API with draft_mode: true (clinic/admin/address only)
-      if (isPaidPlan) {
-        const draftPayload: Record<string, unknown> = {
-          clinic_onboarding_request_id,
-          draft_mode: true,
-          clinic_name: data.clinic_name,
-          tax_id: data.tax_id,
-          npi: data.npi || undefined,
-          street_address_line_1: data.street_address_line_1,
-          street_address_line_2: data.street_address_line_2 || undefined,
-          city_id: Number.parseInt(data.city),
-          state_id: Number.parseInt(data.state),
-          zip_code: data.zip_code,
-          timezone_id: timezoneId || 1,
-          email: data.email,
-          first_name: data.first_name,
-          last_name: data.last_name,
-          phone: formatPhone(data.phone),
-        };
-
-        // Call API in draft mode
-        await fetchApi<RegistrationResponseData>(
-          'subscriptions/onboarding/register',
-          {
-            method: 'PUT',
-            body: draftPayload,
-          },
-        );
-
-        // Success! Pass data to cart for final submission
-        onNext(formData);
-        return;
-      }
-
-      // For FREE plans: Call /register API with complete data (old flow)
-      // Construct URLs for potential redirects
-      const baseUrl =
-        process.env.NEXT_PUBLIC_SITE_URL || window.location.origin;
-      const success_url = `${baseUrl}/subscribe/success`;
-      const cancel_url = `${baseUrl}/subscribe`;
-
-      const apiPayload: Record<string, unknown> = {
+      // Build API payload with string-based location fields (SCM-4402)
+      const basePayload: Record<string, unknown> = {
         clinic_name: data.clinic_name,
         tax_id: data.tax_id,
         npi: data.npi || undefined,
         street_address_line_1: data.street_address_line_1,
         street_address_line_2: data.street_address_line_2 || undefined,
-        city_id: Number.parseInt(data.city),
-        state_id: Number.parseInt(data.state),
+        // String-based location fields (SCM-4402)
+        city: data.city,
+        state: data.state,
         zip_code: data.zip_code,
-        timezone_id: timezoneId || 1,
+        timezone: data.timezone || 'America/New_York',
         email: data.email,
         first_name: data.first_name,
         last_name: data.last_name,
         phone: formatPhone(data.phone),
+        clinic_onboarding_request_id,
+      };
+
+      // For PAID plans: Call API with draft_mode: true
+      if (isPaidPlan) {
+        const draftPayload = {
+          ...basePayload,
+          draft_mode: true,
+        };
+
+        await fetchApi<RegistrationResponseData>(
+          'subscriptions/onboarding/register',
+          {
+            method: 'PUT',
+            body: draftPayload,
+          }
+        );
+
+        onNext(formData);
+        return;
+      }
+
+      // For FREE plans: Call /register API with complete data
+      const baseUrl =
+        process.env.NEXT_PUBLIC_SITE_URL || window.location.origin;
+      const success_url = `${baseUrl}/subscribe/success`;
+      const cancel_url = `${baseUrl}/subscribe`;
+
+      const apiPayload = {
+        ...basePayload,
         subscription_plan_id: data.subscription_plan_id,
         staff_count: data.staff_count,
-        clinic_onboarding_request_id,
-        // Stripe redirect URLs
         success_url,
         cancel_url,
       };
 
-      // Use the centralized API client (changed to PUT method)
-      // Note: fetchApi automatically unwraps the .data field from the response
       const result = await fetchApi<RegistrationResponseData>(
         'subscriptions/onboarding/register',
         {
           method: 'PUT',
           body: apiPayload,
-        },
+        }
       );
 
-      // Success! Show toast and move to next step
       showSuccessToast(SUCCESS_MESSAGES.REGISTRATION_SUCCESS);
-
       onNext(formData, result);
     } catch (error) {
-      // Extract field errors for inline display
       if (isApiError(error)) {
         const extractedFieldErrors = getFieldErrors(error);
         setFieldErrors(extractedFieldErrors);
       }
-      // General errors are automatically shown as toasts by fetchApi
     }
-  };
-
-  const onError = (errors: any) => {
-    console.log('Form validation errors:', errors);
-    console.log(
-      'All error types:',
-      Object.entries(errors).map(
-        ([key, value]: [string, any]) =>
-          `${key}: ${value.type} - ${value.message}`,
-      ),
-    );
   };
 
   // Calculate form completion progress
@@ -326,8 +306,13 @@ export default function Step1ClinicDetails({
     return Math.round((filledFields.length / requiredFields.length) * 100);
   }, [formValues]);
 
+  // Watch location fields for read-only display
+  const watchedState = watch('state');
+  const watchedCity = watch('city');
+  const watchedStreetAddress = watch('street_address_line_1');
+
   return (
-    <form onSubmit={handleSubmit(onSubmit, onError)}>
+    <form onSubmit={handleSubmit(onSubmit)}>
       <h1 className={`${styles.formTitle} ${styles.fadeInUpAnimation}`}>
         Let's Get Started
       </h1>
@@ -361,15 +346,6 @@ export default function Step1ClinicDetails({
       >
         {formProgress}% Complete
       </p>
-
-      {apiError && (
-        <div
-          className={`${styles.alertContainerCentered} ${styles.alertError} ${styles.alertWithAnimation}`}
-        >
-          <AlertCircle size={20} />
-          <span className={styles.alertTextCentered}>{apiError}</span>
-        </div>
-      )}
 
       {/* Clinic Information */}
       <div
@@ -450,21 +426,34 @@ export default function Step1ClinicDetails({
           </div>
         </div>
 
-        <TextInput
-          label="Street Address"
-          required
-          placeholder="123 Main Street"
-          registration={register('street_address_line_1', {
-            required: 'Street address is required',
-            minLength: { value: 5, message: 'Minimum 5 characters' },
-            maxLength: { value: 200, message: 'Maximum 200 characters' },
-          })}
-          error={
-            shouldShowError('street_address_line_1')
-              ? getErrorMessage('street_address_line_1')
-              : undefined
-          }
-        />
+        {/* Address Autocomplete */}
+        <div className={styles.formField}>
+          <AddressAutocomplete
+            label="Street Address"
+            required
+            placeholder="Start typing your address..."
+            value={watchedStreetAddress}
+            onAddressSelect={handleAddressSelect}
+            onTimezoneResolved={handleTimezoneResolved}
+            error={
+              !!errors.street_address_line_1 ||
+              !!fieldErrors.street_address_line_1
+            }
+          />
+          <input
+            type="hidden"
+            {...register('street_address_line_1', {
+              required: 'Street address is required',
+            })}
+          />
+          {shouldShowError('street_address_line_1') &&
+            getErrorMessage('street_address_line_1') && (
+              <div className={styles.errorMessage}>
+                <AlertCircle size={16} />
+                <span>{getErrorMessage('street_address_line_1')?.message}</span>
+              </div>
+            )}
+        </div>
 
         <TextInput
           label="Address Line 2 (Optional)"
@@ -482,22 +471,19 @@ export default function Step1ClinicDetails({
           }
         />
 
+        {/* Auto-populated location fields (read-only) */}
         <div className={styles.formGrid}>
           <div className={styles.formField}>
             <label className={styles.label}>
               State <span className={styles.requiredIndicator}>*</span>
             </label>
-            <InfiniteSelectDropdown
-              options={states.map((state) => ({
-                id: state.id.toString(),
-                name: `${state.name} (${state.code})`,
-              }))}
-              value={selectedState || ''}
-              onChange={(val) => setValue('state', val, { shouldValidate: true })}
-              placeholder={loadingStates ? 'Loading states...' : 'Select a state'}
-              disabled={loadingStates}
-              searchable={false}
-              error={!!errors.state || !!fieldErrors.state}
+            <input
+              type="text"
+              value={watchedState}
+              readOnly
+              placeholder="Auto-populated from address"
+              className={`${styles.input} ${styles.inputLarge} ${styles.inputReadOnly}`}
+              tabIndex={-1}
             />
             <input
               type="hidden"
@@ -515,26 +501,13 @@ export default function Step1ClinicDetails({
             <label className={styles.label}>
               City <span className={styles.requiredIndicator}>*</span>
             </label>
-            <InfiniteSelectDropdown
-              options={cities.map((city) => ({
-                id: city.id.toString(),
-                name: city.name,
-              }))}
-              value={selectedCity || ''}
-              onChange={(val) => setValue('city', val, { shouldValidate: true })}
-              placeholder={
-                !selectedState
-                  ? 'Select a state first'
-                  : loadingCities
-                    ? 'Loading...'
-                    : 'Select a city'
-              }
-              disabled={!selectedState || loadingCities}
-              loading={loadingMore}
-              hasMore={hasMore}
-              onLoadMore={loadMore}
-              searchable={false}
-              error={!!errors.city || !!fieldErrors.city}
+            <input
+              type="text"
+              value={watchedCity}
+              readOnly
+              placeholder="Auto-populated from address"
+              className={`${styles.input} ${styles.inputLarge} ${styles.inputReadOnly}`}
+              tabIndex={-1}
             />
             <input
               type="hidden"
@@ -549,25 +522,26 @@ export default function Step1ClinicDetails({
           </div>
         </div>
 
-        <TextInput
-          label="ZIP Code"
-          required
-          placeholder="12345"
-          maxLength={5}
-          registration={register('zip_code', {
-            required: 'ZIP code is required',
-            pattern: {
-              value: /^\d{5}$/,
-              message: 'ZIP code must be 5 digits',
-            },
-          })}
-          error={
-            shouldShowError('zip_code')
-              ? getErrorMessage('zip_code')
-              : undefined
-          }
-          helpText="Timezone will be automatically selected based on your state"
-        />
+        <div className={styles.formField}>
+          <label className={styles.label}>
+            ZIP Code <span className={styles.requiredIndicator}>*</span>
+          </label>
+          <input
+            type="text"
+            placeholder="Enter ZIP code"
+            className={`${styles.input} ${styles.inputLarge}`}
+            {...register('zip_code', { required: 'ZIP code is required' })}
+          />
+          {shouldShowError('zip_code') && getErrorMessage('zip_code') && (
+            <div className={styles.errorMessage}>
+              <AlertCircle size={16} />
+              <span>{getErrorMessage('zip_code')?.message}</span>
+            </div>
+          )}
+        </div>
+
+        {/* Hidden timezone field */}
+        <input type="hidden" {...register('timezone')} />
       </div>
 
       {/* Admin Information */}
@@ -680,7 +654,7 @@ export default function Step1ClinicDetails({
         <button
           type="submit"
           className={`${styles.button} ${styles.buttonLarge} ${styles.buttonGradient}`}
-          disabled={isSubmitting || loadingStates}
+          disabled={isSubmitting}
         >
           {isSubmitting ? (
             <>

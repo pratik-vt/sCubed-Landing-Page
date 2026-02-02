@@ -227,10 +227,11 @@ export default function Step3PaidCart({
 
       try {
         // Validate required data
-        const cityId = formData.city?.id;
-        const stateId = formData.state?.id;
+        const city = formData.city;
+        const state = formData.state;
+        const timezone = formData.timezone;
 
-        if (!cityId || !stateId) {
+        if (!city || !state) {
           setApiError(
             'Missing city or state information. Please go back and complete the form.',
           );
@@ -267,10 +268,10 @@ export default function Step3PaidCart({
           npi: formData.npi || undefined,
           street_address_line_1: formData.street_address_line_1,
           street_address_line_2: formData.street_address_line_2 || undefined,
-          city_id: cityId,
-          state_id: stateId,
+          city,
+          state,
           zip_code: formData.zip_code,
-          timezone_id: formData.timezone_id,
+          timezone: timezone || 'America/New_York',
           // Include admin details
           email: formData.email,
           first_name: formData.first_name,

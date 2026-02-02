@@ -1,0 +1,96 @@
+'use client';
+
+import { useCallback } from 'react';
+
+import type { AddressComponents } from './types';
+
+/**
+ * Hook to parse Google Places address_components into structured address data
+ */
+export function useAddressParser() {
+  /**
+   * Parse address_components from Google Places API into structured data
+   */
+  const parseAddressComponents = useCallback(
+    (
+      components: google.maps.GeocoderAddressComponent[],
+      formattedAddress: string
+    ): AddressComponents => {
+      const result: AddressComponents = {
+        streetAddress: '',
+        addressLine2: '',
+        city: '',
+        state: '',
+        stateCode: '',
+        zipCode: '',
+        country: '',
+        formattedAddress,
+      };
+
+      let streetNumber = '';
+      let streetName = '';
+
+      for (const component of components) {
+        const types = component.types;
+
+        // Street number
+        if (types.includes('street_number')) {
+          streetNumber = component.long_name;
+        }
+
+        // Street name (route)
+        if (types.includes('route')) {
+          streetName = component.long_name;
+        }
+
+        // Address Line 2 - subpremise (apartment, suite, unit, floor)
+        if (types.includes('subpremise')) {
+          result.addressLine2 = component.long_name;
+        }
+        // Floor number (less common but can exist)
+        if (types.includes('floor') && !result.addressLine2) {
+          result.addressLine2 = `Floor ${component.long_name}`;
+        }
+
+        // City - try locality first, then sublocality
+        if (types.includes('locality')) {
+          result.city = component.long_name;
+        }
+        // Fallback to sublocality for places like Brooklyn, NYC
+        if (types.includes('sublocality_level_1') && !result.city) {
+          result.city = component.long_name;
+        }
+        // Another fallback for some areas
+        if (types.includes('neighborhood') && !result.city) {
+          result.city = component.long_name;
+        }
+
+        // State
+        if (types.includes('administrative_area_level_1')) {
+          result.state = component.long_name; // e.g., "California"
+          result.stateCode = component.short_name; // e.g., "CA"
+        }
+
+        // ZIP code
+        if (types.includes('postal_code')) {
+          result.zipCode = component.long_name;
+        }
+
+        // Country
+        if (types.includes('country')) {
+          result.country = component.long_name;
+        }
+      }
+
+      // Combine street number and name
+      result.streetAddress = [streetNumber, streetName]
+        .filter(Boolean)
+        .join(' ');
+
+      return result;
+    },
+    []
+  );
+
+  return { parseAddressComponents };
+}

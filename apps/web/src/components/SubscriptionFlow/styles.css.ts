@@ -2331,6 +2331,12 @@ export const inputLarge = style({
   height: '56px',
 });
 
+export const inputReadOnly = style({
+  backgroundColor: '#f9fafb',
+  cursor: 'default',
+  color: '#374151',
+});
+
 export const inputWithIcon = style({
   paddingLeft: '48px',
 });
