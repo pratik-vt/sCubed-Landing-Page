@@ -20,6 +20,7 @@ applications:
             - env | grep -e MAILCHIMP_LIST_ID >> .env.production
             - env | grep -e NEXT_PUBLIC_ADMIN_APP_API_URL >> .env.production
             - env | grep -e NEXT_PUBLIC_ >> .env.production
+            - env | grep -e GOOGLE_PLACES_API_KEY >> .env.production
             - yarn build
       artifacts:
         baseDirectory: .next
