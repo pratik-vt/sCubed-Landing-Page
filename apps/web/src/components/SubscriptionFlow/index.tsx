@@ -69,6 +69,7 @@ export default function SubscriptionFlow() {
   useEffect(() => {
     const planParam = searchParams.get('plan');
     const billingParam = searchParams.get('billing');
+    const emailParam = searchParams.get('email');
 
     if (planParam) {
       // Fresh start with plan from URL params (from pricing page)
@@ -80,11 +81,23 @@ export default function SubscriptionFlow() {
         step1Data: {
           ...prev.step1Data,
           subscription_plan_id: planId,
+          ...(emailParam && { email: emailParam }),
         },
         billingCycle: billing,
       }));
 
       // Clear any old session data when starting fresh
+      clearSession();
+      setIsRestoringSession(false);
+    } else if (emailParam) {
+      // Email param provided without plan - prefill email and start fresh
+      setFormState((prev) => ({
+        ...prev,
+        step1Data: {
+          ...prev.step1Data,
+          email: emailParam,
+        },
+      }));
       clearSession();
       setIsRestoringSession(false);
     } else {
