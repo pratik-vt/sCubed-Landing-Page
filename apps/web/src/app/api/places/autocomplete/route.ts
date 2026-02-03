@@ -55,6 +55,13 @@ export async function POST(request: NextRequest) {
       body: JSON.stringify({
         input: body.input,
         includedRegionCodes: ['us'],
+        includedPrimaryTypes: [
+          'street_address',  // Full street addresses
+          'route',           // Streets
+          'locality',        // Cities
+          'sublocality',     // Districts within cities
+          'neighborhood',    // Neighborhoods
+        ],
         languageCode: 'en',
       }),
     });

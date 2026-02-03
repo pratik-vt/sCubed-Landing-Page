@@ -153,12 +153,17 @@ export default function Step1ClinicDetails({
       }
       setValue('city', address.city);
       setValue('state', address.state);
-      // Only set zip_code if it was returned by Google Places
+      // Only set and validate zip_code if it was returned by Google Places
+      // If not returned, user can manually enter it before submitting
       if (address.zipCode) {
         setValue('zip_code', address.zipCode);
+        // Trigger validation for all fields including zip_code
+        trigger(['street_address_line_1', 'city', 'state', 'zip_code']);
+      } else {
+        // Only trigger validation for fields that were populated
+        // Don't trigger zip_code error - let user fill it manually
+        trigger(['street_address_line_1', 'city', 'state']);
       }
-      // Trigger validation for all address fields after setting values
-      trigger(['street_address_line_1', 'city', 'state', 'zip_code']);
     },
     [setValue, trigger]
   );

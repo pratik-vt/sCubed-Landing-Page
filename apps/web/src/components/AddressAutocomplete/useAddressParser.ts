@@ -82,10 +82,12 @@ export function useAddressParser() {
         }
       }
 
-      // Combine street number and name
-      result.streetAddress = [streetNumber, streetName]
+      // Combine street number and name, fallback to formattedAddress if no street components
+      const streetAddress = [streetNumber, streetName]
         .filter(Boolean)
         .join(' ');
+
+      result.streetAddress = streetAddress || formattedAddress;
 
       return result;
     },
