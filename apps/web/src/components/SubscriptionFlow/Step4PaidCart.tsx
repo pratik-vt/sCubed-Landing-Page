@@ -6,14 +6,18 @@ import { Controller, useForm, useWatch } from 'react-hook-form';
 
 import * as styles from './styles.css';
 
+import { API_ENDPOINTS, getAddonsEndpoint } from '@/constants/api';
+import { BILLING_CYCLES, type BillingCycle } from '@/constants/billing';
+import { DEFAULT_STAFF_COUNT } from '@/constants/formFields';
 import { fetchApi } from '@/lib/api-client';
 import { showSuccessToast } from '@/lib/errors';
 import { isApiError } from '@/types/api';
-import type { Step4PaidProps, PlanApiData, AddonApiData } from '@/types/subscription';
+import type {
+  AddonApiData,
+  PlanApiData,
+  Step4PaidProps,
+} from '@/types/subscription';
 import { formatPhone } from '@/utils/phoneFormatter';
-import { BILLING_CYCLES, type BillingCycle } from '@/constants/billing';
-import { API_ENDPOINTS, getAddonsEndpoint } from '@/constants/api';
-import { DEFAULT_STAFF_COUNT } from '@/constants/formFields';
 
 interface CartFormData {
   staff_count: number;
@@ -107,7 +111,9 @@ export default function Step4PaidCart({
       const addon = addons.find((a) => a.id === addonId);
       if (addon) {
         const addonPrice = parsePrice(
-          billingCycle === BILLING_CYCLES.MONTHLY ? addon.monthly_price : addon.yearly_price,
+          billingCycle === BILLING_CYCLES.MONTHLY
+            ? addon.monthly_price
+            : addon.yearly_price,
         );
         return sum + addonPrice;
       }
@@ -122,10 +128,14 @@ export default function Step4PaidCart({
     if (!currentPlan) return '';
 
     const originalYearlyTotal = parsePrice(currentPlan.yearly_price_per_staff);
-    const discountedYearlyTotal = parsePrice(currentPlan.discounted_yearly_price_per_staff);
+    const discountedYearlyTotal = parsePrice(
+      currentPlan.discounted_yearly_price_per_staff,
+    );
 
     if (originalYearlyTotal > 0 && discountedYearlyTotal > 0) {
-      const savings = ((originalYearlyTotal - discountedYearlyTotal) / originalYearlyTotal) * 100;
+      const savings =
+        ((originalYearlyTotal - discountedYearlyTotal) / originalYearlyTotal) *
+        100;
       if (savings > 0) {
         return `Save ${Math.round(savings)}%`;
       }
@@ -157,12 +167,12 @@ export default function Step4PaidCart({
 
     try {
       // Fetch plans from the plans-and-addons endpoint
-      const plansResult = await fetchApi<{ plans: PlanData[]; addons: AddonData[] }>(
-        API_ENDPOINTS.SUBSCRIPTION.PLANS_AND_ADDONS,
-        {
-          method: 'GET',
-        },
-      );
+      const plansResult = await fetchApi<{
+        plans: PlanData[];
+        addons: AddonData[];
+      }>(API_ENDPOINTS.SUBSCRIPTION.PLANS_AND_ADDONS, {
+        method: 'GET',
+      });
 
       setPlans(plansResult.plans || []);
 
@@ -170,12 +180,12 @@ export default function Step4PaidCart({
       if (formData.subscription_plan_id) {
         // The API returns { success, message, data: { count, rows } }
         // fetchApi automatically unwraps the .data field, so we get { count, rows }
-        const addonsResult = await fetchApi<{ count: number; rows: AddonData[] }>(
-          getAddonsEndpoint(formData.subscription_plan_id),
-          {
-            method: 'GET',
-          },
-        );
+        const addonsResult = await fetchApi<{
+          count: number;
+          rows: AddonData[];
+        }>(getAddonsEndpoint(formData.subscription_plan_id), {
+          method: 'GET',
+        });
 
         setAddons(addonsResult?.rows || []);
       } else {
@@ -441,8 +451,9 @@ export default function Step4PaidCart({
                     <span className={styles.totalPrice}>
                       $
                       {(
-                        parsePrice(currentPlan.discounted_yearly_price_per_staff) *
-                        staffCount
+                        parsePrice(
+                          currentPlan.discounted_yearly_price_per_staff,
+                        ) * staffCount
                       ).toFixed(0)}
                     </span>
                   </div>
@@ -522,7 +533,8 @@ export default function Step4PaidCart({
                             ${currentPlan.yearly_price_per_staff}/year
                           </span>
                           <span className={styles.billingCycleDiscountedPrice}>
-                            ${currentPlan.discounted_yearly_price_per_staff}/year per staff
+                            ${currentPlan.discounted_yearly_price_per_staff}
+                            /year per staff
                           </span>
                         </div>
                         {savingsPercentage && (
@@ -682,8 +694,9 @@ export default function Step4PaidCart({
                       <span className={styles.summaryDiscountedPrice}>
                         $
                         {(
-                          parsePrice(currentPlan.discounted_yearly_price_per_staff) *
-                          staffCount
+                          parsePrice(
+                            currentPlan.discounted_yearly_price_per_staff,
+                          ) * staffCount
                         ).toFixed(2)}
                       </span>
                     </div>

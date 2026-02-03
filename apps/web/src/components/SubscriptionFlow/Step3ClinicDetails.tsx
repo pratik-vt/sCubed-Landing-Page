@@ -8,7 +8,7 @@ import {
   MapPin,
   UserCog,
 } from 'lucide-react';
-import { memo, useCallback, useEffect, useMemo, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import isEmail from 'validator/lib/isEmail';
 import isMobilePhone from 'validator/lib/isMobilePhone';
@@ -511,8 +511,9 @@ function Step3ClinicDetailsComponent({
           )}
         </div>
 
-        {/* Hidden timezone field */}
+        {/* Hidden fields */}
         <input type="hidden" {...register('timezone')} />
+        <input type="hidden" {...register('subscription_plan_id')} />
       </div>
 
       {/* Admin Information */}
@@ -655,19 +656,4 @@ function Step3ClinicDetailsComponent({
   );
 }
 
-const Step3ClinicDetails = memo(Step3ClinicDetailsComponent, (prevProps, nextProps) => {
-  // Only re-render if non-plan-related props change
-  // Ignore subscription_plan_id changes to preserve form state
-  const prevData = { ...prevProps.initialData };
-  const nextData = { ...nextProps.initialData };
-  delete prevData.subscription_plan_id;
-  delete nextData.subscription_plan_id;
-
-  return (
-    JSON.stringify(prevData) === JSON.stringify(nextData) &&
-    prevProps.selectedPlan?.id === nextProps.selectedPlan?.id &&
-    prevProps.clinic_onboarding_request_id === nextProps.clinic_onboarding_request_id
-  );
-});
-
-export default Step3ClinicDetails;
+export default Step3ClinicDetailsComponent;

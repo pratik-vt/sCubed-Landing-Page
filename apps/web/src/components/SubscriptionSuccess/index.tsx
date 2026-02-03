@@ -27,6 +27,7 @@ export default function SubscriptionSuccess() {
     paymentStatus?: string;
     nextStep?: string;
     paymentVerified?: boolean;
+    planName?: string;
   }>({
     isPaidPlan: false,
   });
@@ -69,6 +70,7 @@ export default function SubscriptionSuccess() {
           payment_verified: boolean;
           payment_status: string;
           next_step: string;
+          plan_name: string;
         }>(verifyUrl, {
           method: 'GET',
           skipErrorToast: true, // Handle errors manually to prevent automatic toasts
@@ -89,6 +91,7 @@ export default function SubscriptionSuccess() {
             paymentStatus: data.payment_status || 'unknown',
             nextStep: data.next_step || 'Your payment is being processed.',
             paymentVerified: data.payment_verified || false,
+            planName: data.plan_name || 'N/A',
           });
 
           // Set verified to true even if payment is pending (we'll show different UI)
@@ -338,7 +341,7 @@ export default function SubscriptionSuccess() {
                 <div className={styles.successDetailsItem}>
                   <span className={styles.label}>Plan Type:</span>
                   <span className={styles.value}>
-                    {subscriptionData.isPaidPlan ? 'Paid Plan' : 'Free Trial'}
+                    {subscriptionData.planName}
                   </span>
                 </div>
                 {subscriptionData.paymentStatus && (

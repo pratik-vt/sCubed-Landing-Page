@@ -11,7 +11,7 @@ export const API_ENDPOINTS = {
     VERIFY_EMAIL_CONFIRM: 'subscriptions/onboarding/verify-email/confirm',
     REGISTER: 'subscriptions/onboarding/register',
     PLANS_AND_ADDONS: 'subscriptions/onboarding/plans-and-addons',
-    ADDONS: 'subscriptions/onboarding/addons',
+    ADDONS: 'accounts/subscriptions/addons',
     PAID_PLAN: 'subscriptions/paid-plan',
     REGISTRATION_DATA: 'subscriptions/onboarding/registration-data',
     VERIFY_PAYMENT: 'subscriptions/onboarding/verify-payment',
