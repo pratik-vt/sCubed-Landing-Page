@@ -11,7 +11,7 @@ export const API_ENDPOINTS = {
     VERIFY_EMAIL_CONFIRM: 'subscriptions/onboarding/verify-email/confirm',
     REGISTER: 'subscriptions/onboarding/register',
     PLANS_AND_ADDONS: 'subscriptions/onboarding/plans-and-addons',
-    ADDONS: 'subscriptions/addons',
+    ADDONS: 'subscriptions/onboarding/addons',
     PAID_PLAN: 'subscriptions/paid-plan',
     REGISTRATION_DATA: 'subscriptions/onboarding/registration-data',
     VERIFY_PAYMENT: 'subscriptions/onboarding/verify-payment',
@@ -34,13 +34,15 @@ export const API_ENDPOINTS = {
   CMS: {
     CONTACT_SUBMISSIONS: '/api/contact-submissions',
     FAQ_BY_SLUG: '/v1/faqs/pages/slug',
-  }
+  },
 } as const;
 
 /**
  * Build full registration data endpoint with request ID
  */
-export function getRegistrationDataEndpoint(requestId: number | string): string {
+export function getRegistrationDataEndpoint(
+  requestId: number | string,
+): string {
   return `${API_ENDPOINTS.SUBSCRIPTION.REGISTRATION_DATA}/${requestId}`;
 }
 

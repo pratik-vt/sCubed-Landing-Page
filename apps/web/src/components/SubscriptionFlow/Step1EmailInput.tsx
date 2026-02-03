@@ -24,19 +24,19 @@ interface EmailVerificationResponse {
   message: string;
 }
 
-interface Step0Props {
+interface Step1EmailProps {
   onNext: (clinic_onboarding_request_id: number, email: string) => void;
   initialEmail?: string;
 }
 
 /**
- * Step 0: Email Input
+ * Step 1: Email Input
  * Collects user email and initiates email verification process
  */
-export default function Step0EmailInput({
+export default function Step1EmailInput({
   onNext,
   initialEmail,
-}: Readonly<Step0Props>) {
+}: Readonly<Step1EmailProps>) {
   const [fieldErrors, setFieldErrors] = useState<Record<string, string>>({});
 
   const {

@@ -6,12 +6,12 @@ import { useEffect, useState } from 'react';
 
 import PlanBadge from './PlanBadge';
 import PlanSelector from './PlanSelector';
-import Step0EmailInput from './Step0EmailInput';
-import Step1ClinicDetails from './Step1ClinicDetails';
+import Step1EmailInput from './Step1EmailInput';
 import Step2OTPVerification from './Step2OTPVerification';
-import Step3FreeSuccess from './Step3FreeSuccess';
-import Step3PaidCart from './Step3PaidCart';
-import Step4PaymentProcessing from './Step4PaymentProcessing';
+import Step3ClinicDetails from './Step3ClinicDetails';
+import Step4FreeSuccess from './Step4FreeSuccess';
+import Step4PaidCart from './Step4PaidCart';
+import Step5PaymentProcessing from './Step5PaymentProcessing';
 import StepIndicator from './StepIndicator';
 import * as styles from './styles.css';
 
@@ -39,8 +39,8 @@ import type {
  * SubscriptionFlow - Main orchestrator for multi-step subscription form
  *
  * Handles two different flows:
- * - Free Plan: Step 0 (Email) → Step 1 (OTP) → Step 2 (Details+Register) → Step 3 (Success)
- * - Paid Plan: Step 0 (Email) → Step 1 (OTP) → Step 2 (Details) → Step 3 (Cart+Register) → Step 4 (Payment)
+ * - Free Plan: Step 1 (Email) → Step 2 (OTP) → Step 3 (Details+Register) → Step 4 (Success)
+ * - Paid Plan: Step 1 (Email) → Step 2 (OTP) → Step 3 (Details) → Step 4 (Cart+Register) → Step 5 (Payment)
  */
 export default function SubscriptionFlow() {
   const searchParams = useSearchParams();
@@ -129,8 +129,8 @@ export default function SubscriptionFlow() {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   }, [formState.currentStep]);
 
-  // Step 0: Handle email submission
-  const handleStep0Complete = (
+  // Step 1: Handle email submission
+  const handleStep1Complete = (
     clinic_onboarding_request_id: number,
     email: string,
   ) => {
@@ -145,7 +145,7 @@ export default function SubscriptionFlow() {
     }));
   };
 
-  // Step 1: Handle OTP verification (was Step 2)
+  // Step 2: Handle OTP verification
   const handleOTPVerified = async (_responseData: OTPVerificationResponse) => {
     // After OTP verification, fetch existing registration data if available
     if (formState.clinic_onboarding_request_id) {
@@ -223,8 +223,8 @@ export default function SubscriptionFlow() {
     }
   };
 
-  // Step 2: Handle clinic details submission (was Step 1)
-  const handleStep2Complete = (
+  // Step 3: Handle clinic details submission
+  const handleStep3Complete = (
     data: Step1FormData,
     _apiResponse?: RegistrationResponseData,
   ) => {
@@ -235,24 +235,24 @@ export default function SubscriptionFlow() {
     }));
   };
 
-  // Step 1: Handle back navigation (back to email)
-  const handleBackToStep0 = () => {
+  // Step 2: Handle back navigation (back to Step 1 email)
+  const handleBackToStep1 = () => {
     setFormState((prev) => ({
       ...prev,
       currentStep: SUBSCRIPTION_STEPS.EMAIL,
     }));
   };
 
-  // Step 2: Handle back navigation (back to OTP)
-  const handleBackToStep1 = () => {
+  // Step 3: Handle back navigation (back to Step 2 OTP)
+  const handleBackToStep2 = () => {
     setFormState((prev) => ({
       ...prev,
       currentStep: SUBSCRIPTION_STEPS.VERIFY,
     }));
   };
 
-  // Step 3 (Paid): Handle cart/checkout submission with payment URL
-  const handlePaidCartComplete = (data: {
+  // Step 4 (Paid): Handle cart/checkout submission with payment URL
+  const handleStep4Complete = (data: {
     staff_count: number;
     addons: number[];
     billing_cycle: BillingCycle;
@@ -271,16 +271,16 @@ export default function SubscriptionFlow() {
     }));
   };
 
-  // Step 3: Handle back to clinic details
-  const handleBackToStep2 = () => {
+  // Step 4: Handle back to clinic details
+  const handleBackToStep3 = () => {
     setFormState((prev) => ({
       ...prev,
       currentStep: SUBSCRIPTION_STEPS.DETAILS,
     }));
   };
 
-  // Step 4: Handle back to cart/plan details
-  const handleBackToStep3 = () => {
+  // Step 5: Handle back to cart/plan details
+  const handleBackToStep4 = () => {
     setFormState((prev) => ({
       ...prev,
       currentStep: SUBSCRIPTION_STEPS.CHECKOUT,
@@ -360,15 +360,15 @@ export default function SubscriptionFlow() {
 
         {/* Step Content */}
         <div className={styles.stepContent}>
-          {/* Step 0: Email Input */}
+          {/* Step 1: Email Input */}
           {formState.currentStep === SUBSCRIPTION_STEPS.EMAIL && (
-            <Step0EmailInput
-              onNext={handleStep0Complete}
+            <Step1EmailInput
+              onNext={handleStep1Complete}
               initialEmail={formState.step1Data.email}
             />
           )}
 
-          {/* Step 1: OTP Verification */}
+          {/* Step 2: OTP Verification */}
           {formState.currentStep === SUBSCRIPTION_STEPS.VERIFY &&
             formState.step1Data.email &&
             formState.clinic_onboarding_request_id && (
@@ -378,11 +378,11 @@ export default function SubscriptionFlow() {
                   formState.clinic_onboarding_request_id
                 }
                 onVerified={handleOTPVerified}
-                onBack={handleBackToStep0}
+                onBack={handleBackToStep1}
               />
             )}
 
-          {/* Step 2: Clinic Details */}
+          {/* Step 3: Clinic Details */}
           {formState.currentStep === SUBSCRIPTION_STEPS.DETAILS && (
             <>
               {loadingRegistrationData ? (
@@ -391,9 +391,9 @@ export default function SubscriptionFlow() {
                   <p style={{ marginTop: '1rem' }}>Loading your saved information...</p>
                 </div>
               ) : (
-                <Step1ClinicDetails
-                  onNext={handleStep2Complete}
-                  onBack={handleBackToStep1}
+                <Step3ClinicDetails
+                  onNext={handleStep3Complete}
+                  onBack={handleBackToStep2}
                   initialData={formState.step1Data}
                   selectedPlan={formState.selectedPlan}
                   billingCycle={formState.billingCycle}
@@ -405,9 +405,9 @@ export default function SubscriptionFlow() {
             </>
           )}
 
-          {/* Step 3: Free Plan Success */}
+          {/* Step 4: Free Plan Success */}
           {formState.currentStep === SUBSCRIPTION_STEPS.CHECKOUT && !isPaidPlan && (
-            <Step3FreeSuccess
+            <Step4FreeSuccess
               formData={{
                 ...formState.step1Data,
                 clinic_name: formState.step1Data.clinic_name || '',
@@ -430,21 +430,21 @@ export default function SubscriptionFlow() {
             />
           )}
 
-          {/* Step 3: Paid Plan Cart */}
+          {/* Step 4: Paid Plan Cart */}
           {formState.currentStep === SUBSCRIPTION_STEPS.CHECKOUT && isPaidPlan && (
-            <Step3PaidCart
+            <Step4PaidCart
               formData={formState.step1Data}
-              onNext={handlePaidCartComplete}
-              onBack={handleBackToStep2}
+              onNext={handleStep4Complete}
+              onBack={handleBackToStep3}
               clinic_onboarding_request_id={
                 formState.clinic_onboarding_request_id
               }
             />
           )}
 
-          {/* Step 4: Paid Plan Payment Processing */}
+          {/* Step 5: Paid Plan Payment Processing */}
           {formState.currentStep === SUBSCRIPTION_STEPS.PAYMENT && isPaidPlan && (
-            <Step4PaymentProcessing
+            <Step5PaymentProcessing
               formData={{
                 ...formState.step1Data,
                 clinic_name: formState.step1Data.clinic_name || '',
@@ -467,7 +467,7 @@ export default function SubscriptionFlow() {
                 addons: formState.selectedAddons,
               }}
               paymentUrl={formState.paymentUrl}
-              onBack={handleBackToStep3}
+              onBack={handleBackToStep4}
             />
           )}
         </div>

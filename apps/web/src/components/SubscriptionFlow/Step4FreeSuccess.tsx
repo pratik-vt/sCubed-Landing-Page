@@ -6,14 +6,14 @@ import { AlertCircle, Home } from 'lucide-react';
 
 import * as styles from './styles.css';
 
-import type { Step3FreeProps } from '@/types/subscription';
+import type { Step4FreeProps } from '@/types/subscription';
 
 /**
- * Step 3 (Free Plan): Success Confirmation
+ * Step 4 (Free Plan): Success Confirmation
  * Shows success message after OTP verification
  * Note: No additional API call needed - registration is already complete
  */
-export default function Step3FreeSuccess({ formData }: Step3FreeProps) {
+export default function Step4FreeSuccess({ formData }: Step4FreeProps) {
   const router = useRouter();
 
   useEffect(() => {

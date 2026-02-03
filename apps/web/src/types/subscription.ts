@@ -380,17 +380,17 @@ export interface RegistrationResponseData {
 }
 
 /**
- * Props for Step 0 (Email Input) Component
+ * Props for Step 1 (Email Input) Component
  */
-export interface Step0Props {
+export interface Step1EmailProps {
   onNext: (clinic_onboarding_request_id: number, email: string) => void;
   initialEmail?: string;
 }
 
 /**
- * Props for Step 1 Component (Clinic Details - Now Step 2 in new flow)
+ * Props for Step 3 (Clinic Details) Component
  */
-export interface Step1Props {
+export interface Step3Props {
   onNext: (data: Step1FormData, apiResponse?: RegistrationResponseData) => void;
   onBack?: () => void;
   initialData?: Partial<Step1FormData>;
@@ -429,16 +429,16 @@ export interface Step2Props {
 }
 
 /**
- * Props for Step 3 (Free Plan Success) Component
+ * Props for Step 4 (Free Plan Success) Component
  */
-export interface Step3FreeProps {
+export interface Step4FreeProps {
   formData: FreeSubscriptionPayload;
 }
 
 /**
- * Props for Step 3 (Paid Plan Cart) Component (Now Step 4 in new flow)
+ * Props for Step 4 (Paid Plan Cart) Component
  */
-export interface Step3PaidProps {
+export interface Step4PaidProps {
   readonly formData: Partial<Step1FormData>;
   readonly onNext: (data: {
     staff_count: number;
@@ -451,9 +451,9 @@ export interface Step3PaidProps {
 }
 
 /**
- * Props for Step 4 (Payment Processing) Component
+ * Props for Step 5 (Payment Processing) Component
  */
-export interface Step4Props {
+export interface Step5Props {
   formData: PaidSubscriptionPayload;
   paymentUrl?: string | null; // Pre-generated payment URL from OTP verification
   onBack?: () => void;

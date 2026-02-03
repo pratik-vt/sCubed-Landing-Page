@@ -11,17 +11,17 @@ import { useEffect, useState } from 'react';
 import * as styles from './styles.css';
 
 import { API_ENDPOINTS } from '@/constants/api';
-import type { Step4Props } from '@/types/subscription';
+import type { Step5Props } from '@/types/subscription';
 
 /**
- * Step 4 (Paid Plan): Payment Processing
+ * Step 5 (Paid Plan): Payment Processing
  * Uses pre-generated payment URL from OTP verification or creates new Stripe session
  */
-export default function Step4PaymentProcessing({
+export default function Step5PaymentProcessing({
   formData,
   paymentUrl,
   onBack,
-}: Step4Props) {
+}: Step5Props) {
   const [processing, setProcessing] = useState(true);
   const [apiError, setApiError] = useState<string | null>(null);
   const [stripeUrl, setStripeUrl] = useState<string | null>(null);

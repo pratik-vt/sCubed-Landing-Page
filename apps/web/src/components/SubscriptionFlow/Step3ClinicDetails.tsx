@@ -8,7 +8,7 @@ import {
   MapPin,
   UserCog,
 } from 'lucide-react';
-import { useCallback, useEffect, useMemo, useState } from 'react';
+import { memo, useCallback, useEffect, useMemo, useState } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import isEmail from 'validator/lib/isEmail';
 import isMobilePhone from 'validator/lib/isMobilePhone';
@@ -24,12 +24,12 @@ import * as styles from './styles.css';
 
 import { AddressAutocomplete } from '@/components/AddressAutocomplete';
 import type { AddressComponents } from '@/components/AddressAutocomplete/types';
-import { formatPhone } from '@/utils/phoneFormatter';
 import type {
   RegistrationResponseData,
   Step1FormData,
-  Step1Props,
+  Step3Props,
 } from '@/types/subscription';
+import { formatPhone } from '@/utils/phoneFormatter';
 
 /**
  * Internal form data type - uses string values for location fields
@@ -60,14 +60,13 @@ interface InternalFormData {
  * For FREE plans: Calls PUT /register API with complete data
  * For PAID plans: Calls PUT /register API with draft_mode: true
  */
-export default function Step1ClinicDetails({
+function Step3ClinicDetailsComponent({
   onNext,
   onBack,
   initialData,
   selectedPlan,
-  billingCycle = 'monthly',
   clinic_onboarding_request_id,
-}: Readonly<Step1Props>) {
+}: Readonly<Step3Props>) {
   const [fieldErrors, setFieldErrors] = useState<Record<string, string>>({});
 
   const {
@@ -75,7 +74,6 @@ export default function Step1ClinicDetails({
     handleSubmit,
     control,
     watch,
-    reset,
     setValue,
     trigger,
     formState: { errors, isSubmitting },
@@ -103,45 +101,13 @@ export default function Step1ClinicDetails({
     },
   });
 
-  // Update form when initialData changes (e.g., navigating back from cart)
+  // Update subscription_plan_id without resetting the entire form
   useEffect(() => {
-    if (initialData && Object.keys(initialData).length > 0) {
-      reset(
-        {
-          clinic_name: initialData?.clinic_name || '',
-          tax_id: initialData?.tax_id || '',
-          npi: initialData?.npi || '',
-          street_address_line_1: initialData?.street_address_line_1 || '',
-          street_address_line_2: initialData?.street_address_line_2 || '',
-          zip_code: initialData?.zip_code || '',
-          email: initialData?.email || '',
-          first_name: initialData?.first_name || '',
-          last_name: initialData?.last_name || '',
-          phone: initialData?.phone || '',
-          subscription_plan_id:
-            initialData.subscription_plan_id || selectedPlan?.id || 1,
-          staff_count: initialData?.staff_count || DEFAULT_STAFF_COUNT,
-          state: initialData?.state || '',
-          city: initialData?.city || '',
-          timezone: initialData?.timezone || '',
-        },
-        { keepDefaultValues: false }
-      );
+    if (initialData?.subscription_plan_id) {
+      setValue('subscription_plan_id', initialData.subscription_plan_id);
     }
-  }, [
-    initialData,
-    initialData?.subscription_plan_id,
-    initialData?.staff_count,
-    reset,
-    selectedPlan?.id,
-  ]);
+  }, [initialData?.subscription_plan_id, setValue]);
 
-  // Update only subscription_plan_id when plan changes (without resetting the form)
-  useEffect(() => {
-    if (selectedPlan?.id && !initialData) {
-      setValue('subscription_plan_id', selectedPlan.id);
-    }
-  }, [selectedPlan?.id, initialData, setValue]);
 
   // Handle address selection from Google Places
   const handleAddressSelect = useCallback(
@@ -165,7 +131,7 @@ export default function Step1ClinicDetails({
         trigger(['street_address_line_1', 'city', 'state']);
       }
     },
-    [setValue, trigger]
+    [setValue, trigger],
   );
 
   // Handle timezone resolution from Places API (New) v1
@@ -173,7 +139,7 @@ export default function Step1ClinicDetails({
     (timezone: string) => {
       setValue('timezone', timezone);
     },
-    [setValue]
+    [setValue],
   );
 
   // Helper function to determine if error should be shown
@@ -250,7 +216,7 @@ export default function Step1ClinicDetails({
           {
             method: 'PUT',
             body: draftPayload,
-          }
+          },
         );
 
         onNext(formData);
@@ -276,7 +242,7 @@ export default function Step1ClinicDetails({
         {
           method: 'PUT',
           body: apiPayload,
-        }
+        },
       );
 
       showSuccessToast(SUCCESS_MESSAGES.REGISTRATION_SUCCESS);
@@ -688,3 +654,20 @@ export default function Step1ClinicDetails({
     </form>
   );
 }
+
+const Step3ClinicDetails = memo(Step3ClinicDetailsComponent, (prevProps, nextProps) => {
+  // Only re-render if non-plan-related props change
+  // Ignore subscription_plan_id changes to preserve form state
+  const prevData = { ...prevProps.initialData };
+  const nextData = { ...nextProps.initialData };
+  delete prevData.subscription_plan_id;
+  delete nextData.subscription_plan_id;
+
+  return (
+    JSON.stringify(prevData) === JSON.stringify(nextData) &&
+    prevProps.selectedPlan?.id === nextProps.selectedPlan?.id &&
+    prevProps.clinic_onboarding_request_id === nextProps.clinic_onboarding_request_id
+  );
+});
+
+export default Step3ClinicDetails;

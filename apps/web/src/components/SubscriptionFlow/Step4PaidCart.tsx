@@ -9,7 +9,7 @@ import * as styles from './styles.css';
 import { fetchApi } from '@/lib/api-client';
 import { showSuccessToast } from '@/lib/errors';
 import { isApiError } from '@/types/api';
-import type { Step3PaidProps, PlanApiData, AddonApiData } from '@/types/subscription';
+import type { Step4PaidProps, PlanApiData, AddonApiData } from '@/types/subscription';
 import { formatPhone } from '@/utils/phoneFormatter';
 import { BILLING_CYCLES, type BillingCycle } from '@/constants/billing';
 import { API_ENDPOINTS, getAddonsEndpoint } from '@/constants/api';
@@ -57,15 +57,15 @@ const calculateNextChargeDate = (cycle: BillingCycle): string => {
 };
 
 /**
- * Step 3 (Paid Plan): Cart/Checkout (Now Step 4 in new flow)
+ * Step 4 (Paid Plan): Cart/Checkout
  * Optimized component with proper React hooks usage and performance improvements
  */
-export default function Step3PaidCart({
+export default function Step4PaidCart({
   formData,
   onNext,
   onBack,
   clinic_onboarding_request_id,
-}: Step3PaidProps) {
+}: Step4PaidProps) {
   const [plans, setPlans] = useState<PlanData[]>([]);
   const [addons, setAddons] = useState<AddonData[]>([]);
   const [loadingData, setLoadingData] = useState(true);
