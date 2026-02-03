@@ -12,7 +12,7 @@ import { isApiError } from '@/types/api';
 import type { Step3PaidProps, PlanApiData, AddonApiData } from '@/types/subscription';
 import { formatPhone } from '@/utils/phoneFormatter';
 import { BILLING_CYCLES, type BillingCycle } from '@/constants/billing';
-import { API_ENDPOINTS } from '@/constants/api';
+import { API_ENDPOINTS, getAddonsEndpoint } from '@/constants/api';
 import { DEFAULT_STAFF_COUNT } from '@/constants/formFields';
 
 interface CartFormData {
@@ -156,19 +156,36 @@ export default function Step3PaidCart({
     setApiError(null);
 
     try {
-      const result = await fetchApi<{ plans: PlanData[]; addons: AddonData[] }>(
+      // Fetch plans from the plans-and-addons endpoint
+      const plansResult = await fetchApi<{ plans: PlanData[]; addons: AddonData[] }>(
         API_ENDPOINTS.SUBSCRIPTION.PLANS_AND_ADDONS,
         {
           method: 'GET',
         },
       );
 
-      setPlans(result.plans || []);
-      setAddons(result.addons || []);
+      setPlans(plansResult.plans || []);
+
+      // Fetch plan-specific addons using the subscription_plan_id
+      if (formData.subscription_plan_id) {
+        // The API returns { success, message, data: { count, rows } }
+        // fetchApi automatically unwraps the .data field, so we get { count, rows }
+        const addonsResult = await fetchApi<{ count: number; rows: AddonData[] }>(
+          getAddonsEndpoint(formData.subscription_plan_id),
+          {
+            method: 'GET',
+          },
+        );
+
+        setAddons(addonsResult?.rows || []);
+      } else {
+        // Fallback to generic addons if no plan ID (shouldn't happen in normal flow)
+        setAddons(plansResult.addons || []);
+      }
 
       // Pre-select staff count based on the selected plan's max_staff
-      if (formData.subscription_plan_id && result.plans) {
-        const selectedPlan = result.plans.find(
+      if (formData.subscription_plan_id && plansResult.plans) {
+        const selectedPlan = plansResult.plans.find(
           (p) => p.id === formData.subscription_plan_id,
         );
         if (selectedPlan && selectedPlan.max_staff > 0) {

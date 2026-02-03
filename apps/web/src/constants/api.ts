@@ -11,6 +11,7 @@ export const API_ENDPOINTS = {
     VERIFY_EMAIL_CONFIRM: 'subscriptions/onboarding/verify-email/confirm',
     REGISTER: 'subscriptions/onboarding/register',
     PLANS_AND_ADDONS: 'subscriptions/onboarding/plans-and-addons',
+    ADDONS: 'subscriptions/addons',
     PAID_PLAN: 'subscriptions/paid-plan',
     REGISTRATION_DATA: 'subscriptions/onboarding/registration-data',
     VERIFY_PAYMENT: 'subscriptions/onboarding/verify-payment',
@@ -41,6 +42,13 @@ export const API_ENDPOINTS = {
  */
 export function getRegistrationDataEndpoint(requestId: number | string): string {
   return `${API_ENDPOINTS.SUBSCRIPTION.REGISTRATION_DATA}/${requestId}`;
+}
+
+/**
+ * Build addons endpoint with subscription plan ID
+ */
+export function getAddonsEndpoint(subscriptionPlanId: number): string {
+  return `${API_ENDPOINTS.SUBSCRIPTION.ADDONS}?subscription_plan_id=${subscriptionPlanId}`;
 }
 
 /**
