@@ -434,6 +434,7 @@ export default function SubscriptionFlow() {
           {formState.currentStep === SUBSCRIPTION_STEPS.CHECKOUT && isPaidPlan && (
             <Step4PaidCart
               formData={formState.step1Data}
+              billingCycle={formState.billingCycle}
               onNext={handleStep4Complete}
               onBack={handleBackToStep3}
               clinic_onboarding_request_id={

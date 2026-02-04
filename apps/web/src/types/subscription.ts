@@ -440,6 +440,7 @@ export interface Step4FreeProps {
  */
 export interface Step4PaidProps {
   readonly formData: Partial<Step1FormData>;
+  readonly billingCycle: 'monthly' | 'yearly';
   readonly onNext: (data: {
     staff_count: number;
     addons: number[];

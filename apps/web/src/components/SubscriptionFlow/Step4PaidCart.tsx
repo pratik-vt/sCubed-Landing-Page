@@ -66,6 +66,7 @@ const calculateNextChargeDate = (cycle: BillingCycle): string => {
  */
 export default function Step4PaidCart({
   formData,
+  billingCycle: initialBillingCycle,
   onNext,
   onBack,
   clinic_onboarding_request_id,
@@ -79,7 +80,7 @@ export default function Step4PaidCart({
   const { handleSubmit, control, setValue } = useForm<CartFormData>({
     defaultValues: {
       staff_count: formData.staff_count || DEFAULT_STAFF_COUNT,
-      billing_cycle: BILLING_CYCLES.MONTHLY,
+      billing_cycle: initialBillingCycle || BILLING_CYCLES.MONTHLY,
       addons: [],
     },
   });
