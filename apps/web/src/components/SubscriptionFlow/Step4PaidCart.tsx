@@ -194,15 +194,13 @@ export default function Step4PaidCart({
         setAddons(plansResult.addons || []);
       }
 
-      // Pre-select staff count based on the selected plan's max_staff
+      // Set default staff count from the selected plan's max_staff field
       if (formData.subscription_plan_id && plansResult.plans) {
         const selectedPlan = plansResult.plans.find(
           (p) => p.id === formData.subscription_plan_id,
         );
         if (selectedPlan && selectedPlan.max_staff > 0) {
-          if (!formData.staff_count || formData.staff_count === 1) {
-            setValue('staff_count', selectedPlan.max_staff);
-          }
+          setValue('staff_count', selectedPlan.max_staff);
         }
       }
     } catch (error) {
