@@ -2,7 +2,7 @@
 
 import { useCallback } from 'react';
 
-import type { AddressComponents } from './types';
+import type { AddressComponent, AddressComponents } from './types';
 
 /**
  * Hook to parse Google Places address_components into structured address data
@@ -13,7 +13,7 @@ export function useAddressParser() {
    */
   const parseAddressComponents = useCallback(
     (
-      components: google.maps.GeocoderAddressComponent[],
+      components: AddressComponent[],
       formattedAddress: string
     ): AddressComponents => {
       const result: AddressComponents = {

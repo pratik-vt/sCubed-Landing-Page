@@ -76,6 +76,8 @@ function Step3ClinicDetailsComponent({
     watch,
     setValue,
     trigger,
+    getValues,
+    reset,
     formState: { errors, isSubmitting },
   } = useForm<InternalFormData>({
     mode: 'onBlur',
@@ -108,6 +110,104 @@ function Step3ClinicDetailsComponent({
     }
   }, [initialData?.subscription_plan_id, setValue]);
 
+  // Sync form values when initialData changes (e.g., from API response)
+  // This handles the case where:
+  // 1. Component mounts with partial data
+  // 2. API returns full data after mount
+  // 3. User navigates back to this step with cached data
+  useEffect(() => {
+    if (!initialData) return;
+
+    const currentValues = getValues();
+
+    // Check if we need to sync location-related fields from initialData
+    // Only sync if initialData has a value and current form is empty or has a different value
+    const fieldsToSync: Partial<InternalFormData> = {};
+
+    // Sync state if API returned it
+    if (initialData.state && initialData.state !== currentValues.state) {
+      fieldsToSync.state = initialData.state;
+    }
+
+    // Sync city if API returned it
+    if (initialData.city && initialData.city !== currentValues.city) {
+      fieldsToSync.city = initialData.city;
+    }
+
+    // Sync timezone if API returned it
+    if (
+      initialData.timezone &&
+      initialData.timezone !== currentValues.timezone
+    ) {
+      fieldsToSync.timezone = initialData.timezone;
+    }
+
+    // Sync zip_code if API returned it and form is empty
+    if (initialData.zip_code && !currentValues.zip_code) {
+      fieldsToSync.zip_code = initialData.zip_code;
+    }
+
+    // Sync street_address_line_1 if API returned it and form is empty
+    if (
+      initialData.street_address_line_1 &&
+      !currentValues.street_address_line_1
+    ) {
+      fieldsToSync.street_address_line_1 = initialData.street_address_line_1;
+    }
+
+    // Sync phone if API returned it and form is empty
+    // Strip to digits only since form stores digits
+    if (initialData.phone && !currentValues.phone) {
+      fieldsToSync.phone = initialData.phone.replace(/\D/g, '');
+    }
+
+    // Sync first_name if API returned it and form is empty
+    if (initialData.first_name && !currentValues.first_name) {
+      fieldsToSync.first_name = initialData.first_name;
+    }
+
+    // Sync last_name if API returned it and form is empty
+    if (initialData.last_name && !currentValues.last_name) {
+      fieldsToSync.last_name = initialData.last_name;
+    }
+
+    // Sync clinic_name if API returned it and form is empty
+    if (initialData.clinic_name && !currentValues.clinic_name) {
+      fieldsToSync.clinic_name = initialData.clinic_name;
+    }
+
+    // Sync tax_id if API returned it and form is empty
+    if (initialData.tax_id && !currentValues.tax_id) {
+      fieldsToSync.tax_id = initialData.tax_id;
+    }
+
+    // Sync npi if API returned it and form is empty
+    if (initialData.npi && !currentValues.npi) {
+      fieldsToSync.npi = initialData.npi;
+    }
+
+    // Apply synced values using reset to preserve other fields
+    if (Object.keys(fieldsToSync).length > 0) {
+      reset(
+        { ...currentValues, ...fieldsToSync },
+        { keepDirty: true, keepErrors: true },
+      );
+    }
+  }, [
+    initialData?.state,
+    initialData?.city,
+    initialData?.timezone,
+    initialData?.zip_code,
+    initialData?.street_address_line_1,
+    initialData?.phone,
+    initialData?.first_name,
+    initialData?.last_name,
+    initialData?.clinic_name,
+    initialData?.tax_id,
+    initialData?.npi,
+    reset,
+    getValues,
+  ]);
 
   // Handle address selection from Google Places
   const handleAddressSelect = useCallback(

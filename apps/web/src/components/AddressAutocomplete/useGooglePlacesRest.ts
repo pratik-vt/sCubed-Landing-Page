@@ -148,7 +148,7 @@ export function useGooglePlacesRest(): UseGooglePlacesReturn {
         }
 
         if (data.addressComponents && data.formattedAddress) {
-          // Convert Places API v1 response to match google.maps.places.PlaceResult format
+          // Convert Places API v1 response to PlaceDetailsResult format
           return {
             address_components: data.addressComponents.map((comp) => ({
               long_name: comp.longText,
@@ -161,11 +161,11 @@ export function useGooglePlacesRest(): UseGooglePlacesReturn {
                   location: {
                     lat: () => data.location!.latitude,
                     lng: () => data.location!.longitude,
-                  } as google.maps.LatLng,
+                  },
                 }
               : undefined,
             timeZoneId: data.timeZone?.id,
-          } as PlaceDetailsResult;
+          };
         }
 
         throw new Error('Place details response missing required fields');

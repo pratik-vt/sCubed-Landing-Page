@@ -17,23 +17,10 @@ export interface ClinicInfo {
 }
 
 /**
- * Location Information (Step 1) - Legacy format with IDs
- * @deprecated Use LocationInfoV2 for new implementations
- */
-export interface LocationInfo {
-  street_address_line_1: string;
-  street_address_line_2?: string; // Optional
-  city_id: number; // From cities dropdown
-  state_id: number; // From states dropdown
-  zip_code: string; // US zip code
-  timezone_id: number; // Extracted from selected state
-}
-
-/**
- * Location Information V2 (Step 1) - New format with string names
+ * Location Information (Step 1) - String-based format
  * Used with Google Places API integration (SCM-4402)
  */
-export interface LocationInfoV2 {
+export interface LocationInfo {
   street_address_line_1: string;
   street_address_line_2?: string; // Optional
   city: string; // City name (auto-populated from Google Places)
@@ -83,108 +70,32 @@ export interface OTPVerification {
 
 /**
  * Complete Step 1 Form Data (Clinic + Location + Admin + Subscription)
- * Updated for Google Places API integration (SCM-4402)
+ * Uses Google Places API for location data (SCM-4402)
  */
 export interface Step1FormData
   extends ClinicInfo,
-    Omit<LocationInfoV2, 'city' | 'state' | 'timezone'>,
-    AdminInfo,
-    SubscriptionInfo {
-  // String values for location fields (from Google Places)
-  city: string; // City name (auto-populated)
-  state: string; // State name (auto-populated)
-  timezone: string; // Timezone ID string (e.g., "America/New_York")
-}
-
-/**
- * Legacy Step 1 Form Data with object-based city/state
- * @deprecated Use Step1FormData for new implementations
- */
-export interface Step1FormDataLegacy
-  extends ClinicInfo,
-    Omit<LocationInfo, 'city_id' | 'state_id' | 'timezone_id'>,
-    AdminInfo,
-    SubscriptionInfo {
-  // Dropdown values as objects for react-hook-form
-  city: City | null;
-  state: State | null;
-  timezone_id?: number; // Automatically extracted from state
-}
-
-/**
- * Complete Subscription Payload - Free Plan (Legacy with IDs)
- * @deprecated Use FreeSubscriptionPayloadV2 for new implementations
- */
-export interface FreeSubscriptionPayloadLegacy
-  extends ClinicInfo,
     LocationInfo,
     AdminInfo,
     SubscriptionInfo {}
 
 /**
- * Complete Subscription Payload - Free Plan (V2 with string names)
+ * Complete Subscription Payload - Free Plan
  */
 export interface FreeSubscriptionPayload
   extends ClinicInfo,
-    LocationInfoV2,
+    LocationInfo,
     AdminInfo,
     SubscriptionInfo {}
 
 /**
- * Complete Subscription Payload - Paid Plan (Legacy with IDs)
- * @deprecated Use PaidSubscriptionPayloadV2 for new implementations
+ * Complete Subscription Payload - Paid Plan
  */
-export interface PaidSubscriptionPayloadLegacy
+export interface PaidSubscriptionPayload
   extends ClinicInfo,
     LocationInfo,
     AdminInfo,
     SubscriptionInfo,
     PaymentInfo {}
-
-/**
- * Complete Subscription Payload - Paid Plan (V2 with string names)
- */
-export interface PaidSubscriptionPayload
-  extends ClinicInfo,
-    LocationInfoV2,
-    AdminInfo,
-    SubscriptionInfo,
-    PaymentInfo {}
-
-// ============================================================================
-// DROPDOWN OPTIONS
-// ============================================================================
-
-/**
- * Generic dropdown option
- */
-export interface DropdownOption {
-  id: number;
-  name: string;
-  value?: string;
-}
-
-/**
- * City dropdown option
- */
-export interface City extends DropdownOption {
-  state_id: number;
-}
-
-/**
- * State dropdown option with embedded timezone data
- */
-export interface State {
-  id: number;
-  name: string;
-  code: string;
-  timezones: Array<{
-    timezone_id: number;
-    timezone: {
-      timezone: string;
-    };
-  }>;
-}
 
 // ============================================================================
 // PLAN TYPES
@@ -298,10 +209,11 @@ export interface RegistrationDataResponse {
   npi?: string;
   street_address_line_1?: string;
   street_address_line_2?: string | null;
-  city_id?: number;
-  state_id?: number;
+  // String-based location fields (from Google Places API)
+  city?: string;
+  state?: string;
   zip_code?: string;
-  timezone_id?: number;
+  timezone?: string;
   first_name?: string;
   last_name?: string;
   phone?: string;

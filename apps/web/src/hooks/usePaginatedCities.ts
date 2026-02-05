@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
 
 import { fetchApi } from '@/lib/api-client';
-import type { City } from '@/types/subscription';
+import type { City } from '@/types/location';
 
 interface PaginatedCitiesResponse {
   rows: City[];

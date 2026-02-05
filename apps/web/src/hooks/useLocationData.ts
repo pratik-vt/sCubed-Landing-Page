@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from 'react';
 
 import { ERROR_MESSAGES } from '@/constants/messages';
 import { fetchApi } from '@/lib/api-client';
-import type { State } from '@/types/subscription';
+import type { State } from '@/types/location';
 
 interface StatesResponse {
   rows: State[];

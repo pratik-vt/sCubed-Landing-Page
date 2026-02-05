@@ -155,6 +155,16 @@ export const PhoneInput = ({
     replacement: { _: /\d/ },
   });
 
+  // Format digits-only value to display format: (XXX) XXX-XXXX
+  const formatPhoneForDisplay = (digits: string): string => {
+    if (!digits) return '';
+    const cleaned = digits.replace(/\D/g, '');
+    if (cleaned.length === 0) return '';
+    if (cleaned.length <= 3) return `(${cleaned}`;
+    if (cleaned.length <= 6) return `(${cleaned.slice(0, 3)}) ${cleaned.slice(3)}`;
+    return `(${cleaned.slice(0, 3)}) ${cleaned.slice(3, 6)}-${cleaned.slice(6, 10)}`;
+  };
+
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const unmasked = e.target.value.replace(/\D/g, '');
     onChange(unmasked);
@@ -176,6 +186,7 @@ export const PhoneInput = ({
         aria-invalid={!!error}
         aria-describedby={error ? `${name}-error` : undefined}
         ref={maskRef}
+        value={formatPhoneForDisplay(value)}
         onChange={handleChange}
       />
       {helpText && !error && <div className={styles.helpText}>{helpText}</div>}

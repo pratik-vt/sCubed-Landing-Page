@@ -15,10 +15,10 @@ import Step5PaymentProcessing from './Step5PaymentProcessing';
 import StepIndicator from './StepIndicator';
 import * as styles from './styles.css';
 
+import { getRegistrationDataEndpoint } from '@/constants/api';
+import { BILLING_CYCLES, type BillingCycle } from '@/constants/billing';
 import { DEFAULT_STAFF_COUNT } from '@/constants/formFields';
 import { getPlanIdByName, PLAN_TYPES } from '@/constants/plans';
-import { BILLING_CYCLES, type BillingCycle } from '@/constants/billing';
-import { API_ENDPOINTS, getRegistrationDataEndpoint } from '@/constants/api';
 import { SUBSCRIPTION_STEPS } from '@/constants/steps';
 import { fetchApi } from '@/lib/api-client';
 import { showSuccessToast } from '@/lib/errors';
@@ -160,9 +160,14 @@ export default function SubscriptionFlow() {
         );
 
         // If we have registration data, prefill the form
-        if (registrationData && (registrationData.clinic_name || registrationData.first_name)) {
+        if (
+          registrationData &&
+          (registrationData.clinic_name || registrationData.first_name)
+        ) {
           // Show success message
-          showSuccessToast('Your saved information has been loaded successfully!');
+          showSuccessToast(
+            'Your saved information has been loaded successfully!',
+          );
 
           setFormState((prev) => ({
             ...prev,
@@ -170,26 +175,40 @@ export default function SubscriptionFlow() {
             currentStep: SUBSCRIPTION_STEPS.DETAILS,
             step1Data: {
               ...prev.step1Data,
-              clinic_name: registrationData.clinic_name || prev.step1Data.clinic_name || '',
+              clinic_name:
+                registrationData.clinic_name ||
+                prev.step1Data.clinic_name ||
+                '',
               tax_id: registrationData.tax_id || prev.step1Data.tax_id || '',
               npi: registrationData.npi || prev.step1Data.npi || '',
-              street_address_line_1: registrationData.street_address_line_1 || prev.step1Data.street_address_line_1 || '',
-              street_address_line_2: registrationData.street_address_line_2 || prev.step1Data.street_address_line_2 || '',
-              zip_code: registrationData.zip_code || prev.step1Data.zip_code || '',
+              street_address_line_1:
+                registrationData.street_address_line_1 ||
+                prev.step1Data.street_address_line_1 ||
+                '',
+              street_address_line_2:
+                registrationData.street_address_line_2 ||
+                prev.step1Data.street_address_line_2 ||
+                '',
+              zip_code:
+                registrationData.zip_code || prev.step1Data.zip_code || '',
               email: registrationData.email || prev.step1Data.email || '',
-              first_name: registrationData.first_name || prev.step1Data.first_name || '',
-              last_name: registrationData.last_name || prev.step1Data.last_name || '',
+              first_name:
+                registrationData.first_name || prev.step1Data.first_name || '',
+              last_name:
+                registrationData.last_name || prev.step1Data.last_name || '',
               phone: registrationData.phone || prev.step1Data.phone || '',
-              subscription_plan_id: registrationData.subscription_plan_id || prev.step1Data.subscription_plan_id,
-              staff_count: registrationData.staff_count || prev.step1Data.staff_count || DEFAULT_STAFF_COUNT,
-              // Handle state and city as IDs - the form component will resolve them
-              state: registrationData.state_id
-                ? ({ id: registrationData.state_id, name: '', code: '', timezones: [] } as any)
-                : prev.step1Data.state,
-              city: registrationData.city_id
-                ? ({ id: registrationData.city_id, name: '', state_id: registrationData.state_id || 0 } as any)
-                : prev.step1Data.city,
-              timezone_id: registrationData.timezone_id,
+              subscription_plan_id:
+                registrationData.subscription_plan_id ||
+                prev.step1Data.subscription_plan_id,
+              staff_count:
+                registrationData.staff_count ||
+                prev.step1Data.staff_count ||
+                DEFAULT_STAFF_COUNT,
+              // Use string-based state and city from API (from Google Places)
+              state: registrationData.state || prev.step1Data.state || '',
+              city: registrationData.city || prev.step1Data.city || '',
+              timezone:
+                registrationData.timezone || prev.step1Data.timezone || '',
             },
             // Also update billing cycle and addons if they exist
             billingCycle: registrationData.billing_cycle || prev.billingCycle,
@@ -288,10 +307,7 @@ export default function SubscriptionFlow() {
   };
 
   // Handle plan change from modal
-  const handlePlanChange = (
-    planId: number,
-    billingCycle: BillingCycle,
-  ) => {
+  const handlePlanChange = (planId: number, billingCycle: BillingCycle) => {
     setFormState((prev) => ({
       ...prev,
       step1Data: {
@@ -388,7 +404,9 @@ export default function SubscriptionFlow() {
               {loadingRegistrationData ? (
                 <div style={{ textAlign: 'center', padding: '3rem' }}>
                   <div className={styles.loadingSpinner} />
-                  <p style={{ marginTop: '1rem' }}>Loading your saved information...</p>
+                  <p style={{ marginTop: '1rem' }}>
+                    Loading your saved information...
+                  </p>
                 </div>
               ) : (
                 <Step3ClinicDetails
@@ -406,71 +424,76 @@ export default function SubscriptionFlow() {
           )}
 
           {/* Step 4: Free Plan Success */}
-          {formState.currentStep === SUBSCRIPTION_STEPS.CHECKOUT && !isPaidPlan && (
-            <Step4FreeSuccess
-              formData={{
-                ...formState.step1Data,
-                clinic_name: formState.step1Data.clinic_name || '',
-                tax_id: formState.step1Data.tax_id || '',
-                npi: formState.step1Data.npi || '',
-                street_address_line_1:
-                  formState.step1Data.street_address_line_1 || '',
-                city: formState.step1Data.city || '',
-                state: formState.step1Data.state || '',
-                zip_code: formState.step1Data.zip_code || '',
-                timezone: formState.step1Data.timezone || 'America/New_York',
-                email: formState.step1Data.email || '',
-                first_name: formState.step1Data.first_name || '',
-                last_name: formState.step1Data.last_name || '',
-                phone: formState.step1Data.phone || '',
-                subscription_plan_id:
-                  formState.step1Data.subscription_plan_id || 1,
-                staff_count: formState.step1Data.staff_count || DEFAULT_STAFF_COUNT,
-              }}
-            />
-          )}
+          {formState.currentStep === SUBSCRIPTION_STEPS.CHECKOUT &&
+            !isPaidPlan && (
+              <Step4FreeSuccess
+                formData={{
+                  ...formState.step1Data,
+                  clinic_name: formState.step1Data.clinic_name || '',
+                  tax_id: formState.step1Data.tax_id || '',
+                  npi: formState.step1Data.npi || '',
+                  street_address_line_1:
+                    formState.step1Data.street_address_line_1 || '',
+                  city: formState.step1Data.city || '',
+                  state: formState.step1Data.state || '',
+                  zip_code: formState.step1Data.zip_code || '',
+                  timezone: formState.step1Data.timezone || 'America/New_York',
+                  email: formState.step1Data.email || '',
+                  first_name: formState.step1Data.first_name || '',
+                  last_name: formState.step1Data.last_name || '',
+                  phone: formState.step1Data.phone || '',
+                  subscription_plan_id:
+                    formState.step1Data.subscription_plan_id || 1,
+                  staff_count:
+                    formState.step1Data.staff_count || DEFAULT_STAFF_COUNT,
+                }}
+              />
+            )}
 
           {/* Step 4: Paid Plan Cart */}
-          {formState.currentStep === SUBSCRIPTION_STEPS.CHECKOUT && isPaidPlan && (
-            <Step4PaidCart
-              formData={formState.step1Data}
-              billingCycle={formState.billingCycle}
-              onNext={handleStep4Complete}
-              onBack={handleBackToStep3}
-              clinic_onboarding_request_id={
-                formState.clinic_onboarding_request_id
-              }
-            />
-          )}
+          {formState.currentStep === SUBSCRIPTION_STEPS.CHECKOUT &&
+            isPaidPlan && (
+              <Step4PaidCart
+                formData={formState.step1Data}
+                billingCycle={formState.billingCycle}
+                onNext={handleStep4Complete}
+                onBack={handleBackToStep3}
+                clinic_onboarding_request_id={
+                  formState.clinic_onboarding_request_id
+                }
+              />
+            )}
 
           {/* Step 5: Paid Plan Payment Processing */}
-          {formState.currentStep === SUBSCRIPTION_STEPS.PAYMENT && isPaidPlan && (
-            <Step5PaymentProcessing
-              formData={{
-                ...formState.step1Data,
-                clinic_name: formState.step1Data.clinic_name || '',
-                tax_id: formState.step1Data.tax_id || '',
-                npi: formState.step1Data.npi || '',
-                street_address_line_1:
-                  formState.step1Data.street_address_line_1 || '',
-                city: formState.step1Data.city || '',
-                state: formState.step1Data.state || '',
-                zip_code: formState.step1Data.zip_code || '',
-                timezone: formState.step1Data.timezone || 'America/New_York',
-                email: formState.step1Data.email || '',
-                first_name: formState.step1Data.first_name || '',
-                last_name: formState.step1Data.last_name || '',
-                phone: formState.step1Data.phone || '',
-                subscription_plan_id:
-                  formState.step1Data.subscription_plan_id || 2,
-                staff_count: formState.step1Data.staff_count || DEFAULT_STAFF_COUNT,
-                billing_cycle: formState.billingCycle,
-                addons: formState.selectedAddons,
-              }}
-              paymentUrl={formState.paymentUrl}
-              onBack={handleBackToStep4}
-            />
-          )}
+          {formState.currentStep === SUBSCRIPTION_STEPS.PAYMENT &&
+            isPaidPlan && (
+              <Step5PaymentProcessing
+                formData={{
+                  ...formState.step1Data,
+                  clinic_name: formState.step1Data.clinic_name || '',
+                  tax_id: formState.step1Data.tax_id || '',
+                  npi: formState.step1Data.npi || '',
+                  street_address_line_1:
+                    formState.step1Data.street_address_line_1 || '',
+                  city: formState.step1Data.city || '',
+                  state: formState.step1Data.state || '',
+                  zip_code: formState.step1Data.zip_code || '',
+                  timezone: formState.step1Data.timezone || 'America/New_York',
+                  email: formState.step1Data.email || '',
+                  first_name: formState.step1Data.first_name || '',
+                  last_name: formState.step1Data.last_name || '',
+                  phone: formState.step1Data.phone || '',
+                  subscription_plan_id:
+                    formState.step1Data.subscription_plan_id || 2,
+                  staff_count:
+                    formState.step1Data.staff_count || DEFAULT_STAFF_COUNT,
+                  billing_cycle: formState.billingCycle,
+                  addons: formState.selectedAddons,
+                }}
+                paymentUrl={formState.paymentUrl}
+                onBack={handleBackToStep4}
+              />
+            )}
         </div>
       </div>
 

@@ -40,9 +40,35 @@ export interface PlaceResult {
 }
 
 /**
- * Extended Place Details Result with timeZoneId from Places API v1
+ * Address component from Google Places API
  */
-export interface PlaceDetailsResult extends google.maps.places.PlaceResult {
+export interface AddressComponent {
+  long_name: string;
+  short_name: string;
+  types: string[];
+}
+
+/**
+ * Geometry location from Google Places API
+ */
+export interface PlaceGeometry {
+  location?: {
+    lat: () => number;
+    lng: () => number;
+  };
+}
+
+/**
+ * Place Details Result from Google Places API
+ * Contains address components, formatted address, and optional timezone
+ */
+export interface PlaceDetailsResult {
+  /** Address components array */
+  address_components?: AddressComponent[];
+  /** Full formatted address */
+  formatted_address?: string;
+  /** Geometry with location coordinates */
+  geometry?: PlaceGeometry;
   /** IANA timezone ID from Places API (New) v1 (e.g., "America/New_York") */
   timeZoneId?: string;
 }
@@ -103,7 +129,6 @@ export interface UseGooglePlacesReturn {
  */
 declare global {
   interface Window {
-    google?: typeof google;
     initGooglePlaces?: () => void;
   }
 }
