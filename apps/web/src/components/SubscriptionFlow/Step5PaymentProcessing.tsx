@@ -227,12 +227,14 @@ export default function Step5PaymentProcessing({
         </p>
 
         <div
-          className={`${styles.alertContainer} ${styles.alertInfo} ${styles.fadeInUpAnimation}`}
+          className={`${styles.alertContainerCentered} ${styles.alertInfo} ${styles.alertWrap} ${styles.fadeInUpAnimation}`}
           style={{ animationDelay: '0.4s' }}
         >
-          <AlertCircle size={20} />
-          <div>
-            <strong>What happens next:</strong>
+          <span className={styles.alertTitle}>What happens next?</span>
+          <div className={styles.alertIconWrapper}>
+            <AlertCircle size={24} />
+          </div>
+          <div className={styles.alertContent}>
             <ul className={styles.successList}>
               <li className={styles.successListItem}>
                 Complete your payment on the secure Stripe checkout page
