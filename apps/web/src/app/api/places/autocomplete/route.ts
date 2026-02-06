@@ -1,9 +1,12 @@
 import { NextRequest, NextResponse } from 'next/server';
 
+import { ADDRESS_PLACE_TYPES } from '@/constants/places';
+
 const PLACES_AUTOCOMPLETE_URL = 'https://places.googleapis.com/v1/places:autocomplete';
 
 interface AutocompleteRequest {
   input: string;
+  types?: string[];
 }
 
 interface AutocompleteV1Response {
@@ -55,13 +58,7 @@ export async function POST(request: NextRequest) {
       body: JSON.stringify({
         input: body.input,
         includedRegionCodes: ['us'],
-        includedPrimaryTypes: [
-          'street_address',  // Full street addresses
-          'route',           // Streets
-          'locality',        // Cities
-          'sublocality',     // Districts within cities
-          'neighborhood',    // Neighborhoods
-        ],
+        includedPrimaryTypes: body.types || [...ADDRESS_PLACE_TYPES],
         languageCode: 'en',
       }),
     });

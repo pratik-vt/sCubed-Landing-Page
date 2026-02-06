@@ -97,6 +97,10 @@ export interface AddressAutocompleteProps {
   size?: 'default' | 'compact';
   /** Custom className */
   className?: string;
+  /** Google Places includedPrimaryTypes override (e.g., STATE_PLACE_TYPES for state-only results) */
+  types?: string[];
+  /** Skip the place details API call — use prediction text directly (useful for state-only selection) */
+  skipPlaceDetails?: boolean;
   /** Label for the input field */
   label?: string;
   /** Whether the field is required */

@@ -9,7 +9,7 @@ import {
   Mail,
   Phone,
 } from 'lucide-react';
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import isEmail from 'validator/lib/isEmail';
 
@@ -66,7 +66,6 @@ import {
   requiredMark,
   rightPanel,
   actionsRow,
-  selectStyle,
   secondaryButton,
   submitContainer,
   submitButton,
@@ -77,12 +76,16 @@ import {
   titleGradient,
   twoColumnGrid,
   oneColumnGrid,
-  successWrapper
+  successWrapper,
+  stateAutocompleteWrapper
 } from './styles.css';
 
 import { useResumeForm } from '@/hooks/useResumeForm';
 import { saveSession, clearSession } from '@/utils/contactFormStorage';
 import { showSuccessToast } from '@/lib/errors';
+import { AddressAutocomplete } from '@/components/AddressAutocomplete';
+import { STATE_PLACE_TYPES } from '@/constants/places';
+import type { AddressComponents } from '@/components/AddressAutocomplete/types';
 import { SUCCESS_MESSAGES } from '@/constants/messages';
 
 interface FormData {
@@ -102,26 +105,6 @@ const MAX_LENGTHS = {
   softwareName: 255,
   comments: 1000,
 };
-
-interface StateData {
-  id: number;
-  name: string;
-  code: string;
-  timezones: Array<{
-    timezone_id: number;
-    timezone: {
-      timezone: string;
-    };
-  }>;
-}
-
-interface StatesApiResponse {
-  status_code: number;
-  data: {
-    count: number;
-    rows: StateData[];
-  };
-}
 
 interface ApiError {
   field?: string;
@@ -151,9 +134,6 @@ const GetStartedForm: React.FC = () => {
   const [recaptchaToken, setRecaptchaToken] = useState<string | null>(null);
   const [recaptchaError, setRecaptchaError] = useState<string | null>(null);
   const recaptchaRef = useRef<ReCaptchaRef>(null);
-  const [states, setStates] = useState<StateData[]>([]);
-  const [statesLoading, setStatesLoading] = useState(true);
-  const [statesError, setStatesError] = useState<string | null>(null);
   const [currentStep, setCurrentStep] = useState<1 | 2 | 3>(1);
   const [formSessionId, setFormSessionId] = useState<string | null>(null);
 
@@ -166,6 +146,17 @@ const GetStartedForm: React.FC = () => {
     getValues,
     setValue,
   } = useForm<FormData>();
+
+  // Handle address selection from Google Places - auto-populate state
+  const handleAddressSelect = useCallback(
+    (address: AddressComponents) => {
+      setValue('state', address.state);
+      if (address.state) {
+        trigger('state');
+      }
+    },
+    [setValue, trigger],
+  );
 
   // Resume form functionality
   const {
@@ -248,35 +239,9 @@ const GetStartedForm: React.FC = () => {
     }
   }, [resumeSessionId, resumeStep]);
 
-  // Scroll to top on component mount and fetch states
+  // Scroll to top on component mount
   useEffect(() => {
     window.scrollTo(0, 0);
-
-    // Fetch states from proxy API
-    const loadStates = async () => {
-      try {
-        setStatesLoading(true);
-        setStatesError(null);
-
-        const response = await fetch('/api/states');
-
-        if (response.ok) {
-          const result = await response.json();
-          if (result?.rows) {
-            setStates(result.rows);
-          }
-        } else {
-          throw new Error('Failed to fetch states');
-        }
-      } catch (error) {
-        console.error('Error fetching states:', error);
-        setStatesError('Failed to load states');
-      } finally {
-        setStatesLoading(false);
-      }
-    };
-
-    loadStates();
   }, []);
 
 
@@ -1014,45 +979,23 @@ const GetStartedForm: React.FC = () => {
                         </div>
 
                         <div className={formGroup}>
-                          <label className={labelStyle}>
-                            State <span className={requiredMark}>*</span>
-                          </label>
-                          <select
-                            className={selectStyle}
-                            autoComplete="address-level1"
-                            aria-required="true"
+                          <AddressAutocomplete
+                            label="State"
+                            required
+                            placeholder="Search for your state"
+                            onAddressSelect={handleAddressSelect}
+                            error={!!errors.state || !!apiFieldErrors.state}
+                            size="compact"
+                            types={[...STATE_PLACE_TYPES]}
+                            skipPlaceDetails
+                            className={stateAutocompleteWrapper}
+                          />
+                          <input
+                            type="hidden"
                             {...register('state', {
                               required: 'State is required',
                             })}
-                            disabled={statesLoading}
-                          >
-                            <option value="" style={{ color: '#9ca3af' }}>
-                              {statesLoading
-                                ? 'Loading states...'
-                                : statesError
-                                  ? 'Error loading states'
-                                  : 'Select State'}
-                            </option>
-                            {!statesLoading &&
-                              !statesError &&
-                              states.map((state) => (
-                                <option key={state.code} value={state.name}>
-                                  {state.name} ({state.code})
-                                </option>
-                              ))}
-                          </select>
-                          {statesError && (
-                            <div
-                              className={errorMessage}
-                              style={{
-                                fontSize: '0.75rem',
-                                marginTop: '0.25rem',
-                              }}
-                            >
-                              <AlertCircle size={12} />
-                              {statesError}
-                            </div>
-                          )}
+                          />
                           {renderFieldError(errors.state, 'state')}
                         </div>
                       </div>

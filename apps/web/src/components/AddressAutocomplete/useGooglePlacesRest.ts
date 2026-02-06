@@ -54,7 +54,7 @@ interface PlaceDetailsV1Response {
  * Uses internal Next.js API routes to proxy requests to Google Places API
  * This keeps the API key secure on the server side
  */
-export function useGooglePlacesRest(): UseGooglePlacesReturn {
+export function useGooglePlacesRest(types?: string[]): UseGooglePlacesReturn {
   const [predictions, setPredictions] = useState<PlaceResult[]>([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -88,7 +88,7 @@ export function useGooglePlacesRest(): UseGooglePlacesReturn {
           headers: {
             'Content-Type': 'application/json',
           },
-          body: JSON.stringify({ input }),
+          body: JSON.stringify({ input, ...(types && { types }) }),
         });
 
         if (!response.ok) {

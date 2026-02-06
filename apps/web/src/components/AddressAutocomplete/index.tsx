@@ -29,6 +29,8 @@ export const AddressAutocomplete: FC<AddressAutocompleteProps> = ({
   error = false,
   size = 'default',
   className,
+  types,
+  skipPlaceDetails = false,
   label,
   required = false,
 }) => {
@@ -50,7 +52,7 @@ export const AddressAutocomplete: FC<AddressAutocompleteProps> = ({
     getPlaceDetails,
     clearPredictions,
     isLoaded,
-  } = useGooglePlacesRest();
+  } = useGooglePlacesRest(types);
 
   // Update input value when external value changes
   useEffect(() => {
@@ -61,6 +63,26 @@ export const AddressAutocomplete: FC<AddressAutocompleteProps> = ({
   const handleSelect = useCallback(
     async (prediction: PlaceResult) => {
       try {
+        // Skip place details API call when only prediction text is needed (e.g., state selection)
+        if (skipPlaceDetails) {
+          setInputValue(prediction.mainText);
+          setIsOpen(false);
+          clearPredictions();
+          setActiveIndex(-1);
+
+          onAddressSelect({
+            streetAddress: '',
+            addressLine2: '',
+            city: '',
+            state: prediction.mainText,
+            stateCode: '',
+            zipCode: '',
+            country: '',
+            formattedAddress: prediction.description,
+          });
+          return;
+        }
+
         const details = await getPlaceDetails(prediction.placeId);
 
         if (details?.address_components && details.formatted_address) {
@@ -93,6 +115,7 @@ export const AddressAutocomplete: FC<AddressAutocompleteProps> = ({
       }
     },
     [
+      skipPlaceDetails,
       getPlaceDetails,
       parseAddressComponents,
       onAddressSelect,

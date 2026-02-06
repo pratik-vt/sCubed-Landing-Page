@@ -1228,6 +1228,68 @@ export const successWrapper = style({
 });
 
 
+// State autocomplete wrapper - overrides AddressAutocomplete styles to match GetStartedForm inputs
+export const stateAutocompleteWrapper = style({});
+
+// Override autocomplete label to match GetStartedForm labels
+globalStyle(`${stateAutocompleteWrapper} > label`, {
+  fontSize: '0.8125rem',
+  fontWeight: '700',
+  color: '#1f2937',
+  letterSpacing: '0.01em',
+  display: 'block',
+  marginBottom: '0.375rem',
+  fontFamily: 'inherit',
+});
+
+// Hide the MapPin icon (other GetStartedForm inputs don't have icons)
+globalStyle(`${stateAutocompleteWrapper} > div > svg:first-child`, {
+  display: 'none',
+});
+
+// Override input to match GetStartedForm baseInputStyle
+globalStyle(`${stateAutocompleteWrapper} input[role="combobox"]`, {
+  height: '2.75rem',
+  padding: '0 2.25rem 0 1rem',
+  border: `1.5px solid ${colors.neutral[200]}`,
+  borderRadius: '0.5rem',
+  fontSize: '0.875rem',
+  fontWeight: '400',
+  backgroundColor: '#ffffff',
+  boxShadow: `0 1px 2px 0 ${colors.neutral[200]}10`,
+  transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
+  '@media': {
+    '(min-width: 1025px)': {
+      height: '3rem',
+      fontSize: '0.9375rem',
+      padding: '0 2.25rem 0 1.125rem',
+    },
+    '(max-width: 1024px) and (min-width: 769px)': {
+      height: '2.875rem',
+    },
+    '(max-width: 480px)': {
+      height: '2.5rem',
+      fontSize: '0.8125rem',
+      padding: '0 2.25rem 0 0.875rem',
+    },
+  },
+});
+
+globalStyle(`${stateAutocompleteWrapper} input[role="combobox"]:focus`, {
+  outline: 'none',
+  borderColor: colors.primary[600],
+  boxShadow: `0 0 0 2px ${colors.primary[600]}10`,
+});
+
+globalStyle(`${stateAutocompleteWrapper} input[role="combobox"]:hover`, {
+  borderColor: colors.primary[400],
+});
+
+globalStyle(`${stateAutocompleteWrapper} input[role="combobox"]::placeholder`, {
+  color: '#52525b',
+  fontWeight: '400',
+});
+
 // Legacy compatibility styles (hidden)
 export const contactPanel = style({ display: 'none' });
 export const contactInfo = style({ display: 'none' });
