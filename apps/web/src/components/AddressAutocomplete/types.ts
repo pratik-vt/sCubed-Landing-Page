@@ -80,7 +80,8 @@ export interface AddressAutocompleteProps {
   /** Callback when user selects an address */
   onAddressSelect: (
     address: AddressComponents,
-    coordinates?: { lat: number; lng: number }
+    coordinates?: { lat: number; lng: number },
+    avoidTrigger?: boolean
   ) => void;
   /** Callback when timezone is resolved (IANA timezone ID) */
   onTimezoneResolved?: (timezone: string) => void;

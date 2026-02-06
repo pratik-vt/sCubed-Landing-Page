@@ -30,7 +30,7 @@ export default function Step4FreeSuccess({ formData }: Step4FreeProps) {
         An admin will review and approve your request soon.
       </p>
 
-      <div className={`${styles.alertContainerCentered} ${styles.alertInfo}`}>
+      <div className={`${styles.alertContainerCentered} ${styles.alertInfo} ${styles.alertWrap}`}>
         <span className={styles.alertTitle}>What happens next?</span>
         <div className={styles.alertIconWrapper}>
           <AlertCircle size={24} />

@@ -43,7 +43,7 @@ export const inputWrapper = style({
 
 export const inputIcon = style({
   position: 'absolute',
-  left: '16px',
+  left: '14px',
   color: '#9ca3af',
   pointerEvents: 'none',
   zIndex: 1,
@@ -54,7 +54,7 @@ export const input = style({
   width: '100%',
   height: '56px',
   padding: '16px 20px',
-  paddingLeft: '44px', // Space for icon
+  paddingLeft: '40px', // Space for icon
   paddingRight: '44px', // Space for clear button/loader
   fontSize: typography.fontSize.lg,
   color: '#111827',
@@ -69,12 +69,18 @@ export const input = style({
     borderColor: colors.primary[600],
     boxShadow: `0 0 0 3px ${colors.primary[600]}20`,
   },
+  textOverflow: 'ellipsis',
+  overflow: 'hidden',
+  whiteSpace: 'nowrap',
   '::placeholder': {
     color: '#6b7280',
+    textOverflow: 'ellipsis',
+    overflow: 'hidden',
+    whiteSpace: 'nowrap',
   },
   '@media': {
     '(max-width: 640px)': {
-      fontSize: '16px', // Prevent zoom on iOS
+      fontSize: '1rem', // 16px - Prevent zoom on iOS
     },
   },
 });
@@ -102,7 +108,7 @@ export const inputDisabled = style({
 
 export const clearButton = style({
   position: 'absolute',
-  right: '40px',
+  right: '16px',
   background: 'none',
   border: 'none',
   padding: '4px',

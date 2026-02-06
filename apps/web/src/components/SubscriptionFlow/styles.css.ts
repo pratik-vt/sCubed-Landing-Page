@@ -1,4 +1,4 @@
-import { keyframes, style } from '@vanilla-extract/css';
+import { globalStyle, keyframes, style } from '@vanilla-extract/css';
 
 import {
   colors,
@@ -361,6 +361,8 @@ export const formSubtitle = style({
   color: '#6b7280',
   marginBottom: spacing.xl,
   textAlign: 'center',
+  wordBreak: 'break-word',
+  overflowWrap: 'break-word',
   '@media': {
     'screen and (max-width: 768px)': {
       fontSize: typography.fontSize.base,
@@ -387,6 +389,7 @@ export const formGrid = style({
   '@media': {
     'screen and (max-width: 768px)': {
       gridTemplateColumns: '1fr',
+      gap: '0px',
     },
   },
 });
@@ -419,14 +422,26 @@ export const input = style({
   transition: 'border-color 0.2s, box-shadow 0.2s',
   fontFamily: typography.fontFamily.body,
   boxSizing: 'border-box',
+  textOverflow: 'ellipsis',
+  overflow: 'hidden',
+  whiteSpace: 'nowrap',
   ':focus': {
     outline: 'none',
     borderColor: colors.primary[600],
     boxShadow: `0 0 0 3px ${colors.primary[600]}20`,
   },
+  '::placeholder': {
+    textOverflow: 'ellipsis',
+  },
   ':disabled': {
     backgroundColor: '#f9fafb',
     cursor: 'not-allowed',
+  },
+  '@media': {
+    'screen and (max-width: 768px)': {
+      fontSize: '1rem',
+      padding: '10px 14px',
+    },
   },
 });
 
@@ -550,6 +565,11 @@ export const button = style({
   ':disabled': {
     opacity: 0.6,
     cursor: 'not-allowed',
+  },
+  '@media': {
+    'screen and (max-width: 768px)': {
+      fontSize: '1rem',
+    },
   },
 });
 
@@ -684,11 +704,15 @@ export const alertTextCentered = style({
   textAlign: 'center',
 });
 
+export const alertWrap = style({
+  flexWrap: 'wrap',
+});
+
 export const alertContainerCentered = style({
   display: 'flex',
   flexDirection: 'row',
   alignItems: 'center',
-  flexWrap: 'wrap',
+  justifyContent: 'center',
   gap: spacing.sm,
   padding: spacing.lg,
   borderRadius: radius.lg,
@@ -716,6 +740,10 @@ export const alertContainerCentered = style({
       fontSize: typography.fontSize.sm,
     },
   },
+});
+
+globalStyle(`${alertContainerCentered} > svg`, {
+  flexShrink: 0,
 });
 
 export const alertError = style({
@@ -2329,6 +2357,11 @@ export const inputLarge = style({
   padding: '16px 20px',
   fontSize: typography.fontSize.lg,
   height: '56px',
+  '@media': {
+    'screen and (max-width: 768px)': {
+      fontSize: '1rem',
+    },
+  },
 });
 
 export const inputReadOnly = style({
@@ -2722,6 +2755,11 @@ export const sectionCard = style({
   transition: 'all 0.3s ease',
   ':hover': {
     boxShadow: enhancedShadows.layered,
+  },
+  '@media': {
+    'screen and (max-width: 768px)': {
+      padding: spacing.md,
+    },
   },
 });
 

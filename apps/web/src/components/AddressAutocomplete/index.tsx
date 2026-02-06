@@ -166,12 +166,27 @@ export const AddressAutocomplete: FC<AddressAutocompleteProps> = ({
     }
   }, [activeIndex]);
 
-  // Clear input
+  // Clear input and reset parent fields
   const handleClear = () => {
     setInputValue('');
     clearPredictions();
     setIsOpen(false);
     inputRef.current?.focus();
+
+    onAddressSelect(
+      {
+        streetAddress: '',
+        addressLine2: '',
+        city: '',
+        state: '',
+        stateCode: '',
+        zipCode: '',
+        country: '',
+        formattedAddress: '',
+      },
+      undefined,
+      true
+    );
   };
 
   // Build class names

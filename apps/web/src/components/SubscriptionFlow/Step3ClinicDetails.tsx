@@ -211,7 +211,11 @@ function Step3ClinicDetailsComponent({
 
   // Handle address selection from Google Places
   const handleAddressSelect = useCallback(
-    (address: AddressComponents) => {
+    (
+      address: AddressComponents,
+      coordinates?: { lat: number; lng: number },
+      avoidTrigger?: boolean
+    ) => {
       setValue('street_address_line_1', address.streetAddress);
       // Auto-populate address line 2 if available (apartment, suite, unit)
       if (address.addressLine2) {
@@ -219,6 +223,12 @@ function Step3ClinicDetailsComponent({
       }
       setValue('city', address.city);
       setValue('state', address.state);
+
+      if (avoidTrigger) {
+        setValue('zip_code', '');
+        return;
+      }
+
       // Only set and validate zip_code if it was returned by Google Places
       // If not returned, user can manually enter it before submitting
       if (address.zipCode) {
@@ -502,7 +512,7 @@ function Step3ClinicDetailsComponent({
           <AddressAutocomplete
             label="Street Address"
             required
-            placeholder="Start typing your address..."
+            placeholder="Type address to search"
             value={watchedStreetAddress}
             onAddressSelect={handleAddressSelect}
             onTimezoneResolved={handleTimezoneResolved}
@@ -552,7 +562,7 @@ function Step3ClinicDetailsComponent({
               type="text"
               value={watchedState}
               readOnly
-              placeholder="Auto-populated from address"
+              placeholder="Auto-filled from address"
               className={`${styles.input} ${styles.inputLarge} ${styles.inputReadOnly}`}
               tabIndex={-1}
             />
@@ -576,7 +586,7 @@ function Step3ClinicDetailsComponent({
               type="text"
               value={watchedCity}
               readOnly
-              placeholder="Auto-populated from address"
+              placeholder="Auto-filled from address"
               className={`${styles.input} ${styles.inputLarge} ${styles.inputReadOnly}`}
               tabIndex={-1}
             />
