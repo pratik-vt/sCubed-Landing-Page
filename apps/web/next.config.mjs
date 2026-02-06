@@ -124,27 +124,7 @@ export default withVanillaExtract({
   },
   
   // Webpack optimizations
-  webpack: (config, { isServer }) => {
-    // Optimize bundle splitting
-    if (!isServer) {
-      config.optimization.splitChunks = {
-        ...config.optimization.splitChunks,
-        cacheGroups: {
-          ...config.optimization.splitChunks.cacheGroups,
-          vendor: {
-            test: /[\\/]node_modules[\\/]/,
-            name: 'vendors',
-            chunks: 'all',
-          },
-          framerMotion: {
-            test: /[\\/]node_modules[\\/]framer-motion[\\/]/,
-            name: 'framer-motion',
-            chunks: 'all',
-          },
-        },
-      };
-    }
-    
+  webpack: (config) => {
     return config;
   },
 }); 

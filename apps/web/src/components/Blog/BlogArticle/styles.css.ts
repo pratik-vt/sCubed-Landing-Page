@@ -155,7 +155,7 @@ export const contentWrapper = style({
 export const breadcrumb = style({
   fontSize: typography.fontSize.sm,
   color: colors.neutral[500],
-  marginBottom: spacing.lg,
+  marginBottom: spacing['2xl'],
   display: 'flex',
   alignItems: 'center',
   gap: '0.5rem',
