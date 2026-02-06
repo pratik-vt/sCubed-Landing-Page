@@ -105,6 +105,8 @@ export interface AddressAutocompleteProps {
   label?: string;
   /** Whether the field is required */
   required?: boolean;
+  /** Custom message when no results are found */
+  emptyMessage?: string;
 }
 
 /**

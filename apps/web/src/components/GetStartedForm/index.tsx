@@ -989,6 +989,7 @@ const GetStartedForm: React.FC = () => {
                             types={[...STATE_PLACE_TYPES]}
                             skipPlaceDetails
                             className={stateAutocompleteWrapper}
+                            emptyMessage="State not found"
                           />
                           <input
                             type="hidden"

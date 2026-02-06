@@ -190,18 +190,14 @@ export const optionMain = style({
   display: 'block',
   fontWeight: typography.fontWeight.medium,
   color: '#111827',
-  overflow: 'hidden',
-  textOverflow: 'ellipsis',
-  whiteSpace: 'nowrap',
+  wordBreak: 'break-word',
 });
 
 export const optionSecondary = style({
   display: 'block',
   fontSize: typography.fontSize.sm,
   color: '#6b7280',
-  overflow: 'hidden',
-  textOverflow: 'ellipsis',
-  whiteSpace: 'nowrap',
+  wordBreak: 'break-word',
 });
 
 export const loadingItem = style({

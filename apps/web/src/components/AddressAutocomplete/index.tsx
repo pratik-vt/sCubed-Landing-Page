@@ -33,6 +33,7 @@ export const AddressAutocomplete: FC<AddressAutocompleteProps> = ({
   skipPlaceDetails = false,
   label,
   required = false,
+  emptyMessage = 'No addresses found',
 }) => {
   const [inputValue, setInputValue] = useState(value);
   const [isOpen, setIsOpen] = useState(false);
@@ -305,7 +306,7 @@ export const AddressAutocomplete: FC<AddressAutocompleteProps> = ({
           inputValue.length >= 3 &&
           predictions.length === 0 && (
             <div className={styles.dropdown}>
-              <div className={styles.emptyItem}>No addresses found</div>
+              <div className={styles.emptyItem}>{emptyMessage}</div>
             </div>
           )}
 
