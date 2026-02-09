@@ -114,7 +114,7 @@ const DataCollectionTrust: React.FC = () => {
                 </div>
                 <h3 className={featureTitle}>{feature.title}</h3>
               </div>
-              <p
+              <div
                 className={featureDescription}
                 dangerouslySetInnerHTML={{ __html: feature.description }}
               />

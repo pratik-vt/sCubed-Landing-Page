@@ -72,7 +72,7 @@ const ContentSection: React.FC<Readonly<ContentSectionProps>> = ({
               transition={{ duration: 0.6, delay: 0.1 }}
             >
               <h2 className={title}>{titleText}</h2>
-              <p
+              <div
                 className={description}
                 dangerouslySetInnerHTML={{ __html: descriptionText }}
               />
@@ -87,7 +87,7 @@ const ContentSection: React.FC<Readonly<ContentSectionProps>> = ({
               transition={{ duration: 0.6, delay: 0.1 }}
             >
               <h2 className={title}>{titleText}</h2>
-              <p
+              <div
                 className={description}
                 dangerouslySetInnerHTML={{ __html: descriptionText }}
               />
