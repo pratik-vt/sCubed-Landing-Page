@@ -255,7 +255,7 @@ export const AddressAutocomplete: FC<AddressAutocompleteProps> = ({
             aria-haspopup="listbox"
             autoComplete="off"
           />
-          {inputValue && !disabled && (
+          {inputValue && !disabled && !loading && (
             <button
               type="button"
               onClick={handleClear}

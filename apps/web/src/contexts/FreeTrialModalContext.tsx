@@ -33,10 +33,12 @@ export const FreeTrialModalProvider: React.FC<FreeTrialModalProviderProps> = ({ 
   return (
     <FreeTrialModalContext.Provider value={{ openModal, closeModal, isOpen }}>
       {children}
-      <FreeTrialModal
-        isOpen={isOpen}
-        onClose={closeModal}
-      />
+      {isOpen && (
+        <FreeTrialModal
+          isOpen={isOpen}
+          onClose={closeModal}
+        />
+      )}
     </FreeTrialModalContext.Provider>
   );
 };

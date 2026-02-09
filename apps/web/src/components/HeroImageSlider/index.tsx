@@ -589,7 +589,7 @@ const HeroImageSlider: React.FC<HeroImageSliderProps> = ({
               }}
             >
               {typeof currentItem.description === 'string' ? (
-                <p dangerouslySetInnerHTML={{ __html: currentItem.description }} />
+                <div dangerouslySetInnerHTML={{ __html: currentItem.description }} />
               ) : (
                 currentItem.description
               )}

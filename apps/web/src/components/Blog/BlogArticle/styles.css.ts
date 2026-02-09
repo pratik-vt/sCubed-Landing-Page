@@ -164,6 +164,12 @@ export const breadcrumb = style({
   flex: 1, // Take available space but allow shrinking
   overflow: 'hidden', // Prevent text overflow
   textOverflow: 'ellipsis', // Add ellipsis for long text
+
+  '@media': {
+    '(max-width: 1024px)': {
+      marginBottom: 0,
+    },
+  },
 });
 
 export const categoryTag = style({
