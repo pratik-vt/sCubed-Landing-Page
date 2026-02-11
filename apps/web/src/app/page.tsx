@@ -45,6 +45,8 @@ const Footer = dynamic(() => import('../components/Footer'), {
 // CTA component (commented out in original)
 // const CTA = dynamic(() => import('../components/CTA'));
 
+const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://scubed.io';
+
 export const metadata: Metadata = {
   title: 'S Cubed - ABA Practice Management Software | Therapy Clinic Software',
   description:
@@ -58,10 +60,10 @@ export const metadata: Metadata = {
     description: 'Transform your therapy practice with our all-in-one management software.',
     type: 'website',
     siteName: 'S Cubed',
-    url: 'https://scubed.io/',
+    url: `${siteUrl}/`,
     images: [
       {
-        url: 'https://scubed.io/images/SCubed_OG_Image.webp',
+        url: `${siteUrl}/images/SCubed_OG_Image.webp`,
         width: 2400,
         height: 1260,
         alt: 'S Cubed - ABA Practice Management Software',
@@ -72,7 +74,7 @@ export const metadata: Metadata = {
     card: 'summary_large_image',
     title: 'S Cubed - ABA Practice Management Software',
     description: 'Transform your therapy practice with our all-in-one management software.',
-    images: ['https://scubed.io/images/SCubed_OG_Image.webp'],
+    images: [`${siteUrl}/images/SCubed_OG_Image.webp`],
   },
 };
 
