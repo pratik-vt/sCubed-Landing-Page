@@ -152,11 +152,7 @@ export const ctaSection = style({
 // Bullet list card styles
 export const bulletSection = style({
   padding: `${spacing.lg} 0 ${spacing.xl} 0`,
-  background: `
-    linear-gradient(135deg, ${colors.neutral[50]} 0%, ${colors.primary[50]} 30%, ${colors.neutral[50]} 70%, ${colors.primary[50]} 100%),
-    radial-gradient(ellipse at top, rgba(122, 126, 237, 0.1) 0%, transparent 60%),
-    radial-gradient(ellipse at bottom, rgba(34, 211, 238, 0.08) 0%, transparent 60%)
-  `,
+  background: colors.white,
   position: 'relative',
   overflow: 'hidden',
   '::before': {
@@ -165,12 +161,7 @@ export const bulletSection = style({
     top: 0,
     left: 0,
     right: 0,
-    bottom: 0,
-    background: `
-      radial-gradient(circle at 20% 30%, rgba(122, 126, 237, 0.1) 0%, transparent 50%),
-      radial-gradient(circle at 80% 70%, rgba(34, 211, 238, 0.08) 0%, transparent 50%),
-      radial-gradient(circle at 50% 10%, rgba(52, 211, 153, 0.06) 0%, transparent 50%)
-    `,
+    bottom: 0,    
     pointerEvents: 'none',
   },
   '::after': {

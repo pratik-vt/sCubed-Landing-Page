@@ -10,6 +10,8 @@ import billingBannerImg from '../../../images/billing-banner.png';
 import CalendlyButton from '../CalendlyButton';
 import { primaryButton } from '../CalendlyButton/styles.css';
 
+import BillingMetrics from '../BillingMetrics';
+
 import {
   backgroundImage,
   backgroundOverlay,
@@ -171,6 +173,8 @@ const BillingHero: React.FC = () => {
           </div>
         </div>
       </section>
+
+      <BillingMetrics />
 
       <section className={bulletSection} ref={bulletSectionRef}>
         <div className={heroContainer}>
