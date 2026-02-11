@@ -13,6 +13,7 @@ const slideToTop = keyframes({
 export const headerContentStyles = style({
   maxWidth: '1400px',
   margin: '0 auto',
+  marginTop: '-10px',
   display: 'flex',
   justifyContent: 'space-between',
   alignItems: 'center',
@@ -524,6 +525,8 @@ export const tryForFreeButton = style({
 
 export const desktopLogo = style({
   display: 'block',
+  width: '120px',
+  height: '120px',
   '@media': {
     'screen and (max-width: 768px)': { display: 'none' },
   },

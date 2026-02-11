@@ -115,7 +115,7 @@ window.addEventListener('load', function() {
         )}
         
         {/* Preload critical resources */}
-        <link rel="preload" href="/images/HeaderLogo.png" as="image" />
+        <link rel="preload" href="/images/scubed-logo.webp" as="image" />
         {/* <link rel="preload" href="/fonts/your-main-font.woff2" as="font" type="font/woff2" crossOrigin="anonymous" /> */}
         
         <link rel="icon" href="/favicon.ico" sizes="any" />

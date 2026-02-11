@@ -6,7 +6,7 @@ import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
 import React, { useEffect, useState } from 'react';
 
-import desktopLogoImg from '../../images/HeaderLogo.png';
+import desktopLogoImg from '../../images/scubed-logo.webp';
 import mobileLogoImg from '../../images/scubed-logo-small.png';
 import { formatPhone } from '../../utils/phoneFormatter';
 
@@ -261,8 +261,10 @@ const Navigation: React.FC<NavigationProps> = ({
               <Image
                 alt="S Cubed"
                 src={desktopLogoImg}
-                quality={75}
-                placeholder="blur"
+                width={120}
+                height={120}
+                quality={100}
+                style={{ width: 'auto', height: '120px' }}
               />
             </div>
             <div className={mobileLogo}>

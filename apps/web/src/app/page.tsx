@@ -58,11 +58,21 @@ export const metadata: Metadata = {
     description: 'Transform your therapy practice with our all-in-one management software.',
     type: 'website',
     siteName: 'S Cubed',
+    url: 'https://scubed.io/',
+    images: [
+      {
+        url: 'https://scubed.io/images/SCubed_OG_Image.webp',
+        width: 2400,
+        height: 1260,
+        alt: 'S Cubed - ABA Practice Management Software',
+      },
+    ],
   },
   twitter: {
     card: 'summary_large_image',
     title: 'S Cubed - ABA Practice Management Software',
     description: 'Transform your therapy practice with our all-in-one management software.',
+    images: ['https://scubed.io/images/SCubed_OG_Image.webp'],
   },
 };
 

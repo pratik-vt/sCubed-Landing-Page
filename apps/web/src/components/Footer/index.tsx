@@ -10,7 +10,7 @@ import bacbaImage from '../../images/BACBA.jpg';
 import capterraLogo from '../../images/Capterra.png';
 import g2Logo from '../../images/G2.png';
 import getAppLogo from '../../images/GetApp.png';
-import logoImage from '../../images/HeaderLogo.png';
+import logoImage from '../../images/scubed-logo.webp';
 import hipaaImage from '../../images/HIPAA.png';
 import softwareAdviceLogo from '../../images/SoftwareAdvice.png';
 import { formatPhone } from '../../utils/phoneFormatter';
@@ -108,7 +108,7 @@ const Footer: React.FC = () => {
                   alt="S Cubed"
                   placeholder="blur"
                   quality={75}
-                  style={{ width: 'auto', height: '70px' }}
+                  style={{ width: 'auto', height: '95px' }}
                 />
               </div>
               <Image

@@ -107,6 +107,7 @@ export const brandDescription = style({
   color: colors.neutral[600],
   maxWidth: '400px',
   marginBottom: '0',
+  marginBlockStart: '5px',
   '@media': {
     'screen and (max-width: 1024px)': {
       maxWidth: '600px',
