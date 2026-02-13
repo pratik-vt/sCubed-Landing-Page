@@ -25,6 +25,7 @@ export const mobileDropdownTrigger = style({
   gap: '8px',
   borderRadius: '8px',
   transition: 'all 0.2s ease',
+  boxSizing: 'border-box',
   ':hover': {
     color: '#7a7eed',
     backgroundColor: 'rgba(122, 126, 237, 0.05)',

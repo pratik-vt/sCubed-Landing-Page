@@ -13,7 +13,7 @@ const slideToTop = keyframes({
 export const headerContentStyles = style({
   maxWidth: '1400px',
   margin: '0 auto',
-  marginTop: '-10px',
+  // marginTop: '-10px',
   display: 'flex',
   justifyContent: 'space-between',
   alignItems: 'center',
@@ -24,7 +24,7 @@ export const headerContentStyles = style({
   position: 'relative',
   transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
   '@media': {
-    'screen and (max-width: 768px)': {
+    'screen and (max-width: 932px)': {
       padding: '0 15px',
       background: `#fff`,
       height: '60px',
@@ -528,14 +528,14 @@ export const desktopLogo = style({
   width: '120px',
   height: '120px',
   '@media': {
-    'screen and (max-width: 768px)': { display: 'none' },
+    'screen and (max-width: 932px)': { display: 'none' },
   },
 });
 
 export const mobileLogo = style({
   display: 'none',
   '@media': {
-    'screen and (max-width: 768px)': {
+    'screen and (max-width: 932px)': {
       display: 'flex',
       alignItems: 'center',
       height: '40px',
