@@ -229,24 +229,29 @@ export const featureTitle = style({
 
 export const featureDescription = style({
   fontSize: typography.fontSize.lg,
-  color: colors.neutral[600],
+  color: colors.neutral[800],
   padding: 0,
   margin: '20px 0 0 0',
   lineHeight: typography.lineHeight.relaxed,
   fontFamily: typography.fontFamily.body,
-  fontWeight: typography.fontWeight.normal,
+  fontWeight: typography.fontWeight.semibold,
   position: 'relative',
   zIndex: 1,
-  '@media': {
-    'screen and (max-width: 1200px)': {
-      fontSize: typography.fontSize.base,
+  selectors: {
+    [`${featureCard}:hover &`]: {
+      color: colors.neutral[900]
     },
+  },
+  '@media': {    
     'screen and (min-width: 1201px) and (max-width: 1480px)': {
       marginTop: '0px',
     },
     'screen and (min-width: 769px) and (max-width: 991px)': {
       marginTop: '0px',
     },
+    'screen and (max-width: 768px)': {
+      fontSize: typography.fontSize.base,
+    }
   },
 });
 
