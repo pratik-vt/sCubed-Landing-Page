@@ -277,10 +277,10 @@ export const navMenu = style({
       // Ensure buttons at bottom are reachable when scrolling
       paddingBottom: '80px',
     },
-    '(min-width: 769px) and (max-width:1024px)': {
-      top: '103px',
+    '(min-width: 933px) and (max-width:1024px)': {
+      top: '120px',
       // Fix height to match header offset
-      height: 'calc(100vh - 103px)',
+      height: 'calc(100vh - 120px)',
     },
     // Extra small devices
     '(max-width: 640px)': {
