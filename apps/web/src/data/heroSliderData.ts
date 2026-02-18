@@ -5,8 +5,9 @@ import RightImageThreeSlide from '../../public/images/right-image-three-slide.pn
 // import NYSABA2025Image from '../../public/images/NYSABA Event Banner.jpg';
 import { HeroSliderItem } from '../components/HeroImageSlider';
 
-import BackgroundAutismSlide from "../../public/images/background-image-autism.jpg";
-import RightImageAutismSlide from "../../public/images/right-image-autism.png";
+// CalABA Conference
+import BackgroundCalABASlide from '../../public/images/SCubed_Banner_bg_CalABA Conference.jpg';
+import RightImageCalABASlide from '../../public/images/SCubed_Banner_bg-element_CalABA Conference.png';
 
 export const heroSliderData: HeroSliderItem[] = [
   {
@@ -30,25 +31,27 @@ export const heroSliderData: HeroSliderItem[] = [
     contentAlign: 'center',
   },
   {
-    id: 'autism-conference-2026',
-    title: "We’re bringing real ABA conversations to Autism Conference 2026",
+    id: 'calaba-conference-2026',
+    title:
+      '<span style="font-weight: 400;">We\'ll See You at </span><span style="color: #7a7eed;">44<sup>th</sup> Annual</span>\n<span style="color: #7a7eed;">CalABA</span> Conference',
+    mobileTitle:
+      '<span style="font-weight: 400;">We\'ll See You at </span><span style="color: #7a7eed;">44<sup>th</sup> Annual</span> <span style="color: #7a7eed;">CalABA</span> Conference',
     description:
-      'Join us in New York at Booth #701 to engage, exchange, and elevate ABA practices.',
+      'Join us at the <strong>Conference in Sacramento, CA.</strong> Let\'s talk about workflows that<br/>truly support growing ABA practices.',
     layoutMode: 'split',
     backgroundImage: {
-      src: BackgroundAutismSlide,
-      alt: 'Autism Conference 2026',
+      src: BackgroundCalABASlide,
+      alt: 'CalABA Conference 2026',
       position: 'center center',
     },
     splitImage: {
-      src: RightImageAutismSlide,
-      alt: "Autism Conference 2026",
+      src: RightImageCalABASlide,
+      alt: 'CalABA Conference 2026',
     },
     link: {
-      href: 'https://scubed.io/events/meet-s-cubed-at-the-20th-annual-autism-conference-aba-software-built-for-real-clinics',
-      text: "Discover Insights",
-      mobileText: "Discover Insights",
-      external: true,
+      href: '/events',
+      text: 'Discover More',
+      mobileText: 'Discover More',
     },
   },
   {

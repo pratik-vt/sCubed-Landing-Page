@@ -541,9 +541,10 @@ const HeroImageSlider: React.FC<HeroImageSliderProps> = ({
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: 0.3 }}
-            >
-              {isMobile && currentItem.mobileTitle ? currentItem.mobileTitle : currentItem.title}
-            </motion.h1>
+              dangerouslySetInnerHTML={{
+                __html: isMobile && currentItem.mobileTitle ? currentItem.mobileTitle : currentItem.title,
+              }}
+            />
 
             {/* Event Date and Location */}
             {(formattedEventDate || currentItem.eventLocation) && (
