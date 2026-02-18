@@ -7,10 +7,8 @@
  * Parsed address components from Google Places API
  */
 export interface AddressComponents {
-  /** Full street address (street number + street name) */
+  /** Full street address (street number + street name, including suite/unit if available) */
   streetAddress: string;
-  /** Address line 2 (apartment, suite, unit, floor) - optional */
-  addressLine2: string;
   /** City name */
   city: string;
   /** Full state name (e.g., "California") */

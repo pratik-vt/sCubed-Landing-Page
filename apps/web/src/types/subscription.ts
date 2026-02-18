@@ -22,7 +22,6 @@ export interface ClinicInfo {
  */
 export interface LocationInfo {
   street_address_line_1: string;
-  street_address_line_2?: string; // Optional
   city: string; // City name (auto-populated from Google Places)
   state: string; // State name (auto-populated from Google Places)
   zip_code: string; // US zip code (auto-populated from Google Places)
@@ -208,7 +207,6 @@ export interface RegistrationDataResponse {
   tax_id?: string;
   npi?: string;
   street_address_line_1?: string;
-  street_address_line_2?: string | null;
   // String-based location fields (from Google Places API)
   city?: string;
   state?: string;

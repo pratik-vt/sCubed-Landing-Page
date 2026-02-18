@@ -163,7 +163,6 @@ const FreeTrialModal: FC<Props> = ({ isOpen, onClose }) => {
           tax_id: data.taxId,
           npi: data.npi,
           address_line_1: data.addressLine1,
-          address_line_2: data.addressLine2,
           state_id: data.state,
           city_id: data.city,
           zip_code: data.zipCode,
@@ -504,16 +503,6 @@ const FreeTrialModal: FC<Props> = ({ isOpen, onClose }) => {
                   {errors.addressLine1?.message}
                 </span>
               )}
-            </div>
-
-            <div className={formGroupFull}>
-              <label className={labelStyle}>Address Line 2</label>
-              <input
-                type="text"
-                className={inputStyle}
-                placeholder="Apt, suite, unit (optional)"
-                {...register('addressLine2')}
-              />
             </div>
 
             <div className={locationRow}>

@@ -30,7 +30,6 @@ export const FORM_FIELDS = {
   // Address Information
   ADDRESS: {
     STREET_LINE_1: 'street_address_line_1',
-    STREET_LINE_2: 'street_address_line_2',
     CITY: 'city',
     STATE: 'state',
     ZIP_CODE: 'zip_code',

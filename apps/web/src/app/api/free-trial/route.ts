@@ -7,7 +7,6 @@ interface FreeTrialFormData {
   clinic_name: string;
   tax_id: string;
   street_address_line_1: string;
-  street_address_line_2?: string;
   state_id: number;
   city_id: string;
   zipcode: string;
@@ -204,7 +203,6 @@ export async function POST(request: NextRequest) {
       clinic_name: body.clinic_name,
       tax_id: body.tax_id.replace(/-/g, ''), // Remove hyphen from Tax ID
       street_address_line_1: body.address_line_1,
-      street_address_line_2: body.address_line_2 || '',
       state_id: parseInt(body.state_id, 10),
       city_id: body.city_id,
       zipcode: body.zip_code,
@@ -231,7 +229,6 @@ export async function POST(request: NextRequest) {
           clinic_name: 'clinic_name',
           tax_id: 'tax_id',
           street_address_line_1: 'address_line_1',
-          street_address_line_2: 'address_line_2',
           state_id: 'state',
           city_id: 'city',
           zipcode: 'zip_code',

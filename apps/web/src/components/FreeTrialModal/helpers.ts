@@ -6,7 +6,6 @@ export type FreeTrialInputs = {
   taxId: string;
   npi: string;
   addressLine1: string;
-  addressLine2?: string;
   state: string;
   city: string;
   zipCode: string;

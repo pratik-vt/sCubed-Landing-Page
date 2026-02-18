@@ -40,7 +40,6 @@ interface InternalFormData {
   tax_id: string;
   npi: string;
   street_address_line_1: string;
-  street_address_line_2: string;
   state: string; // State name (auto-populated from Google Places)
   city: string; // City name (auto-populated from Google Places)
   zip_code: string; // ZIP code (auto-populated from Google Places)
@@ -87,7 +86,6 @@ function Step3ClinicDetailsComponent({
       tax_id: initialData?.tax_id || '',
       npi: initialData?.npi || '',
       street_address_line_1: initialData?.street_address_line_1 || '',
-      street_address_line_2: initialData?.street_address_line_2 || '',
       zip_code: initialData?.zip_code || '',
       email: initialData?.email || '',
       first_name: initialData?.first_name || '',
@@ -217,10 +215,6 @@ function Step3ClinicDetailsComponent({
       avoidTrigger?: boolean
     ) => {
       setValue('street_address_line_1', address.streetAddress);
-      // Auto-populate address line 2 if available (apartment, suite, unit)
-      if (address.addressLine2) {
-        setValue('street_address_line_2', address.addressLine2);
-      }
       setValue('city', address.city);
       setValue('state', address.state);
 
@@ -282,7 +276,6 @@ function Step3ClinicDetailsComponent({
         tax_id: data.tax_id,
         npi: data.npi,
         street_address_line_1: data.street_address_line_1,
-        street_address_line_2: data.street_address_line_2 || undefined,
         city: data.city,
         state: data.state,
         zip_code: data.zip_code,
@@ -301,7 +294,6 @@ function Step3ClinicDetailsComponent({
         tax_id: data.tax_id,
         npi: data.npi || undefined,
         street_address_line_1: data.street_address_line_1,
-        street_address_line_2: data.street_address_line_2 || undefined,
         // String-based location fields (SCM-4402)
         city: data.city,
         state: data.state,
@@ -535,22 +527,6 @@ function Step3ClinicDetailsComponent({
               </div>
             )}
         </div>
-
-        <TextInput
-          label="Address Line 2 (Optional)"
-          placeholder="Suite 200"
-          registration={register('street_address_line_2', {
-            maxLength: {
-              value: 200,
-              message: 'Maximum 200 characters',
-            },
-          })}
-          error={
-            shouldShowError('street_address_line_2')
-              ? getErrorMessage('street_address_line_2')
-              : undefined
-          }
-        />
 
         {/* Auto-populated location fields (read-only) */}
         <div className={styles.formGrid}>

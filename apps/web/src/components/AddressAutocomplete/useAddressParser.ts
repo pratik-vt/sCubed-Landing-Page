@@ -18,7 +18,6 @@ export function useAddressParser() {
     ): AddressComponents => {
       const result: AddressComponents = {
         streetAddress: '',
-        addressLine2: '',
         city: '',
         state: '',
         stateCode: '',
@@ -29,6 +28,7 @@ export function useAddressParser() {
 
       let streetNumber = '';
       let streetName = '';
+      let subpremise = '';
 
       for (const component of components) {
         const types = component.types;
@@ -43,13 +43,13 @@ export function useAddressParser() {
           streetName = component.long_name;
         }
 
-        // Address Line 2 - subpremise (apartment, suite, unit, floor)
+        // Subpremise (apartment, suite, unit) - appended to street address
         if (types.includes('subpremise')) {
-          result.addressLine2 = component.long_name;
+          subpremise = component.long_name;
         }
-        // Floor number (less common but can exist)
-        if (types.includes('floor') && !result.addressLine2) {
-          result.addressLine2 = `Floor ${component.long_name}`;
+        // Floor number (less common but can exist) - appended to street address
+        if (types.includes('floor') && !subpremise) {
+          subpremise = `Floor ${component.long_name}`;
         }
 
         // City - try locality first, then sublocality
@@ -82,12 +82,17 @@ export function useAddressParser() {
         }
       }
 
-      // Combine street number and name, fallback to formattedAddress if no street components
+      // Combine street number, name, and subpremise into a single street address
       const streetAddress = [streetNumber, streetName]
         .filter(Boolean)
         .join(' ');
 
-      result.streetAddress = streetAddress || formattedAddress;
+      // Append subpremise (suite, unit, apt, floor) to street address
+      const fullStreetAddress = subpremise
+        ? `${streetAddress}, ${subpremise}`
+        : streetAddress;
+
+      result.streetAddress = fullStreetAddress || formattedAddress;
 
       return result;
     },

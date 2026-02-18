@@ -73,7 +73,6 @@ export const AddressAutocomplete: FC<AddressAutocompleteProps> = ({
 
           onAddressSelect({
             streetAddress: '',
-            addressLine2: '',
             city: '',
             state: prediction.mainText,
             stateCode: '',
@@ -200,7 +199,6 @@ export const AddressAutocomplete: FC<AddressAutocompleteProps> = ({
     onAddressSelect(
       {
         streetAddress: '',
-        addressLine2: '',
         city: '',
         state: '',
         stateCode: '',

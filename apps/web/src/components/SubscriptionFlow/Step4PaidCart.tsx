@@ -293,7 +293,6 @@ export default function Step4PaidCart({
           tax_id: formData.tax_id,
           npi: formData.npi || undefined,
           street_address_line_1: formData.street_address_line_1,
-          street_address_line_2: formData.street_address_line_2 || undefined,
           city,
           state,
           zip_code: formData.zip_code,

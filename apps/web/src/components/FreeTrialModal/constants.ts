@@ -4,7 +4,6 @@ export const API_TO_FORM_FIELD_MAP: Record<string, string> = {
   'tax_id': 'taxId',
   'npi': 'npi',
   'address_line_1': 'addressLine1',
-  'address_line_2': 'addressLine2',
   'state': 'state',
   'state_id': 'state',
   'city': 'city',

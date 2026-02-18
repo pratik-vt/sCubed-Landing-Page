@@ -185,10 +185,6 @@ export default function SubscriptionFlow() {
                 registrationData.street_address_line_1 ||
                 prev.step1Data.street_address_line_1 ||
                 '',
-              street_address_line_2:
-                registrationData.street_address_line_2 ||
-                prev.step1Data.street_address_line_2 ||
-                '',
               zip_code:
                 registrationData.zip_code || prev.step1Data.zip_code || '',
               email: registrationData.email || prev.step1Data.email || '',
