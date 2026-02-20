@@ -48,11 +48,11 @@ export const heroSliderData: HeroSliderItem[] = [
       src: RightImageCalABASlide,
       alt: 'CalABA Conference 2026',
     },
-    link: {
-      href: '/events',
-      text: 'Discover More',
-      mobileText: 'Discover More',
-    },
+    // link: {
+    //   href: '/events',
+    //   text: 'Discover More',
+    //   mobileText: 'Discover More',
+    // },
   },
   {
     id: 'from-mothers-journey',
