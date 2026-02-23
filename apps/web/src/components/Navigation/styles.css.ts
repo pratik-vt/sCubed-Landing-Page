@@ -290,11 +290,9 @@ export const navMenu = style({
     // Landscape mode - reduce gaps and increase bottom padding for scrollability
     '(max-height: 500px)': {
       gap: '4px',
-      padding: '8px 20px 100px',
     },
     '(max-height: 700px)': {
       gap: '6px',
-      padding: '10px 20px 90px',
     },
   },
 });
@@ -516,7 +514,6 @@ export const tryForFreeButton = style({
       padding: '10px',
       fontSize: '14px',
       width: '140px',
-      marginBottom: '15px',
       textAlign: 'center',
       display: 'block',
     },
