@@ -37,7 +37,9 @@ export const heroSliderData: HeroSliderItem[] = [
     mobileTitle:
       '<span style="font-weight: 400;">We\'ll See You at </span><span style="color: #7a7eed;">44<sup>th</sup> Annual</span> <span style="color: #7a7eed;">CalABA</span> Conference',
     description:
-      'Join us at the <strong>Conference in Sacramento, CA.</strong> Let\'s talk about workflows that<br/>truly support growing ABA practices.',
+      'Join us at the <strong>Conference in Sacramento, CA.</strong> Let\'s talk about workflows that truly support growing ABA practices.',
+    descriptionMaxWidth: '650px',
+    contentWidth: '30%',
     layoutMode: 'split',
     backgroundImage: {
       src: BackgroundCalABASlide,

@@ -105,6 +105,7 @@ export interface HeroSliderItem {
   };
   contentAlign?: 'left' | 'center' | 'right';
   contentWidth?: string; // Optional content width (e.g., '50%', '600px', '100%')
+  descriptionMaxWidth?: string; // Optional max-width for description on desktop (e.g., '500px', '80%')
   eventDate?: string;
   eventStartDate?: string;
   eventEndDate?: string;
@@ -586,6 +587,9 @@ const HeroImageSlider: React.FC<HeroImageSliderProps> = ({
               style={{
                 ...(!currentItem.link && !currentItem.secondaryLink && {
                   marginBottom: 0,
+                }),
+                ...(currentItem.descriptionMaxWidth && !isMobile && {
+                  maxWidth: currentItem.descriptionMaxWidth,
                 }),
               }}
             >
