@@ -286,8 +286,8 @@ const PricingComparison: React.FC = () => {
               <div className={planHeader}>
                 <strong>Starter</strong>
                 <div className={priceContainer}>
-                  <span className={originalPriceSmall}>$348/year</span>
-                  <span className={discountedPriceSmall}>$295/year</span>
+                  <span className={originalPriceSmall}>$228/year</span>
+                  <span className={discountedPriceSmall}>$195/year</span>
                   <span className={discountBadgeSmall}>(15% off)</span>
                 </div>
                 <button
@@ -301,8 +301,8 @@ const PricingComparison: React.FC = () => {
               <div className={planHeader}>
                 <strong>Essential</strong>
                 <div className={priceContainer}>
-                  <span className={originalPriceSmall}>$588/year</span>
-                  <span className={discountedPriceSmall}>$499/year</span>
+                  <span className={originalPriceSmall}>$468/year</span>
+                  <span className={discountedPriceSmall}>$395/year</span>
                   <span className={discountBadgeSmall}>(15% off)</span>
                 </div>
                 <button
@@ -316,8 +316,8 @@ const PricingComparison: React.FC = () => {
               <div className={planHeader}>
                 <strong>Growth</strong>
                 <div className={priceContainer}>
-                  <span className={originalPriceSmall}>$1,068/year</span>
-                  <span className={discountedPriceSmall}>$899/year</span>
+                  <span className={originalPriceSmall}>$708/year</span>
+                  <span className={discountedPriceSmall}>$595/year</span>
                   <span className={discountBadgeSmall}>(16% off)</span>
                 </div>
                 <button
