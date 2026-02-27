@@ -16,7 +16,8 @@ export const eventsSection = style({
       padding: '0 1rem 4rem',
     },
     'screen and (min-width: 768px) and (max-width: 1480px)': {
-      maxWidth: '1000px',
+      maxWidth: '100%',
+      boxSizing: 'border-box',
     },
   },
 });
