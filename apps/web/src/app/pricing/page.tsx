@@ -47,7 +47,7 @@ const fallbackFAQData = {
         {
           question: "What's the difference between monthly and annual billing?",
           answer:
-            'Annual billing offers a 20% discount compared to monthly billing. With annual billing, you pay once per year and save money while locking in your rate. Monthly billing provides more flexibility with no long-term commitment.',
+            'Annual billing offers a 15% discount compared to monthly billing. With annual billing, you pay once per year and save money while locking in your rate. Monthly billing provides more flexibility with no long-term commitment.',
         },
         {
           question: 'How are staff members counted?',
@@ -72,17 +72,12 @@ const fallbackFAQData = {
         {
           question: 'Is there a setup fee or long-term contract?',
           answer:
-            "No setup fees and no long-term contracts required. S Cubed operates on a flexible month-to-month or annual subscription basis. You can cancel anytime with 30 days notice, and we'll help you export your data.",
+            "No setup fees and no long-term contracts required. S Cubed operates on a flexible month-to-month or annual subscription basis. You can cancel anytime.",
         },
         {
           question: 'When will I be charged?',
           answer:
             "You'll be charged at the end of your free trial period unless you cancel. For monthly plans, billing occurs on the same day each month. For annual plans, you'll be charged once per year on your subscription anniversary date.",
-        },
-        {
-          question: "Can I get a refund if I'm not satisfied?",
-          answer:
-            "We offer a 30-day money-back guarantee for new customers. If you're not completely satisfied within the first 30 days, contact our support team for a full refund. After 30 days, we don't provide prorated refunds for monthly subscriptions.",
         },
         {
           question: 'What happens if my payment fails?',
@@ -97,7 +92,7 @@ const fallbackFAQData = {
         {
           question: "What's included in the free trial?",
           answer:
-            'Our 14-day free trial includes full access to all features in your selected plan. No credit card required to start, and you can import your existing data to test the complete workflow. Our team will help you get set up and answer any questions.',
+            'Our 30-day free trial includes full access to all features in your selected plan. No credit card required to start, and you can import your existing data to test the complete workflow. Our team will help you get set up and answer any questions.',
         },
         {
           question: 'Can I get a demo before signing up?',
@@ -105,44 +100,9 @@ const fallbackFAQData = {
             "Absolutely! We offer personalized demos tailored to your practice needs. Schedule a 30-minute demo with our team to see how S Cubed can transform your practice management, and we'll answer all your questions.",
         },
         {
-          question: 'Is training and support included?',
-          answer:
-            'Yes, all plans include comprehensive onboarding, training resources, video tutorials, and ongoing support via email and chat. Growth plans also include priority phone support, dedicated account management, and custom training sessions for your team.',
-        },
-        {
-          question: 'How long does implementation take?',
-          answer:
-            'Most practices are fully operational within 1-2 weeks. Basic setup can be completed in a day, but we recommend allowing time for data migration, staff training, and workflow customization. Our onboarding team guides you through every step.',
-        },
-        {
           question: 'Can you help migrate our existing data?',
           answer:
             'Yes! We provide data migration assistance for all plans. Our team will help you import client records, staff information, schedules, and historical data from your previous system. For larger practices, we offer white-glove migration services.',
-        },
-      ],
-    },
-    {
-      name: 'Discounts & Special Pricing',
-      items: [
-        {
-          question: 'Do you offer discounts for non-profits?',
-          answer:
-            'Yes! We offer special pricing for qualified non-profit organizations. Contact our sales team with your 501(c)(3) documentation to learn more about our non-profit discount program, which can save you up to 25% on your subscription.',
-        },
-        {
-          question: 'Are there discounts for multi-location practices?',
-          answer:
-            "Yes, we offer volume discounts for practices with multiple locations or a large number of staff members. Contact our sales team to discuss custom enterprise pricing that fits your organization's needs and budget.",
-        },
-        {
-          question: 'Do you offer educational or student discounts?',
-          answer:
-            'We provide special pricing for university clinics, training programs, and educational institutions. Contact our sales team with information about your program to learn about available discounts and academic pricing options.',
-        },
-        {
-          question: 'Can I get a discount for referring other practices?',
-          answer:
-            'Yes! Our referral program offers account credits for each new practice you refer that becomes a paying customer. Ask your account manager about our referral program and how you can earn credits toward your subscription.',
         },
       ],
     },
