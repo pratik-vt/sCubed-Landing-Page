@@ -3,6 +3,7 @@
 import { forwardRef, useEffect, useImperativeHandle, useRef, useState } from 'react';
 import ReCAPTCHA from 'react-google-recaptcha';
 
+import { NORMAL_WIDGET_MIN_WIDTH } from './constants';
 import { recaptchaContainer, recaptchaContainerInvisible, recaptchaError } from './styles.css';
 
 interface ReCaptchaProps {
@@ -23,20 +24,22 @@ export interface ReCaptchaRef {
 
 const ReCaptcha = forwardRef<ReCaptchaRef, ReCaptchaProps>(
   ({ onVerify, onError, onExpired, error, theme = 'light', size: propSize, siteKey: customSiteKey }, ref) => {
-    const [responsiveSize, setResponsiveSize] = useState<'compact' | 'normal'>('normal');
-    
+    const containerRef = useRef<HTMLDivElement>(null);
+    const [responsiveSize, setResponsiveSize] = useState<'compact' | 'normal' | null>(null);
+
     useEffect(() => {
-      const handleResize = () => {
-        // Use compact size for mobile devices
-        setResponsiveSize(window.innerWidth <= 480 ? 'compact' : 'normal');
-      };
-      
-      handleResize(); // Set initial size
-      window.addEventListener('resize', handleResize);
-      
-      return () => window.removeEventListener('resize', handleResize);
+      const container = containerRef.current;
+      if (!container) return;
+
+      const observer = new ResizeObserver((entries) => {
+        const width = entries[0]?.contentRect.width ?? 0;
+        setResponsiveSize(width >= NORMAL_WIDGET_MIN_WIDTH ? 'normal' : 'compact');
+      });
+
+      observer.observe(container);
+      return () => observer.disconnect();
     }, []);
-    
+
     const size = propSize || responsiveSize;
     const recaptchaRef = useRef<ReCAPTCHA>(null);
 
@@ -66,11 +69,23 @@ const ReCaptcha = forwardRef<ReCaptchaRef, ReCaptchaProps>(
       );
     }
 
-    const isInvisible = size === 'invisible';
-    
+    const containerClass = size === 'invisible' ? recaptchaContainerInvisible : recaptchaContainer;
+
+    // Wait for ResizeObserver to measure the container before rendering the widget.
+    // Google's reCAPTCHA only renders once — the size cannot be changed after creation.
+    // When propSize is provided (e.g., 'invisible'), size resolves immediately.
+    if (!size) {
+      return (
+        <div ref={containerRef} className={recaptchaContainer}>
+          <div style={{ minHeight: '78px' }} />
+        </div>
+      );
+    }
+
     return (
-      <div className={isInvisible ? recaptchaContainerInvisible : recaptchaContainer}>
+      <div ref={containerRef} className={containerClass}>
         <ReCAPTCHA
+          key={size}
           ref={recaptchaRef}
           sitekey={siteKey}
           onChange={onVerify}
