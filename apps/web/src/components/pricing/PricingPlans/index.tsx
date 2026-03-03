@@ -95,8 +95,7 @@ const plans: PricingPlan[] = [
     savings: '16% off',
     features: [
       { text: 'Everything in Essential, plus:', included: true },
-      { text: 'Billing Portal (Includes Clearinghouses Fees)', included: true },
-      { text: 'VB Mapp', included: true },
+      { text: 'Billing Portal', included: true },
       { text: 'Advanced Analytics', included: true },
     ],
     ctaText: 'Buy Now',

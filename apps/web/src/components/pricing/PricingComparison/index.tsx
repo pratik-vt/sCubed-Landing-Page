@@ -133,7 +133,7 @@ const featureComparison: FeatureSection[] = [
           'Comprehensive assessment tool for tracking language and social skills development in children with autism',
         starter: 'Add-on $15/year per client',
         essential: 'Add-on $15/year per client',
-        growth: true,
+        growth: 'Add-on $15/year per client',
       },
     ],
   },
@@ -186,7 +186,7 @@ const featureComparison: FeatureSection[] = [
         growth: true,
       },
       {
-        name: 'Billing Portal (Includes Clearinghouses Fees)',
+        name: 'Billing Portal',
         description:
           'Electronic claims submission to insurance companies with automated eligibility checks and clearinghouse integration',
         starter: 'Add-on $49/month',

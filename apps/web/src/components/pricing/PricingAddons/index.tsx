@@ -31,15 +31,15 @@ interface Addon {
 }
 
 const addons: Addon[] = [
-  {
-    icon: <Video size={24} />,
-    name: 'Telehealth',
-    description:
-      'HIPAA-Compliant video sessions with screen sharing and recording capabilities',
-    price: '$100/month per clinic',
-    tooltipContent:
-      'Conduct secure, HIPAA-compliant video therapy sessions with features including screen sharing, session recording, waiting room, and seamless calendar integration. Perfect for remote or hybrid care delivery.',
-  },
+    {
+      icon: <Video size={24} />,
+      name: 'Telehealth',
+      description:
+        'HIPAA-Compliant video sessions with screen sharing and recording capabilities',
+      price: '$99/month per clinic',
+      tooltipContent:
+        'Conduct secure, HIPAA-compliant video therapy sessions with features including screen sharing, session recording, waiting room, and seamless calendar integration. Perfect for remote or hybrid care delivery.',
+    },
   {
     icon: <CreditCard size={24} />,
     name: 'Revenue Cycle Management',
