@@ -2300,6 +2300,7 @@ export const otpInputContainer = style({
   justifyContent: 'center',
   gap: '12px',
   flexWrap: 'nowrap',
+  width: '100%',
   '@media': {
     'screen and (max-width: 600px)': {
       gap: '6px',
@@ -2495,14 +2496,16 @@ export const otpBoxLarge = style({
   },
   '@media': {
     'screen and (max-width: 600px)': {
-      width: '42px',
-      height: '42px',
+      width: 'auto',
+      flex: 1,
+      minWidth: 0,
+      maxWidth: '48px',
+      height: 'auto',
+      aspectRatio: '1',
       fontSize: '20px',
       border: '1.5px solid #d1d5db',
     },
     'screen and (max-width: 400px)': {
-      width: '38px',
-      height: '38px',
       fontSize: '18px',
     },
   },
