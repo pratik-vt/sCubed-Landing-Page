@@ -87,6 +87,14 @@ export const container = style({
 export const successContainer = style({
   textAlign: 'center',
   padding: `${spacing.lg} 0`,
+  '@media': {
+    'screen and (max-width: 768px)': {
+      padding: `0 ${spacing.md}`,
+    },
+    'screen and (max-width: 480px)': {
+      padding: `0 ${spacing.sm}`,
+    },
+  },
 });
 
 export const successIcon = style({
@@ -210,20 +218,70 @@ export const errorIconWrapper = style({
 
 export const alertContainer = style({
   display: 'flex',
-  alignItems: 'flex-start',
-  gap: spacing.md,
+  flexDirection: 'row',
+  alignItems: 'center',
+  justifyContent: 'center',
+  flexWrap: 'wrap',
+  gap: spacing.sm,
   padding: spacing.lg,
   borderRadius: radius.lg,
   marginBottom: spacing.xl,
   fontSize: typography.fontSize.base,
-  textAlign: 'left',
+  boxShadow: '0 4px 12px rgba(0, 0, 0, 0.08)',
   animation: `${fadeInUp} 0.8s ease-out 0.4s both`,
-  boxShadow: '0 2px 8px rgba(0,0,0,0.05)',
+  position: 'relative',
+  overflow: 'hidden',
+  textAlign: 'center',
   border: '1px solid rgba(59, 130, 246, 0.15)',
+  boxSizing: 'border-box',
+  width: '100%',
+  maxWidth: '100%',
+  '::before': {
+    content: '""',
+    position: 'absolute',
+    left: 0,
+    top: 0,
+    bottom: 0,
+    width: '4px',
+  },
   '@media': {
     'screen and (max-width: 768px)': {
-      flexDirection: 'column',
-      gap: spacing.sm,
+      padding: spacing.md,
+    },
+    'screen and (max-width: 480px)': {
+      padding: `${spacing.sm} ${spacing.md}`,
+      fontSize: typography.fontSize.sm,
+    },
+  },
+});
+
+export const alertIconWrapper = style({
+  flexShrink: 0,
+  width: '24px',
+  height: '24px',
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'center',
+});
+
+export const alertContent = style({
+  flex: 1,
+  width: '100%',
+  maxWidth: '100%',
+  boxSizing: 'border-box',
+});
+
+export const alertTitle = style({
+  fontWeight: typography.fontWeight.bold,
+  fontSize: typography.fontSize.base,
+  marginBlock: spacing.xs,
+  display: 'block',
+  textAlign: 'center',
+  whiteSpace: 'nowrap',
+  width: '100%',
+  '@media': {
+    'screen and (max-width: 400px)': {
+      fontSize: typography.fontSize.sm,
     },
   },
 });
@@ -244,23 +302,51 @@ export const alertWarning = style({
 export const successList = style({
   listStyle: 'none',
   paddingLeft: 0,
+  paddingRight: spacing.sm,
   marginTop: spacing.md,
+  textAlign: 'left',
   lineHeight: 1.8,
+  '@media': {
+    'screen and (max-width: 480px)': {
+      marginTop: spacing.sm,
+      lineHeight: 1.6,
+      paddingLeft: spacing.xs,
+      paddingRight: spacing.xs,
+    },
+  },
 });
 
 export const successListItem = style({
   position: 'relative',
-  paddingLeft: spacing.lg,
+  paddingLeft: spacing.xl,
   marginBottom: spacing.sm,
+  fontSize: typography.fontSize.base,
+  fontWeight: typography.fontWeight.normal,
+  wordBreak: 'break-word',
+  overflowWrap: 'break-word',
   '::before': {
     content: '""',
     position: 'absolute',
-    left: 0,
+    left: spacing.sm,
     top: '8px',
     width: '6px',
     height: '6px',
     borderRadius: '50%',
     backgroundColor: 'currentColor',
+  },
+  ':last-child': {
+    marginBottom: 0,
+  },
+  '@media': {
+    'screen and (max-width: 480px)': {
+      paddingLeft: spacing.lg,
+      fontSize: typography.fontSize.sm,
+      marginBottom: spacing.xs,
+      '::before': {
+        left: 0,
+        fontSize: typography.fontSize.base,
+      },
+    },
   },
 });
 
@@ -279,6 +365,22 @@ export const successDetails = style({
   border: '1px solid rgba(124, 82, 255, 0.08)',
   boxShadow: '0 2px 8px rgba(0,0,0,0.04)',
   animation: `${fadeInUp} 0.8s ease-out 0.5s both`,
+  width: '100%',
+  maxWidth: '100%',
+  boxSizing: 'border-box',
+  '@media': {
+    'screen and (max-width: 768px)': {
+      padding: spacing.lg,
+      marginTop: spacing.lg,
+      marginBottom: spacing.lg,
+    },
+    'screen and (max-width: 480px)': {
+      padding: spacing.md,
+      marginTop: spacing.md,
+      marginBottom: spacing.md,
+      borderRadius: radius.md,
+    },
+  },
 });
 
 export const successDetailsTitle = style({
@@ -305,10 +407,11 @@ export const successDetailsItem = style({
     borderBottom: 'none',
   },
   '@media': {
-    'screen and (max-width: 768px)': {
+    'screen and (max-width: 480px)': {
       flexDirection: 'column',
       alignItems: 'flex-start',
       gap: spacing.xs,
+      paddingBottom: spacing.sm,
     },
   },
 });
@@ -324,9 +427,13 @@ export const value = style({
   color: '#111827',
   fontWeight: typography.fontWeight.medium,
   textAlign: 'right',
+  wordBreak: 'break-word',
+  overflowWrap: 'break-word',
+  maxWidth: '100%',
   '@media': {
-    'screen and (max-width: 768px)': {
+    'screen and (max-width: 480px)': {
       textAlign: 'left',
+      fontWeight: typography.fontWeight.medium,
     },
   },
 });

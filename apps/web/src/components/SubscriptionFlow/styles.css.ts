@@ -1349,10 +1349,16 @@ export const orderSummaryTitle = style({
 export const orderSummaryItem = style({
   display: 'flex',
   justifyContent: 'space-between',
-  alignItems: 'center',
+  alignItems: 'baseline',
   fontSize: typography.fontSize.base,
   color: '#6b7280',
   marginBottom: spacing.sm,
+  gap: spacing.sm,
+  '@media': {
+    'screen and (max-width: 480px)': {
+      flexWrap: 'wrap',
+    },
+  },
 });
 
 export const orderSummaryDivider = style({
@@ -1606,8 +1612,13 @@ export const summaryTotalAmount = style({
 
 export const summaryPriceWrapper = style({
   display: 'flex',
-  alignItems: 'center',
+  alignItems: 'baseline',
   gap: spacing.xs,
+  '@media': {
+    'screen and (max-width: 480px)': {
+      flexWrap: 'wrap',
+    },
+  },
 });
 
 export const summaryOriginalPrice = style({
@@ -1851,11 +1862,17 @@ export const summaryDivider = style({
 export const summaryTotalRow = style({
   display: 'flex',
   justifyContent: 'space-between',
-  alignItems: 'center',
+  alignItems: 'baseline',
   fontSize: typography.fontSize.xl,
   fontWeight: typography.fontWeight.bold,
   color: '#111827',
   paddingTop: '0px',
+  gap: spacing.sm,
+  '@media': {
+    'screen and (max-width: 480px)': {
+      flexWrap: 'wrap',
+    },
+  },
 });
 
 export const nextChargeText = style({

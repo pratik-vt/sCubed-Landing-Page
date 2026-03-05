@@ -244,9 +244,11 @@ export default function SubscriptionSuccess() {
             <div
               className={`${styles.alertContainer} ${isPaymentPending ? styles.alertWarning : styles.alertInfo}`}
             >
-              {isPaymentPending ? <Clock size={20} /> : <Mail size={20} />}
-              <div>
-                <strong>What happens next?</strong>
+              <span className={styles.alertTitle}>What happens next?</span>
+              <div className={styles.alertIconWrapper}>
+                {isPaymentPending ? <Clock size={24} /> : <Mail size={24} />}
+              </div>
+              <div className={styles.alertContent}>
                 <ul className={styles.successList}>
                   {subscriptionData.isPaidPlan ? (
                     isPaymentPending ? (
