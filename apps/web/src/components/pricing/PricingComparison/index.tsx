@@ -387,19 +387,19 @@ const PricingComparison: React.FC = () => {
                     <span className={originalPriceSmall}>
                       $
                       {plan === 'Starter'
-                        ? '348'
+                        ? '228'
                         : plan === 'Essential'
-                          ? '588'
-                          : '1,068'}
+                          ? '468'
+                          : '708'}
                       /year
                     </span>
                     <span className={discountedPriceSmall}>
                       $
                       {plan === 'Starter'
-                        ? '295'
+                        ? '195'
                         : plan === 'Essential'
-                          ? '499'
-                          : '899'}
+                          ? '395'
+                          : '595'}
                       /year
                     </span>
                     <span className={discountBadgeSmall}>

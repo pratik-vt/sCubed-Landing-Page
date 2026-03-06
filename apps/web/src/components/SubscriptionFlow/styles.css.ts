@@ -107,11 +107,11 @@ export const pageWrapper = style({
   fontFamily: typography.fontFamily.body,
   minHeight: 'calc(100vh - 200px)',
   backgroundColor: '#f9fafb',
-  padding: `${spacing.lg} 0`,
+  padding: `${spacing.lg} ${spacing.md}`,
   animation: `${fadeIn} 0.6s ease-out`,
   '@media': {
     'screen and (max-width: 768px)': {
-      padding: `${spacing.md} 0`,
+      padding: `${spacing.md} ${spacing.md}`,
     },
   },
 });
@@ -162,9 +162,8 @@ export const container = style({
   },
   '@media': {
     'screen and (max-width: 768px)': {
-      padding: spacing.lg,
+      padding: spacing.md,
       borderRadius: radius.lg,
-      margin: `0 ${spacing.md}`,
       '::before': {
         borderRadius: radius.lg,
       },
@@ -625,10 +624,10 @@ export const successContainer = style({
   position: 'relative',
   '@media': {
     'screen and (max-width: 768px)': {
-      padding: `0 ${spacing.md}`,
+      padding: 0,
     },
     'screen and (max-width: 480px)': {
-      padding: `0 ${spacing.sm}`,
+      padding: 0,
     },
   },
 });
@@ -801,6 +800,11 @@ export const alertIconWrapper = style({
   display: 'flex',
   alignItems: 'center',
   justifyContent: 'center',
+  '@media': {
+    'screen and (max-width: 768px)': {
+      display: 'none',
+    },
+  },
 });
 
 export const alertContent = style({
@@ -1025,8 +1029,13 @@ export const successListItem = style({
     marginBottom: 0,
   },
   '@media': {
+    'screen and (max-width: 768px)': {
+      paddingLeft: spacing.md,
+      '::before': {
+        left: 0,
+      },
+    },
     'screen and (max-width: 480px)': {
-      paddingLeft: spacing.lg,
       fontSize: typography.fontSize.sm,
       marginBottom: spacing.xs,
       '::before': {
@@ -2790,6 +2799,11 @@ export const sectionCardHeader = style({
   marginBottom: spacing.lg,
   paddingBottom: spacing.md,
   borderBottom: '2px solid #e5e7eb',
+  '@media': {
+    'screen and (max-width: 768px)': {
+      gap: spacing.xs,
+    },
+  },
 });
 
 export const sectionNumber = style({

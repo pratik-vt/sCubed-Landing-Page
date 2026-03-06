@@ -58,7 +58,7 @@ export const pageWrapper = style({
   justifyContent: 'center',
   '@media': {
     'screen and (max-width: 768px)': {
-      padding: `${spacing.lg} ${spacing.md}`,
+      padding: `${spacing.lg} 0`,
     },
   },
 });
@@ -74,7 +74,7 @@ export const container = style({
   animation: `${fadeInUp} 0.8s ease-out`,
   '@media': {
     'screen and (max-width: 768px)': {
-      padding: spacing.lg,
+      padding: spacing.md,
       borderRadius: radius.lg,
     },
   },
@@ -89,10 +89,10 @@ export const successContainer = style({
   padding: `${spacing.lg} 0`,
   '@media': {
     'screen and (max-width: 768px)': {
-      padding: `0 ${spacing.md}`,
+      padding: 0,
     },
     'screen and (max-width: 480px)': {
-      padding: `0 ${spacing.sm}`,
+      padding: 0,
     },
   },
 });
@@ -262,6 +262,11 @@ export const alertIconWrapper = style({
   display: 'flex',
   alignItems: 'center',
   justifyContent: 'center',
+  '@media': {
+    'screen and (max-width: 768px)': {
+      display: 'none',
+    },
+  },
 });
 
 export const alertContent = style({
@@ -338,8 +343,13 @@ export const successListItem = style({
     marginBottom: 0,
   },
   '@media': {
+    'screen and (max-width: 768px)': {
+      paddingLeft: spacing.md,
+      '::before': {
+        left: 0,
+      },
+    },
     'screen and (max-width: 480px)': {
-      paddingLeft: spacing.lg,
       fontSize: typography.fontSize.sm,
       marginBottom: spacing.xs,
       '::before': {

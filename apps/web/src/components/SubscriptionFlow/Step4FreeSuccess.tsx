@@ -2,7 +2,7 @@
 
 import { useEffect } from 'react';
 import { useRouter } from 'next/navigation';
-import { AlertCircle, Home } from 'lucide-react';
+import { Home } from 'lucide-react';
 
 import * as styles from './styles.css';
 
@@ -32,9 +32,6 @@ export default function Step4FreeSuccess({ formData }: Step4FreeProps) {
 
       <div className={`${styles.alertContainerCentered} ${styles.alertInfo} ${styles.alertWrap}`}>
         <span className={styles.alertTitle}>What happens next?</span>
-        <div className={styles.alertIconWrapper}>
-          <AlertCircle size={24} />
-        </div>
         <div className={styles.alertContent}>
           <ul className={styles.successList}>
             <li className={styles.successListItem}>Our team will review your trial request within 1-2 business days</li>

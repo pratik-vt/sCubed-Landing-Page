@@ -231,9 +231,6 @@ export default function Step5PaymentProcessing({
           style={{ animationDelay: '0.4s' }}
         >
           <span className={styles.alertTitle}>What happens next?</span>
-          <div className={styles.alertIconWrapper}>
-            <AlertCircle size={24} />
-          </div>
           <div className={styles.alertContent}>
             <ul className={styles.successList}>
               <li className={styles.successListItem}>

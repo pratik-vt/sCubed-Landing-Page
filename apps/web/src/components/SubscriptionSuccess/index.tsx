@@ -1,6 +1,6 @@
 'use client';
 
-import { AlertCircle, CheckCircle2, Clock, Home, Mail } from 'lucide-react';
+import { AlertCircle, CheckCircle2, Clock, Home } from 'lucide-react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { useEffect, useState } from 'react';
 
@@ -245,9 +245,6 @@ export default function SubscriptionSuccess() {
               className={`${styles.alertContainer} ${isPaymentPending ? styles.alertWarning : styles.alertInfo}`}
             >
               <span className={styles.alertTitle}>What happens next?</span>
-              <div className={styles.alertIconWrapper}>
-                {isPaymentPending ? <Clock size={24} /> : <Mail size={24} />}
-              </div>
               <div className={styles.alertContent}>
                 <ul className={styles.successList}>
                   {subscriptionData.isPaidPlan ? (
