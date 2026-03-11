@@ -15,6 +15,12 @@ export function middleware(request: NextRequest) {
     );
   }
   
+  // Redirect paths containing only special characters to home
+  const pathname = request.nextUrl.pathname;
+  if (pathname === '/$' || pathname === '/&') {
+    return NextResponse.redirect(new URL('/', request.url), 301);
+  }
+
   return NextResponse.next();
 }
 
@@ -22,5 +28,7 @@ export const config = {
   matcher: [
     '/lp/aba-practice-management-software',
     '/lp/practice-management-software',
+    '/$',
+    '/&',
   ],
 };
