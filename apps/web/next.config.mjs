@@ -108,7 +108,17 @@ export default withVanillaExtract({
         source: '/blog/the-role-of-data-driven-insights-in-improving-aba-therapy-outcomes',
         destination: '/',
         permanent: true,
-      }
+      },
+      {
+        source: '/blog/comprehensive-aba-billing-guide-boost-practice-efficiency-and-overcome-common-challenges-1',
+        destination: '/blog/comprehensive-aba-billing-guide-boost-practice-efficiency-and-overcome-common-challenges',
+        permanent: true,
+      },
+      {
+        source: '/our-',
+        destination: '/our-team',
+        permanent: true,
+      },
     ];
   },
   
