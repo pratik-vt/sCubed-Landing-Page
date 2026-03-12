@@ -5,11 +5,37 @@ import RightImageThreeSlide from '../../public/images/right-image-three-slide.pn
 // import NYSABA2025Image from '../../public/images/NYSABA Event Banner.jpg';
 import { HeroSliderItem } from '../components/HeroImageSlider';
 
-// CalABA Conference
-import BackgroundCalABASlide from '../../public/images/SCubed_Banner_bg_CalABA Conference.jpg';
-import RightImageCalABASlide from '../../public/images/SCubed_Banner_bg-element_CalABA Conference.png';
+// APBA Conference
+import BackgroundAPBASlide from '../../public/images/APBA Homepage Banner.jpg';
+import RightImageAPBASlide from '../../public/images/APBA-Text.png';
 
 export const heroSliderData: HeroSliderItem[] = [
+  {
+    id: 'apba-conference-2026',
+    title:
+      '<span style="font-weight: 400;">New Orleans, We\'re Coming to </span><span style="color: #7a7eed;">APBA Connect 2026</span>',
+    mobileTitle:
+      '<span style="font-weight: 400;">New Orleans, We\'re Coming to </span><span style="color: #7a7eed;">APBA Connect 2026</span>',
+    description:
+      'We\'ll be at the <strong>Sheraton New Orleans</strong> all three days, <strong>March 12-14.</strong> Come by our booth and let\'s talk about what truly supporting an ABA practice looks like.',
+    descriptionMaxWidth: '650px',
+    contentWidth: '30%',
+    layoutMode: 'split',
+    backgroundImage: {
+      src: BackgroundAPBASlide,
+      alt: 'APBA Conference 2026',
+      position: 'center center',
+    },
+    splitImage: {
+      src: RightImageAPBASlide,
+      alt: 'APBA 2026 New Orleans, LA',
+    },
+    link: {
+      href: '/events/s-cubed-is-heading-to-apba-2026-here-s-why-new-orleans-is-the-place-to-be-this-march',
+      text: 'Discover More',
+      mobileText: 'Discover More',
+    },
+  },
   {
     id: 'empowering-practice',
     title:
@@ -29,32 +55,6 @@ export const heroSliderData: HeroSliderItem[] = [
       text: 'Start 30 Days Free Trial Today',
     },
     contentAlign: 'center',
-  },
-  {
-    id: 'calaba-conference-2026',
-    title:
-      '<span style="font-weight: 400;">We\'ll See You at </span><span style="color: #7a7eed;">44<sup>th</sup> Annual</span>\n<span style="color: #7a7eed;">CalABA</span> Conference',
-    mobileTitle:
-      '<span style="font-weight: 400;">We\'ll See You at </span><span style="color: #7a7eed;">44<sup>th</sup> Annual</span> <span style="color: #7a7eed;">CalABA</span> Conference',
-    description:
-      'Join us at the <strong>Conference in Sacramento, CA.</strong> Let\'s talk about workflows that truly support growing ABA practices.',
-    descriptionMaxWidth: '650px',
-    contentWidth: '30%',
-    layoutMode: 'split',
-    backgroundImage: {
-      src: BackgroundCalABASlide,
-      alt: 'CalABA Conference 2026',
-      position: 'center center',
-    },
-    splitImage: {
-      src: RightImageCalABASlide,
-      alt: 'CalABA Conference 2026',
-    },
-    // link: {
-    //   href: '/events',
-    //   text: 'Discover More',
-    //   mobileText: 'Discover More',
-    // },
   },
   {
     id: 'from-mothers-journey',
